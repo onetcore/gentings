@@ -8,6 +8,11 @@ namespace Gentings.AspNetCore
     public class ApiResult
     {
         /// <summary>
+        /// 成功实例。
+        /// </summary>
+        public static readonly ApiResult Success = new ApiResult();
+
+        /// <summary>
         /// 状态，就ok和error两个字符串。
         /// </summary>
         public string Status => Code == null || (int)(object)Code == 0 ? "ok" : "error";

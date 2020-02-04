@@ -66,7 +66,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected IActionResult OkResult(ApiResult result = null)
         {
-            return Ok(result);
+            return Ok(result ?? ApiResult.Success);
         }
 
         /// <summary>
