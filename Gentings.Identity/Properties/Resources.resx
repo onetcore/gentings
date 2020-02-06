@@ -117,6 +117,33 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DifferAction_Add" xml:space="preserve">
+    <value>新增了</value>
+  </data>
+  <data name="DifferAction_AddFormat" xml:space="preserve">
+    <value>”{0}“(”{1}“)</value>
+  </data>
+  <data name="DifferAction_Modify" xml:space="preserve">
+    <value>修改了</value>
+  </data>
+  <data name="DifferAction_ModifyFormat" xml:space="preserve">
+    <value>“{0}”由”{1}“修改为“{2}”</value>
+  </data>
+  <data name="DifferAction_Remove" xml:space="preserve">
+    <value>移除了</value>
+  </data>
+  <data name="DifferAction_RemoveFormat" xml:space="preserve">
+    <value>”{0}“(”{1}“)</value>
+  </data>
+  <data name="Differ_Duplicated_Differed" xml:space="preserve">
+    <value>你已经对比过一次新对象，不能重复对比变更对象！</value>
+  </data>
+  <data name="Differ_Duplicated_Initialized" xml:space="preserve">
+    <value>原有对象已经初始化，不能重复调用初始化方法！</value>
+  </data>
+  <data name="Differ_Uninitialized" xml:space="preserve">
+    <value>对象变更原始对象未初始化，请在修改对象时候先调用Init方法。</value>
+  </data>
   <data name="ErrorDescriptor_ConcurrencyFailure" xml:space="preserve">
     <value>并发处理错误，对象已经被更改。</value>
   </data>
@@ -200,6 +227,15 @@
   </data>
   <data name="ErrorDescriptor_UserNotInRole" xml:space="preserve">
     <value>用户不在角色'{0}'中。</value>
+  </data>
+  <data name="EventMessage_NullMessage" xml:space="preserve">
+    <value>事件消息未设置！</value>
+  </data>
+  <data name="EventMessage_NullUserId" xml:space="preserve">
+    <value>事件消息的用户Id未设置，并且当前用户还未登录！</value>
+  </data>
+  <data name="EventType_Core" xml:space="preserve">
+    <value>系统</value>
   </data>
   <data name="Member" xml:space="preserve">
     <value>普通会员</value>

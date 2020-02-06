@@ -26,6 +26,26 @@ namespace Gentings.Identity
         public DateTime? End { get; set; }
 
         /// <summary>
+        /// 登录开始时间。
+        /// </summary>
+        public DateTime? LoginStart { get; set; }
+
+        /// <summary>
+        /// 登录结束时间。
+        /// </summary>
+        public DateTime? LoginEnd { get; set; }
+
+        /// <summary>
+        /// 电话号码。
+        /// </summary>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// 电子邮件。
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
@@ -33,11 +53,19 @@ namespace Gentings.Identity
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Name))
-                context.Where(x => x.RealName.Contains(Name) || x.UserName.Contains(Name));
+                context.Where(x => x.RealName.Contains(Name) || x.NormalizedUserName.Contains(Name));
             if (Start != null)
                 context.Where(x => x.CreatedDate >= Start);
             if (End != null)
                 context.Where(x => x.CreatedDate <= End);
+            if (LoginStart != null)
+                context.Where(x => x.LastLoginDate >= LoginStart);
+            if (LoginEnd != null)
+                context.Where(x => x.LastLoginDate <= LoginEnd);
+            if (!string.IsNullOrWhiteSpace(PhoneNumber))
+                context.Where(x => x.PhoneNumber == PhoneNumber);
+            if (!string.IsNullOrWhiteSpace(Email))
+                context.Where(x => x.NormalizedEmail.Contains(Email));
         }
     }
 
@@ -46,7 +74,6 @@ namespace Gentings.Identity
     /// </summary>
     /// <typeparam name="TUser">用户类型。</typeparam>
     /// <typeparam name="TRole">角色类型。</typeparam>
-    /// <typeparam name="TUserModel">用户模型。</typeparam>
     public abstract class UserQuery<TUser, TRole> : UserQuery<TUser>
         where TUser : UserBase
         where TRole : RoleBase
