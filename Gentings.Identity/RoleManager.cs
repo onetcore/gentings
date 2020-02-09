@@ -58,7 +58,8 @@ namespace Gentings.Identity
             return Cache.GetOrCreate(_cacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                return _store.LoadRoles();
+                var roles = _store.LoadRoles();
+                return roles.OrderByDescending(x => x.RoleLevel).ToList();
             });
         }
 
@@ -76,12 +77,13 @@ namespace Gentings.Identity
         /// 角色实例列表。
         /// </summary>
         /// <returns>返回角色列表。</returns>
-        public virtual Task<IEnumerable<TRole>> LoadAsync()
+        public virtual async Task<IEnumerable<TRole>> LoadAsync()
         {
-            return Cache.GetOrCreateAsync(_cacheKey, async ctx =>
+            return await Cache.GetOrCreateAsync(_cacheKey, async ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                return await _store.LoadRolesAsync(CancellationToken);
+                var roles = await _store.LoadRolesAsync(CancellationToken);
+                return roles.OrderByDescending(x => x.RoleLevel).ToList();
             });
         }
 
@@ -183,7 +185,7 @@ namespace Gentings.Identity
         {
             if (role == null)
                 throw new ArgumentNullException(nameof(role));
-            role.NormalizedName = NormalizeKey(role.NormalizedName);
+            role.NormalizedName ??= NormalizeKey(role.Name);
             var result = IsDuplicated(role);
             if (!result.Succeeded)
                 return result;
@@ -199,7 +201,7 @@ namespace Gentings.Identity
         {
             if (role == null)
                 throw new ArgumentNullException(nameof(role));
-            role.NormalizedName = NormalizeKey(role.NormalizedName);
+            role.NormalizedName ??= NormalizeKey(role.Name);
             var result = await IsDuplicatedAsync(role);
             if (!result.Succeeded)
                 return result;
@@ -213,8 +215,7 @@ namespace Gentings.Identity
         /// <returns>返回角色更新结果。</returns>
         public virtual IdentityResult Update(TRole role)
         {
-            if (role == null)
-                throw new ArgumentNullException(nameof(role));
+            role.NormalizedName ??= NormalizeKey(role.Name);
             var result = IsDuplicated(role);
             if (!result.Succeeded)
                 return result;
@@ -228,6 +229,7 @@ namespace Gentings.Identity
         /// <returns>返回更新结果。</returns>
         public override async Task<IdentityResult> UpdateAsync(TRole role)
         {
+            role.NormalizedName ??= NormalizeKey(role.Name);
             var result = await IsDuplicatedAsync(role);
             if (!result.Succeeded)
                 return result;

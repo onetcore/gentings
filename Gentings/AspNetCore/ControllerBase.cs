@@ -44,13 +44,42 @@ namespace Gentings.AspNetCore
         protected TService GetRequiredService<TService>() => HttpContext.RequestServices.GetRequiredService<TService>();
 
         /// <summary>
+        /// 参数错误。
+        /// </summary>
+        /// <param name="parameterName">参数名称。</param>
+        /// <returns>返回错误结果。</returns>
+        protected virtual IActionResult BadParameter(string parameterName)
+        {
+            return BadResult(ErrorCode.InvalidParameters, args: parameterName);
+        }
+
+        /// <summary>
+        /// 参数错误。
+        /// </summary>
+        /// <param name="parameterNames">参数名称列表。</param>
+        /// <returns>返回错误结果。</returns>
+        protected virtual IActionResult BadParameters(params string[] parameterNames)
+        {
+            return BadParameter(string.Join(", ", parameterNames));
+        }
+
+        /// <summary>
+        /// 返回错误结果。
+        /// </summary>
+        /// <param name="message">错误消息。</param>
+        /// <param name="args">错误消息参数。</param>
+        /// <returns>返回JSON结果。</returns>
+        protected virtual IActionResult BadResult(string message, params object[] args) =>
+            BadResult(ErrorCode.UnknownError, message, args);
+
+        /// <summary>
         /// 返回错误结果。
         /// </summary>
         /// <param name="code">错误编码。</param>
         /// <param name="message">错误消息。</param>
         /// <param name="args">错误消息参数。</param>
         /// <returns>返回JSON结果。</returns>
-        protected IActionResult BadResult(Enum code, string message = null, params object[] args)
+        protected virtual IActionResult BadResult(Enum code, string message = null, params object[] args)
         {
             if (message == null)
                 message = Localizer.GetString(code);
@@ -64,7 +93,7 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="result">API执行结果。</param>
         /// <returns>返回包含数据的结果。</returns>
-        protected IActionResult OkResult(ApiResult result = null)
+        protected virtual IActionResult OkResult(ApiResult result = null)
         {
             return Ok(result ?? ApiResult.Success);
         }
@@ -75,7 +104,7 @@ namespace Gentings.AspNetCore
         /// <param name="data">数据列表。</param>
         /// <param name="message">消息。</param>
         /// <returns>返回包含数据的结果。</returns>
-        protected IActionResult OkResult(object data, string message = null)
+        protected virtual IActionResult OkResult(object data, string message = null)
         {
             return OkResult(new ApiDataResult(data) { Message = message });
         }
@@ -87,7 +116,7 @@ namespace Gentings.AspNetCore
         /// <param name="query">数据列表。</param>
         /// <param name="message">消息。</param>
         /// <returns>返回包含数据的结果。</returns>
-        protected IActionResult OkResult<TPageData>(TPageData query, string message = null)
+        protected virtual IActionResult OkResult<TPageData>(TPageData query, string message = null)
             where TPageData : IPageEnumerable
         {
             return OkResult(new ApiPageResult<TPageData>(query) { Message = message });
