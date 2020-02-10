@@ -88,7 +88,7 @@ namespace Gentings.Extensions.Internal
         /// <typeparam name="TModel">模型类型。</typeparam>
         /// <param name="reader">数据库读取器。</param>
         /// <returns>返回当前模型实例对象。</returns>
-        public TModel Read<TModel>(DbDataReader reader)
+        public virtual TModel Read<TModel>(DbDataReader reader)
         {
             var model = Activator.CreateInstance<TModel>();
             for (var i = 0; i < reader.FieldCount; i++)
@@ -107,6 +107,26 @@ namespace Gentings.Extensions.Internal
                     ((ExtendBase)(object)model)[name] = reader.GetValue(i)?.ToString();
                 }
             }
+            return model;
+        }
+
+        /// <summary>
+        /// 克隆相同属性名称的实例。
+        /// </summary>
+        /// <typeparam name="TModel">目标对象类型。</typeparam>
+        /// <param name="instance">当前实例对象。</param>
+        /// <returns>返回目标对象实例。</returns>
+        public virtual TModel Cast<TModel>(object instance)
+        {
+            var model = Activator.CreateInstance<TModel>();
+            var entityType = typeof(TModel).GetEntityType();
+            foreach (var property in entityType.GetProperties())
+            {
+                var value = FindProperty(property.Name)?.Get(instance);
+                if (value != null)
+                    property.Set(model, value);
+            }
+
             return model;
         }
 

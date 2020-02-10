@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 using Gentings.Data;
 
 namespace Gentings.Identity
@@ -81,6 +82,7 @@ namespace Gentings.Identity
         /// <summary>
         /// 当前用户角色等级。
         /// </summary>
+        [JsonIgnore]
         public int MaxRoleLevel { get; set; }
 
         /// <summary>

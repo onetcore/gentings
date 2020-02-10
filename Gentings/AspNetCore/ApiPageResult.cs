@@ -26,7 +26,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 页码。
         /// </summary>
-        public int Page => Data.Page;
+        public int Current => Data.Page;
 
         /// <summary>
         /// 每页显示记录数。
@@ -36,7 +36,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 总记录数。
         /// </summary>
-        public int Size => Data.Size;
+        public int Total => Data.Size;
 
         /// <summary>
         /// 总页数。

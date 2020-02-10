@@ -34,5 +34,12 @@ namespace Gentings.Data
         /// </summary>
         /// <param name="table">模型列表。</param>
         Task ImportAsync(DataTable table);
+
+        /// <summary>
+        /// 实例化一个查询实例。
+        /// </summary>
+        /// <typeparam name="TOther">模型类型。</typeparam>
+        /// <returns>返回其他模型的查询实例。</returns>
+        IDbContext<TOther> As<TOther>();
     }
 }

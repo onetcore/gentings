@@ -14,19 +14,19 @@ namespace Gentings.Data
         /// <param name="context">查询上下文。</param>
         protected internal abstract void Init(IQueryContext<TModel> context);
 
-        private int _page;
+        private int _current;
         /// <summary>
         /// 页码。
         /// </summary>
-        public int Page
+        public int Current
         {
             get
             {
-                if (_page < 1)
-                    _page = 1;
-                return _page;
+                if (_current < 1)
+                    _current = 1;
+                return _current;
             }
-            set => _page = Math.Max(1, value);
+            set => _current = Math.Max(1, value);
         }
 
         /// <summary>

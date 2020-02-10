@@ -54,5 +54,13 @@ namespace Gentings.Extensions
         /// <param name="reader">数据库读取器。</param>
         /// <returns>返回当前模型实例对象。</returns>
         TModel Read<TModel>(DbDataReader reader);
+
+        /// <summary>
+        /// 克隆相同属性名称的实例。
+        /// </summary>
+        /// <typeparam name="TModel">目标对象类型。</typeparam>
+        /// <param name="instance">当前实例对象。</param>
+        /// <returns>返回目标对象实例。</returns>
+        TModel Cast<TModel>(object instance);
     }
 }

@@ -191,6 +191,7 @@ namespace Gentings.Identity
             {
                 throw new ArgumentNullException(nameof(user));
             }
+            user.UpdatedDate = DateTimeOffset.Now;
             // ReSharper disable once SuspiciousTypeConversion.Global
             if (user is IUserEventHandler<TUser> handler)
             {

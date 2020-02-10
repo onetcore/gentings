@@ -13,9 +13,9 @@ namespace Gentings.AspNetCore
         public static readonly ApiResult Success = new ApiResult();
 
         /// <summary>
-        /// 状态，就ok和error两个字符串。
+        /// 状态：成功true/失败false。
         /// </summary>
-        public string Status => Code == null || (int)(object)Code == 0 ? "ok" : "error";
+        public bool Status => Code == null || (int)(object)Code == 0;
 
         /// <summary>
         /// 设置错误编码。

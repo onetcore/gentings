@@ -31,15 +31,19 @@ namespace Gentings.Data.Internal
         /// 实例化一个查询实例，这个实例相当于实例化一个查询类，不能当作属性直接调用。
         /// </summary>
         /// <returns>返回模型的一个查询实例。</returns>
-        public IQueryable<TModel> AsQueryable() => new QueryContext<TModel>(SqlHelper, _visitorFactory, SqlGenerator, _executor);
+        public IQueryable<TModel> AsQueryable() => new QueryContext<TModel>(SqlHelper, VisitorFactory, SqlGenerator, _executor);
 
         /// <summary>
         /// 脚本生成接口。
         /// </summary>
         protected IQuerySqlGenerator SqlGenerator { get; }
-        private readonly IDbExecutor _executor;
-        private readonly IExpressionVisitorFactory _visitorFactory;
 
+        /// <summary>
+        /// 表达式工厂实例。
+        /// </summary>
+        protected IExpressionVisitorFactory VisitorFactory { get; }
+
+        private readonly IDbExecutor _executor;
         /// <summary>
         /// 初始化类<see cref="DbContextBase{TModel}"/>。
         /// </summary>
@@ -54,7 +58,7 @@ namespace Gentings.Data.Internal
             SqlHelper = sqlHelper;
             SqlGenerator = sqlGenerator;
             _executor = executor;
-            _visitorFactory = visitorFactory;
+            VisitorFactory = visitorFactory;
             EntityType = typeof(TModel).GetEntityType();
         }
 
@@ -529,7 +533,7 @@ namespace Gentings.Data.Internal
         {
             var context = AsQueryable();
             query.Init(context);
-            return context.AsEnumerable<TObject>(query.Page, query.PageSize, countExpression);
+            return context.AsEnumerable<TObject>(query.Current, query.PageSize, countExpression);
         }
 
         /// <summary>
@@ -559,7 +563,7 @@ namespace Gentings.Data.Internal
         {
             var context = AsQueryable();
             query.Init(context);
-            return await context.AsEnumerableAsync<TObject>(query.Page, query.PageSize, countExpression, cancellationToken);
+            return await context.AsEnumerableAsync<TObject>(query.Current, query.PageSize, countExpression, cancellationToken);
         }
 
         /// <summary>
