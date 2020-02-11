@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,19 +17,19 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 当前程序的版本。
         /// </summary>
-        public Version Version => _version ?? (_version = Cores.Version);
+        public Version Version => _version ??= Cores.Version;
 
         private ILocalizer _localizer;
         /// <summary>
         /// 本地化接口。
         /// </summary>
-        public ILocalizer Localizer => _localizer ?? (_localizer = GetRequiredService<ILocalizer>());
+        public ILocalizer Localizer => _localizer ??= GetRequiredService<ILocalizer>();
 
         private ILogger _logger;
         /// <summary>
         /// 日志接口。
         /// </summary>
-        protected virtual ILogger Logger => _logger ?? (_logger = GetRequiredService<ILoggerFactory>().CreateLogger(GetType()));
+        protected virtual ILogger Logger => _logger ??= GetRequiredService<ILoggerFactory>().CreateLogger(GetType());
 
         /// <summary>
         /// 获取注册的服务对象。
@@ -61,6 +63,25 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult BadParameters(params string[] parameterNames)
         {
             return BadParameter(string.Join(", ", parameterNames));
+        }
+
+        /// <summary>
+        /// 返回验证失败结果。
+        /// </summary>
+        /// <returns>验证失败结果。</returns>
+        protected virtual IActionResult BadResult()
+        {
+            var dic = new Dictionary<string, string>();
+            var result = new ApiDataResult(dic) { Code = ErrorCode.ValidError };
+            foreach (var key in ModelState.Keys)
+            {
+                var error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;
+                if (string.IsNullOrEmpty(key))
+                    result.Message = error;
+                else
+                    dic[key] = error;
+            }
+            return OkResult(result);
         }
 
         /// <summary>
