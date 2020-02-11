@@ -272,6 +272,36 @@ namespace Gentings
         /// <returns>返回当前时间对应的UNIX时间的秒数。</returns>
         public static long ToUnix(this DateTime date) => (date.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
 
+        /// <summary>
+        /// 生成随机的最多16位的唯一ID字符串。
+        /// </summary>
+        /// <returns>返回随机的16位字符串。</returns>
+        public static string NewId()
+        {
+            long i = 1;
+            foreach (var b in Guid.NewGuid().ToByteArray())
+            {
+                i *= b + 1;
+            }
+            return Math.Abs(i - DateTime.Now.Ticks).ToBase36();
+        }
+
+        private static readonly string _base36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        /// <summary>
+        /// 将长整型转换为36进制的字符串。
+        /// </summary>
+        /// <param name="value">当前值。</param>
+        /// <returns>返回转换后的字符串。</returns>
+        public static string ToBase36(this long value)
+        {
+            var current = "";
+            current += _base36[(int)(value % 36)];
+            value /= 36;
+            if (value > 36)
+                return value.ToBase36() + current;
+            return _base36[(int)value] + current;
+        }
+
         private const string HtmlCaseRegexReplacement = "-$1$2";
         private static readonly Regex _htmlCaseRegex =
             new Regex(
