@@ -112,15 +112,15 @@ namespace Gentings.Identity
         /// <summary>
         /// 注册IP。
         /// </summary>
-        [Size(20)]
         [NotUpdated]
-        public virtual string CreatedIP { get; set; }
+        [Size(20)]
+        public virtual string CreatedIP { get; set; } = "127.0.0.1";
 
         /// <summary>
         /// 登录IP。
         /// </summary>
-        [Size(20)]
         [NotUpdated]
+        [Size(20)]
         public virtual string LoginIP { get; set; }
 
         /// <summary>
@@ -149,17 +149,13 @@ namespace Gentings.Identity
         /// <summary>
         /// 显示角色Id。
         /// </summary>
+        [NotUpdated]
         public virtual int RoleId { get; set; }
-
-        /// <summary>
-        /// 显示角色名称。
-        /// </summary>
-        [Size(64)]
-        public virtual string RoleName { get; set; }
 
         /// <summary>
         /// 父级Id。
         /// </summary>
+        [NotUpdated]
         public virtual int ParentId { get; set; }
 
         /// <summary>

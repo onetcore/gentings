@@ -412,29 +412,11 @@ namespace Gentings.Identity.Properties {
         }
         
         /// <summary>
-        ///   查找类似 系统 的本地化字符串。
+        ///   查找类似 用户 的本地化字符串。
         /// </summary>
-        internal static string EventType_Core {
+        internal static string EventType_User {
             get {
-                return ResourceManager.GetString("EventType_Core", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 普通会员 的本地化字符串。
-        /// </summary>
-        internal static string Member {
-            get {
-                return ResourceManager.GetString("Member", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 所有者 的本地化字符串。
-        /// </summary>
-        internal static string Owner {
-            get {
-                return ResourceManager.GetString("Owner", resourceCulture);
+                return ResourceManager.GetString("EventType_User", resourceCulture);
             }
         }
     }

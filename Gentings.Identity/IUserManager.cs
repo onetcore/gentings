@@ -276,18 +276,18 @@ namespace Gentings.Identity
         /// <summary>
         /// 锁定或者解锁用户。
         /// </summary>
-        /// <param name="userId">用户Id。</param>
+        /// <param name="userIds">用户Id。</param>
         /// <param name="lockoutEnd">锁定截至日期。</param>
         /// <returns>返回执行结果。</returns>
-        bool Lockout(int userId, DateTimeOffset? lockoutEnd = null);
+        bool Lockout(int[] userIds, DateTimeOffset? lockoutEnd = null);
 
         /// <summary>
         /// 锁定或者解锁用户。
         /// </summary>
-        /// <param name="userId">用户Id。</param>
+        /// <param name="userIds">用户Id。</param>
         /// <param name="lockoutEnd">锁定截至日期。</param>
         /// <returns>返回执行结果。</returns>
-        Task<bool> LockoutAsync(int userId, DateTimeOffset? lockoutEnd = null);
+        Task<bool> LockoutAsync(int[] userIds, DateTimeOffset? lockoutEnd = null);
 
         /// <summary>
         /// 删除用户。
@@ -496,18 +496,11 @@ namespace Gentings.Identity
         Task<IEnumerable<TUser>> LoadUsersAsync(Expression<Predicate<TUser>> expression = null);
 
         /// <summary>
-        /// 获取缓存用户实例。
+        /// 设置登录状态。
         /// </summary>
-        /// <param name="id">用户Id。</param>
-        /// <returns>返回缓存用户实例对象。</returns>
-        CachedUser GetUser(int id);
-
-        /// <summary>
-        /// 获取缓存用户实例。
-        /// </summary>
-        /// <param name="id">用户Id。</param>
-        /// <returns>返回缓存用户实例对象。</returns>
-        Task<CachedUser> GetUserAsync(int id);
+        /// <param name="user">用户实例。</param>
+        /// <returns>返回任务。</returns>
+        Task SetLoginStatusAsync(TUser user);
     }
 
     /// <summary>
@@ -599,15 +592,5 @@ namespace Gentings.Identity
         /// <param name="roleIds">角色Id列表。</param>
         /// <returns>返回设置结果。</returns>
         Task<bool> SetUserToRolesAsync(int userId, int[] roleIds);
-
-        /// <summary>
-        /// 添加所有者账号。
-        /// </summary>
-        /// <param name="userName">用户名。</param>
-        /// <param name="loginName">登录名称。</param>
-        /// <param name="password">密码。</param>
-        /// <param name="init">实例化用户方法。</param>
-        /// <returns>返回添加结果。</returns>
-        Task<bool> CreateOwnerAsync(string userName, string loginName, string password, Action<TUser> init = null);
     }
 }

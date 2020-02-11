@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Gentings.Extensions;
 using Microsoft.Extensions.Caching.Memory;
@@ -42,11 +43,17 @@ namespace Gentings.Identity
         /// <returns>返回当前服务实例。</returns>
         protected TService GetRequiredService<TService>() => _serviceProvider.GetRequiredService<TService>();
 
+        private IMemoryCache _cache;
+        /// <summary>
+        /// 缓存实例。
+        /// </summary>
+        protected IMemoryCache Cache => _cache ??= GetRequiredService<IMemoryCache>();
+
         private SignInManager<TUser> _signInManager;
         /// <summary>
         /// 登录管理实例。
         /// </summary>
-        public SignInManager<TUser> SignInManager => _signInManager ??= _serviceProvider.GetRequiredService<SignInManager<TUser>>();
+        public SignInManager<TUser> SignInManager => _signInManager ??= GetRequiredService<SignInManager<TUser>>();
 
         private readonly IUserStoreBase<TUser, TUserClaim, TUserLogin, TUserToken> _store;
         /// <summary>
@@ -128,7 +135,7 @@ namespace Gentings.Identity
         /// <param name="password">密码。</param>
         /// <param name="isRemembered">是否记住登录状态。</param>
         /// <returns>返回登录结果。</returns>
-        public Task<SignInResult> PasswordSignInAsync(TUser user, string password, bool isRemembered)=> SignInManager.PasswordSignInAsync(user, password, isRemembered, true);
+        public Task<SignInResult> PasswordSignInAsync(TUser user, string password, bool isRemembered) => SignInManager.PasswordSignInAsync(user, password, isRemembered, true);
 
         /// <summary>
         /// 登出。
@@ -286,23 +293,23 @@ namespace Gentings.Identity
         /// <summary>
         /// 锁定或者解锁用户。
         /// </summary>
-        /// <param name="userId">用户Id。</param>
+        /// <param name="userIds">用户Id。</param>
         /// <param name="lockoutEnd">锁定截至日期。</param>
         /// <returns>返回执行结果。</returns>
-        public virtual bool Lockout(int userId, DateTimeOffset? lockoutEnd = null)
+        public virtual bool Lockout(int[] userIds, DateTimeOffset? lockoutEnd = null)
         {
-            return _store.Update(userId, new { LockoutEnd = lockoutEnd });
+            return DbContext.UserContext.Update(x => x.Id.Included(userIds), new { LockoutEnd = lockoutEnd });
         }
 
         /// <summary>
         /// 锁定或者解锁用户。
         /// </summary>
-        /// <param name="userId">用户Id。</param>
+        /// <param name="userIds">用户Id。</param>
         /// <param name="lockoutEnd">锁定截至日期。</param>
         /// <returns>返回执行结果。</returns>
-        public virtual Task<bool> LockoutAsync(int userId, DateTimeOffset? lockoutEnd = null)
+        public virtual Task<bool> LockoutAsync(int[] userIds, DateTimeOffset? lockoutEnd = null)
         {
-            return _store.UpdateAsync(userId, new { LockoutEnd = lockoutEnd });
+            return DbContext.UserContext.UpdateAsync(x => x.Id.Included(userIds), new { LockoutEnd = lockoutEnd });
         }
 
         /// <summary>
@@ -473,44 +480,16 @@ namespace Gentings.Identity
             return _store.UserContext.FetchAsync(expression);
         }
 
-        protected readonly Type CacheKey = typeof(CachedUser);
-
         /// <summary>
-        /// 获取缓存用户实例。
+        /// 设置登录状态。
         /// </summary>
-        /// <param name="id">用户Id。</param>
-        /// <returns>返回缓存用户实例对象。</returns>
-        public virtual CachedUser GetUser(int id)
+        /// <param name="user">用户实例。</param>
+        /// <returns>返回任务。</returns>
+        public virtual async Task SetLoginStatusAsync(TUser user)
         {
-            var cachedUsers = GetRequiredService<IMemoryCache>().GetOrCreate(CacheKey, ctx =>
-            {
-                ctx.SetDefaultAbsoluteExpiration();
-                return _store.UserContext.AsQueryable()
-                    .WithNolock()
-                    .AsEnumerable(reader => CacheKey.GetEntityType().Read<CachedUser>(reader))
-                    .ToDictionary(x => x.Id);
-            });
-            cachedUsers.TryGetValue(id, out var cachedUser);
-            return cachedUser;
-        }
-
-        /// <summary>
-        /// 获取缓存用户实例。
-        /// </summary>
-        /// <param name="id">用户Id。</param>
-        /// <returns>返回缓存用户实例对象。</returns>
-        public virtual async Task<CachedUser> GetUserAsync(int id)
-        {
-            var cachedUsers = await GetRequiredService<IMemoryCache>().GetOrCreateAsync(CacheKey, async ctx =>
-           {
-               ctx.SetDefaultAbsoluteExpiration();
-               var users = await _store.UserContext.AsQueryable()
-                   .WithNolock()
-                   .AsEnumerableAsync(reader => CacheKey.GetEntityType().Read<CachedUser>(reader));
-               return users.ToDictionary(x => x.Id);
-           });
-            cachedUsers.TryGetValue(id, out var cachedUser);
-            return cachedUser;
+            user.LastLoginDate = DateTimeOffset.Now;
+            user.LoginIP = HttpContext.GetUserAddress();
+            await UpdateAsync(user.Id, new { user.LastLoginDate, user.LoginIP });
         }
 
         /// <summary>
@@ -682,47 +661,6 @@ namespace Gentings.Identity
         public virtual Task<bool> SetUserToRolesAsync(int userId, int[] roleIds)
         {
             return _store.SetUserToRolesAsync(userId, roleIds);
-        }
-
-        /// <summary>
-        /// 添加所有者账号。
-        /// </summary>
-        /// <param name="userName">用户名。</param>
-        /// <param name="loginName">登录名称。</param>
-        /// <param name="password">密码。</param>
-        /// <param name="init">实例化用户方法。</param>
-        /// <returns>返回添加结果。</returns>
-        public virtual async Task<bool> CreateOwnerAsync(string userName, string loginName, string password, Action<TUser> init = null)
-        {
-            var user = new TUser
-            {
-                UserName = userName,
-                NormalizedUserName = loginName,
-                PasswordHash = password,
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                CreatedIP = "127.0.0.1",
-                CreatedDate = DateTimeOffset.Now
-            };
-            init?.Invoke(user);
-            user.RoleId = 1;
-            user.RoleName = DefaultRole.Owner.Name;
-            user.NormalizedUserName = NormalizeName(user.NormalizedUserName);
-            user.NormalizedEmail ??= NormalizeEmail(user.Email);
-            user.PasswordHash = HashPassword(user);
-            return await _store.UserContext.BeginTransactionAsync(async db =>
-            {
-                var rdb = db.As<TRole>();
-                var owner = DefaultRole.Owner.As<TRole>();
-                var member = DefaultRole.Member.As<TRole>();
-                await rdb.CreateAsync(owner);
-                await rdb.CreateAsync(member);
-                await db.CreateAsync(user);
-                var urdb = db.As<TUserRole>();
-                await urdb.CreateAsync(new TUserRole { UserId = user.Id, RoleId = owner.Id });
-                await urdb.CreateAsync(new TUserRole { UserId = user.Id, RoleId = member.Id });
-                return true;
-            });
         }
     }
 }

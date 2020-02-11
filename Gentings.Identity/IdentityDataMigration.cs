@@ -52,9 +52,9 @@ namespace Gentings.Identity
                     .Column(x => x.UpdatedDate)
                     .Column(x => x.Avatar)
                     .Column(x => x.RoleId, defaultValue: 0)
-                    .Column(x => x.RoleName)
                     .Column(x => x.LoginIP)
-                    .Column(x => x.LastLoginDate);
+                    .Column(x => x.LastLoginDate)
+                    .Column(x => x.ParentId);
                 Create(table);
             });
 
@@ -140,10 +140,12 @@ namespace Gentings.Identity
                 .Column(x => x.Id)
                 .Column(x => x.Name, nullable: false)
                 .Column(x => x.NormalizedName, nullable: false)
+                .Column(x => x.IsSystem)
                 .Column(x => x.ConcurrencyStamp)
                 .Column(x => x.RoleLevel)
                 .Column(x => x.Color)
-                .Column(x => x.IconUrl));
+                .Column(x => x.IconUrl)
+                .Column(x => x.IsDefault));
 
             //判断TUserRole是否单独一个表格，也可以把这个表格合并到TUser中，每一个用户只是应对一个角色
             if (typeof(UserRoleBase).IsAssignableFrom(typeof(TUserRole)))

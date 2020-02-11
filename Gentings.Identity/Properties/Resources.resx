@@ -234,15 +234,7 @@
   <data name="EventMessage_NullUserId" xml:space="preserve">
     <value>事件消息的用户Id未设置，并且当前用户还未登录！</value>
   </data>
-  <data name="EventType_Core" xml:space="preserve">
-    <value>系统</value>
-  </data>
-  <data name="Member" xml:space="preserve">
-    <value>普通会员</value>
-    <comment>最低权限角色</comment>
-  </data>
-  <data name="Owner" xml:space="preserve">
-    <value>所有者</value>
-    <comment>最高权限角色</comment>
+  <data name="EventType_User" xml:space="preserve">
+    <value>用户</value>
   </data>
 </root>

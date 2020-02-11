@@ -30,7 +30,7 @@ namespace Gentings.Identity
         public override string NormalizedName { get; set; }
 
         /// <summary>
-        /// 角色等级。
+        /// 角色等级，越大越靠前。
         /// </summary>
         [NotUpdated]
         public virtual int RoleLevel { get; set; }
@@ -100,7 +100,12 @@ namespace Gentings.Identity
         /// <summary>
         /// 是否为系统角色。
         /// </summary>
-        public bool IsSystem => RoleLevel == 0 || RoleLevel >= DefaultRole.SystemRoleLevel;
+        public virtual bool IsSystem { get; set; }
+
+        /// <summary>
+        /// 默认角色，用户注册时候就添加的角色。
+        /// </summary>
+        public virtual bool IsDefault { get; set; }
 
         /// <summary>
         /// 返回角色名称。

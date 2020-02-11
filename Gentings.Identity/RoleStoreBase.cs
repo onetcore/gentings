@@ -60,7 +60,7 @@ namespace Gentings.Identity
         /// <returns>返回最大角色等级。</returns>
         protected virtual Task<int> GetMaxRoleLevelAsync(TRole role)
         {
-            return RoleContext.MaxAsync(x => x.RoleLevel, x => x.RoleLevel < DefaultRole.SystemRoleLevel);
+            return RoleContext.MaxAsync(x => x.RoleLevel, x => x.IsSystem == role.IsSystem && x.RoleLevel < int.MaxValue);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace Gentings.Identity
         /// <returns>返回最大角色等级。</returns>
         protected virtual int GetMaxRoleLevel(TRole role)
         {
-            return RoleContext.Max(x => x.RoleLevel, x => x.RoleLevel < DefaultRole.SystemRoleLevel);
+            return RoleContext.Max(x => x.RoleLevel, x => x.IsSystem == role.IsSystem && x.RoleLevel < int.MaxValue);
         }
 
         /// <summary>
