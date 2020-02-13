@@ -17,13 +17,13 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 当前程序的版本。
         /// </summary>
-        public Version Version => _version ??= Cores.Version;
+        protected Version Version => _version ??= Cores.Version;
 
         private ILocalizer _localizer;
         /// <summary>
         /// 本地化接口。
         /// </summary>
-        public ILocalizer Localizer => _localizer ??= GetRequiredService<ILocalizer>();
+        protected ILocalizer Localizer => _localizer ??= GetRequiredService<ILocalizer>();
 
         private ILogger _logger;
         /// <summary>
@@ -72,7 +72,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult BadResult()
         {
             var dic = new Dictionary<string, string>();
-            var result = new ApiDataResult(dic) { Code = ErrorCode.ValidError };
+            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = ErrorCode.ValidError };
             foreach (var key in ModelState.Keys)
             {
                 var error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;
@@ -127,7 +127,9 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult OkResult(object data, string message = null)
         {
-            return OkResult(new ApiDataResult(data) { Message = message });
+            var instance = Activator.CreateInstance(typeof(ApiDataResult<>).MakeGenericType(data.GetType()), data) as ApiResult;
+            instance.Message = message;
+            return OkResult(instance);
         }
 
         /// <summary>

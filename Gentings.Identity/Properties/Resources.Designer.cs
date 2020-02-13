@@ -419,5 +419,23 @@ namespace Gentings.Identity.Properties {
                 return ResourceManager.GetString("EventType_User", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 保存了“{0}”配置信息 的本地化字符串。
+        /// </summary>
+        internal static string SaveSettings {
+            get {
+                return ResourceManager.GetString("SaveSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存配置失败 的本地化字符串。
+        /// </summary>
+        internal static string SaveSettingsFailured {
+            get {
+                return ResourceManager.GetString("SaveSettingsFailured", resourceCulture);
+            }
+        }
     }
 }

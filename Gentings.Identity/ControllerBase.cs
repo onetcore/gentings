@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Gentings.Extensions;
+using Gentings.Extensions.Settings;
 using Gentings.Identity.Events;
 using Gentings.Identity.Properties;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.Identity
 {
@@ -118,6 +120,34 @@ namespace Gentings.Identity
         /// 事件类型。
         /// </summary>
         protected virtual string EventType => Resources.EventType_User;
+
+        /// <summary>
+        /// 获取网站配置。
+        /// </summary>
+        /// <returns>返回网站配置实例。</returns>
+        protected async Task<IActionResult> GetSettingsAsync<TSettings>()
+        {
+            var settings = await GetRequiredService<ISettingsManager>().DeleteSettingsAsync<TSettings>();
+            return OkResult(settings);
+        }
+
+        /// <summary>
+        /// 保存网站配置。
+        /// </summary>
+        /// <param name="settings">配置实例。</param>
+        /// <param name="name">配置名称，用于日志保存。</param>
+        /// <returns>返回保存结果。</returns>
+        protected async Task<IActionResult> SaveSettingsAsync<TSettings>(TSettings settings, string name)
+            where TSettings : class, new()
+        {
+            var result = await GetRequiredService<ISettingsManager>().SaveSettingsAsync(settings);
+            if (result)
+            {
+                Log(Resources.SaveSettings, name);
+                return OkResult();
+            }
+            return BadResult(Resources.SaveSettingsFailured);
+        }
 
     }
 }

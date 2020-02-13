@@ -237,4 +237,10 @@
   <data name="EventType_User" xml:space="preserve">
     <value>用户</value>
   </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>保存了“{0}”配置信息</value>
+  </data>
+  <data name="SaveSettingsFailured" xml:space="preserve">
+    <value>保存配置失败</value>
+  </data>
 </root>

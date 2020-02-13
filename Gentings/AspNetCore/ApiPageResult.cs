@@ -1,4 +1,6 @@
-﻿using Gentings.Extensions;
+﻿using System;
+using Gentings.Extensions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.AspNetCore
 {
@@ -42,5 +44,20 @@ namespace Gentings.AspNetCore
         /// 总页数。
         /// </summary>
         public int Pages => Data.Pages;
+    }
+
+    /// <summary>
+    /// 默认返回的<see cref="ApiPageResult{TData}"/>结果特性。
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public class ApiPageResultAttribute : ProducesResponseTypeAttribute
+    {
+        /// <summary>
+        /// 初始化类<see cref="ApiPageResultAttribute"/>。
+        /// </summary>
+        /// <param name="type">返回结果类型。</param>
+        public ApiPageResultAttribute(Type type) : base(typeof(ApiPageResult<>).MakeGenericType(type), 200)
+        {
+        }
     }
 }
