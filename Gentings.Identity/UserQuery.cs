@@ -54,7 +54,7 @@ namespace Gentings.Identity
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Name))
-                context.Where(x => x.RealName.Contains(Name) || x.NormalizedUserName.Contains(Name));
+                context.Where(x => x.NickName.Contains(Name) || x.NormalizedUserName.Contains(Name));
             if (Start != null)
                 context.Where(x => x.CreatedDate >= Start);
             if (End != null)

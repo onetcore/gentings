@@ -126,8 +126,9 @@ namespace Gentings.Identity
         /// </summary>
         /// <returns>返回网站配置实例。</returns>
         protected async Task<IActionResult> GetSettingsAsync<TSettings>()
+            where TSettings : class, new()
         {
-            var settings = await GetRequiredService<ISettingsManager>().DeleteSettingsAsync<TSettings>();
+            var settings = await GetRequiredService<ISettingsManager>().GetSettingsAsync<TSettings>();
             return OkResult(settings);
         }
 

@@ -26,11 +26,11 @@ namespace Gentings.Identity
         public override string UserName { get; set; }
 
         /// <summary>
-        /// 获取或设置用户名称。
+        /// 获取或设置昵称。
         /// </summary>
         [Size(64)]
         [ProtectedPersonalData]
-        public virtual string RealName { get; set; }
+        public virtual string NickName { get; set; }
 
         /// <summary>
         /// 用于验证的用户名称。

@@ -35,7 +35,7 @@ namespace Gentings.Identity
                     .Column(x => x.UserName, nullable: false)
                     .Column(x => x.NormalizedUserName, nullable: false)
                     .Column(x => x.PasswordHash, nullable: false)
-                    .Column(x => x.RealName)
+                    .Column(x => x.NickName)
                     .Column(x => x.Email)
                     .Column(x => x.NormalizedEmail)
                     .Column(x => x.EmailConfirmed)
