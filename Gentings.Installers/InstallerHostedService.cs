@@ -73,18 +73,21 @@ namespace Gentings.Installers
                 //todo:远程连接获取验证信息
                 registration.Status = InstallerStatus.Expired;
             }
-            else if (registration.Status == InstallerStatus.Initializing)
+            else
             {
                 try
                 {
-                    using (var scope = _serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                    using (var scope = _serviceProvider.CreateScope())
                     {
                         var initializers = scope.ServiceProvider.GetService<IEnumerable<IInitializer>>();
                         if (initializers != null)
                         {
                             initializers = initializers.OrderByDescending(x => x.Priority);
                             foreach (var initializer in initializers)
-                                await initializer.ExecuteAsync();
+                            {
+                                if (await initializer.IsExecutableAsync())
+                                    await initializer.ExecuteAsync();
+                            }
                         }
                     }
 
