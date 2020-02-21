@@ -21,7 +21,6 @@ namespace Gentings.Data.Query
         private readonly IMemberTranslator _memberTranslator;
         private readonly IMethodCallTranslator _methodCallTranslator;
         private readonly IExpressionFragmentTranslator _fragmentTranslator;
-        private readonly IndentedStringBuilder _builder = new IndentedStringBuilder();
         protected readonly Func<MemberInfo, Type, string> Delimter;
 
         /// <summary>
@@ -90,11 +89,11 @@ namespace Gentings.Data.Query
 
             if (binaryExpression.NodeType == ExpressionType.Coalesce)
             {
-                _builder.Append("COALESCE(");
+                Sql.Append("COALESCE(");
                 Visit(binaryExpression.Left);
-                _builder.Append(", ");
+                Sql.Append(", ");
                 Visit(binaryExpression.Right);
-                _builder.Append(")");
+                Sql.Append(")");
             }
             else
             {
@@ -105,7 +104,7 @@ namespace Gentings.Data.Query
 
                 if (needParentheses)
                 {
-                    _builder.Append("(");
+                    Sql.Append("(");
                 }
 
                 Visit(binaryExpression.Left);
@@ -113,8 +112,8 @@ namespace Gentings.Data.Query
                 if (binaryExpression.IsLogicalOperation()
                     && binaryExpression.Left.IsSimpleExpression())
                 {
-                    _builder.Append(" = ");
-                    _builder.Append(_sqlHelper.EscapeLiteral(true));
+                    Sql.Append(" = ");
+                    Sql.Append(_sqlHelper.EscapeLiteral(true));
                 }
 
                 if (!TryGenerateBinaryOperator(binaryExpression.NodeType, out var op))
@@ -125,32 +124,32 @@ namespace Gentings.Data.Query
                 {
                     var value = binaryExpression.Right.Invoke();
                     if (value == null)
-                        _builder.Append(binaryExpression.NodeType == ExpressionType.Equal
+                        Sql.Append(binaryExpression.NodeType == ExpressionType.Equal
                             ? " IS NULL "
                             : " IS NOT NULL ");
                     else
                     {
-                        _builder.Append(op);
-                        _builder.Append(_sqlHelper.EscapeLiteral(value));
+                        Sql.Append(op);
+                        Sql.Append(_sqlHelper.EscapeLiteral(value));
                     }
                 }
                 else
                 {
-                    _builder.Append(op);
+                    Sql.Append(op);
 
                     Visit(binaryExpression.Right);
 
                     if (binaryExpression.IsLogicalOperation()
                         && binaryExpression.Right.IsSimpleExpression())
                     {
-                        _builder.Append(" = ");
-                        _builder.Append(_sqlHelper.EscapeLiteral(true));
+                        Sql.Append(" = ");
+                        Sql.Append(_sqlHelper.EscapeLiteral(true));
                     }
                 }
 
                 if (needParentheses)
                 {
-                    _builder.Append(")");
+                    Sql.Append(")");
                 }
             }
 
@@ -232,49 +231,49 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(expression, nameof(expression));
 
-            _builder.AppendLine("CASE");
+            Sql.AppendLine("CASE");
 
-            using (_builder.Indent())
+            using (Sql.Indent())
             {
-                _builder.AppendLine("WHEN");
+                Sql.AppendLine("WHEN");
 
-                using (_builder.Indent())
+                using (Sql.Indent())
                 {
-                    _builder.Append("(");
+                    Sql.Append("(");
 
                     Visit(expression.Test);
 
-                    _builder.AppendLine(")");
+                    Sql.AppendLine(")");
                 }
 
-                _builder.Append("THEN ");
+                Sql.Append("THEN ");
 
                 if (expression.IfTrue is ConstantExpression constantIfTrue
                     && constantIfTrue.Type == typeof(bool))
                 {
-                    _builder.Append((bool)constantIfTrue.Value ? "1" : "0");
+                    Sql.Append((bool)constantIfTrue.Value ? "1" : "0");
                 }
                 else
                 {
                     Visit(expression.IfTrue);
                 }
 
-                _builder.Append(" ELSE ");
+                Sql.Append(" ELSE ");
 
                 if (expression.IfFalse is ConstantExpression constantIfFalse
                     && constantIfFalse.Type == typeof(bool))
                 {
-                    _builder.Append((bool)constantIfFalse.Value ? "1" : "0");
+                    Sql.Append((bool)constantIfFalse.Value ? "1" : "0");
                 }
                 else
                 {
                     Visit(expression.IfFalse);
                 }
 
-                _builder.AppendLine();
+                Sql.AppendLine();
             }
 
-            _builder.Append("END");
+            Sql.Append("END");
 
             return expression;
         }
@@ -300,7 +299,7 @@ namespace Gentings.Data.Query
             switch (expr.NodeType)
             {
                 case ExpressionType.Parameter:
-                    _builder.Append(Delimter(node.Member, expr.Type));
+                    Sql.Append(Delimter(node.Member, expr.Type));
                     break;
                 case ExpressionType.MemberAccess:
                 case ExpressionType.Constant:
@@ -314,9 +313,9 @@ namespace Gentings.Data.Query
         {
             var value = expression.Invoke();
             if (value == null)
-                _builder.Append("null");
+                Sql.Append("null");
             else
-                _builder.Append(_sqlHelper.EscapeLiteral(value));
+                Sql.Append(_sqlHelper.EscapeLiteral(value));
         }
 
         /// <summary>
@@ -349,7 +348,7 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(constantExpression, nameof(constantExpression));
 
-            _builder.Append(_sqlHelper.EscapeLiteral(constantExpression.Value));
+            Sql.Append(_sqlHelper.EscapeLiteral(constantExpression.Value));
 
             return constantExpression;
         }
@@ -414,7 +413,7 @@ namespace Gentings.Data.Query
         /// </returns>
         public override string ToString()
         {
-            return _builder.ToString();
+            return Sql.ToString();
         }
 
         #region sql expression visitor
@@ -429,7 +428,7 @@ namespace Gentings.Data.Query
 
             Visit(isNullExpression.Operand);
 
-            _builder.Append(" IS NULL");
+            Sql.Append(" IS NULL");
 
             return isNullExpression;
         }
@@ -445,7 +444,7 @@ namespace Gentings.Data.Query
 
             Visit(isNotNullExpression.Operand);
 
-            _builder.Append(" IS NOT NULL");
+            Sql.Append(" IS NOT NULL");
 
             return isNotNullExpression;
         }
@@ -460,7 +459,7 @@ namespace Gentings.Data.Query
             Check.NotNull(likeExpression, nameof(likeExpression));
 
             Visit(likeExpression.Match);
-            _builder.Append(" LIKE ");
+            Sql.Append(" LIKE ");
 
             Visit(likeExpression.Pattern);
             return likeExpression;
@@ -476,7 +475,7 @@ namespace Gentings.Data.Query
             Check.NotNull(literalExpression, nameof(literalExpression));
 
             var value = literalExpression.Literal;
-            _builder.Append(_sqlHelper.EscapeLiteral(value));
+            Sql.Append(_sqlHelper.EscapeLiteral(value));
 
             return literalExpression;
         }
@@ -490,7 +489,7 @@ namespace Gentings.Data.Query
         {
             Visit(stringCompareExpression.Left);
 
-            _builder.Append(GenerateBinaryOperator(stringCompareExpression.Operator));
+            Sql.Append(GenerateBinaryOperator(stringCompareExpression.Operator));
 
             Visit(stringCompareExpression.Right);
 
@@ -504,12 +503,12 @@ namespace Gentings.Data.Query
         /// <returns>返回访问后的表达式实例对象。</returns>
         public virtual Expression VisitSqlFunction(SqlFunctionExpression sqlFunctionExpression)
         {
-            _builder.Append(sqlFunctionExpression.FunctionName);
-            _builder.Append("(");
+            Sql.Append(sqlFunctionExpression.FunctionName);
+            Sql.Append("(");
 
             VisitJoin(sqlFunctionExpression.Arguments.ToList());
 
-            _builder.Append(")");
+            Sql.Append(")");
             return sqlFunctionExpression;
         }
 
@@ -522,11 +521,11 @@ namespace Gentings.Data.Query
         {
             Visit(inExpression.Operand);
 
-            _builder.Append(" IN (");
+            Sql.Append(" IN (");
 
             VisitJoin(ProcessInValues(inExpression.Values));
 
-            _builder.Append(")");
+            Sql.Append(")");
 
             return inExpression;
         }
@@ -540,11 +539,11 @@ namespace Gentings.Data.Query
         {
             Visit(inExpression.Operand);
 
-            _builder.Append(" NOT IN (");
+            Sql.Append(" NOT IN (");
 
             VisitJoin(ProcessInValues(inExpression.Values));
 
-            _builder.Append(")");
+            Sql.Append(")");
 
             return inExpression;
         }
@@ -556,11 +555,11 @@ namespace Gentings.Data.Query
         /// <returns>返回访问后的表达式实例对象。</returns>
         public Expression VisitExplicitCast(ExplicitCastExpression explicitCastExpression)
         {
-            _builder.Append("CAST(");
+            Sql.Append("CAST(");
 
             Visit(explicitCastExpression.Operand);
 
-            _builder.Append(" AS ");
+            Sql.Append(" AS ");
 
             var typeMapping = _typeMapper.GetMapping(explicitCastExpression.Type);
 
@@ -569,9 +568,9 @@ namespace Gentings.Data.Query
                 throw new InvalidOperationException(string.Format(Resources.UnsupportedType, explicitCastExpression.Type.DisplayName(false)));
             }
 
-            _builder.Append(typeMapping);
+            Sql.Append(typeMapping);
 
-            _builder.Append(")");
+            Sql.Append(")");
             return explicitCastExpression;
         }
 
@@ -626,7 +625,7 @@ namespace Gentings.Data.Query
         /// <summary>
         /// 当前脚本写入实例。
         /// </summary>
-        protected IndentedStringBuilder Sql => _builder;
+        protected IndentedStringBuilder Sql { get; } = new IndentedStringBuilder();
 
         private void VisitJoin(
             IReadOnlyList<Expression> expressions, Action<IndentedStringBuilder> joinAction = null)
@@ -635,13 +634,13 @@ namespace Gentings.Data.Query
         private void VisitJoin<T>(
             IReadOnlyList<T> items, Action<T> itemAction, Action<IndentedStringBuilder> joinAction = null)
         {
-            joinAction = joinAction ?? (isb => isb.Append(", "));
+            joinAction ??= (isb => isb.Append(", "));
 
             for (var i = 0; i < items.Count; i++)
             {
                 if (i > 0)
                 {
-                    joinAction(_builder);
+                    joinAction(Sql);
                 }
 
                 itemAction(items[i]);

@@ -372,11 +372,9 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual TModel Query(string sql, object parameters = null)
         {
-            using (var reader = ExecuteReader(sql, parameters))
-            {
-                if (reader.Read())
-                    return EntityType.Read<TModel>(reader);
-            }
+            using var reader = ExecuteReader(sql, parameters);
+            if (reader.Read())
+                return EntityType.Read<TModel>(reader);
             return default;
         }
 
@@ -389,11 +387,9 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual async Task<TModel> QueryAsync(string sql, object parameters = null, CancellationToken cancellationToken = default)
         {
-            using (var reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken))
-            {
-                if (await reader.ReadAsync(cancellationToken))
-                    return EntityType.Read<TModel>(reader);
-            }
+            await using var reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+            if (await reader.ReadAsync(cancellationToken))
+                return EntityType.Read<TModel>(reader);
             return default;
         }
 
@@ -484,11 +480,9 @@ namespace Gentings.Data.Internal
         public virtual IEnumerable<TModel> Fetch(string sql, object parameters = null)
         {
             var models = new List<TModel>();
-            using (var reader = ExecuteReader(sql, parameters))
-            {
-                while (reader.Read())
-                    models.Add(EntityType.Read<TModel>(reader));
-            }
+            using var reader = ExecuteReader(sql, parameters);
+            while (reader.Read())
+                models.Add(EntityType.Read<TModel>(reader));
             return models;
         }
 
@@ -502,11 +496,9 @@ namespace Gentings.Data.Internal
         public virtual async Task<IEnumerable<TModel>> FetchAsync(string sql, object parameters = null, CancellationToken cancellationToken = default)
         {
             var models = new List<TModel>();
-            using (var reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken))
-            {
-                while (await reader.ReadAsync(cancellationToken))
-                    models.Add(EntityType.Read<TModel>(reader));
-            }
+            await using var reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+            while (await reader.ReadAsync(cancellationToken))
+                models.Add(EntityType.Read<TModel>(reader));
             return models;
         }
 

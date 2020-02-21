@@ -718,7 +718,7 @@ namespace Gentings.Data.Query
             Size = 1;
             if (_fields.Count == 0)
                 _fields.Add($"{GetAlias(typeof(TModel))}.*");
-            using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
             {
                 if (reader.Read())
                     return converter(reader);
@@ -848,7 +848,7 @@ namespace Gentings.Data.Query
         public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter, CancellationToken cancellationToken = default)
         {
             var models = new List<TValue>();
-            using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
                     models.Add(converter(reader));
@@ -879,7 +879,7 @@ namespace Gentings.Data.Query
         /// <returns>返回模型实例。</returns>
         protected async Task<TModel> GetAsync(SqlIndentedStringBuilder sql, CancellationToken cancellationToken = default)
         {
-            using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
             {
                 if (await reader.ReadAsync(cancellationToken))
                     return Entity.Read<TModel>(reader);
@@ -912,7 +912,7 @@ namespace Gentings.Data.Query
         protected async Task<IEnumerable<TModel>> LoadAsync(SqlIndentedStringBuilder sql, CancellationToken cancellationToken = default)
         {
             var models = new List<TModel>();
-            using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
                     models.Add(Entity.Read<TModel>(reader));
@@ -953,7 +953,7 @@ namespace Gentings.Data.Query
             models.Page = PageIndex ?? 1;
             models.PageSize = Size ?? 20;
             var entityType = typeof(TObject).GetEntityType();
-            using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
                     models.Add(entityType.Read<TObject>(reader));

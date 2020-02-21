@@ -174,13 +174,11 @@ namespace Gentings.Data
             object parameters = null,
             CommandType commandType = CommandType.Text)
         {
-            using (var connection = GetConnection())
-            {
-                var command = GetCommand(connection, commandType, commandText, parameters);
-                var affectedRows = ExecuteCommand(command, cmd => cmd.ExecuteNonQuery());
-                command.Parameters.Clear();
-                return affectedRows > 0;
-            }
+            using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var affectedRows = ExecuteCommand(command, cmd => cmd.ExecuteNonQuery());
+            command.Parameters.Clear();
+            return affectedRows > 0;
         }
 
         /// <summary>
@@ -212,13 +210,11 @@ namespace Gentings.Data
             object parameters = null,
             CommandType commandType = CommandType.Text)
         {
-            using (var connection = GetConnection())
-            {
-                var command = GetCommand(connection, commandType, commandText, parameters);
-                var scalar = ExecuteCommand(command, cmd => cmd.ExecuteScalar());
-                command.Parameters.Clear();
-                return scalar;
-            }
+            using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var scalar = ExecuteCommand(command, cmd => cmd.ExecuteScalar());
+            command.Parameters.Clear();
+            return scalar;
         }
 
         /// <summary>
@@ -235,13 +231,11 @@ namespace Gentings.Data
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            using (var connection = GetConnection())
-            {
-                var command = GetCommand(connection, commandType, commandText, parameters);
-                var affectedRows = await ExecuteCommandAsync(command, cmd => cmd.ExecuteNonQueryAsync(cancellationToken));
-                command.Parameters.Clear();
-                return affectedRows > 0;
-            }
+            await using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var affectedRows = await ExecuteCommandAsync(command, cmd => cmd.ExecuteNonQueryAsync(cancellationToken));
+            command.Parameters.Clear();
+            return affectedRows > 0;
         }
 
         /// <summary>
@@ -279,13 +273,11 @@ namespace Gentings.Data
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            using (var connection = GetConnection())
-            {
-                var command = GetCommand(connection, commandType, commandText, parameters);
-                var scalar = await ExecuteCommandAsync(command, cmd => cmd.ExecuteScalarAsync(cancellationToken));
-                command.Parameters.Clear();
-                return scalar;
-            }
+            await using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var scalar = await ExecuteCommandAsync(command, cmd => cmd.ExecuteScalarAsync(cancellationToken));
+            command.Parameters.Clear();
+            return scalar;
         }
 
         /// <summary>
@@ -296,33 +288,29 @@ namespace Gentings.Data
         /// <returns>返回事务实例对象。</returns>
         public virtual bool BeginTransaction(Func<Internal.IDbTransaction, bool> executor, int timeout = 30)
         {
-            using (var connection = GetConnection())
+            using var connection = GetConnection();
+            connection.Open();
+            using var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+            var command = _factory.CreateCommand();
+            try
             {
-                connection.Open();
-                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                command.CommandTimeout = timeout;
+                command.Connection = connection;
+                command.Transaction = transaction;
+                var current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
+                if (executor(current))
                 {
-                    var command = _factory.CreateCommand();
-                    try
-                    {
-                        command.CommandTimeout = timeout;
-                        command.Connection = connection;
-                        command.Transaction = transaction;
-                        var current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
-                        if (executor(current))
-                        {
-                            transaction.Commit();
-                            return true;
-                        }
-                        transaction.Rollback();
-                        return false;
-                    }
-                    catch (Exception exception)
-                    {
-                        LogError(command, exception);
-                        transaction.Rollback();
-                        throw;
-                    }
+                    transaction.Commit();
+                    return true;
                 }
+                transaction.Rollback();
+                return false;
+            }
+            catch (Exception exception)
+            {
+                LogError(command, exception);
+                transaction.Rollback();
+                throw;
             }
         }
 
@@ -347,33 +335,29 @@ namespace Gentings.Data
         /// <returns>返回事务实例对象。</returns>
         public virtual async Task<bool> BeginTransactionAsync(Func<Internal.IDbTransaction, Task<bool>> executor, int timeout = 30, CancellationToken cancellationToken = default)
         {
-            using (var connection = GetConnection())
+            await using var connection = GetConnection();
+            await connection.OpenAsync(cancellationToken);
+            await using var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+            var command = _factory.CreateCommand();
+            try
             {
-                await connection.OpenAsync(cancellationToken);
-                using (var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted))
+                command.CommandTimeout = timeout;
+                command.Connection = connection;
+                command.Transaction = transaction;
+                var current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
+                if (await executor(current))
                 {
-                    var command = _factory.CreateCommand();
-                    try
-                    {
-                        command.CommandTimeout = timeout;
-                        command.Connection = connection;
-                        command.Transaction = transaction;
-                        var current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
-                        if (await executor(current))
-                        {
-                            transaction.Commit();
-                            return true;
-                        }
-                        transaction.Rollback();
-                        return false;
-                    }
-                    catch (Exception exception)
-                    {
-                        LogError(command, exception);
-                        transaction.Rollback();
-                        return false;
-                    }
+                    transaction.Commit();
+                    return true;
                 }
+                transaction.Rollback();
+                return false;
+            }
+            catch (Exception exception)
+            {
+                LogError(command, exception);
+                transaction.Rollback();
+                return false;
             }
         }
 

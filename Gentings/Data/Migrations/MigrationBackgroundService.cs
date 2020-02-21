@@ -8,7 +8,7 @@ namespace Gentings.Data.Migrations
     /// <summary>
     /// 数据库迁移服务。
     /// </summary>
-    internal class MigrationBackgroundService : Microsoft.Extensions.Hosting.BackgroundService
+    public class MigrationBackgroundService : Microsoft.Extensions.Hosting.BackgroundService
     {
         private readonly IDataMigrator _migrator;
         private readonly ILogger<MigrationBackgroundService> _logger;
