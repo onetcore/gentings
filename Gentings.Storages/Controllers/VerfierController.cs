@@ -23,7 +23,7 @@ namespace Gentings.Storages.Controllers
                 fontSize = value;
             if (Request.Query.TryGetValue("h", out qs) && int.TryParse(qs, out value))
                 height = value;
-            var ms = Verifiers.Create(out var code, number, fontSize, height);
+            using var ms = Verifiers.Create(out var code, number, fontSize, height);
             Response.Cookies.Append(key, Verifiers.Hashed(code), new CookieOptions { Expires = DateTimeOffset.Now.AddMinutes(3) });
             Response.Body.Dispose();
             return File(ms.ToArray(), @"image/png");
