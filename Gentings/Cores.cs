@@ -9,7 +9,6 @@ using System.IO;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -273,9 +272,9 @@ namespace Gentings
         public static long ToUnix(this DateTime date) => (date.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
 
         /// <summary>
-        /// 生成随机的最多16位的唯一ID字符串。
+        /// 生成随机的最多13位的唯一ID字符串。
         /// </summary>
-        /// <returns>返回随机的16位字符串。</returns>
+        /// <returns>返回随机的13位字符串。</returns>
         public static string NewId()
         {
             long i = 1;
@@ -337,14 +336,12 @@ namespace Gentings
             rijndael.GenerateKey();
             var buffer = Encoding.UTF8.GetBytes(text);
             byte[] result;
-            using (var ms = new MemoryStream())
-            {
-                var encrypto = rijndael.CreateEncryptor();
-                var cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Write);
-                cs.Write(buffer, 0, buffer.Length);
-                cs.FlushFinalBlock();
-                result = ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            var encrypto = rijndael.CreateEncryptor();
+            var cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Write);
+            cs.Write(buffer, 0, buffer.Length);
+            cs.FlushFinalBlock();
+            result = ms.ToArray();
             buffer = new byte[48 + result.Length];
             rijndael.IV.CopyTo(buffer, 0);
             result.CopyTo(buffer, 16);
@@ -376,8 +373,8 @@ namespace Gentings
             {
                 var encrypto = rijndael.CreateDecryptor();
                 var cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Read);
-                using (var sr = new StreamReader(cs, Encoding.UTF8))
-                    return sr.ReadToEnd();
+                using var sr = new StreamReader(cs, Encoding.UTF8);
+                return sr.ReadToEnd();
             }
         }
 
@@ -455,7 +452,7 @@ namespace Gentings
         {
             if (instance == null)
                 return null;
-            options = options ?? _defaultJsonSerializerOptions;
+            options ??= _defaultJsonSerializerOptions;
             return JsonSerializer.Serialize(instance, options);
         }
 
@@ -470,7 +467,7 @@ namespace Gentings
         {
             try
             {
-                options = options ?? _defaultJsonSerializerOptions;
+                options ??= _defaultJsonSerializerOptions;
                 return JsonSerializer.Deserialize<TModel>(json, options);
             }
             catch

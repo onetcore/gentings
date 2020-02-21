@@ -13,10 +13,10 @@ namespace Gentings.Installers
         int Priority { get; }
 
         /// <summary>
-        /// 判断是否可以执行。
+        /// 判断是否禁用。
         /// </summary>
         /// <returns>返回判断结果。</returns>
-        Task<bool> IsExecutableAsync();
+        Task<bool> IsDisabledAsync();
 
         /// <summary>
         /// 安装时候预先执行的接口。

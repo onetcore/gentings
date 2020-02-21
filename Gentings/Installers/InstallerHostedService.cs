@@ -85,7 +85,7 @@ namespace Gentings.Installers
                             initializers = initializers.OrderByDescending(x => x.Priority);
                             foreach (var initializer in initializers)
                             {
-                                if (await initializer.IsExecutableAsync())
+                                if (!await initializer.IsDisabledAsync())
                                     await initializer.ExecuteAsync();
                             }
                         }

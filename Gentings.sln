@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings", "Gentings\Gentin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Identity", "Gentings.Identity\Gentings.Identity.csproj", "{5CFC91CD-F40A-4CCF-BD91-B2A799BCC80B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Installers", "Gentings.Installers\Gentings.Installers.csproj", "{5D76BF8C-1830-435A-95DC-4994912C776F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.Storages", "Gentings.Storages\Gentings.Storages.csproj", "{CC7EBBAF-1A8B-4B17-B171-4AED5890D453}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{5CFC91CD-F40A-4CCF-BD91-B2A799BCC80B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CFC91CD-F40A-4CCF-BD91-B2A799BCC80B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CFC91CD-F40A-4CCF-BD91-B2A799BCC80B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D76BF8C-1830-435A-95DC-4994912C776F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D76BF8C-1830-435A-95DC-4994912C776F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D76BF8C-1830-435A-95DC-4994912C776F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D76BF8C-1830-435A-95DC-4994912C776F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC7EBBAF-1A8B-4B17-B171-4AED5890D453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC7EBBAF-1A8B-4B17-B171-4AED5890D453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC7EBBAF-1A8B-4B17-B171-4AED5890D453}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC7EBBAF-1A8B-4B17-B171-4AED5890D453}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

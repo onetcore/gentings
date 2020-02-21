@@ -9,11 +9,6 @@ namespace Gentings.Tasks
     public abstract class TaskService : ITaskService
     {
         /// <summary>
-        /// 优先级。
-        /// </summary>
-        public virtual int Priority => 0;
-
-        /// <summary>
         /// 禁用。
         /// </summary>
         public virtual bool Disabled => false;

@@ -191,7 +191,7 @@ namespace Gentings.Utils
         /// <returns>返回当前引用块字符串。</returns>
         public string ReadQuote(char quote, StringBuilder builder = null)
         {
-            builder = builder ?? new StringBuilder();
+            builder ??= new StringBuilder();
             if (quote == Current)
                 _index++;
             builder.Append(quote);
@@ -241,7 +241,7 @@ namespace Gentings.Utils
         /// <returns>返回当前字符串。</returns>
         public string ReadUntil(char end, StringBuilder builder = null)
         {
-            builder = builder ?? new StringBuilder();
+            builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
                 var current = Current;
@@ -266,7 +266,7 @@ namespace Gentings.Utils
         /// <returns>返回当前字符串。</returns>
         public string ReadUntil(string end, StringBuilder builder = null)
         {
-            builder = builder ?? new StringBuilder();
+            builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
                 var current = Current;
@@ -291,7 +291,7 @@ namespace Gentings.Utils
         /// <returns>返回当前字符串。</returns>
         public string ReadUntil(char[] ends, StringBuilder builder = null)
         {
-            builder = builder ?? new StringBuilder();
+            builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
                 var current = Current;
@@ -317,7 +317,7 @@ namespace Gentings.Utils
         /// <returns>返回当前字符串。</returns>
         public string ReadBlock(char start, char end, StringBuilder builder = null)
         {
-            builder = builder ?? new StringBuilder();
+            builder ??= new StringBuilder();
             var blocks = 0;
             while (_source.Length > _index)
             {
@@ -351,7 +351,7 @@ namespace Gentings.Utils
         /// <returns>返回当前字符串。</returns>
         public string ReadUntil(char[] ends, char start, char end, StringBuilder builder = null)
         {
-            builder = builder ?? new StringBuilder();
+            builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
                 var current = Current;

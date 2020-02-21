@@ -8,11 +8,6 @@ namespace Gentings.Tasks
     public interface ITaskService : ISingletonServices
     {
         /// <summary>
-        /// 优先级。
-        /// </summary>
-        int Priority { get; }
-
-        /// <summary>
         /// 禁用。
         /// </summary>
         bool Disabled { get; }
