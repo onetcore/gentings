@@ -1,4 +1,4 @@
-namespace Gentings.Storages
+namespace Gentings.Storages.Media
 {
     /// <summary>
     /// 上传/下载结果。

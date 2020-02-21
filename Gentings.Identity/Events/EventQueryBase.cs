@@ -1,5 +1,6 @@
 ﻿using System;
 using Gentings.Data;
+using Gentings.Identity.Roles;
 
 namespace Gentings.Identity.Events
 {

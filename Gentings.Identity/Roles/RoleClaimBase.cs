@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Identity;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Roles
 {
     /// <summary>
     /// 角色声明类。

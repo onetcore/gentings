@@ -5,10 +5,10 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Gentings.Data;
+using Microsoft.AspNetCore.Identity;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Roles
 {
     /// <summary>
     /// 用户角色存储基类。

@@ -1,6 +1,7 @@
 ﻿using Gentings.Data.Migrations;
 using Gentings.Data.Migrations.Builders;
 using Gentings.Identity.Denies;
+using Gentings.Identity.Roles;
 
 namespace Gentings.Identity
 {

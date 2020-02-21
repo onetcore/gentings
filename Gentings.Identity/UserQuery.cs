@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using Gentings.Data;
+using Gentings.Identity.Roles;
 
 namespace Gentings.Identity
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Gentings.Data.Internal;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Roles
 {
     /// <summary>
     /// 角色事件处理器接口。

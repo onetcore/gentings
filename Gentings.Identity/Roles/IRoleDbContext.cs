@@ -1,6 +1,6 @@
 ﻿using Gentings.Data;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Roles
 {
     /// <summary>
     /// 角色数据库操作上下文接口。

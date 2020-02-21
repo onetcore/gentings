@@ -24,6 +24,12 @@ namespace Gentings.Identity
         /// </summary>
         protected string UserName => _userName ??= HttpContext.User.GetUserName();
 
+        private IObjectDiffer _differ;
+        /// <summary>
+        /// 对象属性变更实例。
+        /// </summary>
+        protected IObjectDiffer Differ => _differ ??= GetRequiredService<IObjectDiffer>();
+
         private IEventLogger _eventLogger;
         /// <summary>
         /// 本地化接口。
@@ -149,6 +155,5 @@ namespace Gentings.Identity
             }
             return BadResult(Resources.SaveSettingsFailured);
         }
-
     }
 }

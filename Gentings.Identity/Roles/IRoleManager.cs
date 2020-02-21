@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Roles
 {
     /// <summary>
     /// 角色管理接口。

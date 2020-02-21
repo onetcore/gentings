@@ -1,6 +1,6 @@
 ﻿using Gentings.Data.Migrations;
 
-namespace Gentings.Storages
+namespace Gentings.Storages.Media
 {
     /// <summary>
     /// 媒体文件存储数据库迁移类。

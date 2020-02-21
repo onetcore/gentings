@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Gentings.Data;
 using Gentings.Data.Internal;
 using Gentings.Extensions;
+using Gentings.Identity.Roles;
 
 namespace Gentings.Identity
 {

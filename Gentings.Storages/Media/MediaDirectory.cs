@@ -7,7 +7,7 @@ using Gentings.Extensions;
 using Gentings.Storages.Properties;
 using Microsoft.AspNetCore.Http;
 
-namespace Gentings.Storages
+namespace Gentings.Storages.Media
 {
     /// <summary>
     /// 媒体文件提供者实现类。
@@ -60,8 +60,7 @@ namespace Gentings.Storages
         /// <param name="targetId">目标Id。</param>
         /// <param name="uniqueMediaFile">每一个文件和媒体存储文件一一对应。</param>
         /// <returns>返回上传后的结果！</returns>
-        public virtual Task<MediaResult> UploadAsync(IFormFile file, string extensionName, int? targetId = null,
-            bool uniqueMediaFile = true)
+        public virtual Task<MediaResult> UploadAsync(IFormFile file, string extensionName, int? targetId = null, bool uniqueMediaFile = true)
             => UploadAsync(file, x =>
             {
                 x.ExtensionName = extensionName;

@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
+using Microsoft.AspNetCore.Identity;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Roles
 {
     /// <summary>
     /// 角色基类。

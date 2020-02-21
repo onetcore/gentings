@@ -1,7 +1,7 @@
 ﻿using System;
 using Gentings.Data;
 
-namespace Gentings.Storages
+namespace Gentings.Storages.Media
 {
     /// <summary>
     /// 媒体查询实例。

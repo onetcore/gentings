@@ -29,10 +29,12 @@ namespace Gentings.Identity.Events
         }
 
         /// <summary>
-        /// 实例化一个对象，一般为原有对象实例。
+        /// 存储对象的属性，一般为原有对象实例。
         /// </summary>
+        /// <typeparam name="T">当前对象类型。</typeparam>
         /// <param name="oldInstance">原有对象实例。</param>
-        public virtual void Init(object oldInstance)
+        /// <returns>返回当前实例。</returns>
+        public virtual T Stored<T>(T oldInstance)
         {
             if (_initialized)
                 throw new Exception(Resources.Differ_Duplicated_Initialized);
@@ -42,16 +44,7 @@ namespace Gentings.Identity.Events
             {
                 _stored[property.Name] = GetValue(property, oldInstance);
             }
-        }
 
-        /// <summary>
-        /// 实例化一个对象，一般为原有对象实例。
-        /// </summary>
-        /// <param name="oldInstance">原有对象实例。</param>
-        /// <returns>返回当前实例。</returns>
-        public virtual T GetAndInit<T>(T oldInstance)
-        {
-            Init(oldInstance);
             return oldInstance;
         }
 

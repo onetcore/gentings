@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Extensions;
+using Gentings.Identity.Roles;
 
 namespace Gentings.Identity
 {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Http;
 
-namespace Gentings.Storages
+namespace Gentings.Storages.Media
 {
     /// <summary>
     /// 媒体文件提供者接口。

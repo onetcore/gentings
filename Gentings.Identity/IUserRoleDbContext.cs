@@ -1,4 +1,6 @@
-﻿namespace Gentings.Identity
+﻿using Gentings.Identity.Roles;
+
+namespace Gentings.Identity
 {
     /// <summary>
     /// 用户和角色数据库操作上下文接口。
