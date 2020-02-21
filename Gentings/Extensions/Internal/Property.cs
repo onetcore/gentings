@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
+using Gentings.Properties;
 
 namespace Gentings.Extensions.Internal
 {
@@ -30,9 +31,18 @@ namespace Gentings.Extensions.Internal
             }
             IsPrimaryKey = info.IsDefined(typeof(KeyAttribute));
             MaxLength = info.GetCustomAttribute<SizeAttribute>()?.MaximumLength;
-            IsRowVersion = info.IsDefined(typeof(RowVersionAttribute));
+            if (info.IsDefined(typeof(TimestampAttribute)))
+            {
+                if (ClrType != typeof(byte[]))
+                    throw new Exception(Resources.TypeMustBeBytes);
+                if (entityType.RowVersion != null)
+                    throw new Exception(Resources.RowVersionOnlyOnePropertyEachClass);
+                entityType.RowVersion = this;
+                IsRowVersion = true;
+            }
             DisplayName = info.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ??
                           info.GetCustomAttribute<DisplayAttribute>()?.Name;
+            IsConcurrency = info.IsDefined(typeof(ConcurrencyCheckAttribute));
         }
 
         /// <summary>
@@ -77,6 +87,11 @@ namespace Gentings.Extensions.Internal
         /// 版本列。
         /// </summary>
         public bool IsRowVersion { get; }
+
+        /// <summary>
+        /// 是否并发验证。
+        /// </summary>
+        public bool IsConcurrency { get; }
 
         /// <summary>
         /// 获取当前属性值。

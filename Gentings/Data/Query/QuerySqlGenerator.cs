@@ -57,7 +57,7 @@ namespace Gentings.Data.Query
             public CacheEntry(string sql, List<string> parameters)
             {
                 Sql = sql;
-                Parameters = parameters;
+                Parameters = parameters.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
             }
 
             public string Sql { get; }
@@ -84,9 +84,9 @@ namespace Gentings.Data.Query
                 builder.Append("(").JoinAppend(names.Select(SqlHelper.DelimitIdentifier)).Append(")");
                 builder.Append("VALUES(")
                     .JoinAppend(names.Select(SqlHelper.Parameterized))
-                    .Append(")").AppendLine(SqlHelper.fieldsTerminator);
+                    .Append(")").Append(SqlHelper.fieldsTerminator);
                 if (entityType.Identity != null)
-                    builder.Append(SelectIdentity());
+                    builder.Append(SelectIdentity()).Append(SqlHelper.fieldsTerminator);
                 return new CacheEntry(builder.ToString(), names);
             });
             return new SqlIndentedStringBuilder(entry.Sql, entry.Parameters);
@@ -113,17 +113,39 @@ namespace Gentings.Data.Query
                     var primaryKeys = entityType.PrimaryKey.Properties
                         .Select(p => p.Name)
                         .ToList();
+                    var keys = new List<string>();
+                    keys.AddRange(primaryKeys);
+                    if (entityType.RowVersion != null)
+                        keys.Add(entityType.RowVersion.Name);
+                    if (entityType.ConcurrencyKey != null)
+                        keys.AddRange(entityType.ConcurrencyKey.Properties.Select(x => x.Name));
+                    names.AddRange(keys);
                     builder.Append("WHERE ")
                         .JoinAppend(
-                            primaryKeys.Select(
+                            keys.Select(
                                 name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}"), " AND ")
                         .Append(SqlHelper.fieldsTerminator);
-                    names.AddRange(primaryKeys);
+                    if (entityType.RowVersion != null || entityType.ConcurrencyKey != null)
+                    {
+                        builder.Append(SelectAffectedRows()).Append(" FROM ")
+                            .Append(SqlHelper.DelimitIdentifier(entityType.Table))
+                            .Append(" WHERE ")
+                            .JoinAppend(
+                                keys.Select(
+                                    name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}"), " AND ")
+                            .Append(SqlHelper.fieldsTerminator);
+                    }
                 }
                 return new CacheEntry(builder.ToString(), names);
             });
             return new SqlIndentedStringBuilder(entry.Sql, entry.Parameters);
         }
+
+        /// <summary>
+        /// 获取影响行数SQL语句。
+        /// </summary>
+        /// <returns>影响行数SQL语句。</returns>
+        protected abstract string SelectAffectedRows();
 
         /// <summary>
         /// 通过唯一主键更新实例。
@@ -243,8 +265,7 @@ namespace Gentings.Data.Query
         /// <param name="order">排序列。</param>
         /// <param name="expression">分组条件表达式。</param>
         /// <returns>返回SQL构建实例。</returns>
-        public abstract SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order,
-            Expression expression);
+        public abstract SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order, Expression expression);
 
         /// <summary>
         /// 聚合函数。

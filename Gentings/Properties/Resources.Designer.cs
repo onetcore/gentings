@@ -322,11 +322,29 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 每个类只能包含一个版本“TimestampAttribute”特性属性。 的本地化字符串。
+        /// </summary>
+        internal static string RowVersionOnlyOnePropertyEachClass {
+            get {
+                return ResourceManager.GetString("RowVersionOnlyOnePropertyEachClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 [服务]{0}执行错误：{1}。 的本地化字符串。
         /// </summary>
         internal static string TaskExecuteError {
             get {
                 return ResourceManager.GetString("TaskExecuteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 “TimestampAttribute”特性属性的数据类型必须为byte[]。 的本地化字符串。
+        /// </summary>
+        internal static string TypeMustBeBytes {
+            get {
+                return ResourceManager.GetString("TypeMustBeBytes", resourceCulture);
             }
         }
         

@@ -38,6 +38,9 @@ namespace Gentings.Extensions.Internal
             }
             if (properties.Count > 0)
                 PrimaryKey = new Key(properties);
+            properties = _properties.Values.Where(x => x.IsConcurrency).ToList();
+            if (properties.Count > 0)
+                ConcurrencyKey = new Key(properties);
         }
 
         /// <summary>
@@ -54,6 +57,18 @@ namespace Gentings.Extensions.Internal
         /// 获取主键。
         /// </summary>
         public IKey PrimaryKey { get; }
+
+        /// <summary>
+        /// 行版本属性。
+        /// </summary>
+        public Property RowVersion { get; set; }
+
+        /// <summary>
+        /// 并发验证属性。
+        /// </summary>
+        public IKey ConcurrencyKey { get; }
+
+        IProperty IEntityType.RowVersion => RowVersion;
 
         /// <summary>
         /// 自增长列。

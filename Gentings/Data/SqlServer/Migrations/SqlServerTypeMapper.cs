@@ -43,14 +43,19 @@ namespace Gentings.Data.SqlServer.Migrations
         public override string GetMapping(Type type, int? size = null, bool rowVersion = false, bool? unicode = null)
         {
             Check.NotNull(type, nameof(type));
-            type = type.UnwrapNullableType().UnwrapEnumType();
+            if (rowVersion)
+            {
+                if (type == typeof(byte[]))
+                    return "timestamp";
+                throw new Exception(Resources.TypeMustBeBytes);
+            }
 
+            type = type.UnwrapNullableType().UnwrapEnumType();
             if (type == typeof(string))
                 return size > 0 ? $"nvarchar({size})" : "nvarchar(max)";
             if (type == typeof(byte[]))
                 return size > 0 ? $"varbinary({size})" : "varbinary(max)";
-            string retType;
-            if (_simpleMappings.TryGetValue(type, out retType))
+            if (_simpleMappings.TryGetValue(type, out var retType))
                 return retType;
 
             throw new NotSupportedException(string.Format(Resources.UnsupportedType, type.DisplayName()));

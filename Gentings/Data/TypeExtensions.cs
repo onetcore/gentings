@@ -49,7 +49,7 @@ namespace Gentings.Data
                 return false;
             if (info.IsDefined(typeof(IdentityAttribute)))
                 return false;
-            if (info.IsDefined(typeof(RowVersionAttribute)))
+            if (info.IsDefined(typeof(TimestampAttribute)))
                 return false;
             return true;
         }
@@ -73,7 +73,7 @@ namespace Gentings.Data
                 return false;
             if (info.IsDefined(typeof(KeyAttribute)))
                 return false;//主键也不更新
-            if (info.IsDefined(typeof(RowVersionAttribute)))
+            if (info.IsDefined(typeof(TimestampAttribute)))
                 return false;
             return true;
         }

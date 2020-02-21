@@ -195,7 +195,12 @@ namespace Gentings.Data.Internal
         public virtual bool Update(TModel model)
         {
             var sql = SqlGenerator.Update(EntityType);
-            return ExecuteNonQuery(sql, sql.CreateEntityParameters(model));
+            var parameters = sql.CreateEntityParameters(model);
+            if (EntityType.RowVersion == null && EntityType.ConcurrencyKey == null)
+                return ExecuteNonQuery(sql, parameters);
+            if (ExecuteScalar(sql, parameters) == null)
+                throw new DBConcurrencyException();
+            return true;
         }
 
         /// <summary>
@@ -207,7 +212,12 @@ namespace Gentings.Data.Internal
         public virtual async Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Update(EntityType);
-            return await ExecuteNonQueryAsync(sql, sql.CreateEntityParameters(model), cancellationToken: cancellationToken);
+            var parameters = sql.CreateEntityParameters(model);
+            if (EntityType.RowVersion == null && EntityType.ConcurrencyKey == null)
+                return await ExecuteNonQueryAsync(sql, parameters, cancellationToken: cancellationToken);
+            if (await ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken) == null)
+                throw new DBConcurrencyException();
+            return true;
         }
 
         /// <summary>

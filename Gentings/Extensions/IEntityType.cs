@@ -30,6 +30,16 @@ namespace Gentings.Extensions
         IKey PrimaryKey { get; }
 
         /// <summary>
+        /// 行版本属性。
+        /// </summary>
+        IProperty RowVersion { get; }
+
+        /// <summary>
+        /// 并发验证属性。
+        /// </summary>
+        IKey ConcurrencyKey { get; }
+
+        /// <summary>
         /// 自增长列。
         /// </summary>
         IProperty Identity { get; }

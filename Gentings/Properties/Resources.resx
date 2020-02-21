@@ -204,8 +204,14 @@
   <data name="RandomNumberGenerator_SizeInvalid" xml:space="preserve">
     <value>字节大小必须能被 8 整除。</value>
   </data>
+  <data name="RowVersionOnlyOnePropertyEachClass" xml:space="preserve">
+    <value>每个类只能包含一个版本“TimestampAttribute”特性属性。</value>
+  </data>
   <data name="TaskExecuteError" xml:space="preserve">
     <value>[服务]{0}执行错误：{1}。</value>
+  </data>
+  <data name="TypeMustBeBytes" xml:space="preserve">
+    <value>“TimestampAttribute”特性属性的数据类型必须为byte[]。</value>
   </data>
   <data name="UnknownOperation" xml:space="preserve">
     <value>在“{1}”找不到“{0}”的操作符。</value>

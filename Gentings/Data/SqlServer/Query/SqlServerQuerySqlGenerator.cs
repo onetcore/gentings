@@ -11,6 +11,15 @@ namespace Gentings.Data.SqlServer.Query
     public class SqlServerQuerySqlGenerator : QuerySqlGenerator
     {
         /// <summary>
+        /// 获取影响行数SQL语句。
+        /// </summary>
+        /// <returns>影响行数SQL语句。</returns>
+        protected override string SelectAffectedRows()
+        {
+            return "SELECT @@ROWCOUNT";
+        }
+
+        /// <summary>
         /// 忽略锁（脏查询）。
         /// </summary>
         /// <returns>返回SQL字符串。</returns>
@@ -25,7 +34,7 @@ namespace Gentings.Data.SqlServer.Query
         /// <returns>返回自增长获取的SQL字符串。</returns>
         protected override string SelectIdentity()
         {
-            return "SELECT SCOPE_IDENTITY();";
+            return "SELECT SCOPE_IDENTITY()";
         }
 
         /// <summary>

@@ -54,6 +54,11 @@ namespace Gentings.Extensions
         bool IsRowVersion { get; }
 
         /// <summary>
+        /// 是否并发验证。
+        /// </summary>
+        bool IsConcurrency { get; }
+
+        /// <summary>
         /// 获取当前属性值。
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
