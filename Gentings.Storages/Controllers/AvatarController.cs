@@ -6,6 +6,7 @@ namespace Gentings.Storages.Controllers
     /// <summary>
     /// 头像控制器。
     /// </summary>
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AvatarController : Controller
     {
         private readonly IAvatarManager _avatarManager;
