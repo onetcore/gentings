@@ -42,5 +42,15 @@ namespace Gentings.Storages
         /// </summary>
         /// <returns>返回文件流。</returns>
         Stream OpenRead();
+
+        /// <summary>
+        /// 缩放图片。
+        /// </summary>
+        /// <param name="info">图片文件实例，一般在临时文件夹中。</param>
+        /// <param name="width">宽度。</param>
+        /// <param name="height">高度。</param>
+        /// <param name="path">保存路径，未指定将保存在<paramref name="info"/>得文件夹中。</param>
+        /// <returns>返回缩略图文件实例。</returns>
+        FileInfo Resize(int width, int height, string path = null);
     }
 }

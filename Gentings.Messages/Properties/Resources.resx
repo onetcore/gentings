@@ -117,133 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ArgumentIsEmpty" xml:space="preserve">
-    <value>参数'{0}'不能为空。</value>
+  <data name="EmailStatus_Completed" xml:space="preserve">
+    <value>成功发送</value>
   </data>
-  <data name="ArgumentPropertyNull" xml:space="preserve">
-    <value>参数'{1}'的'{0}'属性不能为空。</value>
+  <data name="EmailStatus_Failured" xml:space="preserve">
+    <value>发送失败</value>
   </data>
-  <data name="CollectionArgumentIsEmpty" xml:space="preserve">
-    <value>参数'{0}'集合最少需要包含一个值。</value>
+  <data name="EmailStatus_Pending" xml:space="preserve">
+    <value>等待发送</value>
   </data>
-  <data name="DataAction_Created" xml:space="preserve">
-    <value>恭喜你，你已经成功添加了“{0}”。</value>
+  <data name="EmailTaskService" xml:space="preserve">
+    <value>电子邮件发送服务</value>
   </data>
-  <data name="DataAction_CreatedFailured" xml:space="preserve">
-    <value>很抱歉，添加“{0}”失败了。</value>
+  <data name="EmailTaskService_Description" xml:space="preserve">
+    <value>发送队列在数据库中的电子邮件</value>
   </data>
-  <data name="DataAction_Deleted" xml:space="preserve">
-    <value>恭喜你，你已经成功删除了所选择的{0}。</value>
+  <data name="NoteStatus_Completed" xml:space="preserve">
+    <value>成功发送</value>
   </data>
-  <data name="DataAction_DeletedFailured" xml:space="preserve">
-    <value>很抱歉，删除“{0}”失败了。</value>
+  <data name="NoteStatus_Failured" xml:space="preserve">
+    <value>发送失败</value>
   </data>
-  <data name="DataAction_DeletedFailuredItemsNotEmpty" xml:space="preserve">
-    <value>很抱歉，删除“{0}”失败了，因为包含的子项不为空。</value>
+  <data name="NoteStatus_Pending" xml:space="preserve">
+    <value>等待发送</value>
   </data>
-  <data name="DataAction_Duplicate" xml:space="preserve">
-    <value>很抱歉，“{0}”已经存在，操作失败。</value>
+  <data name="NotificationTaskService" xml:space="preserve">
+    <value>系统通知清理服务</value>
   </data>
-  <data name="DataAction_Success" xml:space="preserve">
-    <value>恭喜你，你已经成功完成了“{0}”。</value>
+  <data name="NotificationTaskService_Description" xml:space="preserve">
+    <value>清理每个用户得系统通知，删除多余得系统通知</value>
   </data>
-  <data name="DataAction_UnknownError" xml:space="preserve">
-    <value>很抱歉，发生了未知错误，操作失败，请重试。</value>
+  <data name="SMSClientNotFound" xml:space="preserve">
+    <value>短信发送客户端不存在！</value>
   </data>
-  <data name="DataAction_Updated" xml:space="preserve">
-    <value>恭喜你，你已经成功更新了“{0}”。</value>
+  <data name="SMSTaskService" xml:space="preserve">
+    <value>短信发送服务</value>
   </data>
-  <data name="DataAction_UpdatedFailured" xml:space="preserve">
-    <value>很抱歉，更新“{0}”失败了。</value>
-  </data>
-  <data name="DataResult_Created" xml:space="preserve">
-    <value>添加了</value>
-  </data>
-  <data name="DataResult_Deleted" xml:space="preserve">
-    <value>删除了</value>
-  </data>
-  <data name="DataResult_Updated" xml:space="preserve">
-    <value>更新了</value>
-  </data>
-  <data name="ErrorCode_InvalidParameters" xml:space="preserve">
-    <value>参数错误：{0}。</value>
-  </data>
-  <data name="ErrorCode_UnknownError" xml:space="preserve">
-    <value>发生未知错误</value>
-  </data>
-  <data name="ErrorCode_ValidError" xml:space="preserve">
-    <value>验证失败</value>
-  </data>
-  <data name="Interval_Day" xml:space="preserve">
-    <value>日</value>
-  </data>
-  <data name="Interval_Each_Day" xml:space="preserve">
-    <value>每天</value>
-  </data>
-  <data name="Interval_Each_Month" xml:space="preserve">
-    <value>每月</value>
-  </data>
-  <data name="Interval_Each_Year" xml:space="preserve">
-    <value>每年</value>
-  </data>
-  <data name="Interval_Format_Error" xml:space="preserve">
-    <value>格式错误，必须为MM-dd HH:mm格式。</value>
-  </data>
-  <data name="Interval_Month" xml:space="preserve">
-    <value>月</value>
-  </data>
-  <data name="Interval_Second" xml:space="preserve">
-    <value>秒</value>
-  </data>
-  <data name="Interval_Seconds" xml:space="preserve">
-    <value>每隔</value>
-  </data>
-  <data name="Interval_Year" xml:space="preserve">
-    <value>年</value>
-  </data>
-  <data name="InvalidPropertiesExpression" xml:space="preserve">
-    <value>属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't =&gt; t.MyProperty'；如果式多个属性，需要如下代码表示：'t =&gt; new {{ t.MyProperty1, t.MyProperty2 }}'。</value>
-  </data>
-  <data name="InvalidPropertyExpression" xml:space="preserve">
-    <value>属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't =&gt; t.MyProperty'。</value>
-  </data>
-  <data name="MigrationError" xml:space="preserve">
-    <value>数据迁移出错：{0}。</value>
-  </data>
-  <data name="MigrationStatus_Completed" xml:space="preserve">
-    <value>完成</value>
-  </data>
-  <data name="MigrationStatus_Error" xml:space="preserve">
-    <value>错误</value>
-  </data>
-  <data name="MigrationStatus_Normal" xml:space="preserve">
-    <value>迁移中</value>
-  </data>
-  <data name="NoGetter" xml:space="preserve">
-    <value>类型“{1}”的属性“{0}”必须包含get访问器。</value>
-  </data>
-  <data name="NoSetter" xml:space="preserve">
-    <value>类型“{1}”的属性“{0}”必须包含set访问器。</value>
-  </data>
-  <data name="PrimaryKeyIsNotSingleField" xml:space="preserve">
-    <value>实体“{0}”的主键{1}包含的不值一个属性！</value>
-  </data>
-  <data name="RandomNumberGenerator_SizeInvalid" xml:space="preserve">
-    <value>字节大小必须能被 8 整除。</value>
-  </data>
-  <data name="RowVersionOnlyOnePropertyEachClass" xml:space="preserve">
-    <value>每个类只能包含一个版本“TimestampAttribute”特性属性。</value>
-  </data>
-  <data name="TaskExecuteError" xml:space="preserve">
-    <value>[服务]{0}执行错误：{1}。</value>
-  </data>
-  <data name="TypeMustBeBytes" xml:space="preserve">
-    <value>“TimestampAttribute”特性属性的数据类型必须为byte[]。</value>
-  </data>
-  <data name="UnknownOperation" xml:space="preserve">
-    <value>在“{1}”找不到“{0}”的操作符。</value>
-  </data>
-  <data name="UnsupportedType" xml:space="preserve">
-    <value>数据类型'{0}'暂时还不支持。</value>
+  <data name="SMSTaskService_Description" xml:space="preserve">
+    <value>发送短信相关服务</value>
   </data>
 </root>

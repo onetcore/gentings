@@ -11,8 +11,8 @@ namespace Gentings.Utils
         {
             DisplayName = pinyins[0];
             var name = pinyins[1];
-            Name = name.Substring(0, name.Length - 1);
-            Tone = Convert.ToInt16(name[name.Length - 1].ToString());
+            Name = name[0..^1];
+            Tone = Convert.ToInt16(name[^1].ToString());
         }
 
         /// <summary>

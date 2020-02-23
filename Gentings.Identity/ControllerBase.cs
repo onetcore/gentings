@@ -20,7 +20,7 @@ namespace Gentings.Identity
 
         private string _userName;
         /// <summary>
-        /// 当前登录用户Id。
+        /// 当前登录用户名称。
         /// </summary>
         protected string UserName => _userName ??= HttpContext.User.GetUserName();
 

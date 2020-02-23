@@ -232,6 +232,87 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 日 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Day {
+            get {
+                return ResourceManager.GetString("Interval_Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 每天 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Each_Day {
+            get {
+                return ResourceManager.GetString("Interval_Each_Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 每月 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Each_Month {
+            get {
+                return ResourceManager.GetString("Interval_Each_Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 每年 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Each_Year {
+            get {
+                return ResourceManager.GetString("Interval_Each_Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 格式错误，必须为MM-dd HH:mm格式。 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Format_Error {
+            get {
+                return ResourceManager.GetString("Interval_Format_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 月 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Month {
+            get {
+                return ResourceManager.GetString("Interval_Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 秒 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Second {
+            get {
+                return ResourceManager.GetString("Interval_Second", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 每隔 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Seconds {
+            get {
+                return ResourceManager.GetString("Interval_Seconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 年 的本地化字符串。
+        /// </summary>
+        internal static string Interval_Year {
+            get {
+                return ResourceManager.GetString("Interval_Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 属性表达式&apos;{0}&apos;不正确， 表达式必须提供一种属性访问，如： &apos;t =&gt; t.MyProperty&apos;；如果式多个属性，需要如下代码表示：&apos;t =&gt; new {{ t.MyProperty1, t.MyProperty2 }}&apos;。 的本地化字符串。
         /// </summary>
         internal static string InvalidPropertiesExpression {

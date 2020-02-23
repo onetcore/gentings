@@ -133,7 +133,7 @@ namespace Gentings.Storages
             if (file == null || file.Length == 0)
                 throw new Exception(Resources.FormFileInvalid);
             if (fileName != null && fileName.EndsWith(".$"))
-                fileName = fileName.Substring(0, fileName.Length - 2) + Path.GetExtension(file.FileName);
+                fileName = fileName[0..^2] + Path.GetExtension(file.FileName);
             else
                 fileName = file.FileName;
             directoryName = GetPhysicalPath(directoryName);
@@ -260,6 +260,19 @@ namespace Gentings.Storages
             public Stream OpenRead()
             {
                 return _info.OpenRead();
+            }
+
+            /// <summary>
+            /// 缩放图片。
+            /// </summary>
+            /// <param name="info">图片文件实例，一般在临时文件夹中。</param>
+            /// <param name="width">宽度。</param>
+            /// <param name="height">高度。</param>
+            /// <param name="path">保存路径，未指定将保存在<paramref name="info"/>得文件夹中。</param>
+            /// <returns>返回缩略图文件实例。</returns>
+            public FileInfo Resize(int width, int height, string path = null)
+            {
+                return _info.Resize(width, height, path);
             }
         }
     }

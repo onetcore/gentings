@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Gentings.Data;
+using Gentings.Properties;
 using Microsoft.AspNetCore.Html;
 
 namespace Gentings.Tasks
@@ -68,13 +69,13 @@ namespace Gentings.Tasks
             switch (_mode)
             {
                 case TaskMode.Month:
-                    return new HtmlString(string.Concat("每年",_month.ToString("D2"), "月", _day.ToString("D2"), "日 ", _time.ToString()));
+                    return new HtmlString(string.Concat(Resources.Interval_Each_Year,_month.ToString("D2"), Resources.Interval_Month, _day.ToString("D2"), $"{Resources.Interval_Day} ", _time.ToString()));
                 case TaskMode.Day:
-                    return new HtmlString(string.Concat("每月",_day.ToString("D2"), "日 ", _time.ToString()));
+                    return new HtmlString(string.Concat(Resources.Interval_Each_Month,_day.ToString("D2"), $"{Resources.Interval_Day} ", _time.ToString()));
                 case TaskMode.Hour:
-                    return new HtmlString($"每天{_time}");
+                    return new HtmlString($"{Resources.Interval_Each_Day}{_time}");
             }
-            return new HtmlString($"每隔{_interval}秒");
+            return new HtmlString($"{Resources.Interval_Seconds}{_interval}{Resources.Interval_Second}");
         }
 
         /// <summary>
@@ -148,7 +149,7 @@ namespace Gentings.Tasks
                 return new TaskInterval(time: TimeSpan.Parse(date));
 
             if (dateTimes.Length != 2)
-                throw new Exception("格式错误，必须为MM-dd HH:mm格式。");
+                throw new Exception(Resources.Interval_Format_Error);
 
             var dates = dateTimes[0].Split('-').Select(d => d.Trim()).ToArray();
             if (dates.Length == 1)

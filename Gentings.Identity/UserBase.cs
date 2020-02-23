@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Identity;
@@ -9,7 +10,7 @@ namespace Gentings.Identity
     /// 用户基类。
     /// </summary>
     [Table("core_Users")]
-    public abstract class UserBase : IdentityUser<int>
+    public abstract class UserBase : IdentityUser<int>, IUser
     {
         /// <summary>
         /// 获取或设置用户ID。
@@ -73,6 +74,7 @@ namespace Gentings.Identity
         /// 用于多线程更新附加随机条件。
         /// </summary>
         [Size(36)]
+        [ConcurrencyCheck]
         public override string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
 
         /// <summary>

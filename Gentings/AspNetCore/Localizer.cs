@@ -133,7 +133,7 @@ namespace Gentings.AspNetCore
                     .SingleOrDefault(x => x.EndsWith(Resources));
                 if (baseName == null)
                     return null;
-                baseName = baseName.Substring(0, baseName.Length - 10);
+                baseName = baseName[0..^10];
                 return new ResourceManager(baseName, assembly);
             });
             return resourceManager?.GetString(key) ?? key;
