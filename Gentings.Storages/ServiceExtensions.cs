@@ -14,7 +14,7 @@ namespace Gentings.Storages
         /// </summary>
         /// <param name="builder">服务构建实例。</param>
         /// <returns>返回服务构建实例。</returns>
-        public static IServiceBuilder AddStorages(this IServiceBuilder builder)
+        public static IServiceBuilder AddMediaStorages(this IServiceBuilder builder)
         {
             return builder.AddServices(services =>
             {

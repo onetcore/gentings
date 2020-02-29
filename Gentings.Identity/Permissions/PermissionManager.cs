@@ -15,11 +15,11 @@ namespace Gentings.Identity.Permissions
     /// <summary>
     /// 权限管理实现类。
     /// </summary>
-    /// <typeparam name="TUserRole">用户角色关联类型。</typeparam>
     /// <typeparam name="TRole">角色类型。</typeparam>
-    public abstract class PermissionManager<TUserRole, TRole> : IPermissionManager
-        where TUserRole : IUserRole
+    /// <typeparam name="TUserRole">用户角色关联类型。</typeparam>
+    public abstract class PermissionManager<TRole, TUserRole> : IPermissionManager
         where TRole : RoleBase
+        where TUserRole : IUserRole
     {
         /// <summary>
         /// 数据库操作实例。

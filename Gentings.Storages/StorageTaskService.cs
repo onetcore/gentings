@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Gentings.Storages.Media;
 using Gentings.Storages.Properties;
 using Gentings.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gentings.Storages
 {
@@ -12,17 +13,17 @@ namespace Gentings.Storages
     public class StorageTaskService : TaskService
     {
         private readonly IStorageDirectory _storageDirectory;
-        private readonly IMediaDirectory _mediaDirectory;
+        private readonly IServiceProvider _serviceProvider;
 
         /// <summary>
         /// 初始化类<see cref="StorageTaskService"/>。
         /// </summary>
         /// <param name="storageDirectory">存储文件夹接口。</param>
-        /// <param name="mediaDirectory">媒体存储接口。</param>
-        public StorageTaskService(IStorageDirectory storageDirectory, IMediaDirectory mediaDirectory)
+        /// <param name="serviceProvider">服务提供者。</param>
+        public StorageTaskService(IStorageDirectory storageDirectory, IServiceProvider serviceProvider)
         {
             _storageDirectory = storageDirectory;
-            _mediaDirectory = mediaDirectory;
+            _serviceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -46,7 +47,9 @@ namespace Gentings.Storages
         /// <param name="argument">参数。</param>
         public override async Task ExecuteAsync(Argument argument)
         {
-            await _mediaDirectory.ClearDeletedPhysicalFilesAsync();
+            var mediaDirectory = _serviceProvider.GetService<IMediaDirectory>();
+            if (mediaDirectory != null)
+                await mediaDirectory.ClearDeletedPhysicalFilesAsync();
             _storageDirectory.ClearEmptyDirectories();
             await Task.Delay(100);
         }
