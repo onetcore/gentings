@@ -237,6 +237,18 @@
   <data name="EventType_User" xml:space="preserve">
     <value>用户</value>
   </data>
+  <data name="PermissionSetCannotBeOwner" xml:space="preserve">
+    <value>管理员角色权限不能被设置！</value>
+  </data>
+  <data name="PermissionValue_Allow" xml:space="preserve">
+    <value>允许</value>
+  </data>
+  <data name="PermissionValue_Deny" xml:space="preserve">
+    <value>禁止</value>
+  </data>
+  <data name="PermissionValue_NotSet" xml:space="preserve">
+    <value>未设置</value>
+  </data>
   <data name="SaveSettings" xml:space="preserve">
     <value>保存了“{0}”配置信息</value>
   </data>

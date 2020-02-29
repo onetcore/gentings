@@ -5,7 +5,7 @@ namespace Gentings.Storages.Media
     /// <summary>
     /// 媒体文件存储数据库迁移类。
     /// </summary>
-    public class MediaDataMigration : DataMigration
+    public abstract class MediaDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。

@@ -421,6 +421,42 @@ namespace Gentings.Identity.Properties {
         }
         
         /// <summary>
+        ///   查找类似 管理员角色权限不能被设置！ 的本地化字符串。
+        /// </summary>
+        internal static string PermissionSetCannotBeOwner {
+            get {
+                return ResourceManager.GetString("PermissionSetCannotBeOwner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 允许 的本地化字符串。
+        /// </summary>
+        internal static string PermissionValue_Allow {
+            get {
+                return ResourceManager.GetString("PermissionValue_Allow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 禁止 的本地化字符串。
+        /// </summary>
+        internal static string PermissionValue_Deny {
+            get {
+                return ResourceManager.GetString("PermissionValue_Deny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未设置 的本地化字符串。
+        /// </summary>
+        internal static string PermissionValue_NotSet {
+            get {
+                return ResourceManager.GetString("PermissionValue_NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 保存了“{0}”配置信息 的本地化字符串。
         /// </summary>
         internal static string SaveSettings {
