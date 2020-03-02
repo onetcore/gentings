@@ -40,8 +40,8 @@ namespace Gentings.Extensions.Internal
             if (IsDuplicated(model))
                 return DataAction.Duplicate;
             if (Context.Any(model.Id))
-                return DataResult.FromResult(Context.Update(model), DataAction.Updated);
-            return DataResult.FromResult(Context.Create(model), DataAction.Created);
+                return DataResult.FromResult(Update(model), DataAction.Updated);
+            return DataResult.FromResult(Create(model), DataAction.Created);
         }
 
         /// <summary>
@@ -284,6 +284,48 @@ namespace Gentings.Extensions.Internal
         public virtual IQueryable<TModel> AsQueryable()
         {
             return Context.AsQueryable();
+        }
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <returns>返回更新结果。</returns>
+        public virtual bool Update(TModel model)
+        {
+            return Context.Update(model);
+        }
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回更新结果。</returns>
+        public virtual Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
+        {
+            return Context.UpdateAsync(model, cancellationToken);
+        }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <returns>返回添加结果。</returns>
+        public virtual bool Create(TModel model)
+        {
+            return Context.Create(model);
+        }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回添加结果。</returns>
+        public virtual Task<bool> CreateAsync(TModel model, CancellationToken cancellationToken = default)
+        {
+            return Context.CreateAsync(model, cancellationToken);
         }
     }
 }

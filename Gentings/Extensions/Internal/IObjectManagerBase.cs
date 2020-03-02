@@ -16,6 +16,13 @@ namespace Gentings.Extensions.Internal
         where TModel : IIdObject<TKey>
     {
         /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <returns>返回添加结果。</returns>
+        bool Create(TModel model);
+
+        /// <summary>
         /// 保存对象实例。
         /// </summary>
         /// <param name="model">模型实例对象。</param>
@@ -28,6 +35,13 @@ namespace Gentings.Extensions.Internal
         /// <param name="model">模型实例对象。</param>
         /// <returns>返回判断结果。</returns>
         bool IsDuplicated(TModel model);
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <returns>返回更新结果。</returns>
+        bool Update(TModel model);
 
         /// <summary>
         /// 根据条件更新特定的实例。
@@ -81,6 +95,14 @@ namespace Gentings.Extensions.Internal
         IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null);
 
         /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回添加结果。</returns>
+        Task<bool> CreateAsync(TModel model, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// 保存对象实例。
         /// </summary>
         /// <param name="model">模型实例对象。</param>
@@ -95,6 +117,14 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回判断结果。</returns>
         /// <param name="cancellationToken">取消标识。</param>
         Task<bool> IsDuplicatedAsync(TModel model, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回更新结果。</returns>
+        Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据条件更新特定的实例。

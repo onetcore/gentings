@@ -75,6 +75,17 @@ namespace Gentings.Extensions
         }
 
         /// <summary>
+        /// 如果操作结果成功刷新缓存并返回结果。
+        /// </summary>
+        /// <param name="result">数据库操作结果。</param>
+        /// <returns>数据库操作结果。</returns>
+        protected bool Refresh(bool result)
+        {
+            if (result) Refresh();
+            return result;
+        }
+
+        /// <summary>
         /// 如果结果正确返回<paramref name="succeed"/>，否则返回失败项。
         /// </summary>
         /// <param name="result">执行结果。</param>
@@ -295,6 +306,48 @@ namespace Gentings.Extensions
                 return Context.FetchAsync(cancellationToken: cancellationToken);
             });
             return models.Filter(expression);
+        }
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <returns>返回更新结果。</returns>
+        public override bool Update(TModel model)
+        {
+            return Refresh(base.Update(model));
+        }
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回更新结果。</returns>
+        public override async Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
+        {
+            return Refresh(await Context.UpdateAsync(model, cancellationToken));
+        }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <returns>返回添加结果。</returns>
+        public override bool Create(TModel model)
+        {
+            return Refresh(Context.Create(model));
+        }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回添加结果。</returns>
+        public override async Task<bool> CreateAsync(TModel model, CancellationToken cancellationToken = default)
+        {
+            return Refresh(await Context.CreateAsync(model, cancellationToken));
         }
     }
 

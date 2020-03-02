@@ -178,6 +178,42 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 数据库迁移完成。 的本地化字符串。
+        /// </summary>
+        internal static string DataMigration_Completed {
+            get {
+                return ResourceManager.GetString("DataMigration_Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据库迁移错误（请查看日志文件）： 的本地化字符串。
+        /// </summary>
+        internal static string DataMigration_Error {
+            get {
+                return ResourceManager.GetString("DataMigration_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 数据库迁移失败。 的本地化字符串。
+        /// </summary>
+        internal static string DataMigration_Failured {
+            get {
+                return ResourceManager.GetString("DataMigration_Failured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 开始数据库迁移。 的本地化字符串。
+        /// </summary>
+        internal static string DataMigration_Start {
+            get {
+                return ResourceManager.GetString("DataMigration_Start", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 添加了 的本地化字符串。
         /// </summary>
         internal static string DataResult_Created {
