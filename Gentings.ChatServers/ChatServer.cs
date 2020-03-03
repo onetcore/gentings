@@ -1,4 +1,6 @@
 ﻿using Gentings.ChatServers.Properties;
+using Gentings.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Concurrent;
@@ -9,6 +11,7 @@ namespace Gentings.ChatServers
     /// <summary>
     /// 聊天服务器。
     /// </summary>
+    [Authorize]
     public class ChatServer : Hub
     {
         private readonly IUserManager _userManager;
@@ -39,10 +42,12 @@ namespace Gentings.ChatServers
         /// <returns>连接执行任务。</returns>
         public override async Task OnConnectedAsync()
         {
-            var httpContext = Context.GetHttpContext();
-            if (!int.TryParse(httpContext.Request.Query["uid"], out var userId))
+            var userId = Context.GetHttpContext().User.GetUserId();
+            if (userId == 0)
             {
                 var user = await _userManager.FindAsync(userId);
+                if (user == null)
+                    throw new UnauthorizedAccessException();
                 user.IsOnline = true;
                 user.ConnectedDate = DateTimeOffset.Now;
                 Onlines.AddOrUpdate(Context.ConnectionId, _ => user, (_, _1) => user);
