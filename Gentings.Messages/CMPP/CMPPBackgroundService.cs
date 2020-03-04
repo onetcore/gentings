@@ -42,37 +42,44 @@ namespace Gentings.Messages.CMPP
                     // 禁用或者已经启用略过
                     if (serviceProvider.Disabled || _clients.ContainsKey(serviceProvider.Name))
                         continue;
+#pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                     Task.Run(async () =>
                     {
-                        var client = new TcpClient();
                         try
                         {
+                            var client = new TcpClient();
                             await client.ConnectAsync(serviceProvider.Host, serviceProvider.Port);
                             if (_clients.TryAdd(serviceProvider.Name, client))
-                                await ExecuteAsync(client.)
+                                await ExecuteAsync(client.GetStream(), serviceProvider, stoppingToken);
                         }
-                        catch(SocketException exception)
+                        catch (SocketException exception)
                         {
-                            client
+                            _logger.LogError(1, exception, $"连接{serviceProvider.Name}出现错误！");
+                        }
+                        finally
+                        {
+                            if (_clients.TryRemove(serviceProvider.Name, out var client) && client.Connected)
+                                client.Close();
                         }
                     }, stoppingToken);
+#pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                 }
                 await Task.Delay(100);
             }
         }
 
-        protected virtual Task ExecuteAsync(TcpClient client, ICMPPServiceProvider serviceProvider)
+        /// <summary>
+        /// 执行方法。
+        /// </summry>
+        /// <param name="stream">网络流实例。</param>
+        /// <param name="serviceProvider">服务提供者实例。</param>
+        /// <param name="stoppingToken">停止标志。</param>
+        protected virtual async Task ExecuteAsync(NetworkStream stream, ICMPPServiceProvider serviceProvider, CancellationToken stoppingToken)
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var settings = await _settingsManager.GetSettingsAsync<CMPPSettings>();
-                if (!settings.Enabled)
-                {
-                    await Task.Delay(100);
-                    continue;
-                }
-                Client = new TcpClient(settings.Host, settings.Port);
-                Client.Close();
+                //发送和接收数据包，并处理
+                await Task.Delay(100);
             }
         }
     }
