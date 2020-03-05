@@ -3,7 +3,7 @@
     /// <summary>
     /// 计费终端类型。
     /// </summary>
-    public enum FeeTerminalType : byte
+    public enum TerminalType : byte
     {
         /// <summary>
         /// 0:真实号码。

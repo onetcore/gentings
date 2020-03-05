@@ -3,7 +3,7 @@
     /// <summary>
     /// 操作码。
     /// </summary>
-    public enum OpCode : uint
+    public enum CMPPCommand : uint
     {
         /// <summary>
         /// 请求连接 
@@ -14,11 +14,11 @@
         /// </summary>
         CMPP_CONNECT_RESP = 0x80000001,
         /// <summary>
-        /// 终止连接
+        /// 终止连接，无消息体。
         /// </summary>
         CMPP_TERMINATE = 0x00000002,
         /// <summary>
-        /// 终止连接应答
+        /// 终止连接应答，无消息体。
         /// </summary>
         CMPP_TERMINATE_RESP = 0x80000002,
         /// <summary>

@@ -1,5 +1,8 @@
-﻿using System;
+﻿using Gentings.Messages.CMPP.Packages;
+using System;
+using System.IO;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace Gentings.Messages.CMPP
 {
@@ -22,25 +25,35 @@ namespace Gentings.Messages.CMPP
         /// <param name="length">读取最大长度。</param>
         /// <param name="bufferSize">每次读取的缓存大小。</param>
         /// <returns>返回当前读取的字节数组实例。</returns>
-        public static byte[] ReadBytes(this NetworkStream stream, int length, int bufferSize)
+        public static async Task<byte[]> ReadBytesAsync(this NetworkStream stream)
         {
-            var bytes = new byte[length];
-            var size = 0;
+            if (!stream.CanRead)
+                return null;
 
-            do
+            using var ms = new MemoryStream();
+            using var writer = new BinaryWriter(ms);
+            while (stream.DataAvailable)
             {
-                var buffer = new byte[bufferSize];
-                int current = stream.Read(buffer, 0, buffer.Length);
+                var buffer = new byte[PackageHeader.Size];
+                int current = await stream.ReadAsync(buffer, 0, buffer.Length);
                 if (current > 0)
-                {
-                    Buffer.BlockCopy(buffer, 0, bytes, size, current);
-                    size += current;
-                }
-            } while (stream.DataAvailable);
+                    writer.Write(buffer);
+            }
+            return ms.ToArray();
+        }
 
-            var result = new byte[size];
-            Buffer.BlockCopy(bytes, 0, result, 0, result.Length);
-            return result;
+        /// <summary>
+        /// 读取网络流数据消息实例。
+        /// </summary>
+        /// <param name="stream">当前网络流实例。</param>
+        /// <returns>返回当前读取消息实例。</returns>
+        public static async Task<TMessage> ReadMessageAsync<TMessage>(this NetworkStream stream)
+            where TMessage : class, IMessage
+        {
+            var buffer = await stream.ReadBytesAsync();
+            if (buffer == null)
+                return default;
+            return Activator.CreateInstance(typeof(TMessage), new[] { buffer }) as TMessage;
         }
 
         /// <summary>
@@ -48,10 +61,10 @@ namespace Gentings.Messages.CMPP
         /// </summary>
         /// <param name="stream">当前网络流实例对象。</param>
         /// <param name="buffer">写入数据实例。</param>
-        public static void WriteBytes(this NetworkStream stream, byte[] buffer)
+        public static async Task WriteBytesAsync(this NetworkStream stream, byte[] buffer)
         {
             if (stream.CanWrite)
-                stream.Write(buffer, 0, buffer.Length);
+                await stream.WriteAsync(buffer, 0, buffer.Length);
         }
 
         /// <summary>
@@ -59,12 +72,12 @@ namespace Gentings.Messages.CMPP
         /// </summary>
         /// <param name="stream">当前网络流实例对象。</param>
         /// <param name="buffer">写入数据实例。</param>
-        public static void WritePackage(this NetworkStream stream, IPackage package)
+        public static async Task WritePackageAsync(this NetworkStream stream, IPackage package)
         {
             if (stream.CanWrite)
             {
                 var buffer = package.ToBytes();
-                stream.Write(buffer, 0, buffer.Length);
+                await stream.WriteAsync(buffer, 0, buffer.Length);
             }
         }
     }

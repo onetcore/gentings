@@ -1,4 +1,6 @@
-﻿namespace Gentings.Messages.CMPP
+﻿using Gentings.Messages.CMPP.Packages;
+
+namespace Gentings.Messages.CMPP
 {
     /// <summary>
     /// 包接口。
@@ -10,5 +12,10 @@
         /// </summary>
         /// <returns>字节数组。</returns>
         byte[] ToBytes();
+
+        /// <summary>
+        /// 包头。
+        /// </summary>
+        PackageHeader Header { get; }
     }
 }
