@@ -1,4 +1,4 @@
-﻿using Gentings.Messages.CMPP.Packages;
+﻿using Gentings.Messages.CMPP.Packaging;
 using System.Threading.Tasks;
 
 namespace Gentings.Messages.CMPP.Services

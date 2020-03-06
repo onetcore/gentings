@@ -1,4 +1,4 @@
-﻿using Gentings.Messages.CMPP.Packages;
+﻿using Gentings.Messages.CMPP.Packaging;
 
 namespace Gentings.Messages.CMPP
 {

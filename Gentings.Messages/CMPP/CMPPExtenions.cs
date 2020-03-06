@@ -1,4 +1,4 @@
-﻿using Gentings.Messages.CMPP.Packages;
+﻿using Gentings.Messages.CMPP.Packaging;
 using System;
 using System.IO;
 using System.Net.Sockets;
