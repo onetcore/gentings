@@ -19,7 +19,7 @@ namespace Gentings.Utils
         /// <returns>返回截取得到的字符串。</returns>
         public static string Substring(this string source, string start, string end = null, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
-            var index = source.IndexOf(start, comparison);
+            int index = source.IndexOf(start, comparison);
             if (index == -1)
                 return null;
             source = source.Substring(index + start.Length);

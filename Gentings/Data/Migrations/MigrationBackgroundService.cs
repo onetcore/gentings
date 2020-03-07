@@ -32,11 +32,11 @@ namespace Gentings.Data.Migrations
         /// <returns>返回当前任务。</returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            stoppingToken.ThrowIfCancellationRequested();
             _logger.LogInformation(Resources.DataMigration_Start);
             MigrationService.Status = MigrationStatus.Normal;
             try
             {
-                if (!stoppingToken.IsCancellationRequested)
                     await _migrator.MigrateAsync();
                 MigrationService.Status = MigrationStatus.Completed;
                 _logger.LogInformation(Resources.DataMigration_Completed);

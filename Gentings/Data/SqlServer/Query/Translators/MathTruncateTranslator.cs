@@ -24,7 +24,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (_methodInfos.Contains(methodCallExpression.Method))
             {
-                var arguments = new[] { methodCallExpression.Arguments[0], Expression.Constant(0), Expression.Constant(1) };
+                Expression[] arguments = new[] { methodCallExpression.Arguments[0], Expression.Constant(0), Expression.Constant(1) };
                 return new SqlFunctionExpression("ROUND", methodCallExpression.Type, arguments);
             }
 

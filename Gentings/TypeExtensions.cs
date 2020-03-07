@@ -22,8 +22,8 @@ namespace Gentings
         {
             do
             {
-                var typeInfo = type.GetTypeInfo();
-                var propertyInfo = typeInfo.GetDeclaredProperty(name);
+                TypeInfo typeInfo = type.GetTypeInfo();
+                PropertyInfo propertyInfo = typeInfo.GetDeclaredProperty(name);
                 if (propertyInfo != null
                     && !(propertyInfo.GetMethod ?? propertyInfo.SetMethod).IsStatic)
                 {
@@ -48,14 +48,14 @@ namespace Gentings
         /// <returns>返回类型实例。</returns>
         public static Type UnwrapEnumType(this Type type)
         {
-            var isNullable = type.IsNullableType();
-            var underlyingNonNullableType = isNullable ? type.UnwrapNullableType() : type;
+            bool isNullable = type.IsNullableType();
+            Type underlyingNonNullableType = isNullable ? type.UnwrapNullableType() : type;
             if (!underlyingNonNullableType.GetTypeInfo().IsEnum)
             {
                 return type;
             }
 
-            var underlyingEnumType = Enum.GetUnderlyingType(underlyingNonNullableType);
+            Type underlyingEnumType = Enum.GetUnderlyingType(underlyingNonNullableType);
             return isNullable ? MakeNullable(underlyingEnumType) : underlyingEnumType;
         }
 
@@ -76,7 +76,7 @@ namespace Gentings
         /// <returns>返回判断结果。</returns>
         public static bool IsNullableType(this Type type)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
 
             return !typeInfo.IsValueType
                    || (typeInfo.IsGenericType
@@ -93,7 +93,7 @@ namespace Gentings
         {
             if (!type.GetTypeInfo().IsGenericTypeDefinition)
             {
-                var types = GetGenericTypeImplementations(type, interfaceOrBaseType).ToList();
+                List<Type> types = GetGenericTypeImplementations(type, interfaceOrBaseType).ToList();
 
                 return types.Count == 1 ? types[0].GetTypeInfo().GenericTypeArguments.FirstOrDefault() : null;
             }
@@ -109,7 +109,7 @@ namespace Gentings
         /// <returns>返回实现类列表。</returns>
         public static IEnumerable<Type> GetGenericTypeImplementations(this Type type, Type interfaceOrBaseType)
         {
-            var typeInfo = type.GetTypeInfo();
+            TypeInfo typeInfo = type.GetTypeInfo();
             if (!typeInfo.IsGenericTypeDefinition)
             {
                 return (interfaceOrBaseType.GetTypeInfo().IsInterface ? typeInfo.ImplementedInterfaces : type.GetBaseTypes())
@@ -147,18 +147,18 @@ namespace Gentings
         /// <returns>返回当前类型的名称。</returns>
         public static string DisplayName(this Type type, bool fullName = true)
         {
-            var sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
             ProcessTypeName(type, sb, fullName);
             return sb.ToString();
         }
 
         private static void AppendGenericArguments(Type[] args, int startIndex, int numberOfArgsToAppend, StringBuilder sb, bool fullName)
         {
-            var totalArgs = args.Length;
+            int totalArgs = args.Length;
             if (totalArgs >= startIndex + numberOfArgsToAppend)
             {
                 sb.Append("<");
-                for (var i = startIndex; i < startIndex + numberOfArgsToAppend; i++)
+                for (int i = startIndex; i < startIndex + numberOfArgsToAppend; i++)
                 {
                     ProcessTypeName(args[i], sb, fullName);
                     if (i + 1 < startIndex + numberOfArgsToAppend)
@@ -208,35 +208,35 @@ namespace Gentings
 
         private static void ProcessNestedGenericTypes(Type t, StringBuilder sb, bool fullName)
         {
-            var genericFullName = t.GetGenericTypeDefinition().FullName;
-            var genericSimpleName = t.GetGenericTypeDefinition().Name;
-            var parts = genericFullName.Split('+');
-            var genericArguments = t.GetTypeInfo().GenericTypeArguments;
-            var index = 0;
-            var totalParts = parts.Length;
+            string genericFullName = t.GetGenericTypeDefinition().FullName;
+            string genericSimpleName = t.GetGenericTypeDefinition().Name;
+            string[] parts = genericFullName.Split('+');
+            Type[] genericArguments = t.GetTypeInfo().GenericTypeArguments;
+            int index = 0;
+            int totalParts = parts.Length;
             if (totalParts == 1)
             {
-                var part = parts[0];
-                var num = part.IndexOf('`');
+                string part = parts[0];
+                int num = part.IndexOf('`');
                 if (num == -1)
                 {
                     return;
                 }
 
-                var name = part.Substring(0, num);
-                var numberOfGenericTypeArgs = int.Parse(part.Substring(num + 1), CultureInfo.InvariantCulture);
+                string name = part.Substring(0, num);
+                int numberOfGenericTypeArgs = int.Parse(part.Substring(num + 1), CultureInfo.InvariantCulture);
                 sb.Append(fullName ? name : genericSimpleName.Substring(0, genericSimpleName.IndexOf('`')));
                 AppendGenericArguments(genericArguments, index, numberOfGenericTypeArgs, sb, fullName);
                 return;
             }
-            for (var i = 0; i < totalParts; i++)
+            for (int i = 0; i < totalParts; i++)
             {
-                var part = parts[i];
-                var num = part.IndexOf('`');
+                string part = parts[i];
+                int num = part.IndexOf('`');
                 if (num != -1)
                 {
-                    var name = part.Substring(0, num);
-                    var numberOfGenericTypeArgs = int.Parse(part.Substring(num + 1), CultureInfo.InvariantCulture);
+                    string name = part.Substring(0, num);
+                    int numberOfGenericTypeArgs = int.Parse(part.Substring(num + 1), CultureInfo.InvariantCulture);
                     if (fullName || (i == totalParts - 1))
                     {
                         sb.Append(name);

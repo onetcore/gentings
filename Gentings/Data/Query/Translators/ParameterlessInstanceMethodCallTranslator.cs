@@ -34,12 +34,12 @@ namespace Gentings.Data.Query.Translators
         /// <returns>返回转换后的表达式。</returns>
         public virtual Expression Translate( MethodCallExpression methodCallExpression)
         {
-            var methodInfo = _declaringType.GetTypeInfo()
+            MethodInfo methodInfo = _declaringType.GetTypeInfo()
                 .GetDeclaredMethods(_clrMethodName).SingleOrDefault(m => !m.GetParameters().Any());
 
             if (methodInfo == methodCallExpression.Method)
             {
-                var sqlArguments = new[] { methodCallExpression.Object }.Concat(methodCallExpression.Arguments);
+                System.Collections.Generic.IEnumerable<Expression> sqlArguments = new[] { methodCallExpression.Object }.Concat(methodCallExpression.Arguments);
                 return new SqlFunctionExpression(_sqlFunctionName, methodCallExpression.Type, sqlArguments);
             }
 

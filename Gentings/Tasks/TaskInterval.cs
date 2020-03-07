@@ -141,17 +141,17 @@ namespace Gentings.Tasks
             Check.NotEmpty(date, nameof(date));
             date = date.Trim();
             
-            if (int.TryParse(date, out var interval))
+            if (int.TryParse(date, out int interval))
                 return new TaskInterval(interval);
 
-            var dateTimes = date.Split(' ').Select(d => d.Trim()).ToArray();
+            string[] dateTimes = date.Split(' ').Select(d => d.Trim()).ToArray();
             if (dateTimes.Length == 1)
                 return new TaskInterval(time: TimeSpan.Parse(date));
 
             if (dateTimes.Length != 2)
                 throw new Exception(Resources.Interval_Format_Error);
 
-            var dates = dateTimes[0].Split('-').Select(d => d.Trim()).ToArray();
+            string[] dates = dateTimes[0].Split('-').Select(d => d.Trim()).ToArray();
             if (dates.Length == 1)
                 return new TaskInterval(day: Convert.ToInt32(dates[0]), time: TimeSpan.Parse(dateTimes[1]));
             return new TaskInterval(month: Convert.ToInt32(dates[dates.Length - 2]), day: Convert.ToInt32(dates[dates.Length - 1]), time: TimeSpan.Parse(dateTimes[1]));
@@ -163,7 +163,7 @@ namespace Gentings.Tasks
         /// <returns>返回下一次运行时间。</returns>
         public DateTime Next()
         {
-            var now = DateTime.Now;
+            DateTime now = DateTime.Now;
             switch (_mode)
             {
                 case TaskMode.Month:

@@ -26,8 +26,8 @@ namespace Gentings
         public static IServiceBuilder AddGentings(this IServiceCollection services, IConfiguration configuration)
         {
             services.TryAddSingleton(typeof(IServiceAccessor<>), typeof(ServiceAccessor<>));
-            var exportedTypes = GetExportedTypes(configuration);
-            var builder = new ServiceBuilder(services, configuration);
+            IEnumerable<Type> exportedTypes = GetExportedTypes(configuration);
+            ServiceBuilder builder = new ServiceBuilder(services, configuration);
             BuildServices(builder, exportedTypes);
             return builder;
         }
@@ -36,11 +36,11 @@ namespace Gentings
         {
             builder.AddServices(services =>
             {
-                foreach (var source in exportedTypes)
+                foreach (Type source in exportedTypes)
                 {
                     if (typeof(IServiceConfigurer).IsAssignableFrom(source))
                     {
-                        var service = Activator.CreateInstance(source) as IServiceConfigurer;
+                        IServiceConfigurer service = Activator.CreateInstance(source) as IServiceConfigurer;
                         service?.ConfigureServices(builder);
                     }
                     else if (typeof(IHostedService).IsAssignableFrom(source))
@@ -50,9 +50,9 @@ namespace Gentings
                     }
                     else //注册类型
                     {
-                        var interfaceTypes = source.GetInterfaces()
+                        IEnumerable<Type> interfaceTypes = source.GetInterfaces()
                             .Where(itf => typeof(IService).IsAssignableFrom(itf));
-                        foreach (var interfaceType in interfaceTypes)
+                        foreach (Type interfaceType in interfaceTypes)
                         {
                             if (typeof(ISingletonService).IsAssignableFrom(interfaceType))
                             {
@@ -86,14 +86,14 @@ namespace Gentings
 
         private static IEnumerable<Type> GetExportedTypes(IConfiguration configuration)
         {
-            var types = GetServices(configuration).ToList();
-            var susppendServices = types.Select(type => type.GetTypeInfo())
+            List<Type> types = GetServices(configuration).ToList();
+            List<TypeInfo> susppendServices = types.Select(type => type.GetTypeInfo())
                 .Where(type => type.IsDefined(typeof(SuppressAttribute)))
                 .ToList();
-            var susppendTypes = new List<string>();
-            foreach (var susppendService in susppendServices)
+            List<string> susppendTypes = new List<string>();
+            foreach (TypeInfo susppendService in susppendServices)
             {
-                var suppendAttribute = susppendService.GetCustomAttribute<SuppressAttribute>();
+                SuppressAttribute suppendAttribute = susppendService.GetCustomAttribute<SuppressAttribute>();
                 susppendTypes.Add(suppendAttribute.FullName);
             }
             susppendTypes = susppendTypes.Distinct().ToList();
@@ -103,12 +103,12 @@ namespace Gentings
 
         private static IEnumerable<Type> GetServices(IConfiguration configuration)
         {
-            var types = GetAssemblies(configuration)
+            List<Type> types = GetAssemblies(configuration)
                 .SelectMany(assembly => assembly.GetTypes())
                 .ToList();
-            foreach (var type in types)
+            foreach (Type type in types)
             {
-                var info = type.GetTypeInfo();
+                TypeInfo info = type.GetTypeInfo();
                 if (info.IsPublic && info.IsClass && !info.IsAbstract && typeof(IService).IsAssignableFrom(type))
                     yield return type;
             }
@@ -126,9 +126,9 @@ namespace Gentings
         /// <returns>返回应用程序集列表。</returns>
         public static IEnumerable<Assembly> GetAssemblies(this IConfiguration configuration)
         {
-            var assemblies = new List<Assembly>();
-            var excludes = GetExcludeAssemblies(configuration);
-            foreach (var library in DependencyContext.Default.RuntimeLibraries)
+            List<Assembly> assemblies = new List<Assembly>();
+            IEnumerable<string> excludes = GetExcludeAssemblies(configuration);
+            foreach (RuntimeLibrary library in DependencyContext.Default.RuntimeLibraries)
             {
                 if (library.Serviceable || excludes.Contains(library.Name, StringComparer.OrdinalIgnoreCase))
                     continue;
@@ -145,10 +145,10 @@ namespace Gentings
         /// <returns>应用程序构建实例接口。</returns>
         public static IApplicationBuilder UseGentings(this IApplicationBuilder app, IConfiguration configuration)
         {
-            var services = app.ApplicationServices.GetService<IEnumerable<IApplicationConfigurer>>()
+            IApplicationConfigurer[] services = app.ApplicationServices.GetService<IEnumerable<IApplicationConfigurer>>()
                 .OrderByDescending(x => x.Priority)
                 .ToArray();
-            foreach (var service in services) service.Configure(app, configuration);
+            foreach (IApplicationConfigurer service in services) service.Configure(app, configuration);
             return app;
         }
 

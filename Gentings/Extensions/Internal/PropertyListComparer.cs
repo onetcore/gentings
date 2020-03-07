@@ -24,14 +24,14 @@ namespace Gentings.Extensions.Internal
         /// <param name="y">要比较的第二个对象。</param>
         public int Compare(IReadOnlyList<IProperty> x, IReadOnlyList<IProperty> y)
         {
-            var result = x.Count - y.Count;
+            int result = x.Count - y.Count;
 
             if (result != 0)
             {
                 return result;
             }
 
-            var index = 0;
+            int index = 0;
             while ((result == 0)
                    && (index < x.Count))
             {

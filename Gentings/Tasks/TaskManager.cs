@@ -33,11 +33,11 @@ namespace Gentings.Tasks
         /// <param name="services">当前程序包含的后台服务列表。</param>
         public async Task EnsuredTaskServicesAsync(IEnumerable<ITaskService> services)
         {
-            var descriptors = await _db.FetchAsync();
-            foreach (var service in services)
+            IEnumerable<TaskDescriptor> descriptors = await _db.FetchAsync();
+            foreach (ITaskService service in services)
             {
-                var type = service.GetType().DisplayName();
-                var descriptor = descriptors.SingleOrDefault(x => x.Type == type);
+                string type = service.GetType().DisplayName();
+                TaskDescriptor descriptor = descriptors.SingleOrDefault(x => x.Type == type);
                 if (descriptor != null)
                 {
                     await _db.UpdateAsync(x => x.Id == descriptor.Id, new { service.Name, Interval = service.Interval.ToString(), service.Description, Enabled = !service.Disabled });
@@ -56,7 +56,7 @@ namespace Gentings.Tasks
                 }
             }
             //删除程序移除的后台服务
-            foreach (var descriptor in descriptors)
+            foreach (TaskDescriptor descriptor in descriptors)
             {
                 if (descriptor.ShouldBeDeleting)
                     await _db.DeleteAsync(descriptor.Id);
@@ -79,7 +79,7 @@ namespace Gentings.Tasks
         /// <returns>返回当前类型的服务对象。</returns>
         public TaskDescriptor GeTask(Type type)
         {
-            var fullName = type.DisplayName();
+            string fullName = type.DisplayName();
             return _db.Find(t => t.Type == fullName);
         }
 
@@ -112,7 +112,7 @@ namespace Gentings.Tasks
         /// <returns>返回设置结果。</returns>
         public async Task<bool> SaveArgumentIntervalAsync(int id, string interval)
         {
-            var task = await _db.FindAsync(id);
+            TaskDescriptor task = await _db.FindAsync(id);
             if (task == null)
                 return false;
             if (interval != task.TaskArgument.Interval)
@@ -131,7 +131,7 @@ namespace Gentings.Tasks
         /// <returns>返回设置结果。</returns>
         public async Task<bool> SaveArgumentAsync(int id, Argument argument)
         {
-            var task = await _db.FindAsync(id);
+            TaskDescriptor task = await _db.FindAsync(id);
             if (task == null)
                 return false;
             if (argument.Interval != task.TaskArgument.Interval)
@@ -150,7 +150,7 @@ namespace Gentings.Tasks
         public async Task<bool> SetCompletedAsync(TaskContext context)
         {
             //将外部更改的属性附加到参数中
-            var argument = (await _db.FindAsync(context.Id)).TaskArgument;
+            Argument argument = (await _db.FindAsync(context.Id)).TaskArgument;
             context.Argument.Interval = argument.Interval;
             context.Argument.IsStack = argument.IsStack;
             return await _db.UpdateAsync(context.Id, new { context.NextExecuting, context.LastExecuted, Argument = context.Argument.ToString() });

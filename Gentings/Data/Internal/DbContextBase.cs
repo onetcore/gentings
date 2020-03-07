@@ -141,10 +141,10 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否成功新建实例。</returns>
         public virtual bool Create(TModel model)
         {
-            var sql = SqlGenerator.Create(EntityType);
+            SqlIndentedStringBuilder sql = SqlGenerator.Create(EntityType);
             if (EntityType.Identity != null)
             {
-                var id = ExecuteScalar(sql, sql.CreateEntityParameters(model));
+                object id = ExecuteScalar(sql, sql.CreateEntityParameters(model));
                 if (id != null)
                 {
                     if (EntityType.Identity.ClrType == typeof(int))
@@ -168,10 +168,10 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否成功新建实例。</returns>
         public virtual async Task<bool> CreateAsync(TModel model, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Create(EntityType);
+            SqlIndentedStringBuilder sql = SqlGenerator.Create(EntityType);
             if (EntityType.Identity != null)
             {
-                var id = await ExecuteScalarAsync(sql, sql.CreateEntityParameters(model), cancellationToken: cancellationToken);
+                object id = await ExecuteScalarAsync(sql, sql.CreateEntityParameters(model), cancellationToken: cancellationToken);
                 if (id != null)
                 {
                     if (EntityType.Identity.ClrType == typeof(int))
@@ -194,8 +194,8 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否更新成功。</returns>
         public virtual bool Update(TModel model)
         {
-            var sql = SqlGenerator.Update(EntityType);
-            var parameters = sql.CreateEntityParameters(model);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType);
+            IDictionary<string, object> parameters = sql.CreateEntityParameters(model);
             if (EntityType.RowVersion == null && EntityType.ConcurrencyKey == null)
                 return ExecuteNonQuery(sql, parameters);
             if (ExecuteScalar(sql, parameters) == null)
@@ -211,8 +211,8 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否更新成功。</returns>
         public virtual async Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Update(EntityType);
-            var parameters = sql.CreateEntityParameters(model);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType);
+            IDictionary<string, object> parameters = sql.CreateEntityParameters(model);
             if (EntityType.RowVersion == null && EntityType.ConcurrencyKey == null)
                 return await ExecuteNonQueryAsync(sql, parameters, cancellationToken: cancellationToken);
             if (await ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken) == null)
@@ -228,7 +228,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否更新成功。</returns>
         public virtual bool Update(object key, object fields)
         {
-            var sql = SqlGenerator.Update(EntityType, fields);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType, fields);
             sql.AddPrimaryKey(key);
             return ExecuteSql(sql);
         }
@@ -241,7 +241,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否更新成功。</returns>
         public virtual bool Update(Expression<Predicate<TModel>> expression, object fields)
         {
-            var sql = SqlGenerator.Update(EntityType, expression, fields);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType, expression, fields);
             return ExecuteSql(sql);
         }
 
@@ -262,7 +262,7 @@ namespace Gentings.Data.Internal
         /// </example>
         public virtual bool Update(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object>> fields)
         {
-            var sql = SqlGenerator.Update(EntityType, expression, fields);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType, expression, fields);
             return ExecuteSql(sql);
         }
 
@@ -284,7 +284,7 @@ namespace Gentings.Data.Internal
         /// </example>
         public virtual Task<bool> UpdateAsync(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object>> fields, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Update(EntityType, expression, fields);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType, expression, fields);
             return ExecuteSqlAsync(sql, cancellationToken);
         }
 
@@ -305,7 +305,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否更新成功。</returns>
         public virtual async Task<bool> UpdateAsync(Expression<Predicate<TModel>> expression, object fields, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Update(EntityType, expression, fields);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType, expression, fields);
             return await ExecuteSqlAsync(sql, cancellationToken);
         }
 
@@ -318,7 +318,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回是否更新成功。</returns>
         public virtual Task<bool> UpdateAsync(object key, object fields, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Update(EntityType, fields);
+            SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType, fields);
             sql.AddPrimaryKey(key);
             return ExecuteSqlAsync(sql, cancellationToken);
         }
@@ -357,7 +357,7 @@ namespace Gentings.Data.Internal
         public virtual TModel Find(Expression<Predicate<TModel>> expression)
         {
             Check.NotNull(expression, nameof(expression));
-            var builder = SqlGenerator.Select(EntityType, expression);
+            SqlIndentedStringBuilder builder = SqlGenerator.Select(EntityType, expression);
             return Query(builder, builder.Parameters);
         }
 
@@ -370,7 +370,7 @@ namespace Gentings.Data.Internal
         public virtual async Task<TModel> FindAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default)
         {
             Check.NotNull(expression, nameof(expression));
-            var builder = SqlGenerator.Select(EntityType, expression);
+            SqlIndentedStringBuilder builder = SqlGenerator.Select(EntityType, expression);
             return await QueryAsync(builder, builder.Parameters, cancellationToken);
         }
 
@@ -382,7 +382,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual TModel Query(string sql, object parameters = null)
         {
-            using var reader = ExecuteReader(sql, parameters);
+            using DbDataReader reader = ExecuteReader(sql, parameters);
             if (reader.Read())
                 return EntityType.Read<TModel>(reader);
             return default;
@@ -397,7 +397,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual async Task<TModel> QueryAsync(string sql, object parameters = null, CancellationToken cancellationToken = default)
         {
-            await using var reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+            await using DbDataReader reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             if (await reader.ReadAsync(cancellationToken))
                 return EntityType.Read<TModel>(reader);
             return default;
@@ -442,7 +442,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual TModel Find(object key)
         {
-            var sql = PrimaryKeySql("SELECT * FROM", key);
+            SqlIndentedStringBuilder sql = PrimaryKeySql("SELECT * FROM", key);
             return Query(sql, sql.Parameters);
         }
 
@@ -454,7 +454,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual Task<TModel> FindAsync(object key, CancellationToken cancellationToken = default)
         {
-            var sql = PrimaryKeySql("SELECT * FROM", key);
+            SqlIndentedStringBuilder sql = PrimaryKeySql("SELECT * FROM", key);
             return QueryAsync(sql, sql.Parameters, cancellationToken);
         }
 
@@ -465,7 +465,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null)
         {
-            var sql = SqlGenerator.Select(EntityType, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Select(EntityType, expression);
             return Fetch(sql, sql.Parameters);
         }
 
@@ -477,7 +477,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Select(EntityType, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Select(EntityType, expression);
             return await FetchAsync(sql, sql.Parameters, cancellationToken);
         }
 
@@ -489,8 +489,8 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual IEnumerable<TModel> Fetch(string sql, object parameters = null)
         {
-            var models = new List<TModel>();
-            using var reader = ExecuteReader(sql, parameters);
+            List<TModel> models = new List<TModel>();
+            using DbDataReader reader = ExecuteReader(sql, parameters);
             while (reader.Read())
                 models.Add(EntityType.Read<TModel>(reader));
             return models;
@@ -505,8 +505,8 @@ namespace Gentings.Data.Internal
         /// <returns>返回模型实例对象。</returns>
         public virtual async Task<IEnumerable<TModel>> FetchAsync(string sql, object parameters = null, CancellationToken cancellationToken = default)
         {
-            var models = new List<TModel>();
-            await using var reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
+            List<TModel> models = new List<TModel>();
+            await using DbDataReader reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             while (await reader.ReadAsync(cancellationToken))
                 models.Add(EntityType.Read<TModel>(reader));
             return models;
@@ -533,7 +533,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回分页实例列表。</returns>
         public virtual IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query, Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
         {
-            var context = AsQueryable();
+            IQueryable<TModel> context = AsQueryable();
             query.Init(context);
             return context.AsEnumerable<TObject>(query.Current, query.PageSize, countExpression);
         }
@@ -563,7 +563,7 @@ namespace Gentings.Data.Internal
         public virtual async Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query, Expression<Func<TModel, object>> countExpression = null,
             CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
         {
-            var context = AsQueryable();
+            IQueryable<TModel> context = AsQueryable();
             query.Init(context);
             return await context.AsEnumerableAsync<TObject>(query.Current, query.PageSize, countExpression, cancellationToken);
         }
@@ -575,7 +575,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回判断结果。</returns>
         public virtual bool Any(Expression<Predicate<TModel>> expression = null)
         {
-            var sql = SqlGenerator.Any(EntityType, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Any(EntityType, expression);
             return ExecuteScalar(sql.ToString()) != null;
         }
 
@@ -587,7 +587,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回判断结果。</returns>
         public virtual async Task<bool> AnyAsync(Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Any(EntityType, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Any(EntityType, expression);
             return await ExecuteScalarAsync(sql, cancellationToken: cancellationToken) != null;
         }
 
@@ -598,7 +598,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回判断结果。</returns>
         public virtual bool Any(object key)
         {
-            var sql = SqlGenerator.Any(EntityType);
+            SqlIndentedStringBuilder sql = SqlGenerator.Any(EntityType);
             sql.AddPrimaryKey(key);
             return ScalarSql(sql) != null;
         }
@@ -611,7 +611,7 @@ namespace Gentings.Data.Internal
         /// <returns>返回判断结果。</returns>
         public virtual async Task<bool> AnyAsync(object key, CancellationToken cancellationToken)
         {
-            var sql = SqlGenerator.Any(EntityType);
+            SqlIndentedStringBuilder sql = SqlGenerator.Any(EntityType);
             sql.AddPrimaryKey(key);
             return await ScalarSqlAsync(sql, cancellationToken) != null;
         }
@@ -623,8 +623,8 @@ namespace Gentings.Data.Internal
         /// <returns>返回计算结果。</returns>
         public virtual int Count(Expression<Predicate<TModel>> expression)
         {
-            var sql = SqlGenerator.Scalar(EntityType, "COUNT", null, expression, "1");
-            var scalar = ExecuteScalar(sql);
+            SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, "COUNT", null, expression, "1");
+            object scalar = ExecuteScalar(sql);
             if (scalar == null || scalar == DBNull.Value)
                 return 0;
             return Convert.ToInt32(scalar);
@@ -638,8 +638,8 @@ namespace Gentings.Data.Internal
         /// <returns>返回计算结果。</returns>
         public virtual async Task<int> CountAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Scalar(EntityType, "COUNT", null, expression, "1");
-            var scalar = await ExecuteScalarAsync(sql, cancellationToken: cancellationToken);
+            SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, "COUNT", null, expression, "1");
+            object scalar = await ExecuteScalarAsync(sql, cancellationToken: cancellationToken);
             if (scalar == null || scalar == DBNull.Value)
                 return 0;
             return Convert.ToInt32(scalar);
@@ -655,8 +655,8 @@ namespace Gentings.Data.Internal
         /// <returns>返回聚合结果。</returns>
         public virtual TValue GetScalar<TValue>(string scalarMethod, Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression, Func<object, TValue> convertFunc)
         {
-            var sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
-            var scalar = ExecuteScalar(sql);
+            SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
+            object scalar = ExecuteScalar(sql);
             if (scalar == null || scalar == DBNull.Value)
                 return default;
             if (convertFunc == null)
@@ -676,8 +676,8 @@ namespace Gentings.Data.Internal
         public virtual async Task<TValue> GetScalarAsync<TValue>(string scalarMethod, Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression, Func<object, TValue> convertFunc,
             CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
-            var scalar = await ExecuteScalarAsync(sql, cancellationToken: cancellationToken);
+            SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
+            object scalar = await ExecuteScalarAsync(sql, cancellationToken: cancellationToken);
             if (scalar == null || scalar == DBNull.Value)
                 return default;
             if (convertFunc == null)
@@ -694,9 +694,9 @@ namespace Gentings.Data.Internal
         /// <returns>返回移动结果。</returns>
         public virtual bool MoveUp(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null)
         {
-            var sql = SqlGenerator.Move(EntityType, ">", order, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Move(EntityType, ">", order, expression);
             sql.AddPrimaryKey(key);
-            var scalar = ScalarSql(sql);
+            object scalar = ScalarSql(sql);
             return Convert.ToBoolean(scalar);
         }
 
@@ -709,9 +709,9 @@ namespace Gentings.Data.Internal
         /// <returns>返回移动结果。</returns>
         public virtual bool MoveDown(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null)
         {
-            var sql = SqlGenerator.Move(EntityType, "<", order, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Move(EntityType, "<", order, expression);
             sql.AddPrimaryKey(key);
-            var scalar = ScalarSql(sql);
+            object scalar = ScalarSql(sql);
             return Convert.ToBoolean(scalar);
         }
 
@@ -725,9 +725,9 @@ namespace Gentings.Data.Internal
         /// <returns>返回移动结果。</returns>
         public virtual async Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Move(EntityType, ">", order, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Move(EntityType, ">", order, expression);
             sql.AddPrimaryKey(key);
-            var scalar = await ScalarSqlAsync(sql, cancellationToken);
+            object scalar = await ScalarSqlAsync(sql, cancellationToken);
             return Convert.ToBoolean(scalar);
         }
 
@@ -741,9 +741,9 @@ namespace Gentings.Data.Internal
         /// <returns>返回移动结果。</returns>
         public virtual async Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Move(EntityType, "<", order, expression);
+            SqlIndentedStringBuilder sql = SqlGenerator.Move(EntityType, "<", order, expression);
             sql.AddPrimaryKey(key);
-            var scalar = await ScalarSqlAsync(sql, cancellationToken);
+            object scalar = await ScalarSqlAsync(sql, cancellationToken);
             return Convert.ToBoolean(scalar);
         }
 

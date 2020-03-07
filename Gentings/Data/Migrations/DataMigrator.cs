@@ -52,11 +52,11 @@ namespace Gentings.Data.Migrations
 
         private async Task<IEnumerable<OperationsMigration>> LoadMirationsAsync(IDataMigration instance, int version)
         {
-            var type = instance.GetType();
-            var migration = instance as DataMigration;
+            Type type = instance.GetType();
+            DataMigration migration = instance as DataMigration;
             if (migration != null)
                 InitDataMigration(migration);
-            var dbMigration = await _reposority.FindMigrationAsync(type.FullName);
+            Migration dbMigration = await _reposority.FindMigrationAsync(type.FullName);
             if ((dbMigration == null && version == -1) //卸载
                 || (dbMigration != null && dbMigration.Version == version)) //版本已经是设置的版本
                 return null;
@@ -72,11 +72,11 @@ namespace Gentings.Data.Migrations
 
         private IEnumerable<OperationsMigration> LoadMirations(IDataMigration instance, int version)
         {
-            var type = instance.GetType();
-            var migration = instance as DataMigration;
+            Type type = instance.GetType();
+            DataMigration migration = instance as DataMigration;
             if (migration != null)
                 InitDataMigration(migration);
-            var dbMigration = _reposority.FindMigration(type.FullName);
+            Migration dbMigration = _reposority.FindMigration(type.FullName);
             if ((dbMigration == null && version == -1) //卸载
                 || (dbMigration != null && dbMigration.Version == version)) //版本已经是设置的版本
                 return null;
@@ -92,18 +92,18 @@ namespace Gentings.Data.Migrations
 
         private OperationsMigration CreateOperationsMigration(string id, int version, Action<MigrationBuilder> action)
         {
-            var builder = new MigrationBuilder(_provider);
+            MigrationBuilder builder = new MigrationBuilder(_provider);
             action(builder);
             return new OperationsMigration(builder.Operations, id, version);
         }
 
         private IEnumerable<OperationsMigration> Upgrade(DataMigration migration, Migration dbMigration, int version)
         {
-            var id = migration.GetType().FullName;
+            string id = migration.GetType().FullName;
             if (dbMigration == null)
                 yield return CreateOperationsMigration(id, 1, migration.Create);
-            var methods = GetMethods(migration, dbMigration?.Version ?? 0, version);
-            foreach (var method in methods)
+            List<MethodInfo> methods = GetMethods(migration, dbMigration?.Version ?? 0, version);
+            foreach (MethodInfo method in methods)
             {
                 yield return CreateOperationsMigration(id, method.Version, method.Method);
             }
@@ -111,8 +111,8 @@ namespace Gentings.Data.Migrations
 
         private IEnumerable<OperationsMigration> Downgrade(DataMigration migration, Migration dbMigration, int version)
         {
-            var methods = GetMethods(migration, version, dbMigration.Version, false);
-            foreach (var method in methods)
+            List<MethodInfo> methods = GetMethods(migration, version, dbMigration.Version, false);
+            foreach (MethodInfo method in methods)
             {
                 yield return CreateOperationsMigration(dbMigration.Id, method.Version, method.Method);
             }
@@ -134,8 +134,8 @@ namespace Gentings.Data.Migrations
 
         private List<MethodInfo> GetMethods(DataMigration migration, int version, int endVersion = 0, bool isUp = true)
         {
-            var methodHeader = isUp ? "Up" : "Down";
-            var methods = migration
+            string methodHeader = isUp ? "Up" : "Down";
+            IEnumerable<MethodInfo> methods = migration
                 .GetType()
                 .GetRuntimeMethods()
                 .Where(
@@ -168,14 +168,14 @@ namespace Gentings.Data.Migrations
         public async Task MigrateAsync(int version = 0)
         {
             await _reposority.EnsureMigrationTableExistsAsync();
-            foreach (var migration in _migrations)
+            foreach (IDataMigration migration in _migrations)
             {
                 try
                 {
-                    var operations = await LoadMirationsAsync(migration, version);
+                    IEnumerable<OperationsMigration> operations = await LoadMirationsAsync(migration, version);
                     if (!operations.Any())
                         continue;
-                    foreach (var operation in operations)
+                    foreach (OperationsMigration operation in operations)
                     {
                         if (!await _reposority.ExecuteAsync(operation, operation.Operations))
                             break;

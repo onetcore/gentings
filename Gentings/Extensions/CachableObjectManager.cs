@@ -215,7 +215,7 @@ namespace Gentings.Extensions
         /// <returns>返回分类实例。</returns>
         public override TModel Find(TKey id)
         {
-            var categories = Fetch();
+            IEnumerable<TModel> categories = Fetch();
             return categories.FirstOrDefault(x => x.Id.Equals(id));
         }
 
@@ -227,7 +227,7 @@ namespace Gentings.Extensions
         /// <returns>返回分类实例。</returns>
         public override async Task<TModel> FindAsync(TKey id, CancellationToken cancellationToken = default)
         {
-            var categories = await FetchAsync(cancellationToken: cancellationToken);
+            IEnumerable<TModel> categories = await FetchAsync(cancellationToken: cancellationToken);
             return categories.FirstOrDefault(x => x.Id.Equals(id));
         }
 
@@ -249,7 +249,7 @@ namespace Gentings.Extensions
         /// <returns>返回当前模型实例。</returns>
         public override async Task<TModel> FindAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default)
         {
-            var categories = await FetchAsync(expression, cancellationToken);
+            IEnumerable<TModel> categories = await FetchAsync(expression, cancellationToken);
             return categories.SingleOrDefault();
         }
 
@@ -283,7 +283,7 @@ namespace Gentings.Extensions
         /// <returns>返回模型实例列表。</returns>
         public override IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null)
         {
-            var models = Cache.GetOrCreate(CacheKey, ctx =>
+            IEnumerable<TModel> models = Cache.GetOrCreate(CacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
                 return Context.Fetch();
@@ -300,7 +300,7 @@ namespace Gentings.Extensions
         public override async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var models = await Cache.GetOrCreateAsync(CacheKey, ctx =>
+            IEnumerable<TModel> models = await Cache.GetOrCreateAsync(CacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
                 return Context.FetchAsync(cancellationToken: cancellationToken);

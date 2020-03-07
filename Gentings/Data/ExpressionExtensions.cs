@@ -55,7 +55,7 @@ namespace Gentings.Data
         private static Expression<Predicate<T>> Merge<T>(this Expression<Predicate<T>> expression,
             Expression<Predicate<T>> merger, Func<Expression, Expression, BinaryExpression> method)
         {
-            var invoker = Expression.Invoke(merger, expression.Parameters);
+            InvocationExpression invoker = Expression.Invoke(merger, expression.Parameters);
             return Expression.Lambda<Predicate<T>>(method(expression.Body, invoker), expression.Parameters);
         }
 
@@ -71,7 +71,7 @@ namespace Gentings.Data
             if (values == null || expression == null)
                 return values;
 
-            var filter = expression.Compile();
+            Predicate<T> filter = expression.Compile();
             return values.Where(filter.Invoke).ToList();
         }
     }

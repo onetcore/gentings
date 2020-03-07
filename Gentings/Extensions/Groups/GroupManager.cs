@@ -32,7 +32,7 @@ namespace Gentings.Extensions.Groups
         /// <returns>返回判断结果。</returns>
         public override bool IsDuplicated(TGroup category)
         {
-            var groups = Fetch(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name);
+            IEnumerable<TGroup> groups = Fetch(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name);
             return groups.Any();
         }
 
@@ -44,7 +44,7 @@ namespace Gentings.Extensions.Groups
         /// <returns>返回判断结果。</returns>
         public override async Task<bool> IsDuplicatedAsync(TGroup category, CancellationToken cancellationToken = default)
         {
-            var groups = await FetchAsync(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name, cancellationToken);
+            IEnumerable<TGroup> groups = await FetchAsync(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name, cancellationToken);
             return groups.Any();
         }
 
@@ -55,10 +55,10 @@ namespace Gentings.Extensions.Groups
         /// <returns>返回分类列表。</returns>
         public override IEnumerable<TGroup> Fetch(Expression<Predicate<TGroup>> expression = null)
         {
-            var models = Cache.GetOrCreate(CacheKey, ctx =>
+            ICollection<TGroup> models = Cache.GetOrCreate(CacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                var categories = Context.Fetch();
+                IEnumerable<TGroup> categories = Context.Fetch();
                 return categories.MakeDictionary().Values;
             });
             return models.Filter(expression);
@@ -72,10 +72,10 @@ namespace Gentings.Extensions.Groups
         /// <returns>返回分类列表。</returns>
         public override async Task<IEnumerable<TGroup>> FetchAsync(Expression<Predicate<TGroup>> expression = null, CancellationToken cancellationToken = default)
         {
-            var models = await Cache.GetOrCreateAsync(CacheKey, async ctx =>
+            ICollection<TGroup> models = await Cache.GetOrCreateAsync(CacheKey, async ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                var categories = await Context.FetchAsync(cancellationToken: cancellationToken);
+                IEnumerable<TGroup> categories = await Context.FetchAsync(cancellationToken: cancellationToken);
                 return categories.MakeDictionary().Values;
             });
             return models.Filter(expression);

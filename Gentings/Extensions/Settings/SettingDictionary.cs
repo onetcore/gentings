@@ -26,8 +26,8 @@ namespace Gentings.Extensions.Settings
             {
                 if (_path == null)
                 {
-                    var list = new List<string>();
-                    var current = this;
+                    List<string> list = new List<string>();
+                    SettingDictionary current = this;
                     while (current?.Id > 0)
                     {
                         list.Add(current.Name);

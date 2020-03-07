@@ -79,7 +79,7 @@ namespace Gentings.Data
         /// <returns>返回缩进实例对象。</returns>
         public virtual IndentedStringBuilder AppendLine(object o)
         {
-            var value = o.ToString();
+            string value = o.ToString();
 
             if (value != string.Empty)
             {

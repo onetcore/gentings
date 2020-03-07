@@ -44,7 +44,7 @@ namespace Gentings.Data.SqlServer.Query
         /// <returns>返回SQL构建实例。</returns>
         public override SqlIndentedStringBuilder Any(IEntityType entityType)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("SELECT TOP(1) 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table))
                 .Append(" ")
                 .Append(WithNolock())
@@ -61,7 +61,7 @@ namespace Gentings.Data.SqlServer.Query
         /// <returns>返回SQL构建实例。</returns>
         public override SqlIndentedStringBuilder Any(IEntityType entityType, Expression expression)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("SELECT TOP(1) 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table))
                 .Append(" ")
                 .Append(WithNolock())
@@ -81,11 +81,11 @@ namespace Gentings.Data.SqlServer.Query
         public override SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order,
             Expression expression)
         {
-            var column = SqlHelper.DelimitIdentifier(order.GetPropertyAccess().Name);
-            var table = SqlHelper.DelimitIdentifier(entityType.Table);
-            var primaryKey = SqlHelper.DelimitIdentifier(entityType.SingleKey().Name);
-            var where = Visit(expression);
-            var builder = new SqlIndentedStringBuilder();
+            string column = SqlHelper.DelimitIdentifier(order.GetPropertyAccess().Name);
+            string table = SqlHelper.DelimitIdentifier(entityType.Table);
+            string primaryKey = SqlHelper.DelimitIdentifier(entityType.SingleKey().Name);
+            string where = Visit(expression);
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.AppendLine("DECLARE @CurrentOrder int;");
             builder.AppendLine($"SELECT @CurrentOrder = ISNULL({column}, 0) FROM {table} WHERE {primaryKey} = {PrimaryKeyParameter};");
             builder.AppendLine("DECLARE @AffectId int;");
@@ -141,7 +141,7 @@ END");
             builder.Append(sql.WhereSql).Append(" ");
             builder.Append(sql.OrderBySql).Append(" ");
 
-            var size = sql.Size ?? 20;
+            int size = sql.Size ?? 20;
             builder.Append("OFFSET ")
                 .Append(Math.Max((sql.PageIndex.Value - 1) * size, 0))
                 .Append(" ROWS FETCH NEXT ")

@@ -17,7 +17,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前请求的<see cref="Uri"/>实例。</returns>
         public static Uri GetUri(this HttpRequest request)
         {
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.Append(request.Scheme);
             builder.Append("://");
             builder.Append(request.Host.Value);
@@ -34,7 +34,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前请求的域名或者端口。</returns>
         public static string GetDomain(this HttpRequest request)
         {
-            var uri = request.GetUri();
+            Uri uri = request.GetUri();
             if (uri.IsDefaultPort)
                 return uri.DnsSafeHost;
             return $"{uri.DnsSafeHost}:{uri.Port}";
@@ -64,7 +64,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前缓存对象。</returns>
         public static TCache GetOrCreate<TCache>(this HttpContext context, object key, Func<TCache> func)
         {
-            if (context.Items.TryGetValue(key, out var value) && value is TCache cache)
+            if (context.Items.TryGetValue(key, out object value) && value is TCache cache)
                 return cache;
             cache = func();
             context.Items[key] = cache;
@@ -93,7 +93,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前缓存对象。</returns>
         public static async Task<TCache> GetOrCreateAsync<TCache>(this HttpContext context, object key, Func<Task<TCache>> func)
         {
-            if (context.Items.TryGetValue(key, out var value) && value is TCache cache)
+            if (context.Items.TryGetValue(key, out object value) && value is TCache cache)
                 return cache;
             cache = await func();
             context.Items[key] = cache;

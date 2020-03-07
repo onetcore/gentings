@@ -24,7 +24,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (methodCallExpression.Method == _methodInfo)
             {
-                var sqlArguments = new[] { methodCallExpression.Object }.Concat(methodCallExpression.Arguments);
+                System.Collections.Generic.IEnumerable<Expression> sqlArguments = new[] { methodCallExpression.Object }.Concat(methodCallExpression.Arguments);
                 return new SqlFunctionExpression("SUBSTRING", methodCallExpression.Type, sqlArguments);
             }
 

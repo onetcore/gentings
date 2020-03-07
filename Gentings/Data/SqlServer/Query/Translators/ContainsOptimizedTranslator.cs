@@ -22,10 +22,10 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (ReferenceEquals(methodCallExpression.Method, _methodInfo))
             {
-                var patternExpression = methodCallExpression.Arguments[0];
-                var patternConstantExpression = patternExpression as ConstantExpression;
+                Expression patternExpression = methodCallExpression.Arguments[0];
+                ConstantExpression patternConstantExpression = patternExpression as ConstantExpression;
 
-                var charIndexExpression = Expression.GreaterThan(
+                BinaryExpression charIndexExpression = Expression.GreaterThan(
                     new SqlFunctionExpression("CHARINDEX", typeof(int), new[] { patternExpression, methodCallExpression.Object }),
                     Expression.Constant(0));
 

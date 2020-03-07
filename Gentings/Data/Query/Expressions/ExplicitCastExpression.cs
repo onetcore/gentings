@@ -58,7 +58,7 @@ namespace Gentings.Data.Query.Expressions
         /// <see cref="T:System.Func`2" /> 的一个实例。</param>
         protected override Expression VisitChildren(ExpressionVisitor visitor)
         {
-            var newOperand = visitor.Visit(Operand);
+            Expression newOperand = visitor.Visit(Operand);
 
             return newOperand != Operand
                 ? new ExplicitCastExpression(newOperand, _type)

@@ -23,19 +23,19 @@ namespace Gentings.Extensions
         {
             return _tables.GetOrAdd(type, key =>
             {
-                var info = type.GetTypeInfo();
-                var defined = info.GetCustomAttribute<TableAttribute>();
+                TypeInfo info = type.GetTypeInfo();
+                TableAttribute defined = info.GetCustomAttribute<TableAttribute>();
                 if (defined != null)
                 {
                     if (defined.Schema != null)
                         defined.Schema += ".";
                     return $"{defined.Schema}$pre:{defined.Name}";
                 }
-                var model = info.GetCustomAttribute<TargetAttribute>();
+                TargetAttribute model = info.GetCustomAttribute<TargetAttribute>();
                 if (model != null)
                     return GetTableName(model.Target);
-                var name = info.Assembly.GetName().Name;
-                var index = name.LastIndexOf('.');
+                string name = info.Assembly.GetName().Name;
+                int index = name.LastIndexOf('.');
                 if (index != -1)
                     name = name.Substring(index);
                 name += '_' + info.Name;
@@ -52,7 +52,7 @@ namespace Gentings.Extensions
         {
             return _types.GetOrAdd(type, key =>
             {
-                var entity = new EntityType(type);
+                EntityType entity = new EntityType(type);
                 entity.Table = GetTableName(type);
                 return entity;
             });

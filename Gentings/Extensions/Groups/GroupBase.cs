@@ -35,8 +35,8 @@ namespace Gentings.Extensions.Groups
         {
             get
             {
-                var level = -1;
-                var current = this;
+                int level = -1;
+                GroupBase<TGroup> current = this;
                 while (current != null && current.Id > 0)
                 {
                     level++;

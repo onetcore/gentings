@@ -67,7 +67,7 @@ namespace Gentings.Installers
                 cancellationToken.ThrowIfCancellationRequested();
             //启动网站
             _logger.LogInformation("启动网站...");
-            var registration = await _installerManager.GetRegistrationAsync();
+            Registration registration = await _installerManager.GetRegistrationAsync();
             if (registration.Expired < DateTimeOffset.Now)
             {
                 //todo:远程连接获取验证信息
@@ -77,13 +77,13 @@ namespace Gentings.Installers
             {
                 try
                 {
-                    using (var scope = _serviceProvider.CreateScope())
+                    using (IServiceScope scope = _serviceProvider.CreateScope())
                     {
-                        var initializers = scope.ServiceProvider.GetService<IEnumerable<IInitializer>>();
+                        IEnumerable<IInitializer> initializers = scope.ServiceProvider.GetService<IEnumerable<IInitializer>>();
                         if (initializers != null)
                         {
                             initializers = initializers.OrderByDescending(x => x.Priority);
-                            foreach (var initializer in initializers)
+                            foreach (IInitializer initializer in initializers)
                             {
                                 if (!await initializer.IsDisabledAsync())
                                     await initializer.ExecuteAsync();

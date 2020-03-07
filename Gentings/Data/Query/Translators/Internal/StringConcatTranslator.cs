@@ -23,16 +23,16 @@ namespace Gentings.Data.Query.Translators.Internal
         /// <returns>返回转换后的表达式。</returns>
         public virtual Expression Translate(Expression expression)
         {
-            var binaryExpression = expression as BinaryExpression;
+            BinaryExpression binaryExpression = expression as BinaryExpression;
             if (binaryExpression != null
                 && binaryExpression.NodeType == ExpressionType.Add
                 && binaryExpression.Method == _stringConcatMethodInfo)
             {
-                var newLeft = binaryExpression.Left.Type != typeof(string)
+                Expression newLeft = binaryExpression.Left.Type != typeof(string)
                     ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Left.RemoveConvert()), typeof(string))
                     : binaryExpression.Left;
 
-                var newRight = binaryExpression.Right.Type != typeof(string)
+                Expression newRight = binaryExpression.Right.Type != typeof(string)
                     ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Right.RemoveConvert()), typeof(string))
                     : binaryExpression.Right;
 
@@ -48,7 +48,7 @@ namespace Gentings.Data.Query.Translators.Internal
 
         private static Expression HandleNullTypedConstant(Expression expression)
         {
-            var constantExpression = expression as ConstantExpression;
+            ConstantExpression constantExpression = expression as ConstantExpression;
 
             return constantExpression != null && constantExpression.Type == typeof(object) && constantExpression.Value != null
                 ? Expression.Constant(constantExpression.Value)

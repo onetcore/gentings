@@ -17,9 +17,9 @@ namespace Gentings.Data.Query.Translators
         /// <returns>转换后的表达式。</returns>
         public virtual Expression Translate(MemberExpression expression)
         {
-            foreach (var translator in _translators)
+            foreach (IMemberTranslator translator in _translators)
             {
-                var translatedMember = translator.Translate(expression);
+                Expression translatedMember = translator.Translate(expression);
                 if (translatedMember != null)
                 {
                     return translatedMember;
