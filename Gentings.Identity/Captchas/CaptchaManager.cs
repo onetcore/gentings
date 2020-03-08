@@ -55,8 +55,11 @@ namespace Gentings.Identity.Captchas
         public virtual async Task<bool> SaveCaptchAsync(Captcha captcha)
         {
             if (await _context.AnyAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type))
+            {
                 return await _context.UpdateAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type,
                     new {captcha.Code, captcha.CaptchaExpiredDate});
+            }
+
             return await _context.CreateAsync(captcha);
         }
     }

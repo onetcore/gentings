@@ -52,7 +52,9 @@ namespace Gentings.Tasks
                 {
                     _argument.TaskContext = this;
                     if (!string.IsNullOrEmpty(_argument.Interval))
+                    {
                         Interval = _argument.Interval;
+                    }
                 }
             }
         }

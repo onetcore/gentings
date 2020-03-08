@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Hosting;
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Gentings.ConsoleApp
 {
@@ -22,14 +23,14 @@ namespace Gentings.ConsoleApp
         /// 启动应用程序，在控制台程序中的Main方法中调用。
         /// </summary>
         /// <param name="args">参数。</param>
-        public static void Start(string[] args)
+        public static async Task StartAsync(string[] args)
         {
             Info("正在初始化应用程序！");
             Console.WriteLine();
             using var host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((context, service) => service.AddGentings(context.Configuration))
                 .Build();
-            host.StartAsync(TokenSource.Token);
+            await host.StartAsync(TokenSource.Token);
             Console.WriteLine();
             Info("已经成功启动了应用程序，可以输入命令进行手动操作！");
             var commandHandlerFactory = host.Services.GetService(typeof(ICommandHandlerFactory)) as ICommandHandlerFactory;
@@ -49,8 +50,11 @@ namespace Gentings.ConsoleApp
                             command = command.Substring(index).Trim();
                         }
                         else
+                        {
                             command = null;
-                        commandHandlerFactory.ExecuteAsync(commandName, command).Wait();
+                        }
+
+                        await commandHandlerFactory.ExecuteAsync(commandName, command);
                     }
                     else
                     {
@@ -97,6 +101,16 @@ namespace Gentings.ConsoleApp
         public static void Error(string message, params object[] args)
         {
             WriteLine(ConsoleColor.Red, message, args);
+        }
+
+        /// <summary>
+        /// 显示错误信息。
+        /// </summary>
+        /// <param name="exception">错误实例。</param>
+        public static void Error(Exception exception)
+        {
+            Error(exception.Message);
+            Error(exception.StackTrace);
         }
 
         /// <summary>

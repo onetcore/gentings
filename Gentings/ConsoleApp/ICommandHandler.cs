@@ -49,9 +49,14 @@ namespace Gentings.ConsoleApp
         {
             Consoles.IsDebug = !argument.IsSubCommand("off");
             if (Consoles.IsDebug)
+            {
                 Consoles.Info("开启调试信息显示！");
+            }
             else
+            {
                 Consoles.Warning("关闭调试信息显示！");
+            }
+
             return Task.CompletedTask;
         }
     }

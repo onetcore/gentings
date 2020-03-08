@@ -546,12 +546,18 @@ namespace Gentings.Data.Migrations
                 if (operation.Instance != null)
                 {
                     if (operation.Expression == null)
+                    {
                         operation.Sql = GenerateSqlCreate(entity, operation.Instance);
+                    }
                     else
+                    {
                         operation.Sql = GenerateSqlUpdate(entity, operation.Instance, operation.Expression);
+                    }
                 }
                 else
+                {
                     operation.Sql = GenerateSqlDelete(entity, operation.Expression);
+                }
             }
             builder
                 .Append(operation.Sql)
@@ -672,7 +678,9 @@ namespace Gentings.Data.Migrations
             }
 
             if (!identity)
+            {
                 DefaultValue(defaultValue, defaultValueSql, builder);
+            }
         }
 
         /// <summary>

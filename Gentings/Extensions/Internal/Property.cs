@@ -34,9 +34,15 @@ namespace Gentings.Extensions.Internal
             if (info.IsDefined(typeof(TimestampAttribute)))
             {
                 if (ClrType != typeof(byte[]))
+                {
                     throw new Exception(Resources.TypeMustBeBytes);
+                }
+
                 if (entityType.RowVersion != null)
+                {
                     throw new Exception(Resources.RowVersionOnlyOnePropertyEachClass);
+                }
+
                 entityType.RowVersion = this;
                 IsRowVersion = true;
             }
@@ -73,7 +79,10 @@ namespace Gentings.Extensions.Internal
             get
             {
                 if (IsIdentity || IsPrimaryKey)
+                {
                     return false;
+                }
+
                 return ClrType.IsNullableType();
             }
         }

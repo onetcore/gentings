@@ -52,9 +52,14 @@ namespace Gentings.Data.Migrations.Builders
                 OnDelete = onDelete
             };
             if (principalColumns == null)
+            {
                 operation.PrincipalColumns = operation.Columns;
+            }
             else
+            {
                 operation.PrincipalColumns = principalColumns.GetPropertyNames();
+            }
+
             operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns, operation.PrincipalTable);
             Operation.ForeignKeys.Add(operation);
 
@@ -71,7 +76,9 @@ namespace Gentings.Data.Migrations.Builders
         {
             IKey key = _entity.PrimaryKey;
             if (key == null)
+            {
                 return this;
+            }
 
             AddPrimaryKeyOperation operation = new AddPrimaryKeyOperation
             {

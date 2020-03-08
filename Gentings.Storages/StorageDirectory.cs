@@ -22,9 +22,16 @@ namespace Gentings.Storages
         {
             var path = configuration["StorageDir"]?.Trim() ?? "../storages";
             _root = path.MapPath();
-            if (!Directory.Exists(_root)) Directory.CreateDirectory(_root);
+            if (!Directory.Exists(_root))
+            {
+                Directory.CreateDirectory(_root);
+            }
+
             _temp = Path.Combine(_root, "temp");
-            if (!Directory.Exists(_temp)) Directory.CreateDirectory(_temp);
+            if (!Directory.Exists(_temp))
+            {
+                Directory.CreateDirectory(_temp);
+            }
         }
 
         /// <summary>
@@ -35,7 +42,10 @@ namespace Gentings.Storages
         public string GetPhysicalPath(string path = null)
         {
             if (path == null)
+            {
                 return _root;
+            }
+
             path = path.Trim(' ', '~', '/', '\\');
             return Path.Combine(_root, path);
         }
@@ -48,7 +58,10 @@ namespace Gentings.Storages
         public string GetTempPath(string fileName = null)
         {
             if (fileName == null)
+            {
                 return _temp;
+            }
+
             return Path.Combine(_temp, fileName);
         }
 
@@ -131,14 +144,25 @@ namespace Gentings.Storages
         public async Task<IStorageFile> SaveAsync(IFormFile file, string directoryName, string fileName = null)
         {
             if (file == null || file.Length == 0)
+            {
                 throw new Exception(Resources.FormFileInvalid);
+            }
+
             if (fileName != null && fileName.EndsWith(".$"))
+            {
                 fileName = fileName[0..^2] + Path.GetExtension(file.FileName);
+            }
             else
+            {
                 fileName = file.FileName;
+            }
+
             directoryName = GetPhysicalPath(directoryName);
             if (!Directory.Exists(directoryName))
+            {
                 Directory.CreateDirectory(directoryName);
+            }
+
             fileName = Path.Combine(directoryName, fileName);
             await using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
             {
@@ -158,7 +182,10 @@ namespace Gentings.Storages
         {
             directoryName = GetPhysicalPath(directoryName);
             if (!Directory.Exists(directoryName))
+            {
                 Directory.CreateDirectory(directoryName);
+            }
+
             fileName = Path.Combine(directoryName, fileName);
             await StorageUtility.SaveTextAsync(fileName, text);
             return new StorageFile(fileName);
@@ -179,7 +206,11 @@ namespace Gentings.Storages
                 var directories = info.GetDirectories("*", SearchOption.AllDirectories);
                 foreach (var directory in directories)
                 {
-                    if (!directory.Exists) continue;
+                    if (!directory.Exists)
+                    {
+                        continue;
+                    }
+
                     var files = directory.GetFiles("*", SearchOption.AllDirectories);
                     if (files.Length == 0)
                     {

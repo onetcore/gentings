@@ -21,13 +21,19 @@ namespace Gentings.Utils
         {
             int index = source.IndexOf(start, comparison);
             if (index == -1)
+            {
                 return null;
+            }
+
             source = source.Substring(index + start.Length);
             if (end != null)
             {
                 index = source.IndexOf(end, comparison);
                 if (index == -1)
+                {
                     return null;
+                }
+
                 source = source.Substring(0, index);
             }
             return source.Trim();
@@ -44,12 +50,18 @@ namespace Gentings.Utils
         public static string RemoveHtml(this string source, bool isBlank = false)
         {
             if (string.IsNullOrWhiteSpace(source))
+            {
                 return null;
+            }
+
             source = _htmlRegex.Replace(source, string.Empty).Trim();
             if (isBlank)
+            {
                 source = source
                     .Replace("&nbsp;", string.Empty)
                     .Replace(" ", string.Empty);
+            }
+
             return source;
         }
 
@@ -61,7 +73,10 @@ namespace Gentings.Utils
         public static string[] SplitHtml(this string source)
         {
             if (string.IsNullOrWhiteSpace(source))
+            {
                 return null;
+            }
+
             return _htmlRegex.Split(source)
                 .Where(x => !string.IsNullOrWhiteSpace(x))
                 .ToArray();

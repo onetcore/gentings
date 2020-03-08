@@ -77,9 +77,13 @@ namespace Gentings.AspNetCore
             {
                 string error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;
                 if (string.IsNullOrEmpty(key))
+                {
                     result.Message = error;
+                }
                 else
+                {
                     dic[key] = error;
+                }
             }
             return OkResult(result);
         }
@@ -103,9 +107,15 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult BadResult(Enum code, string message = null, params object[] args)
         {
             if (message == null)
+            {
                 message = Localizer.GetString(code);
+            }
+
             if (args != null)
+            {
                 message = string.Format(message, args);
+            }
+
             return OkResult(new ApiResult { Code = code, Message = message });
         }
 

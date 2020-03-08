@@ -142,18 +142,27 @@ namespace Gentings.Tasks
             date = date.Trim();
             
             if (int.TryParse(date, out int interval))
+            {
                 return new TaskInterval(interval);
+            }
 
             string[] dateTimes = date.Split(' ').Select(d => d.Trim()).ToArray();
             if (dateTimes.Length == 1)
+            {
                 return new TaskInterval(time: TimeSpan.Parse(date));
+            }
 
             if (dateTimes.Length != 2)
+            {
                 throw new Exception(Resources.Interval_Format_Error);
+            }
 
             string[] dates = dateTimes[0].Split('-').Select(d => d.Trim()).ToArray();
             if (dates.Length == 1)
+            {
                 return new TaskInterval(day: Convert.ToInt32(dates[0]), time: TimeSpan.Parse(dateTimes[1]));
+            }
+
             return new TaskInterval(month: Convert.ToInt32(dates[dates.Length - 2]), day: Convert.ToInt32(dates[dates.Length - 1]), time: TimeSpan.Parse(dateTimes[1]));
         }
 

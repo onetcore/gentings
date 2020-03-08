@@ -51,9 +51,17 @@ namespace Gentings.Messages.Emails
         public override async Task ExecuteAsync(Argument argument)
         {
             var settings = await _settingsManager.GetSettingsAsync();
-            if (settings == null) return;
+            if (settings == null)
+            {
+                return;
+            }
+
             var messages = await _emailManager.LoadAsync(EmailStatus.Pending);
-            if (!messages.Any()) return;
+            if (!messages.Any())
+            {
+                return;
+            }
+
             foreach (var message in messages)
             {
                 try

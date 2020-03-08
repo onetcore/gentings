@@ -28,7 +28,10 @@ namespace Gentings.Installers
         {
             Lisence lisence = new Lisence { Registration = Cores.Encrypto(registration.ToJsonString()) };
             if (await _context.AnyAsync())
+            {
                 return await _context.UpdateAsync(lisence);
+            }
+
             return await _context.CreateAsync(lisence);
         }
 

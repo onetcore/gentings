@@ -148,11 +148,18 @@ namespace Gentings.Data.Internal
                 if (id != null)
                 {
                     if (EntityType.Identity.ClrType == typeof(int))
+                    {
                         EntityType.Identity.Set(model, Convert.ToInt32(id));
+                    }
                     else if (EntityType.Identity.ClrType == typeof(long))
+                    {
                         EntityType.Identity.Set(model, Convert.ToInt64(id));
+                    }
                     else if (EntityType.Identity.ClrType == typeof(short))
+                    {
                         EntityType.Identity.Set(model, Convert.ToInt16(id));
+                    }
+
                     return true;
                 }
                 return false;
@@ -175,11 +182,18 @@ namespace Gentings.Data.Internal
                 if (id != null)
                 {
                     if (EntityType.Identity.ClrType == typeof(int))
+                    {
                         EntityType.Identity.Set(model, Convert.ToInt32(id));
+                    }
                     else if (EntityType.Identity.ClrType == typeof(long))
+                    {
                         EntityType.Identity.Set(model, Convert.ToInt64(id));
+                    }
                     else if (EntityType.Identity.ClrType == typeof(short))
+                    {
                         EntityType.Identity.Set(model, Convert.ToInt16(id));
+                    }
+
                     return true;
                 }
                 return false;
@@ -197,9 +211,15 @@ namespace Gentings.Data.Internal
             SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType);
             IDictionary<string, object> parameters = sql.CreateEntityParameters(model);
             if (EntityType.RowVersion == null && EntityType.ConcurrencyKey == null)
+            {
                 return ExecuteNonQuery(sql, parameters);
+            }
+
             if (ExecuteScalar(sql, parameters) == null)
+            {
                 throw new DBConcurrencyException();
+            }
+
             return true;
         }
 
@@ -214,9 +234,15 @@ namespace Gentings.Data.Internal
             SqlIndentedStringBuilder sql = SqlGenerator.Update(EntityType);
             IDictionary<string, object> parameters = sql.CreateEntityParameters(model);
             if (EntityType.RowVersion == null && EntityType.ConcurrencyKey == null)
+            {
                 return await ExecuteNonQueryAsync(sql, parameters, cancellationToken: cancellationToken);
+            }
+
             if (await ExecuteScalarAsync(sql, parameters, cancellationToken: cancellationToken) == null)
+            {
                 throw new DBConcurrencyException();
+            }
+
             return true;
         }
 
@@ -384,7 +410,10 @@ namespace Gentings.Data.Internal
         {
             using DbDataReader reader = ExecuteReader(sql, parameters);
             if (reader.Read())
+            {
                 return EntityType.Read<TModel>(reader);
+            }
+
             return default;
         }
 
@@ -399,7 +428,10 @@ namespace Gentings.Data.Internal
         {
             await using DbDataReader reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             if (await reader.ReadAsync(cancellationToken))
+            {
                 return EntityType.Read<TModel>(reader);
+            }
+
             return default;
         }
 
@@ -492,7 +524,10 @@ namespace Gentings.Data.Internal
             List<TModel> models = new List<TModel>();
             using DbDataReader reader = ExecuteReader(sql, parameters);
             while (reader.Read())
+            {
                 models.Add(EntityType.Read<TModel>(reader));
+            }
+
             return models;
         }
 
@@ -508,7 +543,10 @@ namespace Gentings.Data.Internal
             List<TModel> models = new List<TModel>();
             await using DbDataReader reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
             while (await reader.ReadAsync(cancellationToken))
+            {
                 models.Add(EntityType.Read<TModel>(reader));
+            }
+
             return models;
         }
 
@@ -626,7 +664,10 @@ namespace Gentings.Data.Internal
             SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, "COUNT", null, expression, "1");
             object scalar = ExecuteScalar(sql);
             if (scalar == null || scalar == DBNull.Value)
+            {
                 return 0;
+            }
+
             return Convert.ToInt32(scalar);
         }
 
@@ -641,7 +682,10 @@ namespace Gentings.Data.Internal
             SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, "COUNT", null, expression, "1");
             object scalar = await ExecuteScalarAsync(sql, cancellationToken: cancellationToken);
             if (scalar == null || scalar == DBNull.Value)
+            {
                 return 0;
+            }
+
             return Convert.ToInt32(scalar);
         }
 
@@ -658,9 +702,15 @@ namespace Gentings.Data.Internal
             SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
             object scalar = ExecuteScalar(sql);
             if (scalar == null || scalar == DBNull.Value)
+            {
                 return default;
+            }
+
             if (convertFunc == null)
+            {
                 return (TValue)Convert.ChangeType(scalar, typeof(TValue));
+            }
+
             return convertFunc(scalar);
         }
 
@@ -679,9 +729,15 @@ namespace Gentings.Data.Internal
             SqlIndentedStringBuilder sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
             object scalar = await ExecuteScalarAsync(sql, cancellationToken: cancellationToken);
             if (scalar == null || scalar == DBNull.Value)
+            {
                 return default;
+            }
+
             if (convertFunc == null)
+            {
                 return (TValue)Convert.ChangeType(scalar, typeof(TValue));
+            }
+
             return convertFunc(scalar);
         }
 

@@ -57,7 +57,10 @@ namespace Gentings.Extensions.Settings
                 entry.SetDefaultAbsoluteExpiration();
                 string settings = Context.Find(x => x.SettingKey == key)?.SettingValue;
                 if (settings == null)
+                {
                     return new TSiteSettings();
+                }
+
                 return Cores.FromJsonString<TSiteSettings>(settings);
             });
         }
@@ -100,7 +103,10 @@ namespace Gentings.Extensions.Settings
                 entry.SetDefaultAbsoluteExpiration();
                 SettingsAdapter settings = await Context.FindAsync(x => x.SettingKey == key);
                 if (settings?.SettingValue == null)
+                {
                     return new TSiteSettings();
+                }
+
                 return Cores.FromJsonString<TSiteSettings>(settings.SettingValue);
             });
         }

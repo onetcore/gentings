@@ -37,7 +37,10 @@ namespace Gentings.Storages
             get
             {
                 if (_path == null && FileId != null)
+                {
                     _path = FileId.ToStoragePath();
+                }
+
                 return _path;
             }
         }

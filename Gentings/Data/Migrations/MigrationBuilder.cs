@@ -209,9 +209,14 @@ namespace Gentings.Data.Migrations
                 OnDelete = onDelete
             };
             if (principalColumns == null)
+            {
                 operation.PrincipalColumns = operation.Columns;
+            }
             else
+            {
                 operation.PrincipalColumns = principalColumns.GetPropertyNames();
+            }
+
             operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns, operation.PrincipalTable);
             Operations.Add(operation);
 
@@ -493,7 +498,9 @@ namespace Gentings.Data.Migrations
             CreateTableBuilder<TEntity> builder = new CreateTableBuilder<TEntity>(createTableOperation);
             action(builder);
             if (createTableOperation.PrimaryKey == null)
+            {
                 builder.PrimaryKey();
+            }
 
             Operations.Add(createTableOperation);
 
@@ -790,7 +797,10 @@ namespace Gentings.Data.Migrations
         protected virtual string GetName(string schema, string name)
         {
             if (schema != null)
+            {
                 schema += ".";
+            }
+
             return schema + name;
         }
 

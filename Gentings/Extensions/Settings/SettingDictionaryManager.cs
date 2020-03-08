@@ -86,7 +86,10 @@ namespace Gentings.Extensions.Settings
         {
             ConcurrentDictionary<string, SettingDictionary> settings = LoadPathCache();
             if (settings.TryGetValue(path, out SettingDictionary setting))
+            {
                 return setting;
+            }
+
             if (Context.BeginTransaction(db =>
             {
                 string[] names = path.Split('.');
@@ -98,9 +101,13 @@ namespace Gentings.Extensions.Settings
                     {
                         setting = new SettingDictionary { ParentId = parentId, Name = name, Value = name };
                         if (db.Create(setting))
+                        {
                             parentId = setting.Id;
+                        }
                         else
+                        {
                             return false;
+                        }
                     }
                     else
                     {
@@ -126,7 +133,10 @@ namespace Gentings.Extensions.Settings
         {
             ConcurrentDictionary<string, SettingDictionary> settings = await LoadPathCacheAsync();
             if (settings.TryGetValue(path, out SettingDictionary setting))
+            {
                 return setting;
+            }
+
             if (await Context.BeginTransactionAsync(async db =>
             {
                 string[] names = path.Split('.');
@@ -138,9 +148,13 @@ namespace Gentings.Extensions.Settings
                     {
                         setting = new SettingDictionary { ParentId = parentId, Name = name, Value = name };
                         if (await db.CreateAsync(setting))
+                        {
                             parentId = setting.Id;
+                        }
                         else
+                        {
                             return false;
+                        }
                     }
                     else
                     {

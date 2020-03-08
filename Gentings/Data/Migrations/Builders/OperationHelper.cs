@@ -24,9 +24,15 @@ namespace Gentings.Data.Migrations.Builders
             }
             name.Append(table.Replace('.', '_'));
             if (columns != null)
+            {
                 name.Append("_").Append(string.Join("_", columns));
+            }
+
             if (alt != null)
+            {
                 name.Append("_").Append(alt.Replace('.', '_'));
+            }
+
             return name.ToString();
         }
     }

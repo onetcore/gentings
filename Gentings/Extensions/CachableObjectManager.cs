@@ -70,7 +70,11 @@ namespace Gentings.Extensions
         /// <returns>数据库操作结果。</returns>
         protected DataResult Refresh(DataResult result)
         {
-            if (result) Refresh();
+            if (result)
+            {
+                Refresh();
+            }
+
             return result;
         }
 
@@ -81,7 +85,11 @@ namespace Gentings.Extensions
         /// <returns>数据库操作结果。</returns>
         protected bool Refresh(bool result)
         {
-            if (result) Refresh();
+            if (result)
+            {
+                Refresh();
+            }
+
             return result;
         }
 

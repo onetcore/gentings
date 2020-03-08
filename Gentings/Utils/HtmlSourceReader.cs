@@ -40,7 +40,10 @@ namespace Gentings.Utils
             while (_length > _index)
             {
                 if (!char.IsWhiteSpace(_source, _index))
+                {
                     return true;
+                }
+
                 _index++;
             }
             return false;
@@ -66,7 +69,10 @@ namespace Gentings.Utils
         {
             int index = _index + 1;
             if (_length <= index)
+            {
                 return false;
+            }
+
             char current = char.ToUpper(_source[index]);
             return current == '/' || (current >= 'A' && current <= 'Z');
         }
@@ -83,13 +89,20 @@ namespace Gentings.Utils
             while (_length > index)
             {
                 if (!char.IsWhiteSpace(_source, index))
+                {
                     break;
+                }
+
                 index++;
             }
 
             if (_source[index] == current)
             {
-                if (skip) _index = index + 1;
+                if (skip)
+                {
+                    _index = index + 1;
+                }
+
                 return true;
             }
 
@@ -125,14 +138,20 @@ namespace Gentings.Utils
                 {
                     builder.Append(_source[index]);
                     if (builder.Length == current.Length)
+                    {
                         break;
+                    }
                 }
                 index++;
             }
 
             if (builder.ToString().Equals(current, stringComparison))
             {
-                if (skip) _index = index + 1;
+                if (skip)
+                {
+                    _index = index + 1;
+                }
+
                 return true;
             }
 
@@ -157,7 +176,9 @@ namespace Gentings.Utils
             while (_length > _index)
             {
                 if (_source[_index++] == current)
+                {
                     break;
+                }
             }
         }
 
@@ -179,7 +200,10 @@ namespace Gentings.Utils
         public override string ToString()
         {
             if (_index < _length)
+            {
                 return _source.Substring(_index);
+            }
+
             return null;
         }
 
@@ -193,7 +217,10 @@ namespace Gentings.Utils
         {
             builder ??= new StringBuilder();
             if (quote == Current)
+            {
                 _index++;
+            }
+
             builder.Append(quote);
             char last = NullChar;
             while (_length > _index)
@@ -207,7 +234,9 @@ namespace Gentings.Utils
                         last = NullChar;
                     }
                     else
+                    {
                         last = current;
+                    }
                 }
                 else if (current == quote)
                 {
@@ -251,7 +280,10 @@ namespace Gentings.Utils
                     continue;
                 }
                 if (current == end)
+                {
                     return builder.ToString();
+                }
+
                 builder.Append(current);
                 _index++;
             }
@@ -276,7 +308,10 @@ namespace Gentings.Utils
                     continue;
                 }
                 if (current == end[0] && IsNext(end))
+                {
                     return builder.ToString();
+                }
+
                 builder.Append(current);
                 Skip();
             }
@@ -301,7 +336,10 @@ namespace Gentings.Utils
                     continue;
                 }
                 if (ends.Any(x => x == current))
+                {
                     return builder.ToString();
+                }
+
                 builder.Append(current);
                 Skip();
             }
@@ -332,11 +370,18 @@ namespace Gentings.Utils
                 _index++;
 
                 if (current == start)
+                {
                     blocks++;
+                }
                 else if (current == end)
+                {
                     blocks--;
+                }
+
                 if (blocks <= 0)
+                {
                     break;
+                }
             }
             return builder.ToString();
         }
@@ -366,7 +411,10 @@ namespace Gentings.Utils
                     continue;
                 }
                 if (ends.Any(x => x == current))
+                {
                     return builder.ToString();
+                }
+
                 builder.Append(current);
                 Skip();
             }

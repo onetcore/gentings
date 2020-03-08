@@ -39,7 +39,9 @@ namespace Gentings.Utils
         public static string Format(string source, string separator = "\\s+", string format = "nts", bool ignoreCase = true)
         {
             if (string.IsNullOrWhiteSpace(source))
+            {
                 return null;
+            }
 
             source = source.Trim();
             Regex regex = new Regex(separator, ignoreCase ? RegexOptions.IgnoreCase : RegexOptions.None);
@@ -50,7 +52,10 @@ namespace Gentings.Utils
             {
                 int index = source.IndexOf(Separator, StringComparison.Ordinal);
                 if (index == -1)
+                {
                     return null;
+                }
+
                 dic[format[i]] = source.Substring(0, index).Trim();
                 source = source.Substring(index + Separator.Length);
             }
@@ -64,7 +69,10 @@ namespace Gentings.Utils
             }
             builder.Append("public ");
             if (!_typeNames.TryGetValue(dic['t'], out string type))
+            {
                 type = "string";
+            }
+
             builder.Append(type).Append(" ");
             string name = dic['n'];
             name = char.ToUpper(name[0]) + name.Substring(1);
@@ -83,7 +91,9 @@ namespace Gentings.Utils
         public static string FormatLines(string source, string separator = "\\s+", string format = "nts", bool ignoreCase = true)
         {
             if (string.IsNullOrWhiteSpace(source))
+            {
                 return null;
+            }
 
             StringBuilder builder = new StringBuilder();
             foreach (string s in source.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))

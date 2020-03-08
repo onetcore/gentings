@@ -32,7 +32,10 @@ namespace Gentings.Storages.Controllers
             name = Path.Combine(dir, name);
             var file = _storageDirectory.GetFile(name);
             if (file == null || !file.Exists)
+            {
                 return NotFound();
+            }
+
             return PhysicalFile(file.FullName, file.Extension.GetContentType());
         }
 
@@ -48,7 +51,10 @@ namespace Gentings.Storages.Controllers
             name = Path.Combine(dir, name);
             var file = _storageDirectory.GetFile(name);
             if (file == null || !file.Exists)
+            {
                 return NotFound();
+            }
+
             Response.Headers.Add("Content-Disposition", $"attachment;filename={file.Name}");
             return PhysicalFile(file.FullName, file.Extension.GetContentType());
         }

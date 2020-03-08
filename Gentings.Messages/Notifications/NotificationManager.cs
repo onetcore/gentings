@@ -41,7 +41,10 @@ namespace Gentings.Messages.Notifications
         public virtual IEnumerable<Notification> Load(int size = 0)
         {
             if (size == 0)
+            {
                 size = _settingsManager.GetSettings<NotificationSettings>().MaxSize;
+            }
+
             return Context.AsQueryable()
                 .WithNolock()
                 .InnerJoin<NotificationType>((n, t) => n.TypeId == t.Id)
@@ -60,7 +63,10 @@ namespace Gentings.Messages.Notifications
         public virtual async Task<IEnumerable<Notification>> LoadAsync(int size = 0)
         {
             if (size == 0)
+            {
                 size = (await _settingsManager.GetSettingsAsync<NotificationSettings>()).MaxSize;
+            }
+
             return await Context.AsQueryable()
                 .WithNolock()
                 .InnerJoin<NotificationType>((n, t) => n.TypeId == t.Id)
@@ -107,7 +113,10 @@ namespace Gentings.Messages.Notifications
                 }
                 return true;
             }))
+            {
                 return DataAction.Created;
+            }
+
             return DataAction.CreatedFailured;
         }
 
@@ -129,7 +138,10 @@ namespace Gentings.Messages.Notifications
                 }
                 return true;
             }))
+            {
                 return DataAction.Created;
+            }
+
             return DataAction.CreatedFailured;
         }
 

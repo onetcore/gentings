@@ -38,7 +38,9 @@ namespace Gentings.Data
         public virtual IndentedStringBuilder AppendEx(object o, string format)
         {
             if (string.IsNullOrWhiteSpace(o?.ToString()))
+            {
                 return this;
+            }
 
             DoIndent();
 

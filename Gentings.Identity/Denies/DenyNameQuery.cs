@@ -19,7 +19,9 @@ namespace Gentings.Identity.Denies
         protected override void Init(IQueryContext<DenyName> context)
         {
             if (!string.IsNullOrWhiteSpace(Name))
+            {
                 context.Where(x => x.Name.Contains(Name));
+            }
         }
     }
 }

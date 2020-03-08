@@ -55,18 +55,32 @@ namespace Gentings.Data.Migrations
             Type type = instance.GetType();
             DataMigration migration = instance as DataMigration;
             if (migration != null)
+            {
                 InitDataMigration(migration);
+            }
+
             Migration dbMigration = await _reposority.FindMigrationAsync(type.FullName);
             if ((dbMigration == null && version == -1) //卸载
                 || (dbMigration != null && dbMigration.Version == version)) //版本已经是设置的版本
+            {
                 return null;
+            }
 
             if (version == 0) //安装版本设为最大值
+            {
                 version = int.MaxValue;
+            }
+
             if (dbMigration == null || version > dbMigration.Version)
+            {
                 return Upgrade(migration, dbMigration, version);
+            }
+
             if (dbMigration.Version > version)
+            {
                 return Downgrade(migration, dbMigration, version);
+            }
+
             return null;
         }
 
@@ -75,18 +89,32 @@ namespace Gentings.Data.Migrations
             Type type = instance.GetType();
             DataMigration migration = instance as DataMigration;
             if (migration != null)
+            {
                 InitDataMigration(migration);
+            }
+
             Migration dbMigration = _reposority.FindMigration(type.FullName);
             if ((dbMigration == null && version == -1) //卸载
                 || (dbMigration != null && dbMigration.Version == version)) //版本已经是设置的版本
+            {
                 return null;
+            }
 
             if (version == 0) //安装版本设为最大值
+            {
                 version = int.MaxValue;
+            }
+
             if (dbMigration == null || version > dbMigration.Version)
+            {
                 return Upgrade(migration, dbMigration, version);
+            }
+
             if (dbMigration.Version > version)
+            {
                 return Downgrade(migration, dbMigration, version);
+            }
+
             return null;
         }
 
@@ -101,7 +129,10 @@ namespace Gentings.Data.Migrations
         {
             string id = migration.GetType().FullName;
             if (dbMigration == null)
+            {
                 yield return CreateOperationsMigration(id, 1, migration.Create);
+            }
+
             List<MethodInfo> methods = GetMethods(migration, dbMigration?.Version ?? 0, version);
             foreach (MethodInfo method in methods)
             {
@@ -117,7 +148,9 @@ namespace Gentings.Data.Migrations
                 yield return CreateOperationsMigration(dbMigration.Id, method.Version, method.Method);
             }
             if (version == -1)
+            {
                 yield return CreateOperationsMigration(dbMigration.Id, 0, migration.Destroy);
+            }
         }
 
         private class OperationsMigration : Migration
@@ -151,7 +184,10 @@ namespace Gentings.Data.Migrations
                         })
                 .Where(method => method.Version > version && method.Version < endVersion);
             if (isUp)
+            {
                 return methods.OrderBy(method => method.Version).ToList();
+            }
+
             return methods.OrderByDescending(method => method.Version).ToList();
         }
 
@@ -174,11 +210,16 @@ namespace Gentings.Data.Migrations
                 {
                     IEnumerable<OperationsMigration> operations = await LoadMirationsAsync(migration, version);
                     if (!operations.Any())
+                    {
                         continue;
+                    }
+
                     foreach (OperationsMigration operation in operations)
                     {
                         if (!await _reposority.ExecuteAsync(operation, operation.Operations))
+                        {
                             break;
+                        }
                     }
                 }
                 catch (Exception exception)

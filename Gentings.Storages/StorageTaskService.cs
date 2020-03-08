@@ -49,7 +49,10 @@ namespace Gentings.Storages
         {
             var mediaDirectory = _serviceProvider.GetService<IMediaDirectory>();
             if (mediaDirectory != null)
+            {
                 await mediaDirectory.ClearDeletedPhysicalFilesAsync();
+            }
+
             _storageDirectory.ClearEmptyDirectories();
             await Task.Delay(100);
         }

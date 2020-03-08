@@ -49,7 +49,9 @@ namespace Gentings.Messages.CMPP.Services
                 {
                     // 禁用或者已经启用略过
                     if (serviceProvider.Disabled || _clients.ContainsKey(serviceProvider.Name))
+                    {
                         continue;
+                    }
 #pragma warning disable CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                     Task.Run(async () =>
                     {
@@ -68,7 +70,9 @@ namespace Gentings.Messages.CMPP.Services
                                     catch { await service.SendTerminalAsync(); }
                                 }
                                 else
+                                {
                                     _logger.LogError($"连接到服务器提供商出现错误：{status}");
+                                }
                             }
                         }
                         catch (SocketException exception)
@@ -78,7 +82,9 @@ namespace Gentings.Messages.CMPP.Services
                         finally
                         {
                             if (_clients.TryRemove(serviceProvider.Name, out var client) && client.Connected)
+                            {
                                 client.Close();
+                            }
                         }
                     }, stoppingToken);
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
@@ -103,7 +109,10 @@ namespace Gentings.Messages.CMPP.Services
                 {
                     var buffer = new byte[bytes.Length - PackageHeader.Size];
                     if (buffer.Length > 0)
+                    {
                         bytes.CopyTo(buffer, PackageHeader.Size);
+                    }
+
                     try { await serviceHandler.ExecuteAsync(header, buffer); }
                     catch (Exception exception)
                     {
@@ -127,9 +136,15 @@ namespace Gentings.Messages.CMPP.Services
             await stream.WritePackageAsync(package);
             var message = await stream.ReadMessageAsync<ConnectMessage>();
             if (message?.IsHeader(package.Header) != true)
+            {
                 return ConnectStatus.Others;
+            }
+
             if (message.IsValid(serviceProvider.Password, package.AuthenticatorSource))
+            {
                 return message.Status;
+            }
+
             return ConnectStatus.InvlaidAuthenticator;
         }
     }

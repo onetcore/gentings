@@ -81,7 +81,9 @@ namespace Gentings.Extensions
             foreach (TModel model in models)
             {
                 if (dic.TryGetValue(model.ParentId, out TModel temp))
+                {
                     temp.Add(model);
+                }
             }
             return dic;
         }

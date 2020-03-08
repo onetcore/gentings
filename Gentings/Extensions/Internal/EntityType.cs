@@ -37,10 +37,15 @@ namespace Gentings.Extensions.Internal
                 properties = new List<Property> { Identity };
             }
             if (properties.Count > 0)
+            {
                 PrimaryKey = new Key(properties);
+            }
+
             properties = _properties.Values.Where(x => x.IsConcurrency).ToList();
             if (properties.Count > 0)
+            {
                 ConcurrencyKey = new Key(properties);
+            }
         }
 
         /// <summary>
@@ -114,7 +119,10 @@ namespace Gentings.Extensions.Internal
                 {
                     object value = reader.GetValue(i);
                     if (value == DBNull.Value)
+                    {
                         value = null;
+                    }
+
                     property.Set(model, value);
                 }
                 else if (model is ExtendBase)
@@ -139,7 +147,9 @@ namespace Gentings.Extensions.Internal
             {
                 object value = FindProperty(property.Name)?.Get(instance);
                 if (value != null)
+                {
                     property.Set(model, value);
+                }
             }
 
             return model;

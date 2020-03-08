@@ -47,7 +47,10 @@ namespace Gentings.ChatServers
             {
                 var user = await _userManager.FindAsync(userId);
                 if (user == null)
+                {
                     throw new UnauthorizedAccessException();
+                }
+
                 user.IsOnline = true;
                 user.ConnectedDate = DateTimeOffset.Now;
                 Onlines.AddOrUpdate(Context.ConnectionId, _ => user, (_, _1) => user);
@@ -72,7 +75,9 @@ namespace Gentings.ChatServers
             message.Content = msg;
             await _messageManager.CreateAsync(message);
             if (Connections.TryGetValue(userId, out var connectionId))
+            {
                 await Clients.Clients(connectionId).SendAsync("msg", message);
+            }
         }
 
         /// <summary>
@@ -82,7 +87,10 @@ namespace Gentings.ChatServers
         protected User GetUser()
         {
             if (Onlines.TryGetValue(Context.ConnectionId, out var user))
+            {
                 return user;
+            }
+
             throw new HubException(Resources.ClientDisconnected);
         }
 

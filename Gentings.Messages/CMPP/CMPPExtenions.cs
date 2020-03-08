@@ -28,7 +28,9 @@ namespace Gentings.Messages.CMPP
         public static async Task<byte[]> ReadBytesAsync(this NetworkStream stream)
         {
             if (!stream.CanRead)
+            {
                 return null;
+            }
 
             using var ms = new MemoryStream();
             using var writer = new BinaryWriter(ms);
@@ -37,7 +39,9 @@ namespace Gentings.Messages.CMPP
                 var buffer = new byte[PackageHeader.Size];
                 int current = await stream.ReadAsync(buffer, 0, buffer.Length);
                 if (current > 0)
+                {
                     writer.Write(buffer);
+                }
             }
             return ms.ToArray();
         }
@@ -52,7 +56,10 @@ namespace Gentings.Messages.CMPP
         {
             var buffer = await stream.ReadBytesAsync();
             if (buffer == null)
+            {
                 return default;
+            }
+
             return Activator.CreateInstance(typeof(TMessage), new[] { buffer }) as TMessage;
         }
 
@@ -64,7 +71,9 @@ namespace Gentings.Messages.CMPP
         public static async Task WriteBytesAsync(this NetworkStream stream, byte[] buffer)
         {
             if (stream.CanWrite)
+            {
                 await stream.WriteAsync(buffer, 0, buffer.Length);
+            }
         }
 
         /// <summary>

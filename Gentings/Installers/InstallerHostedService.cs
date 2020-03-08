@@ -64,7 +64,9 @@ namespace Gentings.Installers
             //数据库迁移
             await cancellationToken.WaitDataMigrationCompletedAsync();
             if (cancellationToken.IsCancellationRequested)
+            {
                 cancellationToken.ThrowIfCancellationRequested();
+            }
             //启动网站
             _logger.LogInformation("启动网站...");
             Registration registration = await _installerManager.GetRegistrationAsync();
@@ -86,7 +88,9 @@ namespace Gentings.Installers
                             foreach (IInitializer initializer in initializers)
                             {
                                 if (!await initializer.IsDisabledAsync())
+                                {
                                     await initializer.ExecuteAsync();
+                                }
                             }
                         }
                     }
@@ -101,9 +105,13 @@ namespace Gentings.Installers
             await _installerManager.SaveRegistrationAsync(registration);
             Current = registration.Status;
             if (Current == InstallerStatus.Failured)
+            {
                 _logger.LogInformation("启动网站失败。");
+            }
             else
+            {
                 _logger.LogInformation("启动网站完成。");
+            }
         }
     }
 }

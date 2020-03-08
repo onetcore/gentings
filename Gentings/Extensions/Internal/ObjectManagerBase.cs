@@ -38,9 +38,15 @@ namespace Gentings.Extensions.Internal
         public virtual DataResult Save(TModel model)
         {
             if (IsDuplicated(model))
+            {
                 return DataAction.Duplicate;
+            }
+
             if (Context.Any(model.Id))
+            {
                 return DataResult.FromResult(Update(model), DataAction.Updated);
+            }
+
             return DataResult.FromResult(Create(model), DataAction.Created);
         }
 
@@ -135,9 +141,15 @@ namespace Gentings.Extensions.Internal
         public virtual async Task<DataResult> SaveAsync(TModel model, CancellationToken cancellationToken = default)
         {
             if (await IsDuplicatedAsync(model, cancellationToken))
+            {
                 return DataAction.Duplicate;
+            }
+
             if (Context.Any(model.Id))
+            {
                 return DataResult.FromResult(await Context.UpdateAsync(model, cancellationToken), DataAction.Updated);
+            }
+
             return DataResult.FromResult(await Context.CreateAsync(model, cancellationToken), DataAction.Created);
         }
 

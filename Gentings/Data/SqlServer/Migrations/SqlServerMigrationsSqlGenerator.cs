@@ -316,7 +316,10 @@ namespace Gentings.Data.SqlServer.Migrations
             ForEachProperty(instance, (k, v) =>
             {
                 if (k.IsDefined(typeof(NotUpdatedAttribute), true))
+                {
                     return;
+                }
+
                 items.Add($"{SqlHelper.DelimitIdentifier(k.Name)}={SqlHelper.EscapeLiteral(v)}");
             });
             builder.JoinAppend(items);

@@ -37,11 +37,17 @@ namespace Gentings.Tasks
                     string @namespace = GetType().Namespace;
                     int index = @namespace.IndexOf(extensionName, StringComparison.Ordinal);
                     if (index == -1)
+                    {
                         _extensionName = "core";
+                    }
+
                     @namespace = @namespace.Substring(index + extensionName.Length);
                     index = @namespace.IndexOf(".", StringComparison.Ordinal);
                     if (index != -1)
+                    {
                         @namespace = @namespace.Substring(0, index);
+                    }
+
                     _extensionName = @namespace.ToLower();
                 }
                 return _extensionName;

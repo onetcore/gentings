@@ -37,7 +37,10 @@ namespace Gentings.Tasks
             foreach (ITaskService service in _services)
             {
                 if(service.Disabled)
+                {
                     continue;
+                }
+
                 TaskContext context = new TaskContext();
                 context.ExecuteAsync = service.ExecuteAsync;
                 context.Interval = service.Interval;
@@ -49,12 +52,18 @@ namespace Gentings.Tasks
         private async Task LoadContextsAsync()
         {
             if (_updatedDate.AddMinutes(1) >= DateTime.Now)
+            {
                 return;
+            }
+
             IEnumerable<TaskDescriptor> tasks = await _taskManager.LoadTasksAsync();
             foreach (TaskDescriptor task in tasks)
             {
                 if (!_contexts.TryGetValue(task.Type, out TaskContext context))
+                {
                     continue;
+                }
+
                 context.Argument = task.TaskArgument;
                 context.Id = task.Id;
                 context.Name = task.Name;

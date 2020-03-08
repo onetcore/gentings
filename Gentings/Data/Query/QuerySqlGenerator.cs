@@ -36,7 +36,9 @@ namespace Gentings.Data.Query
             string primaryKey = SqlHelper.DelimitIdentifier(entityType.SingleKey().Name);
             builder.Append($" WHERE {primaryKey} = {PrimaryKeyParameter}");
             if (terminated)
+            {
                 builder.AppendLine(SqlHelper.fieldsTerminator);
+            }
         }
 
         /// <summary>
@@ -86,7 +88,10 @@ namespace Gentings.Data.Query
                     .JoinAppend(names.Select(SqlHelper.Parameterized))
                     .Append(")").Append(SqlHelper.fieldsTerminator);
                 if (entityType.Identity != null)
+                {
                     builder.Append(SelectIdentity()).Append(SqlHelper.fieldsTerminator);
+                }
+
                 return new CacheEntry(builder.ToString(), names);
             });
             return new SqlIndentedStringBuilder(entry.Sql, entry.Parameters);
@@ -116,9 +121,15 @@ namespace Gentings.Data.Query
                     List<string> keys = new List<string>();
                     keys.AddRange(primaryKeys);
                     if (entityType.RowVersion != null)
+                    {
                         keys.Add(entityType.RowVersion.Name);
+                    }
+
                     if (entityType.ConcurrencyKey != null)
+                    {
                         keys.AddRange(entityType.ConcurrencyKey.Properties.Select(x => x.Name));
+                    }
+
                     names.AddRange(keys);
                     builder.Append("WHERE ")
                         .JoinAppend(
@@ -279,7 +290,10 @@ namespace Gentings.Data.Query
         public virtual SqlIndentedStringBuilder Scalar(IEntityType entityType, string method, LambdaExpression column, Expression expression, string nullColumn = null)
         {
             if (column != null)
+            {
                 nullColumn = SqlHelper.DelimitIdentifier(column.GetPropertyAccess().Name);
+            }
+
             SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append($"SELECT {method}({nullColumn}) FROM {SqlHelper.DelimitIdentifier(entityType.Table)}");
             builder.AppendEx(Visit(expression), " WHERE {0}")
@@ -295,7 +309,10 @@ namespace Gentings.Data.Query
         public virtual string Visit(Expression expression)
         {
             if (expression == null)
+            {
                 return null;
+            }
+
             IExpressionVisitor visitor = _visitorFactory.Create();
             visitor.Visit(expression);
             return visitor.ToString();
@@ -338,11 +355,18 @@ namespace Gentings.Data.Query
         {
             SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             if (sql.PageIndex != null)
+            {
                 PageQuery(sql, builder);
+            }
             else if (sql.Size != null)
+            {
                 SizeQuery(sql, builder);
+            }
             else
+            {
                 Query(sql, builder);
+            }
+
             return builder;
         }
 

@@ -36,7 +36,9 @@ namespace Gentings.Data.Query
         public IDictionary<string, object> CreateEntityParameters(object instance)
         {
             if (instance is IDictionary<string, object> parameters)
+            {
                 Parameters = parameters;
+            }
             else if (_parameterNames != null)
             {//匿名类型
                 Parameters = new Dictionary<string, object>();
@@ -58,7 +60,9 @@ namespace Gentings.Data.Query
             if (Parameters == null)
             {
                 if (instance is IDictionary<string, object> parameters)
+                {
                     Parameters = parameters;
+                }
                 else
                 {//匿名类型
                     Parameters = new Dictionary<string, object>();
@@ -78,7 +82,10 @@ namespace Gentings.Data.Query
         public void AddPrimaryKey(object key)
         {
             if (Parameters == null)
+            {
                 Parameters = new Dictionary<string, object>();
+            }
+
             Parameters[QuerySqlGenerator.PrimaryKeyParameterName] = key;
         }
 

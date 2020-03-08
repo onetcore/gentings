@@ -39,10 +39,16 @@ namespace Gentings.Storages
             for (var i = 1; i < length + 1; i++)
             {
                 if (temp != -1)
+                {
                     rand = new Random(i * temp * unchecked((int)DateTime.Now.Ticks));//初始化随机类 
+                }
+
                 var index = rand.Next(codes.Length);//获取随机数  
                 if (temp != -1 && temp == index)
+                {
                     return Random(length);//如果获取的随机数重复，则递归调用  
+                }
+
                 temp = index;//把本次产生的随机数记录起来  
                 code += codes[index];//随机数的位数加一  
             }

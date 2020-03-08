@@ -110,7 +110,9 @@ namespace Gentings
             {
                 TypeInfo info = type.GetTypeInfo();
                 if (info.IsPublic && info.IsClass && !info.IsAbstract && typeof(IService).IsAssignableFrom(type))
+                {
                     yield return type;
+                }
             }
         }
 
@@ -131,7 +133,10 @@ namespace Gentings
             foreach (RuntimeLibrary library in DependencyContext.Default.RuntimeLibraries)
             {
                 if (library.Serviceable || excludes.Contains(library.Name, StringComparer.OrdinalIgnoreCase))
+                {
                     continue;
+                }
+
                 assemblies.Add(Assembly.Load(new AssemblyName(library.Name)));
             }
             return assemblies;
@@ -148,7 +153,11 @@ namespace Gentings
             IApplicationConfigurer[] services = app.ApplicationServices.GetService<IEnumerable<IApplicationConfigurer>>()
                 .OrderByDescending(x => x.Priority)
                 .ToArray();
-            foreach (IApplicationConfigurer service in services) service.Configure(app, configuration);
+            foreach (IApplicationConfigurer service in services)
+            {
+                service.Configure(app, configuration);
+            }
+
             return app;
         }
 

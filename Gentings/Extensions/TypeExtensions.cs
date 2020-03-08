@@ -28,16 +28,25 @@ namespace Gentings.Extensions
                 if (defined != null)
                 {
                     if (defined.Schema != null)
+                    {
                         defined.Schema += ".";
+                    }
+
                     return $"{defined.Schema}$pre:{defined.Name}";
                 }
                 TargetAttribute model = info.GetCustomAttribute<TargetAttribute>();
                 if (model != null)
+                {
                     return GetTableName(model.Target);
+                }
+
                 string name = info.Assembly.GetName().Name;
                 int index = name.LastIndexOf('.');
                 if (index != -1)
+                {
                     name = name.Substring(index);
+                }
+
                 name += '_' + info.Name;
                 return $"$pre:{name}";
             });

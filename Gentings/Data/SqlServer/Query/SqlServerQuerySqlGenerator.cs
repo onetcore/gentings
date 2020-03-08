@@ -119,7 +119,10 @@ END");
         {
             builder.Append("SELECT ");
             if (sql.IsDistinct)
+            {
                 builder.Append("DISTINCT ");
+            }
+
             builder.Append(sql.FieldSql).Append(" ");
             builder.Append(sql.FromSql).Append(" ");
             builder.Append(sql.WhereSql).Append(" ");
@@ -135,7 +138,10 @@ END");
         {
             builder.Append("SELECT ");
             if (sql.IsDistinct)
+            {
                 builder.Append("DISTINCT ");
+            }
+
             builder.Append(sql.FieldSql).Append(" ");
             builder.Append(sql.FromSql).Append(" ");
             builder.Append(sql.WhereSql).Append(" ");
@@ -150,7 +156,10 @@ END");
 
             builder.Append("SELECT COUNT(");
             if (sql.IsDistinct && sql.Aggregation != "1")
+            {
                 builder.Append("DISTINCT ");
+            }
+
             builder.Append(sql.Aggregation);
             builder.Append(")");
             builder.Append(sql.FromSql).Append(" ");
@@ -166,7 +175,10 @@ END");
         {
             builder.Append("SELECT ");
             if (sql.IsDistinct)
+            {
                 builder.Append("DISTINCT ");
+            }
+
             builder.Append("TOP(").Append(sql.Size).Append(") ");
             builder.Append(sql.FieldSql).Append(" ");
             builder.Append(sql.FromSql).Append(" ");

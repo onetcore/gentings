@@ -25,9 +25,14 @@ namespace Gentings.Messages.SMS
         {
             context.WithNolock();
             if (Status != null)
+            {
                 context.Where(x => x.Status == Status);
+            }
+
             if (!string.IsNullOrEmpty(No))
+            {
                 context.Where(x => x.PhoneNumber == No);
+            }
         }
     }
 }

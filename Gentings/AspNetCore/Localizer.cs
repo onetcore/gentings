@@ -39,7 +39,10 @@ namespace Gentings.AspNetCore
             Type type = key.GetType();
             string resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
+            {
                 return key.ToString();
+            }
+
             return resource;
         }
 
@@ -54,7 +57,10 @@ namespace Gentings.AspNetCore
             Type type = key.GetType();
             string resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
+            {
                 return key.ToString();
+            }
+
             return string.Format(resource, args);
         }
 
@@ -80,7 +86,10 @@ namespace Gentings.AspNetCore
         {
             string resource = GetString(typeof(TResource), key);
             if (resource == null)
+            {
                 return key;
+            }
+
             return string.Format(resource, args);
         }
 
@@ -93,7 +102,11 @@ namespace Gentings.AspNetCore
         public virtual string GetString<TResource>(Expression<Func<TResource, object>> expression)
         {
             PropertyInfo member = expression.GetPropertyAccess();
-            if (member == null) return null;
+            if (member == null)
+            {
+                return null;
+            }
+
             return GetString(member.DeclaringType, member.Name);
         }
 
@@ -108,7 +121,10 @@ namespace Gentings.AspNetCore
         {
             string resource = GetString(expression);
             if (resource == null)
+            {
                 return null;
+            }
+
             return string.Format(resource, args);
         }
 
@@ -126,13 +142,21 @@ namespace Gentings.AspNetCore
             {
                 Assembly assembly;
                 if (t == NullLocalizer.InstanceType)
+                {
                     assembly = Assembly.GetEntryAssembly();
+                }
                 else
+                {
                     assembly = t.Assembly;
+                }
+
                 string baseName = assembly.GetManifestResourceNames()
                     .SingleOrDefault(x => x.EndsWith(Resources));
                 if (baseName == null)
+                {
                     return null;
+                }
+
                 baseName = baseName[0..^10];
                 return new ResourceManager(baseName, assembly);
             });
@@ -161,7 +185,10 @@ namespace Gentings.AspNetCore
         {
             string resource = GetString(key);
             if (resource == null)
+            {
                 return key;
+            }
+
             return string.Format(resource, args);
         }
 

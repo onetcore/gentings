@@ -47,7 +47,10 @@ namespace Gentings.Storages.Media
         public virtual async Task<MediaResult> UploadAsync(IFormFile file, Action<MediaFile> init, bool unique = true)
         {
             if (file == null || file.Length == 0)
+            {
                 return new MediaResult(null, Resources.FormFileInvalid);
+            }
+
             var tempFile = await _directory.SaveToTempAsync(file);
             return await SaveAsync(tempFile, file.FileName, init, unique);
         }
@@ -125,7 +128,9 @@ namespace Gentings.Storages.Media
                 {
                     var dbFile = await _mfdb.FindAsync(x => x.ExtensionName == file.ExtensionName && x.TargetId == file.TargetId && x.FileId == fileId);
                     if (dbFile != null)
+                    {
                         return new MediaResult(dbFile.Url);
+                    }
                 }
             }
             else
@@ -136,10 +141,16 @@ namespace Gentings.Storages.Media
                 storage.FileId = fileId;
                 storage.Length = tempFile.Length;
                 if (await _sfdb.CreateAsync(storage))
+                {
                     EnsureStoredFile(storage, tempFile);
+                }
             }
             file.FileId = fileId;
-            if (await _mfdb.CreateAsync(file)) return new MediaResult(file.Url);
+            if (await _mfdb.CreateAsync(file))
+            {
+                return new MediaResult(file.Url);
+            }
+
             return new MediaResult(null, Resources.StoredFileFailured);
         }
 
@@ -155,7 +166,10 @@ namespace Gentings.Storages.Media
             {
                 var dir = Path.GetDirectoryName(mediaPath);
                 if (!Directory.Exists(dir))
+                {
                     Directory.CreateDirectory(dir);
+                }
+
                 tempFile.MoveTo(mediaPath);
             }
         }
@@ -173,7 +187,10 @@ namespace Gentings.Storages.Media
                 .Select(x => new { x.FileId, x.ContentType })
                 .FirstOrDefaultAsync(reader => new StoredPhysicalFile(reader));
             if (file != null)
+            {
                 file.PhysicalPath = Path.Combine(_media, file.PhysicalPath);
+            }
+
             return file;
         }
 
@@ -238,7 +255,10 @@ namespace Gentings.Storages.Media
         public virtual Task<bool> DeleteAsync(string extensionName, int? targetId = null)
         {
             if (targetId == null)
+            {
                 return _mfdb.DeleteAsync(x => x.ExtensionName == extensionName);
+            }
+
             return _mfdb.DeleteAsync(x => x.ExtensionName == extensionName && x.TargetId == targetId);
         }
 
@@ -257,7 +277,10 @@ namespace Gentings.Storages.Media
                 .Select(x => new { x.FileId, x.ContentType })
                 .FirstOrDefaultAsync(reader => new StoredPhysicalFile(reader));
             if (file == null)
+            {
                 return null;
+            }
+
             var thumbFile = new FileInfo(Path.Combine(_thumbs, file.PhysicalPath).Replace(".moz", $".{width}x{height}.moz"));
             if (!thumbFile.Exists)
             {
@@ -266,7 +289,10 @@ namespace Gentings.Storages.Media
                 {
                     storedFile = storedFile.Resize(width, height, _directory.GetTempPath());
                     if (!Directory.Exists(thumbFile.DirectoryName))
+                    {
                         Directory.CreateDirectory(thumbFile.DirectoryName);
+                    }
+
                     storedFile.MoveTo(thumbFile.FullName);
                 }
             }
@@ -317,7 +343,9 @@ namespace Gentings.Storages.Media
                         foreach (var current in info.Directory.GetFiles())
                         {
                             if (current.Name.StartsWith(file.FileId + ".", StringComparison.OrdinalIgnoreCase))
+                            {
                                 current.Delete();
+                            }
                         }
                     }
                     else
@@ -339,7 +367,10 @@ namespace Gentings.Storages.Media
         {
             fileName = Path.GetFileNameWithoutExtension(fileName);
             if (Guid.TryParse(fileName, out var id))
+            {
                 return await FindAsync(id);
+            }
+
             throw new Exception(Resources.FileNameIsNotGuidFormat);
         }
     }

@@ -69,7 +69,9 @@ namespace Gentings.Data
         public static IEnumerable<T> Filter<T>(this IEnumerable<T> values, Expression<Predicate<T>> expression)
         {
             if (values == null || expression == null)
+            {
                 return values;
+            }
 
             Predicate<T> filter = expression.Compile();
             return values.Where(filter.Invoke).ToList();

@@ -55,19 +55,39 @@ namespace Gentings.Identity
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Name))
+            {
                 context.Where(x => x.NickName.Contains(Name) || x.NormalizedUserName.Contains(Name));
+            }
+
             if (Start != null)
+            {
                 context.Where(x => x.CreatedDate >= Start);
+            }
+
             if (End != null)
+            {
                 context.Where(x => x.CreatedDate <= End);
+            }
+
             if (LoginStart != null)
+            {
                 context.Where(x => x.LastLoginDate >= LoginStart);
+            }
+
             if (LoginEnd != null)
+            {
                 context.Where(x => x.LastLoginDate <= LoginEnd);
+            }
+
             if (!string.IsNullOrWhiteSpace(PhoneNumber))
+            {
                 context.Where(x => x.PhoneNumber == PhoneNumber);
+            }
+
             if (!string.IsNullOrWhiteSpace(Email))
+            {
                 context.Where(x => x.NormalizedEmail.Contains(Email));
+            }
         }
     }
 

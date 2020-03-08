@@ -11,6 +11,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 namespace Gentings
 {
@@ -230,9 +231,15 @@ namespace Gentings
                 end = pages;
             }
             if (end < 1)
+            {
                 end = 1;
+            }
+
             if (start < 1)
+            {
                 return 1;
+            }
+
             return start;
         }
 
@@ -297,7 +304,10 @@ namespace Gentings
             current += _base36[(int)(value % 36)];
             value /= 36;
             if (value > 36)
+            {
                 return value.ToBase36() + current;
+            }
+
             return _base36[(int)value] + current;
         }
 
@@ -390,7 +400,9 @@ namespace Gentings
             while (enumerator.MoveNext())
             {
                 if (Equals(enumerator.Current, item))
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -451,7 +463,10 @@ namespace Gentings
         public static string ToJsonString(this object instance, JsonSerializerOptions options = null)
         {
             if (instance == null)
+            {
                 return null;
+            }
+
             options ??= _defaultJsonSerializerOptions;
             return JsonSerializer.Serialize(instance, options);
         }
@@ -473,6 +488,51 @@ namespace Gentings
             catch
             {
                 return default;
+            }
+        }
+
+        /// <summary>
+        /// 结构体转化成byte[]。
+        /// </summary>
+        /// <param name="structure">当前结构实例。</param>
+        /// <returns>返回字节数组。</returns>
+        public static byte[] ToBytes(this object structure)
+        {
+            int size = Marshal.SizeOf(structure);
+            var buffer = Marshal.AllocHGlobal(size);
+            try
+            {
+                Marshal.StructureToPtr(structure, buffer, false);
+                var bytes = new byte[size];
+                Marshal.Copy(buffer, bytes, 0, size);
+
+                return bytes;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
+            }
+        }
+
+        /// <summary>
+        /// byte[]转化成结构体
+        /// </summary>
+        /// <typeparam name="T">当前结构类型。</typeparam>
+        /// <param name="bytes">当前字节实例。</param>
+        /// <returns>返回当前结构体。</returns>
+        public static T ToStruct<T>(this byte[] bytes)
+            where T : struct
+        {
+            var size = Marshal.SizeOf<T>();
+            var buffer = Marshal.AllocHGlobal(size);
+            try
+            {
+                Marshal.Copy(bytes, 0, buffer, size);
+                return Marshal.PtrToStructure<T>(buffer);
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(buffer);
             }
         }
     }

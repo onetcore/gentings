@@ -34,7 +34,10 @@ namespace Gentings.Data.Internal
         public string EscapeLiteral(object literal)
         {
             if (literal == null)
+            {
                 return "NULL";
+            }
+
             return GenerateLiteralValue((dynamic)literal);
         }
 
@@ -46,7 +49,10 @@ namespace Gentings.Data.Internal
         public string EscapeIdentifier(string identifier)
         {
             if (identifier == null)
+            {
                 return "NULL";
+            }
+
             return identifier.Replace("'", "''");
         }
         

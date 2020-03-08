@@ -44,7 +44,10 @@ namespace Gentings.Messages.Emails
         {
             resourceKey = resourceType == null ? _localizer.GetString(resourceKey) : _localizer.GetString(resourceType, resourceKey);
             if (replacement != null)
+            {
                 resourceKey = ReplaceTemplate(resourceKey, replacement);
+            }
+
             return resourceKey;
         }
 
@@ -83,9 +86,15 @@ namespace Gentings.Messages.Emails
         public virtual bool Save(Email message)
         {
             if (!_settingsManager.IsEnabled())
+            {
                 return true;
+            }
+
             if (message.Id > 0)
+            {
                 return Context.Update(message);
+            }
+
             return Context.Create(message);
         }
 
@@ -97,9 +106,15 @@ namespace Gentings.Messages.Emails
         public virtual async Task<bool> SaveAsync(Email message)
         {
             if (!await _settingsManager.IsEnabledAsync())
+            {
                 return true;
+            }
+
             if (message.Id > 0)
+            {
                 return await Context.UpdateAsync(message);
+            }
+
             return await Context.CreateAsync(message);
         }
 
@@ -112,10 +127,16 @@ namespace Gentings.Messages.Emails
         public virtual bool IsExisted(Email message, int expiredSeconds = 300)
         {
             if (message.Id > 0)
+            {
                 return true;
+            }
+
             var msg = Context.Find(x => x.HashKey == message.HashKey);
             if (msg == null)
+            {
                 return false;
+            }
+
             return msg.CreatedDate.AddSeconds(expiredSeconds) > DateTimeOffset.Now;
         }
 
@@ -128,10 +149,16 @@ namespace Gentings.Messages.Emails
         public virtual async Task<bool> IsExistedAsync(Email message, int expiredSeconds = 300)
         {
             if (message.Id > 0)
+            {
                 return true;
+            }
+
             var msg = await Context.FindAsync(x => x.HashKey == message.HashKey);
             if (msg == null)
+            {
                 return false;
+            }
+
             return msg.CreatedDate.AddSeconds(expiredSeconds) > DateTimeOffset.Now;
         }
 
@@ -216,7 +243,10 @@ namespace Gentings.Messages.Emails
         {
             var query = Context.AsQueryable().WithNolock();
             if (status != null)
+            {
                 query.Where(x => x.Status == status);
+            }
+
             query.OrderBy(x => x.Id);
             return query.AsEnumerable(100);
         }
@@ -230,7 +260,10 @@ namespace Gentings.Messages.Emails
         {
             var query = Context.AsQueryable().WithNolock();
             if (status != null)
+            {
                 query.Where(x => x.Status == status);
+            }
+
             query.OrderBy(x => x.Id);
             return query.AsEnumerableAsync(100);
         }

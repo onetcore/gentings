@@ -28,7 +28,9 @@ namespace Gentings.Messages.CMPP.Services
         public async Task SendPingAsync()
         {
             if (DateTime.Now.AddMinutes(-3) >= _lastWrited)
+            {
                 await SendAsync(CMPPCommand.CMPP_ACTIVE_TEST, CMPPCommand.CMPP_ACTIVE_TEST_RESP);
+            }
         }
 
         /// <summary>
@@ -95,7 +97,11 @@ namespace Gentings.Messages.CMPP.Services
             await _networkStream.WriteBytesAsync(package.ToBytes());
             _lastWrited = DateTime.Now;
             var buffer = await _networkStream.ReadBytesAsync();
-            if (buffer == null) return false;
+            if (buffer == null)
+            {
+                return false;
+            }
+
             var message = new PackageHeader(buffer);
             return message.CommandId == receiveCommand && message.SequenceId == package.SequenceId;
         }

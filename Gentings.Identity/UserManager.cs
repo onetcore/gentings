@@ -87,7 +87,10 @@ namespace Gentings.Identity
         public override Task<IdentityResult> CreateAsync(TUser user)
         {
             if (user.CreatedIP == null)
+            {
                 user.CreatedIP = HttpContext.GetUserAddress();
+            }
+
             user.PasswordHash = HashPassword(user);
             return base.CreateAsync(user);
         }
@@ -101,7 +104,10 @@ namespace Gentings.Identity
         public override Task<IdentityResult> CreateAsync(TUser user, string password)
         {
             if (user.CreatedIP == null)
+            {
                 user.CreatedIP = HttpContext.GetUserAddress();
+            }
+
             user.PasswordHash = password;
             user.PasswordHash = HashPassword(user);
             return base.CreateAsync(user);
@@ -180,9 +186,15 @@ namespace Gentings.Identity
         public override async Task<IdentityResult> ResetPasswordAsync(TUser user, string token, string newPassword)
         {
             if (user.PasswordHash == null || user.NormalizedUserName == null)
+            {
                 user = await FindByIdAsync(user.Id);
+            }
+
             if (token == null)
+            {
                 token = await GeneratePasswordResetTokenAsync(user);
+            }
+
             newPassword = PasswordSalt(user.NormalizedUserName, newPassword);
             return await base.ResetPasswordAsync(user, token, newPassword);
         }
@@ -273,7 +285,10 @@ namespace Gentings.Identity
         public virtual IdentityResult IsDuplicated(int userId, string userName)
         {
             if (DbContext.UserContext.Any(x => x.Id != userId && (x.UserName == userName || x.NormalizedUserName == userName)))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateUserName(userName));
+            }
+
             return IdentityResult.Success;
         }
 
@@ -286,7 +301,10 @@ namespace Gentings.Identity
         public virtual async Task<IdentityResult> IsDuplicatedAsync(int userId, string userName)
         {
             if (await DbContext.UserContext.AnyAsync(x => x.Id != userId && (x.UserName == userName || x.NormalizedUserName == userName)))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateUserName(userName));
+            }
+
             return IdentityResult.Success;
         }
 
@@ -320,7 +338,10 @@ namespace Gentings.Identity
         public virtual IdentityResult Delete(int[] ids)
         {
             if (DbContext.UserContext.Delete(x => x.Id.Included(ids)))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -332,7 +353,10 @@ namespace Gentings.Identity
         public virtual IdentityResult Delete(int id)
         {
             if (DbContext.UserContext.Delete(id))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -344,7 +368,10 @@ namespace Gentings.Identity
         public virtual async Task<IdentityResult> DeleteAsync(int[] ids)
         {
             if (await DbContext.UserContext.DeleteAsync(x => x.Id.Included(ids)))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -356,7 +383,10 @@ namespace Gentings.Identity
         public virtual async Task<IdentityResult> DeleteAsync(int id)
         {
             if (await DbContext.UserContext.DeleteAsync(id))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 

@@ -36,7 +36,10 @@ namespace Gentings.AspNetCore
         {
             Uri uri = request.GetUri();
             if (uri.IsDefaultPort)
+            {
                 return uri.DnsSafeHost;
+            }
+
             return $"{uri.DnsSafeHost}:{uri.Port}";
         }
 
@@ -65,7 +68,10 @@ namespace Gentings.AspNetCore
         public static TCache GetOrCreate<TCache>(this HttpContext context, object key, Func<TCache> func)
         {
             if (context.Items.TryGetValue(key, out object value) && value is TCache cache)
+            {
                 return cache;
+            }
+
             cache = func();
             context.Items[key] = cache;
             return cache;
@@ -94,7 +100,10 @@ namespace Gentings.AspNetCore
         public static async Task<TCache> GetOrCreateAsync<TCache>(this HttpContext context, object key, Func<Task<TCache>> func)
         {
             if (context.Items.TryGetValue(key, out object value) && value is TCache cache)
+            {
                 return cache;
+            }
+
             cache = await func();
             context.Items[key] = cache;
             return cache;

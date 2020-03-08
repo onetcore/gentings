@@ -61,7 +61,10 @@ namespace Gentings.ConsoleApp
                         { Consoles.Error(exception.Message); }
                     }
                     else
+                    {
                         Consoles.Error($"不支持命令：.{commandName}，请使用.help命令查看可用命令");
+                    }
+
                     break;
             }
         }

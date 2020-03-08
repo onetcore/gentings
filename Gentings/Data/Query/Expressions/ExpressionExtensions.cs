@@ -32,10 +32,15 @@ namespace Gentings.Data.Query.Expressions
             if (unwrappedExpression is ConstantExpression
                 || unwrappedExpression is ParameterExpression
                 || unwrappedExpression is LiteralExpression)
+            {
                 return true;
+            }
 
             if (unwrappedExpression.NodeType == ExpressionType.MemberAccess && unwrappedExpression.Type == typeof(bool))
+            {
                 return true;
+            }
+
             return false;
         }
     }

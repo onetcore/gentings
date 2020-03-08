@@ -19,7 +19,10 @@ namespace Gentings.Utils
         public static string GetLetters(this string words, string seperator = "-", string multiSeperator = ".")
         {
             if (string.IsNullOrWhiteSpace(words))
+            {
                 return null;
+            }
+
             string letters = null;
             List<string> list = new List<string>();
             foreach (char word in words)
@@ -55,7 +58,10 @@ namespace Gentings.Utils
         public static string GetFirstLetters(this string words, string seperator = ".")
         {
             if (string.IsNullOrWhiteSpace(words))
+            {
                 return null;
+            }
+
             List<string> list = new List<string>();
             foreach (char word in words)
             {

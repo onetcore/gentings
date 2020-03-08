@@ -59,7 +59,9 @@ namespace Gentings.Tasks
             foreach (TaskDescriptor descriptor in descriptors)
             {
                 if (descriptor.ShouldBeDeleting)
+                {
                     await _db.DeleteAsync(descriptor.Id);
+                }
             }
         }
 
@@ -114,7 +116,10 @@ namespace Gentings.Tasks
         {
             TaskDescriptor task = await _db.FindAsync(id);
             if (task == null)
+            {
                 return false;
+            }
+
             if (interval != task.TaskArgument.Interval)
             {
                 task.TaskArgument.Interval = interval;
@@ -133,7 +138,10 @@ namespace Gentings.Tasks
         {
             TaskDescriptor task = await _db.FindAsync(id);
             if (task == null)
+            {
                 return false;
+            }
+
             if (argument.Interval != task.TaskArgument.Interval)
             {
                 TaskInterval interval = argument.Interval ?? task.Interval;

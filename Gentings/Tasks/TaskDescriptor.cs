@@ -54,9 +54,14 @@ namespace Gentings.Tasks
         {
             TaskInterval interval;
             if (string.IsNullOrEmpty(TaskArgument.Interval))
+            {
                 interval = Interval;
+            }
             else
+            {
                 interval = TaskArgument.Interval;
+            }
+
             return interval.ToHtmlString();
         }
 

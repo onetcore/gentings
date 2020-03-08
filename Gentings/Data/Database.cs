@@ -65,7 +65,9 @@ namespace Gentings.Data
             DbParameter p = _factory.CreateParameter();
             p.ParameterName = name;
             if (value == null)
+            {
                 p.Value = DBNull.Value;
+            }
             else
             {
                 Type type = Nullable.GetUnderlyingType(value.GetType());
@@ -73,11 +75,17 @@ namespace Gentings.Data
                 {
                     type = Enum.GetUnderlyingType(type);
                     if (type == typeof(int))
+                    {
                         value = (int)value;
+                    }
                     else if (type == typeof(short))
+                    {
                         value = (short)value;
+                    }
                     else if (type == typeof(long))
+                    {
                         value = (long)value;
+                    }
                 }
                 p.Value = value;
             }
@@ -114,9 +122,15 @@ namespace Gentings.Data
             command.CommandType = commandType;
             command.Parameters.Clear();
             if (parameters != null)
+            {
                 AttachParameters(command.Parameters, parameters);
+            }
+
             if (connection.State != ConnectionState.Open)
+            {
                 connection.Open();
+            }
+
             return command;
         }
 
@@ -395,9 +409,14 @@ namespace Gentings.Data
                 _command.CommandType = commandType;
                 _command.Parameters.Clear();
                 if (parameters != null)
+                {
                     _attachParameters(_command.Parameters, parameters);
+                }
+
                 if (_command.Connection.State != ConnectionState.Open)
+                {
                     _command.Connection.Open();
+                }
             }
 
             /// <summary>

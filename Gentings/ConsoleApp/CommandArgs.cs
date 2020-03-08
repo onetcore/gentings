@@ -19,7 +19,10 @@ namespace Gentings.ConsoleApp
         public CommandArgs(string args)
         {
             if (string.IsNullOrWhiteSpace(args))
+            {
                 return;
+            }
+
             _args = args;
             var index = 0;
             while (index < args.Length)
@@ -41,7 +44,10 @@ namespace Gentings.ConsoleApp
                     _arguments[name] = Read(ref index, current).Trim();
                 }
                 else
+                {
                     _arguments[name] = Read(ref index, '-').Trim();
+                }
+
                 index++;
             }
         }
@@ -69,12 +75,19 @@ namespace Gentings.ConsoleApp
                 {//转义符
                     index++;
                     if (index < _args.Length)
+                    {
                         current = _args[index];
+                    }
                     else
+                    {
                         throw new Exception($"参数值必须以“{end}”结尾！");
+                    }
                 }
                 if (current == end)
+                {
                     return builder.ToString();
+                }
+
                 builder.Append(current);
                 index++;
             }
@@ -112,7 +125,9 @@ namespace Gentings.ConsoleApp
             foreach (var name in names)
             {
                 if (_arguments.TryGetValue(name, out var value))
+                {
                     return value;
+                }
             }
             return null;
         }

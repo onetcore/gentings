@@ -31,7 +31,10 @@ namespace Gentings.Identity.Permissions
             if (permissionName == null && context.Resource is ControllerActionDescriptor resource)
             {
                 if (resource.RouteValues.TryGetValue("area", out var area))
+                {
                     permissionName = area + ".";
+                }
+
                 permissionName += $"{resource.ControllerName}.{resource.ActionName}";
             }
             if (permissionName == null)
@@ -40,9 +43,13 @@ namespace Gentings.Identity.Permissions
                 return;
             }
             if (await _permissionManager.IsAuthorizedAsync(permissionName))
+            {
                 context.Succeed(requirement);
+            }
             else
+            {
                 context.Fail();
+            }
         }
     }
 }

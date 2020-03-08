@@ -32,7 +32,10 @@ namespace Gentings.Storages.Controllers
         {
             var file = _avatarManager.GetFile(userid, size);
             if (!file.Exists)
+            {
                 return NotFound();
+            }
+
             return PhysicalFile(file.FullName, file.Extension.GetContentType());
         }
     }

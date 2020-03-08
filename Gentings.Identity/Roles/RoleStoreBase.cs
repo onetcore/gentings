@@ -93,15 +93,26 @@ namespace Gentings.Identity.Roles
                 if (await RoleContext.BeginTransactionAsync(async db =>
                 {
                     if (!await db.CreateAsync(role, cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await handler.OnCreatedAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (await RoleContext.CreateAsync(role, cancellationToken))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -124,15 +135,26 @@ namespace Gentings.Identity.Roles
                 if (await RoleContext.BeginTransactionAsync(async db =>
                 {
                     if (!await handler.OnUpdateAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await db.UpdateAsync(role, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (await RoleContext.UpdateAsync(role, cancellationToken))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -155,15 +177,26 @@ namespace Gentings.Identity.Roles
                 if (await RoleContext.BeginTransactionAsync(async db =>
                 {
                     if (!await handler.OnDeleteAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await db.DeleteAsync(role.Id, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (await RoleContext.DeleteAsync(role.Id, cancellationToken))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -184,9 +217,15 @@ namespace Gentings.Identity.Roles
                 return RoleContext.BeginTransaction(db =>
                 {
                     if (!db.MoveUp(role.Id, x => x.RoleLevel, MoveExpression(role)))
+                    {
                         return false;
+                    }
+
                     if (!handler.OnUpdate(db))
+                    {
                         return false;
+                    }
+
                     return true;
                 });
             }
@@ -210,9 +249,15 @@ namespace Gentings.Identity.Roles
                 return RoleContext.BeginTransaction(db =>
                 {
                     if (!db.MoveDown(role.Id, x => x.RoleLevel, MoveExpression(role)))
+                    {
                         return false;
+                    }
+
                     if (!handler.OnUpdate(db))
+                    {
                         return false;
+                    }
+
                     return true;
                 });
             }
@@ -247,9 +292,15 @@ namespace Gentings.Identity.Roles
                 return await RoleContext.BeginTransactionAsync(async db =>
                 {
                     if (!await db.MoveUpAsync(role.Id, x => x.RoleLevel, MoveExpression(role), cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await handler.OnUpdateAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken);
             }
@@ -274,9 +325,15 @@ namespace Gentings.Identity.Roles
                 return await RoleContext.BeginTransactionAsync(async db =>
                 {
                     if (!await db.MoveDownAsync(role.Id, x => x.RoleLevel, MoveExpression(role), cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await handler.OnUpdateAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken);
             }
@@ -300,15 +357,26 @@ namespace Gentings.Identity.Roles
                 if (RoleContext.BeginTransaction(db =>
                 {
                     if (!handler.OnDelete(db))
+                    {
                         return false;
+                    }
+
                     if (!db.Delete(role.Id))
+                    {
                         return false;
+                    }
+
                     return true;
                 }))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (RoleContext.Delete(role.Id))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -446,15 +514,26 @@ namespace Gentings.Identity.Roles
                 if (RoleContext.BeginTransaction(db =>
                 {
                     if (!db.Create(role))
+                    {
                         return false;
+                    }
+
                     if (!handler.OnCreated(db))
+                    {
                         return false;
+                    }
+
                     return true;
                 }))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (RoleContext.Create(role))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -475,15 +554,26 @@ namespace Gentings.Identity.Roles
                 if (RoleContext.BeginTransaction(db =>
                 {
                     if (!handler.OnUpdate(db))
+                    {
                         return false;
+                    }
+
                     if (!db.Update(role))
+                    {
                         return false;
+                    }
+
                     return true;
                 }))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (RoleContext.Update(role))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -496,7 +586,10 @@ namespace Gentings.Identity.Roles
         public override async Task<TRole> FindByIdAsync(string id, CancellationToken cancellationToken = default)
         {
             if (int.TryParse(id, out var roleId))
+            {
                 return await FindByIdAsync(roleId, cancellationToken);
+            }
+
             return null;
         }
 

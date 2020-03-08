@@ -34,14 +34,20 @@ namespace Gentings.Extensions
             get
             {
                 if (!name.StartsWith("ex:"))
+                {
                     name = "ex:" + name;
+                }
+
                 _extendProperties.TryGetValue(name, out string value);
                 return value;
             }
             set
             {
                 if (!name.StartsWith("ex:"))
+                {
                     name = "ex:" + name;
+                }
+
                 _extendProperties[name] = value;
             }
         }
@@ -61,7 +67,9 @@ namespace Gentings.Extensions
             foreach (string key in form.Keys)
             {
                 if (key.StartsWith("ex:"))
+                {
                     _extendProperties[key] = form[key];
+                }
             }
         }
     }

@@ -71,7 +71,9 @@ namespace Gentings.Data.Query
         {
             Expression translatedExpression = _fragmentTranslator.Translate(expression);
             if (translatedExpression != null && translatedExpression != expression)
+            {
                 return Visit(translatedExpression);
+            }
 
             return base.Visit(expression);
         }
@@ -117,16 +119,20 @@ namespace Gentings.Data.Query
                 }
 
                 if (!TryGenerateBinaryOperator(binaryExpression.NodeType, out string op))
+                {
                     throw new ArgumentOutOfRangeException();
+                }
 
                 if ((binaryExpression.NodeType == ExpressionType.NotEqual ||
                     binaryExpression.NodeType == ExpressionType.Equal) && binaryExpression.Right.NodeType == ExpressionType.Constant)
                 {
                     object value = binaryExpression.Right.Invoke();
                     if (value == null)
+                    {
                         Sql.Append(binaryExpression.NodeType == ExpressionType.Equal
                             ? " IS NULL "
                             : " IS NOT NULL ");
+                    }
                     else
                     {
                         Sql.Append(op);
@@ -193,7 +199,10 @@ namespace Gentings.Data.Query
             {
                 Expression expr = memberExpression.Expression;
                 if (expr.NodeType == ExpressionType.Convert)
+                {
                     expr = expr.RemoveConvert();
+                }
+
                 switch (expr.NodeType)
                 {
                     case ExpressionType.Parameter:
@@ -209,13 +218,19 @@ namespace Gentings.Data.Query
 
             Expression expression = unaryExpression.Operand;
             if (expression is MethodCallExpression methodCallExpression)
+            {
                 expression = _methodCallTranslator.Translate(methodCallExpression);
+            }
 
             if (expression is InExpression inExpression)
+            {
                 return VisitNotIn(inExpression);
+            }
 
             if (expression is IsNullExpression isNullExpression)
+            {
                 return VisitIsNotNull(isNullExpression);
+            }
 
             return unaryExpression;
         }
@@ -291,11 +306,16 @@ namespace Gentings.Data.Query
 
             Expression translatedExpression = _memberTranslator.Translate(node);
             if (translatedExpression != null)
+            {
                 return Visit(translatedExpression);
+            }
 
             Expression expr = node.Expression;
             if (expr.NodeType == ExpressionType.Convert)
+            {
                 expr = expr.RemoveConvert();
+            }
+
             switch (expr.NodeType)
             {
                 case ExpressionType.Parameter:
@@ -313,9 +333,13 @@ namespace Gentings.Data.Query
         {
             object value = expression.Invoke();
             if (value == null)
+            {
                 Sql.Append("null");
+            }
             else
+            {
                 Sql.Append(_sqlHelper.EscapeLiteral(value));
+            }
         }
 
         /// <summary>
@@ -332,7 +356,9 @@ namespace Gentings.Data.Query
             Expression translatedExpression = _methodCallTranslator.Translate(methodCallExpression);
 
             if (translatedExpression != null)
+            {
                 return Visit(translatedExpression);
+            }
 
             return base.VisitMethodCall(methodCallExpression);
         }
@@ -401,7 +427,10 @@ namespace Gentings.Data.Query
         {
             Expression expression = node.Body;
             if (expression.NodeType == ExpressionType.MemberAccess && expression.Type == typeof(bool))
+            {
                 return Visit(Expression.Equal(expression, Expression.Constant(true)));
+            }
+
             return base.VisitLambda(node);
         }
 
@@ -584,7 +613,9 @@ namespace Gentings.Data.Query
             }
 
             if (inValues is NewArrayExpression arrayExpression)
+            {
                 return arrayExpression.Expressions;
+            }
 
             if (inValues is ListInitExpression listExpression)
             {

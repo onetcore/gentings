@@ -64,7 +64,10 @@ namespace Gentings.Identity.Permissions
                 foreach (var permission in providerPermissions)
                 {
                     if (string.IsNullOrEmpty(permission.Category))
+                    {
                         permission.Category = provider.Category;
+                    }
+
                     permissions[permission.Key] = permission;
                 }
             }
@@ -92,7 +95,10 @@ namespace Gentings.Identity.Permissions
             var permissionIds = permissions.Select(x => x.Id).ToList();
             var dbs = DbContext.Fetch().Where(x => permissionIds.All(i => i != x.Id)).Select(x => x.Id).ToList();
             if (dbs.Count > 0)
+            {
                 DbContext.Delete(x => x.Id.Included(dbs));
+            }
+
             RefreshOwners();
         }
 
@@ -106,7 +112,10 @@ namespace Gentings.Identity.Permissions
         {
             var permissions = LoadCachePermissionValues();
             if (permissions.TryGetValue(GetCacheKey(roleId, permissionId), out var value))
+            {
                 return value;
+            }
+
             return PermissionValue.NotSet;
         }
 
@@ -120,7 +129,10 @@ namespace Gentings.Identity.Permissions
         {
             var permissions = await LoadCachePermissionValuesAsync();
             if (permissions.TryGetValue(GetCacheKey(roleId, permissionId), out var value))
+            {
                 return value;
+            }
+
             return PermissionValue.NotSet;
         }
 
@@ -157,9 +169,15 @@ namespace Gentings.Identity.Permissions
         private PermissionValue Merged(List<PermissionValue> values)
         {
             if (values.Any(x => x == PermissionValue.Deny))
+            {
                 return PermissionValue.Deny;
+            }
+
             if (values.Any(x => x == PermissionValue.Allow))
+            {
                 return PermissionValue.Allow;
+            }
+
             return PermissionValue.NotSet;
         }
 
@@ -172,7 +190,11 @@ namespace Gentings.Identity.Permissions
         {
             var isAuthorized =
                 _httpContextAccessor.HttpContext.Items[typeof(Permission) + ":" + permissionName] as bool?;
-            if (isAuthorized != null) return isAuthorized.Value;
+            if (isAuthorized != null)
+            {
+                return isAuthorized.Value;
+            }
+
             isAuthorized = false;
             var id = _httpContextAccessor.HttpContext.User.GetUserId();
             if (id > 0)
@@ -193,7 +215,11 @@ namespace Gentings.Identity.Permissions
         {
             var isAuthorized =
                 _httpContextAccessor.HttpContext.Items[typeof(Permission) + ":" + permissionName] as bool?;
-            if (isAuthorized != null) return isAuthorized.Value;
+            if (isAuthorized != null)
+            {
+                return isAuthorized.Value;
+            }
+
             isAuthorized = false;
             var id = _httpContextAccessor.HttpContext.User.GetUserId();
             if (id > 0)
@@ -237,7 +263,9 @@ namespace Gentings.Identity.Permissions
             var permission = new Permission(permissionName);
             var permissions = LoadCachePermissions();
             if (permissions.TryGetValue(permission.Key, out var value))
+            {
                 return value;
+            }
 
             permission.Order = DbContext.Max(x => x.Order, x => x.Category == permission.Category) + 1;
             RemoveCache(DbContext.Create(permission));
@@ -254,7 +282,9 @@ namespace Gentings.Identity.Permissions
             var permission = new Permission(permissionName);
             var permissions = await LoadCachePermissionsAsync();
             if (permissions.TryGetValue(permissionName, out var value))
+            {
                 return value;
+            }
 
             permission.Order = await DbContext.MaxAsync(x => x.Order, x => x.Category == permission.Category) + 1;
             RemoveCache(await DbContext.CreateAsync(permission));
@@ -271,7 +301,9 @@ namespace Gentings.Identity.Permissions
             var permissions = await LoadCachePermissionsAsync();
             bool result;
             if (permissions.Any(x => x.Key == permission.Key))
+            {
                 result = await DbContext.UpdateAsync(x => x.Name == permission.Name, new { permission.Description });
+            }
             else
             {
                 permission.Order = await DbContext.MaxAsync(x => x.Order, x => x.Category == permission.Category) + 1;
@@ -290,7 +322,9 @@ namespace Gentings.Identity.Permissions
             var permissions = LoadCachePermissions();
             bool result;
             if (permissions.Any(x => x.Key == permission.Key))
+            {
                 result = DbContext.Update(x => x.Name == permission.Name, new { permission.Description });
+            }
             else
             {
                 permission.Order = DbContext.Max(x => x.Order, x => x.Category == permission.Category) + 1;
@@ -331,12 +365,19 @@ namespace Gentings.Identity.Permissions
         public async Task RefreshOwnersAsync()
         {
             var roleId = await GetOwnerIdAsync();
-            if (roleId == 0) return;
+            if (roleId == 0)
+            {
+                return;
+            }
+
             var permissions = await LoadCachePermissionsAsync();
             foreach (var permission in permissions.Values)
             {
                 if (await _prdb.AnyAsync(x => x.PermissionId == permission.Id && x.RoleId == roleId))
+                {
                     continue;
+                }
+
                 await _prdb.CreateAsync(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = PermissionValue.Allow });
             }
             RemoveCache();
@@ -348,12 +389,19 @@ namespace Gentings.Identity.Permissions
         public void RefreshOwners()
         {
             var roleId = GetOwnerId();
-            if (roleId == 0) return;
+            if (roleId == 0)
+            {
+                return;
+            }
+
             var permissions = LoadCachePermissions().Values;
             foreach (var permission in permissions)
             {
                 if (_prdb.Any(x => x.PermissionId == permission.Id && x.RoleId == roleId))
+                {
                     continue;
+                }
+
                 _prdb.Create(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = PermissionValue.Allow });
             }
             RemoveCache();
@@ -368,8 +416,11 @@ namespace Gentings.Identity.Permissions
         {
             var permissions = LoadCachePermissions();
             if (category != null)
+            {
                 return permissions.Values.Where(x => x.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
                     .ToList();
+            }
+
             return permissions.Values;
         }
 
@@ -382,9 +433,12 @@ namespace Gentings.Identity.Permissions
         {
             var permissions = await LoadCachePermissionsAsync();
             if (category != null)
+            {
                 return permissions.Values
                     .Where(x => x.Category.Equals(category, StringComparison.OrdinalIgnoreCase))
                     .ToList();
+            }
+
             return permissions.Values;
         }
 
@@ -397,17 +451,27 @@ namespace Gentings.Identity.Permissions
         public virtual async Task<DataResult> SaveAsync(int roleId, HttpRequest request)
         {
             if (roleId == await GetOwnerIdAsync())
+            {
                 return Resources.PermissionSetCannotBeOwner;
+            }
+
             if (await _prdb.BeginTransactionAsync(async db =>
             {
                 foreach (var permission in LoadCachePermissions().Values)
                 {
                     if (!Enum.TryParse<PermissionValue>(request.Form[$"p-{roleId}-{permission.Id}"], out var value))
+                    {
                         value = PermissionValue.NotSet;
+                    }
+
                     if (await db.AnyAsync(x => x.RoleId == roleId && x.PermissionId == permission.Id))
+                    {
                         await db.UpdateAsync(x => x.RoleId == roleId && x.PermissionId == permission.Id, new { Value = value });
+                    }
                     else
+                    {
                         await db.CreateAsync(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = value });
+                    }
                 }
                 return true;
             }))
@@ -427,18 +491,28 @@ namespace Gentings.Identity.Permissions
         public virtual DataResult Save(int roleId, HttpRequest request)
         {
             if (roleId == GetOwnerId())
+            {
                 return Resources.PermissionSetCannotBeOwner;
+            }
+
             if (_prdb.BeginTransaction(db =>
             {
                 foreach (var permission in LoadCachePermissions().Values)
                 {
                     if (!Enum.TryParse<PermissionValue>(request.Form[$"p-{roleId}-{permission.Id}"], out var value))
+                    {
                         value = PermissionValue.NotSet;
+                    }
+
                     if (db.Any(x => x.RoleId == roleId && x.PermissionId == permission.Id))
+                    {
                         db.Update(x => x.RoleId == roleId && x.PermissionId == permission.Id,
                             new { Value = value });
+                    }
                     else
+                    {
                         db.Create(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = value });
+                    }
                 }
                 return true;
             }))

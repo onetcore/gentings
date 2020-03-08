@@ -61,7 +61,10 @@ namespace Gentings.Data.Migrations
             {
                 string builder = _builder.ToString();
                 if (!string.IsNullOrWhiteSpace(builder))
+                {
                     EndCommand();
+                }
+
                 _builder = null;
             }
             return _commands.GetEnumerator();

@@ -126,15 +126,26 @@ namespace Gentings.Identity
                 if (await UserContext.BeginTransactionAsync(async db =>
                 {
                     if (!await db.CreateAsync(user, cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await handler.OnCreatedAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (await UserContext.CreateAsync(user, cancellationToken))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -157,15 +168,26 @@ namespace Gentings.Identity
                 if (await UserContext.BeginTransactionAsync(async db =>
                 {
                     if (!await handler.OnUpdateAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await db.UpdateAsync(user, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (await UserContext.UpdateAsync(user, cancellationToken))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -188,15 +210,26 @@ namespace Gentings.Identity
                 if (await UserContext.BeginTransactionAsync(async db =>
                 {
                     if (!await handler.OnDeleteAsync(db, cancellationToken))
+                    {
                         return false;
+                    }
+
                     if (!await db.DeleteAsync(user.Id, cancellationToken))
+                    {
                         return false;
+                    }
+
                     return true;
                 }, cancellationToken: cancellationToken))
+                {
                     return IdentityResult.Success;
+                }
             }
             else if (await UserContext.DeleteAsync(user.Id, cancellationToken))
+            {
                 return IdentityResult.Success;
+            }
+
             return IdentityResult.Failed(ErrorDescriber.DefaultError());
         }
 
@@ -212,7 +245,10 @@ namespace Gentings.Identity
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (int.TryParse(userId, out var id))
+            {
                 return await FindUserAsync(id, cancellationToken);
+            }
+
             return null;
         }
 
@@ -297,9 +333,15 @@ namespace Gentings.Identity
         public virtual IdentityResult IsDuplicated(TUser user)
         {
             if (user.UserName != null && UserContext.Any(x => x.Id != user.Id && x.UserName == user.UserName))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateUserName(user.UserName));
+            }
+
             if (user.NormalizedUserName != null && UserContext.Any(x => x.Id != user.Id && x.NormalizedUserName == user.NormalizedUserName))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateUserName(user.NormalizedUserName));
+            }
+
             return IdentityResult.Success;
         }
 
@@ -312,9 +354,15 @@ namespace Gentings.Identity
         public virtual async Task<IdentityResult> IsDuplicatedAsync(TUser user, CancellationToken cancellationToken = default)
         {
             if (user.UserName != null && await UserContext.AnyAsync(x => x.Id != user.Id && x.UserName == user.UserName, cancellationToken))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateUserName(user.UserName));
+            }
+
             if (user.NormalizedUserName != null && await UserContext.AnyAsync(x => x.Id != user.Id && x.NormalizedUserName == user.NormalizedUserName, cancellationToken))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateUserName(user.NormalizedUserName));
+            }
+
             return IdentityResult.Success;
         }
 

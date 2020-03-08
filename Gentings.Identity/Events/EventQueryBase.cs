@@ -51,17 +51,35 @@ namespace Gentings.Identity.Events
             context.InnerJoin<TUser>((a, u) => a.UserId == u.Id)
                 .Select<TUser>(x => new { x.UserName, x.NormalizedUserName, x.Avatar });
             if (EventId > 0)
+            {
                 context.Where(x => x.EventId == EventId);
+            }
+
             if (UserId > 0)
+            {
                 context.Where(x => x.UserId == UserId);
+            }
+
             if (Start != null)
+            {
                 context.Where(x => x.CreatedDate >= Start);
+            }
+
             if (End != null)
+            {
                 context.Where(x => x.CreatedDate <= End);
+            }
+
             if (!string.IsNullOrEmpty(Name))
+            {
                 context.Where<TUser>(x => x.UserName.Contains(Name) || x.NormalizedUserName.Contains(Name));
+            }
+
             if (!string.IsNullOrEmpty(IP))
+            {
                 context.Where(x => x.IPAdress == IP);
+            }
+
             context.OrderByDescending(x => x.Id);
         }
     }

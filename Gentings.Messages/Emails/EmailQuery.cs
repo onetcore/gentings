@@ -40,15 +40,29 @@ namespace Gentings.Messages.Emails
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Title))
+            {
                 context.Where(x => x.Title.Contains(Title));
+            }
+
             if (!string.IsNullOrWhiteSpace(To))
+            {
                 context.Where(x => x.To.Contains(To));
+            }
+
             if (UserId > 0)
+            {
                 context.Where(x => x.UserId == UserId);
+            }
+
             if (Status != null)
+            {
                 context.Where(x => x.Status == Status);
+            }
+
             if (Result != null)
+            {
                 context.Where(x => x.Result == Result);
+            }
         }
     }
 }

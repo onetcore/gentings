@@ -120,12 +120,20 @@ namespace Gentings.Data.Migrations.Models
                 foreach (string commandText in commandTexts)
                 {
                     if (!db.ExecuteNonQuery(commandText))
+                    {
                         return false;
+                    }
                 }
                 if (migration.Version == 0)
+                {
                     return db.Delete(m => m.Id == migration.Id);
+                }
+
                 if (migration.Version == 1 && !db.Any(m => m.Id == migration.Id))
+                {
                     return db.Create(migration);
+                }
+
                 return db.Update(migration);
             }, 60);
         }
@@ -148,9 +156,15 @@ namespace Gentings.Data.Migrations.Models
                     await db.ExecuteNonQueryAsync(commandText, cancellationToken: cancellationToken);
                 }
                 if (migration.Version == 0)
+                {
                     return await db.DeleteAsync(m => m.Id == migration.Id, cancellationToken);
+                }
+
                 if (migration.Version == 1 && !await db.AnyAsync(m => m.Id == migration.Id, cancellationToken))
+                {
                     return await db.CreateAsync(migration, cancellationToken);
+                }
+
                 return await db.UpdateAsync(migration, cancellationToken);
             }, 600, cancellationToken);
         }

@@ -23,7 +23,9 @@ namespace Gentings.Data.Query.Translators.Internal
             Check.NotNull(methodCallExpression, nameof(methodCallExpression));
 
             if (ReferenceEquals(methodCallExpression.Method, _inMethodInfo))
+            {
                 return new InExpression(methodCallExpression.Arguments[0], methodCallExpression.Arguments[1]);
+            }
 
             return null;
         }
