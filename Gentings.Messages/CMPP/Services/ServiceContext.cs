@@ -1,5 +1,4 @@
 ﻿using Gentings.Messages.CMPP.Packaging;
-using Gentings.Messages.CMPP.Packaging;
 using Gentings.Messages.CMPP.ServiceProviders;
 using System;
 using System.Net.Sockets;
