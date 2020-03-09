@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Gentings.AspNetCore.ControllerBase;
 
 namespace Gentings.Storages.Controllers
 {
@@ -8,12 +9,12 @@ namespace Gentings.Storages.Controllers
     /// 验证码。
     /// </summary>
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class VerfierController : Controller
+    public class VerfierController : ControllerBase
     {
         /// <summary>
         /// 验证码。
         /// </summary>
-        [Route("{key}-vcode.png")]
+        [Route("vcode-{key}.png")]
         public IActionResult Index(string key)
         {
             int number = 6, fontSize = 16, height = 32;

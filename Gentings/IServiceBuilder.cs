@@ -20,5 +20,89 @@ namespace Gentings
         /// 配置接口。
         /// </summary>
         IConfiguration Configuration { get; }
+
+        /// <summary>
+        /// 添加Singleton服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddSingleton<TService>()
+            where TService : class;
+
+        /// <summary>
+        /// 添加Scoped服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddScoped<TService>()
+            where TService : class;
+
+        /// <summary>
+        /// 添加Transient服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddTransient<TService>()
+            where TService : class;
+
+        /// <summary>
+        /// 添加Singleton服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <typeparam name="TImplementation">实现类。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddSingleton<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService;
+
+        /// <summary>
+        /// 添加Scoped服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <typeparam name="TImplementation">实现类。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddScoped<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService;
+
+        /// <summary>
+        /// 添加Transient服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <typeparam name="TImplementation">实现类。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddTransient<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService;
+
+        /// <summary>
+        /// 添加Singleton服务集合。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <typeparam name="TImplementation">实现类。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddSingletons<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService;
+
+        /// <summary>
+        /// 添加Scoped服务集合。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <typeparam name="TImplementation">实现类。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddScopeds<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService;
+
+        /// <summary>
+        /// 添加Transient服务集合。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <typeparam name="TImplementation">实现类。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddTransients<TService, TImplementation>()
+            where TService : class
+            where TImplementation : class, TService;
     }
 }

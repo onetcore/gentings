@@ -1,6 +1,7 @@
 ﻿using Gentings.Identity.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gentings.Identity
 {
@@ -50,8 +51,8 @@ namespace Gentings.Identity
         {
             builder.AddServices(services =>
             {
-                var identityBuilder = services.AddIdentity<TUser, TRole>();
-                ConfigureIdentityServices(identityBuilder);
+                services.AddIdentity<TUser, TRole>();
+                ConfigureIdentityServices(new IdentityBuilder(typeof(TUser), typeof(TRole), services));
             });
             ConfigureIdentityServices(builder);
         }
