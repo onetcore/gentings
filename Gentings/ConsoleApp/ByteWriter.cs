@@ -241,5 +241,10 @@ namespace Gentings.ConsoleApp
         /// 大小。
         /// </summary>
         public long Length => _writer.BaseStream.Length;
+
+        /// <summary>
+        /// 当前流实例对象。
+        /// </summary>
+        public Stream Stream => _writer.BaseStream;
     }
 }

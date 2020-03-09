@@ -1,12 +1,13 @@
 ﻿using Gentings.ConsoleApp;
+using System.Threading.Tasks;
 
 namespace GCApp
 {
     class Program
     {
-        static void Main(string[] args)
+        static Task Main(string[] args)
         {
-            Consoles.Start(args);
+           return Consoles.StartAsync(args);
         }
     }
 }

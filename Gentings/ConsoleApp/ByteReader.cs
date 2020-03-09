@@ -15,6 +15,12 @@ namespace Gentings.ConsoleApp
         /// 初始化类<see cref="ByteReader"/>。
         /// </summary>
         /// <param name="sequence">只读字节内存片段。</param>
+        public ByteReader(byte[] sequence) : this(new ReadOnlySequence<byte>(sequence)) { }
+
+        /// <summary>
+        /// 初始化类<see cref="ByteReader"/>。
+        /// </summary>
+        /// <param name="sequence">只读字节内存片段。</param>
         public ByteReader(ReadOnlySequence<byte> sequence)
         {
             _sequence = sequence;
@@ -50,61 +56,89 @@ namespace Gentings.ConsoleApp
         /// <summary>
         /// 读取一个整形实例。
         /// </summary>
-        /// <param name="size">字节大小。</param>
         /// <returns>返回读取值。</returns>
-        public short ReadInt16(int size = 2)
+        public short ReadInt16()
         {
-            return BitConverter.ToInt16(Read(size));
+            var buffer = Read(2);
+            return unchecked((short)(buffer[0] << 8 | buffer[1]));
         }
 
         /// <summary>
         /// 读取一个无符号整形实例。
         /// </summary>
-        /// <param name="size">字节大小。</param>
         /// <returns>返回读取值。</returns>
-        public ushort ReadUInt16(int size = 2)
+        public ushort ReadUInt16()
         {
-            return BitConverter.ToUInt16(Read(size));
+            var buffer = Read(2);
+            return unchecked((ushort)(buffer[0] << 8 | buffer[1]));
         }
 
         /// <summary>
         /// 读取一个整形实例。
         /// </summary>
-        /// <param name="size">字节大小。</param>
         /// <returns>返回读取值。</returns>
-        public int ReadInt32(int size = 4)
+        public int ReadInt32()
         {
-            return BitConverter.ToInt32(Read(size));
+            var buffer = Read(4);
+            return unchecked(
+                (buffer[0] << 24) |
+                (buffer[1] << 16) |
+                (buffer[2] << 8) |
+                (buffer[3] << 0)
+            );
         }
 
         /// <summary>
         /// 读取一个无符号整形实例。
         /// </summary>
-        /// <param name="size">字节大小。</param>
         /// <returns>返回读取值。</returns>
-        public uint ReadUInt32(int size = 4)
+        public uint ReadUInt32()
         {
-            return BitConverter.ToUInt32(Read(size));
+            var buffer = Read(4);
+            return (uint)unchecked(
+                (buffer[0] << 24) |
+                (buffer[1] << 16) |
+                (buffer[2] << 8) |
+                (buffer[3] << 0)
+            );
         }
 
         /// <summary>
         /// 读取一个长整形实例。
         /// </summary>
-        /// <param name="size">字节大小。</param>
         /// <returns>返回读取值。</returns>
-        public long ReadInt64(int size = 8)
+        public long ReadInt64()
         {
-            return BitConverter.ToInt32(Read(size));
+            var buffer = Read(8);
+            return unchecked(
+                ((long)buffer[0] << 56) |
+                ((long)buffer[0] << 48) |
+                ((long)buffer[1] << 40) |
+                ((long)buffer[2] << 32) |
+                ((long)buffer[0] << 24) |
+                ((long)buffer[1] << 16) |
+                ((long)buffer[2] << 8) |
+                ((long)buffer[3] << 0)
+            );
         }
 
         /// <summary>
         /// 读取一个无符号长整形实例。
         /// </summary>
-        /// <param name="size">字节大小。</param>
         /// <returns>返回读取值。</returns>
-        public ulong ReadUInt64(int size = 8)
+        public ulong ReadUInt64()
         {
-            return BitConverter.ToUInt32(Read(size));
+            var buffer = Read(8);
+            return unchecked(
+                ((ulong)buffer[0] << 56) |
+                ((ulong)buffer[0] << 48) |
+                ((ulong)buffer[1] << 40) |
+                ((ulong)buffer[2] << 32) |
+                ((ulong)buffer[0] << 24) |
+                ((ulong)buffer[1] << 16) |
+                ((ulong)buffer[2] << 8) |
+                ((ulong)buffer[3] << 0)
+            );
         }
 
         /// <summary>
@@ -162,5 +196,14 @@ namespace Gentings.ConsoleApp
         /// 判断是否结尾。
         /// </summary>
         public bool IsEnd => _position.Equals(End);
+
+        /// <summary>
+        /// 显示16进制字符串。
+        /// </summary>
+        /// <returns>返回16进制字符串。</returns>
+        public override string ToString()
+        {
+            return _sequence.ToArray().ToHexString();
+        }
     }
 }
