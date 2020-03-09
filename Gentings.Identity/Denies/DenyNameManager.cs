@@ -33,7 +33,10 @@ namespace Gentings.Identity.Denies
             foreach (var word in words)
             {
                 if (IsDisallowed(word))
+                {
                     continue;
+                }
+
                 _context.Create(new DenyName { Name = word });
             }
             return DataAction.Created;

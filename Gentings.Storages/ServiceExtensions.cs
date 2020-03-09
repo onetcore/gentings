@@ -19,7 +19,7 @@ namespace Gentings.Storages
             return builder.AddServices(services =>
             {
                 services.AddSingleton<IMediaDirectory, DefaultMediaDirectory>();
-                services.AddTransient<DataMigration, DefaultMediaDataMigration>();
+                services.AddTransient<IDataMigration, DefaultMediaDataMigration>();
                 services.ConfigureOptions(typeof(ResourceOptions<IMediaDirectory>));
             });
         }

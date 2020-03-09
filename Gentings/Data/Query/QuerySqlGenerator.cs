@@ -33,10 +33,12 @@ namespace Gentings.Data.Query
         /// <param name="terminated">是否结束语句。</param>
         protected void AppendWherePrimaryKey(SqlIndentedStringBuilder builder, IEntityType entityType, bool terminated = true)
         {
-            var primaryKey = SqlHelper.DelimitIdentifier(entityType.SingleKey().Name);
+            string primaryKey = SqlHelper.DelimitIdentifier(entityType.SingleKey().Name);
             builder.Append($" WHERE {primaryKey} = {PrimaryKeyParameter}");
             if (terminated)
+            {
                 builder.AppendLine(SqlHelper.fieldsTerminator);
+            }
         }
 
         /// <summary>
@@ -72,13 +74,13 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Create(IEntityType entityType)
         {
-            var entry = _creations.GetOrAdd(entityType.ClrType, key =>
+            CacheEntry entry = _creations.GetOrAdd(entityType.ClrType, key =>
             {
-                var names = entityType.GetProperties()
+                List<string> names = entityType.GetProperties()
                     .Where(property => property.IsCreatable())
                     .Select(property => property.Name)
                     .ToList();
-                var builder = new SqlIndentedStringBuilder();
+                SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
                 builder.Append("INSERT INTO");
                 builder.Append(" ").Append(SqlHelper.DelimitIdentifier(entityType.Table));
                 builder.Append("(").JoinAppend(names.Select(SqlHelper.DelimitIdentifier)).Append(")");
@@ -86,7 +88,10 @@ namespace Gentings.Data.Query
                     .JoinAppend(names.Select(SqlHelper.Parameterized))
                     .Append(")").Append(SqlHelper.fieldsTerminator);
                 if (entityType.Identity != null)
+                {
                     builder.Append(SelectIdentity()).Append(SqlHelper.fieldsTerminator);
+                }
+
                 return new CacheEntry(builder.ToString(), names);
             });
             return new SqlIndentedStringBuilder(entry.Sql, entry.Parameters);
@@ -99,26 +104,32 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Update(IEntityType entityType)
         {
-            var entry = _updates.GetOrAdd(entityType.ClrType, key =>
+            CacheEntry entry = _updates.GetOrAdd(entityType.ClrType, key =>
             {
-                var names = entityType.GetProperties()
+                List<string> names = entityType.GetProperties()
                     .Where(property => property.IsUpdatable())
                     .Select(property => property.Name)
                     .ToList();
-                var builder = new SqlIndentedStringBuilder();
+                SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
                 builder.Append("UPDATE ").Append(SqlHelper.DelimitIdentifier(entityType.Table)).Append(" SET ");
                 builder.JoinAppend(names.Select(name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}")).AppendLine();
                 if (entityType.PrimaryKey != null)
                 {
-                    var primaryKeys = entityType.PrimaryKey.Properties
+                    List<string> primaryKeys = entityType.PrimaryKey.Properties
                         .Select(p => p.Name)
                         .ToList();
-                    var keys = new List<string>();
+                    List<string> keys = new List<string>();
                     keys.AddRange(primaryKeys);
                     if (entityType.RowVersion != null)
+                    {
                         keys.Add(entityType.RowVersion.Name);
+                    }
+
                     if (entityType.ConcurrencyKey != null)
+                    {
                         keys.AddRange(entityType.ConcurrencyKey.Properties.Select(x => x.Name));
+                    }
+
                     names.AddRange(keys);
                     builder.Append("WHERE ")
                         .JoinAppend(
@@ -155,7 +166,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Update(IEntityType entityType, object parameters)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("UPDATE ").Append(SqlHelper.DelimitIdentifier(entityType.Table)).Append(" SET ");
             builder.CreateObjectParameters(parameters);
             builder.JoinAppend(builder.Parameters.Keys.Select(
@@ -173,7 +184,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Update(IEntityType entityType, Expression expression, object parameters)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("UPDATE ").Append(SqlHelper.DelimitIdentifier(entityType.Table)).Append(" SET ");
             builder.CreateObjectParameters(parameters);
             builder.JoinAppend(builder.Parameters.Keys.Select(
@@ -191,7 +202,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Update(IEntityType entityType, Expression expression, LambdaExpression parameters)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("UPDATE ").Append(SqlHelper.DelimitIdentifier(entityType.Table)).Append(" SET ");
             builder.Append(VisitUpdateExpression(parameters));
             builder.AppendEx(Visit(expression), " WHERE {0}").Append(SqlHelper.fieldsTerminator);
@@ -207,7 +218,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder PrimaryKeySql(IEntityType entityType, string sqlHeader, object key)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append(sqlHeader).Append(" ")
                 .Append(SqlHelper.DelimitIdentifier(entityType.Table));
             AppendWherePrimaryKey(builder, entityType);
@@ -232,7 +243,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Delete(IEntityType entityType, Expression expression)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("DELETE FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table));
             builder.AppendEx(Visit(expression), " WHERE {0}").Append(SqlHelper.fieldsTerminator);
             return builder;
@@ -251,7 +262,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Any(IEntityType entityType)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("SELECT 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table));
             AppendWherePrimaryKey(builder, entityType);
             return builder;
@@ -279,8 +290,11 @@ namespace Gentings.Data.Query
         public virtual SqlIndentedStringBuilder Scalar(IEntityType entityType, string method, LambdaExpression column, Expression expression, string nullColumn = null)
         {
             if (column != null)
+            {
                 nullColumn = SqlHelper.DelimitIdentifier(column.GetPropertyAccess().Name);
-            var builder = new SqlIndentedStringBuilder();
+            }
+
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append($"SELECT {method}({nullColumn}) FROM {SqlHelper.DelimitIdentifier(entityType.Table)}");
             builder.AppendEx(Visit(expression), " WHERE {0}")
                 .AppendLine(SqlHelper.fieldsTerminator);
@@ -295,8 +309,11 @@ namespace Gentings.Data.Query
         public virtual string Visit(Expression expression)
         {
             if (expression == null)
+            {
                 return null;
-            var visitor = _visitorFactory.Create();
+            }
+
+            IExpressionVisitor visitor = _visitorFactory.Create();
             visitor.Visit(expression);
             return visitor.ToString();
         }
@@ -309,7 +326,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Select(IEntityType entityType, Expression expression)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("SELECT * FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table));
             builder.AppendEx(Visit(expression), " WHERE {0}").Append(SqlHelper.fieldsTerminator);
             return builder;
@@ -323,7 +340,7 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL构建实例。</returns>
         public virtual SqlIndentedStringBuilder Any(IEntityType entityType, Expression expression)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             builder.Append("SELECT 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table));
             builder.AppendEx(Visit(expression), " WHERE {0}").Append(SqlHelper.fieldsTerminator);
             return builder;
@@ -336,13 +353,20 @@ namespace Gentings.Data.Query
         /// <returns>返回SQL脚本。</returns>
         public SqlIndentedStringBuilder Query(IQuerySql sql)
         {
-            var builder = new SqlIndentedStringBuilder();
+            SqlIndentedStringBuilder builder = new SqlIndentedStringBuilder();
             if (sql.PageIndex != null)
+            {
                 PageQuery(sql, builder);
+            }
             else if (sql.Size != null)
+            {
                 SizeQuery(sql, builder);
+            }
             else
+            {
                 Query(sql, builder);
+            }
+
             return builder;
         }
 
@@ -353,19 +377,19 @@ namespace Gentings.Data.Query
         /// <returns>返回解析的表达式字符串。</returns>
         private string VisitUpdateExpression(LambdaExpression expression)
         {
-            var fieldss = new List<string>();
+            List<string> fieldss = new List<string>();
             if (expression.Body is NewExpression body)
             {
-                for (var i = 0; i < body.Members.Count; i++)
+                for (int i = 0; i < body.Members.Count; i++)
                 {
-                    var field = SqlHelper.DelimitIdentifier(body.Members[i].Name);
+                    string field = SqlHelper.DelimitIdentifier(body.Members[i].Name);
                     field += " = ";
                     field += Visit(body.Arguments[i]);
                     fieldss.Add(field);
                 }
                 return string.Join(", ", fieldss);
             }
-            var parameter = SqlHelper.DelimitIdentifier(expression.Parameters[0].Name);
+            string parameter = SqlHelper.DelimitIdentifier(expression.Parameters[0].Name);
             parameter += " = ";
             parameter += Visit(expression);
             return parameter;

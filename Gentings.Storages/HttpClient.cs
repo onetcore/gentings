@@ -142,10 +142,14 @@ namespace Gentings.Storages
                 fileNameWithoutExtension + Path.GetExtension(uri.AbsolutePath);
             var path = Path.Combine(dir, name);
             if (File.Exists(path))
+            {
                 return name;
+            }
 
             if (!Directory.Exists(dir))
+            {
                 Directory.CreateDirectory(dir);
+            }
 
             return await HttpClient.ExecuteAsync(async client =>
             {
@@ -192,7 +196,10 @@ namespace Gentings.Storages
         {
             using var client = new System.Net.Http.HttpClient();
             if (referenceUrl != null)
+            {
                 client.DefaultRequestHeaders.Referrer = new Uri(referenceUrl);
+            }
+
             client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
             return await func(client);
         }
@@ -208,7 +215,10 @@ namespace Gentings.Storages
         {
             using var client = new System.Net.Http.HttpClient();
             if (referenceUrl != null)
+            {
                 client.DefaultRequestHeaders.Referrer = new Uri(referenceUrl);
+            }
+
             client.DefaultRequestHeaders.Add("User-Agent", UserAgent);
             return func(client);
         }

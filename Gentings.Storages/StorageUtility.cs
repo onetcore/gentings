@@ -97,7 +97,10 @@ namespace Gentings.Storages
             defaultEncoding ??= Encoding.GetEncoding("GB2312");
             using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
             if (fs.Length < 3)
+            {
                 return defaultEncoding;
+            }
+
             var buffer = new byte[3];
             fs.Read(buffer, 0, 3);
             var unicode = new byte[] { 0xFF, 0xFE, 0x41 };
@@ -105,11 +108,20 @@ namespace Gentings.Storages
             var utf8 = new byte[] { 0xEF, 0xBB, 0xBF };//带BOM
 
             if (buffer[0] == utf8[0] && buffer[1] == utf8[1] && buffer[2] == utf8[2] || IsUTF8(fs))
+            {
                 return Encoding.UTF8;
+            }
+
             if (buffer[0] == unicodeBig[0] && buffer[1] == unicodeBig[1] && buffer[2] == unicodeBig[2])
+            {
                 return Encoding.BigEndianUnicode;
+            }
+
             if (buffer[0] == unicode[0] && buffer[1] == unicode[1] && buffer[2] == unicode[2])
+            {
                 return Encoding.Unicode;
+            }
+
             return defaultEncoding;
         }
 
@@ -172,13 +184,19 @@ namespace Gentings.Storages
         {
             var directory = new DirectoryInfo(directoryName);
             if (!directory.Exists)
+            {
                 return;
+            }
+
             destinationEncoding ??= Encoding.UTF8;
             foreach (var info in directory.GetFiles(searchPattern, option))
             {
                 var current = GetEncoding(info.FullName, defaultEncoding);
                 if (current == destinationEncoding)
+                {
                     continue;
+                }
+
                 var content = File.ReadAllText(info.FullName, current);
                 await using var fs = new FileStream(info.FullName, FileMode.Create, FileAccess.Write);
                 await using var writer = new StreamWriter(fs, destinationEncoding);

@@ -37,7 +37,10 @@ namespace Gentings.Identity
             {
                 var userId = httpContext.User.GetUserId();
                 if (userId > 0)
+                {
                     return httpContext.RequestServices.GetRequiredService<IDbContext<TUser>>().Find(userId);
+                }
+
                 return null;
             });
         }
@@ -65,7 +68,10 @@ namespace Gentings.Identity
             {
                 var userId = httpContext.User.GetUserId();
                 if (userId > 0)
+                {
                     return await httpContext.RequestServices.GetRequiredService<IDbContext<TUser>>().FindAsync(userId);
+                }
+
                 return null;
             });
         }
@@ -79,7 +85,10 @@ namespace Gentings.Identity
         {
             var ipAddress = httpContext.Connection?.RemoteIpAddress?.ToString();
             if (ipAddress != null)
+            {
                 return ipAddress;
+            }
+
             var xff = httpContext.Request.Headers["x-forwarded-for"];
             if (xff.Count > 0)
             {
@@ -99,7 +108,10 @@ namespace Gentings.Identity
         public static IdentityError SecurityError(this IdentityErrorDescriber describer, ErrorDescriptor errorDescriptor, params object[] args)
         {
             if (describer is SecurityErrorDescriptor descriptor)
+            {
                 return descriptor.Error(errorDescriptor, args);
+            }
+
             return describer.DefaultError();
         }
 

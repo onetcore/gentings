@@ -69,9 +69,11 @@ namespace Gentings.Data.Query
         /// <param name="expression">要访问的表达式。</param>
         public override Expression Visit(Expression expression)
         {
-            var translatedExpression = _fragmentTranslator.Translate(expression);
+            Expression translatedExpression = _fragmentTranslator.Translate(expression);
             if (translatedExpression != null && translatedExpression != expression)
+            {
                 return Visit(translatedExpression);
+            }
 
             return base.Visit(expression);
         }
@@ -97,7 +99,7 @@ namespace Gentings.Data.Query
             }
             else
             {
-                var needParentheses
+                bool needParentheses
                     = !binaryExpression.Left.IsSimpleExpression()
                       || !binaryExpression.Right.IsSimpleExpression()
                       || binaryExpression.IsLogicalOperation();
@@ -116,17 +118,21 @@ namespace Gentings.Data.Query
                     Sql.Append(_sqlHelper.EscapeLiteral(true));
                 }
 
-                if (!TryGenerateBinaryOperator(binaryExpression.NodeType, out var op))
+                if (!TryGenerateBinaryOperator(binaryExpression.NodeType, out string op))
+                {
                     throw new ArgumentOutOfRangeException();
+                }
 
                 if ((binaryExpression.NodeType == ExpressionType.NotEqual ||
                     binaryExpression.NodeType == ExpressionType.Equal) && binaryExpression.Right.NodeType == ExpressionType.Constant)
                 {
-                    var value = binaryExpression.Right.Invoke();
+                    object value = binaryExpression.Right.Invoke();
                     if (value == null)
+                    {
                         Sql.Append(binaryExpression.NodeType == ExpressionType.Equal
                             ? " IS NULL "
                             : " IS NOT NULL ");
+                    }
                     else
                     {
                         Sql.Append(op);
@@ -191,9 +197,12 @@ namespace Gentings.Data.Query
         {
             if (unaryExpression.Operand is MemberExpression memberExpression)
             {
-                var expr = memberExpression.Expression;
+                Expression expr = memberExpression.Expression;
                 if (expr.NodeType == ExpressionType.Convert)
+                {
                     expr = expr.RemoveConvert();
+                }
+
                 switch (expr.NodeType)
                 {
                     case ExpressionType.Parameter:
@@ -207,15 +216,21 @@ namespace Gentings.Data.Query
                 return unaryExpression;
             }
 
-            var expression = unaryExpression.Operand;
+            Expression expression = unaryExpression.Operand;
             if (expression is MethodCallExpression methodCallExpression)
+            {
                 expression = _methodCallTranslator.Translate(methodCallExpression);
+            }
 
             if (expression is InExpression inExpression)
+            {
                 return VisitNotIn(inExpression);
+            }
 
             if (expression is IsNullExpression isNullExpression)
+            {
                 return VisitIsNotNull(isNullExpression);
+            }
 
             return unaryExpression;
         }
@@ -289,13 +304,18 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(node, nameof(node));
 
-            var translatedExpression = _memberTranslator.Translate(node);
+            Expression translatedExpression = _memberTranslator.Translate(node);
             if (translatedExpression != null)
+            {
                 return Visit(translatedExpression);
+            }
 
-            var expr = node.Expression;
+            Expression expr = node.Expression;
             if (expr.NodeType == ExpressionType.Convert)
+            {
                 expr = expr.RemoveConvert();
+            }
+
             switch (expr.NodeType)
             {
                 case ExpressionType.Parameter:
@@ -311,11 +331,15 @@ namespace Gentings.Data.Query
 
         private void AppendInvoke(Expression expression)
         {
-            var value = expression.Invoke();
+            object value = expression.Invoke();
             if (value == null)
+            {
                 Sql.Append("null");
+            }
             else
+            {
                 Sql.Append(_sqlHelper.EscapeLiteral(value));
+            }
         }
 
         /// <summary>
@@ -329,10 +353,12 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(methodCallExpression, nameof(methodCallExpression));
 
-            var translatedExpression = _methodCallTranslator.Translate(methodCallExpression);
+            Expression translatedExpression = _methodCallTranslator.Translate(methodCallExpression);
 
             if (translatedExpression != null)
+            {
                 return Visit(translatedExpression);
+            }
 
             return base.VisitMethodCall(methodCallExpression);
         }
@@ -399,9 +425,12 @@ namespace Gentings.Data.Query
         /// <returns>返回解析的表达式。</returns>
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
-            var expression = node.Body;
+            Expression expression = node.Body;
             if (expression.NodeType == ExpressionType.MemberAccess && expression.Type == typeof(bool))
+            {
                 return Visit(Expression.Equal(expression, Expression.Constant(true)));
+            }
+
             return base.VisitLambda(node);
         }
 
@@ -474,7 +503,7 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(literalExpression, nameof(literalExpression));
 
-            var value = literalExpression.Literal;
+            string value = literalExpression.Literal;
             Sql.Append(_sqlHelper.EscapeLiteral(value));
 
             return literalExpression;
@@ -561,7 +590,7 @@ namespace Gentings.Data.Query
 
             Sql.Append(" AS ");
 
-            var typeMapping = _typeMapper.GetMapping(explicitCastExpression.Type);
+            string typeMapping = _typeMapper.GetMapping(explicitCastExpression.Type);
 
             if (typeMapping == null)
             {
@@ -576,7 +605,7 @@ namespace Gentings.Data.Query
 
         private static IReadOnlyList<Expression> ProcessInValues(Expression inValues)
         {
-            var expressions = new List<Expression>();
+            List<Expression> expressions = new List<Expression>();
             if (inValues is ConstantExpression inConstant)
             {
                 AddInExpressionValues(inConstant.Value, expressions, inValues);
@@ -584,11 +613,13 @@ namespace Gentings.Data.Query
             }
 
             if (inValues is NewArrayExpression arrayExpression)
+            {
                 return arrayExpression.Expressions;
+            }
 
             if (inValues is ListInitExpression listExpression)
             {
-                foreach (var initializer in listExpression.Initializers)
+                foreach (ElementInit initializer in listExpression.Initializers)
                 {
                     expressions.Add(initializer.Arguments[0]);
                 }
@@ -636,7 +667,7 @@ namespace Gentings.Data.Query
         {
             joinAction ??= (isb => isb.Append(", "));
 
-            for (var i = 0; i < items.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
                 if (i > 0)
                 {

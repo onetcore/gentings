@@ -18,7 +18,10 @@
             set
             {
                 if (value != MigrationStatus.Error)
+                {
                     Message = null;
+                }
+
                 _instance._status = value;
             }
         }

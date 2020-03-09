@@ -16,7 +16,7 @@ namespace Gentings.Data.SqlServer.Migrations
         {
             get
             {
-                var builder = new StringBuilder();
+                StringBuilder builder = new StringBuilder();
 
                 builder.Append("SELECT OBJECT_ID(N'")
                     .Append(SqlHelper.EscapeIdentifier(Table))
@@ -33,7 +33,7 @@ namespace Gentings.Data.SqlServer.Migrations
         {
             get
             {
-                var builder = new StringBuilder();
+                StringBuilder builder = new StringBuilder();
                 builder.Append("CREATE TABLE ").Append(Table).AppendLine("(");
                 builder.AppendLine("    [Id]      NVARCHAR (256) NOT NULL,");
                 builder.AppendLine("    [Version] INT            DEFAULT ((0)) NOT NULL,");

@@ -46,17 +46,34 @@ namespace Gentings.Storages.Media
         {
             context.WithNolock();
             if (Id != null)
+            {
                 context.Where(x => x.TargetId == Id);
+            }
+
             if (!string.IsNullOrEmpty(Ext))
+            {
                 context.Where(x => x.Extension == Ext);
+            }
+
             if (!string.IsNullOrEmpty(Name))
+            {
                 context.Where(x => x.Name.Contains(Name));
+            }
+
             if (Start != null)
+            {
                 context.Where(x => x.CreatedDate >= Start);
+            }
+
             if (End != null)
+            {
                 context.Where(x => x.CreatedDate <= End);
+            }
+
             if (ExtensionName != null)
+            {
                 context.Where(x => x.ExtensionName == ExtensionName);
+            }
         }
     }
 }

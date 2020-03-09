@@ -26,7 +26,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
                 // SqlServer LTRIM does not take arguments
                 && ((methodCallExpression.Arguments[0] as ConstantExpression)?.Value as Array)?.Length == 0)
             {
-                var sqlArguments = new[] { methodCallExpression.Object };
+                Expression[] sqlArguments = new[] { methodCallExpression.Object };
 
                 return new SqlFunctionExpression("LTRIM", methodCallExpression.Type, sqlArguments);
             }

@@ -6,7 +6,7 @@ namespace Gentings.Data.Migrations.Builders
     {
         public static string GetName(NameType type, string table, string[] columns = null, string alt = null)
         {
-            var name = new StringBuilder();
+            StringBuilder name = new StringBuilder();
             switch (type)
             {
                 case NameType.PrimaryKey:
@@ -24,9 +24,15 @@ namespace Gentings.Data.Migrations.Builders
             }
             name.Append(table.Replace('.', '_'));
             if (columns != null)
+            {
                 name.Append("_").Append(string.Join("_", columns));
+            }
+
             if (alt != null)
+            {
                 name.Append("_").Append(alt.Replace('.', '_'));
+            }
+
             return name.ToString();
         }
     }

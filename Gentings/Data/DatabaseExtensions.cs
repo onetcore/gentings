@@ -18,7 +18,10 @@ namespace Gentings.Data
         private static int ConvertInt32(object value)
         {
             if (value == null)
+            {
                 return 0;
+            }
+
             return Convert.ToInt32(value);
         }
 
@@ -228,18 +231,18 @@ namespace Gentings.Data
         /// <param name="models">模型列表。</param>
         public static Task ImportAsync<TModel>(this IDatabase database, IEnumerable<TModel> models)
         {
-            var type = typeof(TModel).GetEntityType();
-            var properties = type.GetProperties().Where(x => x.IsCreatable()).ToList();
-            var table = new DataTable();
+            IEntityType type = typeof(TModel).GetEntityType();
+            List<IProperty> properties = type.GetProperties().Where(x => x.IsCreatable()).ToList();
+            DataTable table = new DataTable();
             table.TableName = type.Table;
-            foreach (var property in properties)
+            foreach (IProperty property in properties)
             {
                 table.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.ClrType) ?? property.ClrType);
             }
-            var values = new object[properties.Count];
-            foreach (var model in models)
+            object[] values = new object[properties.Count];
+            foreach (TModel model in models)
             {
-                for (var i = 0; i < values.Length; i++)
+                for (int i = 0; i < values.Length; i++)
                 {
                     values[i] = properties[i].Get(model);
                 }

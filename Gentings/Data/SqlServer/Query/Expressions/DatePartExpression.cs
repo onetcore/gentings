@@ -50,7 +50,7 @@ namespace Gentings.Data.SqlServer.Query.Expressions
         {
             Check.NotNull(visitor, nameof(visitor));
 
-            var specificVisitor = visitor as ISqlServerExpressionVisitor;
+            ISqlServerExpressionVisitor specificVisitor = visitor as ISqlServerExpressionVisitor;
 
             return specificVisitor != null
                 ? specificVisitor.VisitDatePartExpression(this)

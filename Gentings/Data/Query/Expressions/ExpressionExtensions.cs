@@ -27,15 +27,20 @@ namespace Gentings.Data.Query.Expressions
         /// <returns>返回判断结果。</returns>
         public static bool IsSimpleExpression( this Expression expression)
         {
-            var unwrappedExpression = expression.RemoveConvert();
+            Expression unwrappedExpression = expression.RemoveConvert();
 
             if (unwrappedExpression is ConstantExpression
                 || unwrappedExpression is ParameterExpression
                 || unwrappedExpression is LiteralExpression)
+            {
                 return true;
+            }
 
             if (unwrappedExpression.NodeType == ExpressionType.MemberAccess && unwrappedExpression.Type == typeof(bool))
+            {
                 return true;
+            }
+
             return false;
         }
     }

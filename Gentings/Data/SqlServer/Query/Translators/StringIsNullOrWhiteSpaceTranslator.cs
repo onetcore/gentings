@@ -17,7 +17,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (_methodInfo == methodCallExpression.Method)
             {
-                var argument = methodCallExpression.Arguments[0];
+                Expression argument = methodCallExpression.Arguments[0];
 
                 return Expression.MakeBinary(
                     ExpressionType.OrElse,

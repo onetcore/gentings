@@ -17,7 +17,10 @@ namespace Gentings.Data.Migrations
             while (!cancellationToken.IsCancellationRequested)
             {
                 if (MigrationService.Status == MigrationStatus.Completed)
+                {
                     break;
+                }
+
                 await Task.Delay(100, cancellationToken);
             }
         }

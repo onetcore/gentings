@@ -96,9 +96,15 @@ namespace Gentings.Identity.Roles
         {
             var roles = Load().ToList();
             if (role.Name != null && roles.Any(x => x.Id != role.Id && x.Name.Equals(role.Name, StringComparison.OrdinalIgnoreCase)))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateRoleName(role.Name));
+            }
+
             if (role.NormalizedName != null && roles.Any(x => x.Id != role.Id && x.NormalizedName.Equals(role.NormalizedName, StringComparison.OrdinalIgnoreCase)))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateNormalizedRoleName(role.Name));
+            }
+
             return IdentityResult.Success;
         }
 
@@ -111,7 +117,10 @@ namespace Gentings.Identity.Roles
         {
             var result = IdentityResult.Success;
             if (!DbContext.RoleContext.Delete(x => x.Id.Included(ids)))
+            {
                 result = IdentityResult.Failed(ErrorDescriber.DefaultError());
+            }
+
             return FromResult(result, null);
         }
 
@@ -124,7 +133,10 @@ namespace Gentings.Identity.Roles
         {
             var result = IdentityResult.Success;
             if (!await DbContext.RoleContext.DeleteAsync(x => x.Id.Included(ids)))
+            {
                 result = IdentityResult.Failed(ErrorDescriber.DefaultError());
+            }
+
             return FromResult(result, null);
         }
 
@@ -137,9 +149,15 @@ namespace Gentings.Identity.Roles
         {
             var roles = (await LoadAsync()).ToList();
             if (role.Name != null && roles.Any(x => x.Id != role.Id && x.Name.Equals(role.Name, StringComparison.OrdinalIgnoreCase)))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateRoleName(role.Name));
+            }
+
             if (role.NormalizedName != null && roles.Any(x => x.Id != role.Id && x.NormalizedName.Equals(role.NormalizedName, StringComparison.OrdinalIgnoreCase)))
+            {
                 return IdentityResult.Failed(ErrorDescriber.DuplicateNormalizedRoleName(role.Name));
+            }
+
             return IdentityResult.Success;
         }
 
@@ -172,7 +190,10 @@ namespace Gentings.Identity.Roles
         public virtual IdentityResult Save(TRole role)
         {
             if (role.Id > 0)
+            {
                 return Update(role);
+            }
+
             return Create(role);
         }
 
@@ -184,11 +205,17 @@ namespace Gentings.Identity.Roles
         public virtual IdentityResult Create(TRole role)
         {
             if (role == null)
+            {
                 throw new ArgumentNullException(nameof(role));
+            }
+
             role.NormalizedName ??= NormalizeKey(role.Name);
             var result = IsDuplicated(role);
             if (!result.Succeeded)
+            {
                 return result;
+            }
+
             return FromResult(_store.Create(role), role);
         }
 
@@ -200,11 +227,17 @@ namespace Gentings.Identity.Roles
         public override async Task<IdentityResult> CreateAsync(TRole role)
         {
             if (role == null)
+            {
                 throw new ArgumentNullException(nameof(role));
+            }
+
             role.NormalizedName ??= NormalizeKey(role.Name);
             var result = await IsDuplicatedAsync(role);
             if (!result.Succeeded)
+            {
                 return result;
+            }
+
             return FromResult(await _store.CreateAsync(role, CancellationToken), role);
         }
 
@@ -218,7 +251,10 @@ namespace Gentings.Identity.Roles
             role.NormalizedName ??= NormalizeKey(role.Name);
             var result = IsDuplicated(role);
             if (!result.Succeeded)
+            {
                 return result;
+            }
+
             return FromResult(_store.Update(role), role);
         }
 
@@ -232,7 +268,10 @@ namespace Gentings.Identity.Roles
             role.NormalizedName ??= NormalizeKey(role.Name);
             var result = await IsDuplicatedAsync(role);
             if (!result.Succeeded)
+            {
                 return result;
+            }
+
             return FromResult(await _store.UpdateAsync(role), role);
         }
 
@@ -244,7 +283,10 @@ namespace Gentings.Identity.Roles
         public virtual Task<IdentityResult> SaveAsync(TRole role)
         {
             if (role.Id > 0)
+            {
                 return UpdateAsync(role);
+            }
+
             return CreateAsync(role);
         }
 
@@ -330,7 +372,10 @@ namespace Gentings.Identity.Roles
         protected virtual bool FromResult(bool result, TRole role)
         {
             if (result)
+            {
                 Cache.Remove(_cacheKey);
+            }
+
             return result;
         }
     }

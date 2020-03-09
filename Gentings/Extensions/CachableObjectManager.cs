@@ -70,7 +70,26 @@ namespace Gentings.Extensions
         /// <returns>数据库操作结果。</returns>
         protected DataResult Refresh(DataResult result)
         {
-            if (result) Refresh();
+            if (result)
+            {
+                Refresh();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 如果操作结果成功刷新缓存并返回结果。
+        /// </summary>
+        /// <param name="result">数据库操作结果。</param>
+        /// <returns>数据库操作结果。</returns>
+        protected bool Refresh(bool result)
+        {
+            if (result)
+            {
+                Refresh();
+            }
+
             return result;
         }
 
@@ -204,7 +223,7 @@ namespace Gentings.Extensions
         /// <returns>返回分类实例。</returns>
         public override TModel Find(TKey id)
         {
-            var categories = Fetch();
+            IEnumerable<TModel> categories = Fetch();
             return categories.FirstOrDefault(x => x.Id.Equals(id));
         }
 
@@ -216,7 +235,7 @@ namespace Gentings.Extensions
         /// <returns>返回分类实例。</returns>
         public override async Task<TModel> FindAsync(TKey id, CancellationToken cancellationToken = default)
         {
-            var categories = await FetchAsync(cancellationToken: cancellationToken);
+            IEnumerable<TModel> categories = await FetchAsync(cancellationToken: cancellationToken);
             return categories.FirstOrDefault(x => x.Id.Equals(id));
         }
 
@@ -238,7 +257,7 @@ namespace Gentings.Extensions
         /// <returns>返回当前模型实例。</returns>
         public override async Task<TModel> FindAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default)
         {
-            var categories = await FetchAsync(expression, cancellationToken);
+            IEnumerable<TModel> categories = await FetchAsync(expression, cancellationToken);
             return categories.SingleOrDefault();
         }
 
@@ -272,7 +291,7 @@ namespace Gentings.Extensions
         /// <returns>返回模型实例列表。</returns>
         public override IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null)
         {
-            var models = Cache.GetOrCreate(CacheKey, ctx =>
+            IEnumerable<TModel> models = Cache.GetOrCreate(CacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
                 return Context.Fetch();
@@ -289,12 +308,54 @@ namespace Gentings.Extensions
         public override async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var models = await Cache.GetOrCreateAsync(CacheKey, ctx =>
+            IEnumerable<TModel> models = await Cache.GetOrCreateAsync(CacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
                 return Context.FetchAsync(cancellationToken: cancellationToken);
             });
             return models.Filter(expression);
+        }
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <returns>返回更新结果。</returns>
+        public override bool Update(TModel model)
+        {
+            return Refresh(base.Update(model));
+        }
+
+        /// <summary>
+        /// 更新特定的实例。
+        /// </summary>
+        /// <param name="model">更新对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回更新结果。</returns>
+        public override async Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
+        {
+            return Refresh(await Context.UpdateAsync(model, cancellationToken));
+        }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <returns>返回添加结果。</returns>
+        public override bool Create(TModel model)
+        {
+            return Refresh(Context.Create(model));
+        }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回添加结果。</returns>
+        public override async Task<bool> CreateAsync(TModel model, CancellationToken cancellationToken = default)
+        {
+            return Refresh(await Context.CreateAsync(model, cancellationToken));
         }
     }
 

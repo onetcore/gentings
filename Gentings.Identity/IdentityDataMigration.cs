@@ -151,11 +151,13 @@ namespace Gentings.Identity
 
             //判断TUserRole是否单独一个表格，也可以把这个表格合并到TUser中，每一个用户只是应对一个角色
             if (typeof(UserRoleBase).IsAssignableFrom(typeof(TUserRole)))
+            {
                 builder.CreateTable<TUserRole>(table => table
                     .Column(x => x.UserId)
                     .Column(x => x.RoleId)
                     .ForeignKey<TUser>(x => x.UserId, x => x.Id, onDelete: ReferentialAction.Cascade)
                     .ForeignKey<TRole>(x => x.RoleId, x => x.Id, onDelete: ReferentialAction.Cascade));
+            }
 
             builder.CreateTable<TRoleClaim>(table => table
                 .Column(x => x.Id)

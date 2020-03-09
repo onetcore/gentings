@@ -20,7 +20,10 @@ namespace Gentings.Extensions
             get
             {
                 if (_page < 1)
+                {
                     _page = 1;
+                }
+
                 return _page;
             }
             set => _page = Math.Max(1, value);
@@ -71,7 +74,10 @@ namespace Gentings.Extensions
             where TQuery : QueryEnumerable<TModel>, new()
         {
             if (models == null || !models.Any())
+            {
                 return (TQuery)this;
+            }
+
             models = Init(models);
             Size = models.Count();
             Pages = (int)Math.Ceiling(Size * 1.0 / PageSize);

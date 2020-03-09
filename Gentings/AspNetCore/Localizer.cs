@@ -36,10 +36,13 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(Enum key)
         {
-            var type = key.GetType();
-            var resource = GetString(type, $"{type.Name}_{key}");
+            Type type = key.GetType();
+            string resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
+            {
                 return key.ToString();
+            }
+
             return resource;
         }
 
@@ -51,10 +54,13 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(Enum key, params object[] args)
         {
-            var type = key.GetType();
-            var resource = GetString(type, $"{type.Name}_{key}");
+            Type type = key.GetType();
+            string resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
+            {
                 return key.ToString();
+            }
+
             return string.Format(resource, args);
         }
 
@@ -78,9 +84,12 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString<TResource>(string key, params object[] args)
         {
-            var resource = GetString(typeof(TResource), key);
+            string resource = GetString(typeof(TResource), key);
             if (resource == null)
+            {
                 return key;
+            }
+
             return string.Format(resource, args);
         }
 
@@ -92,8 +101,12 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前属性本地化字符串。</returns>
         public virtual string GetString<TResource>(Expression<Func<TResource, object>> expression)
         {
-            var member = expression.GetPropertyAccess();
-            if (member == null) return null;
+            PropertyInfo member = expression.GetPropertyAccess();
+            if (member == null)
+            {
+                return null;
+            }
+
             return GetString(member.DeclaringType, member.Name);
         }
 
@@ -106,9 +119,12 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前属性本地化字符串。</returns>
         public virtual string GetString<TResource>(Expression<Func<TResource, object>> expression, params object[] args)
         {
-            var resource = GetString(expression);
+            string resource = GetString(expression);
             if (resource == null)
+            {
                 return null;
+            }
+
             return string.Format(resource, args);
         }
 
@@ -122,17 +138,25 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(Type type, string key)
         {
-            var resourceManager = _localizers.GetOrAdd(type, t =>
+            ResourceManager resourceManager = _localizers.GetOrAdd(type, t =>
             {
                 Assembly assembly;
                 if (t == NullLocalizer.InstanceType)
+                {
                     assembly = Assembly.GetEntryAssembly();
+                }
                 else
+                {
                     assembly = t.Assembly;
-                var baseName = assembly.GetManifestResourceNames()
+                }
+
+                string baseName = assembly.GetManifestResourceNames()
                     .SingleOrDefault(x => x.EndsWith(Resources));
                 if (baseName == null)
+                {
                     return null;
+                }
+
                 baseName = baseName[0..^10];
                 return new ResourceManager(baseName, assembly);
             });
@@ -159,9 +183,12 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(string key, params object[] args)
         {
-            var resource = GetString(key);
+            string resource = GetString(key);
             if (resource == null)
+            {
                 return key;
+            }
+
             return string.Format(resource, args);
         }
 

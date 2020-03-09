@@ -47,7 +47,9 @@ namespace Gentings.Identity.Events
         private void Init(string eventType, EventMessage message)
         {
             if (string.IsNullOrEmpty(message.Message))
+            {
                 throw new ArgumentNullException(nameof(message.Message), Resources.EventMessage_NullMessage);
+            }
 
             if (message.EventId == 0)
             {
@@ -63,12 +65,18 @@ namespace Gentings.Identity.Events
 
             var httpContext = _httpContextAccessor.HttpContext;
             if (string.IsNullOrEmpty(message.IPAdress))
+            {
                 message.IPAdress = httpContext.GetUserAddress();
+            }
+
             if (message.UserId == 0)
             {
                 var userId = httpContext.User.GetUserId();
                 if (userId == 0)
+                {
                     throw new ArgumentNullException(nameof(message.UserId), Resources.EventMessage_NullUserId);
+                }
+
                 message.UserId = userId;
             }
         }
@@ -122,7 +130,10 @@ namespace Gentings.Identity.Events
         public Task LogAsync(int userId, string eventType, string message, params object[] args)
         {
             if (args != null && args.Length > 0)
+            {
                 message = string.Format(message, args);
+            }
+
             return LogAsync(userId, eventType, message);
         }
 
@@ -163,7 +174,10 @@ namespace Gentings.Identity.Events
         public void Log(int userId, string eventType, string message, params object[] args)
         {
             if (args != null && args.Length > 0)
+            {
                 message = string.Format(message, args);
+            }
+
             Log(userId, eventType, message);
         }
         
@@ -175,7 +189,11 @@ namespace Gentings.Identity.Events
         /// <param name="message">事件消息。</param>
         public void LogResult(DataResult result, string eventType, string message)
         {
-            if (!result) return;
+            if (!result)
+            {
+                return;
+            }
+
             var action = ((DataAction)result.Code).ToString();
             action = Resources.ResourceManager.GetString($"DataResult_{action}");
             Log(eventType, $"{action} {message}");
@@ -191,7 +209,10 @@ namespace Gentings.Identity.Events
         public void LogResult(DataResult result, string eventType, string message, params object[] args)
         {
             if (args != null && args.Length > 0)
+            {
                 message = string.Format(message, args);
+            }
+
             LogResult(result, eventType, message);
         }
 
@@ -203,7 +224,11 @@ namespace Gentings.Identity.Events
         /// <param name="message">事件消息。</param>
         public Task LogResultAsync(DataResult result, string eventType, string message)
         {
-            if (!result) return Task.CompletedTask;
+            if (!result)
+            {
+                return Task.CompletedTask;
+            }
+
             var action = ((DataAction)result.Code).ToString();
             action = Resources.ResourceManager.GetString($"DataResult_{action}");
             return LogAsync(eventType, $"{action} {message}");
@@ -219,7 +244,10 @@ namespace Gentings.Identity.Events
         public Task LogResultAsync(DataResult result, string eventType, string message, params object[] args)
         {
             if (args != null && args.Length > 0)
+            {
                 message = string.Format(message, args);
+            }
+
             return LogResultAsync(result, eventType, message);
         }
     }

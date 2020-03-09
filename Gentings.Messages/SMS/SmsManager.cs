@@ -36,7 +36,10 @@ namespace Gentings.Messages.SMS
         public virtual DataResult Save(string client, string phoneNumbers, string message)
         {
             if (!_clients.TryGetValue(client, out var smsClient))
+            {
                 return Resources.SMSClientNotFound;
+            }
+
             var note = new Note();
             note.Client = client;
             note.Message = message;
@@ -56,7 +59,10 @@ namespace Gentings.Messages.SMS
                         .OrderByDescending(x => x.CreatedDate)
                         .FirstOrDefault();
                     if (prev != null && smsClient.IsDuplicated(note, prev))
+                    {
                         continue;
+                    }
+
                     db.Create(note);
                 }
 
@@ -74,7 +80,10 @@ namespace Gentings.Messages.SMS
         public virtual async Task<DataResult> SaveAsync(string client, string phoneNumbers, string message)
         {
             if (!_clients.TryGetValue(client, out var smsClient))
+            {
                 return Resources.SMSClientNotFound;
+            }
+
             var note = new Note();
             note.Client = client;
             note.Message = message;
@@ -94,7 +103,10 @@ namespace Gentings.Messages.SMS
                         .OrderByDescending(x => x.CreatedDate)
                         .FirstOrDefaultAsync();
                     if (prev != null && smsClient.IsDuplicated(note, prev))
+                    {
                         continue;
+                    }
+
                     await db.CreateAsync(note);
                 }
 
@@ -110,13 +122,18 @@ namespace Gentings.Messages.SMS
         public virtual async Task<SmsResult> SendAsync(Note note)
         {
             if (!_clients.TryGetValue(note.Client, out var client))
+            {
                 return false;
+            }
+
             var result = await client.SendAsync(note);
             if (result.Status == NoteStatus.Failured)
             {
                 note.TryTimes++;
                 if (note.TryTimes >= SmsSettings.MaxTimes)
+                {
                     note.Status = NoteStatus.Failured;
+                }
 
                 note.Msg = result.Msg;
                 await SaveAsync(note);

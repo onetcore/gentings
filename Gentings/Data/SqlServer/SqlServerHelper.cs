@@ -36,9 +36,9 @@ namespace Gentings.Data.SqlServer
         protected override string GenerateLiteralValue(byte[] value)
         {
             Check.NotNull(value, nameof(value));
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.Append("0x");
-            foreach (var @byte in value)
+            foreach (byte @byte in value)
             {
                 builder.Append(@byte.ToString("X2", CultureInfo.InvariantCulture));
             }

@@ -16,7 +16,7 @@ namespace Gentings.Configuration
 
         private string GetPath(string name)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), ConfigDir);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), ConfigDir);
             return Path.Combine(path, $"{name}.json");
         }
 
@@ -40,7 +40,11 @@ namespace Gentings.Configuration
         /// <returns>返回配置实例。</returns>
         public virtual TConfiguration LoadConfiguration<TConfiguration>(string name, int minutes = -1)
         {
-            if (minutes <= 0) return LoadConfigurationFile<TConfiguration>(name);
+            if (minutes <= 0)
+            {
+                return LoadConfigurationFile<TConfiguration>(name);
+            }
+
             return _cache.GetOrCreate(GetCacheKey(name), ctx =>
             {
                 ctx.SetAbsoluteExpiration(TimeSpan.FromMinutes(minutes));
@@ -50,11 +54,14 @@ namespace Gentings.Configuration
 
         private TConfiguration LoadConfigurationFile<TConfiguration>(string name)
         {
-            var path = GetPath(name);
+            string path = GetPath(name);
             if (!File.Exists(path))
+            {
                 return default;
-            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var sr = new StreamReader(fs, Encoding.UTF8);
+            }
+
+            using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using StreamReader sr = new StreamReader(fs, Encoding.UTF8);
             return Cores.FromJsonString<TConfiguration>(sr.ReadToEnd());
         }
 
@@ -67,7 +74,11 @@ namespace Gentings.Configuration
         /// <returns>返回配置实例。</returns>
         public virtual async Task<TConfiguration> LoadConfigurationAsync<TConfiguration>(string name, int minutes = -1)
         {
-            if (minutes <= 0) return await LoadConfigurationFileAsync<TConfiguration>(name);
+            if (minutes <= 0)
+            {
+                return await LoadConfigurationFileAsync<TConfiguration>(name);
+            }
+
             return await _cache.GetOrCreateAsync(GetCacheKey(name), async ctx =>
             {
                 ctx.SetAbsoluteExpiration(TimeSpan.FromMinutes(minutes));
@@ -77,11 +88,14 @@ namespace Gentings.Configuration
 
         private async Task<TConfiguration> LoadConfigurationFileAsync<TConfiguration>(string name)
         {
-            var path = GetPath(name);
+            string path = GetPath(name);
             if (!File.Exists(path))
+            {
                 return default;
-            await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using var sr = new StreamReader(fs, Encoding.UTF8);
+            }
+
+            await using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using StreamReader sr = new StreamReader(fs, Encoding.UTF8);
             return Cores.FromJsonString<TConfiguration>(await sr.ReadToEndAsync());
         }
     }

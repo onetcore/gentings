@@ -32,10 +32,16 @@ namespace Gentings.Storages.Avatars
             var path = GetPath(userId);
             var defaultFile = _storageDirectory.GetFile(path + "default.png");
             if (size <= 0 || size == Size)
+            {
                 return defaultFile;
+            }
+
             var currentFile = _storageDirectory.GetFile(path + $"{size}.png");
             if (!currentFile.Exists)
+            {
                 currentFile.Resize(size, size).MoveTo($"{size}.png");
+            }
+
             return currentFile;
 
         }
@@ -52,7 +58,11 @@ namespace Gentings.Storages.Avatars
             tempFile = tempFile.Resize(Size, Size);
             //上传头像新文件，把老文件删除
             var path = _storageDirectory.GetPhysicalPath(GetPath(userId));
-            if (Directory.Exists(path)) Directory.Delete(path, true);
+            if (Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
+
             path = Path.Combine(path, "default.png").MakeDirectory();
             tempFile.MoveTo(path);
         }

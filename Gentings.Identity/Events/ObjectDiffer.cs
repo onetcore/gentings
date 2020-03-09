@@ -37,7 +37,10 @@ namespace Gentings.Identity.Events
         public virtual T Stored<T>(T oldInstance)
         {
             if (_initialized)
+            {
                 throw new Exception(Resources.Differ_Duplicated_Initialized);
+            }
+
             _initialized = true;
             _entityType = oldInstance.GetType().GetEntityType();
             foreach (var property in _entityType.GetProperties())
@@ -52,7 +55,10 @@ namespace Gentings.Identity.Events
         {
             var value = property.Get(instance);
             if (value == null)
+            {
                 return null;
+            }
+
             return value.GetType().IsEnum ? _localizer?.GetString((Enum)value) : value.ToString();
         }
 
@@ -64,21 +70,33 @@ namespace Gentings.Identity.Events
         /// <returns>返回对比结果。</returns>
         public virtual bool IsDifference(object newInstance)
         {
-            if (!_initialized) throw new Exception();
+            if (!_initialized)
+            {
+                throw new Exception();
+            }
+
             if (_differed)
+            {
                 throw new Exception(Resources.Differ_Duplicated_Differed);
+            }
+
             _differed = true;
             _entities = new List<Differ>();
             foreach (var property in _entityType.GetProperties())
             {
                 if (!property.IsUpdatable())
+                {
                     continue;
+                }
+
                 var source = _stored[property.Name];
                 var value = GetValue(property, newInstance);
                 if (string.IsNullOrEmpty(source))
                 {
                     if (string.IsNullOrEmpty(value))
+                    {
                         continue;
+                    }
                     //新增
                     _entities.Add(new Differ { Action = DifferAction.Add, Property = property, Value = value });
                     continue;
@@ -90,7 +108,9 @@ namespace Gentings.Identity.Events
                     continue;
                 }
                 if (source.Equals(value, StringComparison.OrdinalIgnoreCase))
+                {
                     continue;
+                }
                 //修改
                 _entities.Add(new Differ { Action = DifferAction.Modify, Property = property, Source = source, Value = value });
             }
@@ -100,7 +120,10 @@ namespace Gentings.Identity.Events
         private string GetName(IProperty property)
         {
             if (property.DisplayName != null)
+            {
                 return property.DisplayName;
+            }
+
             return _localizer == null ? property.Name : _localizer.GetString(property.DeclaringType.ClrType, property.Name);
         }
 
@@ -111,12 +134,18 @@ namespace Gentings.Identity.Events
         public override string ToString()
         {
             if (_entities == null || _entities.Count == 0)
+            {
                 return string.Empty;
+            }
+
             var builder = new StringBuilder();
             foreach (var group in _entities.GroupBy(x => x.Action))
             {
                 if (builder.Length > 0)
+                {
                     builder.Append("; ");
+                }
+
                 var list = new List<string>();
                 switch (group.Key)
                 {

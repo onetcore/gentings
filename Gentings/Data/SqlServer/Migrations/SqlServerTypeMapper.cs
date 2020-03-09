@@ -46,17 +46,28 @@ namespace Gentings.Data.SqlServer.Migrations
             if (rowVersion)
             {
                 if (type == typeof(byte[]))
+                {
                     return "timestamp";
+                }
+
                 throw new Exception(Resources.TypeMustBeBytes);
             }
 
             type = type.UnwrapNullableType().UnwrapEnumType();
             if (type == typeof(string))
+            {
                 return size > 0 ? $"nvarchar({size})" : "nvarchar(max)";
+            }
+
             if (type == typeof(byte[]))
+            {
                 return size > 0 ? $"varbinary({size})" : "varbinary(max)";
-            if (_simpleMappings.TryGetValue(type, out var retType))
+            }
+
+            if (_simpleMappings.TryGetValue(type, out string retType))
+            {
                 return retType;
+            }
 
             throw new NotSupportedException(string.Format(Resources.UnsupportedType, type.DisplayName()));
         }

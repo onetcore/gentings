@@ -384,7 +384,10 @@ namespace Gentings.Storages
         public static string GetContentType(this string extension)
         {
             if (_contentTypes.TryGetValue(extension, out var contentType))
+            {
                 return contentType;
+            }
+
             return "application/octet-stream";
         }
 

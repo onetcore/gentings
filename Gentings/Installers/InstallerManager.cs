@@ -26,9 +26,12 @@ namespace Gentings.Installers
         /// <returns>返回保存结果。</returns>
         public async Task<bool> SaveRegistrationAsync(Registration registration)
         {
-            var lisence = new Lisence { Registration = Cores.Encrypto(registration.ToJsonString()) };
+            Lisence lisence = new Lisence { Registration = Cores.Encrypto(registration.ToJsonString()) };
             if (await _context.AnyAsync())
+            {
                 return await _context.UpdateAsync(lisence);
+            }
+
             return await _context.CreateAsync(lisence);
         }
 
@@ -38,12 +41,12 @@ namespace Gentings.Installers
         /// <returns>返回注册码实例。</returns>
         public async Task<Registration> GetRegistrationAsync()
         {
-            var registions = await _context.FetchAsync();
+            System.Collections.Generic.IEnumerable<Lisence> registions = await _context.FetchAsync();
             if (registions.Any())
             {
                 try
                 {
-                    var code = registions.First().Registration;
+                    string code = registions.First().Registration;
                     code = Cores.Decrypto(code.Trim());
                     return Cores.FromJsonString<Registration>(code);
                 }
@@ -53,7 +56,7 @@ namespace Gentings.Installers
                 }
             }
 
-            var registration = new Registration();
+            Registration registration = new Registration();
             await SaveRegistrationAsync(registration);
             return registration;
         }
@@ -65,7 +68,7 @@ namespace Gentings.Installers
         /// <returns>返回保存结果。</returns>
         public async Task<bool> SuccessAsync(InstallerStatus status)
         {
-            var registration = await GetRegistrationAsync();
+            Registration registration = await GetRegistrationAsync();
             registration.Status = status;
             return await SaveRegistrationAsync(registration);
         }

@@ -23,7 +23,10 @@ namespace Gentings.Data
             get
             {
                 if (_current < 1)
+                {
                     _current = 1;
+                }
+
                 return _current;
             }
             set => _current = Math.Max(1, value);

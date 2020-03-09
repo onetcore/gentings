@@ -18,9 +18,12 @@ namespace Gentings.Tasks
         internal Argument(string arguments)
         {
             if (string.IsNullOrWhiteSpace(arguments))
+            {
                 return;
-            var data = Cores.FromJsonString<Dictionary<string, object>>(arguments);
-            foreach (var o in data)
+            }
+
+            Dictionary<string, object> data = Cores.FromJsonString<Dictionary<string, object>>(arguments);
+            foreach (KeyValuePair<string, object> o in data)
             {
                 _arguments[o.Key] = o.Value;
             }
@@ -35,14 +38,20 @@ namespace Gentings.Tasks
         {
             get
             {
-                if (_arguments.TryGetValue(name, out var value))
+                if (_arguments.TryGetValue(name, out object value))
+                {
                     return value;
+                }
+
                 return null;
             }
             set
             {
                 if (name == nameof(IsStack) || name == nameof(Interval))
+                {
                     throw new Exception($"不能在服务内部设置 {nameof(IsStack)} 和 {nameof(Interval)} 属性！");
+                }
+
                 _arguments[name] = value;
             }
         }

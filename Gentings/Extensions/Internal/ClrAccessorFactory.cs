@@ -28,7 +28,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回CLR访问器实例。</returns>
         public virtual TAccessor Create( PropertyInfo propertyInfo)
         {
-            var boundMethod = _genericCreate.MakeGenericMethod(
+            MethodInfo boundMethod = _genericCreate.MakeGenericMethod(
                     propertyInfo.DeclaringType,
                     propertyInfo.PropertyType,
                     propertyInfo.PropertyType.UnwrapNullableType());

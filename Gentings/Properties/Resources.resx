@@ -156,6 +156,18 @@
   <data name="DataAction_UpdatedFailured" xml:space="preserve">
     <value>很抱歉，更新“{0}”失败了。</value>
   </data>
+  <data name="DataMigration_Completed" xml:space="preserve">
+    <value>数据库迁移完成。</value>
+  </data>
+  <data name="DataMigration_Error" xml:space="preserve">
+    <value>数据库迁移错误（请查看日志文件）：</value>
+  </data>
+  <data name="DataMigration_Failured" xml:space="preserve">
+    <value>数据库迁移失败。</value>
+  </data>
+  <data name="DataMigration_Start" xml:space="preserve">
+    <value>开始数据库迁移。</value>
+  </data>
   <data name="DataResult_Created" xml:space="preserve">
     <value>添加了</value>
   </data>

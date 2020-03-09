@@ -114,18 +114,26 @@ namespace Gentings.Data.Migrations.Models
         /// <returns>返回执行结果。</returns>
         public bool Execute(Migration migration, IReadOnlyList<MigrationOperation> operations)
         {
-            var commandTexts = SqlGenerator.Generate(operations);
+            MigrationCommandListBuilder commandTexts = SqlGenerator.Generate(operations);
             return Context.BeginTransaction(db =>
             {
-                foreach (var commandText in commandTexts)
+                foreach (string commandText in commandTexts)
                 {
                     if (!db.ExecuteNonQuery(commandText))
+                    {
                         return false;
+                    }
                 }
                 if (migration.Version == 0)
+                {
                     return db.Delete(m => m.Id == migration.Id);
+                }
+
                 if (migration.Version == 1 && !db.Any(m => m.Id == migration.Id))
+                {
                     return db.Create(migration);
+                }
+
                 return db.Update(migration);
             }, 60);
         }
@@ -140,17 +148,23 @@ namespace Gentings.Data.Migrations.Models
         public async Task<bool> ExecuteAsync(Migration migration, IReadOnlyList<MigrationOperation> operations,
             CancellationToken cancellationToken = default)
         {
-            var commandTexts = SqlGenerator.Generate(operations);
+            MigrationCommandListBuilder commandTexts = SqlGenerator.Generate(operations);
             return await Context.BeginTransactionAsync(async db =>
             {
-                foreach (var commandText in commandTexts)
+                foreach (string commandText in commandTexts)
                 {
                     await db.ExecuteNonQueryAsync(commandText, cancellationToken: cancellationToken);
                 }
                 if (migration.Version == 0)
+                {
                     return await db.DeleteAsync(m => m.Id == migration.Id, cancellationToken);
+                }
+
                 if (migration.Version == 1 && !await db.AnyAsync(m => m.Id == migration.Id, cancellationToken))
+                {
                     return await db.CreateAsync(migration, cancellationToken);
+                }
+
                 return await db.UpdateAsync(migration, cancellationToken);
             }, 600, cancellationToken);
         }

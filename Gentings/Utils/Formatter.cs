@@ -39,34 +39,42 @@ namespace Gentings.Utils
         public static string Format(string source, string separator = "\\s+", string format = "nts", bool ignoreCase = true)
         {
             if (string.IsNullOrWhiteSpace(source))
+            {
                 return null;
+            }
 
             source = source.Trim();
-            var regex = new Regex(separator, ignoreCase ? RegexOptions.IgnoreCase : RegexOptions.None);
+            Regex regex = new Regex(separator, ignoreCase ? RegexOptions.IgnoreCase : RegexOptions.None);
             format = format.Trim();
             source = regex.Replace(source, Separator, format.Length - 1);
-            var dic = new Dictionary<char, string>();
-            for (var i = 0; i < format.Length - 1; i++)
+            Dictionary<char, string> dic = new Dictionary<char, string>();
+            for (int i = 0; i < format.Length - 1; i++)
             {
-                var index = source.IndexOf(Separator, StringComparison.Ordinal);
+                int index = source.IndexOf(Separator, StringComparison.Ordinal);
                 if (index == -1)
+                {
                     return null;
+                }
+
                 dic[format[i]] = source.Substring(0, index).Trim();
                 source = source.Substring(index + Separator.Length);
             }
             dic[format[format.Length - 1]] = source;
-            var builder = new StringBuilder();
-            if (dic.TryGetValue('s', out var summary))
+            StringBuilder builder = new StringBuilder();
+            if (dic.TryGetValue('s', out string summary))
             {
                 builder.AppendLine("/// <summary>");
                 builder.Append("/// ").AppendLine(summary);
                 builder.AppendLine("/// </summary>");
             }
             builder.Append("public ");
-            if (!_typeNames.TryGetValue(dic['t'], out var type))
+            if (!_typeNames.TryGetValue(dic['t'], out string type))
+            {
                 type = "string";
+            }
+
             builder.Append(type).Append(" ");
-            var name = dic['n'];
+            string name = dic['n'];
             name = char.ToUpper(name[0]) + name.Substring(1);
             builder.Append(name).AppendLine("{get;set;}");
             return builder.ToString();
@@ -83,10 +91,12 @@ namespace Gentings.Utils
         public static string FormatLines(string source, string separator = "\\s+", string format = "nts", bool ignoreCase = true)
         {
             if (string.IsNullOrWhiteSpace(source))
+            {
                 return null;
+            }
 
-            var builder = new StringBuilder();
-            foreach (var s in source.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+            StringBuilder builder = new StringBuilder();
+            foreach (string s in source.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
             {
                 builder.AppendLine(Format(s, separator, format, ignoreCase));
             }

@@ -21,9 +21,14 @@ namespace Gentings.Storages
         {
             directoryName ??= Directory.GetCurrentDirectory();
             if (path.StartsWith("~/"))//虚拟目录
+            {
                 path = Path.Combine(directoryName, path.Substring(2));
+            }
             else if (!path.IsPhysicalPath())//物理目录
+            {
                 path = Path.Combine(directoryName, path);
+            }
+
             return new DirectoryInfo(path).FullName;
         }
 
@@ -36,7 +41,10 @@ namespace Gentings.Storages
         {
             var dir = Path.GetDirectoryName(path);
             if (dir == null || Directory.Exists(dir))
+            {
                 return path;
+            }
+
             Directory.CreateDirectory(dir);
             return path;
         }
@@ -48,7 +56,11 @@ namespace Gentings.Storages
         /// <returns>返回当前物理路径。</returns>
         public static string DeleteFile(this string path)
         {
-            if (File.Exists(path)) File.Delete(path);
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+
             return path;
         }
 
@@ -79,7 +91,10 @@ namespace Gentings.Storages
         public static bool IsLocalMediaUrl(this string url)
         {
             if (!url.IsLocalUrl())
+            {
                 return false;
+            }
+
             var guid = Path.GetFileNameWithoutExtension(url);
             return Guid.TryParse(guid, out var _);
         }
@@ -92,13 +107,25 @@ namespace Gentings.Storages
         public static bool IsLocalUrl(this string url)
         {
             if (string.IsNullOrEmpty(url))
+            {
                 return false;
+            }
+
             if (url[0] == 46)//../
+            {
                 return true;
+            }
+
             if (url[0] == 47 && (url.Length == 1 || url[1] != 47 && url[1] != 92))//
+            {
                 return true;
+            }
+
             if (url.Length > 1 && url[0] == 126)//~/
+            {
                 return url[1] == 47;
+            }
+
             return false;
         }
 
@@ -115,7 +142,10 @@ namespace Gentings.Storages
         public static bool IsPicture(this string extension)
         {
             if (extension == null)
+            {
                 return false;
+            }
+
             return extension.GetContentType().StartsWith("image/");
         }
 
@@ -164,9 +194,14 @@ namespace Gentings.Storages
         public static FileInfo Resize(this FileInfo info, int width, int height, string path = null)
         {
             if (path == null)
+            {
                 path = info.DirectoryName;
+            }
             else if (!Directory.Exists(path))
+            {
                 Directory.CreateDirectory(path);
+            }
+
             path = Path.Combine(path, Guid.NewGuid() + ".png");
             var image = Image.FromFile(info.FullName);
             GetDrawSize(image.Width, image.Height, width, height, out var dw, out var dh);

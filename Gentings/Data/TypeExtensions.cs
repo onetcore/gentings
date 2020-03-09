@@ -42,15 +42,30 @@ namespace Gentings.Data
         public static bool IsCreatable(this PropertyInfo info)
         {
             if (!info.CanWrite)
+            {
                 return false;
+            }
+
             if (!info.CanRead)
+            {
                 return false;
+            }
+
             if (info.IsDefined(typeof(NotMappedAttribute)))
+            {
                 return false;
+            }
+
             if (info.IsDefined(typeof(IdentityAttribute)))
+            {
                 return false;
+            }
+
             if (info.IsDefined(typeof(TimestampAttribute)))
+            {
                 return false;
+            }
+
             return true;
         }
 
@@ -62,19 +77,40 @@ namespace Gentings.Data
         public static bool IsUpdatable(this PropertyInfo info)
         {
             if (!info.CanWrite)
+            {
                 return false;
+            }
+
             if (!info.CanRead)
+            {
                 return false;
+            }
+
             if (info.IsDefined(typeof(NotUpdatedAttribute)))
+            {
                 return false;
+            }
+
             if (info.IsDefined(typeof(NotMappedAttribute)))
+            {
                 return false;
+            }
+
             if (info.IsDefined(typeof(IdentityAttribute)))
+            {
                 return false;
+            }
+
             if (info.IsDefined(typeof(KeyAttribute)))
+            {
                 return false;//主键也不更新
+            }
+
             if (info.IsDefined(typeof(TimestampAttribute)))
+            {
                 return false;
+            }
+
             return true;
         }
 
@@ -95,9 +131,12 @@ namespace Gentings.Data
         /// <returns>返回属性实例。</returns>
         public static IProperty SingleKey(this IEntityType entityType)
         {
-            var key = entityType.PrimaryKey.Properties;
+            IReadOnlyList<IProperty> key = entityType.PrimaryKey.Properties;
             if (key.Count > 1)
+            {
                 throw new IndexOutOfRangeException(string.Format(Resources.PrimaryKeyIsNotSingleField, entityType.ClrType, string.Join(", ", key)));
+            }
+
             return key.Single();
         }
 
@@ -110,12 +149,15 @@ namespace Gentings.Data
         public static IDictionary<string, object> ToDictionary(this object parameters, StringComparer stringComparer = null)
         {
             if (parameters is IDictionary<string, object> dic)
-                return dic;
-            dic = new Dictionary<string, object>(stringComparer ?? StringComparer.OrdinalIgnoreCase);
-            var properties = parameters.GetType().GetProperties().Where(x => x.CanRead).ToList();
-            foreach (var property in properties)
             {
-                var value = property.GetValue(parameters);
+                return dic;
+            }
+
+            dic = new Dictionary<string, object>(stringComparer ?? StringComparer.OrdinalIgnoreCase);
+            List<PropertyInfo> properties = parameters.GetType().GetProperties().Where(x => x.CanRead).ToList();
+            foreach (PropertyInfo property in properties)
+            {
+                object value = property.GetValue(parameters);
                 dic.Add(property.Name, value);
             }
 

@@ -34,14 +34,20 @@ namespace Gentings.Extensions
             get
             {
                 if (!name.StartsWith("ex:"))
+                {
                     name = "ex:" + name;
-                _extendProperties.TryGetValue(name, out var value);
+                }
+
+                _extendProperties.TryGetValue(name, out string value);
                 return value;
             }
             set
             {
                 if (!name.StartsWith("ex:"))
+                {
                     name = "ex:" + name;
+                }
+
                 _extendProperties[name] = value;
             }
         }
@@ -58,10 +64,12 @@ namespace Gentings.Extensions
         /// <param name="form">表单集合。</param>
         public void Merge(IFormCollection form)
         {
-            foreach (var key in form.Keys)
+            foreach (string key in form.Keys)
             {
                 if (key.StartsWith("ex:"))
+                {
                     _extendProperties[key] = form[key];
+                }
             }
         }
     }

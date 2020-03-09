@@ -71,15 +71,19 @@ namespace Gentings.AspNetCore
         /// <returns>验证失败结果。</returns>
         protected virtual IActionResult BadResult()
         {
-            var dic = new Dictionary<string, string>();
-            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = ErrorCode.ValidError };
-            foreach (var key in ModelState.Keys)
+            Dictionary<string, string> dic = new Dictionary<string, string>();
+            ApiDataResult<Dictionary<string, string>> result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = ErrorCode.ValidError };
+            foreach (string key in ModelState.Keys)
             {
-                var error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;
+                string error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;
                 if (string.IsNullOrEmpty(key))
+                {
                     result.Message = error;
+                }
                 else
+                {
                     dic[key] = error;
+                }
             }
             return OkResult(result);
         }
@@ -103,9 +107,15 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult BadResult(Enum code, string message = null, params object[] args)
         {
             if (message == null)
+            {
                 message = Localizer.GetString(code);
+            }
+
             if (args != null)
+            {
                 message = string.Format(message, args);
+            }
+
             return OkResult(new ApiResult { Code = code, Message = message });
         }
 
@@ -127,7 +137,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult OkResult(object data, string message = null)
         {
-            var instance = Activator.CreateInstance(typeof(ApiDataResult<>).MakeGenericType(data.GetType()), data) as ApiResult;
+            ApiResult instance = Activator.CreateInstance(typeof(ApiDataResult<>).MakeGenericType(data.GetType()), data) as ApiResult;
             instance.Message = message;
             return OkResult(instance);
         }
@@ -152,7 +162,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回枚举名称列表。</returns>
         protected IDictionary<int, string> GetNames<T>() where T : Enum
         {
-            var dic = new Dictionary<int, string>();
+            Dictionary<int, string> dic = new Dictionary<int, string>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
                 dic[(int)(object)value] = value.ToString();
@@ -168,7 +178,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回枚举名称资源列表。</returns>
         protected IDictionary<int, string> GetDisplayNames<T>() where T : Enum
         {
-            var dic = new Dictionary<int, string>();
+            Dictionary<int, string> dic = new Dictionary<int, string>();
             foreach (T value in Enum.GetValues(typeof(T)))
             {
                 dic[(int)(object)value] = Localizer.GetString(value);

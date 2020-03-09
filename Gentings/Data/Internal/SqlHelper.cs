@@ -34,7 +34,10 @@ namespace Gentings.Data.Internal
         public string EscapeLiteral(object literal)
         {
             if (literal == null)
+            {
                 return "NULL";
+            }
+
             return GenerateLiteralValue((dynamic)literal);
         }
 
@@ -46,7 +49,10 @@ namespace Gentings.Data.Internal
         public string EscapeIdentifier(string identifier)
         {
             if (identifier == null)
+            {
                 return "NULL";
+            }
+
             return identifier.Replace("'", "''");
         }
         
@@ -189,9 +195,9 @@ namespace Gentings.Data.Internal
         protected virtual string GenerateLiteralValue( byte[] value)
         {
             Check.NotNull(value, nameof(value));
-            var builder = new StringBuilder();
+            StringBuilder builder = new StringBuilder();
             builder.Append("X'");
-            foreach (var @byte in value)
+            foreach (byte @byte in value)
             {
                 builder.Append(@byte.ToString("X2", CultureInfo.InvariantCulture));
             }

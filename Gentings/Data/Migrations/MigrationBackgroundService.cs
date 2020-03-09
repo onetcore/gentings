@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Gentings.Properties;
 using Microsoft.Extensions.Logging;
 
 namespace Gentings.Data.Migrations
@@ -31,20 +32,20 @@ namespace Gentings.Data.Migrations
         /// <returns>返回当前任务。</returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation("开始数据库迁移。");
+            stoppingToken.ThrowIfCancellationRequested();
+            _logger.LogInformation(Resources.DataMigration_Start);
             MigrationService.Status = MigrationStatus.Normal;
             try
             {
-                if (!stoppingToken.IsCancellationRequested)
                     await _migrator.MigrateAsync();
                 MigrationService.Status = MigrationStatus.Completed;
-                _logger.LogInformation("数据库迁移完成。");
+                _logger.LogInformation(Resources.DataMigration_Completed);
             }
             catch (Exception e)
             {
                 MigrationService.Status = MigrationStatus.Error;
-                MigrationService.Message = "数据库迁移错误（请查看日志文件）：" + e.Message;
-                _logger.LogError("数据库迁移失败。");
+                MigrationService.Message = Resources.DataMigration_Error + e.Message;
+                _logger.LogError(Resources.DataMigration_Failured);
             }
         }
     }

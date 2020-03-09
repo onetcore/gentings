@@ -49,7 +49,10 @@ namespace Gentings.Identity.Permissions
                 var result = await _authorizationService.AuthorizeAsync(context.HttpContext.User,
                      context.ActionDescriptor, _requirement);
                 if (result.Succeeded)
+                {
                     return;
+                }
+
                 context.Result = new ForbidResult();
             }
         }

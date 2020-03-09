@@ -58,7 +58,7 @@ namespace Gentings.Data.Query
         /// <returns>返回解析后的SQL字符串。</returns>
         protected string Visit(Expression expression, Func<Type, string> getAliasFunc)
         {
-            var visitor = _visitorFactory.Create(getAliasFunc);
+            IExpressionVisitor visitor = _visitorFactory.Create(getAliasFunc);
             visitor.Visit(expression);
             return visitor.ToString();
         }
@@ -101,7 +101,7 @@ namespace Gentings.Data.Query
         /// <returns>返回表格前缀。</returns>
         protected string GetAlias(Type type)
         {
-            if (!_alias.TryGetValue(type, out var alias))
+            if (!_alias.TryGetValue(type, out string alias))
             {
                 _current++;
                 alias = ((char)_current).ToString();
@@ -114,10 +114,12 @@ namespace Gentings.Data.Query
         {
             return type =>
             {
-                foreach (var suggestion in suggestions)
+                foreach (Type suggestion in suggestions)
                 {
                     if (type.IsAssignableFrom(suggestion))
+                    {
                         return GetAlias(suggestion);
+                    }
                 }
                 return GetAlias(type);
             };
@@ -135,7 +137,7 @@ namespace Gentings.Data.Query
             {
                 if (_fromSql == null)
                 {
-                    var builder = new StringBuilder();
+                    StringBuilder builder = new StringBuilder();
                     builder.Append("FROM ")
                         .Append(typeof(TModel).GetTableName())
                         .Append(" AS a ");
@@ -145,7 +147,10 @@ namespace Gentings.Data.Query
                             .Append(" ");
                     }
                     if (_joins.Count > 0)
+                    {
                         builder.Append(string.Join(" ", _joins.Select(x => x())));
+                    }
+
                     _fromSql = builder.ToString();
                 }
                 return _fromSql;
@@ -180,8 +185,8 @@ namespace Gentings.Data.Query
         {
             _joins.Add(() =>
             {
-                var type = typeof(TForeign);
-                var builder = new StringBuilder();
+                Type type = typeof(TForeign);
+                StringBuilder builder = new StringBuilder();
                 builder.Append(key)
                     .Append(" JOIN ")
                     .Append(type.GetTableName())
@@ -300,7 +305,7 @@ namespace Gentings.Data.Query
                 {
                     if (_fields.Count == 0)
                     {
-                        var fields = Entity.GetProperties()
+                        IEnumerable<string> fields = Entity.GetProperties()
                             .Where(x => !x.PropertyInfo.IsDefined(typeof(NotMappedAttribute)))
                             .Select(p => Delimit(p.Name));
                         _fields.AddRange(fields);
@@ -322,7 +327,7 @@ namespace Gentings.Data.Query
         /// <returns>返回当前查询实例对象。</returns>
         public virtual IQueryable<TModel> Select<TEntity>(Expression<Func<TEntity, object>> field, string alias)
         {
-            var column = Delimit<TEntity>(field.GetPropertyAccess());
+            string column = Delimit<TEntity>(field.GetPropertyAccess());
             alias = SqlHelper.DelimitIdentifier(alias);
             _fields.Add($"{column} AS {alias}");
             return this;
@@ -337,9 +342,14 @@ namespace Gentings.Data.Query
         public virtual IQueryable<TModel> Select<TEntity>(Expression<Func<TEntity, object>> fields)
         {
             if (fields == null)
+            {
                 _fields.Add($"{GetAlias(typeof(TEntity))}.*");
+            }
             else
+            {
                 _fields.AddRange(fields.GetPropertyAccessList().Select(Delimit<TEntity>));
+            }
+
             return this;
         }
 
@@ -368,8 +378,8 @@ namespace Gentings.Data.Query
         /// <returns>返回当前查询实例对象。</returns>
         public virtual IQueryable<TModel> Exclude<TEntity>(Expression<Func<TEntity, object>> fields)
         {
-            var excludes = fields.GetPropertyNames();
-            var includes = Entity.GetProperties()
+            string[] excludes = fields.GetPropertyNames();
+            IEnumerable<string> includes = Entity.GetProperties()
                 .Where(x => !x.PropertyInfo.IsDefined(typeof(NotMappedAttribute)) && !excludes.Contains(x.Name, StringComparer.OrdinalIgnoreCase))
                 .Select(p => Delimit(p.Name));
             _fields.AddRange(includes);
@@ -459,7 +469,9 @@ namespace Gentings.Data.Query
                 if (_whereSql == null)
                 {
                     if (_wheres.Count > 0)
+                    {
                         _whereSql = $"WHERE {string.Join(" AND ", _wheres)}";
+                    }
                 }
                 return _whereSql;
             }
@@ -521,7 +533,9 @@ namespace Gentings.Data.Query
                 if (_orderbySql == null)
                 {
                     if (_orderbys.Count > 0)
+                    {
                         _orderbySql = $"ORDER BY {string.Join(", ", _orderbys)}";
+                    }
                     else if (_requiredOrderby)
                     {
                         _orderbySql = string.Join(",", Entity.PrimaryKey.Properties.Select(k => Delimit(k.Name)));
@@ -580,11 +594,16 @@ namespace Gentings.Data.Query
         /// <returns>返回当前查询实例对象。</returns>
         public virtual IQueryable<TModel> OrderBy<TEntity>(Expression<Func<TEntity, object>> expression, bool isDesc)
         {
-            var properties = expression.GetPropertyAccessList();
+            IReadOnlyList<PropertyInfo> properties = expression.GetPropertyAccessList();
             if (isDesc)
+            {
                 _orderbys.AddRange(properties.Select(field => Delimit<TEntity>(field) + " DESC"));
+            }
             else
+            {
                 _orderbys.AddRange(properties.Select(Delimit<TEntity>));
+            }
+
             return this;
         }
 
@@ -672,7 +691,10 @@ namespace Gentings.Data.Query
         {
             Size = 1;
             if (_fields.Count == 0)
+            {
                 _fields.Add($"{GetAlias(typeof(TModel))}.*");
+            }
+
             return Get(_sqlGenerator.Query(this));
         }
 
@@ -685,7 +707,10 @@ namespace Gentings.Data.Query
         {
             Size = 1;
             if (_fields.Count == 0)
+            {
                 _fields.Add($"{GetAlias(typeof(TModel))}.*");
+            }
+
             return GetAsync(_sqlGenerator.Query(this), cancellationToken);
         }
 
@@ -698,11 +723,16 @@ namespace Gentings.Data.Query
         {
             Size = 1;
             if (_fields.Count == 0)
+            {
                 _fields.Add($"{GetAlias(typeof(TModel))}.*");
-            using (var reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
+            }
+
+            using (DbDataReader reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
             {
                 if (reader.Read())
+                {
                     return converter(reader);
+                }
             }
             return default;
         }
@@ -717,11 +747,16 @@ namespace Gentings.Data.Query
         {
             Size = 1;
             if (_fields.Count == 0)
+            {
                 _fields.Add($"{GetAlias(typeof(TModel))}.*");
-            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            }
+
+            await using (DbDataReader reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
             {
                 if (reader.Read())
+                {
                     return converter(reader);
+                }
             }
             return default;
         }
@@ -741,9 +776,14 @@ namespace Gentings.Data.Query
             Size = pageSize;
             PageIndex = pageIndex;
             if (count != null)
+            {
                 Aggregation = Delimit<TModel>(count.GetPropertyAccess());
+            }
             else
+            {
                 Aggregation = "1";
+            }
+
             return LoadPage<TObject>();
         }
 
@@ -771,11 +811,13 @@ namespace Gentings.Data.Query
         /// <returns>返回数据列表。</returns>
         public IEnumerable<TValue> AsEnumerable<TValue>(Func<DbDataReader, TValue> converter)
         {
-            var models = new List<TValue>();
-            using (var reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
+            List<TValue> models = new List<TValue>();
+            using (DbDataReader reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
             {
                 while (reader.Read())
+                {
                     models.Add(converter(reader));
+                }
             }
             return models;
         }
@@ -823,9 +865,14 @@ namespace Gentings.Data.Query
             Size = pageSize;
             PageIndex = pageIndex;
             if (count != null)
+            {
                 Aggregation = Delimit<TModel>(count.GetPropertyAccess());
+            }
             else
+            {
                 Aggregation = "1";
+            }
+
             return LoadPageAsync<TObject>(cancellationToken);
         }
 
@@ -847,11 +894,13 @@ namespace Gentings.Data.Query
         /// <returns>返回数据列表。</returns>
         public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter, CancellationToken cancellationToken = default)
         {
-            var models = new List<TValue>();
-            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            List<TValue> models = new List<TValue>();
+            await using (DbDataReader reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
+                {
                     models.Add(converter(reader));
+                }
             }
             return models;
         }
@@ -863,10 +912,12 @@ namespace Gentings.Data.Query
         /// <returns>返回模型实例。</returns>
         protected TModel Get(SqlIndentedStringBuilder sql)
         {
-            using (var reader = _db.ExecuteReader(sql.ToString()))
+            using (DbDataReader reader = _db.ExecuteReader(sql.ToString()))
             {
                 if (reader.Read())
+                {
                     return Entity.Read<TModel>(reader);
+                }
             }
             return default;
         }
@@ -879,10 +930,12 @@ namespace Gentings.Data.Query
         /// <returns>返回模型实例。</returns>
         protected async Task<TModel> GetAsync(SqlIndentedStringBuilder sql, CancellationToken cancellationToken = default)
         {
-            await using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
+            await using (DbDataReader reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
             {
                 if (await reader.ReadAsync(cancellationToken))
+                {
                     return Entity.Read<TModel>(reader);
+                }
             }
             return default;
         }
@@ -894,11 +947,13 @@ namespace Gentings.Data.Query
         /// <returns>返回模型实例列表。</returns>
         protected IEnumerable<TModel> Load(SqlIndentedStringBuilder sql)
         {
-            var models = new List<TModel>();
-            using (var reader = _db.ExecuteReader(sql.ToString()))
+            List<TModel> models = new List<TModel>();
+            using (DbDataReader reader = _db.ExecuteReader(sql.ToString()))
             {
                 while (reader.Read())
+                {
                     models.Add(Entity.Read<TModel>(reader));
+                }
             }
             return models;
         }
@@ -911,11 +966,13 @@ namespace Gentings.Data.Query
         /// <returns>返回模型实例列表。</returns>
         protected async Task<IEnumerable<TModel>> LoadAsync(SqlIndentedStringBuilder sql, CancellationToken cancellationToken = default)
         {
-            var models = new List<TModel>();
-            await using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
+            List<TModel> models = new List<TModel>();
+            await using (DbDataReader reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
+                {
                     models.Add(Entity.Read<TModel>(reader));
+                }
             }
             return models;
         }
@@ -927,16 +984,21 @@ namespace Gentings.Data.Query
         /// <returns>返回模型实例列表。</returns>
         protected IPageEnumerable<TObject> LoadPage<TObject>()
         {
-            var models = new PageEnumerable<TObject>();
+            PageEnumerable<TObject> models = new PageEnumerable<TObject>();
             models.Page = PageIndex ?? 1;
             models.PageSize = Size ?? 20;
-            var entityType = typeof(TObject).GetEntityType();
-            using (var reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
+            IEntityType entityType = typeof(TObject).GetEntityType();
+            using (DbDataReader reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
             {
                 while (reader.Read())
+                {
                     models.Add(entityType.Read<TObject>(reader));
+                }
+
                 if (reader.NextResult() && reader.Read())
+                {
                     models.Size = reader.GetInt32(0);
+                }
             }
             return models;
         }
@@ -949,16 +1011,21 @@ namespace Gentings.Data.Query
         /// <returns>返回模型实例列表。</returns>
         protected async Task<IPageEnumerable<TObject>> LoadPageAsync<TObject>(CancellationToken cancellationToken = default)
         {
-            var models = new PageEnumerable<TObject>();
+            PageEnumerable<TObject> models = new PageEnumerable<TObject>();
             models.Page = PageIndex ?? 1;
             models.PageSize = Size ?? 20;
-            var entityType = typeof(TObject).GetEntityType();
-            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            IEntityType entityType = typeof(TObject).GetEntityType();
+            await using (DbDataReader reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
+                {
                     models.Add(entityType.Read<TObject>(reader));
+                }
+
                 if (await reader.NextResultAsync(cancellationToken) && await reader.ReadAsync(cancellationToken))
+                {
                     models.Size = reader.GetInt32(0);
+                }
             }
             return models;
         }

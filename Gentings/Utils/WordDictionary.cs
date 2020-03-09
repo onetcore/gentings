@@ -10,11 +10,11 @@ namespace Gentings.Utils
         private static readonly ConcurrentDictionary<char, Word> _tables = new ConcurrentDictionary<char, Word>();
         static WordDictionary()
         {
-            var words = Unicodes.Defines.Split('|');
-            foreach (var wordStr in words)
+            string[] words = Unicodes.Defines.Split('|');
+            foreach (string wordStr in words)
             {
-                var codes = wordStr.Split(':');
-                var word = new Word(codes[0], codes[1].Split(','));
+                string[] codes = wordStr.Split(':');
+                Word word = new Word(codes[0], codes[1].Split(','));
                 _tables[word.Code] = word;
             }
         }
