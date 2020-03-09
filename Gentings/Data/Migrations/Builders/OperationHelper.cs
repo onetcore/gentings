@@ -6,7 +6,7 @@ namespace Gentings.Data.Migrations.Builders
     {
         public static string GetName(NameType type, string table, string[] columns = null, string alt = null)
         {
-            StringBuilder name = new StringBuilder();
+            var name = new StringBuilder();
             switch (type)
             {
                 case NameType.PrimaryKey:

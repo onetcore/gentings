@@ -17,10 +17,10 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (ReferenceEquals(methodCallExpression.Method, _methodInfo))
             {
-                Expression patternExpression = methodCallExpression.Arguments[0];
-                ConstantExpression patternConstantExpression = patternExpression as ConstantExpression;
+                var patternExpression = methodCallExpression.Arguments[0];
+                var patternConstantExpression = patternExpression as ConstantExpression;
 
-                BinaryExpression endsWithExpression = Expression.Equal(
+                var endsWithExpression = Expression.Equal(
                     new SqlFunctionExpression(
                         "RIGHT",
                         // ReSharper disable once PossibleNullReferenceException

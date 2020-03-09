@@ -59,7 +59,7 @@ namespace Gentings.Data.Migrations
             Check.NotNull(name, nameof(name));
             Check.NotNull(type, nameof(type));
 
-            AddColumnOperation operation = new AddColumnOperation
+            var operation = new AddColumnOperation
             {
                 Table = table,
                 Name = name,
@@ -126,8 +126,8 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(column, nameof(column));
 
-            IProperty property = typeof(TEntity).GetEntityType().FindProperty(column.GetPropertyAccess().Name);
-            AddColumnOperation operation = new AddColumnOperation
+            var property = typeof(TEntity).GetEntityType().FindProperty(column.GetPropertyAccess().Name);
+            var operation = new AddColumnOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Name = property.Name,
@@ -167,7 +167,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddForeignKeyOperation operation = new AddForeignKeyOperation
+            var operation = new AddForeignKeyOperation
             {
                 Table = table,
                 Columns = columns,
@@ -200,7 +200,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddForeignKeyOperation operation = new AddForeignKeyOperation
+            var operation = new AddForeignKeyOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Columns = columns.GetPropertyNames(),
@@ -234,7 +234,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddPrimaryKeyOperation operation = new AddPrimaryKeyOperation
+            var operation = new AddPrimaryKeyOperation
             {
                 Table = table,
                 Columns = columns,
@@ -257,7 +257,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddPrimaryKeyOperation operation = new AddPrimaryKeyOperation
+            var operation = new AddPrimaryKeyOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Columns = columns.GetPropertyNames(),
@@ -280,7 +280,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddUniqueConstraintOperation operation = new AddUniqueConstraintOperation
+            var operation = new AddUniqueConstraintOperation
             {
                 Table = table,
                 Columns = columns,
@@ -303,7 +303,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddUniqueConstraintOperation operation = new AddUniqueConstraintOperation
+            var operation = new AddUniqueConstraintOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Columns = columns.GetPropertyNames(),
@@ -337,8 +337,8 @@ namespace Gentings.Data.Migrations
              string computedColumnSql = null)
         {
             Check.NotNull(column, nameof(column));
-            IProperty property = typeof(TEntity).GetEntityType().FindProperty(column.GetPropertyAccess().Name);
-            AlterColumnOperation operation = new AlterColumnOperation
+            var property = typeof(TEntity).GetEntityType().FindProperty(column.GetPropertyAccess().Name);
+            var operation = new AlterColumnOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Name = property.Name,
@@ -384,7 +384,7 @@ namespace Gentings.Data.Migrations
             string computedColumnSql = null)
         {
             Check.NotNull(name, nameof(name));
-            AlterColumnOperation operation = new AlterColumnOperation
+            var operation = new AlterColumnOperation
             {
                 Table = table,
                 Name = name,
@@ -408,7 +408,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回构建实例。</returns>
         public virtual AlterOperationBuilder<AlterDatabaseOperation> AlterDatabase()
         {
-            AlterDatabaseOperation operation = new AlterDatabaseOperation();
+            var operation = new AlterDatabaseOperation();
             Operations.Add(operation);
 
             return new AlterOperationBuilder<AlterDatabaseOperation>(operation);
@@ -429,7 +429,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回迁移实例。</returns>
         public virtual AlterOperationBuilder<AlterTableOperation> AlterTable(string table)
         {
-            AlterTableOperation operation = new AlterTableOperation
+            var operation = new AlterTableOperation
             {
                 Table = table
             };
@@ -467,7 +467,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            CreateIndexOperation operation = new CreateIndexOperation
+            var operation = new CreateIndexOperation
             {
                 Table = table,
                 Columns = columns,
@@ -490,12 +490,12 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(action, nameof(action));
 
-            CreateTableOperation createTableOperation = new CreateTableOperation
+            var createTableOperation = new CreateTableOperation
             {
                 Table = typeof(TEntity).GetTableName()
             };
 
-            CreateTableBuilder<TEntity> builder = new CreateTableBuilder<TEntity>(createTableOperation);
+            var builder = new CreateTableBuilder<TEntity>(createTableOperation);
             action(builder);
             if (createTableOperation.PrimaryKey == null)
             {
@@ -528,7 +528,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotEmpty(name, nameof(name));
 
-            DropColumnOperation operation = new DropColumnOperation
+            var operation = new DropColumnOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Name = name
@@ -548,7 +548,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            DropForeignKeyOperation operation = new DropForeignKeyOperation
+            var operation = new DropForeignKeyOperation
             {
                 Table = typeof(TEntity).GetTableName()
             };
@@ -568,7 +568,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotEmpty(name, nameof(name));
 
-            DropForeignKeyOperation operation = new DropForeignKeyOperation
+            var operation = new DropForeignKeyOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Name = name
@@ -589,7 +589,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            DropIndexOperation operation = new DropIndexOperation
+            var operation = new DropIndexOperation
             {
                 Table = typeof(TEntity).GetTableName()
             };
@@ -609,7 +609,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotEmpty(name, nameof(name));
 
-            DropIndexOperation operation = new DropIndexOperation
+            var operation = new DropIndexOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Name = name
@@ -626,7 +626,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<DropPrimaryKeyOperation> DropPrimaryKey<TEntity>()
         {
-            DropPrimaryKeyOperation operation = new DropPrimaryKeyOperation
+            var operation = new DropPrimaryKeyOperation
             {
                 Table = typeof(TEntity).GetTableName()
             };
@@ -643,7 +643,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<DropTableOperation> DropTable<TEntity>()
         {
-            DropTableOperation operation = new DropTableOperation
+            var operation = new DropTableOperation
             {
                 Table = typeof(TEntity).GetTableName()
             };
@@ -664,7 +664,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotEmpty(name, nameof(name));
 
-            DropTableOperation operation = new DropTableOperation
+            var operation = new DropTableOperation
             {
                 Table = GetName(schema, name)
             };
@@ -683,7 +683,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(columns, nameof(columns));
 
-            DropUniqueConstraintOperation operation = new DropUniqueConstraintOperation
+            var operation = new DropUniqueConstraintOperation
             {
                 Table = typeof(TEntity).GetTableName()
             };
@@ -703,7 +703,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(name, nameof(name));
 
-            DropUniqueConstraintOperation operation = new DropUniqueConstraintOperation
+            var operation = new DropUniqueConstraintOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Name = name
@@ -727,7 +727,7 @@ namespace Gentings.Data.Migrations
             Check.NotEmpty(name, nameof(name));
             Check.NotNull(column, nameof(column));
 
-            RenameColumnOperation operation = new RenameColumnOperation
+            var operation = new RenameColumnOperation
             {
                 Name = name,
                 Table = typeof(TEntity).GetTableName(),
@@ -752,7 +752,7 @@ namespace Gentings.Data.Migrations
             Check.NotEmpty(name, nameof(name));
             Check.NotEmpty(newName, nameof(newName));
 
-            RenameColumnOperation operation = new RenameColumnOperation
+            var operation = new RenameColumnOperation
             {
                 Name = name,
                 Table = typeof(TEntity).GetTableName(),
@@ -777,7 +777,7 @@ namespace Gentings.Data.Migrations
             Check.NotEmpty(name, nameof(name));
             Check.NotNull(columns, nameof(columns));
 
-            RenameIndexOperation operation = new RenameIndexOperation
+            var operation = new RenameIndexOperation
             {
                 Table = typeof(TEntity).GetTableName(),
                 Name = name,
@@ -817,7 +817,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotEmpty(name, nameof(name));
 
-            RenameTableOperation operation = new RenameTableOperation
+            var operation = new RenameTableOperation
             {
                 Table = GetName(schema, name),
                 NewTable = typeof(TEntity).GetTableName(),
@@ -836,7 +836,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotEmpty(sql, nameof(sql));
 
-            SqlOperation operation = new SqlOperation
+            var operation = new SqlOperation
             {
                 Sql = sql
             };
@@ -854,7 +854,7 @@ namespace Gentings.Data.Migrations
         public virtual OperationBuilder<SqlOperation> SqlCreate<TEntity>(TEntity instance)
         {
             Check.NotNull(instance, nameof(instance));
-            SqlOperation operation = new SqlOperation
+            var operation = new SqlOperation
             {
                 Instance = instance,
                 EntityType = typeof(TEntity)
@@ -875,7 +875,7 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(expression, nameof(expression));
             Check.NotNull(instance, nameof(instance));
-            SqlOperation operation = new SqlOperation
+            var operation = new SqlOperation
             {
                 Instance = instance,
                 EntityType = typeof(TEntity),
@@ -895,7 +895,7 @@ namespace Gentings.Data.Migrations
         public virtual OperationBuilder<SqlOperation> SqlDelete<TEntity>(Expression<Predicate<TEntity>> expression)
         {
             Check.NotNull(expression, nameof(expression));
-            SqlOperation operation = new SqlOperation
+            var operation = new SqlOperation
             {
                 EntityType = typeof(TEntity),
                 Expression = expression

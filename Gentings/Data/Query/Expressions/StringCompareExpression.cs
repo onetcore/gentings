@@ -77,8 +77,8 @@ namespace Gentings.Data.Query.Expressions
         /// <param name="visitor"><see cref="T:System.Func`2"/> 的一个实例。</param>
         protected override Expression VisitChildren(ExpressionVisitor visitor)
         {
-            Expression newLeft = visitor.Visit(Left);
-            Expression newRight = visitor.Visit(Right);
+            var newLeft = visitor.Visit(Left);
+            var newRight = visitor.Visit(Right);
 
             return (newLeft != Left) || (newRight != Right)
                 ? new StringCompareExpression(Operator, newLeft, newRight)

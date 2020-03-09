@@ -27,7 +27,7 @@ namespace Gentings.Data.Query.Expressions
         /// <returns>返回判断结果。</returns>
         public static bool IsSimpleExpression( this Expression expression)
         {
-            Expression unwrappedExpression = expression.RemoveConvert();
+            var unwrappedExpression = expression.RemoveConvert();
 
             if (unwrappedExpression is ConstantExpression
                 || unwrappedExpression is ParameterExpression

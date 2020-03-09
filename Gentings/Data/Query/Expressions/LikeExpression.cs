@@ -73,8 +73,8 @@ namespace Gentings.Data.Query.Expressions
         /// <param name="visitor"><see cref="T:System.Func`2"/> 的一个实例。</param>
         protected override Expression VisitChildren(ExpressionVisitor visitor)
         {
-            Expression newMatchExpression = visitor.Visit(Match);
-            Expression newPatternExpression = visitor.Visit(Pattern);
+            var newMatchExpression = visitor.Visit(Match);
+            var newPatternExpression = visitor.Visit(Pattern);
 
             return (newMatchExpression != Match)
                    || (newPatternExpression != Pattern)

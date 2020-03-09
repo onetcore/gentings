@@ -23,7 +23,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (methodCallExpression.Method == _methodInfo)
             {
-                System.Collections.Generic.IEnumerable<Expression> sqlArguments = new[] { methodCallExpression.Object }.Concat(methodCallExpression.Arguments);
+                var sqlArguments = new[] { methodCallExpression.Object }.Concat(methodCallExpression.Arguments);
                 return new SqlFunctionExpression("REPLACE", methodCallExpression.Type, sqlArguments);
             }
 

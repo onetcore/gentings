@@ -131,7 +131,7 @@ namespace Gentings.Data
         /// <returns>返回属性实例。</returns>
         public static IProperty SingleKey(this IEntityType entityType)
         {
-            IReadOnlyList<IProperty> key = entityType.PrimaryKey.Properties;
+            var key = entityType.PrimaryKey.Properties;
             if (key.Count > 1)
             {
                 throw new IndexOutOfRangeException(string.Format(Resources.PrimaryKeyIsNotSingleField, entityType.ClrType, string.Join(", ", key)));
@@ -154,10 +154,10 @@ namespace Gentings.Data
             }
 
             dic = new Dictionary<string, object>(stringComparer ?? StringComparer.OrdinalIgnoreCase);
-            List<PropertyInfo> properties = parameters.GetType().GetProperties().Where(x => x.CanRead).ToList();
-            foreach (PropertyInfo property in properties)
+            var properties = parameters.GetType().GetProperties().Where(x => x.CanRead).ToList();
+            foreach (var property in properties)
             {
-                object value = property.GetValue(parameters);
+                var value = property.GetValue(parameters);
                 dic.Add(property.Name, value);
             }
 

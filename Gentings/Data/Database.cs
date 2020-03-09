@@ -49,7 +49,7 @@ namespace Gentings.Data
         /// <returns>返回数据库连接实例对象。</returns>
         protected DbConnection GetConnection()
         {
-            DbConnection connection = _factory.CreateConnection();
+            var connection = _factory.CreateConnection();
             connection.ConnectionString = Options.ConnectionString;
             return connection;
         }
@@ -62,7 +62,7 @@ namespace Gentings.Data
         /// <returns>返回数据库参数实例对象。</returns>
         protected virtual DbParameter CreateParameter(string name, object value)
         {
-            DbParameter p = _factory.CreateParameter();
+            var p = _factory.CreateParameter();
             p.ParameterName = name;
             if (value == null)
             {
@@ -70,7 +70,7 @@ namespace Gentings.Data
             }
             else
             {
-                Type type = Nullable.GetUnderlyingType(value.GetType());
+                var type = Nullable.GetUnderlyingType(value.GetType());
                 if (type?.GetTypeInfo().IsEnum == true)
                 {
                     type = Enum.GetUnderlyingType(type);
@@ -94,8 +94,8 @@ namespace Gentings.Data
 
         private void AttachParameters(DbParameterCollection dbParameters, object parameters)
         {
-            System.Collections.Generic.IDictionary<string, object> dic = parameters.ToDictionary();
-            foreach (System.Collections.Generic.KeyValuePair<string, object> parameter in dic)
+            var dic = parameters.ToDictionary();
+            foreach (var parameter in dic)
             {
                 dbParameters.Add(CreateParameter(parameter.Key, parameter.Value));
             }
@@ -116,7 +116,7 @@ namespace Gentings.Data
             string commandText,
             object parameters = null)
         {
-            DbCommand command = _factory.CreateCommand();
+            var command = _factory.CreateCommand();
             command.Connection = connection;
             command.CommandText = ReplacePrefixed(commandText);
             command.CommandType = commandType;
@@ -161,14 +161,14 @@ namespace Gentings.Data
 
         private void LogError(DbCommand command, Exception exception)
         {
-            string commandText = command.CommandText;
-            foreach (DbParameter parameter in command.Parameters.OfType<DbParameter>()
+            var commandText = command.CommandText;
+            foreach (var parameter in command.Parameters.OfType<DbParameter>()
                 .OrderByDescending(p => p.ParameterName.Length))
             {
                 commandText = commandText.Replace(_sqlHelper.Parameterized(parameter.ParameterName),
                     _sqlHelper.EscapeLiteral(parameter.Value));
             }
-            StringBuilder error = new StringBuilder();
+            var error = new StringBuilder();
             error.Append("[数据库]执行SQL错误：").AppendLine(exception.Message);
             error.AppendLine("==================================================");
             error.AppendLine(commandText);
@@ -188,9 +188,9 @@ namespace Gentings.Data
             object parameters = null,
             CommandType commandType = CommandType.Text)
         {
-            using DbConnection connection = GetConnection();
-            DbCommand command = GetCommand(connection, commandType, commandText, parameters);
-            int affectedRows = ExecuteCommand(command, cmd => cmd.ExecuteNonQuery());
+            using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var affectedRows = ExecuteCommand(command, cmd => cmd.ExecuteNonQuery());
             command.Parameters.Clear();
             return affectedRows > 0;
         }
@@ -206,9 +206,9 @@ namespace Gentings.Data
             object parameters = null,
             CommandType commandType = CommandType.Text)
         {
-            DbConnection connection = GetConnection();
-            DbCommand command = GetCommand(connection, commandType, commandText, parameters);
-            DbDataReader reader = ExecuteCommand(command, cmd => cmd.ExecuteReader(CommandBehavior.CloseConnection));
+            var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var reader = ExecuteCommand(command, cmd => cmd.ExecuteReader(CommandBehavior.CloseConnection));
             command.Parameters.Clear();
             return reader;
         }
@@ -224,9 +224,9 @@ namespace Gentings.Data
             object parameters = null,
             CommandType commandType = CommandType.Text)
         {
-            using DbConnection connection = GetConnection();
-            DbCommand command = GetCommand(connection, commandType, commandText, parameters);
-            object scalar = ExecuteCommand(command, cmd => cmd.ExecuteScalar());
+            using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var scalar = ExecuteCommand(command, cmd => cmd.ExecuteScalar());
             command.Parameters.Clear();
             return scalar;
         }
@@ -245,9 +245,9 @@ namespace Gentings.Data
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            await using DbConnection connection = GetConnection();
-            DbCommand command = GetCommand(connection, commandType, commandText, parameters);
-            int affectedRows = await ExecuteCommandAsync(command, cmd => cmd.ExecuteNonQueryAsync(cancellationToken));
+            await using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var affectedRows = await ExecuteCommandAsync(command, cmd => cmd.ExecuteNonQueryAsync(cancellationToken));
             command.Parameters.Clear();
             return affectedRows > 0;
         }
@@ -266,9 +266,9 @@ namespace Gentings.Data
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            DbConnection connection = GetConnection();
-            DbCommand command = GetCommand(connection, commandType, commandText, parameters);
-            DbDataReader reader = await ExecuteCommandAsync(command, cmd => cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection, cancellationToken));
+            var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var reader = await ExecuteCommandAsync(command, cmd => cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection, cancellationToken));
             command.Parameters.Clear();
             return reader;
         }
@@ -287,9 +287,9 @@ namespace Gentings.Data
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            await using DbConnection connection = GetConnection();
-            DbCommand command = GetCommand(connection, commandType, commandText, parameters);
-            object scalar = await ExecuteCommandAsync(command, cmd => cmd.ExecuteScalarAsync(cancellationToken));
+            await using var connection = GetConnection();
+            var command = GetCommand(connection, commandType, commandText, parameters);
+            var scalar = await ExecuteCommandAsync(command, cmd => cmd.ExecuteScalarAsync(cancellationToken));
             command.Parameters.Clear();
             return scalar;
         }
@@ -302,16 +302,16 @@ namespace Gentings.Data
         /// <returns>返回事务实例对象。</returns>
         public virtual bool BeginTransaction(Func<Internal.IDbTransaction, bool> executor, int timeout = 30)
         {
-            using DbConnection connection = GetConnection();
+            using var connection = GetConnection();
             connection.Open();
-            using DbTransaction transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-            DbCommand command = _factory.CreateCommand();
+            using var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+            var command = _factory.CreateCommand();
             try
             {
                 command.CommandTimeout = timeout;
                 command.Connection = connection;
                 command.Transaction = transaction;
-                Transaction current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
+                var current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
                 if (executor(current))
                 {
                     transaction.Commit();
@@ -349,16 +349,16 @@ namespace Gentings.Data
         /// <returns>返回事务实例对象。</returns>
         public virtual async Task<bool> BeginTransactionAsync(Func<Internal.IDbTransaction, Task<bool>> executor, int timeout = 30, CancellationToken cancellationToken = default)
         {
-            await using DbConnection connection = GetConnection();
+            await using var connection = GetConnection();
             await connection.OpenAsync(cancellationToken);
-            await using DbTransaction transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-            DbCommand command = _factory.CreateCommand();
+            await using var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
+            var command = _factory.CreateCommand();
             try
             {
                 command.CommandTimeout = timeout;
                 command.Connection = connection;
                 command.Transaction = transaction;
-                Transaction current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
+                var current = new Transaction(command, ReplacePrefixed, AttachParameters, LogError);
                 if (await executor(current))
                 {
                     transaction.Commit();

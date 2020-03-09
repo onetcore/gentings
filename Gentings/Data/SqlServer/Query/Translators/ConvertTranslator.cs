@@ -57,7 +57,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (_supportedMethods.Contains(methodCallExpression.Method))
             {
-                Expression[] arguments = new[] { Expression.Constant(_typeMapping[methodCallExpression.Method.Name]), methodCallExpression.Arguments[0] };
+                var arguments = new[] { Expression.Constant(_typeMapping[methodCallExpression.Method.Name]), methodCallExpression.Arguments[0] };
 
                 return new SqlFunctionExpression("CONVERT", methodCallExpression.Type, arguments);
             }

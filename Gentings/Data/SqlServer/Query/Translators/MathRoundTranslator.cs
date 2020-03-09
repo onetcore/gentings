@@ -26,7 +26,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         {
             if (_methodInfos.Contains(methodCallExpression.Method))
             {
-                Expression[] arguments = methodCallExpression.Arguments.Count == 1
+                var arguments = methodCallExpression.Arguments.Count == 1
                     ? new[] { methodCallExpression.Arguments[0], Expression.Constant(0) }
                     : new[] { methodCallExpression.Arguments[1], methodCallExpression.Arguments[1] };
 

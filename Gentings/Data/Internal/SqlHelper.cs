@@ -195,9 +195,9 @@ namespace Gentings.Data.Internal
         protected virtual string GenerateLiteralValue( byte[] value)
         {
             Check.NotNull(value, nameof(value));
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append("X'");
-            foreach (byte @byte in value)
+            foreach (var @byte in value)
             {
                 builder.Append(@byte.ToString("X2", CultureInfo.InvariantCulture));
             }

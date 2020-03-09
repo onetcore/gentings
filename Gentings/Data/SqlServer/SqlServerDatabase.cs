@@ -28,7 +28,7 @@ namespace Gentings.Data.SqlServer
         /// <param name="table">模型列表。</param>
         public override Task ImportAsync(DataTable table)
         {
-            using SqlBulkCopy bulkCopy = new SqlBulkCopy(Options.ConnectionString);
+            using var bulkCopy = new SqlBulkCopy(Options.ConnectionString);
             bulkCopy.BatchSize = table.Rows.Count;
             bulkCopy.DestinationTableName = ReplacePrefixed(table.TableName);
             foreach (DataColumn property in table.Columns)

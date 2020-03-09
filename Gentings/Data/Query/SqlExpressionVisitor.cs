@@ -69,7 +69,7 @@ namespace Gentings.Data.Query
         /// <param name="expression">要访问的表达式。</param>
         public override Expression Visit(Expression expression)
         {
-            Expression translatedExpression = _fragmentTranslator.Translate(expression);
+            var translatedExpression = _fragmentTranslator.Translate(expression);
             if (translatedExpression != null && translatedExpression != expression)
             {
                 return Visit(translatedExpression);
@@ -99,7 +99,7 @@ namespace Gentings.Data.Query
             }
             else
             {
-                bool needParentheses
+                var needParentheses
                     = !binaryExpression.Left.IsSimpleExpression()
                       || !binaryExpression.Right.IsSimpleExpression()
                       || binaryExpression.IsLogicalOperation();
@@ -118,7 +118,7 @@ namespace Gentings.Data.Query
                     Sql.Append(_sqlHelper.EscapeLiteral(true));
                 }
 
-                if (!TryGenerateBinaryOperator(binaryExpression.NodeType, out string op))
+                if (!TryGenerateBinaryOperator(binaryExpression.NodeType, out var op))
                 {
                     throw new ArgumentOutOfRangeException();
                 }
@@ -126,7 +126,7 @@ namespace Gentings.Data.Query
                 if ((binaryExpression.NodeType == ExpressionType.NotEqual ||
                     binaryExpression.NodeType == ExpressionType.Equal) && binaryExpression.Right.NodeType == ExpressionType.Constant)
                 {
-                    object value = binaryExpression.Right.Invoke();
+                    var value = binaryExpression.Right.Invoke();
                     if (value == null)
                     {
                         Sql.Append(binaryExpression.NodeType == ExpressionType.Equal
@@ -197,7 +197,7 @@ namespace Gentings.Data.Query
         {
             if (unaryExpression.Operand is MemberExpression memberExpression)
             {
-                Expression expr = memberExpression.Expression;
+                var expr = memberExpression.Expression;
                 if (expr.NodeType == ExpressionType.Convert)
                 {
                     expr = expr.RemoveConvert();
@@ -216,7 +216,7 @@ namespace Gentings.Data.Query
                 return unaryExpression;
             }
 
-            Expression expression = unaryExpression.Operand;
+            var expression = unaryExpression.Operand;
             if (expression is MethodCallExpression methodCallExpression)
             {
                 expression = _methodCallTranslator.Translate(methodCallExpression);
@@ -304,13 +304,13 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(node, nameof(node));
 
-            Expression translatedExpression = _memberTranslator.Translate(node);
+            var translatedExpression = _memberTranslator.Translate(node);
             if (translatedExpression != null)
             {
                 return Visit(translatedExpression);
             }
 
-            Expression expr = node.Expression;
+            var expr = node.Expression;
             if (expr.NodeType == ExpressionType.Convert)
             {
                 expr = expr.RemoveConvert();
@@ -331,7 +331,7 @@ namespace Gentings.Data.Query
 
         private void AppendInvoke(Expression expression)
         {
-            object value = expression.Invoke();
+            var value = expression.Invoke();
             if (value == null)
             {
                 Sql.Append("null");
@@ -353,7 +353,7 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(methodCallExpression, nameof(methodCallExpression));
 
-            Expression translatedExpression = _methodCallTranslator.Translate(methodCallExpression);
+            var translatedExpression = _methodCallTranslator.Translate(methodCallExpression);
 
             if (translatedExpression != null)
             {
@@ -425,7 +425,7 @@ namespace Gentings.Data.Query
         /// <returns>返回解析的表达式。</returns>
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
-            Expression expression = node.Body;
+            var expression = node.Body;
             if (expression.NodeType == ExpressionType.MemberAccess && expression.Type == typeof(bool))
             {
                 return Visit(Expression.Equal(expression, Expression.Constant(true)));
@@ -503,7 +503,7 @@ namespace Gentings.Data.Query
         {
             Check.NotNull(literalExpression, nameof(literalExpression));
 
-            string value = literalExpression.Literal;
+            var value = literalExpression.Literal;
             Sql.Append(_sqlHelper.EscapeLiteral(value));
 
             return literalExpression;
@@ -590,7 +590,7 @@ namespace Gentings.Data.Query
 
             Sql.Append(" AS ");
 
-            string typeMapping = _typeMapper.GetMapping(explicitCastExpression.Type);
+            var typeMapping = _typeMapper.GetMapping(explicitCastExpression.Type);
 
             if (typeMapping == null)
             {
@@ -605,7 +605,7 @@ namespace Gentings.Data.Query
 
         private static IReadOnlyList<Expression> ProcessInValues(Expression inValues)
         {
-            List<Expression> expressions = new List<Expression>();
+            var expressions = new List<Expression>();
             if (inValues is ConstantExpression inConstant)
             {
                 AddInExpressionValues(inConstant.Value, expressions, inValues);
@@ -619,7 +619,7 @@ namespace Gentings.Data.Query
 
             if (inValues is ListInitExpression listExpression)
             {
-                foreach (ElementInit initializer in listExpression.Initializers)
+                foreach (var initializer in listExpression.Initializers)
                 {
                     expressions.Add(initializer.Arguments[0]);
                 }
@@ -667,7 +667,7 @@ namespace Gentings.Data.Query
         {
             joinAction ??= (isb => isb.Append(", "));
 
-            for (int i = 0; i < items.Count; i++)
+            for (var i = 0; i < items.Count; i++)
             {
                 if (i > 0)
                 {

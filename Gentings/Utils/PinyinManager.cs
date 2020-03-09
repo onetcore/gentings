@@ -24,8 +24,8 @@ namespace Gentings.Utils
             }
 
             string letters = null;
-            List<string> list = new List<string>();
-            foreach (char word in words)
+            var list = new List<string>();
+            foreach (var word in words)
             {
                 if ((word >= 'a' && word <= 'z') || (word >= 'A' && word <= 'Z'))//英文字母
                 {
@@ -40,7 +40,7 @@ namespace Gentings.Utils
                 Word pingyin;
                 if (WordDictionary.TryGet(word, out pingyin))
                 {
-                    IEnumerable<string> names = pingyin.Pinyins
+                    var names = pingyin.Pinyins
                         .Select(x => x.Name)
                         .Distinct(StringComparer.OrdinalIgnoreCase);
                     list.Add(string.Join(multiSeperator, names));
@@ -62,8 +62,8 @@ namespace Gentings.Utils
                 return null;
             }
 
-            List<string> list = new List<string>();
-            foreach (char word in words)
+            var list = new List<string>();
+            foreach (var word in words)
             {
                 if (word >= 'A' && word <= 'Z')//英文字母
                 {
@@ -73,7 +73,7 @@ namespace Gentings.Utils
                 Word pingyin;
                 if (WordDictionary.TryGet(word, out pingyin))
                 {
-                    IEnumerable<string> names = pingyin.Pinyins
+                    var names = pingyin.Pinyins
                         .Select(x => x.Name[0].ToString())
                         .Distinct(StringComparer.OrdinalIgnoreCase);
                     list.Add(string.Join(seperator, names));

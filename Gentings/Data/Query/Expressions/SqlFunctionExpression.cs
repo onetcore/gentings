@@ -93,7 +93,7 @@ namespace Gentings.Data.Query.Expressions
         /// <param name="visitor"><see cref="T:System.Func`2"/> 的一个实例。</param>
         protected override Expression VisitChildren(ExpressionVisitor visitor)
         {
-            ReadOnlyCollection<Expression> newArguments = visitor.VisitAndConvert(_arguments, "VisitChildren");
+            var newArguments = visitor.VisitAndConvert(_arguments, "VisitChildren");
 
             return newArguments != _arguments
                 ? new SqlFunctionExpression(FunctionName, Type, newArguments)

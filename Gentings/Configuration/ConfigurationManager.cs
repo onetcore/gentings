@@ -16,7 +16,7 @@ namespace Gentings.Configuration
 
         private string GetPath(string name)
         {
-            string path = Path.Combine(Directory.GetCurrentDirectory(), ConfigDir);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), ConfigDir);
             return Path.Combine(path, $"{name}.json");
         }
 
@@ -54,14 +54,14 @@ namespace Gentings.Configuration
 
         private TConfiguration LoadConfigurationFile<TConfiguration>(string name)
         {
-            string path = GetPath(name);
+            var path = GetPath(name);
             if (!File.Exists(path))
             {
                 return default;
             }
 
-            using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using StreamReader sr = new StreamReader(fs, Encoding.UTF8);
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var sr = new StreamReader(fs, Encoding.UTF8);
             return Cores.FromJsonString<TConfiguration>(sr.ReadToEnd());
         }
 
@@ -88,14 +88,14 @@ namespace Gentings.Configuration
 
         private async Task<TConfiguration> LoadConfigurationFileAsync<TConfiguration>(string name)
         {
-            string path = GetPath(name);
+            var path = GetPath(name);
             if (!File.Exists(path))
             {
                 return default;
             }
 
-            await using FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            using StreamReader sr = new StreamReader(fs, Encoding.UTF8);
+            await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+            using var sr = new StreamReader(fs, Encoding.UTF8);
             return Cores.FromJsonString<TConfiguration>(await sr.ReadToEndAsync());
         }
     }

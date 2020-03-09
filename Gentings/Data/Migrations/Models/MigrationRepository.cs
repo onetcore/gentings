@@ -114,10 +114,10 @@ namespace Gentings.Data.Migrations.Models
         /// <returns>返回执行结果。</returns>
         public bool Execute(Migration migration, IReadOnlyList<MigrationOperation> operations)
         {
-            MigrationCommandListBuilder commandTexts = SqlGenerator.Generate(operations);
+            var commandTexts = SqlGenerator.Generate(operations);
             return Context.BeginTransaction(db =>
             {
-                foreach (string commandText in commandTexts)
+                foreach (var commandText in commandTexts)
                 {
                     if (!db.ExecuteNonQuery(commandText))
                     {
@@ -148,10 +148,10 @@ namespace Gentings.Data.Migrations.Models
         public async Task<bool> ExecuteAsync(Migration migration, IReadOnlyList<MigrationOperation> operations,
             CancellationToken cancellationToken = default)
         {
-            MigrationCommandListBuilder commandTexts = SqlGenerator.Generate(operations);
+            var commandTexts = SqlGenerator.Generate(operations);
             return await Context.BeginTransactionAsync(async db =>
             {
-                foreach (string commandText in commandTexts)
+                foreach (var commandText in commandTexts)
                 {
                     await db.ExecuteNonQueryAsync(commandText, cancellationToken: cancellationToken);
                 }

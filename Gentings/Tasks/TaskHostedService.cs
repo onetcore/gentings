@@ -34,14 +34,14 @@ namespace Gentings.Tasks
 
         private async Task EnsuredTaskServicesAsync()
         {
-            foreach (ITaskService service in _services)
+            foreach (var service in _services)
             {
                 if(service.Disabled)
                 {
                     continue;
                 }
 
-                TaskContext context = new TaskContext();
+                var context = new TaskContext();
                 context.ExecuteAsync = service.ExecuteAsync;
                 context.Interval = service.Interval;
                 _contexts.TryAdd(service.GetType().DisplayName(), context);
@@ -56,10 +56,10 @@ namespace Gentings.Tasks
                 return;
             }
 
-            IEnumerable<TaskDescriptor> tasks = await _taskManager.LoadTasksAsync();
-            foreach (TaskDescriptor task in tasks)
+            var tasks = await _taskManager.LoadTasksAsync();
+            foreach (var task in tasks)
             {
-                if (!_contexts.TryGetValue(task.Type, out TaskContext context))
+                if (!_contexts.TryGetValue(task.Type, out var context))
                 {
                     continue;
                 }
@@ -93,7 +93,7 @@ namespace Gentings.Tasks
                 try
                 {
                     await LoadContextsAsync();
-                    foreach (TaskContext context in _contexts.Values)
+                    foreach (var context in _contexts.Values)
                     {
                         if (context.NextExecuting <= DateTime.Now && !context.IsRunning)
                         {

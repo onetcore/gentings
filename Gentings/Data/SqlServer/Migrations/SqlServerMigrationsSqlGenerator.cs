@@ -75,12 +75,12 @@ namespace Gentings.Data.SqlServer.Migrations
 
             if (operation.ComputedColumnSql != null)
             {
-                DropColumnOperation dropColumnOperation = new DropColumnOperation
+                var dropColumnOperation = new DropColumnOperation
                 {
                     Table = operation.Table,
                     Name = operation.Name
                 };
-                AddColumnOperation addColumnOperation = new AddColumnOperation
+                var addColumnOperation = new AddColumnOperation
                 {
                     Table = operation.Table,
                     Name = operation.Name,
@@ -229,7 +229,7 @@ namespace Gentings.Data.SqlServer.Migrations
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
 
-            StringBuilder qualifiedName = new StringBuilder();
+            var qualifiedName = new StringBuilder();
             qualifiedName
                 .Append(operation.Table)
                 .Append(".")
@@ -285,9 +285,9 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <returns>返回生成的SQL语句。</returns>
         protected override string GenerateSqlCreate(IEntityType entityType, object instance)
         {
-            IndentedStringBuilder builder = new IndentedStringBuilder();
-            List<string> items = new List<string>();
-            List<string> values = new List<string>();
+            var builder = new IndentedStringBuilder();
+            var items = new List<string>();
+            var values = new List<string>();
             ForEachProperty(instance, (k, v) =>
             {
                 items.Add(SqlHelper.DelimitIdentifier(k.Name));
@@ -310,9 +310,9 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <returns>返回生成的SQL语句。</returns>
         protected override string GenerateSqlUpdate(IEntityType entityType, object instance, Expression @where)
         {
-            IndentedStringBuilder builder = new IndentedStringBuilder();
+            var builder = new IndentedStringBuilder();
             builder.Append("UPDATE ").Append(entityType.Table).Append(" SET ");
-            List<string> items = new List<string>();
+            var items = new List<string>();
             ForEachProperty(instance, (k, v) =>
             {
                 if (k.IsDefined(typeof(NotUpdatedAttribute), true))
@@ -323,7 +323,7 @@ namespace Gentings.Data.SqlServer.Migrations
                 items.Add($"{SqlHelper.DelimitIdentifier(k.Name)}={SqlHelper.EscapeLiteral(v)}");
             });
             builder.JoinAppend(items);
-            IExpressionVisitor visitor = _visitorFactory.Create();
+            var visitor = _visitorFactory.Create();
             visitor.Visit(where);
             builder.AppendEx(visitor.ToString(), " WHERE {0}");
             return builder.ToString();
@@ -337,9 +337,9 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <returns>返回生成的SQL语句。</returns>
         protected override string GenerateSqlDelete(IEntityType entityType, Expression @where)
         {
-            IndentedStringBuilder builder = new IndentedStringBuilder();
+            var builder = new IndentedStringBuilder();
             builder.Append("DELETE FROM ").Append(entityType.Table);
-            IExpressionVisitor visitor = _visitorFactory.Create();
+            var visitor = _visitorFactory.Create();
             visitor.Visit(where);
             builder.AppendEx(visitor.ToString(), " WHERE {0}");
             return builder.ToString();
@@ -419,7 +419,7 @@ namespace Gentings.Data.SqlServer.Migrations
             Check.NotEmpty(columnName, nameof(columnName));
             Check.NotNull(builder, nameof(builder));
 
-            string variable = "@var" + _variableCounter++;
+            var variable = "@var" + _variableCounter++;
 
             builder
                 .Append("DECLARE ")

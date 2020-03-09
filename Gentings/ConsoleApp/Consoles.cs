@@ -36,14 +36,14 @@ namespace Gentings.ConsoleApp
             var commandHandlerFactory = host.Services.GetService(typeof(ICommandHandlerFactory)) as ICommandHandlerFactory;
             while (!TokenSource.IsCancellationRequested)
             {
-                string command = Console.ReadLine()?.Trim();
+                var command = Console.ReadLine()?.Trim();
                 if (command?.Length > 0)
                 {
                     if (command.StartsWith('.'))
                     {
                         command = command.TrimStart('.');
                         var commandName = command;
-                        int index = command.IndexOf(' ');
+                        var index = command.IndexOf(' ');
                         if (index != -1)
                         {
                             commandName = command.Substring(0, index);

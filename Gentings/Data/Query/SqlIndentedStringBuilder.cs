@@ -42,9 +42,9 @@ namespace Gentings.Data.Query
             else if (_parameterNames != null)
             {//匿名类型
                 Parameters = new Dictionary<string, object>();
-                IEntityType entityType = instance.GetType().GetEntityType();
-                List<string> parameterNames = _parameterNames.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-                foreach (string parameterName in parameterNames)
+                var entityType = instance.GetType().GetEntityType();
+                var parameterNames = _parameterNames.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+                foreach (var parameterName in parameterNames)
                 {
                     Parameters.Add(parameterName, entityType.FindProperty(parameterName).Get(instance));
                 }
@@ -66,9 +66,9 @@ namespace Gentings.Data.Query
                 else
                 {//匿名类型
                     Parameters = new Dictionary<string, object>();
-                    foreach (PropertyInfo property in instance.GetType().GetRuntimeProperties())
+                    foreach (var property in instance.GetType().GetRuntimeProperties())
                     {
-                        object value = property.GetValue(instance);
+                        var value = property.GetValue(instance);
                         Parameters.Add(property.Name, value);
                     }
                 }

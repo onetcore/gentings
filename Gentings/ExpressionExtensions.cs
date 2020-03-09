@@ -37,7 +37,7 @@ namespace Gentings
         /// <returns>防护当前表达式对应的属性实例对象。</returns>
         public static PropertyInfo GetPropertyAccess(this LambdaExpression propertyAccessExpression)
         {
-            ParameterExpression parameterExpression = propertyAccessExpression.Parameters.Single();
+            var parameterExpression = propertyAccessExpression.Parameters.Single();
             PropertyInfo propertyInfo = parameterExpression.MatchSimplePropertyAccess(propertyAccessExpression.Body);
 
             if (propertyInfo == null)
@@ -46,19 +46,19 @@ namespace Gentings
                     nameof(propertyAccessExpression));
             }
 
-            Type declaringType = propertyInfo.DeclaringType;
-            Type parameterType = parameterExpression.Type;
+            var declaringType = propertyInfo.DeclaringType;
+            var parameterType = parameterExpression.Type;
 
             if (declaringType != null
                 && declaringType != parameterType
                 && declaringType.GetTypeInfo().IsInterface
                 && declaringType.IsAssignableFrom(parameterType))
             {
-                MethodInfo propertyGetter = propertyInfo.GetGetMethod(true);
-                InterfaceMapping interfaceMapping = parameterType.GetTypeInfo().GetRuntimeInterfaceMap(declaringType);
-                int index = Array.FindIndex(interfaceMapping.InterfaceMethods, p => p == propertyGetter);
-                MethodInfo targetMethod = interfaceMapping.TargetMethods[index];
-                foreach (PropertyInfo runtimeProperty in parameterType.GetRuntimeProperties())
+                var propertyGetter = propertyInfo.GetGetMethod(true);
+                var interfaceMapping = parameterType.GetTypeInfo().GetRuntimeInterfaceMap(declaringType);
+                var index = Array.FindIndex(interfaceMapping.InterfaceMethods, p => p == propertyGetter);
+                var targetMethod = interfaceMapping.TargetMethods[index];
+                foreach (var runtimeProperty in parameterType.GetRuntimeProperties())
                 {
                     if (targetMethod == runtimeProperty.GetGetMethod(true))
                     {
@@ -79,7 +79,7 @@ namespace Gentings
         {
             Debug.Assert(propertyAccessExpression.Parameters.Count == 1);
 
-            IReadOnlyList<PropertyInfo> propertyPaths
+            var propertyPaths
                 = MatchPropertyAccessList(propertyAccessExpression, (p, e) => e.MatchSimplePropertyAccess(p));
 
             if (propertyPaths == null)
@@ -96,15 +96,15 @@ namespace Gentings
         {
             Debug.Assert(lambdaExpression.Body != null);
 
-            NewExpression newExpression
+            var newExpression
                 = lambdaExpression.Body.RemoveConvert() as NewExpression;
 
-            ParameterExpression parameterExpression
+            var parameterExpression
                 = lambdaExpression.Parameters.Single();
 
             if (newExpression != null)
             {
-                List<PropertyInfo> propertyInfos
+                var propertyInfos
                     = newExpression
                         .Arguments
                         .Select(a => propertyMatcher(a, parameterExpression))
@@ -114,7 +114,7 @@ namespace Gentings
                 return propertyInfos.Count != newExpression.Arguments.Count ? null : propertyInfos;
             }
 
-            PropertyInfo propertyPath
+            var propertyPath
                 = propertyMatcher(lambdaExpression.Body, parameterExpression);
 
             return propertyPath != null ? new[] { propertyPath } : null;
@@ -123,7 +123,7 @@ namespace Gentings
         private static PropertyInfo MatchSimplePropertyAccess(
             this Expression parameterExpression, Expression propertyAccessExpression)
         {
-            IReadOnlyList<PropertyInfo> propertyInfos = MatchPropertyAccess(parameterExpression, propertyAccessExpression);
+            var propertyInfos = MatchPropertyAccess(parameterExpression, propertyAccessExpression);
 
             return (propertyInfos != null) && (propertyInfos.Count == 1) ? propertyInfos[0] : null;
         }
@@ -131,7 +131,7 @@ namespace Gentings
         private static IReadOnlyList<PropertyInfo> MatchPropertyAccess(
             this Expression parameterExpression, Expression propertyAccessExpression)
         {
-            List<PropertyInfo> propertyInfos = new List<PropertyInfo>();
+            var propertyInfos = new List<PropertyInfo>();
 
             MemberExpression memberExpression;
 
@@ -139,7 +139,7 @@ namespace Gentings
             {
                 memberExpression = propertyAccessExpression.RemoveConvert() as MemberExpression;
 
-                PropertyInfo propertyInfo = memberExpression?.Member as PropertyInfo;
+                var propertyInfo = memberExpression?.Member as PropertyInfo;
 
                 if (propertyInfo == null)
                 {

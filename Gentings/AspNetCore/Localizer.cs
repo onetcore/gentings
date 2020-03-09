@@ -36,8 +36,8 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(Enum key)
         {
-            Type type = key.GetType();
-            string resource = GetString(type, $"{type.Name}_{key}");
+            var type = key.GetType();
+            var resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
             {
                 return key.ToString();
@@ -54,8 +54,8 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(Enum key, params object[] args)
         {
-            Type type = key.GetType();
-            string resource = GetString(type, $"{type.Name}_{key}");
+            var type = key.GetType();
+            var resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
             {
                 return key.ToString();
@@ -84,7 +84,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString<TResource>(string key, params object[] args)
         {
-            string resource = GetString(typeof(TResource), key);
+            var resource = GetString(typeof(TResource), key);
             if (resource == null)
             {
                 return key;
@@ -101,7 +101,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前属性本地化字符串。</returns>
         public virtual string GetString<TResource>(Expression<Func<TResource, object>> expression)
         {
-            PropertyInfo member = expression.GetPropertyAccess();
+            var member = expression.GetPropertyAccess();
             if (member == null)
             {
                 return null;
@@ -119,7 +119,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前属性本地化字符串。</returns>
         public virtual string GetString<TResource>(Expression<Func<TResource, object>> expression, params object[] args)
         {
-            string resource = GetString(expression);
+            var resource = GetString(expression);
             if (resource == null)
             {
                 return null;
@@ -138,7 +138,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(Type type, string key)
         {
-            ResourceManager resourceManager = _localizers.GetOrAdd(type, t =>
+            var resourceManager = _localizers.GetOrAdd(type, t =>
             {
                 Assembly assembly;
                 if (t == NullLocalizer.InstanceType)
@@ -150,7 +150,7 @@ namespace Gentings.AspNetCore
                     assembly = t.Assembly;
                 }
 
-                string baseName = assembly.GetManifestResourceNames()
+                var baseName = assembly.GetManifestResourceNames()
                     .SingleOrDefault(x => x.EndsWith(Resources));
                 if (baseName == null)
                 {
@@ -183,7 +183,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string GetString(string key, params object[] args)
         {
-            string resource = GetString(key);
+            var resource = GetString(key);
             if (resource == null)
             {
                 return key;

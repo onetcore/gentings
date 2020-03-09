@@ -33,7 +33,7 @@ namespace Gentings.Data.Query.Translators.Internal
         /// <returns>返回转换后的表达式。</returns>
         public virtual Expression Translate( Expression expression)
         {
-            BinaryExpression binaryExpression = expression as BinaryExpression;
+            var binaryExpression = expression as BinaryExpression;
             if (binaryExpression != null)
             {
                 if (!_operatorMap.ContainsKey(expression.NodeType))
@@ -41,17 +41,17 @@ namespace Gentings.Data.Query.Translators.Internal
                     return null;
                 }
 
-                MethodCallExpression leftMethodCall = binaryExpression.Left as MethodCallExpression;
-                ConstantExpression rightConstant = binaryExpression.Right as ConstantExpression;
-                Expression translated = TranslateInternal(t => t, expression.NodeType, leftMethodCall, rightConstant);
+                var leftMethodCall = binaryExpression.Left as MethodCallExpression;
+                var rightConstant = binaryExpression.Right as ConstantExpression;
+                var translated = TranslateInternal(t => t, expression.NodeType, leftMethodCall, rightConstant);
                 if (translated != null)
                 {
                     return translated;
                 }
 
-                ConstantExpression leftConstant = binaryExpression.Left as ConstantExpression;
-                MethodCallExpression rightMethodCall = binaryExpression.Right as MethodCallExpression;
-                Expression translatedReverse = TranslateInternal(t => _operatorMap[t], expression.NodeType, rightMethodCall, leftConstant);
+                var leftConstant = binaryExpression.Left as ConstantExpression;
+                var rightMethodCall = binaryExpression.Right as MethodCallExpression;
+                var translatedReverse = TranslateInternal(t => _operatorMap[t], expression.NodeType, rightMethodCall, leftConstant);
                 if (translatedReverse != null)
                 {
                     return translatedReverse;
@@ -73,10 +73,10 @@ namespace Gentings.Data.Query.Translators.Internal
                 && constant != null
                 && constant.Type == typeof(int))
             {
-                List<Expression> arguments = methodCall.Arguments.ToList();
-                Expression leftString = arguments[0];
-                Expression rightString = arguments[1];
-                int constantValue = (int)constant.Value;
+                var arguments = methodCall.Arguments.ToList();
+                var leftString = arguments[0];
+                var rightString = arguments[1];
+                var constantValue = (int)constant.Value;
 
                 if (constantValue == 0)
                 {

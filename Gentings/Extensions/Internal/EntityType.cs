@@ -19,7 +19,7 @@ namespace Gentings.Extensions.Internal
         public EntityType(Type type)
         {
             _properties = new SortedDictionary<string, Property>(StringComparer.OrdinalIgnoreCase);
-            foreach (PropertyInfo info in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            foreach (var info in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
                 if (info.CanRead && info.CanWrite)
                 {
@@ -28,7 +28,7 @@ namespace Gentings.Extensions.Internal
             }
             ClrType = type;
             Name = type.DisplayName();
-            List<Property> properties = _properties.Values
+            var properties = _properties.Values
                         .Where(property => property.IsPrimaryKey)
                         .ToList();
             if (properties.Count == 0 && Identity != null)
@@ -89,7 +89,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回属性实例对象。</returns>
         public IProperty FindProperty(string name)
         {
-            _properties.TryGetValue(name, out Property property);
+            _properties.TryGetValue(name, out var property);
             return property;
         }
 
@@ -110,14 +110,14 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回当前模型实例对象。</returns>
         public virtual TModel Read<TModel>(DbDataReader reader)
         {
-            TModel model = Activator.CreateInstance<TModel>();
-            for (int i = 0; i < reader.FieldCount; i++)
+            var model = Activator.CreateInstance<TModel>();
+            for (var i = 0; i < reader.FieldCount; i++)
             {
-                string name = reader.GetName(i);
-                IProperty property = FindProperty(name);
+                var name = reader.GetName(i);
+                var property = FindProperty(name);
                 if (property != null)
                 {
-                    object value = reader.GetValue(i);
+                    var value = reader.GetValue(i);
                     if (value == DBNull.Value)
                     {
                         value = null;
@@ -141,11 +141,11 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回目标对象实例。</returns>
         public virtual TModel Cast<TModel>(object instance)
         {
-            TModel model = Activator.CreateInstance<TModel>();
-            IEntityType entityType = typeof(TModel).GetEntityType();
-            foreach (IProperty property in entityType.GetProperties())
+            var model = Activator.CreateInstance<TModel>();
+            var entityType = typeof(TModel).GetEntityType();
+            foreach (var property in entityType.GetProperties())
             {
-                object value = FindProperty(property.Name)?.Get(instance);
+                var value = FindProperty(property.Name)?.Get(instance);
                 if (value != null)
                 {
                     property.Set(model, value);

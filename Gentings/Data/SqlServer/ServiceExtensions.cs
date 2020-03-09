@@ -25,8 +25,8 @@ namespace Gentings.Data.SqlServer
         {
             return builder.AddSqlServer(options =>
             {
-                Microsoft.Extensions.Configuration.IConfigurationSection section = builder.Configuration.GetSection("Data");
-                foreach (Microsoft.Extensions.Configuration.IConfigurationSection current in section.GetChildren())
+                var section = builder.Configuration.GetSection("Data");
+                foreach (var current in section.GetChildren())
                 {
                     switch (current.Key.ToLower())
                     {
@@ -57,7 +57,7 @@ namespace Gentings.Data.SqlServer
         {
             Check.NotNull(builder, nameof(builder));
             Check.NotNull(options, nameof(options));
-            DatabaseOptions source = new DatabaseOptions();
+            var source = new DatabaseOptions();
             options(source);
 
             return builder.AddServices(services => services

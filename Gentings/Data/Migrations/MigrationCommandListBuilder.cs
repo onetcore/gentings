@@ -59,7 +59,7 @@ namespace Gentings.Data.Migrations
         {
             if (_builder != null)
             {
-                string builder = _builder.ToString();
+                var builder = _builder.ToString();
                 if (!string.IsNullOrWhiteSpace(builder))
                 {
                     EndCommand();

@@ -29,7 +29,7 @@ namespace Gentings.Extensions.Settings
             return Cache.GetOrCreate(_pathCacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                System.Collections.Generic.Dictionary<string, SettingDictionary> settings = Fetch().ToDictionary(x => x.Path);
+                var settings = Fetch().ToDictionary(x => x.Path);
                 return new ConcurrentDictionary<string, SettingDictionary>(settings, StringComparer.OrdinalIgnoreCase);
             });
         }
@@ -39,7 +39,7 @@ namespace Gentings.Extensions.Settings
             return Cache.GetOrCreateAsync(_pathCacheKey, async ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                System.Collections.Generic.Dictionary<string, SettingDictionary> settings = (await FetchAsync()).ToDictionary(x => x.Path);
+                var settings = (await FetchAsync()).ToDictionary(x => x.Path);
                 return new ConcurrentDictionary<string, SettingDictionary>(settings, StringComparer.OrdinalIgnoreCase);
             });
         }
@@ -60,8 +60,8 @@ namespace Gentings.Extensions.Settings
         /// <returns>返回字典值。</returns>
         public virtual string GetSettings(string path)
         {
-            ConcurrentDictionary<string, SettingDictionary> settings = LoadPathCache();
-            settings.TryGetValue(path, out SettingDictionary value);
+            var settings = LoadPathCache();
+            settings.TryGetValue(path, out var value);
             return value;
         }
 
@@ -72,8 +72,8 @@ namespace Gentings.Extensions.Settings
         /// <returns>返回字典值。</returns>
         public virtual async Task<string> GetSettingsAsync(string path)
         {
-            ConcurrentDictionary<string, SettingDictionary> settings = await LoadPathCacheAsync();
-            settings.TryGetValue(path, out SettingDictionary value);
+            var settings = await LoadPathCacheAsync();
+            settings.TryGetValue(path, out var value);
             return value;
         }
 
@@ -84,17 +84,17 @@ namespace Gentings.Extensions.Settings
         /// <returns>返回字典值。</returns>
         public virtual string GetOrAddSettings(string path)
         {
-            ConcurrentDictionary<string, SettingDictionary> settings = LoadPathCache();
-            if (settings.TryGetValue(path, out SettingDictionary setting))
+            var settings = LoadPathCache();
+            if (settings.TryGetValue(path, out var setting))
             {
                 return setting;
             }
 
             if (Context.BeginTransaction(db =>
             {
-                string[] names = path.Split('.');
-                int parentId = 0;
-                foreach (string name in names)
+                var names = path.Split('.');
+                var parentId = 0;
+                foreach (var name in names)
                 {
                     setting = db.Find(x => x.Name == name && x.ParentId == parentId);
                     if (setting == null)
@@ -131,17 +131,17 @@ namespace Gentings.Extensions.Settings
         /// <returns>返回字典值。</returns>
         public virtual async Task<string> GetOrAddSettingsAsync(string path)
         {
-            ConcurrentDictionary<string, SettingDictionary> settings = await LoadPathCacheAsync();
-            if (settings.TryGetValue(path, out SettingDictionary setting))
+            var settings = await LoadPathCacheAsync();
+            if (settings.TryGetValue(path, out var setting))
             {
                 return setting;
             }
 
             if (await Context.BeginTransactionAsync(async db =>
             {
-                string[] names = path.Split('.');
-                int parentId = 0;
-                foreach (string name in names)
+                var names = path.Split('.');
+                var parentId = 0;
+                foreach (var name in names)
                 {
                     setting = await db.FindAsync(x => x.Name == name && x.ParentId == parentId);
                     if (setting == null)

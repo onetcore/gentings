@@ -43,7 +43,7 @@ namespace Gentings.Data.Migrations.Builders
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddForeignKeyOperation operation = new AddForeignKeyOperation
+            var operation = new AddForeignKeyOperation
             {
                 Table = Operation.Table,
                 Columns = columns.GetPropertyNames(),
@@ -74,13 +74,13 @@ namespace Gentings.Data.Migrations.Builders
         /// <returns>返回迁移构建实例。</returns>
         public virtual CreateTableBuilder<TEntity> PrimaryKey(Action<OperationBuilder<AddPrimaryKeyOperation>> action = null)
         {
-            IKey key = _entity.PrimaryKey;
+            var key = _entity.PrimaryKey;
             if (key == null)
             {
                 return this;
             }
 
-            AddPrimaryKeyOperation operation = new AddPrimaryKeyOperation
+            var operation = new AddPrimaryKeyOperation
             {
                 Table = Operation.Table,
                 Columns = key.Properties.Select(p => p.Name).ToArray()
@@ -104,7 +104,7 @@ namespace Gentings.Data.Migrations.Builders
         {
             Check.NotNull(columns, nameof(columns));
 
-            AddUniqueConstraintOperation operation = new AddUniqueConstraintOperation
+            var operation = new AddUniqueConstraintOperation
             {
                 Table = Operation.Table,
                 Columns = columns.GetPropertyNames()
@@ -141,8 +141,8 @@ namespace Gentings.Data.Migrations.Builders
         {
             Check.NotNull(column, nameof(column));
 
-            IProperty property = _entity.FindProperty(column.GetPropertyAccess().Name);
-            AddColumnOperation operation = new AddColumnOperation
+            var property = _entity.FindProperty(column.GetPropertyAccess().Name);
+            var operation = new AddColumnOperation
             {
                 Table = Operation.Table,
                 Name = property.Name,
@@ -189,7 +189,7 @@ namespace Gentings.Data.Migrations.Builders
         {
             Check.NotNull(name, nameof(name));
 
-            AddColumnOperation operation = new AddColumnOperation
+            var operation = new AddColumnOperation
             {
                 Table = Operation.Table,
                 Name = name,

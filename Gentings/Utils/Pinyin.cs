@@ -10,7 +10,7 @@ namespace Gentings.Utils
         internal Pinyin(string[] pinyins)
         {
             DisplayName = pinyins[0];
-            string name = pinyins[1];
+            var name = pinyins[1];
             Name = name[0..^1];
             Tone = Convert.ToInt16(name[^1].ToString());
         }

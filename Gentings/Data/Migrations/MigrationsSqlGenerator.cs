@@ -74,8 +74,8 @@ namespace Gentings.Data.Migrations
         {
             Check.NotNull(operations, nameof(operations));
 
-            MigrationCommandListBuilder builder = new MigrationCommandListBuilder();
-            foreach (MigrationOperation operation in operations)
+            var builder = new MigrationCommandListBuilder();
+            foreach (var operation in operations)
             {
                 Generate(operation, builder);
             }
@@ -95,8 +95,8 @@ namespace Gentings.Data.Migrations
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
 
-            Type operationType = operation.GetType();
-            if (!_generateActions.TryGetValue(operationType, out Action<MigrationsSqlGenerator, MigrationOperation, MigrationCommandListBuilder> generateAction))
+            var operationType = operation.GetType();
+            if (!_generateActions.TryGetValue(operationType, out var generateAction))
             {
                 throw new InvalidOperationException(string.Format(Resources.UnknownOperation, operationType, GetType().DisplayName(false)));
             }
@@ -326,9 +326,9 @@ namespace Gentings.Data.Migrations
 
             using (builder.Indent())
             {
-                for (int i = 0; i < operation.Columns.Count; i++)
+                for (var i = 0; i < operation.Columns.Count; i++)
                 {
-                    AddColumnOperation column = operation.Columns[i];
+                    var column = operation.Columns[i];
                     ColumnDefinition(column, builder);
 
                     if (i != operation.Columns.Count - 1)
@@ -343,13 +343,13 @@ namespace Gentings.Data.Migrations
                     PrimaryKeyConstraint(operation.PrimaryKey, builder);
                 }
 
-                foreach (AddUniqueConstraintOperation uniqueConstraint in operation.UniqueConstraints)
+                foreach (var uniqueConstraint in operation.UniqueConstraints)
                 {
                     builder.AppendLine(",");
                     UniqueConstraint(uniqueConstraint, builder);
                 }
 
-                foreach (AddForeignKeyOperation foreignKey in operation.ForeignKeys)
+                foreach (var foreignKey in operation.ForeignKeys)
                 {
                     builder.AppendLine(",");
                     ForeignKeyConstraint(foreignKey, builder);
@@ -542,7 +542,7 @@ namespace Gentings.Data.Migrations
 
             if (operation.EntityType != null)
             {
-                IEntityType entity = operation.EntityType.GetEntityType();
+                var entity = operation.EntityType.GetEntityType();
                 if (operation.Instance != null)
                 {
                     if (operation.Expression == null)
@@ -573,13 +573,13 @@ namespace Gentings.Data.Migrations
         /// <param name="action">执行每一项。</param>
         protected virtual void ForEachProperty(object fields, Action<PropertyInfo, object> action)
         {
-            Type type = fields.GetType();
-            bool isAnonymous = type.IsAnonymous();
-            foreach (PropertyInfo property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+            var type = fields.GetType();
+            var isAnonymous = type.IsAnonymous();
+            foreach (var property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
             {
                 if (isAnonymous || property.IsCreatable())
                 {
-                    object value = property.GetValue(fields);
+                    var value = property.GetValue(fields);
                     action(property, value);
                 }
             }

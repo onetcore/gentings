@@ -55,7 +55,7 @@ namespace Gentings.Extensions.Settings
             return Cache.GetOrCreate(key, entry =>
             {
                 entry.SetDefaultAbsoluteExpiration();
-                string settings = Context.Find(x => x.SettingKey == key)?.SettingValue;
+                var settings = Context.Find(x => x.SettingKey == key)?.SettingValue;
                 if (settings == null)
                 {
                     return new TSiteSettings();
@@ -85,7 +85,7 @@ namespace Gentings.Extensions.Settings
             return Cache.GetOrCreateAsync(key, async entry =>
             {
                 entry.SetDefaultAbsoluteExpiration();
-                SettingsAdapter settings = await Context.FindAsync(x => x.SettingKey == key);
+                var settings = await Context.FindAsync(x => x.SettingKey == key);
                 return settings?.SettingValue;
             });
         }
@@ -101,7 +101,7 @@ namespace Gentings.Extensions.Settings
             return Cache.GetOrCreateAsync(key, async entry =>
             {
                 entry.SetDefaultAbsoluteExpiration();
-                SettingsAdapter settings = await Context.FindAsync(x => x.SettingKey == key);
+                var settings = await Context.FindAsync(x => x.SettingKey == key);
                 if (settings?.SettingValue == null)
                 {
                     return new TSiteSettings();
@@ -149,7 +149,7 @@ namespace Gentings.Extensions.Settings
         /// <param name="settings">网站配置实例。</param>
         public virtual async Task<bool> SaveSettingsAsync(string key, string settings)
         {
-            SettingsAdapter adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
+            var adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
             if (await Context.AnyAsync(x => x.SettingKey == key))
             {
                 if (await Context.UpdateAsync(adapter))
@@ -194,7 +194,7 @@ namespace Gentings.Extensions.Settings
         /// <param name="settings">网站配置实例。</param>
         public virtual bool SaveSettings(string key, string settings)
         {
-            SettingsAdapter adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
+            var adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
             if (Context.Any(x => x.SettingKey == key))
             {
                 if (Context.Update(adapter))

@@ -34,7 +34,7 @@ namespace Gentings.Data.Query.Translators
         /// <returns>返回转换后的表达式。</returns>
         public virtual Expression Translate( MethodCallExpression methodCallExpression)
         {
-            System.Collections.Generic.IEnumerable<MethodInfo> methodInfos = _declaringType.GetTypeInfo().GetDeclaredMethods(_clrMethodName);
+            var methodInfos = _declaringType.GetTypeInfo().GetDeclaredMethods(_clrMethodName);
             if (methodInfos.Contains(methodCallExpression.Method))
             {
                 return new SqlFunctionExpression(_sqlFunctionName, methodCallExpression.Type, methodCallExpression.Arguments);

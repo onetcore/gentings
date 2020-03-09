@@ -34,8 +34,8 @@ namespace Gentings.Tasks
                 if (_extensionName == null)
                 {
                     const string extensionName = ".Extensions.";
-                    string @namespace = GetType().Namespace;
-                    int index = @namespace.IndexOf(extensionName, StringComparison.Ordinal);
+                    var @namespace = GetType().Namespace;
+                    var index = @namespace.IndexOf(extensionName, StringComparison.Ordinal);
                     if (index == -1)
                     {
                         _extensionName = "core";

@@ -13,7 +13,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         /// </summary>
         public SqlServerCompositeMemberTranslator()
         {
-            List<IMemberTranslator> sqlServerTranslators = new List<IMemberTranslator>
+            var sqlServerTranslators = new List<IMemberTranslator>
             {
                 new StringLengthTranslator(),
                 new DateTimeNowTranslator(),

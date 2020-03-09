@@ -56,7 +56,7 @@ namespace Gentings.Utils
         /// <returns>返回判断结果。</returns>
         public bool IsNext(char current)
         {
-            int index = _index + 1;
+            var index = _index + 1;
             return _length > index &&
                    _source[index] == current;
         }
@@ -67,13 +67,13 @@ namespace Gentings.Utils
         /// <returns>返回判断结果。</returns>
         public bool IsTag()
         {
-            int index = _index + 1;
+            var index = _index + 1;
             if (_length <= index)
             {
                 return false;
             }
 
-            char current = char.ToUpper(_source[index]);
+            var current = char.ToUpper(_source[index]);
             return current == '/' || (current >= 'A' && current <= 'Z');
         }
 
@@ -85,7 +85,7 @@ namespace Gentings.Utils
         /// <returns>返回判断结果。</returns>
         public bool IsNextNonWhiteSpace(char current, bool skip = true)
         {
-            int index = _index + 1;
+            var index = _index + 1;
             while (_length > index)
             {
                 if (!char.IsWhiteSpace(_source, index))
@@ -130,8 +130,8 @@ namespace Gentings.Utils
         /// <returns>返回判断结果。</returns>
         public bool IsNextNonWhiteSpace(string current, bool skip = true, StringComparison stringComparison = StringComparison.Ordinal)
         {
-            int index = _index + 1;//判断开始的位置
-            StringBuilder builder = new StringBuilder();
+            var index = _index + 1;//判断开始的位置
+            var builder = new StringBuilder();
             while (_source.Length > index)
             {
                 if (!char.IsWhiteSpace(_source, index))
@@ -222,10 +222,10 @@ namespace Gentings.Utils
             }
 
             builder.Append(quote);
-            char last = NullChar;
+            var last = NullChar;
             while (_length > _index)
             {
-                char current = Current;
+                var current = Current;
                 if (current == EscapeChar)
                 {
                     if (last == EscapeChar)
@@ -273,7 +273,7 @@ namespace Gentings.Utils
             builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
-                char current = Current;
+                var current = Current;
                 if (current.IsQuote())
                 {
                     ReadQuote(current, builder);
@@ -301,7 +301,7 @@ namespace Gentings.Utils
             builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
-                char current = Current;
+                var current = Current;
                 if (current.IsQuote())
                 {
                     ReadQuote(current, builder);
@@ -329,7 +329,7 @@ namespace Gentings.Utils
             builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
-                char current = Current;
+                var current = Current;
                 if (current.IsQuote())
                 {
                     ReadQuote(current, builder);
@@ -356,10 +356,10 @@ namespace Gentings.Utils
         public string ReadBlock(char start, char end, StringBuilder builder = null)
         {
             builder ??= new StringBuilder();
-            int blocks = 0;
+            var blocks = 0;
             while (_source.Length > _index)
             {
-                char current = Current;
+                var current = Current;
                 if (current.IsQuote())
                 {
                     ReadQuote(current, builder);
@@ -399,7 +399,7 @@ namespace Gentings.Utils
             builder ??= new StringBuilder();
             while (_source.Length > _index)
             {
-                char current = Current;
+                var current = Current;
                 if (current.IsQuote())
                 {
                     ReadQuote(current, builder);

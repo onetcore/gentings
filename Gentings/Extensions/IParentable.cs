@@ -76,11 +76,11 @@ namespace Gentings.Extensions
         public static IDictionary<int, TModel> MakeDictionary<TModel>(this IEnumerable<TModel> models)
             where TModel : IParentable<TModel>
         {
-            Dictionary<int, TModel> dic = models.ToDictionary(c => c.Id);
+            var dic = models.ToDictionary(c => c.Id);
             dic[0] = Activator.CreateInstance<TModel>();
-            foreach (TModel model in models)
+            foreach (var model in models)
             {
-                if (dic.TryGetValue(model.ParentId, out TModel temp))
+                if (dic.TryGetValue(model.ParentId, out var temp))
                 {
                     temp.Add(model);
                 }

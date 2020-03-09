@@ -21,7 +21,7 @@ namespace Gentings.Extensions.Internal
         protected override IClrPropertySetter CreateGeneric<TEntity, TValue, TNonNullableEnumValue>(
             PropertyInfo propertyInfo)
         {
-            PropertyInfo memberInfo = propertyInfo.FindSetterProperty();
+            var memberInfo = propertyInfo.FindSetterProperty();
 
             if (memberInfo == null)
             {
@@ -29,17 +29,17 @@ namespace Gentings.Extensions.Internal
                     Resources.NoSetter, propertyInfo.Name, propertyInfo.DeclaringType.DisplayName(false)));
             }
 
-            ParameterExpression entityParameter = Expression.Parameter(typeof(TEntity), "entity");
-            ParameterExpression valueParameter = Expression.Parameter(typeof(TValue), "value");
+            var entityParameter = Expression.Parameter(typeof(TEntity), "entity");
+            var valueParameter = Expression.Parameter(typeof(TValue), "value");
 
-            Action<TEntity, TValue> setter = Expression.Lambda<Action<TEntity, TValue>>(
+            var setter = Expression.Lambda<Action<TEntity, TValue>>(
                 Expression.Assign(
                     Expression.MakeMemberAccess(entityParameter, memberInfo),
                     valueParameter),
                 entityParameter,
                 valueParameter).Compile();
 
-            Type propertyType = propertyInfo.PropertyType;
+            var propertyType = propertyInfo.PropertyType;
             return propertyType.IsNullableType()
                    && propertyType.UnwrapNullableType().GetTypeInfo().IsEnum
                 ? new NullableEnumClrPropertySetter<TEntity, TValue, TNonNullableEnumValue>(setter)

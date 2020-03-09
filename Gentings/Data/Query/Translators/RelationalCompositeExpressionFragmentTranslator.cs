@@ -23,9 +23,9 @@ namespace Gentings.Data.Query.Translators
         /// <returns>返回转换后的表达式。</returns>
         public virtual Expression Translate(Expression expression)
         {
-            foreach (IExpressionFragmentTranslator translator in _translators)
+            foreach (var translator in _translators)
             {
-                Expression result = translator.Translate(expression);
+                var result = translator.Translate(expression);
                 if (result != null)
                 {
                     return result;

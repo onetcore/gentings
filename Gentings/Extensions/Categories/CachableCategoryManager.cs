@@ -20,7 +20,7 @@ namespace Gentings.Extensions.Categories
         /// <returns>返回判断结果。</returns>
         public override bool IsDuplicated(TCategory category)
         {
-            System.Collections.Generic.IEnumerable<TCategory> categories = Fetch();
+            var categories = Fetch();
             return categories.Any(x => x.Id != category.Id && x.Name == category.Name);
         }
 
@@ -32,7 +32,7 @@ namespace Gentings.Extensions.Categories
         /// <returns>返回判断结果。</returns>
         public override async Task<bool> IsDuplicatedAsync(TCategory category, CancellationToken cancellationToken = default)
         {
-            System.Collections.Generic.IEnumerable<TCategory> categories = await FetchAsync(cancellationToken: cancellationToken);
+            var categories = await FetchAsync(cancellationToken: cancellationToken);
             return categories.Any(x => x.Id != category.Id && x.Name == category.Name);
         }
 

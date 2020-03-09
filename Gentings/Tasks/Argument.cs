@@ -22,8 +22,8 @@ namespace Gentings.Tasks
                 return;
             }
 
-            Dictionary<string, object> data = Cores.FromJsonString<Dictionary<string, object>>(arguments);
-            foreach (KeyValuePair<string, object> o in data)
+            var data = Cores.FromJsonString<Dictionary<string, object>>(arguments);
+            foreach (var o in data)
             {
                 _arguments[o.Key] = o.Value;
             }
@@ -38,7 +38,7 @@ namespace Gentings.Tasks
         {
             get
             {
-                if (_arguments.TryGetValue(name, out object value))
+                if (_arguments.TryGetValue(name, out var value))
                 {
                     return value;
                 }

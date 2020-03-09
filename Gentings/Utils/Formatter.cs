@@ -44,13 +44,13 @@ namespace Gentings.Utils
             }
 
             source = source.Trim();
-            Regex regex = new Regex(separator, ignoreCase ? RegexOptions.IgnoreCase : RegexOptions.None);
+            var regex = new Regex(separator, ignoreCase ? RegexOptions.IgnoreCase : RegexOptions.None);
             format = format.Trim();
             source = regex.Replace(source, Separator, format.Length - 1);
-            Dictionary<char, string> dic = new Dictionary<char, string>();
-            for (int i = 0; i < format.Length - 1; i++)
+            var dic = new Dictionary<char, string>();
+            for (var i = 0; i < format.Length - 1; i++)
             {
-                int index = source.IndexOf(Separator, StringComparison.Ordinal);
+                var index = source.IndexOf(Separator, StringComparison.Ordinal);
                 if (index == -1)
                 {
                     return null;
@@ -60,21 +60,21 @@ namespace Gentings.Utils
                 source = source.Substring(index + Separator.Length);
             }
             dic[format[format.Length - 1]] = source;
-            StringBuilder builder = new StringBuilder();
-            if (dic.TryGetValue('s', out string summary))
+            var builder = new StringBuilder();
+            if (dic.TryGetValue('s', out var summary))
             {
                 builder.AppendLine("/// <summary>");
                 builder.Append("/// ").AppendLine(summary);
                 builder.AppendLine("/// </summary>");
             }
             builder.Append("public ");
-            if (!_typeNames.TryGetValue(dic['t'], out string type))
+            if (!_typeNames.TryGetValue(dic['t'], out var type))
             {
                 type = "string";
             }
 
             builder.Append(type).Append(" ");
-            string name = dic['n'];
+            var name = dic['n'];
             name = char.ToUpper(name[0]) + name.Substring(1);
             builder.Append(name).AppendLine("{get;set;}");
             return builder.ToString();
@@ -95,8 +95,8 @@ namespace Gentings.Utils
                 return null;
             }
 
-            StringBuilder builder = new StringBuilder();
-            foreach (string s in source.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+            var builder = new StringBuilder();
+            foreach (var s in source.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
             {
                 builder.AppendLine(Format(s, separator, format, ignoreCase));
             }

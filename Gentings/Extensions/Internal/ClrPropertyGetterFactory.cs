@@ -20,7 +20,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回当前属性的访问器实例。</returns>
         protected override IClrPropertyGetter CreateGeneric<TEntity, TValue, TNonNullableEnumValue>(PropertyInfo propertyInfo)
         {
-            PropertyInfo memberInfo = propertyInfo.FindGetterProperty();
+            var memberInfo = propertyInfo.FindGetterProperty();
 
             if (memberInfo == null)
             {
@@ -28,7 +28,7 @@ namespace Gentings.Extensions.Internal
                     Resources.NoGetter, propertyInfo.Name, propertyInfo.DeclaringType.DisplayName(false)));
             }
 
-            ParameterExpression entityParameter = Expression.Parameter(typeof(TEntity), "entity");
+            var entityParameter = Expression.Parameter(typeof(TEntity), "entity");
 
             return new ClrPropertyGetter<TEntity, TValue>(Expression.Lambda<Func<TEntity, TValue>>(
                 Expression.MakeMemberAccess(entityParameter, memberInfo),

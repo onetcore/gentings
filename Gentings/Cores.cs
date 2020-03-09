@@ -11,7 +11,6 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Runtime.InteropServices;
 
 namespace Gentings
 {
@@ -43,9 +42,9 @@ namespace Gentings
                     throw new ArgumentException(Resources.RandomNumberGenerator_SizeInvalid, nameof(size));
                 }
 
-                int strengthInBytes = size / bitsPerByte;
+                var strengthInBytes = size / bitsPerByte;
 
-                byte[] data = new byte[strengthInBytes];
+                var data = new byte[strengthInBytes];
                 _random.GetBytes(data);
                 return data.ToHexString();
             }
@@ -68,10 +67,10 @@ namespace Gentings
         /// <returns>返回二进制数组。</returns>
         public static byte[] GetBytes(string hexString)
         {
-            byte[] bytes = new byte[hexString.Length / 2];
-            for (int i = 0; i < bytes.Length; i++)
+            var bytes = new byte[hexString.Length / 2];
+            for (var i = 0; i < bytes.Length; i++)
             {
-                string hex = hexString.Substring(i * 2, 2);
+                var hex = hexString.Substring(i * 2, 2);
                 bytes[i] = (byte)int.Parse(hex, NumberStyles.HexNumber);
             }
             return bytes;
@@ -86,8 +85,8 @@ namespace Gentings
         // ReSharper disable once InconsistentNaming
         public static string HMACMD5(string text, string key)
         {
-            HMACMD5 md5 = new HMACMD5(GetBytes(key));
-            byte[] hashed = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var md5 = new HMACMD5(GetBytes(key));
+            var hashed = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -100,8 +99,8 @@ namespace Gentings
         // ReSharper disable once InconsistentNaming
         public static string HMACSHA1(string text, string key)
         {
-            HMACSHA1 sha = new HMACSHA1(GetBytes(key));
-            byte[] hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha = new HMACSHA1(GetBytes(key));
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -114,8 +113,8 @@ namespace Gentings
         // ReSharper disable once InconsistentNaming
         public static string HMACSHA256(string text, string key)
         {
-            HMACSHA256 sha = new HMACSHA256(GetBytes(key));
-            byte[] hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha = new HMACSHA256(GetBytes(key));
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -128,8 +127,8 @@ namespace Gentings
         // ReSharper disable once InconsistentNaming
         public static string HMACSHA384(string text, string key)
         {
-            HMACSHA384 sha = new HMACSHA384(GetBytes(key));
-            byte[] hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha = new HMACSHA384(GetBytes(key));
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -142,8 +141,8 @@ namespace Gentings
         // ReSharper disable once InconsistentNaming
         public static string HMACSHA512(string text, string key)
         {
-            HMACSHA512 sha = new HMACSHA512(GetBytes(key));
-            byte[] hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha = new HMACSHA512(GetBytes(key));
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -154,8 +153,8 @@ namespace Gentings
         /// <returns>加密后的字符串。</returns>
         public static string Md5(string text)
         {
-            MD5 md5 = MD5.Create();
-            byte[] hashed = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var md5 = MD5.Create();
+            var hashed = md5.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -166,8 +165,8 @@ namespace Gentings
         /// <returns>加密后的字符串。</returns>
         public static string Sha1(string text)
         {
-            SHA1 sha1 = SHA1.Create();
-            byte[] hashed = sha1.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha1 = SHA1.Create();
+            var hashed = sha1.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -178,8 +177,8 @@ namespace Gentings
         /// <returns>加密后的字符串。</returns>
         public static string Sha256(string text)
         {
-            SHA256 sha = SHA256.Create();
-            byte[] hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha = SHA256.Create();
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -190,8 +189,8 @@ namespace Gentings
         /// <returns>加密后的字符串。</returns>
         public static string Sha384(string text)
         {
-            SHA384 sha = SHA384.Create();
-            byte[] hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha = SHA384.Create();
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -202,8 +201,8 @@ namespace Gentings
         /// <returns>加密后的字符串。</returns>
         public static string Sha512(string text)
         {
-            SHA512 sha = SHA512.Create();
-            byte[] hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
+            var sha = SHA512.Create();
+            var hashed = sha.ComputeHash(Encoding.UTF8.GetBytes(text));
             return hashed.ToHexString();
         }
 
@@ -217,8 +216,8 @@ namespace Gentings
         /// <returns>返回开始索引。</returns>
         public static int GetRange(int pageIndex, int pages, int factor, out int end)
         {
-            int item = factor / 2;
-            int start = pageIndex - item;
+            var item = factor / 2;
+            var start = pageIndex - item;
             end = pageIndex + item;
             if (start < 1)
             {
@@ -285,7 +284,7 @@ namespace Gentings
         public static string NewId()
         {
             long i = 1;
-            foreach (byte b in Guid.NewGuid().ToByteArray())
+            foreach (var b in Guid.NewGuid().ToByteArray())
             {
                 i *= b + 1;
             }
@@ -300,7 +299,7 @@ namespace Gentings
         /// <returns>返回转换后的字符串。</returns>
         public static string ToBase36(this long value)
         {
-            string current = "";
+            var current = "";
             current += _base36[(int)(value % 36)];
             value /= 36;
             if (value > 36)
@@ -341,17 +340,16 @@ namespace Gentings
         /// <returns>返回加密后的字符串。</returns>
         public static string Encrypto(string text)
         {
-            Rijndael rijndael = Rijndael.Create();
+            var rijndael = Rijndael.Create();
             rijndael.GenerateIV();
             rijndael.GenerateKey();
-            byte[] buffer = Encoding.UTF8.GetBytes(text);
-            byte[] result;
-            using MemoryStream ms = new MemoryStream();
-            ICryptoTransform encrypto = rijndael.CreateEncryptor();
-            CryptoStream cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Write);
+            var buffer = Encoding.UTF8.GetBytes(text);
+            using var ms = new MemoryStream();
+            var encrypto = rijndael.CreateEncryptor();
+            var cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Write);
             cs.Write(buffer, 0, buffer.Length);
             cs.FlushFinalBlock();
-            result = ms.ToArray();
+            var result = ms.ToArray();
             buffer = new byte[48 + result.Length];
             rijndael.IV.CopyTo(buffer, 0);
             result.CopyTo(buffer, 16);
@@ -366,11 +364,11 @@ namespace Gentings
         /// <returns>返回解密后的字符串。</returns>
         public static string Decrypto(string text)
         {
-            byte[] buffer = Convert.FromBase64String(text);
-            Rijndael rijndael = Rijndael.Create();
-            byte[] iv = new byte[16];
-            byte[] key = new byte[32];
-            using (MemoryStream ms = new MemoryStream(buffer))
+            var buffer = Convert.FromBase64String(text);
+            var rijndael = Rijndael.Create();
+            var iv = new byte[16];
+            var key = new byte[32];
+            using (var ms = new MemoryStream(buffer))
             {
                 ms.Read(iv, 0, 16);
                 buffer = new byte[buffer.Length - 48];
@@ -379,11 +377,11 @@ namespace Gentings
             }
             rijndael.IV = iv;
             rijndael.Key = key;
-            using (MemoryStream ms = new MemoryStream(buffer))
+            using (var ms = new MemoryStream(buffer))
             {
-                ICryptoTransform encrypto = rijndael.CreateDecryptor();
-                CryptoStream cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Read);
-                using StreamReader sr = new StreamReader(cs, Encoding.UTF8);
+                var encrypto = rijndael.CreateDecryptor();
+                var cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Read);
+                using var sr = new StreamReader(cs, Encoding.UTF8);
                 return sr.ReadToEnd();
             }
         }
@@ -396,7 +394,7 @@ namespace Gentings
         /// <returns>返回判断结果。</returns>
         public static bool Included(this object item, IEnumerable items)
         {
-            IEnumerator enumerator = items.GetEnumerator();
+            var enumerator = items.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 if (Equals(enumerator.Current, item))
@@ -415,8 +413,8 @@ namespace Gentings
         /// <returns>返回格式化后的字符串。</returns>
         public static string Join(this IEnumerable items, string separator = ",")
         {
-            List<object> list = new List<object>();
-            IEnumerator enumerator = items.GetEnumerator();
+            var list = new List<object>();
+            var enumerator = items.GetEnumerator();
             while (enumerator.MoveNext())
             {
                 list.Add(enumerator.Current);
@@ -437,8 +435,8 @@ namespace Gentings
         /// <returns>返回服务提供者接口实例。</returns>
         public static IServiceProvider BuildServiceProvider(IConfiguration configuration, Action<IServiceBuilder> action = null)
         {
-            ServiceCollection services = new ServiceCollection();
-            IServiceBuilder builder = services.AddGentings(configuration);
+            var services = new ServiceCollection();
+            var builder = services.AddGentings(configuration);
             action?.Invoke(builder);
             return services.BuildServiceProvider();
         }
@@ -488,51 +486,6 @@ namespace Gentings
             catch
             {
                 return default;
-            }
-        }
-
-        /// <summary>
-        /// 结构体转化成byte[]。
-        /// </summary>
-        /// <param name="structure">当前结构实例。</param>
-        /// <returns>返回字节数组。</returns>
-        public static byte[] ToBytes(this object structure)
-        {
-            int size = Marshal.SizeOf(structure);
-            var buffer = Marshal.AllocHGlobal(size);
-            try
-            {
-                Marshal.StructureToPtr(structure, buffer, false);
-                var bytes = new byte[size];
-                Marshal.Copy(buffer, bytes, 0, size);
-
-                return bytes;
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(buffer);
-            }
-        }
-
-        /// <summary>
-        /// byte[]转化成结构体
-        /// </summary>
-        /// <typeparam name="T">当前结构类型。</typeparam>
-        /// <param name="bytes">当前字节实例。</param>
-        /// <returns>返回当前结构体。</returns>
-        public static T ToStruct<T>(this byte[] bytes)
-            where T : struct
-        {
-            var size = Marshal.SizeOf<T>();
-            var buffer = Marshal.AllocHGlobal(size);
-            try
-            {
-                Marshal.Copy(bytes, 0, buffer, size);
-                return Marshal.PtrToStructure<T>(buffer);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(buffer);
             }
         }
     }

@@ -31,7 +31,7 @@ namespace Gentings.Data
         {
             get
             {
-                _configs.TryGetValue(key, out string value);
+                _configs.TryGetValue(key, out var value);
                 return value;
             }
             set => _configs[key] = value;

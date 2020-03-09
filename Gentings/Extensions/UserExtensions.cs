@@ -15,7 +15,7 @@ namespace Gentings.Extensions
         /// <returns>返回用户Id，如果未登录则返回0。</returns>
         public static int GetUserId(this ClaimsPrincipal claims)
         {
-            int.TryParse(claims.GetFirstValue(ClaimTypes.NameIdentifier), out int userId);
+            int.TryParse(claims.GetFirstValue(ClaimTypes.NameIdentifier), out var userId);
             return userId;
         }
 

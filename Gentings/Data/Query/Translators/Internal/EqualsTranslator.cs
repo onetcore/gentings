@@ -19,14 +19,14 @@ namespace Gentings.Data.Query.Translators.Internal
             if (methodCallExpression.Method.Name == nameof(object.Equals)
                 && methodCallExpression.Arguments.Count == 1)
             {
-                Expression argument = methodCallExpression.Arguments[0];
-                Expression @object = methodCallExpression.Object;
+                var argument = methodCallExpression.Arguments[0];
+                var @object = methodCallExpression.Object;
                 if (methodCallExpression.Method.GetParameters()[0].ParameterType == typeof(object)
                     && @object.Type != argument.Type)
                 {
                     argument = argument.RemoveConvert();
-                    System.Type unwrappedObjectType = @object.Type.UnwrapNullableType();
-                    System.Type unwrappedArgumentType = argument.Type.UnwrapNullableType();
+                    var unwrappedObjectType = @object.Type.UnwrapNullableType();
+                    var unwrappedArgumentType = argument.Type.UnwrapNullableType();
                     if (unwrappedObjectType == unwrappedArgumentType)
                     {
                         return Expression.Equal(

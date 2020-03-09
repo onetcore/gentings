@@ -64,7 +64,7 @@ namespace Gentings.Data.SqlServer.Migrations
                 return size > 0 ? $"varbinary({size})" : "varbinary(max)";
             }
 
-            if (_simpleMappings.TryGetValue(type, out string retType))
+            if (_simpleMappings.TryGetValue(type, out var retType))
             {
                 return retType;
             }
