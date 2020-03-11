@@ -143,11 +143,17 @@ namespace Gentings.ConsoleApp
         /// </summary>
         /// <param name="value">当前字符串。</param>
         /// <param name="size">大小。</param>
+        /// <param name="size">字符集。</param>
         /// <returns>返回当前实例。</returns>
-        public void Write(string value, int size)
+        public void Write(string value, int size, Encoding encoding = null)
         {
-            var bytes = _encoding.GetBytes(value);
-            Write(bytes, 0, size);
+            if (string.IsNullOrEmpty(value))
+                Zero(size);
+            else
+            {
+                var bytes = (encoding ?? _encoding).GetBytes(value);
+                Write(bytes, 0, size);
+            }
         }
 
         /// <summary>
@@ -210,7 +216,13 @@ namespace Gentings.ConsoleApp
         /// <returns>返回当前实例。</returns>
         public void Write(byte[] value, int offset, int size)
         {
-            _writer.Write(value, offset, size);
+            if (value.Length >= size + offset)
+                _writer.Write(value, offset, size);
+            else
+            {
+                _writer.Write(value, offset, value.Length - offset);
+                Zero(size - value.Length + offset);
+            }
         }
 
         /// <summary>
