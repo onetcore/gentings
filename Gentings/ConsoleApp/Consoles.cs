@@ -14,6 +14,7 @@ namespace Gentings.ConsoleApp
         /// 控制台使用全局取消标识。
         /// </summary>
         public static CancellationTokenSource TokenSource = CancellationTokenSource.CreateLinkedTokenSource(new CancellationToken());
+
         /// <summary>
         /// 是否显示调试信息。
         /// </summary>
@@ -26,12 +27,10 @@ namespace Gentings.ConsoleApp
         public static async Task StartAsync(string[] args)
         {
             Info("正在初始化应用程序！");
-            Console.WriteLine();
             using var host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((context, service) => service.AddGentings(context.Configuration))
                 .Build();
             await host.StartAsync(TokenSource.Token);
-            Console.WriteLine();
             Info("已经成功启动了应用程序，可以输入命令进行手动操作！");
             var commandHandlerFactory = host.Services.GetService(typeof(ICommandHandlerFactory)) as ICommandHandlerFactory;
             while (!TokenSource.IsCancellationRequested)
@@ -73,11 +72,14 @@ namespace Gentings.ConsoleApp
         /// <param name="help">帮助信息。</param>
         internal static void Display(string command, string help)
         {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.Write("     .{0}: ", command.ToLower());
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine(help);
-            Console.ResetColor();
+            lock (_locker)
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write("  .{0}: ", command.ToLower());
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine(help);
+                Console.ResetColor();
+            }
         }
 
         /// <summary>
@@ -143,6 +145,7 @@ namespace Gentings.ConsoleApp
             WriteLine(ConsoleColor.Yellow, message, args);
         }
 
+        private static readonly object _locker = new object();
         /// <summary>
         /// 输出控制台日志。
         /// </summary>
@@ -151,8 +154,15 @@ namespace Gentings.ConsoleApp
         /// <param name="args">参数。</param>
         public static void WriteLine(ConsoleColor color, string message, params object[] args)
         {
-            Write(color, message, args);
-            Console.WriteLine();
+            lock (_locker)
+            {
+                Console.ForegroundColor = color;
+                Console.Write("[{0:HH:mm:ss}] ", DateTime.Now);
+                if (args?.Length > 0)
+                    message = string.Format(message, args);
+                Console.WriteLine(message);
+                Console.ResetColor();
+            }
         }
 
         /// <summary>
@@ -163,9 +173,15 @@ namespace Gentings.ConsoleApp
         /// <param name="args">参数。</param>
         public static void Write(ConsoleColor color, string message, params object[] args)
         {
-            Console.ForegroundColor = color;
-            Console.Write(message, args);
-            Console.ResetColor();
+            lock (_locker)
+            {
+                Console.ForegroundColor = color;
+                Console.Write("[{0:HH:mm:ss}] ", DateTime.Now);
+                if (args?.Length > 0)
+                    message = string.Format(message, args);
+                Console.Write(message);
+                Console.ResetColor();
+            }
         }
 
         /// <summary>
@@ -177,8 +193,15 @@ namespace Gentings.ConsoleApp
         /// <param name="args">参数。</param>
         public static void WriteLine(ConsoleColor color, ConsoleColor bgColor, string message, params object[] args)
         {
-            Write(color, bgColor, message, args);
-            Console.WriteLine();
+            lock (_locker)
+            {
+                Console.ForegroundColor = color;
+                Console.BackgroundColor = bgColor;
+                if (args?.Length > 0)
+                    message = string.Format(message, args);
+                Console.WriteLine(message);
+                Console.ResetColor();
+            }
         }
 
         /// <summary>
@@ -190,11 +213,37 @@ namespace Gentings.ConsoleApp
         /// <param name="args">参数。</param>
         public static void Write(ConsoleColor color, ConsoleColor bgColor, string message, params object[] args)
         {
-            Console.ForegroundColor = color;
-            Console.BackgroundColor = bgColor;
-            Console.Write(message, args);
-            Console.ResetColor();
+            lock (_locker)
+            {
+                Console.ForegroundColor = color;
+                Console.BackgroundColor = bgColor;
+                if (args?.Length > 0)
+                    message = string.Format(message, args);
+                Console.Write(message);
+                Console.ResetColor();
+            }
         }
         #endregion
+
+        /// <summary>
+        /// 倒计时关闭程序。
+        /// </summary>
+        /// <param name="delay">倒计时秒数。</param>
+        public static async Task CloseAsync(int delay = 10)
+        {
+            async Task DelayAsync(int seconds)
+            {
+                if (seconds < 1)
+                {
+                    Warning("关闭！");
+                    return;
+                }
+                Warning($"{seconds}");
+                await Task.Delay(1000);
+                await DelayAsync(--seconds);
+            }
+            Warning($"程序即将在“{delay}”秒后关闭...");
+            await DelayAsync(delay);
+        }
     }
 }

@@ -46,6 +46,7 @@ namespace Gentings.ConsoleApp
                 else
                 {
                     _arguments[name] = Read(ref index, '-').Trim();
+                    continue;
                 }
 
                 index++;

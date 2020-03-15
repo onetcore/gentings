@@ -25,7 +25,7 @@ namespace Gentings.ConsoleApp
         /// 执行方法。
         /// </summary>
         /// <param name="commandName">命令名称。</param>
-        /// <param name="argument">参数。</param>
+        /// <param name="args">参数。</param>
         /// <returns>返回执行任务。</returns>
         public async Task ExecuteAsync(string commandName, string args)
         {
@@ -34,9 +34,7 @@ namespace Gentings.ConsoleApp
                 case "exit":
                 case "quit":
                     {
-                        var delay = 10;
-                        Consoles.Warning($"程序即将在“{delay}”秒后关闭...");
-                        await DelayAsync(delay);
+                        await Consoles.CloseAsync(10);
                         Consoles.TokenSource.Cancel();
                     }
                     break;
@@ -67,18 +65,6 @@ namespace Gentings.ConsoleApp
 
                     break;
             }
-        }
-
-        private async Task DelayAsync(int delay)
-        {
-            if (delay < 1)
-            {
-                Consoles.Warning("关闭！");
-                return;
-            }
-            Consoles.Warning($"{delay}");
-            await Task.Delay(1000);
-            await DelayAsync(--delay);
         }
     }
 }

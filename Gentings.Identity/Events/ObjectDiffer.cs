@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace Gentings.Identity.Events
     /// <summary>
     /// 对象变更对比实现类。
     /// </summary>
-    public class ObjectDiffer : IObjectDiffer
+    public class ObjectDiffer : IObjectDiffer, IEnumerable<ObjectDiffer.Differ>
     {
         private readonly ILocalizer _localizer;
         private bool _initialized;
@@ -128,6 +129,15 @@ namespace Gentings.Identity.Events
         }
 
         /// <summary>
+        /// 对象迭代器。
+        /// </summary>
+        /// <returns>返回集合迭代实例。</returns>
+        public IEnumerator<Differ> GetEnumerator()
+        {
+            return (_entities ?? Enumerable.Empty<Differ>()).GetEnumerator();
+        }
+
+        /// <summary>
         /// 格式化出字符串。
         /// </summary>
         /// <returns>返回日志字符串。</returns>
@@ -177,10 +187,15 @@ namespace Gentings.Identity.Events
             return builder.ToString();
         }
 
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
         /// <summary>
         /// 变更实体。
         /// </summary>
-        private class Differ
+        public class Differ
         {
             /// <summary>
             /// 日志操作实例。

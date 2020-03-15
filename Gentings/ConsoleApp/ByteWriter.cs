@@ -143,7 +143,7 @@ namespace Gentings.ConsoleApp
         /// </summary>
         /// <param name="value">当前字符串。</param>
         /// <param name="size">大小。</param>
-        /// <param name="size">字符集。</param>
+        /// <param name="encoding">字符集。</param>
         /// <returns>返回当前实例。</returns>
         public void Write(string value, int size, Encoding encoding = null)
         {
