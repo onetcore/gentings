@@ -9,11 +9,12 @@ namespace Gentings.Data.Query.Expressions
     public class IsNullExpression : Expression
     {
         private readonly Expression _operand;
+
         /// <summary>
         /// 初始化类<see cref="IsNullExpression"/>。
         /// </summary>
         /// <param name="operand">当前表达式。</param>
-        public IsNullExpression( Expression operand)
+        public IsNullExpression(Expression operand)
         {
             _operand = operand;
         }

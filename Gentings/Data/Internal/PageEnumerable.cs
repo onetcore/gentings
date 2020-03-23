@@ -43,6 +43,7 @@ namespace Gentings.Data.Internal
         public int Size { get; set; }
 
         private int _page = -1;
+
         /// <summary>
         /// 总页数。
         /// </summary>
@@ -52,8 +53,9 @@ namespace Gentings.Data.Internal
             {
                 if (_page == -1)
                 {
-                    _page = (int)Math.Ceiling(Size * 1.0 / PageSize);
+                    _page = (int) Math.Ceiling(Size * 1.0 / PageSize);
                 }
+
                 return _page;
             }
         }

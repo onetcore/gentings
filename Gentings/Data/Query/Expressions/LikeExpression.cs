@@ -13,7 +13,7 @@ namespace Gentings.Data.Query.Expressions
         /// </summary>
         /// <param name="match">匹配表达式。</param>
         /// <param name="pattern">用于匹配的表达式。</param>
-        public LikeExpression( Expression match,  Expression pattern)
+        public LikeExpression(Expression match, Expression pattern)
         {
             Check.NotNull(match, nameof(match));
             Check.NotNull(pattern, nameof(pattern));

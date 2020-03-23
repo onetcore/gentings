@@ -17,22 +17,25 @@ namespace Gentings.Data.Migrations.Models
         /// SQL辅助接口。
         /// </summary>
         protected ISqlHelper SqlHelper { get; }
+
         /// <summary>
         /// 数据库操作上下文。
         /// </summary>
-        protected IDbContext<Migration> Context{get;}
+        protected IDbContext<Migration> Context { get; }
+
         /// <summary>
         /// SQL脚本生成接口。
         /// </summary>
         protected IMigrationsSqlGenerator SqlGenerator { get; }
-        
+
         /// <summary>
         /// 初始化类<see cref="MigrationRepository"/>。
         /// </summary>
         /// <param name="context">数据库操作实例。</param>
         /// <param name="sqlHelper">SQL辅助接口。</param>
         /// <param name="sqlGenerator">SQL迁移脚本生成接口。</param>
-        protected MigrationRepository(IDbContext<Migration> context, ISqlHelper sqlHelper, IMigrationsSqlGenerator sqlGenerator)
+        protected MigrationRepository(IDbContext<Migration> context, ISqlHelper sqlHelper,
+            IMigrationsSqlGenerator sqlGenerator)
         {
             SqlHelper = sqlHelper;
             Table = typeof(Migration).GetTableName();
@@ -65,6 +68,7 @@ namespace Gentings.Data.Migrations.Models
             {
                 return Context.ExecuteNonQuery(CreateSql);
             }
+
             return true;
         }
 
@@ -124,6 +128,7 @@ namespace Gentings.Data.Migrations.Models
                         return false;
                     }
                 }
+
                 if (migration.Version == 0)
                 {
                     return db.Delete(m => m.Id == migration.Id);
@@ -155,6 +160,7 @@ namespace Gentings.Data.Migrations.Models
                 {
                     await db.ExecuteNonQueryAsync(commandText, cancellationToken: cancellationToken);
                 }
+
                 if (migration.Version == 0)
                 {
                     return await db.DeleteAsync(m => m.Id == migration.Id, cancellationToken);

@@ -31,7 +31,8 @@ namespace Gentings.Data.Query
         /// <param name="memberTranslator">字段或属性转换接口。</param>
         /// <param name="methodCallTranslator">方法调用转换接口。</param>
         /// <param name="fragmentTranslator">代码段转换接口。</param>
-        protected SqlExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper, IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator, IExpressionFragmentTranslator fragmentTranslator)
+        protected SqlExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper, IMemberTranslator memberTranslator,
+            IMethodCallTranslator methodCallTranslator, IExpressionFragmentTranslator fragmentTranslator)
         {
             _sqlHelper = sqlHelper;
             _typeMapper = typeMapper;
@@ -50,7 +51,9 @@ namespace Gentings.Data.Query
         /// <param name="methodCallTranslator">方法调用转换接口。</param>
         /// <param name="fragmentTranslator">代码段转换接口。</param>
         /// <param name="schemaFunc">获取前缀代理方法。</param>
-        protected SqlExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper, IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator, IExpressionFragmentTranslator fragmentTranslator, Func<Type, string> schemaFunc)
+        protected SqlExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper, IMemberTranslator memberTranslator,
+            IMethodCallTranslator methodCallTranslator, IExpressionFragmentTranslator fragmentTranslator,
+            Func<Type, string> schemaFunc)
         {
             _sqlHelper = sqlHelper;
             _typeMapper = typeMapper;
@@ -124,7 +127,8 @@ namespace Gentings.Data.Query
                 }
 
                 if ((binaryExpression.NodeType == ExpressionType.NotEqual ||
-                    binaryExpression.NodeType == ExpressionType.Equal) && binaryExpression.Right.NodeType == ExpressionType.Constant)
+                     binaryExpression.NodeType == ExpressionType.Equal) &&
+                    binaryExpression.Right.NodeType == ExpressionType.Constant)
                 {
                     var value = binaryExpression.Right.Invoke();
                     if (value == null)
@@ -213,6 +217,7 @@ namespace Gentings.Data.Query
                         AppendInvoke(unaryExpression);
                         break;
                 }
+
                 return unaryExpression;
             }
 
@@ -266,7 +271,7 @@ namespace Gentings.Data.Query
                 if (expression.IfTrue is ConstantExpression constantIfTrue
                     && constantIfTrue.Type == typeof(bool))
                 {
-                    Sql.Append((bool)constantIfTrue.Value ? "1" : "0");
+                    Sql.Append((bool) constantIfTrue.Value ? "1" : "0");
                 }
                 else
                 {
@@ -278,7 +283,7 @@ namespace Gentings.Data.Query
                 if (expression.IfFalse is ConstantExpression constantIfFalse
                     && constantIfFalse.Type == typeof(bool))
                 {
-                    Sql.Append((bool)constantIfFalse.Value ? "1" : "0");
+                    Sql.Append((bool) constantIfFalse.Value ? "1" : "0");
                 }
                 else
                 {
@@ -326,6 +331,7 @@ namespace Gentings.Data.Query
                     AppendInvoke(node);
                     break;
             }
+
             return node;
         }
 
@@ -379,22 +385,23 @@ namespace Gentings.Data.Query
             return constantExpression;
         }
 
-        private static readonly IDictionary<ExpressionType, string> _binaryOperatorMap = new Dictionary<ExpressionType, string>
-        {
-            { ExpressionType.Add, " + " },
-            { ExpressionType.Equal, " = " },
-            { ExpressionType.NotEqual, " <> " },
-            { ExpressionType.GreaterThan, " > " },
-            { ExpressionType.GreaterThanOrEqual, " >= " },
-            { ExpressionType.LessThan, " < " },
-            { ExpressionType.LessThanOrEqual, " <= " },
-            { ExpressionType.AndAlso, " AND " },
-            { ExpressionType.OrElse, " OR " },
-            { ExpressionType.Subtract, " - " },
-            { ExpressionType.Multiply, " * " },
-            { ExpressionType.Divide, " / " },
-            { ExpressionType.Modulo, " % " },
-        };
+        private static readonly IDictionary<ExpressionType, string> _binaryOperatorMap =
+            new Dictionary<ExpressionType, string>
+            {
+                {ExpressionType.Add, " + "},
+                {ExpressionType.Equal, " = "},
+                {ExpressionType.NotEqual, " <> "},
+                {ExpressionType.GreaterThan, " > "},
+                {ExpressionType.GreaterThanOrEqual, " >= "},
+                {ExpressionType.LessThan, " < "},
+                {ExpressionType.LessThanOrEqual, " <= "},
+                {ExpressionType.AndAlso, " AND "},
+                {ExpressionType.OrElse, " OR "},
+                {ExpressionType.Subtract, " - "},
+                {ExpressionType.Multiply, " * "},
+                {ExpressionType.Divide, " / "},
+                {ExpressionType.Modulo, " % "},
+            };
 
         /// <summary>
         /// 获取操作符号。
@@ -446,6 +453,7 @@ namespace Gentings.Data.Query
         }
 
         #region sql expression visitor
+
         /// <summary>
         /// 访问IsNull表达式。
         /// </summary>
@@ -594,7 +602,8 @@ namespace Gentings.Data.Query
 
             if (typeMapping == null)
             {
-                throw new InvalidOperationException(string.Format(Resources.UnsupportedType, explicitCastExpression.Type.DisplayName(false)));
+                throw new InvalidOperationException(string.Format(Resources.UnsupportedType,
+                    explicitCastExpression.Type.DisplayName(false)));
             }
 
             Sql.Append(typeMapping);
@@ -623,6 +632,7 @@ namespace Gentings.Data.Query
                 {
                     expressions.Add(initializer.Arguments[0]);
                 }
+
                 return expressions;
             }
 
@@ -650,9 +660,11 @@ namespace Gentings.Data.Query
                 inConstants.Add(expression);
             }
         }
+
         #endregion
 
         #region helper
+
         /// <summary>
         /// 当前脚本写入实例。
         /// </summary>
@@ -677,6 +689,7 @@ namespace Gentings.Data.Query
                 itemAction(items[i]);
             }
         }
+
         #endregion
     }
 }

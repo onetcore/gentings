@@ -6,7 +6,7 @@ namespace Gentings.Data.Query.Expressions
     /// <summary>
     /// 转换表达式。
     /// </summary>
-    public class ExplicitCastExpression: Expression
+    public class ExplicitCastExpression : Expression
     {
         private readonly Type _type;
 
@@ -15,7 +15,7 @@ namespace Gentings.Data.Query.Expressions
         /// </summary>
         /// <param name="operand">操作数。</param>
         /// <param name="type">类型。</param>
-        public ExplicitCastExpression( Expression operand,  Type type)
+        public ExplicitCastExpression(Expression operand, Type type)
         {
             Check.NotNull(operand, nameof(operand));
             Check.NotNull(type, nameof(type));

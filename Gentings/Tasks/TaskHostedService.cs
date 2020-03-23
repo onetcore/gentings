@@ -15,7 +15,10 @@ namespace Gentings.Tasks
     {
         private readonly IEnumerable<ITaskService> _services;
         private readonly ITaskManager _taskManager;
-        private readonly ConcurrentDictionary<string, TaskContext> _contexts = new ConcurrentDictionary<string, TaskContext>(StringComparer.OrdinalIgnoreCase);
+
+        private readonly ConcurrentDictionary<string, TaskContext> _contexts =
+            new ConcurrentDictionary<string, TaskContext>(StringComparer.OrdinalIgnoreCase);
+
         private DateTime _updatedDate = DateTime.MinValue;
         private readonly ILogger _logger;
 
@@ -25,7 +28,8 @@ namespace Gentings.Tasks
         /// <param name="services">后台服务列表。</param>
         /// <param name="taskManager">后台服务管理。</param>
         /// <param name="logger">日志接口。</param>
-        public TaskHostedService(IEnumerable<ITaskService> services, ITaskManager taskManager, ILogger<TaskHostedService> logger)
+        public TaskHostedService(IEnumerable<ITaskService> services, ITaskManager taskManager,
+            ILogger<TaskHostedService> logger)
         {
             _services = services;
             _taskManager = taskManager;
@@ -36,7 +40,7 @@ namespace Gentings.Tasks
         {
             foreach (var service in _services)
             {
-                if(service.Disabled)
+                if (service.Disabled)
                 {
                     continue;
                 }
@@ -46,6 +50,7 @@ namespace Gentings.Tasks
                 context.Interval = service.Interval;
                 _contexts.TryAdd(service.GetType().DisplayName(), context);
             }
+
             await _taskManager.EnsuredTaskServicesAsync(_services);
         }
 
@@ -73,6 +78,7 @@ namespace Gentings.Tasks
                     context.NextExecuting = task.NextExecuting;
                 }
             }
+
             _updatedDate = DateTime.Now;
         }
 
@@ -119,8 +125,10 @@ namespace Gentings.Tasks
                                     {
                                         context.Argument.Error = ex.Message;
                                     }
+
                                     context.Argument.ErrorDate = DateTime.Now;
                                 }
+
                                 context.LastExecuted = DateTime.Now;
                                 context.NextExecuting = context.Interval.Next();
                                 await _taskManager.SetCompletedAsync(context);
@@ -128,14 +136,17 @@ namespace Gentings.Tasks
                             }, cancellationToken);
 #pragma warning restore CS4014 // 由于此调用不会等待，因此在调用完成前将继续执行当前方法
                         }
+
                         await Task.Delay(100, cancellationToken);
                     }
                 }
                 catch
                 {
                 }
+
                 await Task.Delay(500, cancellationToken);
             }
+
             _logger.LogInformation("关闭后台任务执行...");
         }
     }

@@ -14,13 +14,13 @@ namespace Gentings.Data.SqlServer.Query.Translators
         /// </summary>
         /// <param name="memberExpression">转换字段或属性表达式。</param>
         /// <returns>转换后的表达式。</returns>
-        public virtual Expression Translate( MemberExpression memberExpression)
+        public virtual Expression Translate(MemberExpression memberExpression)
         {
             if (memberExpression.Expression != null
                 && memberExpression.Expression.Type == typeof(string)
                 && memberExpression.Member.Name == nameof(string.Length))
             {
-                return new SqlFunctionExpression("LEN", memberExpression.Type, new[] { memberExpression.Expression });
+                return new SqlFunctionExpression("LEN", memberExpression.Type, new[] {memberExpression.Expression});
             }
 
             return null;

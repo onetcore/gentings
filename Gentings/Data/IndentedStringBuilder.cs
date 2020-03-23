@@ -13,7 +13,7 @@ namespace Gentings.Data
         private const byte IndentSize = 4;
         private bool _indentPending = true;
         private readonly StringBuilder _builder = new StringBuilder();
-        
+
         /// <summary>
         /// 添加实例。
         /// </summary>
@@ -115,6 +115,7 @@ namespace Gentings.Data
             {
                 _indent--;
             }
+
             return this;
         }
 

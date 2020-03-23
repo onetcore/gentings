@@ -103,7 +103,7 @@ namespace Gentings.Data
 
             if (info.IsDefined(typeof(KeyAttribute)))
             {
-                return false;//主键也不更新
+                return false; //主键也不更新
             }
 
             if (info.IsDefined(typeof(TimestampAttribute)))
@@ -134,7 +134,8 @@ namespace Gentings.Data
             var key = entityType.PrimaryKey.Properties;
             if (key.Count > 1)
             {
-                throw new IndexOutOfRangeException(string.Format(Resources.PrimaryKeyIsNotSingleField, entityType.ClrType, string.Join(", ", key)));
+                throw new IndexOutOfRangeException(string.Format(Resources.PrimaryKeyIsNotSingleField,
+                    entityType.ClrType, string.Join(", ", key)));
             }
 
             return key.Single();
@@ -146,7 +147,8 @@ namespace Gentings.Data
         /// <param name="parameters">参数（字典实例或者匿名对象）。</param>
         /// <param name="stringComparer">属性字符串对比实例。</param>
         /// <returns>返回键值对字典实例。</returns>
-        public static IDictionary<string, object> ToDictionary(this object parameters, StringComparer stringComparer = null)
+        public static IDictionary<string, object> ToDictionary(this object parameters,
+            StringComparer stringComparer = null)
         {
             if (parameters is IDictionary<string, object> dic)
             {

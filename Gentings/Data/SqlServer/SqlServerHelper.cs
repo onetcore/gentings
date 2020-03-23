@@ -42,6 +42,7 @@ namespace Gentings.Data.SqlServer
             {
                 builder.Append(@byte.ToString("X2", CultureInfo.InvariantCulture));
             }
+
             return builder.ToString();
         }
 

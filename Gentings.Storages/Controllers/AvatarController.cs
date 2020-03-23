@@ -23,8 +23,8 @@ namespace Gentings.Storages.Controllers
         /// <summary>
         /// 访问头像文件。
         /// </summary>
-        /// <param name="dir">文件夹名称。</param>
-        /// <param name="name">文件名称。</param>
+        /// <param name="userid">用户Id。</param>
+        /// <param name="size">大小。</param>
         /// <returns>返回文件结果。</returns>
         [Route("s-avatars/{userid:int}.png")]
         [Route("s-avatars/{userid:int}x{size:int}.png")]

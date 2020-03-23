@@ -5,10 +5,14 @@
     /// </summary>
     public class MigrationService
     {
-        private MigrationService() { }
+        private MigrationService()
+        {
+        }
+
         private MigrationStatus _status;
         private string _message;
         private static readonly MigrationService _instance = new MigrationService();
+
         /// <summary>
         /// 当前状态。
         /// </summary>
@@ -25,6 +29,7 @@
                 _instance._status = value;
             }
         }
+
         /// <summary>
         /// 消息。
         /// </summary>

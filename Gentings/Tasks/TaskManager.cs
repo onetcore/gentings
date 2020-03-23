@@ -40,7 +40,12 @@ namespace Gentings.Tasks
                 var descriptor = descriptors.SingleOrDefault(x => x.Type == type);
                 if (descriptor != null)
                 {
-                    await _db.UpdateAsync(x => x.Id == descriptor.Id, new { service.Name, Interval = service.Interval.ToString(), service.Description, Enabled = !service.Disabled });
+                    await _db.UpdateAsync(x => x.Id == descriptor.Id,
+                        new
+                        {
+                            service.Name, Interval = service.Interval.ToString(), service.Description,
+                            Enabled = !service.Disabled
+                        });
                     descriptor.ShouldBeDeleting = false;
                 }
                 else
@@ -55,6 +60,7 @@ namespace Gentings.Tasks
                     await _db.CreateAsync(descriptor);
                 }
             }
+
             //删除程序移除的后台服务
             foreach (var descriptor in descriptors)
             {
@@ -103,7 +109,7 @@ namespace Gentings.Tasks
         /// <returns>返回设置结果。</returns>
         public bool SetInterval(int id, string interval)
         {
-            return _db.Update(id, new { Interval = interval });
+            return _db.Update(id, new {Interval = interval});
         }
 
         /// <summary>
@@ -123,9 +129,10 @@ namespace Gentings.Tasks
             if (interval != task.TaskArgument.Interval)
             {
                 task.TaskArgument.Interval = interval;
-                task.NextExecuting = ((TaskInterval)interval).Next();
+                task.NextExecuting = ((TaskInterval) interval).Next();
             }
-            return await _db.UpdateAsync(id, new { task.NextExecuting, Argument = task.TaskArgument.ToString() });
+
+            return await _db.UpdateAsync(id, new {task.NextExecuting, Argument = task.TaskArgument.ToString()});
         }
 
         /// <summary>
@@ -145,9 +152,10 @@ namespace Gentings.Tasks
             if (argument.Interval != task.TaskArgument.Interval)
             {
                 TaskInterval interval = argument.Interval ?? task.Interval;
-                return await _db.UpdateAsync(id, new { Argument = argument.ToString(), NextExecuting = interval.Next() });
+                return await _db.UpdateAsync(id, new {Argument = argument.ToString(), NextExecuting = interval.Next()});
             }
-            return await _db.UpdateAsync(id, new { Argument = argument.ToString() });
+
+            return await _db.UpdateAsync(id, new {Argument = argument.ToString()});
         }
 
         /// <summary>
@@ -161,7 +169,8 @@ namespace Gentings.Tasks
             var argument = (await _db.FindAsync(context.Id)).TaskArgument;
             context.Argument.Interval = argument.Interval;
             context.Argument.IsStack = argument.IsStack;
-            return await _db.UpdateAsync(context.Id, new { context.NextExecuting, context.LastExecuted, Argument = context.Argument.ToString() });
+            return await _db.UpdateAsync(context.Id,
+                new {context.NextExecuting, context.LastExecuted, Argument = context.Argument.ToString()});
         }
 
         /// <summary>

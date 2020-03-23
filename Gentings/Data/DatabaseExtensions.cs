@@ -239,6 +239,7 @@ namespace Gentings.Data
             {
                 table.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.ClrType) ?? property.ClrType);
             }
+
             var values = new object[properties.Count];
             foreach (var model in models)
             {
@@ -246,6 +247,7 @@ namespace Gentings.Data
                 {
                     values[i] = properties[i].Get(model);
                 }
+
                 table.Rows.Add(values);
             }
 

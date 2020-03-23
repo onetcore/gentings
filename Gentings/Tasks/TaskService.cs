@@ -24,6 +24,7 @@ namespace Gentings.Tasks
         public abstract string Description { get; }
 
         private string _extensionName;
+
         /// <summary>
         /// 扩展名称，即服务的分类。
         /// </summary>
@@ -50,6 +51,7 @@ namespace Gentings.Tasks
 
                     _extensionName = @namespace.ToLower();
                 }
+
                 return _extensionName;
             }
         }

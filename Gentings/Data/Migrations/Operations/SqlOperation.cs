@@ -11,7 +11,7 @@ namespace Gentings.Data.Migrations.Operations
         /// <summary>
         /// SQL字符串。
         /// </summary>
-        public virtual string Sql { get;  set; }
+        public virtual string Sql { get; set; }
 
         /// <summary>
         /// 添加或更新的实体。

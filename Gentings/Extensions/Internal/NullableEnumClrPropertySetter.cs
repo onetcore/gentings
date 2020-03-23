@@ -17,7 +17,7 @@ namespace Gentings.Extensions.Internal
         /// 初始化类<see cref="NullableEnumClrPropertySetter{TEntity, TValue, TNonNullableEnumValue}"/>。
         /// </summary>
         /// <param name="setter">设置代理方法。</param>
-        public NullableEnumClrPropertySetter( Action<TEntity, TValue> setter)
+        public NullableEnumClrPropertySetter(Action<TEntity, TValue> setter)
         {
             _setter = setter;
         }
@@ -31,10 +31,10 @@ namespace Gentings.Extensions.Internal
         {
             if (value != null)
             {
-                value = (TNonNullableEnumValue)value;
+                value = (TNonNullableEnumValue) value;
             }
 
-            _setter((TEntity)instance, (TValue)value);
+            _setter((TEntity) instance, (TValue) value);
         }
     }
 }

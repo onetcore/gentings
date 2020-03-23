@@ -12,21 +12,23 @@ namespace Gentings.Utils
     public static class Formatter
     {
         private const string Separator = "--sdf%32$4s#df--";
-        private static readonly IDictionary<string, string> _typeNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
-        {
-            {"int", "int" },
-            {"int32", "int" },
-            {"long", "long" },
-            {"int64", "long" },
-            {"short", "short" },
-            {"int16", "short" },
-            {"string", "string" },
-            {"guid", "Guid" },
-            {"float", "float" },
-            {"double", "double" },
-            {"bool", "bool" },
-            {"boolean", "bool" },
-        };
+
+        private static readonly IDictionary<string, string> _typeNames =
+            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                {"int", "int"},
+                {"int32", "int"},
+                {"long", "long"},
+                {"int64", "long"},
+                {"short", "short"},
+                {"int16", "short"},
+                {"string", "string"},
+                {"guid", "Guid"},
+                {"float", "float"},
+                {"double", "double"},
+                {"bool", "bool"},
+                {"boolean", "bool"},
+            };
 
         /// <summary>
         /// 格式化。
@@ -36,7 +38,8 @@ namespace Gentings.Utils
         /// <param name="format">源代码中格式化：n名称，t类型，s描述。</param>
         /// <param name="ignoreCase">忽略大小写。</param>
         /// <returns>返回属性代码字符串。</returns>
-        public static string Format(string source, string separator = "\\s+", string format = "nts", bool ignoreCase = true)
+        public static string Format(string source, string separator = "\\s+", string format = "nts",
+            bool ignoreCase = true)
         {
             if (string.IsNullOrWhiteSpace(source))
             {
@@ -59,6 +62,7 @@ namespace Gentings.Utils
                 dic[format[i]] = source.Substring(0, index).Trim();
                 source = source.Substring(index + Separator.Length);
             }
+
             dic[format[format.Length - 1]] = source;
             var builder = new StringBuilder();
             if (dic.TryGetValue('s', out var summary))
@@ -67,6 +71,7 @@ namespace Gentings.Utils
                 builder.Append("/// ").AppendLine(summary);
                 builder.AppendLine("/// </summary>");
             }
+
             builder.Append("public ");
             if (!_typeNames.TryGetValue(dic['t'], out var type))
             {
@@ -88,7 +93,8 @@ namespace Gentings.Utils
         /// <param name="format">源代码中格式化：n名称，t类型，s描述。</param>
         /// <param name="ignoreCase">忽略大小写。</param>
         /// <returns>返回属性代码字符串。</returns>
-        public static string FormatLines(string source, string separator = "\\s+", string format = "nts", bool ignoreCase = true)
+        public static string FormatLines(string source, string separator = "\\s+", string format = "nts",
+            bool ignoreCase = true)
         {
             if (string.IsNullOrWhiteSpace(source))
             {
@@ -96,10 +102,11 @@ namespace Gentings.Utils
             }
 
             var builder = new StringBuilder();
-            foreach (var s in source.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var s in source.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries))
             {
                 builder.AppendLine(Format(s, separator, format, ignoreCase));
             }
+
             return builder.ToString();
         }
     }

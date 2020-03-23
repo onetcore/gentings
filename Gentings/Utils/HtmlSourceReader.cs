@@ -12,10 +12,12 @@ namespace Gentings.Utils
         private readonly string _source;
         private int _index;
         private readonly int _length;
+
         /// <summary>
         /// 空字符。
         /// </summary>
         public static readonly char NullChar = '\0';
+
         /// <summary>
         /// 转义符。
         /// </summary>
@@ -46,6 +48,7 @@ namespace Gentings.Utils
 
                 _index++;
             }
+
             return false;
         }
 
@@ -128,9 +131,10 @@ namespace Gentings.Utils
         /// <param name="skip">是否将读取位置与当前位置。</param>
         /// <param name="stringComparison">字符串对比模式。</param>
         /// <returns>返回判断结果。</returns>
-        public bool IsNextNonWhiteSpace(string current, bool skip = true, StringComparison stringComparison = StringComparison.Ordinal)
+        public bool IsNextNonWhiteSpace(string current, bool skip = true,
+            StringComparison stringComparison = StringComparison.Ordinal)
         {
-            var index = _index + 1;//判断开始的位置
+            var index = _index + 1; //判断开始的位置
             var builder = new StringBuilder();
             while (_source.Length > index)
             {
@@ -142,6 +146,7 @@ namespace Gentings.Utils
                         break;
                     }
                 }
+
                 index++;
             }
 
@@ -255,6 +260,7 @@ namespace Gentings.Utils
                 {
                     builder.Append(current);
                 }
+
                 _index++;
             }
 
@@ -279,6 +285,7 @@ namespace Gentings.Utils
                     ReadQuote(current, builder);
                     continue;
                 }
+
                 if (current == end)
                 {
                     return builder.ToString();
@@ -287,6 +294,7 @@ namespace Gentings.Utils
                 builder.Append(current);
                 _index++;
             }
+
             return builder.ToString();
         }
 
@@ -307,6 +315,7 @@ namespace Gentings.Utils
                     ReadQuote(current, builder);
                     continue;
                 }
+
                 if (current == end[0] && IsNext(end))
                 {
                     return builder.ToString();
@@ -315,6 +324,7 @@ namespace Gentings.Utils
                 builder.Append(current);
                 Skip();
             }
+
             return builder.ToString();
         }
 
@@ -335,6 +345,7 @@ namespace Gentings.Utils
                     ReadQuote(current, builder);
                     continue;
                 }
+
                 if (ends.Any(x => x == current))
                 {
                     return builder.ToString();
@@ -343,6 +354,7 @@ namespace Gentings.Utils
                 builder.Append(current);
                 Skip();
             }
+
             return builder.ToString();
         }
 
@@ -383,6 +395,7 @@ namespace Gentings.Utils
                     break;
                 }
             }
+
             return builder.ToString();
         }
 
@@ -410,6 +423,7 @@ namespace Gentings.Utils
                     ReadBlock(start, end, builder);
                     continue;
                 }
+
                 if (ends.Any(x => x == current))
                 {
                     return builder.ToString();
@@ -418,6 +432,7 @@ namespace Gentings.Utils
                 builder.Append(current);
                 Skip();
             }
+
             return builder.ToString();
         }
     }

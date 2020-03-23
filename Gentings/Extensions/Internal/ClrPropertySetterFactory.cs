@@ -43,7 +43,7 @@ namespace Gentings.Extensions.Internal
             return propertyType.IsNullableType()
                    && propertyType.UnwrapNullableType().GetTypeInfo().IsEnum
                 ? new NullableEnumClrPropertySetter<TEntity, TValue, TNonNullableEnumValue>(setter)
-                : (IClrPropertySetter)new ClrPropertySetter<TEntity, TValue>(setter);
+                : (IClrPropertySetter) new ClrPropertySetter<TEntity, TValue>(setter);
         }
     }
 }

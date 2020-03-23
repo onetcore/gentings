@@ -17,7 +17,8 @@ namespace Gentings.Utils
         /// <param name="end">结束字符串，结果不包含此字符串。</param>
         /// <param name="comparison">对比模式。</param>
         /// <returns>返回截取得到的字符串。</returns>
-        public static string Substring(this string source, string start, string end = null, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        public static string Substring(this string source, string start, string end = null,
+            StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             var index = source.IndexOf(start, comparison);
             if (index == -1)
@@ -36,10 +37,12 @@ namespace Gentings.Utils
 
                 source = source.Substring(0, index);
             }
+
             return source.Trim();
         }
 
-        private static readonly Regex _htmlRegex = new Regex("</*[a-z].*?>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private static readonly Regex _htmlRegex =
+            new Regex("</*[a-z].*?>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         /// <summary>
         /// 移除所有HTML标记。

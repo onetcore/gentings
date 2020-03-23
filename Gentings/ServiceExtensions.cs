@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyModel;
@@ -8,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Gentings.AspNetCore;
 
 namespace Gentings
 {
@@ -96,6 +94,7 @@ namespace Gentings
                 var suppendAttribute = susppendService.GetCustomAttribute<SuppressAttribute>();
                 susppendTypes.Add(suppendAttribute.FullName);
             }
+
             susppendTypes = susppendTypes.Distinct().ToList();
             return types.Where(type => !susppendTypes.Contains(type.FullName))
                 .ToList();
@@ -139,26 +138,8 @@ namespace Gentings
 
                 assemblies.Add(Assembly.Load(new AssemblyName(library.Name)));
             }
+
             return assemblies;
-        }
-
-        /// <summary>
-        /// 使用配置。
-        /// </summary>
-        /// <param name="app">应用程序构建实例接口。</param>
-        /// <param name="configuration">配置实例接口。</param>
-        /// <returns>应用程序构建实例接口。</returns>
-        public static IApplicationBuilder UseGentings(this IApplicationBuilder app, IConfiguration configuration)
-        {
-            var services = app.ApplicationServices.GetService<IEnumerable<IApplicationConfigurer>>()
-                .OrderByDescending(x => x.Priority)
-                .ToArray();
-            foreach (var service in services)
-            {
-                service.Configure(app, configuration);
-            }
-
-            return app;
         }
 
         /// <summary>

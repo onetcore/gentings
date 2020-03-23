@@ -10,10 +10,10 @@ namespace Gentings.Data.Query.Translators.Internal
     public class EndsWithTranslator : IMethodCallTranslator
     {
         private static readonly MethodInfo _methodInfo
-            = typeof(string).GetRuntimeMethod(nameof(string.EndsWith), new[] { typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.EndsWith), new[] {typeof(string)});
 
         private static readonly MethodInfo _concat
-            = typeof(string).GetRuntimeMethod(nameof(string.Concat), new[] { typeof(string), typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.Concat), new[] {typeof(string), typeof(string)});
 
         /// <summary>
         /// 转换表达式。

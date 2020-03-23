@@ -1,0 +1,61 @@
+﻿@page "{typeName}"
+@model TypesModel
+@{
+    ViewData["Title"] = Model.Type.FullName;
+    ViewBag.Current = "proj." + Model.AssemblyName;
+}
+
+<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <div class="mr-3 icon-48 icon-en48 text-uppercase">@Model.TagName</div>
+    <div class="lh-100">
+        <h6 class="mb-0 text-white lh-100">@Model.Type.FullName</h6>
+        <small>@Model.AssemblyName</small>
+    </div>
+</div>
+
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">成员列表</h6>
+    @foreach (var property in Model.Type.GetProperties())
+    {
+        if (!property.CanRead || !property.CanWrite)
+        {
+            continue;
+        }
+        <div class="media text-muted pt-3">
+            <div class="mr-2 text-white rounded position-relative" style="background-color: #28a745; font-size: 12px; width: 32px; height: 32px; overflow: hidden;">
+                <span class="b-span">属性</span>
+            </div>
+            <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <a href="#"><strong class="d-block text-gray-dark">@@@property.Name</strong></a>
+                {
+                @if (property.PropertyType.IsLinkable())
+                {
+                    <a asp-page="/Types" asp-area="Projects" asp-route-typeName="@property.PropertyType.FullName">@property.PropertyType.GetRealType()</a>
+                }
+                else
+                {
+                    <span>@property.PropertyType.GetRealType()</span>
+                }
+                }
+                @Model.TypeDescriptor.GetPropertyDescriptor(property)?.Summary
+            </div>
+        </div>
+    }
+    <small class="d-block text-right mt-3">
+        <a href="#">typescript</a>
+    </small>
+</div>
+
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">TypeScript</h6>
+    <div class="media text-muted pt-3">
+        <pre class="prettyprint linenums w-100 ts">@Model.Type.GetTypeScriptInterface()</pre>
+    </div>
+</div>
+
+@section Scripts
+{
+    <link rel="stylesheet" href="~/lib/prettify/prettify.min.css"/>
+    <script src="~/lib/prettify/prettify.min.js"></script>
+    <script type="text/javascript">prettyPrint();</script>
+}

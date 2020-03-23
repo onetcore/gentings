@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Gentings.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Gentings.AspNetCore;
 using Gentings.Extensions;
 
 namespace Gentings.Identity
@@ -155,6 +155,70 @@ namespace Gentings.Identity
         public static string ToErrorString(this IdentityResult result, string seperator = "<br/>")
         {
             return string.Join(seperator, result.Errors.Select(x => x.Description));
+        }
+
+        /// <summary>
+        /// 获取或添加当前请求上下文实例。
+        /// </summary>
+        /// <typeparam name="TCache">当前缓存类型。</typeparam>
+        /// <param name="context">HTTP上下文。</param>
+        /// <param name="key">缓存键。</param>
+        /// <param name="func">新添加的对象。</param>
+        /// <returns>返回当前缓存对象。</returns>
+        internal static TCache GetOrCreate<TCache>(this HttpContext context, object key, Func<TCache> func)
+        {
+            if (context.Items.TryGetValue(key, out var value) && value is TCache cache)
+            {
+                return cache;
+            }
+
+            cache = func();
+            context.Items[key] = cache;
+            return cache;
+        }
+
+        /// <summary>
+        /// 获取或添加当前请求上下文实例。
+        /// </summary>
+        /// <typeparam name="TCache">当前缓存类型。</typeparam>
+        /// <param name="context">HTTP上下文。</param>
+        /// <param name="func">新添加的对象。</param>
+        /// <returns>返回当前缓存对象。</returns>
+        internal static TCache GetOrCreate<TCache>(this HttpContext context, Func<TCache> func)
+        {
+            return context.GetOrCreate(typeof(TCache), func);
+        }
+
+        /// <summary>
+        /// 获取或添加当前请求上下文实例。
+        /// </summary>
+        /// <typeparam name="TCache">当前缓存类型。</typeparam>
+        /// <param name="context">HTTP上下文。</param>
+        /// <param name="key">缓存键。</param>
+        /// <param name="func">新添加的对象。</param>
+        /// <returns>返回当前缓存对象。</returns>
+        internal static async Task<TCache> GetOrCreateAsync<TCache>(this HttpContext context, object key, Func<Task<TCache>> func)
+        {
+            if (context.Items.TryGetValue(key, out var value) && value is TCache cache)
+            {
+                return cache;
+            }
+
+            cache = await func();
+            context.Items[key] = cache;
+            return cache;
+        }
+
+        /// <summary>
+        /// 获取或添加当前请求上下文实例。
+        /// </summary>
+        /// <typeparam name="TCache">当前缓存类型。</typeparam>
+        /// <param name="context">HTTP上下文。</param>
+        /// <param name="func">新添加的对象。</param>
+        /// <returns>返回当前缓存对象。</returns>
+        internal static Task<TCache> GetOrCreateAsync<TCache>(this HttpContext context, Func<Task<TCache>> func)
+        {
+            return context.GetOrCreateAsync(typeof(TCache), func);
         }
     }
 }

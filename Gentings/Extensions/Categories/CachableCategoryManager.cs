@@ -10,7 +10,8 @@ namespace Gentings.Extensions.Categories
     /// 缓存分类管理实现类基类。
     /// </summary>
     /// <typeparam name="TCategory">分类类型。</typeparam>
-    public abstract class CachableCategoryManager<TCategory> : CachableObjectManager<TCategory>, ICachableCategoryManager<TCategory>
+    public abstract class CachableCategoryManager<TCategory> : CachableObjectManager<TCategory>,
+        ICachableCategoryManager<TCategory>
         where TCategory : CategoryBase
     {
         /// <summary>
@@ -30,7 +31,8 @@ namespace Gentings.Extensions.Categories
         /// <param name="category">分类实例。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回判断结果。</returns>
-        public override async Task<bool> IsDuplicatedAsync(TCategory category, CancellationToken cancellationToken = default)
+        public override async Task<bool> IsDuplicatedAsync(TCategory category,
+            CancellationToken cancellationToken = default)
         {
             var categories = await FetchAsync(cancellationToken: cancellationToken);
             return categories.Any(x => x.Id != category.Id && x.Name == category.Name);

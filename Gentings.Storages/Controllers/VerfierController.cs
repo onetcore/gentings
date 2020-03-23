@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ControllerBase = Gentings.AspNetCore.ControllerBase;
 
 namespace Gentings.Storages.Controllers
 {

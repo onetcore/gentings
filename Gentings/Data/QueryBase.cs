@@ -6,7 +6,7 @@ namespace Gentings.Data
     /// 查询基类。
     /// </summary>
     /// <typeparam name="TModel">数据库实体类型。</typeparam>
-    public abstract class QueryBase<TModel> 
+    public abstract class QueryBase<TModel>
     {
         /// <summary>
         /// 初始化查询上下文。
@@ -15,6 +15,7 @@ namespace Gentings.Data
         protected internal abstract void Init(IQueryContext<TModel> context);
 
         private int _current;
+
         /// <summary>
         /// 页码。
         /// </summary>

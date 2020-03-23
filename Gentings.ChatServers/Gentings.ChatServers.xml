@@ -1,0 +1,451 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gentings.ChatServers</name>
+    </assembly>
+    <members>
+        <member name="T:Gentings.ChatServers.Category">
+            <summary>
+            分类。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Category.UserId">
+            <summary>
+            用户Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Category.Count">
+            <summary>
+            好友数量。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.ChatServer">
+            <summary>
+            聊天服务器。
+            </summary>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.#ctor(Gentings.ChatServers.IUserManager,Gentings.ChatServers.IMessageManager)">
+            <summary>
+            初始化类<see cref="T:Gentings.ChatServers.ChatServer"/>。
+            </summary>
+            <param name="messageManager">消息管理实例。</param>
+            <param name="userManager">用户管理接口实例。</param>
+        </member>
+        <member name="P:Gentings.ChatServers.ChatServer.Onlines">
+            <summary>
+            在线列表。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.ChatServer.Connections">
+            <summary>
+            在线列表。
+            </summary>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.OnConnectedAsync">
+            <summary>
+            用户连接时候执行的方法。
+            </summary>
+            <returns>连接执行任务。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.SendMessageAsync(System.Int32,System.String)">
+            <summary>
+            发送消息给对方。
+            </summary>
+            <param name="userId">用户Id。</param>
+            <param name="msg">消息字符串。</param>
+            <returns>返回发送任务。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.GetUser">
+            <summary>
+            获取当前用户实例。
+            </summary>
+            <returns>当前用户实例。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.SendAllAsync(System.String,System.Object[])">
+            <summary>
+            发送消息给所有连接客户。
+            </summary>
+            <param name="method">方法名称。</param>
+            <param name="args">发送信息列表。</param>
+            <returns>发送任务。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.SendOthersAsync(System.String,System.Object[])">
+            <summary>
+            发送消息给其他所有连接客户。
+            </summary>
+            <param name="method">方法名称。</param>
+            <param name="args">发送信息列表。</param>
+            <returns>发送任务。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.SendAsync(System.String,System.Object[])">
+            <summary>
+            发送消息给当前连接客户。
+            </summary>
+            <param name="method">方法名称。</param>
+            <param name="args">发送信息列表。</param>
+            <returns>发送任务。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.ChatServer.OnDisconnectedAsync(System.Exception)">
+            <summary>
+            断开连接执行的方法。
+            </summary>
+            <param name="exception">错误实例。</param>
+            <returns>断开连接执行任务。</returns>
+        </member>
+        <member name="T:Gentings.ChatServers.Controllers.ChatController">
+            <summary>
+            聊天控制器。
+            </summary>
+        </member>
+        <member name="M:Gentings.ChatServers.Controllers.ChatController.Init">
+            <summary>
+            获取当前用户的实例对象。
+            </summary>
+            <returns>返回当前用户实例对象。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.Controllers.ChatController.Save(System.String,System.Int32)">
+            <summary>
+            保存用户实例。
+            </summary>
+            <param name="name">用户名称。</param>
+            <param name="id">用户id。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.Controllers.ChatController.Save(Gentings.ChatServers.User)">
+            <summary>
+            保存用户实例。
+            </summary>
+            <param name="user">用户实例。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="T:Gentings.ChatServers.Controllers.ControllerBase">
+            <summary>
+            控制器基类。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.Controllers.FriendController">
+            <summary>
+            好友控制器。
+            </summary>
+        </member>
+        <member name="M:Gentings.ChatServers.Controllers.FriendController.GetFriendsAsync">
+            <summary>
+            获取好友列表。
+            </summary>
+            <returns>返回好友列表。</returns>
+        </member>
+        <member name="T:Gentings.ChatServers.Friend">
+            <summary>
+            朋友。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Friend.UserId">
+            <summary>
+            用户Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Friend.FriendId">
+            <summary>
+            好友Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Friend.Alias">
+            <summary>
+            好友别名。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Friend.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Friend.Unreads">
+            <summary>
+            未读消息数量。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.FriendStatus">
+            <summary>
+            朋友状态。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.FriendStatus.Pending">
+            <summary>
+            等待验证。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.FriendStatus.Normal">
+            <summary>
+            正常。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.FriendStatus.BlackList">
+            <summary>
+            黑名单。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.Group">
+            <summary>
+            用户群。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Group.Id">
+            <summary>
+            群Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Group.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Group.Max">
+            <summary>
+            最多用户数。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Group.JoinMode">
+            <summary>
+            加入方式。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Group.IconUrl">
+            <summary>
+            图标地址。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Group.OwnerId">
+            <summary>
+            群所有者。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Group.IsDeny">
+            <summary>
+            是否禁言，只有管理员和所有者能够聊天。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.GroupUser">
+            <summary>
+            群组用户。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.GroupUser.GroupId">
+            <summary>
+            群Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.GroupUser.UserId">
+            <summary>
+            用户Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.GroupUser.UserType">
+            <summary>
+            用户类型。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.GroupUser.Status">
+            <summary>
+            群状态。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.GroupUserStatus">
+            <summary>
+            群状态。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.GroupUserStatus.Pending">
+            <summary>
+            等待验证。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.GroupUserStatus.Normal">
+            <summary>
+            正常。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.GroupUserStatus.BlackList">
+            <summary>
+            黑名单。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.GroupUserType">
+            <summary>
+            群用户类型。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.GroupUserType.Normal">
+            <summary>
+            普通成员。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.GroupUserType.Administrator">
+            <summary>
+            管理员。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.GroupUserType.Owner">
+            <summary>
+            所有者。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.GroupUserType.Robot">
+            <summary>
+            机器人。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.IMessageManager">
+            <summary>
+            消息管理接口。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.MessageManager">
+            <summary>
+            消息管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.ChatServers.MessageManager.#ctor(Gentings.Data.IDbContext{Gentings.ChatServers.Message})">
+            <summary>
+            初始化类<see cref="T:Gentings.ChatServers.UserManager"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+        </member>
+        <member name="M:Gentings.ChatServers.MessageManager.Create(Gentings.ChatServers.Message)">
+            <summary>
+            添加实例。
+            </summary>
+            <param name="model">添加对象。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="M:Gentings.ChatServers.MessageManager.CreateAsync(Gentings.ChatServers.Message,System.Threading.CancellationToken)">
+            <summary>
+            添加实例。
+            </summary>
+            <param name="model">添加对象。</param>
+            <param name="cancellationToken">取消标识。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="T:Gentings.ChatServers.IUserManager">
+            <summary>
+            用户管理接口。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.UserManager">
+            <summary>
+            用户管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.ChatServers.UserManager.#ctor(Gentings.Data.IDbContext{Gentings.ChatServers.User})">
+            <summary>
+            初始化类<see cref="T:Gentings.ChatServers.UserManager"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+        </member>
+        <member name="T:Gentings.ChatServers.JoinMode">
+            <summary>
+            群加入方式。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.JoinMode.Auto">
+            <summary>
+            自动加入。
+            </summary>
+        </member>
+        <member name="F:Gentings.ChatServers.JoinMode.Moderate">
+            <summary>
+            验证加入。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.Message">
+            <summary>
+            聊天信息。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Message.Id">
+            <summary>
+            消息Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Message.Sender">
+            <summary>
+            发送者Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Message.Receiver">
+            <summary>
+            接收者。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Message.Content">
+            <summary>
+            内容。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Message.Readed">
+            <summary>
+            是否已读。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Message.CreatedDate">
+            <summary>
+            发送时间。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Message.ReadedDate">
+            <summary>
+            读取时间。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.Properties.Resources">
+            <summary>
+              一个强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Properties.Resources.ResourceManager">
+            <summary>
+              返回此类使用的缓存的 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Properties.Resources.Culture">
+            <summary>
+              重写当前线程的 CurrentUICulture 属性
+              重写当前线程的 CurrentUICulture 属性。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.Properties.Resources.ClientDisconnected">
+            <summary>
+              查找类似 用户已经断开连接，请重新连接！ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="T:Gentings.ChatServers.User">
+            <summary>
+            聊天用户。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.User.Id">
+            <summary>
+            用户Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.User.Name">
+            <summary>
+            用户名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.User.IsOnline">
+            <summary>
+            是否在线。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.User.ConnectedDate">
+            <summary>
+            连接时间。
+            </summary>
+        </member>
+        <member name="P:Gentings.ChatServers.User.DisconnectedDate">
+            <summary>
+            断开连接时间。
+            </summary>
+        </member>
+    </members>
+</doc>

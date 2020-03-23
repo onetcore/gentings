@@ -13,7 +13,7 @@ namespace Gentings.Data.Migrations.Builders
         /// 初始化类<see cref="AlterOperationBuilder{TOperation}"/>。
         /// </summary>
         /// <param name="operation">操作实例对象。</param>
-        public AlterOperationBuilder( TOperation operation)
+        public AlterOperationBuilder(TOperation operation)
             : base(operation)
         {
         }

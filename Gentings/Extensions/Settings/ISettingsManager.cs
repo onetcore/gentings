@@ -29,7 +29,7 @@ namespace Gentings.Extensions.Settings
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <returns>返回网站配置实例。</returns>
         TSiteSettings GetSettings<TSiteSettings>()
-            where TSiteSettings : class , new();
+            where TSiteSettings : class, new();
 
         /// <summary>
         /// 获取配置字符串。

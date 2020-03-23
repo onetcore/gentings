@@ -12,18 +12,18 @@ namespace Gentings.Data.SqlServer.Query.Translators
     public class StringReplaceTranslator : IMethodCallTranslator
     {
         private static readonly MethodInfo _methodInfo
-            = typeof(string).GetRuntimeMethod(nameof(string.Replace), new[] { typeof(string), typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.Replace), new[] {typeof(string), typeof(string)});
 
         /// <summary>
         /// 转换表达式。
         /// </summary>
         /// <param name="methodCallExpression">方法调用表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate( MethodCallExpression methodCallExpression)
+        public virtual Expression Translate(MethodCallExpression methodCallExpression)
         {
             if (methodCallExpression.Method == _methodInfo)
             {
-                var sqlArguments = new[] { methodCallExpression.Object }.Concat(methodCallExpression.Arguments);
+                var sqlArguments = new[] {methodCallExpression.Object}.Concat(methodCallExpression.Arguments);
                 return new SqlFunctionExpression("REPLACE", methodCallExpression.Type, sqlArguments);
             }
 

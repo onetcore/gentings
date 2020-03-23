@@ -47,7 +47,8 @@ namespace Gentings.Installers
         /// <param name="serviceProvider">服务提供者。</param>
         /// <param name="installerManager">安装管理接口。</param>
         /// <param name="logger">日志接口。</param>
-        public InstallerHostedService(IServiceProvider serviceProvider, IInstallerManager installerManager, ILogger<InstallerHostedService> logger)
+        public InstallerHostedService(IServiceProvider serviceProvider, IInstallerManager installerManager,
+            ILogger<InstallerHostedService> logger)
         {
             _serviceProvider = serviceProvider;
             _installerManager = installerManager;
@@ -67,6 +68,7 @@ namespace Gentings.Installers
             {
                 cancellationToken.ThrowIfCancellationRequested();
             }
+
             //启动网站
             _logger.LogInformation("启动网站...");
             var registration = await _installerManager.GetRegistrationAsync();
@@ -102,6 +104,7 @@ namespace Gentings.Installers
                     _logger.LogError(exception, "网站初始化失败！");
                 }
             }
+
             await _installerManager.SaveRegistrationAsync(registration);
             Current = registration.Status;
             if (Current == InstallerStatus.Failured)

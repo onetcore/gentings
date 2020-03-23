@@ -59,7 +59,8 @@ namespace Gentings
         /// <typeparam name="TService">服务类型。</typeparam>
         /// <typeparam name="TImplementation">实现类。</typeparam>
         /// <returns>返回构建实例。</returns>
-        public IServiceBuilder AddSingleton<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        public IServiceBuilder AddSingleton<TService, TImplementation>()
+            where TService : class where TImplementation : class, TService
         {
             _services.TryAddSingleton<TService, TImplementation>();
             return this;
@@ -71,7 +72,8 @@ namespace Gentings
         /// <typeparam name="TService">服务类型。</typeparam>
         /// <typeparam name="TImplementation">实现类。</typeparam>
         /// <returns>返回构建实例。</returns>
-        public IServiceBuilder AddScoped<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        public IServiceBuilder AddScoped<TService, TImplementation>()
+            where TService : class where TImplementation : class, TService
         {
             _services.TryAddScoped<TService, TImplementation>();
             return this;
@@ -83,7 +85,8 @@ namespace Gentings
         /// <typeparam name="TService">服务类型。</typeparam>
         /// <typeparam name="TImplementation">实现类。</typeparam>
         /// <returns>返回构建实例。</returns>
-        public IServiceBuilder AddTransient<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        public IServiceBuilder AddTransient<TService, TImplementation>()
+            where TService : class where TImplementation : class, TService
         {
             _services.TryAddTransient<TService, TImplementation>();
             return this;
@@ -95,7 +98,8 @@ namespace Gentings
         /// <typeparam name="TService">服务类型。</typeparam>
         /// <typeparam name="TImplementation">实现类。</typeparam>
         /// <returns>返回构建实例。</returns>
-        public IServiceBuilder AddSingletons<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        public IServiceBuilder AddSingletons<TService, TImplementation>()
+            where TService : class where TImplementation : class, TService
         {
             _services.TryAddEnumerable(ServiceDescriptor.Singleton<TService, TImplementation>());
             return this;
@@ -107,7 +111,8 @@ namespace Gentings
         /// <typeparam name="TService">服务类型。</typeparam>
         /// <typeparam name="TImplementation">实现类。</typeparam>
         /// <returns>返回构建实例。</returns>
-        public IServiceBuilder AddScopeds<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        public IServiceBuilder AddScopeds<TService, TImplementation>()
+            where TService : class where TImplementation : class, TService
         {
             _services.TryAddEnumerable(ServiceDescriptor.Scoped<TService, TImplementation>());
             return this;
@@ -119,7 +124,8 @@ namespace Gentings
         /// <typeparam name="TService">服务类型。</typeparam>
         /// <typeparam name="TImplementation">实现类。</typeparam>
         /// <returns>返回构建实例。</returns>
-        public IServiceBuilder AddTransients<TService, TImplementation>() where TService : class where TImplementation : class, TService
+        public IServiceBuilder AddTransients<TService, TImplementation>()
+            where TService : class where TImplementation : class, TService
         {
             _services.TryAddEnumerable(ServiceDescriptor.Transient<TService, TImplementation>());
             return this;

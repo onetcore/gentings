@@ -10,7 +10,7 @@ namespace Gentings.Utils
     {
         internal Word(string code, string[] pinyins)
         {
-            Code = (char)Convert.ToInt32(code);
+            Code = (char) Convert.ToInt32(code);
             foreach (var pinyin in pinyins)
             {
                 Pinyins.Add(new Pinyin(pinyin.Split('.')));

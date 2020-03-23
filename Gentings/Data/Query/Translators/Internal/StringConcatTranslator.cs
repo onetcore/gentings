@@ -15,7 +15,7 @@ namespace Gentings.Data.Query.Translators.Internal
             .Single(m => m.GetParameters().Length == 2
                          && m.GetParameters()[0].ParameterType == typeof(object)
                          && m.GetParameters()[1].ParameterType == typeof(object));
-        
+
         /// <summary>
         /// 转换表达式。
         /// </summary>
@@ -29,11 +29,13 @@ namespace Gentings.Data.Query.Translators.Internal
                 && binaryExpression.Method == _stringConcatMethodInfo)
             {
                 var newLeft = binaryExpression.Left.Type != typeof(string)
-                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Left.RemoveConvert()), typeof(string))
+                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Left.RemoveConvert()),
+                        typeof(string))
                     : binaryExpression.Left;
 
                 var newRight = binaryExpression.Right.Type != typeof(string)
-                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Right.RemoveConvert()), typeof(string))
+                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Right.RemoveConvert()),
+                        typeof(string))
                     : binaryExpression.Right;
 
                 if (newLeft != binaryExpression.Left
@@ -50,7 +52,8 @@ namespace Gentings.Data.Query.Translators.Internal
         {
             var constantExpression = expression as ConstantExpression;
 
-            return constantExpression != null && constantExpression.Type == typeof(object) && constantExpression.Value != null
+            return constantExpression != null && constantExpression.Type == typeof(object) &&
+                   constantExpression.Value != null
                 ? Expression.Constant(constantExpression.Value)
                 : expression;
         }

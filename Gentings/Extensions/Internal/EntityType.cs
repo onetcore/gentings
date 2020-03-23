@@ -12,6 +12,7 @@ namespace Gentings.Extensions.Internal
     public class EntityType : IEntityType
     {
         private readonly SortedDictionary<string, Property> _properties;
+
         /// <summary>
         /// 初始化类<see cref="EntityType"/>。
         /// </summary>
@@ -26,16 +27,18 @@ namespace Gentings.Extensions.Internal
                     _properties[info.Name] = new Property(info, this);
                 }
             }
+
             ClrType = type;
             Name = type.DisplayName();
             var properties = _properties.Values
-                        .Where(property => property.IsPrimaryKey)
-                        .ToList();
+                .Where(property => property.IsPrimaryKey)
+                .ToList();
             if (properties.Count == 0 && Identity != null)
             {
                 Identity.IsPrimaryKey = true;
-                properties = new List<Property> { Identity };
+                properties = new List<Property> {Identity};
             }
+
             if (properties.Count > 0)
             {
                 PrimaryKey = new Key(properties);
@@ -127,9 +130,10 @@ namespace Gentings.Extensions.Internal
                 }
                 else if (model is ExtendBase)
                 {
-                    ((ExtendBase)(object)model)[name] = reader.GetValue(i)?.ToString();
+                    ((ExtendBase) (object) model)[name] = reader.GetValue(i)?.ToString();
                 }
             }
+
             return model;
         }
 

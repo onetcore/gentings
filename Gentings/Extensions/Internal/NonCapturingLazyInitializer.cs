@@ -18,9 +18,9 @@ namespace Gentings.Extensions.Internal
         /// <param name="valueFactory">实例化代理方法。</param>
         /// <returns>返回实例化后的对象。</returns>
         public static TValue EnsureInitialized<TParam, TValue>(
-             ref TValue target,
-             TParam param,
-             Func<TParam, TValue> valueFactory) where TValue : class
+            ref TValue target,
+            TParam param,
+            Func<TParam, TValue> valueFactory) where TValue : class
         {
             if (Volatile.Read(ref target) != null)
             {
@@ -40,8 +40,8 @@ namespace Gentings.Extensions.Internal
         /// <param name="value">实例化的值。</param>
         /// <returns>返回实例化后的对象。</returns>
         public static TValue EnsureInitialized<TValue>(
-             ref TValue target,
-             TValue value) where TValue : class
+            ref TValue target,
+            TValue value) where TValue : class
         {
             if (Volatile.Read(ref target) != null)
             {

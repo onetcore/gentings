@@ -20,6 +20,7 @@ namespace Gentings.Data.Query
     public class QueryContext<TModel> : IQueryable<TModel>, IQuerySql
     {
         #region init
+
         private readonly IExpressionVisitorFactory _visitorFactory;
         private readonly IQuerySqlGenerator _sqlGenerator;
         private readonly IDbExecutor _db;
@@ -31,7 +32,8 @@ namespace Gentings.Data.Query
         /// <param name="visitorFactory">表达式解析工厂接口。</param>
         /// <param name="sqlGenerator">SQL脚本生成接口。</param>
         /// <param name="db">数据库接口。</param>
-        public QueryContext(ISqlHelper sqlHelper, IExpressionVisitorFactory visitorFactory, IQuerySqlGenerator sqlGenerator, IDbExecutor db)
+        public QueryContext(ISqlHelper sqlHelper, IExpressionVisitorFactory visitorFactory,
+            IQuerySqlGenerator sqlGenerator, IDbExecutor db)
         {
             _visitorFactory = visitorFactory;
             _sqlGenerator = sqlGenerator;
@@ -89,9 +91,10 @@ namespace Gentings.Data.Query
         }
 
         private int _current = 'a';
+
         private readonly Dictionary<Type, string> _alias = new Dictionary<Type, string>
         {
-            {typeof(TModel), "a" }
+            {typeof(TModel), "a"}
         };
 
         /// <summary>
@@ -104,9 +107,10 @@ namespace Gentings.Data.Query
             if (!_alias.TryGetValue(type, out var alias))
             {
                 _current++;
-                alias = ((char)_current).ToString();
+                alias = ((char) _current).ToString();
                 _alias[type] = alias;
             }
+
             return alias;
         }
 
@@ -121,13 +125,17 @@ namespace Gentings.Data.Query
                         return GetAlias(suggestion);
                     }
                 }
+
                 return GetAlias(type);
             };
         }
+
         #endregion
 
         #region froms
+
         private string _fromSql;
+
         /// <summary>
         /// FROM语句。
         /// </summary>
@@ -146,6 +154,7 @@ namespace Gentings.Data.Query
                         builder.Append(_sqlGenerator.WithNolock())
                             .Append(" ");
                     }
+
                     if (_joins.Count > 0)
                     {
                         builder.Append(string.Join(" ", _joins.Select(x => x())));
@@ -153,11 +162,13 @@ namespace Gentings.Data.Query
 
                     _fromSql = builder.ToString();
                 }
+
                 return _fromSql;
             }
         }
 
         private readonly List<Func<string>> _joins = new List<Func<string>>();
+
         /// <summary>
         /// 设置表格关联。
         /// </summary>
@@ -181,7 +192,8 @@ namespace Gentings.Data.Query
             return Join("INNER", onExpression);
         }
 
-        private IQueryable<TModel> Join<TPrimary, TForeign>(string key, Expression<Func<TPrimary, TForeign, bool>> onExpression)
+        private IQueryable<TModel> Join<TPrimary, TForeign>(string key,
+            Expression<Func<TPrimary, TForeign, bool>> onExpression)
         {
             _joins.Add(() =>
             {
@@ -197,6 +209,7 @@ namespace Gentings.Data.Query
                     builder.Append(" ")
                         .Append(_sqlGenerator.WithNolock());
                 }
+
                 builder.Append(" ON ");
                 builder.Append(Visit(onExpression, GetExpressionAlias(typeof(TPrimary), typeof(TForeign))));
                 return builder.ToString();
@@ -205,11 +218,11 @@ namespace Gentings.Data.Query
         }
 
         IQueryContext<TModel> IQueryContext<TModel>.InnerJoin<TForeign>(
-                Expression<Func<TModel, TForeign, bool>> onExpression)
+            Expression<Func<TModel, TForeign, bool>> onExpression)
             => InnerJoin<TForeign>(onExpression);
 
         IQueryContext<TModel> IQueryContext<TModel>.InnerJoin<TPrimary, TForeign>(
-                Expression<Func<TPrimary, TForeign, bool>> onExpression)
+            Expression<Func<TPrimary, TForeign, bool>> onExpression)
             => InnerJoin(onExpression);
 
         /// <summary>
@@ -258,19 +271,24 @@ namespace Gentings.Data.Query
             return Join("RIGHT", onExpression);
         }
 
-        IQueryContext<TModel> IQueryContext<TModel>.LeftJoin<TForeign>(Expression<Func<TModel, TForeign, bool>> onExpression)
+        IQueryContext<TModel> IQueryContext<TModel>.LeftJoin<TForeign>(
+            Expression<Func<TModel, TForeign, bool>> onExpression)
             => LeftJoin<TForeign>(onExpression);
 
-        IQueryContext<TModel> IQueryContext<TModel>.LeftJoin<TPrimary, TForeign>(Expression<Func<TPrimary, TForeign, bool>> onExpression)
+        IQueryContext<TModel> IQueryContext<TModel>.LeftJoin<TPrimary, TForeign>(
+            Expression<Func<TPrimary, TForeign, bool>> onExpression)
             => LeftJoin(onExpression);
 
-        IQueryContext<TModel> IQueryContext<TModel>.RightJoin<TForeign>(Expression<Func<TModel, TForeign, bool>> onExpression)
+        IQueryContext<TModel> IQueryContext<TModel>.RightJoin<TForeign>(
+            Expression<Func<TModel, TForeign, bool>> onExpression)
             => RightJoin<TForeign>(onExpression);
 
-        IQueryContext<TModel> IQueryContext<TModel>.RightJoin<TPrimary, TForeign>(Expression<Func<TPrimary, TForeign, bool>> onExpression)
+        IQueryContext<TModel> IQueryContext<TModel>.RightJoin<TPrimary, TForeign>(
+            Expression<Func<TPrimary, TForeign, bool>> onExpression)
             => RightJoin(onExpression);
 
         private bool _nolock;
+
         /// <summary>
         /// 忽略锁（脏查询）。
         /// </summary>
@@ -290,10 +308,13 @@ namespace Gentings.Data.Query
             _nolock = true;
             return this;
         }
+
         #endregion
 
         #region fields
+
         private string _fieldSql;
+
         /// <summary>
         /// 选择列。
         /// </summary>
@@ -310,8 +331,10 @@ namespace Gentings.Data.Query
                             .Select(p => Delimit(p.Name));
                         _fields.AddRange(fields);
                     }
+
                     _fieldSql = string.Join(",", _fields.Distinct(StringComparer.OrdinalIgnoreCase));
                 }
+
                 return _fieldSql;
             }
         }
@@ -380,7 +403,8 @@ namespace Gentings.Data.Query
         {
             var excludes = fields.GetPropertyNames();
             var includes = Entity.GetProperties()
-                .Where(x => !x.PropertyInfo.IsDefined(typeof(NotMappedAttribute)) && !excludes.Contains(x.Name, StringComparer.OrdinalIgnoreCase))
+                .Where(x => !x.PropertyInfo.IsDefined(typeof(NotMappedAttribute)) &&
+                            !excludes.Contains(x.Name, StringComparer.OrdinalIgnoreCase))
                 .Select(p => Delimit(p.Name));
             _fields.AddRange(includes);
             return this;
@@ -399,7 +423,8 @@ namespace Gentings.Data.Query
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="fields">不包含的列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.Exclude<TEntity>(Expression<Func<TEntity, object>> fields) => Exclude(fields);
+        IQueryContext<TModel> IQueryContext<TModel>.Exclude<TEntity>(Expression<Func<TEntity, object>> fields) =>
+            Exclude(fields);
 
         /// <summary>
         /// 设置选择列。
@@ -447,7 +472,8 @@ namespace Gentings.Data.Query
         IQueryContext<TModel> IQueryContext<TModel>.Distinct(Expression<Func<TModel, object>> fields)
             => Distinct(fields);
 
-        IQueryContext<TModel> IQueryContext<TModel>.Select<TEntity>(Expression<Func<TEntity, object>> fields, string alias)
+        IQueryContext<TModel> IQueryContext<TModel>.Select<TEntity>(Expression<Func<TEntity, object>> fields,
+            string alias)
             => Select(fields, alias);
 
         IQueryContext<TModel> IQueryContext<TModel>.Select<TEntity>(Expression<Func<TEntity, object>> fields)
@@ -455,10 +481,13 @@ namespace Gentings.Data.Query
 
         IQueryContext<TModel> IQueryContext<TModel>.Select(Expression<Func<TModel, object>> fields)
             => Select(fields);
+
         #endregion
 
         #region wheres
+
         private string _whereSql;
+
         /// <summary>
         /// WHERE语句。
         /// </summary>
@@ -473,11 +502,13 @@ namespace Gentings.Data.Query
                         _whereSql = $"WHERE {string.Join(" AND ", _wheres)}";
                     }
                 }
+
                 return _whereSql;
             }
         }
 
         private readonly List<string> _wheres = new List<string>();
+
         /// <summary>
         /// 添加条件表达式。
         /// </summary>
@@ -518,11 +549,14 @@ namespace Gentings.Data.Query
 
         IQueryContext<TModel> IQueryContext<TModel>.Where(Expression<Predicate<TModel>> expression)
             => Where(expression);
+
         #endregion
 
         #region orderbys
+
         private string _orderbySql;
         private bool _requiredOrderby;
+
         /// <summary>
         /// ORDER BY语句。
         /// </summary>
@@ -542,11 +576,13 @@ namespace Gentings.Data.Query
                         _orderbySql = $"ORDER BY {_orderbySql}";
                     }
                 }
+
                 return _orderbySql;
             }
         }
 
         private readonly List<string> _orderbys = new List<string>();
+
         /// <summary>
         /// 添加排序规则。
         /// </summary>
@@ -624,7 +660,8 @@ namespace Gentings.Data.Query
         /// <param name="expression">列名称表达式。</param>
         /// <param name="isDesc">是否为降序。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(Expression<Func<TEntity, object>> expression, bool isDesc)
+        IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(Expression<Func<TEntity, object>> expression,
+            bool isDesc)
             => OrderBy(expression, isDesc);
 
         /// <summary>
@@ -639,7 +676,8 @@ namespace Gentings.Data.Query
         IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(Expression<Func<TEntity, object>> expression)
             => OrderBy(expression);
 
-        IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending<TEntity>(Expression<Func<TEntity, object>> expression)
+        IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending<TEntity>(
+            Expression<Func<TEntity, object>> expression)
             => OrderByDescending(expression);
 
         IQueryContext<TModel> IQueryContext<TModel>.OrderBy(Expression<Func<TModel, object>> expression)
@@ -647,9 +685,11 @@ namespace Gentings.Data.Query
 
         IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending(Expression<Func<TModel, object>> expression)
             => OrderByDescending(expression);
+
         #endregion
 
         #region size or page
+
         /// <summary>
         /// 获取记录数。
         /// </summary>
@@ -669,9 +709,11 @@ namespace Gentings.Data.Query
         /// 页码。
         /// </summary>
         public int? PageIndex { get; private set; }
+
         #endregion
 
         #region database
+
         /// <summary>
         /// 查询数据库返回<paramref name="size"/>项结果。
         /// </summary>
@@ -734,6 +776,7 @@ namespace Gentings.Data.Query
                     return converter(reader);
                 }
             }
+
             return default;
         }
 
@@ -743,7 +786,8 @@ namespace Gentings.Data.Query
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        public async Task<TValue> FirstOrDefaultAsync<TValue>(Func<DbDataReader, TValue> converter, CancellationToken cancellationToken = default)
+        public async Task<TValue> FirstOrDefaultAsync<TValue>(Func<DbDataReader, TValue> converter,
+            CancellationToken cancellationToken = default)
         {
             Size = 1;
             if (_fields.Count == 0)
@@ -751,13 +795,15 @@ namespace Gentings.Data.Query
                 _fields.Add($"{GetAlias(typeof(TModel))}.*");
             }
 
-            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(),
+                cancellationToken: cancellationToken))
             {
                 if (reader.Read())
                 {
                     return converter(reader);
                 }
             }
+
             return default;
         }
 
@@ -769,7 +815,8 @@ namespace Gentings.Data.Query
         /// <param name="pageSize">每页显示的记录数。</param>
         /// <param name="count">分页总记录数计算列。</param>
         /// <returns>返回数据列表。</returns>
-        public virtual IPageEnumerable<TObject> AsEnumerable<TObject>(int pageIndex, int pageSize, Expression<Func<TModel, object>> count = null)
+        public virtual IPageEnumerable<TObject> AsEnumerable<TObject>(int pageIndex, int pageSize,
+            Expression<Func<TModel, object>> count = null)
         {
             //必须添加ORDER BY，如果没添加都自动附加主键排序
             _requiredOrderby = true;
@@ -819,6 +866,7 @@ namespace Gentings.Data.Query
                     models.Add(converter(reader));
                 }
             }
+
             return models;
         }
 
@@ -857,7 +905,8 @@ namespace Gentings.Data.Query
         /// <param name="count">分页总记录数计算列。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        public virtual Task<IPageEnumerable<TObject>> AsEnumerableAsync<TObject>(int pageIndex, int pageSize, Expression<Func<TModel, object>> count = null,
+        public virtual Task<IPageEnumerable<TObject>> AsEnumerableAsync<TObject>(int pageIndex, int pageSize,
+            Expression<Func<TModel, object>> count = null,
             CancellationToken cancellationToken = default)
         {
             //必须添加ORDER BY，如果没添加都自动附加主键排序
@@ -892,16 +941,19 @@ namespace Gentings.Data.Query
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter, CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter,
+            CancellationToken cancellationToken = default)
         {
             var models = new List<TValue>();
-            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(),
+                cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
                 {
                     models.Add(converter(reader));
                 }
             }
+
             return models;
         }
 
@@ -919,6 +971,7 @@ namespace Gentings.Data.Query
                     return Entity.Read<TModel>(reader);
                 }
             }
+
             return default;
         }
 
@@ -928,15 +981,18 @@ namespace Gentings.Data.Query
         /// <param name="sql">SQL脚本。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例。</returns>
-        protected async Task<TModel> GetAsync(SqlIndentedStringBuilder sql, CancellationToken cancellationToken = default)
+        protected async Task<TModel> GetAsync(SqlIndentedStringBuilder sql,
+            CancellationToken cancellationToken = default)
         {
-            await using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
+            await using (var reader =
+                await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
             {
                 if (await reader.ReadAsync(cancellationToken))
                 {
                     return Entity.Read<TModel>(reader);
                 }
             }
+
             return default;
         }
 
@@ -955,6 +1011,7 @@ namespace Gentings.Data.Query
                     models.Add(Entity.Read<TModel>(reader));
                 }
             }
+
             return models;
         }
 
@@ -964,16 +1021,19 @@ namespace Gentings.Data.Query
         /// <param name="sql">SQL脚本。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例列表。</returns>
-        protected async Task<IEnumerable<TModel>> LoadAsync(SqlIndentedStringBuilder sql, CancellationToken cancellationToken = default)
+        protected async Task<IEnumerable<TModel>> LoadAsync(SqlIndentedStringBuilder sql,
+            CancellationToken cancellationToken = default)
         {
             var models = new List<TModel>();
-            await using (var reader = await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
+            await using (var reader =
+                await _db.ExecuteReaderAsync(sql.ToString(), cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
                 {
                     models.Add(Entity.Read<TModel>(reader));
                 }
             }
+
             return models;
         }
 
@@ -1000,6 +1060,7 @@ namespace Gentings.Data.Query
                     models.Size = reader.GetInt32(0);
                 }
             }
+
             return models;
         }
 
@@ -1009,13 +1070,15 @@ namespace Gentings.Data.Query
         /// <typeparam name="TObject">返回的模型类型。</typeparam>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例列表。</returns>
-        protected async Task<IPageEnumerable<TObject>> LoadPageAsync<TObject>(CancellationToken cancellationToken = default)
+        protected async Task<IPageEnumerable<TObject>> LoadPageAsync<TObject>(
+            CancellationToken cancellationToken = default)
         {
             var models = new PageEnumerable<TObject>();
             models.Page = PageIndex ?? 1;
             models.PageSize = Size ?? 20;
             var entityType = typeof(TObject).GetEntityType();
-            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(), cancellationToken: cancellationToken))
+            await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(),
+                cancellationToken: cancellationToken))
             {
                 while (await reader.ReadAsync(cancellationToken))
                 {
@@ -1027,8 +1090,10 @@ namespace Gentings.Data.Query
                     models.Size = reader.GetInt32(0);
                 }
             }
+
             return models;
         }
+
         #endregion
     }
 }

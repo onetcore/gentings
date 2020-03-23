@@ -233,7 +233,8 @@ namespace Gentings.Data
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        Task<TValue> FirstOrDefaultAsync<TValue>(Func<DbDataReader, TValue> converter, CancellationToken cancellationToken = default);
+        Task<TValue> FirstOrDefaultAsync<TValue>(Func<DbDataReader, TValue> converter,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 查询数据库返回结果。
@@ -243,7 +244,8 @@ namespace Gentings.Data
         /// <param name="pageSize">每页显示的记录数。</param>
         /// <param name="count">分页总记录数计算列。</param>
         /// <returns>返回数据列表。</returns>
-        IPageEnumerable<TObject> AsEnumerable<TObject>(int pageIndex, int pageSize, Expression<Func<TModel, object>> count = null);
+        IPageEnumerable<TObject> AsEnumerable<TObject>(int pageIndex, int pageSize,
+            Expression<Func<TModel, object>> count = null);
 
         /// <summary>
         /// 查询数据库返回结果。
@@ -252,7 +254,8 @@ namespace Gentings.Data
         /// <param name="pageSize">每页显示的记录数。</param>
         /// <param name="count">分页总记录数计算列。</param>
         /// <returns>返回数据列表。</returns>
-        IPageEnumerable<TModel> AsEnumerable(int pageIndex, int pageSize, Expression<Func<TModel, object>> count = null);
+        IPageEnumerable<TModel> AsEnumerable(int pageIndex, int pageSize,
+            Expression<Func<TModel, object>> count = null);
 
         /// <summary>
         /// 查询数据库返回结果。
@@ -314,6 +317,7 @@ namespace Gentings.Data
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter, CancellationToken cancellationToken = default);
+        Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter,
+            CancellationToken cancellationToken = default);
     }
 }

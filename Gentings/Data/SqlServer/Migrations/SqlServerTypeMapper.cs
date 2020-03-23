@@ -11,27 +11,28 @@ namespace Gentings.Data.SqlServer.Migrations
     public class SqlServerTypeMapper : TypeMapper
     {
         private readonly IDictionary<Type, string> _simpleMappings
-                   = new Dictionary<Type, string>
-                   {
-                    { typeof(int), "int"},
-                    { typeof(long), "bigint"},
-                    { typeof(DateTime), "datetime2" },
-                    { typeof(Guid), "uniqueidentifier" },
-                    { typeof(bool), "bit" },
-                    { typeof(byte), "tinyint" },
-                    { typeof(double), "float" },
-                    { typeof(DateTimeOffset), "datetimeoffset" },
-                    { typeof(char), "int" },
-                    { typeof(sbyte), "smallint" },
-                    { typeof(ushort), "int" },
-                    { typeof(uint), "bigint" },
-                    { typeof(ulong), "numeric(20, 0)" },
-                    { typeof(short), "smallint" },
-                    { typeof(float), "real" },
-                    { typeof(decimal), "decimal" },
-                    { typeof(TimeSpan), "time" },
-                    { typeof(byte[]), "varbinary" }
-                   };
+            = new Dictionary<Type, string>
+            {
+                {typeof(int), "int"},
+                {typeof(long), "bigint"},
+                {typeof(DateTime), "datetime2"},
+                {typeof(Guid), "uniqueidentifier"},
+                {typeof(bool), "bit"},
+                {typeof(byte), "tinyint"},
+                {typeof(double), "float"},
+                {typeof(DateTimeOffset), "datetimeoffset"},
+                {typeof(char), "int"},
+                {typeof(sbyte), "smallint"},
+                {typeof(ushort), "int"},
+                {typeof(uint), "bigint"},
+                {typeof(ulong), "numeric(20, 0)"},
+                {typeof(short), "smallint"},
+                {typeof(float), "real"},
+                {typeof(decimal), "decimal"},
+                {typeof(TimeSpan), "time"},
+                {typeof(byte[]), "varbinary"}
+            };
+
         /// <summary>
         /// 获取数据类型。
         /// </summary>

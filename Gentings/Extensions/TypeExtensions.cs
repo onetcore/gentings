@@ -12,7 +12,9 @@ namespace Gentings.Extensions
     public static class TypeExtensions
     {
         private static readonly ConcurrentDictionary<Type, string> _tables = new ConcurrentDictionary<Type, string>();
-        private static readonly ConcurrentDictionary<Type, IEntityType> _types = new ConcurrentDictionary<Type, IEntityType>();
+
+        private static readonly ConcurrentDictionary<Type, IEntityType> _types =
+            new ConcurrentDictionary<Type, IEntityType>();
 
         /// <summary>
         /// 获取数据库表格。
@@ -34,6 +36,7 @@ namespace Gentings.Extensions
 
                     return $"{defined.Schema}$pre:{defined.Name}";
                 }
+
                 var model = info.GetCustomAttribute<TargetAttribute>();
                 if (model != null)
                 {

@@ -71,8 +71,9 @@ namespace Gentings
             for (var i = 0; i < bytes.Length; i++)
             {
                 var hex = hexString.Substring(i * 2, 2);
-                bytes[i] = (byte)int.Parse(hex, NumberStyles.HexNumber);
+                bytes[i] = (byte) int.Parse(hex, NumberStyles.HexNumber);
             }
+
             return bytes;
         }
 
@@ -224,11 +225,13 @@ namespace Gentings
                 end += 1 - start;
                 start = 1;
             }
+
             if (end > pages)
             {
                 start -= (end - pages);
                 end = pages;
             }
+
             if (end < 1)
             {
                 end = 1;
@@ -243,6 +246,7 @@ namespace Gentings
         }
 
         private static readonly DateTime _unixDate = new DateTime(1970, 1, 1);
+
         /// <summary>
         /// 获取当前时间对应的UNIX时间的秒数。
         /// </summary>
@@ -288,10 +292,12 @@ namespace Gentings
             {
                 i *= b + 1;
             }
+
             return Math.Abs(i - DateTime.Now.Ticks).ToBase36();
         }
 
         private static readonly string _base36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
         /// <summary>
         /// 将长整型转换为36进制的字符串。
         /// </summary>
@@ -300,22 +306,24 @@ namespace Gentings
         public static string ToBase36(this long value)
         {
             var current = "";
-            current += _base36[(int)(value % 36)];
+            current += _base36[(int) (value % 36)];
             value /= 36;
             if (value > 36)
             {
                 return value.ToBase36() + current;
             }
 
-            return _base36[(int)value] + current;
+            return _base36[(int) value] + current;
         }
 
         private const string HtmlCaseRegexReplacement = "-$1$2";
+
         private static readonly Regex _htmlCaseRegex =
             new Regex(
                 "(?<!^)((?<=[a-zA-Z0-9])[A-Z][a-z])|((?<=[a-z])[A-Z])",
                 RegexOptions.None,
                 TimeSpan.FromMilliseconds(500));
+
         /// <summary>
         /// 将pascal/camel格式的名称转换为小写并且以“-”分隔的字符串名称。
         /// </summary>
@@ -375,6 +383,7 @@ namespace Gentings
                 ms.Read(buffer, 0, buffer.Length);
                 ms.Read(key, 0, 32);
             }
+
             rijndael.IV = iv;
             rijndael.Key = key;
             using (var ms = new MemoryStream(buffer))
@@ -402,6 +411,7 @@ namespace Gentings
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -419,6 +429,7 @@ namespace Gentings
             {
                 list.Add(enumerator.Current);
             }
+
             return string.Join(separator, list);
         }
 
@@ -433,7 +444,8 @@ namespace Gentings
         /// <param name="configuration">配置接口。</param>
         /// <param name="action">实例化容器。</param>
         /// <returns>返回服务提供者接口实例。</returns>
-        public static IServiceProvider BuildServiceProvider(IConfiguration configuration, Action<IServiceBuilder> action = null)
+        public static IServiceProvider BuildServiceProvider(IConfiguration configuration,
+            Action<IServiceBuilder> action = null)
         {
             var services = new ServiceCollection();
             var builder = services.AddGentings(configuration);

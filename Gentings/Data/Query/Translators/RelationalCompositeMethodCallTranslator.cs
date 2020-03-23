@@ -11,13 +11,16 @@ namespace Gentings.Data.Query.Translators
     /// </summary>
     public abstract class RelationalCompositeMethodCallTranslator : IMethodCallTranslator
     {
+        private readonly ILoggerFactory _loggerFactory;
         private readonly List<IMethodCallTranslator> _translators;
+
         /// <summary>
         /// 初始化类<see cref="RelationalCompositeMethodCallTranslator"/>。
         /// </summary>
         /// <param name="loggerFactory">日志工厂接口。</param>
-        protected RelationalCompositeMethodCallTranslator( ILoggerFactory loggerFactory)
+        protected RelationalCompositeMethodCallTranslator(ILoggerFactory loggerFactory)
         {
+            _loggerFactory = loggerFactory;
             _translators = new List<IMethodCallTranslator>
             {
                 new ContainsTranslator(),
@@ -46,7 +49,7 @@ namespace Gentings.Data.Query.Translators
         /// 添加转换类型。
         /// </summary>
         /// <param name="translators">转换类型列表。</param>
-        protected virtual void AddTranslators( IEnumerable<IMethodCallTranslator> translators)
+        protected virtual void AddTranslators(IEnumerable<IMethodCallTranslator> translators)
         {
             _translators.InsertRange(0, translators);
         }

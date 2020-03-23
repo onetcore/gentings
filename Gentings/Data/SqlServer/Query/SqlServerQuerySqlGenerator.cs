@@ -87,11 +87,14 @@ namespace Gentings.Data.SqlServer.Query
             var where = Visit(expression);
             var builder = new SqlIndentedStringBuilder();
             builder.AppendLine("DECLARE @CurrentOrder int;");
-            builder.AppendLine($"SELECT @CurrentOrder = ISNULL({column}, 0) FROM {table} WHERE {primaryKey} = {PrimaryKeyParameter};");
+            builder.AppendLine(
+                $"SELECT @CurrentOrder = ISNULL({column}, 0) FROM {table} WHERE {primaryKey} = {PrimaryKeyParameter};");
             builder.AppendLine("DECLARE @AffectId int;");
             builder.AppendLine("DECLARE @AffectOrder int;");
-            builder.Append($"SELECT TOP(1) @AffectId = {primaryKey}, @AffectOrder = ISNULL({column}, 0) FROM {table} {WithNolock()} WHERE {column} {direction} @CurrentOrder")
-                .AppendEx(where, " AND {0}").Append($" ORDER BY {column}").AppendLine(direction == "<" ? " DESC;" : ";");
+            builder.Append(
+                    $"SELECT TOP(1) @AffectId = {primaryKey}, @AffectOrder = ISNULL({column}, 0) FROM {table} {WithNolock()} WHERE {column} {direction} @CurrentOrder")
+                .AppendEx(where, " AND {0}").Append($" ORDER BY {column}")
+                .AppendLine(direction == "<" ? " DESC;" : ";");
             builder.AppendLine($@"IF @AffectId IS NOT NULL AND @AffectId > 0 BEGIN
 	BEGIN TRANSACTION;
 	UPDATE {table} SET {column} = @AffectOrder WHERE {primaryKey} = {PrimaryKeyParameter};

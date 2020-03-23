@@ -15,13 +15,15 @@ namespace Gentings.Extensions
     /// </summary>
     /// <typeparam name="TModel">模型类型。</typeparam>
     /// <typeparam name="TKey">模型主键类型。</typeparam>
-    public abstract class CachableObjectManager<TModel, TKey> : ObjectManagerBase<TModel, TKey>, ICachableObjectManager<TModel, TKey>
+    public abstract class CachableObjectManager<TModel, TKey> : ObjectManagerBase<TModel, TKey>,
+        ICachableObjectManager<TModel, TKey>
         where TModel : IIdObject<TKey>
     {
         /// <summary>
         /// 缓存实例。
         /// </summary>
         protected IMemoryCache Cache { get; }
+
         /// <summary>
         /// 初始化类<see cref="CachableObjectManager{TModel,TKey}"/>。
         /// </summary>
@@ -106,7 +108,8 @@ namespace Gentings.Extensions
                 Refresh();
                 return succeed;
             }
-            return -(int)succeed;
+
+            return -(int) succeed;
         }
 
         /// <summary>
@@ -125,7 +128,8 @@ namespace Gentings.Extensions
         /// <param name="ids">唯一Id集合。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回删除结果。</returns>
-        public override async Task<DataResult> DeleteAsync(IEnumerable<TKey> ids, CancellationToken cancellationToken = default)
+        public override async Task<DataResult> DeleteAsync(IEnumerable<TKey> ids,
+            CancellationToken cancellationToken = default)
         {
             return Refresh(await base.DeleteAsync(ids, cancellationToken));
         }
@@ -156,7 +160,8 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回删除结果。</returns>
-        public override async Task<DataResult> DeleteAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default)
+        public override async Task<DataResult> DeleteAsync(Expression<Predicate<TModel>> expression,
+            CancellationToken cancellationToken = default)
         {
             return Refresh(await base.DeleteAsync(expression, cancellationToken));
         }
@@ -211,7 +216,8 @@ namespace Gentings.Extensions
         /// <param name="fields">更新对象。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回更新结果。</returns>
-        public override async Task<DataResult> UpdateAsync(Expression<Predicate<TModel>> expression, object fields, CancellationToken cancellationToken = default)
+        public override async Task<DataResult> UpdateAsync(Expression<Predicate<TModel>> expression, object fields,
+            CancellationToken cancellationToken = default)
         {
             return Refresh(await base.UpdateAsync(expression, fields, cancellationToken));
         }
@@ -255,7 +261,8 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前模型实例。</returns>
-        public override async Task<TModel> FindAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default)
+        public override async Task<TModel> FindAsync(Expression<Predicate<TModel>> expression,
+            CancellationToken cancellationToken = default)
         {
             var categories = await FetchAsync(expression, cancellationToken);
             return categories.SingleOrDefault();
@@ -279,7 +286,8 @@ namespace Gentings.Extensions
         /// <param name="fields">更新对象。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回更新结果。</returns>
-        public override async Task<DataResult> UpdateAsync(TKey id, object fields, CancellationToken cancellationToken = default)
+        public override async Task<DataResult> UpdateAsync(TKey id, object fields,
+            CancellationToken cancellationToken = default)
         {
             return Refresh(await base.UpdateAsync(id, fields, cancellationToken));
         }
@@ -305,7 +313,8 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回模型实例列表。</returns>
-        public override async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
+        public override async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null,
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var models = await Cache.GetOrCreateAsync(CacheKey, ctx =>
@@ -363,7 +372,8 @@ namespace Gentings.Extensions
     /// 缓存对象管理基类。
     /// </summary>
     /// <typeparam name="TModel">模型类型。</typeparam>
-    public abstract class CachableObjectManager<TModel> : CachableObjectManager<TModel, int>, ICachableObjectManager<TModel>
+    public abstract class CachableObjectManager<TModel> : CachableObjectManager<TModel, int>,
+        ICachableObjectManager<TModel>
         where TModel : IIdObject
     {
         /// <summary>

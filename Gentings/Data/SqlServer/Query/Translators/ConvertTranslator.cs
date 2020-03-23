@@ -53,11 +53,15 @@ namespace Gentings.Data.SqlServer.Query.Translators
         /// </summary>
         /// <param name="methodCallExpression">方法调用表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate( MethodCallExpression methodCallExpression)
+        public virtual Expression Translate(MethodCallExpression methodCallExpression)
         {
             if (_supportedMethods.Contains(methodCallExpression.Method))
             {
-                var arguments = new[] { Expression.Constant(_typeMapping[methodCallExpression.Method.Name]), methodCallExpression.Arguments[0] };
+                var arguments = new[]
+                {
+                    Expression.Constant(_typeMapping[methodCallExpression.Method.Name]),
+                    methodCallExpression.Arguments[0]
+                };
 
                 return new SqlFunctionExpression("CONVERT", methodCallExpression.Type, arguments);
             }

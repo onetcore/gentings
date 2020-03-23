@@ -18,6 +18,7 @@ namespace Gentings.Data
     {
         private readonly DbProviderFactory _factory;
         private readonly ISqlHelper _sqlHelper;
+
         /// <summary>
         /// 数据库选项。
         /// </summary>
@@ -30,7 +31,8 @@ namespace Gentings.Data
         /// <param name="factory">数据库提供者工厂类。</param>
         /// <param name="options">配置选项。</param>
         /// <param name="sqlHelper">SQL辅助接口。</param>
-        protected Database(ILogger logger, DbProviderFactory factory, IOptions<DatabaseOptions> options, ISqlHelper sqlHelper)
+        protected Database(ILogger logger, DbProviderFactory factory, IOptions<DatabaseOptions> options,
+            ISqlHelper sqlHelper)
         {
             _factory = factory;
             _sqlHelper = sqlHelper;
@@ -76,19 +78,21 @@ namespace Gentings.Data
                     type = Enum.GetUnderlyingType(type);
                     if (type == typeof(int))
                     {
-                        value = (int)value;
+                        value = (int) value;
                     }
                     else if (type == typeof(short))
                     {
-                        value = (short)value;
+                        value = (short) value;
                     }
                     else if (type == typeof(long))
                     {
-                        value = (long)value;
+                        value = (long) value;
                     }
                 }
+
                 p.Value = value;
             }
+
             return p;
         }
 
@@ -146,7 +150,9 @@ namespace Gentings.Data
                 throw;
             }
         }
-        private async Task<TResult> ExecuteCommandAsync<TResult>(DbCommand command, Func<DbCommand, Task<TResult>> execute)
+
+        private async Task<TResult> ExecuteCommandAsync<TResult>(DbCommand command,
+            Func<DbCommand, Task<TResult>> execute)
         {
             try
             {
@@ -168,6 +174,7 @@ namespace Gentings.Data
                 commandText = commandText.Replace(_sqlHelper.Parameterized(parameter.ParameterName),
                     _sqlHelper.EscapeLiteral(parameter.Value));
             }
+
             var error = new StringBuilder();
             error.Append("[数据库]执行SQL错误：").AppendLine(exception.Message);
             error.AppendLine("==================================================");
@@ -268,7 +275,8 @@ namespace Gentings.Data
             cancellationToken.ThrowIfCancellationRequested();
             var connection = GetConnection();
             var command = GetCommand(connection, commandType, commandText, parameters);
-            var reader = await ExecuteCommandAsync(command, cmd => cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection, cancellationToken));
+            var reader = await ExecuteCommandAsync(command,
+                cmd => cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection, cancellationToken));
             command.Parameters.Clear();
             return reader;
         }
@@ -317,6 +325,7 @@ namespace Gentings.Data
                     transaction.Commit();
                     return true;
                 }
+
                 transaction.Rollback();
                 return false;
             }
@@ -347,7 +356,8 @@ namespace Gentings.Data
         /// <param name="timeout">等待命令执行所需的时间（以秒为单位）。默认值为 30 秒。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回事务实例对象。</returns>
-        public virtual async Task<bool> BeginTransactionAsync(Func<Internal.IDbTransaction, Task<bool>> executor, int timeout = 30, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> BeginTransactionAsync(Func<Internal.IDbTransaction, Task<bool>> executor,
+            int timeout = 30, CancellationToken cancellationToken = default)
         {
             await using var connection = GetConnection();
             await connection.OpenAsync(cancellationToken);
@@ -364,6 +374,7 @@ namespace Gentings.Data
                     transaction.Commit();
                     return true;
                 }
+
                 transaction.Rollback();
                 return false;
             }
@@ -382,7 +393,8 @@ namespace Gentings.Data
             private readonly Action<DbParameterCollection, object> _attachParameters;
             private readonly Action<DbCommand, Exception> _logError;
 
-            public Transaction(DbCommand command, Func<string, string> replacePrefixed, Action<DbParameterCollection, object> attachParameters, Action<DbCommand, Exception> logError)
+            public Transaction(DbCommand command, Func<string, string> replacePrefixed,
+                Action<DbParameterCollection, object> attachParameters, Action<DbCommand, Exception> logError)
             {
                 _command = command;
                 _replacePrefixed = replacePrefixed;
@@ -397,7 +409,8 @@ namespace Gentings.Data
             /// <param name="parameters">参数实例对象。</param>
             /// <param name="commandType">命令类型。</param>
             /// <returns>返回是否有执行影响到数据行。</returns>
-            public bool ExecuteNonQuery(string commandText, object parameters = null, CommandType commandType = CommandType.Text)
+            public bool ExecuteNonQuery(string commandText, object parameters = null,
+                CommandType commandType = CommandType.Text)
             {
                 SetCommand(commandType, commandText, parameters);
                 return ExecuteCommand(_command, cmd => cmd.ExecuteNonQuery()) > 0;
@@ -426,7 +439,8 @@ namespace Gentings.Data
             /// <param name="parameters">参数实例对象。</param>
             /// <param name="commandType">命令类型。</param>
             /// <returns>返回数据库读取实例接口。</returns>
-            public DbDataReader ExecuteReader(string commandText, object parameters = null, CommandType commandType = CommandType.Text)
+            public DbDataReader ExecuteReader(string commandText, object parameters = null,
+                CommandType commandType = CommandType.Text)
             {
                 SetCommand(commandType, commandText, parameters);
                 return ExecuteCommand(_command, cmd => cmd.ExecuteReader());
@@ -439,7 +453,8 @@ namespace Gentings.Data
             /// <param name="parameters">参数实例对象。</param>
             /// <param name="commandType">命令类型。</param>
             /// <returns>返回聚合值实例对象。</returns>
-            public object ExecuteScalar(string commandText, object parameters = null, CommandType commandType = CommandType.Text)
+            public object ExecuteScalar(string commandText, object parameters = null,
+                CommandType commandType = CommandType.Text)
             {
                 SetCommand(commandType, commandText, parameters);
                 return ExecuteCommand(_command, cmd => cmd.ExecuteScalar());
@@ -453,7 +468,8 @@ namespace Gentings.Data
             /// <param name="commandType">SQL类型。</param>
             /// <param name="cancellationToken">取消标记。</param>
             /// <returns>返回影响的行数。</returns>
-            public async Task<bool> ExecuteNonQueryAsync(string commandText, object parameters = null, CommandType commandType = CommandType.Text,
+            public async Task<bool> ExecuteNonQueryAsync(string commandText, object parameters = null,
+                CommandType commandType = CommandType.Text,
                 CancellationToken cancellationToken = default)
             {
                 SetCommand(commandType, commandText, parameters);
@@ -468,7 +484,8 @@ namespace Gentings.Data
             /// <param name="parameters">参数匿名类型。</param>
             /// <param name="cancellationToken">取消标记。</param>
             /// <returns>返回数据库读取器实例对象。</returns>
-            public async Task<DbDataReader> ExecuteReaderAsync(string commandText, object parameters = null, CommandType commandType = CommandType.Text,
+            public async Task<DbDataReader> ExecuteReaderAsync(string commandText, object parameters = null,
+                CommandType commandType = CommandType.Text,
                 CancellationToken cancellationToken = default)
             {
                 SetCommand(commandType, commandText, parameters);
@@ -483,7 +500,8 @@ namespace Gentings.Data
             /// <param name="parameters">参数匿名类型。</param>
             /// <param name="cancellationToken">取消标记。</param>
             /// <returns>返回单一结果实例对象。</returns>
-            public async Task<object> ExecuteScalarAsync(string commandText, object parameters = null, CommandType commandType = CommandType.Text,
+            public async Task<object> ExecuteScalarAsync(string commandText, object parameters = null,
+                CommandType commandType = CommandType.Text,
                 CancellationToken cancellationToken = default)
             {
                 SetCommand(commandType, commandText, parameters);
@@ -503,7 +521,8 @@ namespace Gentings.Data
                 }
             }
 
-            private Task<TResult> ExecuteCommandAsync<TResult>(DbCommand command, Func<DbCommand, Task<TResult>> execute)
+            private Task<TResult> ExecuteCommandAsync<TResult>(DbCommand command,
+                Func<DbCommand, Task<TResult>> execute)
             {
                 try
                 {

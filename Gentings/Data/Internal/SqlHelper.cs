@@ -25,7 +25,7 @@ namespace Gentings.Data.Internal
         {
             return "@" + name;
         }
-        
+
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
         /// </summary>
@@ -38,7 +38,7 @@ namespace Gentings.Data.Internal
                 return "NULL";
             }
 
-            return GenerateLiteralValue((dynamic)literal);
+            return GenerateLiteralValue((dynamic) literal);
         }
 
         /// <summary>
@@ -55,14 +55,15 @@ namespace Gentings.Data.Internal
 
             return identifier.Replace("'", "''");
         }
-        
+
         /// <summary>
         /// 将表格名称或列名称加上安全括弧。
         /// </summary>
         /// <param name="identifier">当前标识字符串。</param>
         /// <returns>返回格式化后的字符串。</returns>
-        public virtual string DelimitIdentifier(string identifier) => $"[{Check.NotEmpty(identifier, nameof(identifier))}]";
-        
+        public virtual string DelimitIdentifier(string identifier) =>
+            $"[{Check.NotEmpty(identifier, nameof(identifier))}]";
+
         /// <summary>
         /// 将表格名称或列名称加上安全括弧。
         /// </summary>
@@ -74,7 +75,7 @@ namespace Gentings.Data.Internal
                    ? DelimitIdentifier(schema) + "."
                    : string.Empty)
                + DelimitIdentifier(Check.NotEmpty(name, nameof(name)));
-        
+
         private const string DecimalFormatConst = "0.0###########################";
         private const string DateTimeFormatConst = @"yyyy-MM-dd HH\:mm\:ss.fffffff";
         private const string DateTimeOffsetFormatConst = @"yyyy-MM-dd HH\:mm\:ss.fffffffzzz";
@@ -184,7 +185,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
-        protected virtual string GenerateLiteralValue( object value)
+        protected virtual string GenerateLiteralValue(object value)
             => GenerateLiteralValue(value.ToString());
 
         /// <summary>
@@ -192,7 +193,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
-        protected virtual string GenerateLiteralValue( byte[] value)
+        protected virtual string GenerateLiteralValue(byte[] value)
         {
             Check.NotNull(value, nameof(value));
             var builder = new StringBuilder();
@@ -201,20 +202,21 @@ namespace Gentings.Data.Internal
             {
                 builder.Append(@byte.ToString("X2", CultureInfo.InvariantCulture));
             }
+
             builder.Append("'");
             return builder.ToString();
         }
 
         private readonly Dictionary<DbType, string> _dbTypeNameMapping = new Dictionary<DbType, string>
         {
-            { DbType.Byte, "tinyint" },
-            { DbType.Decimal, "decimal" },
-            { DbType.Double, "float" },
-            { DbType.Int16, "smallint" },
-            { DbType.Int32, "int" },
-            { DbType.Int64, "bigint" },
-            { DbType.String, "nvarchar" },
-            { DbType.Date, "date" }
+            {DbType.Byte, "tinyint"},
+            {DbType.Decimal, "decimal"},
+            {DbType.Double, "float"},
+            {DbType.Int16, "smallint"},
+            {DbType.Int32, "int"},
+            {DbType.Int64, "bigint"},
+            {DbType.String, "nvarchar"},
+            {DbType.Date, "date"}
         };
 
         /// <summary>
@@ -230,7 +232,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
-        protected virtual string GenerateLiteralValue( Enum value)
+        protected virtual string GenerateLiteralValue(Enum value)
             => string.Format(CultureInfo.InvariantCulture, "{0:d}", Check.NotNull(value, nameof(value)));
 
         /// <summary>

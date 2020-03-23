@@ -10,6 +10,7 @@ namespace Gentings
     internal class ServiceAccessor<TService> : IServiceAccessor<TService>
     {
         private readonly IServiceProvider _serviceProvider;
+
         /// <summary>
         /// 初始化类<see cref="ServiceAccessor{TService}"/>。
         /// </summary>

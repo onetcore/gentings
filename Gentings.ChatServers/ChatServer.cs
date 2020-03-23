@@ -20,6 +20,7 @@ namespace Gentings.ChatServers
         /// <summary>
         /// 初始化类<see cref="ChatServer"/>。
         /// </summary>
+        /// <param name="messageManager">消息管理实例。</param>
         /// <param name="userManager">用户管理接口实例。</param>
         public ChatServer(IUserManager userManager, IMessageManager messageManager)
         {

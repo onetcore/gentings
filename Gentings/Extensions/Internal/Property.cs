@@ -13,6 +13,7 @@ namespace Gentings.Extensions.Internal
     {
         private IClrPropertyGetter _getter;
         private IClrPropertySetter _setter;
+
         /// <summary>
         /// 初始化类<see cref="Property"/>。
         /// </summary>
@@ -29,6 +30,7 @@ namespace Gentings.Extensions.Internal
                 IsIdentity = true;
                 entityType.Identity = this;
             }
+
             IsPrimaryKey = info.IsDefined(typeof(KeyAttribute));
             MaxLength = info.GetCustomAttribute<SizeAttribute>()?.MaximumLength;
             if (info.IsDefined(typeof(TimestampAttribute)))
@@ -46,6 +48,7 @@ namespace Gentings.Extensions.Internal
                 entityType.RowVersion = this;
                 IsRowVersion = true;
             }
+
             DisplayName = info.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ??
                           info.GetCustomAttribute<DisplayAttribute>()?.Name;
             IsConcurrency = info.IsDefined(typeof(ConcurrencyCheckAttribute));
@@ -141,13 +144,15 @@ namespace Gentings.Extensions.Internal
         /// 属性的获取访问器实例。
         /// </summary>
         protected virtual IClrPropertyGetter Getter
-            => NonCapturingLazyInitializer.EnsureInitialized(ref _getter, this, p => new ClrPropertyGetterFactory().Create(p));
+            => NonCapturingLazyInitializer.EnsureInitialized(ref _getter, this,
+                p => new ClrPropertyGetterFactory().Create(p));
 
         /// <summary>
         /// 属性的设置访问器实例。
         /// </summary>
         protected virtual IClrPropertySetter Setter
-            => NonCapturingLazyInitializer.EnsureInitialized(ref _setter, this, p => new ClrPropertySetterFactory().Create(p));
+            => NonCapturingLazyInitializer.EnsureInitialized(ref _setter, this,
+                p => new ClrPropertySetterFactory().Create(p));
 
         /// <summary>
         /// 返回属性名。

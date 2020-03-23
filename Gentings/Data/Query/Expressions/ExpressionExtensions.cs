@@ -12,7 +12,7 @@ namespace Gentings.Data.Query.Expressions
         /// </summary>
         /// <param name="expression">表达式。</param>
         /// <returns>返回判断结果。</returns>
-        public static bool IsLogicalOperation( this Expression expression)
+        public static bool IsLogicalOperation(this Expression expression)
         {
             Check.NotNull(expression, nameof(expression));
 
@@ -25,7 +25,7 @@ namespace Gentings.Data.Query.Expressions
         /// </summary>
         /// <param name="expression">表达式。</param>
         /// <returns>返回判断结果。</returns>
-        public static bool IsSimpleExpression( this Expression expression)
+        public static bool IsSimpleExpression(this Expression expression)
         {
             var unwrappedExpression = expression.RemoveConvert();
 

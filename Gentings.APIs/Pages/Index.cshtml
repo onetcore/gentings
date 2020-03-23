@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "首页";
+    ViewBag.Current = "dashboard";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Gentings</h1>
+    <p>欢迎使用Gentings应用框架进行开发，Gentings框架是完全开源的NetCore开发框架，包含了数据库操作，文件存储，用户登录等等...</p>
+</div>
+
+<div class="container">
+    <table class="table table-bordered table-hover">
+        @foreach (var controller in Model.Controllers)
+        {
+            <tr>
+                <th>@controller.Controller</th>
+                <th>@controller.Namespace</th>
+                <th>@controller.ModuleName</th>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <table class="table table-borderless table-hover">
+                        @foreach (var action in controller.Actions)
+                        {
+                            <tr>
+                                <th>@action.Name</th>
+                                @foreach (var parameter in action.Parameters)
+                                {
+                                    <td>@parameter.Name</td>
+                                }
+                            </tr>
+                        }
+                    </table>
+                </td>
+            </tr>
+        }
+    </table>
+</div>

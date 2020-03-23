@@ -8,6 +8,7 @@ namespace Gentings.Utils
     public static class WordDictionary
     {
         private static readonly ConcurrentDictionary<char, Word> _tables = new ConcurrentDictionary<char, Word>();
+
         static WordDictionary()
         {
             var words = Unicodes.Defines.Split('|');

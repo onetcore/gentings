@@ -22,7 +22,8 @@ namespace Gentings.Extensions
         /// <param name="query">查询实例。</param>
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
-        public virtual IPageEnumerable<TModel> Load<TQuery>(TQuery query, Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
+        public virtual IPageEnumerable<TModel> Load<TQuery>(TQuery query,
+            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
         {
             return Context.Load(query, countExpression);
         }
@@ -35,7 +36,8 @@ namespace Gentings.Extensions
         /// <param name="query">查询实例。</param>
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
-        public virtual IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query, Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
+        public virtual IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query,
+            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
         {
             return Context.Load<TQuery, TObject>(query, countExpression);
         }
@@ -48,7 +50,9 @@ namespace Gentings.Extensions
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
-        public virtual Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query, Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        public virtual Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query,
+            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            where TQuery : QueryBase<TModel>
         {
             return Context.LoadAsync(query, countExpression, cancellationToken);
         }
@@ -62,7 +66,9 @@ namespace Gentings.Extensions
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
-        public virtual Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query, Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        public virtual Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
+            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            where TQuery : QueryBase<TModel>
         {
             return Context.LoadAsync<TQuery, TObject>(query, countExpression, cancellationToken);
         }

@@ -22,7 +22,7 @@ namespace Gentings.Extensions.Groups
                     .Column(x => x.Name)
                     .Column(x => x.ParentId);
                 Create(table);
-                table.UniqueConstraint(x => new { x.ParentId, x.Name });
+                table.UniqueConstraint(x => new {x.ParentId, x.Name});
             });
         }
 
@@ -30,6 +30,8 @@ namespace Gentings.Extensions.Groups
         /// 编辑表格其他属性列。
         /// </summary>
         /// <param name="table">当前表格构建实例对象。</param>
-        protected virtual void Create(CreateTableBuilder<TGroup> table) { }
+        protected virtual void Create(CreateTableBuilder<TGroup> table)
+        {
+        }
     }
 }

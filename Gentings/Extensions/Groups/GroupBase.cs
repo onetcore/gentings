@@ -1,7 +1,7 @@
 ﻿using Gentings.Extensions.Categories;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace Gentings.Extensions.Groups
 {
@@ -42,6 +42,7 @@ namespace Gentings.Extensions.Groups
                     level++;
                     current = current.Parent;
                 }
+
                 return level;
             }
         }
@@ -53,7 +54,7 @@ namespace Gentings.Extensions.Groups
         public void Add(TGroup group)
         {
             group.ParentId = Id;
-            group.Parent = (TGroup)this;
+            group.Parent = (TGroup) this;
             _children.Add(group);
         }
 

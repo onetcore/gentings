@@ -1,5 +1,4 @@
-﻿using Gentings.AspNetCore;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Gentings.Identity
 {

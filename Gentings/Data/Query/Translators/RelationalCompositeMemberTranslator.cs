@@ -33,7 +33,7 @@ namespace Gentings.Data.Query.Translators
         /// 添加转换器。
         /// </summary>
         /// <param name="translators">转换器列表。</param>
-        protected virtual void AddTranslators( IEnumerable<IMemberTranslator> translators)
+        protected virtual void AddTranslators(IEnumerable<IMemberTranslator> translators)
         {
             _translators.InsertRange(0, translators);
         }

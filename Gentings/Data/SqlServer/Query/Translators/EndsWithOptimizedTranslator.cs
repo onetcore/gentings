@@ -11,7 +11,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
     public class EndsWithOptimizedTranslator : IMethodCallTranslator
     {
         private static readonly MethodInfo _methodInfo
-            = typeof(string).GetRuntimeMethod(nameof(string.EndsWith), new[] { typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.EndsWith), new[] {typeof(string)});
 
         public virtual Expression Translate(MethodCallExpression methodCallExpression)
         {
@@ -28,14 +28,14 @@ namespace Gentings.Data.SqlServer.Query.Translators
                         new[]
                         {
                             methodCallExpression.Object,
-                            new SqlFunctionExpression("LEN", typeof(int), new[] { patternExpression })
+                            new SqlFunctionExpression("LEN", typeof(int), new[] {patternExpression})
                         }),
                     patternExpression);
 
                 return new NotNullableExpression(
                     patternConstantExpression != null
-                        ? (string)patternConstantExpression.Value == string.Empty
-                            ? (Expression)Expression.Constant(true)
+                        ? (string) patternConstantExpression.Value == string.Empty
+                            ? (Expression) Expression.Constant(true)
                             : endsWithExpression
                         : Expression.OrElse(
                             endsWithExpression,

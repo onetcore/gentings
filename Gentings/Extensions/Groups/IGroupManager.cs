@@ -7,6 +7,5 @@
     public interface IGroupManager<TGroup> : ICachableObjectManager<TGroup>
         where TGroup : GroupBase<TGroup>
     {
-
     }
 }

@@ -13,25 +13,30 @@ namespace Gentings.Data.Query
     public abstract class QuerySqlGenerator : IQuerySqlGenerator
     {
         private readonly IExpressionVisitorFactory _visitorFactory;
+
         /// <summary>
         /// 唯一主键参数名称。
         /// </summary>
         internal const string PrimaryKeyParameterName = "__primarykey__";
+
         /// <summary>
         /// SQL辅助接口。
         /// </summary>
         protected ISqlHelper SqlHelper { get; }
+
         /// <summary>
         /// 唯一主键参数实例。
         /// </summary>
         protected string PrimaryKeyParameter => SqlHelper.Parameterized(PrimaryKeyParameterName);
+
         /// <summary>
         /// 将唯一主键附加到当前语句构建实例中。
         /// </summary>
         /// <param name="builder">SQL语句构建实例。</param>
         /// <param name="entityType">当前实体类。</param>
         /// <param name="terminated">是否结束语句。</param>
-        protected void AppendWherePrimaryKey(SqlIndentedStringBuilder builder, IEntityType entityType, bool terminated = true)
+        protected void AppendWherePrimaryKey(SqlIndentedStringBuilder builder, IEntityType entityType,
+            bool terminated = true)
         {
             var primaryKey = SqlHelper.DelimitIdentifier(entityType.SingleKey().Name);
             builder.Append($" WHERE {primaryKey} = {PrimaryKeyParameter}");
@@ -52,8 +57,11 @@ namespace Gentings.Data.Query
             _visitorFactory = visitorFactory;
         }
 
-        private readonly ConcurrentDictionary<Type, CacheEntry> _creations = new ConcurrentDictionary<Type, CacheEntry>();
+        private readonly ConcurrentDictionary<Type, CacheEntry> _creations =
+            new ConcurrentDictionary<Type, CacheEntry>();
+
         private readonly ConcurrentDictionary<Type, CacheEntry> _updates = new ConcurrentDictionary<Type, CacheEntry>();
+
         private class CacheEntry
         {
             public CacheEntry(string sql, List<string> parameters)
@@ -112,7 +120,8 @@ namespace Gentings.Data.Query
                     .ToList();
                 var builder = new SqlIndentedStringBuilder();
                 builder.Append("UPDATE ").Append(SqlHelper.DelimitIdentifier(entityType.Table)).Append(" SET ");
-                builder.JoinAppend(names.Select(name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}")).AppendLine();
+                builder.JoinAppend(names.Select(name =>
+                    $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}")).AppendLine();
                 if (entityType.PrimaryKey != null)
                 {
                     var primaryKeys = entityType.PrimaryKey.Properties
@@ -134,7 +143,8 @@ namespace Gentings.Data.Query
                     builder.Append("WHERE ")
                         .JoinAppend(
                             keys.Select(
-                                name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}"), " AND ")
+                                name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}"),
+                            " AND ")
                         .Append(SqlHelper.fieldsTerminator);
                     if (entityType.RowVersion != null || entityType.ConcurrencyKey != null)
                     {
@@ -143,10 +153,12 @@ namespace Gentings.Data.Query
                             .Append(" WHERE ")
                             .JoinAppend(
                                 keys.Select(
-                                    name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}"), " AND ")
+                                    name => $"{SqlHelper.DelimitIdentifier(name)}={SqlHelper.Parameterized(name)}"),
+                                " AND ")
                             .Append(SqlHelper.fieldsTerminator);
                     }
                 }
+
                 return new CacheEntry(builder.ToString(), names);
             });
             return new SqlIndentedStringBuilder(entry.Sql, entry.Parameters);
@@ -200,7 +212,8 @@ namespace Gentings.Data.Query
         /// <param name="expression">条件表达式。</param>
         /// <param name="parameters">匿名对象。</param>
         /// <returns>返回SQL构建实例。</returns>
-        public virtual SqlIndentedStringBuilder Update(IEntityType entityType, Expression expression, LambdaExpression parameters)
+        public virtual SqlIndentedStringBuilder Update(IEntityType entityType, Expression expression,
+            LambdaExpression parameters)
         {
             var builder = new SqlIndentedStringBuilder();
             builder.Append("UPDATE ").Append(SqlHelper.DelimitIdentifier(entityType.Table)).Append(" SET ");
@@ -276,7 +289,8 @@ namespace Gentings.Data.Query
         /// <param name="order">排序列。</param>
         /// <param name="expression">分组条件表达式。</param>
         /// <returns>返回SQL构建实例。</returns>
-        public abstract SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order, Expression expression);
+        public abstract SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order,
+            Expression expression);
 
         /// <summary>
         /// 聚合函数。
@@ -287,7 +301,8 @@ namespace Gentings.Data.Query
         /// <param name="expression">条件表达式。</param>
         /// <param name="nullColumn">当<paramref name="column"/>为空的时候，使用的值。</param>
         /// <returns>返回SQL构建实例。</returns>
-        public virtual SqlIndentedStringBuilder Scalar(IEntityType entityType, string method, LambdaExpression column, Expression expression, string nullColumn = null)
+        public virtual SqlIndentedStringBuilder Scalar(IEntityType entityType, string method, LambdaExpression column,
+            Expression expression, string nullColumn = null)
         {
             if (column != null)
             {
@@ -387,8 +402,10 @@ namespace Gentings.Data.Query
                     field += Visit(body.Arguments[i]);
                     fieldss.Add(field);
                 }
+
                 return string.Join(", ", fieldss);
             }
+
             var parameter = SqlHelper.DelimitIdentifier(expression.Parameters[0].Name);
             parameter += " = ";
             parameter += Visit(expression);

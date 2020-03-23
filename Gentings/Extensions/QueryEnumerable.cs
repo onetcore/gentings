@@ -12,6 +12,7 @@ namespace Gentings.Extensions
     public abstract class QueryEnumerable<TModel> : IPageEnumerable<TModel>
     {
         private int _page;
+
         /// <summary>
         /// 页码。
         /// </summary>
@@ -75,14 +76,14 @@ namespace Gentings.Extensions
         {
             if (models == null || !models.Any())
             {
-                return (TQuery)this;
+                return (TQuery) this;
             }
 
             models = Init(models);
             Size = models.Count();
-            Pages = (int)Math.Ceiling(Size * 1.0 / PageSize);
+            Pages = (int) Math.Ceiling(Size * 1.0 / PageSize);
             _models.AddRange(models.Skip((Page - 1) * PageSize).Take(PageSize).ToList());
-            return (TQuery)this;
+            return (TQuery) this;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Gentings.Data
         {
             return propertyAccessExpression.GetPropertyAccessList().Select(p => p.Name).ToArray();
         }
-        
+
         /// <summary>
         /// 获取表达式执行后的值。
         /// </summary>
@@ -31,7 +31,7 @@ namespace Gentings.Data
         {
             return Expression.Lambda(expression).Compile().DynamicInvoke();
         }
-        
+
         /// <summary>
         /// 添加并且条件。
         /// </summary>

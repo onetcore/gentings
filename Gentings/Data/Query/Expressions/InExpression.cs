@@ -13,7 +13,7 @@ namespace Gentings.Data.Query.Expressions
         /// </summary>
         /// <param name="operand">别名表达式。</param>
         /// <param name="values">值表达式。</param>
-        public InExpression( Expression operand,  Expression values)
+        public InExpression(Expression operand, Expression values)
         {
             Check.NotNull(operand, nameof(operand));
             Check.NotNull(values, nameof(values));

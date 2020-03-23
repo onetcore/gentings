@@ -14,6 +14,7 @@ namespace Gentings.Extensions.Settings
     public class SettingDictionaryManager : GroupManager<SettingDictionary>, ISettingDictionaryManager
     {
         private static readonly object _pathCacheKey = new Tuple<Type, string>(typeof(SettingDictionary), "path");
+
         /// <summary>
         /// 初始化类<see cref="SettingDictionaryManager"/>。
         /// </summary>
@@ -99,7 +100,7 @@ namespace Gentings.Extensions.Settings
                     setting = db.Find(x => x.Name == name && x.ParentId == parentId);
                     if (setting == null)
                     {
-                        setting = new SettingDictionary { ParentId = parentId, Name = name, Value = name };
+                        setting = new SettingDictionary {ParentId = parentId, Name = name, Value = name};
                         if (db.Create(setting))
                         {
                             parentId = setting.Id;
@@ -121,6 +122,7 @@ namespace Gentings.Extensions.Settings
                 Refresh();
                 return setting;
             }
+
             return null;
         }
 
@@ -146,7 +148,7 @@ namespace Gentings.Extensions.Settings
                     setting = await db.FindAsync(x => x.Name == name && x.ParentId == parentId);
                     if (setting == null)
                     {
-                        setting = new SettingDictionary { ParentId = parentId, Name = name, Value = name };
+                        setting = new SettingDictionary {ParentId = parentId, Name = name, Value = name};
                         if (await db.CreateAsync(setting))
                         {
                             parentId = setting.Id;
@@ -168,6 +170,7 @@ namespace Gentings.Extensions.Settings
                 Refresh();
                 return setting;
             }
+
             return null;
         }
     }

@@ -147,6 +147,7 @@ namespace Gentings.Data.Migrations
             {
                 yield return CreateOperationsMigration(dbMigration.Id, method.Version, method.Method);
             }
+
             if (version == -1)
             {
                 yield return CreateOperationsMigration(dbMigration.Id, 0, migration.Destroy);
@@ -180,7 +181,7 @@ namespace Gentings.Data.Migrations
                         new MethodInfo
                         {
                             Version = Convert.ToInt32(m.Name.Substring(methodHeader.Length)) + 1,
-                            Method = builder => m.Invoke(migration, new[] { builder })
+                            Method = builder => m.Invoke(migration, new[] {builder})
                         })
                 .Where(method => method.Version > version && method.Version < endVersion);
             if (isUp)
@@ -196,7 +197,7 @@ namespace Gentings.Data.Migrations
             public int Version { get; set; }
             public Action<MigrationBuilder> Method { get; set; }
         }
-        
+
         /// <summary>
         /// 迁移数据。
         /// </summary>

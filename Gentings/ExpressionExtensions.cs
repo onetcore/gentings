@@ -24,7 +24,7 @@ namespace Gentings
                    && ((expression.NodeType == ExpressionType.Convert)
                        || (expression.NodeType == ExpressionType.ConvertChecked)))
             {
-                expression = RemoveConvert(((UnaryExpression)expression).Operand);
+                expression = RemoveConvert(((UnaryExpression) expression).Operand);
             }
 
             return expression;
@@ -42,7 +42,8 @@ namespace Gentings
 
             if (propertyInfo == null)
             {
-                throw new ArgumentException(string.Format(Resources.InvalidPropertyExpression, propertyAccessExpression),
+                throw new ArgumentException(
+                    string.Format(Resources.InvalidPropertyExpression, propertyAccessExpression),
                     nameof(propertyAccessExpression));
             }
 
@@ -84,7 +85,8 @@ namespace Gentings
 
             if (propertyPaths == null)
             {
-                throw new ArgumentException(string.Format(Resources.InvalidPropertiesExpression, propertyAccessExpression),
+                throw new ArgumentException(
+                    string.Format(Resources.InvalidPropertiesExpression, propertyAccessExpression),
                     nameof(propertyAccessExpression));
             }
 
@@ -117,7 +119,7 @@ namespace Gentings
             var propertyPath
                 = propertyMatcher(lambdaExpression.Body, parameterExpression);
 
-            return propertyPath != null ? new[] { propertyPath } : null;
+            return propertyPath != null ? new[] {propertyPath} : null;
         }
 
         private static PropertyInfo MatchSimplePropertyAccess(
@@ -149,11 +151,9 @@ namespace Gentings
                 propertyInfos.Insert(0, propertyInfo);
 
                 propertyAccessExpression = memberExpression.Expression;
-            }
-            while (memberExpression.Expression.RemoveConvert() != parameterExpression);
+            } while (memberExpression.Expression.RemoveConvert() != parameterExpression);
 
             return propertyInfos;
         }
-
     }
 }

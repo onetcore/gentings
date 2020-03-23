@@ -9,10 +9,12 @@
         /// 正在迁移。
         /// </summary>
         Normal,
+
         /// <summary>
         /// 完成。
         /// </summary>
         Completed,
+
         /// <summary>
         /// 错误。
         /// </summary>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Html;
 
 namespace Gentings.Tasks
 {
@@ -9,11 +8,15 @@ namespace Gentings.Tasks
     /// </summary>
     public class Argument
     {
-        private readonly IDictionary<string, object> _arguments = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, object> _arguments =
+            new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
         /// <summary>
         /// 初始化类<see cref="Argument"/>。
         /// </summary>
-        public Argument() { }
+        public Argument()
+        {
+        }
 
         internal Argument(string arguments)
         {
@@ -68,15 +71,6 @@ namespace Gentings.Tasks
         }
 
         /// <summary>
-        /// 显示字符串，每一行一个参数。
-        /// </summary>
-        /// <returns>返回显示字符串。</returns>
-        public IHtmlContent ToHtmlString()
-        {
-            return new HtmlString($"({ToString()})");
-        }
-
-        /// <summary>
         /// 参数个数。
         /// </summary>
         public int Count => _arguments.Count;
@@ -87,7 +81,7 @@ namespace Gentings.Tasks
         /// <param name="name">参数名称。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <returns>返回当前参数。</returns>
-        public int GetInt32(string name, int defaultValue = 0) => (int?)this[name] ?? defaultValue;
+        public int GetInt32(string name, int defaultValue = 0) => (int?) this[name] ?? defaultValue;
 
         /// <summary>
         /// 获取布尔型参数。
@@ -95,7 +89,7 @@ namespace Gentings.Tasks
         /// <param name="name">参数名称。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <returns>返回当前参数。</returns>
-        public bool GetBoolean(string name, bool defaultValue = false) => (bool?)this[name] ?? defaultValue;
+        public bool GetBoolean(string name, bool defaultValue = false) => (bool?) this[name] ?? defaultValue;
 
         /// <summary>
         /// 当前服务Id。
@@ -105,21 +99,37 @@ namespace Gentings.Tasks
         /// <summary>
         /// 自定义后台服务运行模式。
         /// </summary>
-        public string Interval { get => this[nameof(Interval)]?.ToString(); internal set => _arguments[nameof(Interval)] = value; }
+        public string Interval
+        {
+            get => this[nameof(Interval)]?.ToString();
+            internal set => _arguments[nameof(Interval)] = value;
+        }
 
         /// <summary>
         /// 错误消息。
         /// </summary>
-        public string Error { get => this[nameof(Error)]?.ToString(); set => this[nameof(Error)] = value; }
+        public string Error
+        {
+            get => this[nameof(Error)]?.ToString();
+            set => this[nameof(Error)] = value;
+        }
 
         /// <summary>
         /// 错误发生时间。
         /// </summary>
-        public DateTime? ErrorDate { get => (DateTime?)this[nameof(ErrorDate)]; set => this[nameof(ErrorDate)] = value; }
+        public DateTime? ErrorDate
+        {
+            get => (DateTime?) this[nameof(ErrorDate)];
+            set => this[nameof(ErrorDate)] = value;
+        }
 
         /// <summary>
         /// 是否保存堆栈信息。
         /// </summary>
-        public bool IsStack { get => GetBoolean(nameof(IsStack)); internal set => _arguments[nameof(IsStack)] = value; }
+        public bool IsStack
+        {
+            get => GetBoolean(nameof(IsStack));
+            internal set => _arguments[nameof(IsStack)] = value;
+        }
     }
 }

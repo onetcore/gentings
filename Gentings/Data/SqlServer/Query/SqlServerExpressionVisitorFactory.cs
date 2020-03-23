@@ -24,7 +24,9 @@ namespace Gentings.Data.SqlServer.Query
         /// <param name="memberTranslator">字段或属性转换接口。</param>
         /// <param name="methodCallTranslator">方法调用转换接口。</param>
         /// <param name="fragmentTranslator">代码段转换接口。</param>
-        public SqlServerExpressionVisitorFactory(ISqlHelper sqlHelper, ITypeMapper typeMapper, IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator, IExpressionFragmentTranslator fragmentTranslator)
+        public SqlServerExpressionVisitorFactory(ISqlHelper sqlHelper, ITypeMapper typeMapper,
+            IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator,
+            IExpressionFragmentTranslator fragmentTranslator)
         {
             _sqlHelper = sqlHelper;
             _typeMapper = typeMapper;
@@ -39,7 +41,8 @@ namespace Gentings.Data.SqlServer.Query
         /// <returns>返回表达式访问接口。</returns>
         public IExpressionVisitor Create()
         {
-            return new SqlServerExpressionVisitor(_sqlHelper, _typeMapper, _memberTranslator, _methodCallTranslator, _fragmentTranslator);
+            return new SqlServerExpressionVisitor(_sqlHelper, _typeMapper, _memberTranslator, _methodCallTranslator,
+                _fragmentTranslator);
         }
 
         /// <summary>
@@ -49,7 +52,8 @@ namespace Gentings.Data.SqlServer.Query
         /// <returns>返回表达式访问接口。</returns>
         public IExpressionVisitor Create(Func<Type, string> delimiter)
         {
-            return new SqlServerExpressionVisitor(_sqlHelper, _typeMapper, _memberTranslator, _methodCallTranslator, _fragmentTranslator, delimiter);
+            return new SqlServerExpressionVisitor(_sqlHelper, _typeMapper, _memberTranslator, _methodCallTranslator,
+                _fragmentTranslator, delimiter);
         }
     }
 }

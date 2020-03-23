@@ -30,7 +30,8 @@ namespace Gentings.Data.Internal
         /// <param name="sqlHelper">SQL辅助接口。</param>
         /// <param name="sqlGenerator">脚本生成器。</param>
         /// <param name="visitorFactory">条件表达式解析器工厂实例。</param>
-        public DbTransactionContext(IDbExecutor executor, ILogger logger, ISqlHelper sqlHelper, IQuerySqlGenerator sqlGenerator, IExpressionVisitorFactory visitorFactory)
+        public DbTransactionContext(IDbExecutor executor, ILogger logger, ISqlHelper sqlHelper,
+            IQuerySqlGenerator sqlGenerator, IExpressionVisitorFactory visitorFactory)
             : base(executor, logger, sqlHelper, sqlGenerator, visitorFactory)
         {
             _executor = executor;

@@ -10,7 +10,7 @@ namespace Gentings.Data.Query.Translators.Internal
     public class IsNullOrEmptyTranslator : IMethodCallTranslator
     {
         private static readonly MethodInfo _methodInfo
-            = typeof(string).GetRuntimeMethod(nameof(string.IsNullOrEmpty), new[] { typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.IsNullOrEmpty), new[] {typeof(string)});
 
         /// <summary>
         /// 转换表达式。

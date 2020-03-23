@@ -116,13 +116,13 @@ namespace Gentings.Data.Migrations
         /// <param name="computedColumnSql">计算列的SQL字符串。</param>
         /// <returns>返回操作实例。</returns>
         public virtual OperationBuilder<AddColumnOperation> AddColumn<TEntity>(
-             Expression<Func<TEntity, object>> column,
-             string type = null,
-             bool? nullable = null,
-             bool? unicode = null,
-             object defaultValue = null,
-             string defaultValueSql = null,
-             string computedColumnSql = null)
+            Expression<Func<TEntity, object>> column,
+            string type = null,
+            bool? nullable = null,
+            bool? unicode = null,
+            object defaultValue = null,
+            string defaultValueSql = null,
+            string computedColumnSql = null)
         {
             Check.NotNull(column, nameof(column));
 
@@ -176,7 +176,8 @@ namespace Gentings.Data.Migrations
                 OnDelete = onDelete
             };
             operation.PrincipalColumns = principalColumns ?? operation.Columns;
-            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns, operation.PrincipalTable);
+            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns,
+                operation.PrincipalTable);
             Operations.Add(operation);
 
             return new OperationBuilder<AddForeignKeyOperation>(operation);
@@ -193,8 +194,8 @@ namespace Gentings.Data.Migrations
         /// <param name="onDelete">删除时候对应的操作。</param>
         /// <returns>返回迁移构建实例。</returns>
         public virtual OperationBuilder<AddForeignKeyOperation> AddForeignKey<TEntity, TPrincipal>(
-             Expression<Func<TEntity, object>> columns,
-             Expression<Func<TPrincipal, object>> principalColumns = null,
+            Expression<Func<TEntity, object>> columns,
+            Expression<Func<TPrincipal, object>> principalColumns = null,
             ReferentialAction onUpdate = ReferentialAction.NoAction,
             ReferentialAction onDelete = ReferentialAction.NoAction)
         {
@@ -217,7 +218,8 @@ namespace Gentings.Data.Migrations
                 operation.PrincipalColumns = principalColumns.GetPropertyNames();
             }
 
-            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns, operation.PrincipalTable);
+            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns,
+                operation.PrincipalTable);
             Operations.Add(operation);
 
             return new OperationBuilder<AddForeignKeyOperation>(operation);
@@ -230,7 +232,8 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">字段列表。</param>
         /// <param name="clustered">是否聚合。</param>
         /// <returns>返回构建实例对象。</returns>
-        public virtual OperationBuilder<AddPrimaryKeyOperation> AddPrimaryKey(string table, string[] columns, bool clustered = true)
+        public virtual OperationBuilder<AddPrimaryKeyOperation> AddPrimaryKey(string table, string[] columns,
+            bool clustered = true)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -253,7 +256,8 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">列表达式。</param>
         /// <param name="clustered">是否聚合。</param>
         /// <returns>返回构建实例对象。</returns>
-        public virtual OperationBuilder<AddPrimaryKeyOperation> AddPrimaryKey<TEntity>(Expression<Func<TEntity, object>> columns, bool clustered = true)
+        public virtual OperationBuilder<AddPrimaryKeyOperation> AddPrimaryKey<TEntity>(
+            Expression<Func<TEntity, object>> columns, bool clustered = true)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -276,7 +280,8 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">字段列表。</param>
         /// <param name="clustered">是否聚合。</param>
         /// <returns>返回构建实例对象。</returns>
-        public virtual OperationBuilder<AddUniqueConstraintOperation> AddUniqueConstraint(string table, string[] columns, bool clustered = false)
+        public virtual OperationBuilder<AddUniqueConstraintOperation> AddUniqueConstraint(string table,
+            string[] columns, bool clustered = false)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -299,7 +304,8 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">列表达式。</param>
         /// <param name="clustered">是否聚合。</param>
         /// <returns>返回构建实例对象。</returns>
-        public virtual OperationBuilder<AddUniqueConstraintOperation> AddUniqueConstraint<TEntity>(Expression<Func<TEntity, object>> columns, bool clustered = false)
+        public virtual OperationBuilder<AddUniqueConstraintOperation> AddUniqueConstraint<TEntity>(
+            Expression<Func<TEntity, object>> columns, bool clustered = false)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -328,13 +334,13 @@ namespace Gentings.Data.Migrations
         /// <param name="computedColumnSql">计算列的SQL字符串。</param>
         /// <returns>返回操作实例。</returns>
         public virtual AlterOperationBuilder<AlterColumnOperation> AlterColumn<TEntity>(
-             Expression<Func<TEntity, object>> column,
-             string type = null,
-             bool? unicode = null,
-             bool? nullable = null,
-             object defaultValue = null,
-             string defaultValueSql = null,
-             string computedColumnSql = null)
+            Expression<Func<TEntity, object>> column,
+            string type = null,
+            bool? unicode = null,
+            bool? nullable = null,
+            object defaultValue = null,
+            string defaultValueSql = null,
+            string computedColumnSql = null)
         {
             Check.NotNull(column, nameof(column));
             var property = typeof(TEntity).GetEntityType().FindProperty(column.GetPropertyAccess().Name);
@@ -544,7 +550,7 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">列表达式。</param>
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<DropForeignKeyOperation> DropForeignKey<TEntity>(
-             Expression<Func<TEntity, object>> columns)
+            Expression<Func<TEntity, object>> columns)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -585,7 +591,7 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">列表达式。</param>
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<DropIndexOperation> DropIndex<TEntity>(
-             Expression<Func<TEntity, object>> columns)
+            Expression<Func<TEntity, object>> columns)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -659,8 +665,8 @@ namespace Gentings.Data.Migrations
         /// <param name="schema">架构。</param>
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<DropTableOperation> DropTable(
-             string name,
-             string schema = null)
+            string name,
+            string schema = null)
         {
             Check.NotEmpty(name, nameof(name));
 
@@ -679,7 +685,8 @@ namespace Gentings.Data.Migrations
         /// <typeparam name="TEntity">实体类型。</typeparam>
         /// <param name="columns">列表达式。</param>
         /// <returns>返回迁移实例。</returns>
-        public virtual OperationBuilder<DropUniqueConstraintOperation> DropUniqueConstraint<TEntity>(Expression<Func<TEntity, object>> columns)
+        public virtual OperationBuilder<DropUniqueConstraintOperation> DropUniqueConstraint<TEntity>(
+            Expression<Func<TEntity, object>> columns)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -721,8 +728,8 @@ namespace Gentings.Data.Migrations
         /// <param name="column">新列名表达式。</param>
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<RenameColumnOperation> RenameColumn<TEntity>(
-             string name,
-             Expression<Func<TEntity, object>> column)
+            string name,
+            Expression<Func<TEntity, object>> column)
         {
             Check.NotEmpty(name, nameof(name));
             Check.NotNull(column, nameof(column));
@@ -746,8 +753,8 @@ namespace Gentings.Data.Migrations
         /// <param name="newName">新列名。</param>
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<RenameColumnOperation> RenameColumn<TEntity>(
-             string name,
-             string newName)
+            string name,
+            string newName)
         {
             Check.NotEmpty(name, nameof(name));
             Check.NotEmpty(newName, nameof(newName));
@@ -771,8 +778,8 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">新列名表达式。</param>
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<RenameIndexOperation> RenameIndex<TEntity>(
-             string name,
-             Expression<Func<TEntity, object>> columns)
+            string name,
+            Expression<Func<TEntity, object>> columns)
         {
             Check.NotEmpty(name, nameof(name));
             Check.NotNull(columns, nameof(columns));
@@ -812,8 +819,8 @@ namespace Gentings.Data.Migrations
         /// <param name="schema">原架构。</param>
         /// <returns>返回迁移实例。</returns>
         public virtual OperationBuilder<RenameTableOperation> RenameTable<TEntity>(
-             string name,
-             string schema = null)
+            string name,
+            string schema = null)
         {
             Check.NotEmpty(name, nameof(name));
 
@@ -871,7 +878,8 @@ namespace Gentings.Data.Migrations
         /// <param name="expression">条件表达式。</param>
         /// <param name="instance">匿名对象。</param>
         /// <returns>返回迁移实例。</returns>
-        public virtual OperationBuilder<SqlOperation> SqlUpdate<TEntity>(Expression<Predicate<TEntity>> expression, object instance)
+        public virtual OperationBuilder<SqlOperation> SqlUpdate<TEntity>(Expression<Predicate<TEntity>> expression,
+            object instance)
         {
             Check.NotNull(expression, nameof(expression));
             Check.NotNull(instance, nameof(instance));

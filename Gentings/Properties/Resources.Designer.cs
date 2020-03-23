@@ -241,29 +241,83 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
-        ///   查找类似 参数错误：{0}。 的本地化字符串。
+        ///   查找类似 你已经对比过一次新对象，不能重复对比变更对象！ 的本地化字符串。
         /// </summary>
-        internal static string ErrorCode_InvalidParameters {
+        internal static string Differ_Duplicated_Differed {
             get {
-                return ResourceManager.GetString("ErrorCode_InvalidParameters", resourceCulture);
+                return ResourceManager.GetString("Differ_Duplicated_Differed", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 发生未知错误 的本地化字符串。
+        ///   查找类似 原有对象已经初始化，不能重复调用初始化方法！ 的本地化字符串。
         /// </summary>
-        internal static string ErrorCode_UnknownError {
+        internal static string Differ_Duplicated_Initialized {
             get {
-                return ResourceManager.GetString("ErrorCode_UnknownError", resourceCulture);
+                return ResourceManager.GetString("Differ_Duplicated_Initialized", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 验证失败 的本地化字符串。
+        ///   查找类似 对象变更原始对象未初始化，请在修改对象时候先调用Init方法。 的本地化字符串。
         /// </summary>
-        internal static string ErrorCode_ValidError {
+        internal static string Differ_Uninitialized {
             get {
-                return ResourceManager.GetString("ErrorCode_ValidError", resourceCulture);
+                return ResourceManager.GetString("Differ_Uninitialized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新增了 的本地化字符串。
+        /// </summary>
+        internal static string DifferAction_Add {
+            get {
+                return ResourceManager.GetString("DifferAction_Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ”{0}“(”{1}“) 的本地化字符串。
+        /// </summary>
+        internal static string DifferAction_AddFormat {
+            get {
+                return ResourceManager.GetString("DifferAction_AddFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 修改了 的本地化字符串。
+        /// </summary>
+        internal static string DifferAction_Modify {
+            get {
+                return ResourceManager.GetString("DifferAction_Modify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 “{0}”由”{1}“修改为“{2}” 的本地化字符串。
+        /// </summary>
+        internal static string DifferAction_ModifyFormat {
+            get {
+                return ResourceManager.GetString("DifferAction_ModifyFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 移除了 的本地化字符串。
+        /// </summary>
+        internal static string DifferAction_Remove {
+            get {
+                return ResourceManager.GetString("DifferAction_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 ”{0}“(”{1}“) 的本地化字符串。
+        /// </summary>
+        internal static string DifferAction_RemoveFormat {
+            get {
+                return ResourceManager.GetString("DifferAction_RemoveFormat", resourceCulture);
             }
         }
         

@@ -7,6 +7,5 @@ namespace Gentings.Data.Migrations.Operations
     /// </summary>
     public abstract class MigrationOperation : ExtendBase
     {
-
     }
 }

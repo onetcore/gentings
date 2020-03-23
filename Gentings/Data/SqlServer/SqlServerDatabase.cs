@@ -35,6 +35,7 @@ namespace Gentings.Data.SqlServer
             {
                 bulkCopy.ColumnMappings.Add(property.ColumnName, property.ColumnName);
             }
+
             return bulkCopy.WriteToServerAsync(table);
         }
 

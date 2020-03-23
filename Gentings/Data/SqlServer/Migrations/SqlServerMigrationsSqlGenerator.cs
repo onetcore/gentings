@@ -23,7 +23,8 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <param name="sqlHelper">SQL辅助接口。</param>
         /// <param name="typeMapper">类型匹配接口。</param>
         /// <param name="visitorFactory">条件表达式访问器工厂。</param>
-        public SqlServerMigrationsSqlGenerator(ISqlHelper sqlHelper, ITypeMapper typeMapper, IExpressionVisitorFactory visitorFactory)
+        public SqlServerMigrationsSqlGenerator(ISqlHelper sqlHelper, ITypeMapper typeMapper,
+            IExpressionVisitorFactory visitorFactory)
             : base(sqlHelper, typeMapper)
         {
             _visitorFactory = visitorFactory;
@@ -203,7 +204,8 @@ namespace Gentings.Data.SqlServer.Migrations
         /// </summary>
         /// <param name="referentialAction">外键操作。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
-        protected override void ForeignKeyAction(ReferentialAction referentialAction, MigrationCommandListBuilder builder)
+        protected override void ForeignKeyAction(ReferentialAction referentialAction,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(builder, nameof(builder));
 
@@ -235,7 +237,8 @@ namespace Gentings.Data.SqlServer.Migrations
                 .Append(".")
                 .Append(operation.Name);
 
-            Rename(SqlHelper.DelimitIdentifier(qualifiedName.ToString()), SqlHelper.DelimitIdentifier(operation.NewName), "COLUMN", builder);
+            Rename(SqlHelper.DelimitIdentifier(qualifiedName.ToString()),
+                SqlHelper.DelimitIdentifier(operation.NewName), "COLUMN", builder);
             builder.EndCommand();
         }
 
@@ -255,7 +258,8 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <param name="defaultValueSql">默认SQL字符串。</param>
         /// <param name="computedColumnSql">计算列的SQL字符串。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
-        protected override void ColumnDefinition(string table, string name, Type clrType, string type, bool? unicode, int? maxLength,
+        protected override void ColumnDefinition(string table, string name, Type clrType, string type, bool? unicode,
+            int? maxLength,
             bool rowVersion, bool identity, bool? nullable, object defaultValue, string defaultValueSql,
             string computedColumnSql, MigrationCommandListBuilder builder)
         {
@@ -269,7 +273,8 @@ namespace Gentings.Data.SqlServer.Migrations
                 return;
             }
 
-            base.ColumnDefinition(table, name, clrType, type, unicode, maxLength, rowVersion, identity, nullable, defaultValue, defaultValueSql, computedColumnSql, builder);
+            base.ColumnDefinition(table, name, clrType, type, unicode, maxLength, rowVersion, identity, nullable,
+                defaultValue, defaultValueSql, computedColumnSql, builder);
 
             if (identity)
             {
@@ -404,6 +409,7 @@ namespace Gentings.Data.SqlServer.Migrations
         }
 
         private int _variableCounter = 0;
+
         /// <summary>
         /// 删除默认值。
         /// </summary>
@@ -429,7 +435,8 @@ namespace Gentings.Data.SqlServer.Migrations
                 .Append(variable)
                 .AppendLine(" = [d].[name]")
                 .AppendLine("FROM [sys].[default_constraints] [d]")
-                .AppendLine("INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]")
+                .AppendLine(
+                    "INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]")
                 .Append("WHERE ([d].[parent_object_id] = OBJECT_ID(N'");
 
             builder

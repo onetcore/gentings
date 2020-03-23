@@ -12,6 +12,6 @@ namespace Gentings.Data.Query.Translators
         /// </summary>
         /// <param name="memberExpression">转换字段或属性表达式。</param>
         /// <returns>转换后的表达式。</returns>
-        Expression Translate( MemberExpression memberExpression);
+        Expression Translate(MemberExpression memberExpression);
     }
 }

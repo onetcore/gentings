@@ -17,7 +17,9 @@ namespace Gentings.Data.Migrations
         /// 销毁数据表。
         /// </summary>
         /// <param name="builder">迁移实例对象。</param>
-        public virtual void Destroy(MigrationBuilder builder) { }
+        public virtual void Destroy(MigrationBuilder builder)
+        {
+        }
 
         /// <summary>
         /// 优先级，在两个迁移数据需要先后时候使用。

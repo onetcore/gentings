@@ -96,7 +96,8 @@ namespace Gentings.Extensions.Settings
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回网站配置实例。</returns>
-        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(string key) where TSiteSettings : class, new()
+        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(string key)
+            where TSiteSettings : class, new()
         {
             return Cache.GetOrCreateAsync(key, async entry =>
             {
@@ -126,7 +127,8 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="settings">网站配置实例。</param>
-        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings settings) where TSiteSettings : class, new()
+        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings settings)
+            where TSiteSettings : class, new()
         {
             return SaveSettingsAsync(typeof(TSiteSettings).FullName, settings);
         }
@@ -149,7 +151,7 @@ namespace Gentings.Extensions.Settings
         /// <param name="settings">网站配置实例。</param>
         public virtual async Task<bool> SaveSettingsAsync(string key, string settings)
         {
-            var adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
+            var adapter = new SettingsAdapter {SettingKey = key, SettingValue = settings};
             if (await Context.AnyAsync(x => x.SettingKey == key))
             {
                 if (await Context.UpdateAsync(adapter))
@@ -158,11 +160,13 @@ namespace Gentings.Extensions.Settings
                     return true;
                 }
             }
+
             if (await Context.CreateAsync(adapter))
             {
                 Refresh(key);
                 return true;
             }
+
             return false;
         }
 
@@ -194,7 +198,7 @@ namespace Gentings.Extensions.Settings
         /// <param name="settings">网站配置实例。</param>
         public virtual bool SaveSettings(string key, string settings)
         {
-            var adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
+            var adapter = new SettingsAdapter {SettingKey = key, SettingValue = settings};
             if (Context.Any(x => x.SettingKey == key))
             {
                 if (Context.Update(adapter))
@@ -203,11 +207,13 @@ namespace Gentings.Extensions.Settings
                     return true;
                 }
             }
+
             if (Context.Create(adapter))
             {
                 Refresh(key);
                 return true;
             }
+
             return false;
         }
 
@@ -238,6 +244,7 @@ namespace Gentings.Extensions.Settings
                 Refresh(key);
                 return true;
             }
+
             return false;
         }
 
@@ -259,6 +266,7 @@ namespace Gentings.Extensions.Settings
                 Refresh(key);
                 return true;
             }
+
             return false;
         }
     }

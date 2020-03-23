@@ -8,17 +8,17 @@
         /// <summary>
         /// 相关列。
         /// </summary>
-        public virtual string[] Columns { get;  set; }
-        
+        public virtual string[] Columns { get; set; }
+
         /// <summary>
         /// 主键表。
         /// </summary>
-        public virtual string PrincipalTable { get;  set; }
+        public virtual string PrincipalTable { get; set; }
 
         /// <summary>
         /// 主键列。
         /// </summary>
-        public virtual string[] PrincipalColumns { get;  set; }
+        public virtual string[] PrincipalColumns { get; set; }
 
         /// <summary>
         /// 主键更新时候的操作。

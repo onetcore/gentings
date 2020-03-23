@@ -18,7 +18,8 @@ namespace Gentings.Extensions.Internal
         /// <typeparam name="TNonNullableEnumValue">此属性的基础类型。</typeparam>
         /// <param name="propertyInfo">属性信息实例。</param>
         /// <returns>返回当前属性的访问器实例。</returns>
-        protected override IClrPropertyGetter CreateGeneric<TEntity, TValue, TNonNullableEnumValue>(PropertyInfo propertyInfo)
+        protected override IClrPropertyGetter CreateGeneric<TEntity, TValue, TNonNullableEnumValue>(
+            PropertyInfo propertyInfo)
         {
             var memberInfo = propertyInfo.FindGetterProperty();
 

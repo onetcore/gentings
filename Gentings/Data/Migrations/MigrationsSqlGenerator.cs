@@ -15,29 +15,37 @@ namespace Gentings.Data.Migrations
     /// </summary>
     public abstract class MigrationsSqlGenerator : IMigrationsSqlGenerator
     {
-        private static readonly IReadOnlyDictionary<Type, Action<MigrationsSqlGenerator, MigrationOperation, MigrationCommandListBuilder>> _generateActions =
-            new Dictionary<Type, Action<MigrationsSqlGenerator, MigrationOperation, MigrationCommandListBuilder>>
-            {
-                { typeof(AddColumnOperation), (g, o, b) => g.Generate((AddColumnOperation)o, b, true) },
-                { typeof(AddForeignKeyOperation), (g, o, b) => g.Generate((AddForeignKeyOperation)o, b, true) },
-                { typeof(AddPrimaryKeyOperation), (g, o, b) => g.Generate((AddPrimaryKeyOperation)o, b, true) },
-                { typeof(AddUniqueConstraintOperation), (g, o, b) => g.Generate((AddUniqueConstraintOperation)o, b) },
-                { typeof(AlterColumnOperation), (g, o, b) => g.Generate((AlterColumnOperation)o, b) },
-                { typeof(AlterDatabaseOperation), (g, o, b) => g.Generate((AlterDatabaseOperation)o, b) },
-                { typeof(AlterTableOperation), (g, o, b) => g.Generate((AlterTableOperation)o, b) },
-                { typeof(CreateIndexOperation), (g, o, b) => g.Generate((CreateIndexOperation)o, b, true) },
-                { typeof(CreateTableOperation), (g, o, b) => g.Generate((CreateTableOperation)o, b, true) },
-                { typeof(DropColumnOperation), (g, o, b) => g.Generate((DropColumnOperation)o, b, true) },
-                { typeof(DropForeignKeyOperation), (g, o, b) => g.Generate((DropForeignKeyOperation)o, b, true) },
-                { typeof(DropIndexOperation), (g, o, b) => g.Generate((DropIndexOperation)o, b) },
-                { typeof(DropPrimaryKeyOperation), (g, o, b) => g.Generate((DropPrimaryKeyOperation)o, b, true) },
-                { typeof(DropTableOperation), (g, o, b) => g.Generate((DropTableOperation)o, b, true) },
-                { typeof(DropUniqueConstraintOperation), (g, o, b) => g.Generate((DropUniqueConstraintOperation)o, b) },
-                { typeof(RenameColumnOperation), (g, o, b) => g.Generate((RenameColumnOperation)o, b) },
-                { typeof(RenameIndexOperation), (g, o, b) => g.Generate((RenameIndexOperation)o, b) },
-                { typeof(RenameTableOperation), (g, o, b) => g.Generate((RenameTableOperation)o, b) },
-                { typeof(SqlOperation), (g, o, b) => g.Generate((SqlOperation)o, b) }
-            };
+        private static readonly
+            IReadOnlyDictionary<Type, Action<MigrationsSqlGenerator, MigrationOperation, MigrationCommandListBuilder>>
+            _generateActions =
+                new Dictionary<Type, Action<MigrationsSqlGenerator, MigrationOperation, MigrationCommandListBuilder>>
+                {
+                    {typeof(AddColumnOperation), (g, o, b) => g.Generate((AddColumnOperation) o, b, true)},
+                    {typeof(AddForeignKeyOperation), (g, o, b) => g.Generate((AddForeignKeyOperation) o, b, true)},
+                    {typeof(AddPrimaryKeyOperation), (g, o, b) => g.Generate((AddPrimaryKeyOperation) o, b, true)},
+                    {
+                        typeof(AddUniqueConstraintOperation),
+                        (g, o, b) => g.Generate((AddUniqueConstraintOperation) o, b)
+                    },
+                    {typeof(AlterColumnOperation), (g, o, b) => g.Generate((AlterColumnOperation) o, b)},
+                    {typeof(AlterDatabaseOperation), (g, o, b) => g.Generate((AlterDatabaseOperation) o, b)},
+                    {typeof(AlterTableOperation), (g, o, b) => g.Generate((AlterTableOperation) o, b)},
+                    {typeof(CreateIndexOperation), (g, o, b) => g.Generate((CreateIndexOperation) o, b, true)},
+                    {typeof(CreateTableOperation), (g, o, b) => g.Generate((CreateTableOperation) o, b, true)},
+                    {typeof(DropColumnOperation), (g, o, b) => g.Generate((DropColumnOperation) o, b, true)},
+                    {typeof(DropForeignKeyOperation), (g, o, b) => g.Generate((DropForeignKeyOperation) o, b, true)},
+                    {typeof(DropIndexOperation), (g, o, b) => g.Generate((DropIndexOperation) o, b)},
+                    {typeof(DropPrimaryKeyOperation), (g, o, b) => g.Generate((DropPrimaryKeyOperation) o, b, true)},
+                    {typeof(DropTableOperation), (g, o, b) => g.Generate((DropTableOperation) o, b, true)},
+                    {
+                        typeof(DropUniqueConstraintOperation),
+                        (g, o, b) => g.Generate((DropUniqueConstraintOperation) o, b)
+                    },
+                    {typeof(RenameColumnOperation), (g, o, b) => g.Generate((RenameColumnOperation) o, b)},
+                    {typeof(RenameIndexOperation), (g, o, b) => g.Generate((RenameIndexOperation) o, b)},
+                    {typeof(RenameTableOperation), (g, o, b) => g.Generate((RenameTableOperation) o, b)},
+                    {typeof(SqlOperation), (g, o, b) => g.Generate((SqlOperation) o, b)}
+                };
 
         /// <summary>
         /// 初始化类<see cref="MigrationsSqlGenerator"/>。
@@ -45,8 +53,8 @@ namespace Gentings.Data.Migrations
         /// <param name="sqlHelper">SQL辅助接口。</param>
         /// <param name="typeMapper">类型匹配接口。</param>
         protected MigrationsSqlGenerator(
-             ISqlHelper sqlHelper,
-             ITypeMapper typeMapper)
+            ISqlHelper sqlHelper,
+            ITypeMapper typeMapper)
         {
             Check.NotNull(sqlHelper, nameof(sqlHelper));
             Check.NotNull(typeMapper, nameof(typeMapper));
@@ -89,8 +97,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder">字符串构建实例。</param>
         protected virtual void Generate(
-             MigrationOperation operation,
-             MigrationCommandListBuilder builder)
+            MigrationOperation operation,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
@@ -98,7 +106,8 @@ namespace Gentings.Data.Migrations
             var operationType = operation.GetType();
             if (!_generateActions.TryGetValue(operationType, out var generateAction))
             {
-                throw new InvalidOperationException(string.Format(Resources.UnknownOperation, operationType, GetType().DisplayName(false)));
+                throw new InvalidOperationException(string.Format(Resources.UnknownOperation, operationType,
+                    GetType().DisplayName(false)));
             }
 
             generateAction(this, operation, builder);
@@ -111,8 +120,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否添加结束符。</param>
         protected virtual void Generate(
-             AddColumnOperation operation,
-             MigrationCommandListBuilder builder,
+            AddColumnOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -139,8 +148,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否添加结束符。</param>
         protected virtual void Generate(
-             AddForeignKeyOperation operation,
-             MigrationCommandListBuilder builder,
+            AddForeignKeyOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -167,8 +176,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否添加结束符。</param>
         protected virtual void Generate(
-             AddPrimaryKeyOperation operation,
-             MigrationCommandListBuilder builder,
+            AddPrimaryKeyOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -193,8 +202,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             AddUniqueConstraintOperation operation,
-             MigrationCommandListBuilder builder)
+            AddUniqueConstraintOperation operation,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
@@ -214,8 +223,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             AlterColumnOperation operation,
-             MigrationCommandListBuilder builder)
+            AlterColumnOperation operation,
+            MigrationCommandListBuilder builder)
         {
             throw new NotImplementedException();
         }
@@ -226,8 +235,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             AlterDatabaseOperation operation,
-             MigrationCommandListBuilder builder)
+            AlterDatabaseOperation operation,
+            MigrationCommandListBuilder builder)
         {
         }
 
@@ -237,8 +246,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             RenameIndexOperation operation,
-             MigrationCommandListBuilder builder)
+            RenameIndexOperation operation,
+            MigrationCommandListBuilder builder)
         {
             throw new NotImplementedException();
         }
@@ -249,8 +258,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             AlterTableOperation operation,
-             MigrationCommandListBuilder builder)
+            AlterTableOperation operation,
+            MigrationCommandListBuilder builder)
         {
         }
 
@@ -260,8 +269,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             RenameTableOperation operation,
-             MigrationCommandListBuilder builder)
+            RenameTableOperation operation,
+            MigrationCommandListBuilder builder)
         {
             throw new NotImplementedException();
         }
@@ -273,8 +282,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否结束语句。</param>
         protected virtual void Generate(
-             CreateIndexOperation operation,
-             MigrationCommandListBuilder builder,
+            CreateIndexOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -312,8 +321,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否结束语句。</param>
         protected virtual void Generate(
-             CreateTableOperation operation,
-             MigrationCommandListBuilder builder,
+            CreateTableOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -373,7 +382,6 @@ namespace Gentings.Data.Migrations
         /// <param name="builder">构建实例。</param>
         protected virtual void CreateTableAppender(MigrationCommandListBuilder builder)
         {
-            
         }
 
         /// <summary>
@@ -383,8 +391,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否结束语句。</param>
         protected virtual void Generate(
-             DropColumnOperation operation,
-             MigrationCommandListBuilder builder,
+            DropColumnOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -410,8 +418,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否结束语句。</param>
         protected virtual void Generate(
-             DropForeignKeyOperation operation,
-             MigrationCommandListBuilder builder,
+            DropForeignKeyOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -436,8 +444,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             DropIndexOperation operation,
-             MigrationCommandListBuilder builder)
+            DropIndexOperation operation,
+            MigrationCommandListBuilder builder)
         {
             throw new NotImplementedException();
         }
@@ -449,8 +457,8 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否结束语句。</param>
         protected virtual void Generate(
-             DropPrimaryKeyOperation operation,
-             MigrationCommandListBuilder builder,
+            DropPrimaryKeyOperation operation,
+            MigrationCommandListBuilder builder,
             bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
@@ -476,9 +484,9 @@ namespace Gentings.Data.Migrations
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         /// <param name="terminate">是否结束语句。</param>
         protected virtual void Generate(
-             DropTableOperation operation,
-             MigrationCommandListBuilder builder,
-             bool terminate)
+            DropTableOperation operation,
+            MigrationCommandListBuilder builder,
+            bool terminate)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
@@ -500,8 +508,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             DropUniqueConstraintOperation operation,
-             MigrationCommandListBuilder builder)
+            DropUniqueConstraintOperation operation,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
@@ -522,8 +530,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             RenameColumnOperation operation,
-             MigrationCommandListBuilder builder)
+            RenameColumnOperation operation,
+            MigrationCommandListBuilder builder)
         {
             throw new NotImplementedException();
         }
@@ -534,8 +542,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例对象。</param>
         protected virtual void Generate(
-             SqlOperation operation,
-             MigrationCommandListBuilder builder)
+            SqlOperation operation,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
@@ -559,6 +567,7 @@ namespace Gentings.Data.Migrations
                     operation.Sql = GenerateSqlDelete(entity, operation.Expression);
                 }
             }
+
             builder
                 .Append(operation.Sql)
                 .AppendLine(SqlHelper.fieldsTerminator);
@@ -609,15 +618,15 @@ namespace Gentings.Data.Migrations
         /// <param name="where">条件表达式。</param>
         /// <returns>返回生成的SQL语句。</returns>
         protected abstract string GenerateSqlDelete(IEntityType entityType, Expression where);
-        
+
         /// <summary>
         /// 添加列的相关定义。
         /// </summary>
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
         protected virtual void ColumnDefinition(
-                 AddColumnOperation operation,
-                 MigrationCommandListBuilder builder)
+            AddColumnOperation operation,
+            MigrationCommandListBuilder builder)
             => ColumnDefinition(
                 operation.Table,
                 operation.Name,
@@ -690,9 +699,9 @@ namespace Gentings.Data.Migrations
         /// <param name="defaultValueSql">默认值SQL字符串。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
         protected virtual void DefaultValue(
-             object defaultValue,
-             string defaultValueSql,
-             MigrationCommandListBuilder builder)
+            object defaultValue,
+            string defaultValueSql,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(builder, nameof(builder));
 
@@ -717,8 +726,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
         protected virtual void ForeignKeyConstraint(
-             AddForeignKeyOperation operation,
-             MigrationCommandListBuilder builder)
+            AddForeignKeyOperation operation,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
@@ -764,8 +773,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
         protected virtual void PrimaryKeyConstraint(
-             AddPrimaryKeyOperation operation,
-             MigrationCommandListBuilder builder)
+            AddPrimaryKeyOperation operation,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
@@ -794,8 +803,8 @@ namespace Gentings.Data.Migrations
         /// <param name="operation">操作实例。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
         protected virtual void UniqueConstraint(
-             AddUniqueConstraintOperation operation,
-             MigrationCommandListBuilder builder)
+            AddUniqueConstraintOperation operation,
+            MigrationCommandListBuilder builder)
         {
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));

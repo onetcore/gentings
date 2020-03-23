@@ -13,12 +13,13 @@ namespace Gentings.Data.Migrations.Builders
     public class CreateTableBuilder<TEntity> : OperationBuilder<CreateTableOperation>
     {
         private readonly IEntityType _entity;
+
         /// <summary>
         /// 初始化类<see cref="CreateTableBuilder{TColumns}"/>
         /// </summary>
         /// <param name="operation">新建表格的操作实例。</param>
         public CreateTableBuilder(
-             CreateTableOperation operation)
+            CreateTableOperation operation)
             : base(operation)
         {
             _entity = typeof(TEntity).GetEntityType();
@@ -60,7 +61,8 @@ namespace Gentings.Data.Migrations.Builders
                 operation.PrincipalColumns = principalColumns.GetPropertyNames();
             }
 
-            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns, operation.PrincipalTable);
+            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns,
+                operation.PrincipalTable);
             Operation.ForeignKeys.Add(operation);
 
             action?.Invoke(new OperationBuilder<AddForeignKeyOperation>(operation));
@@ -72,7 +74,8 @@ namespace Gentings.Data.Migrations.Builders
         /// </summary>
         /// <param name="action">添加扩展信息。</param>
         /// <returns>返回迁移构建实例。</returns>
-        public virtual CreateTableBuilder<TEntity> PrimaryKey(Action<OperationBuilder<AddPrimaryKeyOperation>> action = null)
+        public virtual CreateTableBuilder<TEntity> PrimaryKey(
+            Action<OperationBuilder<AddPrimaryKeyOperation>> action = null)
         {
             var key = _entity.PrimaryKey;
             if (key == null)

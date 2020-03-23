@@ -11,7 +11,7 @@ namespace Gentings.Extensions.Internal
         /// 初始化类<see cref="Key"/>。
         /// </summary>
         /// <param name="properties">键的属性列表。</param>
-        public Key( IReadOnlyList<Property> properties)
+        public Key(IReadOnlyList<Property> properties)
         {
             Properties = properties;
         }

@@ -14,14 +14,15 @@ namespace Gentings.Data.Query.Expressions
     public class SqlFunctionExpression : Expression
     {
         private readonly ReadOnlyCollection<Expression> _arguments;
+
         /// <summary>
         /// 初始化类<see cref="SqlFunctionExpression"/>。
         /// </summary>
         /// <param name="functionName">函数名称。</param>
         /// <param name="returnType">返回类型。</param>
         public SqlFunctionExpression(
-             string functionName,
-             Type returnType)
+            string functionName,
+            Type returnType)
             : this(functionName, returnType, Enumerable.Empty<Expression>())
         {
         }
@@ -33,9 +34,9 @@ namespace Gentings.Data.Query.Expressions
         /// <param name="returnType">返回类型。</param>
         /// <param name="arguments">参数列表。</param>
         public SqlFunctionExpression(
-             string functionName,
-             Type returnType,
-             IEnumerable<Expression> arguments)
+            string functionName,
+            Type returnType,
+            IEnumerable<Expression> arguments)
         {
             FunctionName = functionName;
             Type = returnType;
@@ -45,7 +46,7 @@ namespace Gentings.Data.Query.Expressions
         /// <summary>
         /// 函数名称。
         /// </summary>
-        public virtual string FunctionName { get;  set; }
+        public virtual string FunctionName { get; set; }
 
         /// <summary>
         /// 参数列表。

@@ -12,6 +12,6 @@ namespace Gentings.Data.Query.Translators
         /// </summary>
         /// <param name="methodCallExpression">方法调用表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        Expression Translate( MethodCallExpression methodCallExpression);
+        Expression Translate(MethodCallExpression methodCallExpression);
     }
 }

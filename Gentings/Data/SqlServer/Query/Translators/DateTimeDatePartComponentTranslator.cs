@@ -26,6 +26,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
                     memberExpression.Type,
                     memberExpression.Expression);
             }
+
             return null;
         }
 

@@ -2,7 +2,6 @@
 using System.Linq;
 using Gentings.Data;
 using Gentings.Properties;
-using Microsoft.AspNetCore.Html;
 
 namespace Gentings.Tasks
 {
@@ -52,30 +51,30 @@ namespace Gentings.Tasks
         /// </returns>
         public override string ToString()
         {
-            switch (_mode)
+            return _mode switch
             {
-                case TaskMode.Month:
-                    return string.Concat(_month.ToString("D2"), "-", _day.ToString("D2"), " ", _time.ToString());
-                case TaskMode.Day:
-                    return string.Concat(_day.ToString("D2"), " ", _time.ToString());
-                case TaskMode.Hour:
-                    return _time.ToString();
-            }
-            return _interval.ToString();
+                TaskMode.Month => string.Concat(_month.ToString("D2"), "-", _day.ToString("D2"), " ", _time.ToString()),
+                TaskMode.Day => string.Concat(_day.ToString("D2"), " ", _time.ToString()),
+                TaskMode.Hour => _time.ToString(),
+                _ => _interval.ToString()
+            };
         }
 
-        public IHtmlContent ToHtmlString()
+        /// <summary>
+        /// 按照时间间隔显示当前实例。
+        /// </summary>
+        /// <returns>返回显示的字符串。</returns>
+        public string ToDisplayString()
         {
-            switch (_mode)
+            return _mode switch
             {
-                case TaskMode.Month:
-                    return new HtmlString(string.Concat(Resources.Interval_Each_Year,_month.ToString("D2"), Resources.Interval_Month, _day.ToString("D2"), $"{Resources.Interval_Day} ", _time.ToString()));
-                case TaskMode.Day:
-                    return new HtmlString(string.Concat(Resources.Interval_Each_Month,_day.ToString("D2"), $"{Resources.Interval_Day} ", _time.ToString()));
-                case TaskMode.Hour:
-                    return new HtmlString($"{Resources.Interval_Each_Day}{_time}");
-            }
-            return new HtmlString($"{Resources.Interval_Seconds}{_interval}{Resources.Interval_Second}");
+                TaskMode.Month => string.Concat(Resources.Interval_Each_Year, _month.ToString("D2"),
+                    Resources.Interval_Month, _day.ToString("D2"), $"{Resources.Interval_Day} ", _time.ToString()),
+                TaskMode.Day => string.Concat(Resources.Interval_Each_Month, _day.ToString("D2"),
+                    $"{Resources.Interval_Day} ", _time.ToString()),
+                TaskMode.Hour => $"{Resources.Interval_Each_Day}{_time}",
+                _ => $"{Resources.Interval_Seconds}{_interval}{Resources.Interval_Second}"
+            };
         }
 
         /// <summary>
@@ -87,14 +86,17 @@ namespace Gentings.Tasks
             /// 每隔多少秒执行一次。
             /// </summary>
             Interval,
+
             /// <summary>
             /// 每天几点几分执行一次。
             /// </summary>
             Hour,
+
             /// <summary>
             /// 每月几日几点几分执行。
             /// </summary>
             Day,
+
             /// <summary>
             /// 每年几月几日几点几分执行。
             /// </summary>
@@ -105,7 +107,6 @@ namespace Gentings.Tasks
         /// 隐式转换<see cref="TaskInterval"/>。
         /// </summary>
         /// <param name="interval">每隔几秒钟执行一次。</param>
-
         public static implicit operator TaskInterval(int interval)
         {
             return new TaskInterval(interval);
@@ -115,7 +116,6 @@ namespace Gentings.Tasks
         /// 隐式转换<see cref="TaskInterval"/>。
         /// </summary>
         /// <param name="time">每天几点几分执行一次。</param>
-
         public static implicit operator TaskInterval(TimeSpan time)
         {
             return new TaskInterval(time: time);
@@ -125,7 +125,6 @@ namespace Gentings.Tasks
         /// 隐式转换<see cref="TaskInterval"/>。
         /// </summary>
         /// <param name="date">每年几月几日几点几分执行。</param>
-
         public static implicit operator TaskInterval(DateTime date)
         {
             return new TaskInterval(month: date.Month, day: date.Day, time: date.TimeOfDay);
@@ -135,12 +134,11 @@ namespace Gentings.Tasks
         /// 隐式转换<see cref="TaskInterval"/>。
         /// </summary>
         /// <param name="date">每年几月几日几点几分执行字符串表达式。</param>
-
         public static implicit operator TaskInterval(string date)
         {
             Check.NotEmpty(date, nameof(date));
             date = date.Trim();
-            
+
             if (int.TryParse(date, out var interval))
             {
                 return new TaskInterval(interval);
@@ -163,7 +161,8 @@ namespace Gentings.Tasks
                 return new TaskInterval(day: Convert.ToInt32(dates[0]), time: TimeSpan.Parse(dateTimes[1]));
             }
 
-            return new TaskInterval(month: Convert.ToInt32(dates[dates.Length - 2]), day: Convert.ToInt32(dates[dates.Length - 1]), time: TimeSpan.Parse(dateTimes[1]));
+            return new TaskInterval(month: Convert.ToInt32(dates[^2]),
+                day: Convert.ToInt32(dates[^1]), time: TimeSpan.Parse(dateTimes[1]));
         }
 
         /// <summary>
@@ -173,17 +172,13 @@ namespace Gentings.Tasks
         public DateTime Next()
         {
             var now = DateTime.Now;
-            switch (_mode)
+            return _mode switch
             {
-                case TaskMode.Month:
-                    return new DateTime(now.Year, _month, _day).Add(_time).AddYears(1);
-                case TaskMode.Day:
-                    return new DateTime(now.Year, now.Month, _day).Add(_time).AddMonths(1);
-                case TaskMode.Hour:
-                    return now.Date.Add(_time).AddDays(1);
-            }
-
-            return now.AddSeconds(_interval);
+                TaskMode.Month => new DateTime(now.Year, _month, _day).Add(_time).AddYears(1),
+                TaskMode.Day => new DateTime(now.Year, now.Month, _day).Add(_time).AddMonths(1),
+                TaskMode.Hour => now.Date.Add(_time).AddDays(1),
+                _ => now.AddSeconds(_interval)
+            };
         }
     }
 }

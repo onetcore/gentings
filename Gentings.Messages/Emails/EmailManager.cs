@@ -1,5 +1,4 @@
-﻿using Gentings.AspNetCore;
-using Gentings.Data;
+﻿using Gentings.Data;
 using Gentings.Extensions;
 using System;
 using System.Collections.Generic;

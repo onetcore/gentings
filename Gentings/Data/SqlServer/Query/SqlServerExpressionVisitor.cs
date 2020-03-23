@@ -21,7 +21,9 @@ namespace Gentings.Data.SqlServer.Query
         /// <param name="memberTranslator">字段或属性转换接口。</param>
         /// <param name="methodCallTranslator">方法调用转换接口。</param>
         /// <param name="fragmentTranslator">代码段转换接口。</param>
-        public SqlServerExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper, IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator, IExpressionFragmentTranslator fragmentTranslator) 
+        public SqlServerExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper,
+            IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator,
+            IExpressionFragmentTranslator fragmentTranslator)
             : base(sqlHelper, typeMapper, memberTranslator, methodCallTranslator, fragmentTranslator)
         {
         }
@@ -35,7 +37,9 @@ namespace Gentings.Data.SqlServer.Query
         /// <param name="methodCallTranslator">方法调用转换接口。</param>
         /// <param name="fragmentTranslator">代码段转换接口。</param>
         /// <param name="schemaFunc">获取前缀代理方法。</param>
-        public SqlServerExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper, IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator, IExpressionFragmentTranslator fragmentTranslator, Func<Type, string> schemaFunc)
+        public SqlServerExpressionVisitor(ISqlHelper sqlHelper, ITypeMapper typeMapper,
+            IMemberTranslator memberTranslator, IMethodCallTranslator methodCallTranslator,
+            IExpressionFragmentTranslator fragmentTranslator, Func<Type, string> schemaFunc)
             : base(sqlHelper, typeMapper, memberTranslator, methodCallTranslator, fragmentTranslator, schemaFunc)
         {
         }
@@ -69,6 +73,7 @@ namespace Gentings.Data.SqlServer.Query
                 Sql.Append(sqlFunctionExpression.FunctionName);
                 return sqlFunctionExpression;
             }
+
             return base.VisitSqlFunction(sqlFunctionExpression);
         }
     }

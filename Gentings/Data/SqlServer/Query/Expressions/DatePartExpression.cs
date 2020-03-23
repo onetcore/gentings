@@ -15,9 +15,9 @@ namespace Gentings.Data.SqlServer.Query.Expressions
         /// <param name="type">类型。</param>
         /// <param name="argument">表达式。</param>
         public DatePartExpression(
-             string datePart,
-             Type type,
-             Expression argument)
+            string datePart,
+            Type type,
+            Expression argument)
         {
             DatePart = datePart;
             Type = type;
@@ -32,7 +32,7 @@ namespace Gentings.Data.SqlServer.Query.Expressions
         /// <returns>
         /// <see cref="T:System.Linq.Expressions.ExpressionType" /> 值之一。</returns>
         public override ExpressionType NodeType => ExpressionType.Extension;
-        
+
         /// <summary>
         /// 参数表达式。
         /// </summary>

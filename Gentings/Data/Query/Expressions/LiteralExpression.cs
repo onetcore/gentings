@@ -12,7 +12,7 @@ namespace Gentings.Data.Query.Expressions
         /// 初始化类<see cref="LiteralExpression"/>。
         /// </summary>
         /// <param name="literal">字符串常量。</param>
-        public LiteralExpression( string literal)
+        public LiteralExpression(string literal)
         {
             Literal = literal;
         }

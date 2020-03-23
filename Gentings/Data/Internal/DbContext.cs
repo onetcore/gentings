@@ -24,7 +24,8 @@ namespace Gentings.Data.Internal
         /// <param name="sqlHelper">SQL辅助接口。</param>
         /// <param name="sqlGenerator">脚本生成器。</param>
         /// <param name="visitorFactory">条件表达式解析器工厂实例。</param>
-        public DbContext(IDatabase executor, ILogger<IDatabase> logger, ISqlHelper sqlHelper, IQuerySqlGenerator sqlGenerator, IExpressionVisitorFactory visitorFactory)
+        public DbContext(IDatabase executor, ILogger<IDatabase> logger, ISqlHelper sqlHelper,
+            IQuerySqlGenerator sqlGenerator, IExpressionVisitorFactory visitorFactory)
             : base(executor, logger, sqlHelper, sqlGenerator, visitorFactory)
         {
             _executor = executor;
@@ -38,14 +39,16 @@ namespace Gentings.Data.Internal
         /// <param name="timeout">等待命令执行所需的时间（以秒为单位）。默认值为 30 秒。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回事务实例对象。</returns>
-        public virtual async Task<bool> BeginTransactionAsync(Func<IDbTransactionContext<TModel>, Task<bool>> executor, int timeout = 30, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> BeginTransactionAsync(Func<IDbTransactionContext<TModel>, Task<bool>> executor,
+            int timeout = 30, CancellationToken cancellationToken = default)
         {
             return
                 await
                     _executor.BeginTransactionAsync(
                         async transaction =>
                             await
-                                executor(new DbTransactionContext<TModel>(transaction, Logger, SqlHelper, SqlGenerator, VisitorFactory)), timeout, cancellationToken);
+                                executor(new DbTransactionContext<TModel>(transaction, Logger, SqlHelper, SqlGenerator,
+                                    VisitorFactory)), timeout, cancellationToken);
         }
 
         /// <summary>
@@ -59,7 +62,8 @@ namespace Gentings.Data.Internal
             return
                 _executor.BeginTransaction(
                     transaction =>
-                        executor(new DbTransactionContext<TModel>(transaction, Logger, SqlHelper, SqlGenerator, VisitorFactory)), timeout);
+                        executor(new DbTransactionContext<TModel>(transaction, Logger, SqlHelper, SqlGenerator,
+                            VisitorFactory)), timeout);
         }
 
         /// <summary>

@@ -21,7 +21,8 @@ namespace Gentings.Data.Query.Translators
         /// <param name="declaringType">声明类型。</param>
         /// <param name="clrMethodName">CLR方法名称。</param>
         /// <param name="sqlFunctionName">SQL函数名称。</param>
-        public SingleOverloadStaticMethodCallTranslator( Type declaringType,  string clrMethodName,  string sqlFunctionName)
+        public SingleOverloadStaticMethodCallTranslator(Type declaringType, string clrMethodName,
+            string sqlFunctionName)
         {
             _declaringType = declaringType;
             _clrMethodName = clrMethodName;
@@ -33,12 +34,13 @@ namespace Gentings.Data.Query.Translators
         /// </summary>
         /// <param name="methodCallExpression">方法调用表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate( MethodCallExpression methodCallExpression)
+        public virtual Expression Translate(MethodCallExpression methodCallExpression)
         {
             var methodInfo = _declaringType.GetTypeInfo().GetDeclaredMethods(_clrMethodName).SingleOrDefault();
             if (methodInfo == methodCallExpression.Method)
             {
-                return new SqlFunctionExpression(_sqlFunctionName, methodCallExpression.Type, methodCallExpression.Arguments);
+                return new SqlFunctionExpression(_sqlFunctionName, methodCallExpression.Type,
+                    methodCallExpression.Arguments);
             }
 
             return null;

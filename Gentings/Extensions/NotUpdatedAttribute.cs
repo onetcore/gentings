@@ -8,6 +8,5 @@ namespace Gentings.Extensions
     [AttributeUsage(AttributeTargets.Property)]
     public class NotUpdatedAttribute : Attribute
     {
-
     }
 }

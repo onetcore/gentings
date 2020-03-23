@@ -22,6 +22,7 @@ namespace Gentings.Data.Migrations.Builders
                     name.Append("FK_");
                     break;
             }
+
             name.Append(table.Replace('.', '_'));
             if (columns != null)
             {

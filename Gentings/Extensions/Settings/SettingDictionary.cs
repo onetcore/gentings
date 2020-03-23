@@ -17,6 +17,7 @@ namespace Gentings.Extensions.Settings
         public string Value { get; set; }
 
         private string _path;
+
         /// <summary>
         /// 路径，以“.”分割父级名称。
         /// </summary>
@@ -33,6 +34,7 @@ namespace Gentings.Extensions.Settings
                         list.Add(current.Name);
                         current = current.Parent;
                     }
+
                     list.Reverse();
                     _path = string.Join(".", list).ToLower();
                 }

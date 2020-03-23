@@ -11,8 +11,8 @@ namespace Gentings.Data.SqlServer.Query.Translators
     public class StringIsNullOrWhiteSpaceTranslator : IMethodCallTranslator
     {
         private static readonly MethodInfo _methodInfo
-            = typeof(string).GetRuntimeMethod(nameof(string.IsNullOrWhiteSpace), new[] { typeof(string) });
-        
+            = typeof(string).GetRuntimeMethod(nameof(string.IsNullOrWhiteSpace), new[] {typeof(string)});
+
         public virtual Expression Translate(MethodCallExpression methodCallExpression)
         {
             if (_methodInfo == methodCallExpression.Method)
@@ -31,7 +31,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
                                 new SqlFunctionExpression(
                                     "RTRIM",
                                     typeof(string),
-                                    new[] { argument })
+                                    new[] {argument})
                             }),
                         Expression.Constant("", typeof(string))));
             }

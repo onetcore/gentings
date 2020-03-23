@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
-using Microsoft.AspNetCore.Html;
 
 namespace Gentings.Tasks
 {
@@ -50,7 +49,7 @@ namespace Gentings.Tasks
         /// <summary>
         /// 显示间隔。
         /// </summary>
-        public IHtmlContent ToHtmlInterval()
+        public string ToIntervalDisplayString()
         {
             TaskInterval interval;
             if (string.IsNullOrEmpty(TaskArgument.Interval))
@@ -62,7 +61,7 @@ namespace Gentings.Tasks
                 interval = TaskArgument.Interval;
             }
 
-            return interval.ToHtmlString();
+            return interval.ToDisplayString();
         }
 
         /// <summary>
@@ -86,10 +85,11 @@ namespace Gentings.Tasks
         public string Argument { get; set; }
 
         private Argument _argument;
+
         /// <summary>
         /// 参数实例。
         /// </summary>
-        public Argument TaskArgument => _argument ?? (_argument = new Argument(Argument));
+        public Argument TaskArgument => _argument ??= new Argument(Argument);
 
         /// <summary>
         /// 是否需要被删除。

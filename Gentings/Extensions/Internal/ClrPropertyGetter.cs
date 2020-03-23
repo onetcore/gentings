@@ -16,7 +16,7 @@ namespace Gentings.Extensions.Internal
         /// 初始化类<see cref="ClrPropertyGetter{TEntity, TValue}"/>。
         /// </summary>
         /// <param name="getter">当前访问器执行的方法代理。</param>
-        public ClrPropertyGetter( Func<TEntity, TValue> getter)
+        public ClrPropertyGetter(Func<TEntity, TValue> getter)
         {
             _getter = getter;
         }
@@ -26,6 +26,6 @@ namespace Gentings.Extensions.Internal
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <returns>返回属性值。</returns>
-        public virtual object GetClrValue(object instance) => _getter((TEntity)instance);
+        public virtual object GetClrValue(object instance) => _getter((TEntity) instance);
     }
 }

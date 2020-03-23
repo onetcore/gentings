@@ -19,7 +19,8 @@ namespace Gentings.Data
         /// <param name="timeout">等待命令执行所需的时间（以秒为单位）。默认值为 30 秒。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回事务实例对象。</returns>
-        Task<bool> BeginTransactionAsync(Func<IDbTransactionContext<TModel>, Task<bool>> executor, int timeout = 30, CancellationToken cancellationToken = default);
+        Task<bool> BeginTransactionAsync(Func<IDbTransactionContext<TModel>, Task<bool>> executor, int timeout = 30,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 开启一个事务并执行。

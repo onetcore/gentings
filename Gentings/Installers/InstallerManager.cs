@@ -10,6 +10,7 @@ namespace Gentings.Installers
     public class InstallerManager : IInstallerManager
     {
         private readonly IDbContext<Lisence> _context;
+
         /// <summary>
         /// 初始化类<see cref="InstallerManager"/>。
         /// </summary>
@@ -26,7 +27,7 @@ namespace Gentings.Installers
         /// <returns>返回保存结果。</returns>
         public async Task<bool> SaveRegistrationAsync(Registration registration)
         {
-            var lisence = new Lisence { Registration = Cores.Encrypto(registration.ToJsonString()) };
+            var lisence = new Lisence {Registration = Cores.Encrypto(registration.ToJsonString())};
             if (await _context.AnyAsync())
             {
                 return await _context.UpdateAsync(lisence);

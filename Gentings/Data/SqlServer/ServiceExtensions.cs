@@ -31,7 +31,8 @@ namespace Gentings.Data.SqlServer
                     switch (current.Key.ToLower())
                     {
                         case "name":
-                            options.ConnectionString = $"Data Source=.;Initial Catalog={current.Value};Integrated Security=True;";
+                            options.ConnectionString =
+                                $"Data Source=.;Initial Catalog={current.Value};Integrated Security=True;";
                             break;
                         case "connectionstring":
                             options.ConnectionString = current.Value;
@@ -61,24 +62,24 @@ namespace Gentings.Data.SqlServer
             options(source);
 
             return builder.AddServices(services => services
-                    .AddSingleton<IDatabase, SqlServerDatabase>()
-                    .Configure<DatabaseOptions>(o =>
-                    {
-                        o.ConnectionString = source.ConnectionString;
-                        o.Prefix = source.Prefix?.Trim();
-                        o.Provider = "SqlServer";
-                    })
-                    .AddSingleton(typeof(IDbContext<>), typeof(DbContext<>))
-                    .AddTransient<IDataMigrator, DataMigrator>()
-                    .AddTransient<IMigrationRepository, SqlServerMigrationRepository>()
-                    .AddTransient<IMigrationsSqlGenerator, SqlServerMigrationsSqlGenerator>()
-                    .AddSingleton<IQuerySqlGenerator, SqlServerQuerySqlGenerator>()
-                    .AddSingleton<ITypeMapper, SqlServerTypeMapper>()
-                    .AddSingleton<ISqlHelper, SqlServerHelper>()
-                    .AddSingleton<IMemberTranslator, SqlServerCompositeMemberTranslator>()
-                    .AddSingleton<IMethodCallTranslator, SqlServerCompositeMethodCallTranslator>()
-                    .AddSingleton<IExpressionFragmentTranslator, SqlServerCompositeExpressionFragmentTranslator>()
-                    .AddSingleton<IExpressionVisitorFactory, SqlServerExpressionVisitorFactory>());
+                .AddSingleton<IDatabase, SqlServerDatabase>()
+                .Configure<DatabaseOptions>(o =>
+                {
+                    o.ConnectionString = source.ConnectionString;
+                    o.Prefix = source.Prefix?.Trim();
+                    o.Provider = "SqlServer";
+                })
+                .AddSingleton(typeof(IDbContext<>), typeof(DbContext<>))
+                .AddTransient<IDataMigrator, DataMigrator>()
+                .AddTransient<IMigrationRepository, SqlServerMigrationRepository>()
+                .AddTransient<IMigrationsSqlGenerator, SqlServerMigrationsSqlGenerator>()
+                .AddSingleton<IQuerySqlGenerator, SqlServerQuerySqlGenerator>()
+                .AddSingleton<ITypeMapper, SqlServerTypeMapper>()
+                .AddSingleton<ISqlHelper, SqlServerHelper>()
+                .AddSingleton<IMemberTranslator, SqlServerCompositeMemberTranslator>()
+                .AddSingleton<IMethodCallTranslator, SqlServerCompositeMethodCallTranslator>()
+                .AddSingleton<IExpressionFragmentTranslator, SqlServerCompositeExpressionFragmentTranslator>()
+                .AddSingleton<IExpressionVisitorFactory, SqlServerExpressionVisitorFactory>());
         }
     }
 }

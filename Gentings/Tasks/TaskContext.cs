@@ -39,6 +39,7 @@ namespace Gentings.Tasks
         public TaskInterval Interval { get; set; }
 
         private Argument _argument;
+
         /// <summary>
         /// 参数。
         /// </summary>

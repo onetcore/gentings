@@ -28,7 +28,7 @@ namespace Gentings.Data.Internal
         /// 当前实体类型。
         /// </summary>
         IEntityType EntityType { get; }
-        
+
         /// <summary>
         /// 实例化一个查询实例，这个实例相当于实例化一个查询类，不能当作属性直接调用。
         /// </summary>
@@ -274,7 +274,8 @@ namespace Gentings.Data.Internal
         /// <param name="query">查询实例。</param>
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
-        IPageEnumerable<TModel> Load<TQuery>(TQuery query, Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>;
+        IPageEnumerable<TModel> Load<TQuery>(TQuery query, Expression<Func<TModel, object>> countExpression = null)
+            where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 分页获取实例列表。
@@ -284,7 +285,8 @@ namespace Gentings.Data.Internal
         /// <param name="query">查询实例。</param>
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
-        IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query, Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>;
+        IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query,
+            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 分页获取实例列表。
@@ -294,7 +296,9 @@ namespace Gentings.Data.Internal
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
-        Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query, Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>;
+        Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query,
+            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 分页获取实例列表。
@@ -305,7 +309,9 @@ namespace Gentings.Data.Internal
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
-        Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query, Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>;
+        Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
+            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 通过条件表达式判断是否存在实例对象。
@@ -363,7 +369,8 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="scalarMethod">聚合方法。</param>
         /// <returns>返回聚合结果。</returns>
-        TValue GetScalar<TValue>(string scalarMethod, Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression, Func<object, TValue> convertFunc);
+        TValue GetScalar<TValue>(string scalarMethod, Expression<Func<TModel, object>> column,
+            Expression<Predicate<TModel>> expression, Func<object, TValue> convertFunc);
 
         /// <summary>
         /// 通过条件表达式获取聚合实例对象。
@@ -374,7 +381,8 @@ namespace Gentings.Data.Internal
         /// <param name="scalarMethod">聚合方法。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回聚合结果。</returns>
-        Task<TValue> GetScalarAsync<TValue>(string scalarMethod, Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression, 
+        Task<TValue> GetScalarAsync<TValue>(string scalarMethod, Expression<Func<TModel, object>> column,
+            Expression<Predicate<TModel>> expression,
             Func<object, TValue> convertFunc,
             CancellationToken cancellationToken = default);
 
@@ -385,7 +393,8 @@ namespace Gentings.Data.Internal
         /// <param name="order">排序。</param>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回移动结果。</returns>
-        bool MoveUp(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null);
+        bool MoveUp(object key, Expression<Func<TModel, object>> order,
+            Expression<Predicate<TModel>> expression = null);
 
         /// <summary>
         /// 下移一个位置。
@@ -394,7 +403,8 @@ namespace Gentings.Data.Internal
         /// <param name="order">排序。</param>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回移动结果。</returns>
-        bool MoveDown(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null);
+        bool MoveDown(object key, Expression<Func<TModel, object>> order,
+            Expression<Predicate<TModel>> expression = null);
 
         /// <summary>
         /// 上移一个位置。
@@ -404,7 +414,8 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
-        Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default);
+        Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object>> order,
+            Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 下移一个位置。
@@ -414,6 +425,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
-        Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default);
+        Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object>> order,
+            Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default);
     }
 }

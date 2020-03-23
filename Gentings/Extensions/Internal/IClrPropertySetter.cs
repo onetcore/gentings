@@ -12,7 +12,7 @@ namespace Gentings.Extensions.Internal
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <param name="value">属性值。</param>
-        void SetClrValue( object instance,  object value);
+        void SetClrValue(object instance, object value);
     }
 
     /// <summary>
@@ -29,7 +29,7 @@ namespace Gentings.Extensions.Internal
         /// 初始化类<see cref="ClrPropertySetter{TEntity, TValue}"/>。
         /// </summary>
         /// <param name="setter">属性设置代理方法。</param>
-        public ClrPropertySetter( Action<TEntity, TValue> setter)
+        public ClrPropertySetter(Action<TEntity, TValue> setter)
         {
             _setter = setter;
         }
@@ -40,6 +40,6 @@ namespace Gentings.Extensions.Internal
         /// <param name="instance">当前对象实例。</param>
         /// <param name="value">属性值。</param>
         public virtual void SetClrValue(object instance, object value)
-            => _setter((TEntity)instance, (TValue)value);
+            => _setter((TEntity) instance, (TValue) value);
     }
 }

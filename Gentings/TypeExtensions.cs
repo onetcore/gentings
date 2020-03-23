@@ -29,9 +29,9 @@ namespace Gentings
                 {
                     yield return propertyInfo;
                 }
+
                 type = typeInfo.BaseType;
-            }
-            while (type != null);
+            } while (type != null);
         }
 
         /// <summary>
@@ -112,8 +112,10 @@ namespace Gentings
             var typeInfo = type.GetTypeInfo();
             if (!typeInfo.IsGenericTypeDefinition)
             {
-                return (interfaceOrBaseType.GetTypeInfo().IsInterface ? typeInfo.ImplementedInterfaces : type.GetBaseTypes())
-                    .Union(new[] { type })
+                return (interfaceOrBaseType.GetTypeInfo().IsInterface
+                        ? typeInfo.ImplementedInterfaces
+                        : type.GetBaseTypes())
+                    .Union(new[] {type})
                     .Where(
                         t => t.GetTypeInfo().IsGenericType
                              && (t.GetGenericTypeDefinition() == interfaceOrBaseType));
@@ -138,7 +140,7 @@ namespace Gentings
                 type = type.GetTypeInfo().BaseType;
             }
         }
-        
+
         /// <summary>
         /// 显示类型名称。
         /// </summary>
@@ -152,7 +154,8 @@ namespace Gentings
             return sb.ToString();
         }
 
-        private static void AppendGenericArguments(Type[] args, int startIndex, int numberOfArgsToAppend, StringBuilder sb, bool fullName)
+        private static void AppendGenericArguments(Type[] args, int startIndex, int numberOfArgsToAppend,
+            StringBuilder sb, bool fullName)
         {
             var totalArgs = args.Length;
             if (totalArgs >= startIndex + numberOfArgsToAppend)
@@ -166,27 +169,28 @@ namespace Gentings
                         sb.Append(", ");
                     }
                 }
+
                 sb.Append(">");
             }
         }
-        
+
         private static readonly Dictionary<Type, string> _builtInTypeNames = new Dictionary<Type, string>
         {
-            { typeof(bool), "bool" },
-            { typeof(byte), "byte" },
-            { typeof(char), "char" },
-            { typeof(decimal), "decimal" },
-            { typeof(double), "double" },
-            { typeof(float), "float" },
-            { typeof(int), "int" },
-            { typeof(long), "long" },
-            { typeof(object), "object" },
-            { typeof(sbyte), "sbyte" },
-            { typeof(short), "short" },
-            { typeof(string), "string" },
-            { typeof(uint), "uint" },
-            { typeof(ulong), "ulong" },
-            { typeof(ushort), "ushort" }
+            {typeof(bool), "bool"},
+            {typeof(byte), "byte"},
+            {typeof(char), "char"},
+            {typeof(decimal), "decimal"},
+            {typeof(double), "double"},
+            {typeof(float), "float"},
+            {typeof(int), "int"},
+            {typeof(long), "long"},
+            {typeof(object), "object"},
+            {typeof(sbyte), "sbyte"},
+            {typeof(short), "short"},
+            {typeof(string), "string"},
+            {typeof(uint), "uint"},
+            {typeof(ulong), "ulong"},
+            {typeof(ushort), "ushort"}
         };
 
         private static void ProcessTypeName(Type t, StringBuilder sb, bool fullName)
@@ -196,6 +200,7 @@ namespace Gentings
                 ProcessNestedGenericTypes(t, sb, fullName);
                 return;
             }
+
             if (_builtInTypeNames.ContainsKey(t))
             {
                 sb.Append(_builtInTypeNames[t]);
@@ -229,6 +234,7 @@ namespace Gentings
                 AppendGenericArguments(genericArguments, index, numberOfGenericTypeArgs, sb, fullName);
                 return;
             }
+
             for (var i = 0; i < totalParts; i++)
             {
                 var part = parts[i];
@@ -242,10 +248,12 @@ namespace Gentings
                         sb.Append(name);
                         AppendGenericArguments(genericArguments, index, numberOfGenericTypeArgs, sb, fullName);
                     }
+
                     if (fullName && (i != totalParts - 1))
                     {
                         sb.Append("+");
                     }
+
                     index += numberOfGenericTypeArgs;
                 }
                 else
@@ -254,6 +262,7 @@ namespace Gentings
                     {
                         sb.Append(part);
                     }
+
                     if (fullName && (i != totalParts - 1))
                     {
                         sb.Append("+");

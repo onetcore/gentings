@@ -14,7 +14,7 @@ namespace Gentings.Data.Query.Expressions
         /// <param name="op">操作类型。</param>
         /// <param name="left">对比表达式。</param>
         /// <param name="right">对比表达式。</param>
-        public StringCompareExpression(ExpressionType op,  Expression left,  Expression right)
+        public StringCompareExpression(ExpressionType op, Expression left, Expression right)
         {
             Operator = op;
             Left = left;

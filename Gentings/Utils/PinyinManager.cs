@@ -27,16 +27,18 @@ namespace Gentings.Utils
             var list = new List<string>();
             foreach (var word in words)
             {
-                if ((word >= 'a' && word <= 'z') || (word >= 'A' && word <= 'Z'))//英文字母
+                if ((word >= 'a' && word <= 'z') || (word >= 'A' && word <= 'Z')) //英文字母
                 {
                     letters += word;
                     continue;
                 }
-                if (letters != null)//添加英文字母
+
+                if (letters != null) //添加英文字母
                 {
                     list.Add(letters);
                     letters = null;
                 }
+
                 Word pingyin;
                 if (WordDictionary.TryGet(word, out pingyin))
                 {
@@ -46,6 +48,7 @@ namespace Gentings.Utils
                     list.Add(string.Join(multiSeperator, names));
                 }
             }
+
             return string.Join(seperator, list).ToLower();
         }
 
@@ -65,11 +68,12 @@ namespace Gentings.Utils
             var list = new List<string>();
             foreach (var word in words)
             {
-                if (word >= 'A' && word <= 'Z')//英文字母
+                if (word >= 'A' && word <= 'Z') //英文字母
                 {
                     list.Add(word.ToString());
                     continue;
                 }
+
                 Word pingyin;
                 if (WordDictionary.TryGet(word, out pingyin))
                 {
@@ -79,6 +83,7 @@ namespace Gentings.Utils
                     list.Add(string.Join(seperator, names));
                 }
             }
+
             return string.Join("", list).ToUpper();
         }
     }

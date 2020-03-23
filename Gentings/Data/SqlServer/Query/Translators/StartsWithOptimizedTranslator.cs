@@ -11,10 +11,10 @@ namespace Gentings.Data.SqlServer.Query.Translators
     public class StartsWithOptimizedTranslator : IMethodCallTranslator
     {
         private static readonly MethodInfo _methodInfo
-            = typeof(string).GetRuntimeMethod(nameof(string.StartsWith), new[] { typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.StartsWith), new[] {typeof(string)});
 
         private static readonly MethodInfo _concat
-            = typeof(string).GetRuntimeMethod(nameof(string.Concat), new[] { typeof(string), typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.Concat), new[] {typeof(string), typeof(string)});
 
         public virtual Expression Translate(MethodCallExpression methodCallExpression)
         {
@@ -27,14 +27,16 @@ namespace Gentings.Data.SqlServer.Query.Translators
                     new LikeExpression(
                         // ReSharper disable once AssignNullToNotNullAttribute
                         methodCallExpression.Object,
-                        Expression.Add(methodCallExpression.Arguments[0], Expression.Constant("%", typeof(string)), _concat)),
+                        Expression.Add(methodCallExpression.Arguments[0], Expression.Constant("%", typeof(string)),
+                            _concat)),
                     Expression.Equal(
-                        new SqlFunctionExpression("CHARINDEX", typeof(int), new[] { patternExpression, methodCallExpression.Object }),
+                        new SqlFunctionExpression("CHARINDEX", typeof(int),
+                            new[] {patternExpression, methodCallExpression.Object}),
                         Expression.Constant(1)));
 
                 return patternConstantExpression != null
-                    ? (string)patternConstantExpression.Value == string.Empty
-                        ? (Expression)Expression.Constant(true)
+                    ? (string) patternConstantExpression.Value == string.Empty
+                        ? (Expression) Expression.Constant(true)
                         : startsWithExpression
                     : Expression.OrElse(
                         startsWithExpression,

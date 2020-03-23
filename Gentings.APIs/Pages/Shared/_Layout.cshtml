@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 云顶创联</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+        <a class="navbar-brand col-sm-3 col-md-2 mr-0" asp-page="/Index" asp-area=""><img class="logo" src="~/images/logo.svg" />云顶创联 · 后台管理</a>
+        <input class="form-control d-none d-md-block form-control-dark w-100" type="text" placeholder="收索" aria-label="收索">
+        <ul class="navbar-nav px-3">
+            <li class="nav-item text-nowrap">
+                <a class="nav-link" href="#">小白</a>
+            </li>
+            <li class="nav-item text-nowrap dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">小白</a>
+                <div class="dropdown-menu dropdown-panel dropdown-menu-right position-absolute">
+
+                </div>
+            </li>
+            <li class="nav-item text-nowrap dropdown">
+                <a class="nav-link nav-avatar dropdown-toggle" data-toggle="dropdown" title="小白" href="#"></a>
+                <div class="dropdown-menu dropdown-menu-right position-absolute">
+                    <a class="dropdown-item" href="#"><span data-feather="lock"></span> 修改密码</a>
+                    <a class="dropdown-item" href="#"><span data-feather="user"></span> 编辑资料</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#"><span data-feather="log-out"></span> 退出登录</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky customScrollBar">
+                    <gt:menu provider="admin"></gt:menu>
+                </div>
+            </nav>
+
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <gt:menu-navigator class="text-muted" href="/" home="首页" provider="admin"></gt:menu-navigator>
+                    @if (IsSectionDefined("toolbar"))
+                    {
+                        <div class="btn-toolbar mb-2 mb-md-0">
+                            @RenderSection("toolbar", false)
+                        </div>
+                    }
+                </div>
+
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/feather-icons/feather.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

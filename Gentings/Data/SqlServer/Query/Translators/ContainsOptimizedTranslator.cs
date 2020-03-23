@@ -11,7 +11,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
     public class ContainsOptimizedTranslator : IMethodCallTranslator
     {
         private static readonly MethodInfo _methodInfo
-            = typeof(string).GetRuntimeMethod(nameof(string.Contains), new[] { typeof(string) });
+            = typeof(string).GetRuntimeMethod(nameof(string.Contains), new[] {typeof(string)});
 
         /// <summary>
         /// 转换表达式。
@@ -26,13 +26,14 @@ namespace Gentings.Data.SqlServer.Query.Translators
                 var patternConstantExpression = patternExpression as ConstantExpression;
 
                 var charIndexExpression = Expression.GreaterThan(
-                    new SqlFunctionExpression("CHARINDEX", typeof(int), new[] { patternExpression, methodCallExpression.Object }),
+                    new SqlFunctionExpression("CHARINDEX", typeof(int),
+                        new[] {patternExpression, methodCallExpression.Object}),
                     Expression.Constant(0));
 
                 return
                     patternConstantExpression != null
-                        ? (string)patternConstantExpression.Value == string.Empty
-                            ? (Expression)Expression.Constant(true)
+                        ? (string) patternConstantExpression.Value == string.Empty
+                            ? (Expression) Expression.Constant(true)
                             : charIndexExpression
                         : Expression.OrElse(
                             charIndexExpression,

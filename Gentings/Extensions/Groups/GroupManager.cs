@@ -13,7 +13,8 @@ namespace Gentings.Extensions.Groups
     /// 初始化类<see cref="GroupManager{TGroup}"/>。
     /// </summary>
     /// <typeparam name="TGroup">分组类型。</typeparam>
-    public abstract class GroupManager<TGroup> : CachableObjectManager<TGroup>, IGroupManager<TGroup> where TGroup : GroupBase<TGroup>
+    public abstract class GroupManager<TGroup> : CachableObjectManager<TGroup>, IGroupManager<TGroup>
+        where TGroup : GroupBase<TGroup>
     {
         /// <summary>
         /// 初始化类<see cref="GroupManager{TCategory}"/>。
@@ -42,9 +43,12 @@ namespace Gentings.Extensions.Groups
         /// <param name="category">分类实例。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回判断结果。</returns>
-        public override async Task<bool> IsDuplicatedAsync(TGroup category, CancellationToken cancellationToken = default)
+        public override async Task<bool> IsDuplicatedAsync(TGroup category,
+            CancellationToken cancellationToken = default)
         {
-            var groups = await FetchAsync(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name, cancellationToken);
+            var groups =
+                await FetchAsync(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name,
+                    cancellationToken);
             return groups.Any();
         }
 
@@ -70,7 +74,8 @@ namespace Gentings.Extensions.Groups
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分类列表。</returns>
-        public override async Task<IEnumerable<TGroup>> FetchAsync(Expression<Predicate<TGroup>> expression = null, CancellationToken cancellationToken = default)
+        public override async Task<IEnumerable<TGroup>> FetchAsync(Expression<Predicate<TGroup>> expression = null,
+            CancellationToken cancellationToken = default)
         {
             var models = await Cache.GetOrCreateAsync(CacheKey, async ctx =>
             {

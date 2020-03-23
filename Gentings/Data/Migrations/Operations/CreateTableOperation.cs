@@ -10,12 +10,12 @@ namespace Gentings.Data.Migrations.Operations
         /// <summary>
         /// 名称。
         /// </summary>
-        public virtual string Table { get;  set; }
+        public virtual string Table { get; set; }
 
         /// <summary>
         /// 主键。
         /// </summary>
-        public virtual AddPrimaryKeyOperation PrimaryKey { get;  set; }
+        public virtual AddPrimaryKeyOperation PrimaryKey { get; set; }
 
         /// <summary>
         /// 添加的列。
@@ -30,6 +30,7 @@ namespace Gentings.Data.Migrations.Operations
         /// <summary>
         /// 唯一约束。
         /// </summary>
-        public virtual List<AddUniqueConstraintOperation> UniqueConstraints { get; } = new List<AddUniqueConstraintOperation>();
+        public virtual List<AddUniqueConstraintOperation> UniqueConstraints { get; } =
+            new List<AddUniqueConstraintOperation>();
     }
 }

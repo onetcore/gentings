@@ -17,7 +17,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
 
         // Method defined in netstandard2.0
         private static readonly MethodInfo _methodInfoWithCharArrayArg
-            = typeof(string).GetRuntimeMethod(nameof(string.TrimStart), new[] { typeof(char[]) });
+            = typeof(string).GetRuntimeMethod(nameof(string.TrimStart), new[] {typeof(char[])});
 
         public virtual Expression Translate(MethodCallExpression methodCallExpression)
         {
@@ -26,7 +26,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
                 // SqlServer LTRIM does not take arguments
                 && ((methodCallExpression.Arguments[0] as ConstantExpression)?.Value as Array)?.Length == 0)
             {
-                var sqlArguments = new[] { methodCallExpression.Object };
+                var sqlArguments = new[] {methodCallExpression.Object};
 
                 return new SqlFunctionExpression("LTRIM", methodCallExpression.Type, sqlArguments);
             }

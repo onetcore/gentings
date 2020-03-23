@@ -142,7 +142,8 @@ namespace Gentings.Extensions.Internal
         /// <param name="fields">更新对象。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回更新结果。</returns>
-        Task<DataResult> UpdateAsync(Expression<Predicate<TModel>> expression, object fields, CancellationToken cancellationToken = default);
+        Task<DataResult> UpdateAsync(Expression<Predicate<TModel>> expression, object fields,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 清空所有数据。
@@ -175,7 +176,8 @@ namespace Gentings.Extensions.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回删除结果。</returns>
-        Task<DataResult> DeleteAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default);
+        Task<DataResult> DeleteAsync(Expression<Predicate<TModel>> expression,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 通过唯一Id删除对象实例。
@@ -207,7 +209,8 @@ namespace Gentings.Extensions.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回模型实例列表。</returns>
-        Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default);
+        Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null,
+            CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 实例化一个查询实例，这个实例相当于实例化一个查询类，不能当作属性直接调用。

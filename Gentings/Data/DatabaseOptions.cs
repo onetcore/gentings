@@ -23,6 +23,7 @@ namespace Gentings.Data
         public string Provider { get; set; }
 
         private readonly IDictionary<string, string> _configs = new Dictionary<string, string>();
+
         /// <summary>
         /// 获取或设置数据库选项配置。
         /// </summary>

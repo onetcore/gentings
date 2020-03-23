@@ -11,6 +11,7 @@ namespace Gentings.Data.Migrations
     {
         private IndentedStringBuilder _builder = new IndentedStringBuilder();
         private readonly List<string> _commands = new List<string>();
+
         /// <summary>
         /// 结束命令。
         /// </summary>
@@ -67,6 +68,7 @@ namespace Gentings.Data.Migrations
 
                 _builder = null;
             }
+
             return _commands.GetEnumerator();
         }
 

@@ -9,11 +9,12 @@ namespace Gentings.Data.Query.Expressions
     public class NotNullableExpression : Expression
     {
         private readonly Expression _operand;
+
         /// <summary>
         /// 初始化类<see cref="NotNullableExpression"/>。
         /// </summary>
         /// <param name="operand">表达式。</param>
-        public NotNullableExpression( Expression operand)
+        public NotNullableExpression(Expression operand)
         {
             _operand = operand;
         }

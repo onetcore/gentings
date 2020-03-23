@@ -31,7 +31,7 @@ namespace Gentings.Tasks
         /// 执行间隔时间。
         /// </summary>
         TaskInterval Interval { get; }
-        
+
         /// <summary>
         /// 执行方法。
         /// </summary>

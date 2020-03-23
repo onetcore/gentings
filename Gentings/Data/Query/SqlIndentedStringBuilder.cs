@@ -23,7 +23,9 @@ namespace Gentings.Data.Query
         /// <summary>
         /// 初始化类<see cref="SqlIndentedStringBuilder"/>。
         /// </summary>
-        public SqlIndentedStringBuilder() { }
+        public SqlIndentedStringBuilder()
+        {
+        }
 
         /// <summary>
         /// 参数。
@@ -40,7 +42,8 @@ namespace Gentings.Data.Query
                 Parameters = parameters;
             }
             else if (_parameterNames != null)
-            {//匿名类型
+            {
+                //匿名类型
                 Parameters = new Dictionary<string, object>();
                 var entityType = instance.GetType().GetEntityType();
                 var parameterNames = _parameterNames.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
@@ -49,6 +52,7 @@ namespace Gentings.Data.Query
                     Parameters.Add(parameterName, entityType.FindProperty(parameterName).Get(instance));
                 }
             }
+
             return Parameters;
         }
 
@@ -64,7 +68,8 @@ namespace Gentings.Data.Query
                     Parameters = parameters;
                 }
                 else
-                {//匿名类型
+                {
+                    //匿名类型
                     Parameters = new Dictionary<string, object>();
                     foreach (var property in instance.GetType().GetRuntimeProperties())
                     {

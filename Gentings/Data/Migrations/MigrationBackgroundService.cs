@@ -37,7 +37,7 @@ namespace Gentings.Data.Migrations
             MigrationService.Status = MigrationStatus.Normal;
             try
             {
-                    await _migrator.MigrateAsync();
+                await _migrator.MigrateAsync();
                 MigrationService.Status = MigrationStatus.Completed;
                 _logger.LogInformation(Resources.DataMigration_Completed);
             }
