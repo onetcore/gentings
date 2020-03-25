@@ -51,7 +51,6 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
         {
             _urlHelper = _factory.GetUrlHelper(ViewContext);
             output.TagName = "ul";
-            output.AddCssClass("nav flex-column");
             var items = _menuProviderFactory.GetRoots(Provider)
                 .Where(IsAuthorized)//当前项
                 .ToList();
@@ -72,90 +71,58 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
         private TagBuilder CreateMenuItem(MenuItem item, MenuItem current, List<MenuItem> items, bool hasSub)
         {
             var li = new TagBuilder("li");
-            li.AddCssClass("nav-item");
             if (items?.Count > 0)
             {
-                CreateTriggerItem(li, item, current.IsCurrent(item));
-                CreateChildren(li, items, current, item.Level);
-                return li;
-            }
-
-            if (!hasSub)
-            {
-                var anchor = new TagBuilder("a");
-                var isCurrent = current.IsCurrent(item);
-                if (isCurrent)
-                    anchor.AddCssClass("active");
-                var url = item.LinkUrl(_urlHelper);
-                anchor.MergeAttribute("href", url);
-                anchor.MergeAttribute("title", item.Text);
-                anchor.AddCssClass("nav-link");
-
-                //文本
-                var span = new TagBuilder("span");
-                if (!string.IsNullOrWhiteSpace(item.IconName))
-                    anchor.InnerHtml.AppendHtml($"<span data-feather=\"{item.IconName}\"></span>");
-                else
-                    span.AddCssClass("nav-text-only");
-                span.AddCssClass("nav-text");
-                span.InnerHtml.Append(item.Text);
-                anchor.InnerHtml.AppendHtml(span);
-                if (!string.IsNullOrWhiteSpace(item.BadgeText))
-                //badge
-                {
-                    var badge = new TagBuilder("span");
-                    badge.AddCssClass("badge");
-                    badge.AddCssClass(item.BadgeClassName);
-                    badge.InnerHtml.Append(item.BadgeText);
-                    anchor.InnerHtml.AppendHtml(badge);
-                }
-
-                li.InnerHtml.AppendHtml(anchor);
-                return li;
-            }
-
-            return null;
-        }
-
-        private void CreateTriggerItem(TagBuilder li, MenuItem item, bool isCurrent)
-        {
-            li.AppendTag("div", x =>
-            {
-                if (isCurrent)
-                {
+                if (current.IsCurrent(item))
                     li.AddCssClass("opened");
-                    x.AddCssClass("active");
-                }
-                x.AddCssClass("nav-link nav-trigger");
-                if (item.IconName != null)
-                {
-                    x.AppendTag("span", s => { s.MergeAttribute("data-feather", item.IconName); });
-                    x.InnerHtml.AppendHtml(item.Text);
-                }
+                li.AddCssClass("has-sub");
+            }
+            else if (hasSub)
+            {//包含子菜单，子菜单中没有一个有权限，则主菜单也没有权限
+                return null;
+            }
+            li.AddCssClass("nav-item");
+            var isCurrent = current.IsCurrent(item);
+            if (isCurrent)
+                li.AddCssClass("active");
+            var anchor = new TagBuilder("a");
+            var url = item.LinkUrl(_urlHelper);
+            anchor.MergeAttribute("href", url);
+            anchor.MergeAttribute("title", item.Text);
+            anchor.AddCssClass($"nav-link level-{item.Level}");
+            //图标
+            if (!string.IsNullOrWhiteSpace(item.IconName))
+            {
+                if (item.IconName.StartsWith("fa-"))
+                    anchor.InnerHtml.AppendHtml($"<i class=\"fa {item.IconName}\"></i>");
                 else
-                {
-                    x.AppendTag("span", s =>
-                    {
-                        s.InnerHtml.AppendHtml(item.Text);
-                        s.AddCssClass("nav-text-only");
-                    });
-                }
-                x.AppendTag("span", s =>
-                {
-                    if (isCurrent)
-                        s.MergeAttribute("data-feather", "chevron-down");
-                    else
-                        s.MergeAttribute("data-feather", "chevron-right");
-                    s.AddCssClass("text-muted nav-chevron");
-                });
-            });
+                    anchor.InnerHtml.AppendHtml($"<span data-feather=\"{item.IconName}\"></span>");
+            }
+            //文本
+            var span = new TagBuilder("span");
+            span.AddCssClass("title");
+            span.InnerHtml.Append(item.Text);
+            anchor.InnerHtml.AppendHtml(span);
+            if (!string.IsNullOrWhiteSpace(item.BadgeText))
+            //badge
+            {
+                var badge = new TagBuilder("span");
+                badge.AddCssClass("badge");
+                badge.AddCssClass(item.BadgeClassName);
+                badge.InnerHtml.Append(item.BadgeText);
+                anchor.InnerHtml.AppendHtml(badge);
+            }
+            li.InnerHtml.AppendHtml(anchor);
+            //子菜单
+            if (items?.Count > 0)
+                CreateChildren(li, items, current);
+            return li;
         }
 
-        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem current, int level)
+        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem current)
         {
             var ihasSub = false;
             var iul = new TagBuilder("ul");
-            iul.AddCssClass($"nav flex-column mb-2 nav-indent{level}");
             foreach (var it in items.OrderByDescending(x => x.Priority))
             {
                 var children = it.Where(IsAuthorized).ToList();

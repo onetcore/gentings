@@ -31,8 +31,16 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
             var builder = new TagBuilder("div");
             if (Src.IndexOf('.') == -1)
             {
-                output.TagName = "span";
-                builder.MergeAttribute("data-feather", Src);
+                if (Src.StartsWith("fa-"))
+                {
+                    output.TagName = "i";
+                    builder.AddCssClass("fa " + Src);
+                }
+                else
+                {
+                    output.TagName = "span";
+                    builder.MergeAttribute("data-feather", Src);
+                }
             }
             else
             {

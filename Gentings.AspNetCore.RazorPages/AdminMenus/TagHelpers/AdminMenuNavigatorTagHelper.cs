@@ -44,19 +44,16 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
             var navigators = LoadNavigators(current).OrderBy(n => n.Level).ToList();
             if (navigators.Count == 0)
                 return;
-            var links = new Dictionary<string, Tuple<string, bool>>(StringComparer.OrdinalIgnoreCase);
+            var links = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
             foreach (var navigator in navigators)
             {
                 if (navigator.LinkUrl(urlHelper, null) == null || current.Name == navigator.Name && navigator.Text == Title)
                     continue;
-                links[navigator.Text] = new Tuple<string, bool>(navigator.LinkUrl(urlHelper, null), navigator.IsAjax);
+                links[navigator.Text] = navigator.LinkUrl(urlHelper, null);
             }
             links[Title] = null;
-            if (!string.IsNullOrEmpty(Home))
-            {
-                links.Remove(Home);
-                output.Content.AppendHtml($"<li><a href=\"{Href}\">{Home}</a></li>");
-            }
+            links.Remove(Home);
+            output.Content.AppendHtml($"<li><a href=\"{Href}\">{Home}</a></li>");
             foreach (var link in links)
             {
                 output.Content.AppendHtml(CreateLink(link.Value, link.Key));
@@ -69,14 +66,13 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
         /// </summary>
         protected string Title => _title ??= ViewContext.ViewData["Title"] as string;
 
-        private TagBuilder CreateLink(Tuple<string, bool> linkUrl, string text)
+        private TagBuilder CreateLink(string linkUrl, string text)
         {
             var builder = new TagBuilder("li");
-            builder.AppendTag("span", x => x.MergeAttribute("data-feather", "chevron-right"));
             if (linkUrl != null)
             {
                 var anchor = new TagBuilder("a");
-                anchor.MergeAttribute("href", linkUrl.Item1);
+                anchor.MergeAttribute("href", linkUrl);
                 anchor.InnerHtml.AppendHtml(text);
                 builder.InnerHtml.AppendHtml(anchor);
             }

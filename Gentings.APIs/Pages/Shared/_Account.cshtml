@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "_Admin";
+    ViewBag.HideHeader = true;
+}
+
+<div class="account-menu">
+    <gt:menu provider="account"></gt:menu>
+</div>
+<div class="account-main">
+    @RenderBody()
+</div>
+
+@section header{
+    <link rel="stylesheet" href="~/css/account.min.css" />
+    @RenderSection("header", false)
+}
+
+@section footer{
+    <script src="~/js/account.min.js"></script>
+    @RenderSection("footer", false)
+}

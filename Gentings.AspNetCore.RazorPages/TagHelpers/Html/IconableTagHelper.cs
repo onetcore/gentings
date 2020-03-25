@@ -46,8 +46,17 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Html
         {
             if (string.IsNullOrWhiteSpace(IconName))
                 return;
-            var icon = new TagBuilder("span");
-            icon.MergeAttribute("data-feather", IconName);
+            TagBuilder icon;
+            if (IconName.StartsWith("fa-"))
+            {
+                icon = new TagBuilder("i");
+                icon.AddCssClass("fa " + IconName);
+            }
+            else
+            {
+                icon = new TagBuilder("span");
+                icon.MergeAttribute("data-feather", IconName);
+            }
             if (ThePosition == Position.Prepend)
                 output.Content.AppendHtml(icon);
             output.Content.AppendHtml(await output.GetChildContentAsync());

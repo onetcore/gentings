@@ -234,19 +234,19 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus
 
         internal void Merge(MenuItem item)
         {
-            Text = Text ?? item.Text;
-            IconName = IconName ?? item.IconName;
-            BadgeClassName = BadgeClassName ?? item.BadgeClassName;
-            BadgeText = BadgeText ?? item.BadgeText;
-            PermissionName = PermissionName ?? item.PermissionName;
+            Text ??= item.Text;
+            IconName ??= item.IconName;
+            BadgeClassName ??= item.BadgeClassName;
+            BadgeText ??= item.BadgeText;
+            PermissionName ??= item.PermissionName;
             Priority = Math.Max(Priority, item.Priority);
             Level = Math.Max(Level, item.Level);
             if (Parent?.Name == null)
                 Parent = item.Parent;
-            _href = _href ?? item._href;
-            _controller = _controller ?? item._controller;
-            _action = _action ?? item._action;
-            _routeValues = _routeValues ?? item._routeValues;
+            _href ??= item._href;
+            _controller ??= item._controller;
+            _action ??= item._action;
+            _routeValues ??= item._routeValues;
 
             foreach (var it in item)
             {
@@ -285,20 +285,5 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus
         /// 权限名称。
         /// </summary>
         public string PermissionName { get; private set; }
-
-        /// <summary>
-        /// 是否为AJAX链接。
-        /// </summary>
-        public bool IsAjax { get; private set; }
-
-        /// <summary>
-        /// 设置使用AJAX获取当前链接。
-        /// </summary>
-        /// <returns>返回当前菜单项目。</returns>
-        public MenuItem Ajaxed()
-        {
-            IsAjax = true;
-            return this;
-        }
     }
 }
