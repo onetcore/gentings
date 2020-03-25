@@ -19,6 +19,4 @@
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 
-
-
 </Project>

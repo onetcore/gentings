@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Gentings.AspNetCore.RazorPages.TagHelpers.Toolbars
 {
     /// <summary>
-    /// Toolbar按钮分组。
+    /// Toolbar范围输入框分组。
     /// </summary>
-    [HtmlTargetElement("gt:toolbar-btn-group")]
-    public class ToolbarGroupTagHelper : TagHelperBase
+    [HtmlTargetElement("gt:toolbar-range-group")]
+    public class ToolbarInputRangeGroupTagHelper : ToolbarInputGroupTagHelper
     {
         /// <summary>
         /// 异步访问并呈现当前标签实例。
@@ -17,7 +17,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Toolbars
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "div";
-            output.AddCssClass("btn-group mr-2");
+            output.AddCssClass("input-group input-group-sm input-group-range");
             output.AppendHtml(await output.GetChildContentAsync());
         }
     }

@@ -3,9 +3,10 @@
 namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
 {
     /// <summary>
-    /// Toolbar下拉列表框菜单项。
+    /// 下拉列表框菜单项。
     /// </summary>
     [HtmlTargetElement("a", ParentTag = "gt:dropdown-menu")]
+    [HtmlTargetElement("button", ParentTag = "gt:dropdown-menu")]
     public class DropdownMenuItemTagHelper : TagHelperBase
     {
         /// <summary>

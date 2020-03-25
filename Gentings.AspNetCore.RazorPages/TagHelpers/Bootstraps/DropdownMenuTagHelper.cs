@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
 {
     /// <summary>
-    /// Toolbar下拉列表框。
+    /// 下拉列表框。
     /// </summary>
     [HtmlTargetElement("gt:dropdown-menu")]
     public class DropdownMenuTagHelper : TagHelperBase

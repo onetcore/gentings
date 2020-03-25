@@ -1,5 +1,5 @@
 ﻿body {
-    font-size: .875rem;
+    font-size: 14px;
     overflow-x: hidden;
 }
 
@@ -16,7 +16,6 @@ a, a:hover, a:visited, a:focus {
 /*
  * Sidebar
  */
-
 .sidebar {
     position: fixed;
     top: 0;
@@ -188,11 +187,6 @@ a, a:hover, a:visited, a:focus {
     color: #6c757d;
 }
 
-.btn-toolbar .btn:active:focus, .btn-toolbar .btn {
-    box-shadow: none !important;
-    outline-width: 0 !important;
-}
-
 .form-control-dark {
     color: #fff;
     background-color: rgba(255, 255, 255, .1);
@@ -280,8 +274,8 @@ a, a:hover, a:visited, a:focus {
 .b-span, .br-span {
     bottom: 0;
     right: 0;
-    background: #f3eff080;
-    height: 12px;
+    background: rgba(239, 240, 128, 0.25);
+    height: 14px;
     font-size: 8px;
     padding: 0 2px;
     position: absolute;
@@ -310,20 +304,89 @@ pre.prettyprint.ts {
         color: #28a745;
     }
 
-.btn-group .dropdown:last-child > button:first-child {
-    border-left: 0;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+.gt-toolbar, .gt-toolbar-right {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
 }
 
-.btn-group .dropdown:first-child > button:first-child {
-    border-right: 0;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    .gt-toolbar .btn-sm {
+        font-size: 13px;
+    }
+
+    .gt-toolbar .btn-group .dropdown:last-child > button:first-child {
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .gt-toolbar .btn-group .dropdown:first-child > button:first-child {
+        border-right: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .gt-toolbar .btn-group .dropdown:not(:first-child):not(:last-child) > button:first-child {
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+    }
+
+    .gt-toolbar .btn:active:focus, .gt-toolbar .btn, .gt-toolbar .form-control:active:focus, .gt-toolbar .form-control {
+        box-shadow: none !important;
+        outline-width: 0 !important;
+    }
+
+        .gt-toolbar .form-control, .gt-toolbar .form-control:hover, .gt-toolbar .form-control:focus {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+.gt-toolbar-right {
+    flex: 1 1 auto;
+    justify-content: flex-end;
 }
 
-.btn-group .dropdown:not(:first-child):not(:last-child) > button:first-child {
+    .gt-toolbar-right a, .gt-toolbar-right button, .gt-toolbar-right input, .gt-toolbar-right select {
+        height: 100%;
+    }
+
+@media(max-width: 992px) {
+    .gt-toolbar-right {
+        justify-content: flex-start;
+        margin-top: 10px;
+    }
+}
+
+.input-group-range > input:first-child {
     border-right: 0;
+}
+
+.input-group-range > input:last-child {
     border-left: 0;
-    border-radius: 0;
+}
+
+.input-group-range > label {
+    border-top: 1px solid #6c757d;
+    border-bottom: 1px solid #6c757d;
+}
+
+.gt-bind-left, .gt-bind-right {
+    position: fixed;
+    top: 50%;
+}
+
+.gt-bind-left {
+    left: 0;
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+
+.gt-bind-right {
+    right: 0;
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
 }

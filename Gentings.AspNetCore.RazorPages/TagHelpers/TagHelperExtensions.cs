@@ -136,7 +136,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers
             {
                 if (classes.Contains(className))
                     continue;
-                classes.Add(className);
+                classes.Insert(0, className);
             }
             output.SetAttribute("class", string.Join(" ", classes));
         }

@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.RazorPages.TagHelpers.Toolbars
+namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
 {
     /// <summary>
-    /// Toolbar按钮分组。
+    /// 全选框。
     /// </summary>
-    [HtmlTargetElement("gt:toolbar-btn-group")]
-    public class ToolbarGroupTagHelper : TagHelperBase
+    [HtmlTargetElement("gt:checkall")]
+    public class CheckallTagHelper : CheckboxTagHelper
     {
         /// <summary>
         /// 异步访问并呈现当前标签实例。
@@ -16,9 +16,8 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Toolbars
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            output.TagName = "div";
-            output.AddCssClass("btn-group mr-2");
-            output.AppendHtml(await output.GetChildContentAsync());
+            await base.ProcessAsync(context, output);
+            output.AddCssClass("gt-checkall");
         }
     }
 }

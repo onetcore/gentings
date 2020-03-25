@@ -5,36 +5,129 @@
     ViewBag.Current = "dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Gentings</h1>
-    <p>欢迎使用Gentings应用框架进行开发，Gentings框架是完全开源的NetCore开发框架，包含了数据库操作，文件存储，用户登录等等...</p>
+<div class="gt-toolbar">
+    <form class="form-inline">
+        <gt:toolbar-form-group>
+            <gt:toolbar-input-group>
+                <input placeholder="输入名称" type="text" />
+                <select>
+                    <option>选择一</option>
+                    <option>选择二</option>
+                    <option>选择三</option>
+                </select>
+                <gt:append>
+                    <a href="#" .icon="search"></a>
+                </gt:append>
+            </gt:toolbar-input-group>
+        </gt:toolbar-form-group>
+        <gt:toolbar-form-group>
+            <gt:toolbar-range-group>
+                <input placeholder="小" type="text" />
+                <divider />
+                <input placeholder="大" type="text" />
+            </gt:toolbar-range-group>
+        </gt:toolbar-form-group>
+        <gt:toolbar-form-group>
+            <label class="mr-2">请输入</label>
+            <input placeholder="查询字符串" />
+        </gt:toolbar-form-group>
+    </form>
+    <div class="gt-toolbar-right">
+        <gt:toolbar-btn-group>
+            <a href="#">删除</a>
+            <gt:dropdown-menu icon="layers" text="下拉操作"></gt:dropdown-menu>
+            <button class="btn-primary" .default="false" .icon="plus">添加</button>
+        </gt:toolbar-btn-group>
+        <gt:dropdown-menu icon="calendar" text="操作" position="Right" class="btn-group mr-2">
+            <a href="#" .icon="lock">修改密码</a>
+            <a href="#" .icon="user">编辑资料</a>
+            <divider />
+            <a href="#" .icon="log-out">退出登录</a>
+        </gt:dropdown-menu>
+    </div>
 </div>
 
-<div class="container">
-    <table class="table table-bordered table-hover">
-        @foreach (var controller in Model.Controllers)
-        {
-            <tr>
-                <th>@controller.Controller</th>
-                <th>@controller.Namespace</th>
-                <th>@controller.ModuleName</th>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <table class="table table-borderless table-hover">
-                        @foreach (var action in controller.Actions)
-                        {
-                            <tr>
-                                <th>@action.Name</th>
-                                @foreach (var parameter in action.Parameters)
-                                {
-                                    <td>@parameter.Name</td>
-                                }
-                            </tr>
-                        }
-                    </table>
-                </td>
-            </tr>
-        }
-    </table>
-</div>
+<table class="table-bordered table table-sm table-hover mt-2">
+    <thead>
+        <tr>
+            <th><gt:checkall></gt:checkall></th>
+            <th>标题一</th>
+            <th>标题二</th>
+            <th>标题三</th>
+            <th>标题四</th>
+            <th>标题五</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="form-check"><gt:checkbox value="1"></gt:checkbox></td>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+            <td>内容四</td>
+            <td>内容五</td>
+        </tr>
+        <tr>
+            <td class="form-check"><gt:checkbox value="2"></gt:checkbox></td>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+            <td>内容四</td>
+            <td>内容五</td>
+        </tr>
+        <tr>
+            <td class="form-check"><gt:checkbox value="3"></gt:checkbox></td>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+            <td>内容四</td>
+            <td>内容五</td>
+        </tr>
+        <tr>
+            <td class="form-check"><gt:checkbox value="4"></gt:checkbox></td>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+            <td>内容四</td>
+            <td>内容五</td>
+        </tr>
+        <tr>
+            <td class="form-check"><gt:checkbox value="5"></gt:checkbox></td>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+            <td>内容四</td>
+            <td>内容五</td>
+        </tr>
+        <tr>
+            <td class="form-check"><gt:checkbox value="6"></gt:checkbox></td>
+            <td>内容一</td>
+            <td>内容二</td>
+            <td>内容三</td>
+            <td>内容四</td>
+            <td>内容五</td>
+        </tr>
+    </tbody>
+</table>
+
+@section Toolbar
+{
+    <gt:toolbar-btn-group>
+        <a href="#">删除</a>
+        <gt:dropdown-menu icon="layers" text="下拉操作"></gt:dropdown-menu>
+        <button class="btn-primary" .default="false"><span data-feather="plus"></span> 添加</button>
+    </gt:toolbar-btn-group>
+    <gt:dropdown-menu icon="calendar" text="操作" position="Right" class="btn-group mr-2">
+        <a href="#"><span data-feather="lock"></span> 修改密码</a>
+        <a href="#"><span data-feather="user"></span> 编辑资料</a>
+        <divider />
+        <a href="#"><span data-feather="log-out"></span> 退出登录</a>
+    </gt:dropdown-menu>
+}
+
+@section Scripts
+{
+    <div class="gt-bind-right bg-danger" style="width: 31px; height: 100px;">
+
+    </div>
+}
