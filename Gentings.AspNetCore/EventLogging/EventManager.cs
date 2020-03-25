@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Gentings.Data;
 using Gentings.Extensions;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件管理。

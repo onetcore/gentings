@@ -2,7 +2,7 @@
 using Gentings.Extensions.Categories;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件类型管理。

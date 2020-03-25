@@ -1,6 +1,8 @@
-﻿using Gentings.Identity.Roles;
+﻿using Gentings.Data.Migrations;
+using Gentings.Identity.Roles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gentings.Identity.Permissions
 {
@@ -22,24 +24,9 @@ namespace Gentings.Identity.Permissions
         {
             return builder.AddServices(services =>
             {
+                services.TryAddEnumerable(ServiceDescriptor.Transient<IDataMigration, DefaultPermissionDataMigration<TRole>>());
                 services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
                 services.AddSingleton<IPermissionManager, DefaultPermissionManager<TRole, TUserRole>>();
-            });
-        }
-
-        /// <summary>
-        /// 添加权限模块。
-        /// </summary>
-        /// <typeparam name="TPermissionManager">权限管理类型。</typeparam>
-        /// <param name="builder">服务构建实例。</param>
-        /// <returns>返回服务构建实例。</returns>
-        public static IServiceBuilder AddPermissions<TPermissionManager>(this IServiceBuilder builder)
-            where TPermissionManager : class, IPermissionManager
-        {
-            return builder.AddServices(services =>
-            {
-                services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-                services.AddSingleton<IPermissionManager, TPermissionManager>();
             });
         }
     }

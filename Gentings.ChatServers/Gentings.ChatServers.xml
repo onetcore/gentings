@@ -103,21 +103,6 @@
             </summary>
             <returns>返回当前用户实例对象。</returns>
         </member>
-        <member name="M:Gentings.ChatServers.Controllers.ChatController.Save(System.String,System.Int32)">
-            <summary>
-            保存用户实例。
-            </summary>
-            <param name="name">用户名称。</param>
-            <param name="id">用户id。</param>
-            <returns>返回保存结果。</returns>
-        </member>
-        <member name="M:Gentings.ChatServers.Controllers.ChatController.Save(Gentings.ChatServers.User)">
-            <summary>
-            保存用户实例。
-            </summary>
-            <param name="user">用户实例。</param>
-            <returns>返回保存结果。</returns>
-        </member>
         <member name="T:Gentings.ChatServers.Controllers.ControllerBase">
             <summary>
             控制器基类。

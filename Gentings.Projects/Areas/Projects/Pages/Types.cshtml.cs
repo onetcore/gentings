@@ -1,24 +1,12 @@
 ﻿using System;
-using System.Linq;
-using Gentings.Projects.APIs;
 using Gentings.Projects.Documents;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
 namespace Gentings.Projects.Areas.Projects.Pages
 {
     public class TypesModel : PageModel
     {
-        private readonly ILogger<TypesModel> _logger;
-        private readonly IApiManager _apiManager;
-
-        public TypesModel(ILogger<TypesModel> logger, IApiManager apiManager)
-        {
-            _logger = logger;
-            _apiManager = apiManager;
-        }
-
         public IActionResult OnGet()
         {
             if (RouteData.Values.TryGetValue("typeName", out var value))

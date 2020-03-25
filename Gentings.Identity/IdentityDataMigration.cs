@@ -165,26 +165,6 @@ namespace Gentings.Identity
                 .Column(x => x.ClaimValue)
                 .Column(x => x.RoleId)
                 .ForeignKey<TRole>(x => x.RoleId, x => x.Id, onDelete: ReferentialAction.Cascade));
-
-            if (EnabledPermissions)
-            {
-                //权限
-                builder.CreateTable<Permission>(table => table
-                    .Column(x => x.Id)
-                    .Column(x => x.Category)
-                    .Column(x => x.Name)
-                    .Column(x => x.Text)
-                    .Column(x => x.Description)
-                    .Column(x => x.Order)
-                    .UniqueConstraint(x => new { x.Category, x.Name }));
-
-                builder.CreateTable<PermissionInRole>(table => table
-                    .Column(x => x.PermissionId)
-                    .Column(x => x.RoleId)
-                    .Column(x => x.Value)
-                    .ForeignKey<Permission>(x => x.PermissionId, x => x.Id, onDelete: ReferentialAction.Cascade)
-                    .ForeignKey<TRole>(x => x.RoleId, x => x.Id, onDelete: ReferentialAction.Cascade));
-            }
         }
 
         /// <summary>
@@ -196,10 +176,5 @@ namespace Gentings.Identity
             base.CreateIndex(builder);
             builder.CreateIndex<TRole>(x => x.NormalizedName, true);
         }
-
-        /// <summary>
-        /// 是否激活权限相关配置。
-        /// </summary>
-        protected virtual bool EnabledPermissions => false;
     }
 }

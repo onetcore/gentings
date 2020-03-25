@@ -13,8 +13,8 @@ namespace Gentings.Storages.Avatars
         /// </summary>
         /// <param name="userId">用户Id。</param>
         /// <param name="file">当前用户实例。</param>
-        /// <returns>返回上传任务。</returns>
-        Task UploadAsync(int userId, IFormFile file);
+        /// <returns>返回头像路径。</returns>
+        Task<string> UploadAsync(int userId, IFormFile file);
 
         /// <summary>
         /// 获取头像文件实例。

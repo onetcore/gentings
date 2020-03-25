@@ -126,4 +126,19 @@
   <data name="ErrorCode_ValidError" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="EventMessage_NullMessage" xml:space="preserve">
+    <value>事件消息未设置！</value>
+  </data>
+  <data name="EventMessage_NullUserId" xml:space="preserve">
+    <value>事件消息的用户Id未设置，并且当前用户还未登录！</value>
+  </data>
+  <data name="EventType_Core" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>保存了“{0}”配置信息</value>
+  </data>
+  <data name="SaveSettingsFailured" xml:space="preserve">
+    <value>保存配置失败</value>
+  </data>
 </root>

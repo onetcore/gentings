@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Gentings.AspNetCore.EventLogging;
+using Gentings.AspNetCore.RazorPages.Properties;
 using Gentings.AspNetCore.RazorPages.StatusMessages;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Http;
@@ -69,10 +72,14 @@ namespace Gentings.AspNetCore.RazorPages
         /// <summary>
         /// 获取对象对比实例。
         /// </summary>
-        /// <typeparam name="T">当前对象类型。</typeparam>
         /// <param name="instance">当前对象实例，在更改对象实例之前的实例。</param>
         /// <returns>返回当前实例。</returns>
-        protected T GetObjectDiffer<T>(T instance) => GetRequiredService<IObjectDiffer>().Stored(instance);
+        protected IObjectDiffer GetObjectDiffer(object instance)
+        {
+            var differ = GetRequiredService<IObjectDiffer>();
+            differ.Stored(instance);
+            return differ;
+        }
 
         /// <summary>
         /// 从表单中读取扩展属性。
@@ -89,7 +96,6 @@ namespace Gentings.AspNetCore.RazorPages
                 }
             }
         }
-
 
         #region pages
         private StatusMessage _statusMessage;
@@ -396,6 +402,105 @@ namespace Gentings.AspNetCore.RazorPages
         {
             return new JsonResult(data);
         }
+        #endregion
+
+        #region events
+        private IEventLogger _eventLogger;
+        /// <summary>
+        /// 本地化接口。
+        /// </summary>
+        protected IEventLogger EventLoggers => _eventLogger ??= GetRequiredService<IEventLogger>();
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">事件消息。</param>
+        protected void Log(string message) => EventLoggers.Log(EventType, message);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected void Log(string message, params object[] args) => EventLoggers.Log(EventType, message, args);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="message">事件消息。</param>
+        protected void Log(int userId, string message) => EventLoggers.Log(userId, EventType, message);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected void Log(int userId, string message, params object[] args) => EventLoggers.Log(userId, EventType, message, args);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">事件消息。</param>
+        protected Task LogAsync(string message) => EventLoggers.LogAsync(EventType, message);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected Task LogAsync(string message, params object[] args) => EventLoggers.LogAsync(EventType, message, args);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="message">事件消息。</param>
+        protected Task LogAsync(int userId, string message) => EventLoggers.LogAsync(userId, EventType, message);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected Task LogAsync(int userId, string message, params object[] args) => EventLoggers.LogAsync(userId, EventType, message, args);
+
+        /// <summary>
+        /// 添加用户事件日志。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="message">事件消息。</param>
+        protected void LogResult(DataResult result, string message) => EventLoggers.LogResult(result, EventType, message);
+
+        /// <summary>
+        /// 添加用户事件日志。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected void LogResult(DataResult result, string message, params object[] args) => EventLoggers.LogResult(result, EventType, message, args);
+
+        /// <summary>
+        /// 添加用户事件日志。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="message">事件消息。</param>
+        protected Task LogResultAsync(DataResult result, string message) => EventLoggers.LogResultAsync(result, EventType, message);
+
+        /// <summary>
+        /// 添加用户事件日志。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected Task LogResultAsync(DataResult result, string message, params object[] args) => EventLoggers.LogResultAsync(result, EventType, message, args);
+
+        /// <summary>
+        /// 事件类型。
+        /// </summary>
+        protected virtual string EventType => Resources.EventType_Core;
         #endregion
     }
 }

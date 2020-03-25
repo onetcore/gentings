@@ -141,6 +141,27 @@ namespace Gentings.Identity.Roles
         }
 
         /// <summary>
+        /// 获取缓存中的角色。
+        /// </summary>
+        /// <param name="id">角色Id。</param>
+        /// <returns>返回角色实例。</returns>
+        public virtual TRole GetCacheRole(int id)
+        {
+            return Load().FirstOrDefault(x => x.Id == id);
+        }
+
+        /// <summary>
+        /// 获取缓存中的角色。
+        /// </summary>
+        /// <param name="id">角色Id。</param>
+        /// <returns>返回角色实例。</returns>
+        public virtual async Task<TRole> GetCacheRoleAsync(int id)
+        {
+            var roles = await LoadAsync();
+            return roles.FirstOrDefault(x => x.Id == id);
+        }
+
+        /// <summary>
         /// 判断角色名称或唯一键是否已经存在。
         /// </summary>
         /// <param name="role">当前角色实例。</param>

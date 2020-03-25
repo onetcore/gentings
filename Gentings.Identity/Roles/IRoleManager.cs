@@ -173,5 +173,19 @@ namespace Gentings.Identity.Roles
         /// <param name="ids">角色Id。</param>
         /// <returns>返回删除结果。</returns>
         Task<IdentityResult> DeleteAsync(int[] ids);
+
+        /// <summary>
+        /// 获取缓存中的角色。
+        /// </summary>
+        /// <param name="id">角色Id。</param>
+        /// <returns>返回角色实例。</returns>
+        TRole GetCacheRole(int id);
+
+        /// <summary>
+        /// 获取缓存中的角色。
+        /// </summary>
+        /// <param name="id">角色Id。</param>
+        /// <returns>返回角色实例。</returns>
+        Task<TRole> GetCacheRoleAsync(int id);
     }
 }

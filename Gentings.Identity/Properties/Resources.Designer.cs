@@ -313,33 +313,6 @@ namespace Gentings.Identity.Properties {
         }
         
         /// <summary>
-        ///   查找类似 事件消息未设置！ 的本地化字符串。
-        /// </summary>
-        internal static string EventMessage_NullMessage {
-            get {
-                return ResourceManager.GetString("EventMessage_NullMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 事件消息的用户Id未设置，并且当前用户还未登录！ 的本地化字符串。
-        /// </summary>
-        internal static string EventMessage_NullUserId {
-            get {
-                return ResourceManager.GetString("EventMessage_NullUserId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 用户 的本地化字符串。
-        /// </summary>
-        internal static string EventType_User {
-            get {
-                return ResourceManager.GetString("EventType_User", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 管理员角色权限不能被设置！ 的本地化字符串。
         /// </summary>
         internal static string PermissionSetCannotBeOwner {
@@ -372,24 +345,6 @@ namespace Gentings.Identity.Properties {
         internal static string PermissionValue_NotSet {
             get {
                 return ResourceManager.GetString("PermissionValue_NotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 保存了“{0}”配置信息 的本地化字符串。
-        /// </summary>
-        internal static string SaveSettings {
-            get {
-                return ResourceManager.GetString("SaveSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 保存配置失败 的本地化字符串。
-        /// </summary>
-        internal static string SaveSettingsFailured {
-            get {
-                return ResourceManager.GetString("SaveSettingsFailured", resourceCulture);
             }
         }
     }

@@ -52,7 +52,7 @@ namespace Gentings.Storages.Avatars
         /// <param name="userId">用户Id。</param>
         /// <param name="file">当前用户实例。</param>
         /// <returns>返回上传任务。</returns>
-        public async Task UploadAsync(int userId, IFormFile file)
+        public async Task<string> UploadAsync(int userId, IFormFile file)
         {
             var tempFile = await _storageDirectory.SaveToTempAsync(file);
             tempFile = tempFile.Resize(Size, Size);
@@ -65,6 +65,7 @@ namespace Gentings.Storages.Avatars
 
             path = Path.Combine(path, "default.png").MakeDirectory();
             tempFile.MoveTo(path);
+            return $"/s-avatars/{userId}.png";
         }
 
         private string GetPath(int userId)

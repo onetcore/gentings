@@ -2,7 +2,7 @@
 using Gentings.Data.Migrations.Builders;
 using Gentings.Extensions.Categories;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件数据库迁移类。

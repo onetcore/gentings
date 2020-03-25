@@ -237,21 +237,21 @@ namespace Gentings.ConsoleApp
         /// <param name="delay">倒计时秒数。</param>
         public static async Task CloseAsync(int delay = 10)
         {
-            async Task DelayAsync(int seconds)
-            {
-                if (seconds < 1)
-                {
-                    Warning("关闭！");
-                    return;
-                }
-
-                Warning($"{seconds}");
-                await Task.Delay(1000);
-                await DelayAsync(--seconds);
-            }
-
             Warning($"程序即将在“{delay}”秒后关闭...");
             await DelayAsync(delay);
+        }
+
+        private static async Task DelayAsync(int seconds)
+        {
+            if (seconds < 1)
+            {
+                Warning("关闭！");
+                return;
+            }
+
+            Warning($"{seconds}");
+            await Task.Delay(1000);
+            await DelayAsync(--seconds);
         }
     }
 }

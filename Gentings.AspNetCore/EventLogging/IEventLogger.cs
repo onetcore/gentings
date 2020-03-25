@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Gentings.Extensions;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件日志接口。

@@ -97,6 +97,15 @@ namespace Gentings.AspNetCore.RazorPages.Properties {
         }
         
         /// <summary>
+        ///   查找类似 默认 的本地化字符串。
+        /// </summary>
+        internal static string EventType_Core {
+            get {
+                return ResourceManager.GetString("EventType_Core", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} 小时前 的本地化字符串。
         /// </summary>
         internal static string HoursBefore {

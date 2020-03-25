@@ -1,15 +1,14 @@
 ﻿using System;
 using Gentings.Data;
-using Gentings.Identity.Roles;
+using Gentings.Extensions;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件查询实例。
     /// </summary>
-    /// <typeparam name="TUser">用户类型。</typeparam>
     public abstract class EventQueryBase<TUser> : QueryBase<EventMessage>
-        where TUser : UserBase
+        where TUser : IUser
     {
         /// <summary>
         /// 事件类型Id。
@@ -49,7 +48,8 @@ namespace Gentings.Identity.Events
         {
             context.WithNolock().Select();
             context.InnerJoin<TUser>((a, u) => a.UserId == u.Id)
-                .Select<TUser>(x => new { x.UserName, x.NormalizedUserName, x.Avatar });
+                .Select<TUser>(x => new { x.UserName, x.NickName, x.Avatar });
+
             if (EventId > 0)
             {
                 context.Where(x => x.EventId == EventId);
@@ -70,47 +70,17 @@ namespace Gentings.Identity.Events
                 context.Where(x => x.CreatedDate <= End);
             }
 
-            if (!string.IsNullOrEmpty(Name))
-            {
-                context.Where<TUser>(x => x.UserName.Contains(Name) || x.NormalizedUserName.Contains(Name));
-            }
-
             if (!string.IsNullOrEmpty(IP))
             {
                 context.Where(x => x.IPAdress == IP);
             }
 
-            context.OrderByDescending(x => x.Id);
-        }
-    }
-
-    /// <summary>
-    /// 用户活动查询实例。
-    /// </summary>
-    /// <typeparam name="TUser">用户类型。</typeparam>
-    /// <typeparam name="TRole">角色类型。</typeparam>
-    public abstract class EventQueryBase<TUser, TRole> : EventQueryBase<TUser>
-        where TUser : UserBase
-        where TRole : RoleBase
-    {
-        /// <summary>
-        /// 当前用户角色等级。
-        /// </summary>
-        public int RoleLevel { get; set; }
-
-        /// <summary>
-        /// 初始化查询上下文。
-        /// </summary>
-        /// <param name="context">查询上下文。</param>
-        protected override void Init(IQueryContext<EventMessage> context)
-        {
-            base.Init(context);
-            if (RoleLevel > 0)
+            if (!string.IsNullOrEmpty(Name))
             {
-                context.Select()
-                    .LeftJoin<TUser, TRole>((u, r) => u.RoleId == r.Id)
-                    .Where<TRole>(x => x.RoleLevel <= RoleLevel);
+                context.Where<TUser>(x => x.UserName.Contains(Name) || x.NickName.Contains(Name));
             }
+
+            context.OrderByDescending(x => x.Id);
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件消息。

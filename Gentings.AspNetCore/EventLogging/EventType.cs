@@ -2,7 +2,7 @@
 using Gentings.Extensions;
 using Gentings.Extensions.Categories;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件类型。

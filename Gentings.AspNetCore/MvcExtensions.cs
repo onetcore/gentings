@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -119,6 +120,28 @@ namespace Gentings.AspNetCore
         public static Task<TCache> GetOrCreateAsync<TCache>(this HttpContext context, Func<Task<TCache>> func)
         {
             return context.GetOrCreateAsync(typeof(TCache), func);
+        }
+
+        /// <summary>
+        /// 获取用户的IP地址。
+        /// </summary>
+        /// <param name="httpContext">当前HTTP上下文。</param>
+        /// <returns>返回当前用户IP地址。</returns>
+        public static string GetUserAddress(this HttpContext httpContext)
+        {
+            var ipAddress = httpContext.Connection?.RemoteIpAddress?.ToString();
+            if (ipAddress != null)
+            {
+                return ipAddress;
+            }
+
+            var xff = httpContext.Request.Headers["x-forwarded-for"];
+            if (xff.Count > 0)
+            {
+                ipAddress = xff.FirstOrDefault();
+                return ipAddress?.Split(':').FirstOrDefault();
+            }
+            return null;
         }
     }
 }

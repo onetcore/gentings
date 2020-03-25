@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Gentings.AspNetCore.Properties;
 using Gentings.Extensions;
-using Gentings.Identity.Properties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace Gentings.Identity.Events
+namespace Gentings.AspNetCore.EventLogging
 {
     /// <summary>
     /// 事件日志实现类。

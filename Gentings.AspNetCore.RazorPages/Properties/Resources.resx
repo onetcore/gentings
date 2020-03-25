@@ -129,6 +129,9 @@
   <data name="EnumDropdownListTagHelper_TypeNotFound" xml:space="preserve">
     <value>无法找到枚举类型，需要设置Value值或者使用For指定枚举属性！</value>
   </data>
+  <data name="EventType_Core" xml:space="preserve">
+    <value>默认</value>
+  </data>
   <data name="HoursBefore" xml:space="preserve">
     <value>{0} 小时前</value>
   </data>
