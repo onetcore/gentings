@@ -5,7 +5,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Toolbars
     /// <summary>
     /// 范围输入框分割项。
     /// </summary>
-    [HtmlTargetElement("divider", ParentTag = "gt:toolbar-range-group")]
+    [HtmlTargetElement("divider", ParentTag = "gt:toolbar-range-group", TagStructure = TagStructure.WithoutEndTag)]
     public class ToolbarInputRangeGroupDividerTagHelper : TagHelperBase
     {
         /// <summary>

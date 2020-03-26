@@ -126,9 +126,6 @@
   <data name="FileNotFound" xml:space="preserve">
     <value>文件不存在！</value>
   </data>
-  <data name="FileProviderNotFound" xml:space="preserve">
-    <value>FileProvider不存在！</value>
-  </data>
   <data name="FormFileInvalid" xml:space="preserve">
     <value>未能获取表单文件实例或者文件长度为0！</value>
   </data>

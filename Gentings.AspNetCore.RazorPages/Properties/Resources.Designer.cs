@@ -106,6 +106,15 @@ namespace Gentings.AspNetCore.RazorPages.Properties {
         }
         
         /// <summary>
+        ///   查找类似 FileProvider不存在！ 的本地化字符串。
+        /// </summary>
+        internal static string FileProviderNotFound {
+            get {
+                return ResourceManager.GetString("FileProviderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 {0} 小时前 的本地化字符串。
         /// </summary>
         internal static string HoursBefore {
@@ -120,6 +129,105 @@ namespace Gentings.AspNetCore.RazorPages.Properties {
         internal static string JustNow {
             get {
                 return ResourceManager.GetString("JustNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 全屏显示 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_FullScreen {
+            get {
+                return ResourceManager.GetString("Mozmd_FullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 预览 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_ModePreview {
+            get {
+                return ResourceManager.GetString("Mozmd_ModePreview", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 加粗 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Bold {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Bold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 代码 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Code {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 标题 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Header {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 图片 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Image {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Image", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 斜体 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Italic {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Italic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 链接 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Link {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Link", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 排序 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Ol {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Ol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 引用 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Quote {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Quote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 列表 的本地化字符串。
+        /// </summary>
+        internal static string Mozmd_Syntax_Ul {
+            get {
+                return ResourceManager.GetString("Mozmd_Syntax_Ul", resourceCulture);
             }
         }
         

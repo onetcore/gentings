@@ -5,7 +5,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
     /// <summary>
     /// 下拉列表框分割项。
     /// </summary>
-    [HtmlTargetElement("divider", ParentTag = "gt:dropdown-menu")]
+    [HtmlTargetElement("divider", ParentTag = "gt:dropdown-menu", TagStructure = TagStructure.WithoutEndTag)]
     public class DropdownMenuDividerTagHelper : TagHelperBase
     {
         /// <summary>

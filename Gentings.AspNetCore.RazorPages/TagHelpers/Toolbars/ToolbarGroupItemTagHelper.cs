@@ -5,14 +5,14 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Toolbars
     /// <summary>
     /// Toolbar按钮。
     /// </summary>
-    [HtmlTargetElement("button", ParentTag = "gt:toolbar-btn-group")]
     [HtmlTargetElement("a", ParentTag = "gt:toolbar-btn-group")]
-    [HtmlTargetElement("button", ParentTag = "gt:toolbar-input-group")]
     [HtmlTargetElement("a", ParentTag = "gt:toolbar-input-group")]
-    [HtmlTargetElement("button", ParentTag = "gt:append")]
     [HtmlTargetElement("a", ParentTag = "gt:append")]
-    [HtmlTargetElement("button", ParentTag = "gt:prepend")]
     [HtmlTargetElement("a", ParentTag = "gt:prepend")]
+    [HtmlTargetElement("button", ParentTag = "gt:toolbar-btn-group")]
+    [HtmlTargetElement("button", ParentTag = "gt:toolbar-input-group")]
+    [HtmlTargetElement("button", ParentTag = "gt:append")]
+    [HtmlTargetElement("button", ParentTag = "gt:prepend")]
     public class ToolbarGroupItemTagHelper : TagHelperBase
     {
         /// <summary>

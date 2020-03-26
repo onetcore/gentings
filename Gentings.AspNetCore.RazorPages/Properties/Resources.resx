@@ -132,11 +132,47 @@
   <data name="EventType_Core" xml:space="preserve">
     <value>默认</value>
   </data>
+  <data name="FileProviderNotFound" xml:space="preserve">
+    <value>FileProvider不存在！</value>
+  </data>
   <data name="HoursBefore" xml:space="preserve">
     <value>{0} 小时前</value>
   </data>
   <data name="JustNow" xml:space="preserve">
     <value>刚刚</value>
+  </data>
+  <data name="Mozmd_FullScreen" xml:space="preserve">
+    <value>全屏显示</value>
+  </data>
+  <data name="Mozmd_ModePreview" xml:space="preserve">
+    <value>预览</value>
+  </data>
+  <data name="Mozmd_Syntax_Bold" xml:space="preserve">
+    <value>加粗</value>
+  </data>
+  <data name="Mozmd_Syntax_Code" xml:space="preserve">
+    <value>代码</value>
+  </data>
+  <data name="Mozmd_Syntax_Header" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="Mozmd_Syntax_Image" xml:space="preserve">
+    <value>图片</value>
+  </data>
+  <data name="Mozmd_Syntax_Italic" xml:space="preserve">
+    <value>斜体</value>
+  </data>
+  <data name="Mozmd_Syntax_Link" xml:space="preserve">
+    <value>链接</value>
+  </data>
+  <data name="Mozmd_Syntax_Ol" xml:space="preserve">
+    <value>排序</value>
+  </data>
+  <data name="Mozmd_Syntax_Quote" xml:space="preserve">
+    <value>引用</value>
+  </data>
+  <data name="Mozmd_Syntax_Ul" xml:space="preserve">
+    <value>列表</value>
   </data>
   <data name="MunitesBefore" xml:space="preserve">
     <value>{0} 分钟前</value>

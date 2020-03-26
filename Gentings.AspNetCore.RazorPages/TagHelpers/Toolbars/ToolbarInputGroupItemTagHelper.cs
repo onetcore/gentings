@@ -6,11 +6,14 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Toolbars
     /// Toolbar输入框和下拉列表框。
     /// </summary>
     [HtmlTargetElement("input", ParentTag = "gt:toolbar-input-group")]
-    [HtmlTargetElement("select", ParentTag = "gt:toolbar-input-group")]
     [HtmlTargetElement("input", ParentTag = "gt:toolbar-range-group")]
-    [HtmlTargetElement("select", ParentTag = "gt:toolbar-range-group")]
     [HtmlTargetElement("input", ParentTag = "gt:toolbar-form-group")]
+    [HtmlTargetElement("select", ParentTag = "gt:toolbar-input-group")]
+    [HtmlTargetElement("select", ParentTag = "gt:toolbar-range-group")]
     [HtmlTargetElement("select", ParentTag = "gt:toolbar-form-group")]
+    [HtmlTargetElement("gt:datetimepicker", ParentTag = "gt:toolbar-input-group")]
+    [HtmlTargetElement("gt:datetimepicker", ParentTag = "gt:toolbar-range-group")]
+    [HtmlTargetElement("gt:datetimepicker", ParentTag = "gt:toolbar-form-group")]
     public class ToolbarInputGroupItemTagHelper : TagHelperBase
     {
         /// <summary>

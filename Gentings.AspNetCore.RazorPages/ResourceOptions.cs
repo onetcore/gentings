@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using Gentings.Storages.Properties;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.StaticFiles;
@@ -14,8 +13,9 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.FileProviders.Embedded;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
+using Gentings.AspNetCore.RazorPages.Properties;
 
-namespace Gentings.Storages
+namespace Gentings.AspNetCore.RazorPages
 {
     /// <summary>
     /// Razor库资源选项。

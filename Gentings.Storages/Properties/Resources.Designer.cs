@@ -88,15 +88,6 @@ namespace Gentings.Storages.Properties {
         }
         
         /// <summary>
-        ///   查找类似 FileProvider不存在！ 的本地化字符串。
-        /// </summary>
-        internal static string FileProviderNotFound {
-            get {
-                return ResourceManager.GetString("FileProviderNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 未能获取表单文件实例或者文件长度为0！ 的本地化字符串。
         /// </summary>
         internal static string FormFileInvalid {
