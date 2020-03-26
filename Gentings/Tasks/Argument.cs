@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace Gentings.Tasks
 {
@@ -81,7 +82,14 @@ namespace Gentings.Tasks
         /// <param name="name">参数名称。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <returns>返回当前参数。</returns>
-        public int GetInt32(string name, int defaultValue = 0) => (int?) this[name] ?? defaultValue;
+        public int GetInt32(string name, int defaultValue = 0)
+        {
+            var value = this[name];
+            if (value == null) return defaultValue;
+            if (value is JsonElement element)
+                return element.GetInt32();
+            return Convert.ToInt32(value);
+        }
 
         /// <summary>
         /// 获取布尔型参数。
@@ -89,7 +97,29 @@ namespace Gentings.Tasks
         /// <param name="name">参数名称。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <returns>返回当前参数。</returns>
-        public bool GetBoolean(string name, bool defaultValue = false) => (bool?) this[name] ?? defaultValue;
+        public bool GetBoolean(string name, bool defaultValue = false)
+        {
+            var value = this[name];
+            if (value == null) return defaultValue;
+            if (value is JsonElement element)
+                return element.GetBoolean();
+            return Convert.ToBoolean(value);
+        }
+
+        /// <summary>
+        /// 获取日期时间参数。
+        /// </summary>
+        /// <param name="name">参数名称。</param>
+        /// <param name="defaultValue">默认值。</param>
+        /// <returns>返回当前参数。</returns>
+        public DateTime? GetDateTime(string name, DateTime? defaultValue = null)
+        {
+            var value = this[name];
+            if (value == null) return defaultValue;
+            if (value is JsonElement element)
+                return element.GetDateTime();
+            return Convert.ToDateTime(value);
+        }
 
         /// <summary>
         /// 当前服务Id。
@@ -119,7 +149,7 @@ namespace Gentings.Tasks
         /// </summary>
         public DateTime? ErrorDate
         {
-            get => (DateTime?) this[nameof(ErrorDate)];
+            get => GetDateTime(nameof(ErrorDate));
             set => this[nameof(ErrorDate)] = value;
         }
 

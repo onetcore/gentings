@@ -461,7 +461,8 @@ namespace Gentings
         private static readonly JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions
         {
             IgnoreNullValues = true,
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = false,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
         /// <summary>
