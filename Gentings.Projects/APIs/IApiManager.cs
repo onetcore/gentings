@@ -55,13 +55,13 @@ namespace Gentings.Projects.APIs
                 return _actionDescriptorCollectionProvider.ActionDescriptors.Items
                     .Select(x => x as ControllerActionDescriptor)
                     .Where(x => x != null)
-                    //.Where(x =>
-                    //{
-                    //    if (!x.ControllerTypeInfo.IsDefined(typeof(ApiControllerAttribute)))
-                    //        return false;
-                    //    var settings = x.ControllerTypeInfo.GetCustomAttribute<ApiExplorerSettingsAttribute>();
-                    //    return settings?.IgnoreApi != true;
-                    //})
+                    .Where(x =>
+                    {
+                        if (!x.ControllerTypeInfo.IsDefined(typeof(ApiControllerAttribute)))
+                            return false;
+                        var settings = x.ControllerTypeInfo.GetCustomAttribute<ApiExplorerSettingsAttribute>();
+                        return settings?.IgnoreApi != true;
+                    })
                     .Select(x => new ApiDescriptor
                     {
                         ControllerName = x.ControllerName,
