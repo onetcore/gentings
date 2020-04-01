@@ -1,0 +1,46 @@
+﻿@page "Assembly/{assembly}"
+@model AssemblyModel
+@{
+    ViewData["Title"] = Model.Assembly.AssemblyName;
+    ViewBag.Current = "proj." + Model.Assembly.AssemblyName;
+}
+
+<div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
+    <div class="mr-3 icon-48 icon-en48 text-uppercase">@Model.TagName</div>
+    <div class="lh-100">
+        <h6 class="mb-0 text-white lh-100">@Model.Assembly.AssemblyName</h6>
+        <small>v @Model.Assembly.Version</small>
+    </div>
+</div>
+
+<div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">API列表</h6>
+    @foreach (var api in Model.Apis)
+    {
+        <div class="media text-muted pt-3">
+            <div class="mr-2 text-white rounded position-relative" style="background-color: @(api.HttpMethod.GetColor()); font-size: 12px; width: 32px; height: 32px; overflow: hidden;">
+                <span class="b-span">@api.HttpMethod.ToString().ToUpper()</span>
+            </div>
+            <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                <a href="#"><strong class="d-block text-gray-dark">@@@api.RouteTemplate</strong></a>
+                @api.Summary?.Summary
+                @foreach (var parameter in api.Parameters)
+                {
+                    <div class="param">
+                        @parameter.Name:{
+                        @if (parameter.ParameterType.IsLinkable())
+                        {
+                            <a asp-page="/Types" asp-area="Projects" asp-route-typeName="@parameter.ParameterType.FullName">@parameter.ParameterType.FullName</a>
+                        }
+                        else
+                        {
+                            <span>@parameter.ParameterType.FullName</span>
+                        }
+                        } @api.GetParameterDescriptor(parameter.Name)?.Summary
+                    </div>
+                }
+                <div class="return">@api.Summary?.Returns?.Summary</div>
+            </div>
+        </div>
+    }
+</div>

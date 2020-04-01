@@ -30,7 +30,7 @@
                 {
                 @if (property.PropertyType.IsLinkable())
                 {
-                    <a asp-page="/Types" asp-area="Projects" asp-route-typeName="@property.PropertyType.FullName">@property.PropertyType.GetRealType()</a>
+                    <a asp-page="/Types" asp-area="@ProjectSettings.ExtensionName" asp-route-typeName="@property.PropertyType.FullName">@property.PropertyType.GetRealType()</a>
                 }
                 else
                 {
@@ -55,7 +55,7 @@
 
 @section footer
 {
-    <link rel="stylesheet" href="~/lib/prettify/prettify.min.css"/>
-    <script src="~/lib/prettify/prettify.min.js"></script>
+    <link rel="stylesheet" href="~/projects/lib/prettify/prettify.min.css"/>
+    <script src="~/projects/lib/prettify/prettify.min.js"></script>
     <script type="text/javascript">prettyPrint();</script>
 }

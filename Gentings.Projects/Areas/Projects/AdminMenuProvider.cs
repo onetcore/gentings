@@ -22,11 +22,11 @@ namespace Gentings.Projects.Areas.Projects
         {
             root.AddMenu("proj", item =>
             {
-                item.Texted("项目管理", "layers");
+                item.Texted("项目管理", "layers").Page("/Index", area: ProjectSettings.ExtensionName);
                 var modules = _apiManager.GetAssemblies().Select(x => x.AssemblyName).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
                 foreach (var assembly in modules)
                 {
-                    item.AddMenu(assembly, it => it.Texted(assembly).Page("/Index", area: "Projects", routeValues: new { assembly }));
+                    item.AddMenu(assembly, it => it.Texted(assembly).Page("/Assembly", area: ProjectSettings.ExtensionName, routeValues: new { assembly }));
                 }
                 //.AddMenu("docs", it => it.Texted("注释文档").Page("/Index", area: "Projects"))
                 //.AddMenu("actions", it => it.Texted("API方法").Page("/Actions", area: "Projects"))

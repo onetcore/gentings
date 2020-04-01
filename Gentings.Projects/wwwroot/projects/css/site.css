@@ -1,0 +1,12 @@
+﻿pre.prettyprint.ts {
+    border: 0;
+}
+
+pre.prettyprint.ts .linenums li {
+    list-style-type: decimal;
+    background-color: transparent;
+}
+
+pre.prettyprint.ts .com {
+    color: #28a745;
+}

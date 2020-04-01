@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - 云顶创联</title>
+    <link href="~/projects/lib/font_awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/projects/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/projects/lib/gtcore/css/gtcore.min.css" />
+    @RenderSection("header", false)
+</head>
+<body class="gt-skin customScrollBar @ViewBag.ClassName">
+    @RenderBody()
+    <script src="~/projects/lib/jquery/jquery.min.js"></script>
+    <script src="~/projects/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/projects/lib/feather_icons/feather.min.js"></script>
+    <script src="~/projects/lib/gtcore/js/gtcore.min.js"></script>
+    @RenderSection("footer", false)
+    <gt:status-message-panel modal="true"></gt:status-message-panel>
+    <form asp-antiforgery="true" id="ajax-protected-form"></form>
+</body>
+</html>
