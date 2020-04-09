@@ -121,6 +121,14 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
+        protected virtual string GenerateLiteralValue(uint value)
+            => value.ToString(CultureInfo.InvariantCulture);
+
+        /// <summary>
+        /// 将对象转换为安全的SQL字符串。
+        /// </summary>
+        /// <param name="value">值。</param>
+        /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(short value)
             => value.ToString(CultureInfo.InvariantCulture);
 
@@ -129,7 +137,23 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
+        protected virtual string GenerateLiteralValue(ushort value)
+            => value.ToString(CultureInfo.InvariantCulture);
+
+        /// <summary>
+        /// 将对象转换为安全的SQL字符串。
+        /// </summary>
+        /// <param name="value">值。</param>
+        /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(long value)
+            => value.ToString(CultureInfo.InvariantCulture);
+
+        /// <summary>
+        /// 将对象转换为安全的SQL字符串。
+        /// </summary>
+        /// <param name="value">值。</param>
+        /// <returns>返回转换后的字符串。</returns>
+        protected virtual string GenerateLiteralValue(ulong value)
             => value.ToString(CultureInfo.InvariantCulture);
 
         /// <summary>

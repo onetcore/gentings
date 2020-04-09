@@ -20,6 +20,7 @@ namespace Gentings.ConsoleApp
         {
             if (string.IsNullOrWhiteSpace(args))
             {
+                IsEmpty = true;
                 return;
             }
 
@@ -150,5 +151,10 @@ namespace Gentings.ConsoleApp
         /// <param name="commandName">命令名称，忽略大小写。</param>
         /// <returns>返回判断结果。</returns>
         public bool IsSubCommand(string commandName) => SubComamnds.Contains(commandName.ToLower());
+
+        /// <summary>
+        /// 是否为空。
+        /// </summary>
+        public bool IsEmpty { get; }
     }
 }

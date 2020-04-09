@@ -98,6 +98,7 @@ namespace Gentings.ConsoleApp
         /// <returns>返回读取值。</returns>
         public ulong ReadUInt64() => ReadBuffer(8, span => span.ReadUInt64());
 
+        private const byte EndChar = 0;
         /// <summary>
         /// 读取字符串。
         /// </summary>
@@ -105,7 +106,13 @@ namespace Gentings.ConsoleApp
         /// <param name="encoding">编码。</param>
         /// <returns>返回当前字符串实例。</returns>
         public string ReadString(int size, Encoding encoding = default)
-            => ReadBuffer(size, span => (encoding ?? Encoding.Default).GetString(span));
+            => ReadBuffer(size, span =>
+            {
+                var index = span.IndexOf(EndChar);
+                if (index != -1)
+                    span = span.Slice(0, index);
+                return (encoding ?? Encoding.Default).GetString(span);
+            });
 
         /// <summary>
         /// 读取一个字节。
