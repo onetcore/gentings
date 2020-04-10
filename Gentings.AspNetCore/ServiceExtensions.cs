@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Gentings.AspNetCore.EventLogging;
+using Gentings.Data.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +32,20 @@ namespace Gentings.AspNetCore
             }
 
             return app;
+        }
+
+        /// <summary>
+        /// 添加事件相关模块。
+        /// </summary>
+        /// <param name="builder">服务构建实例。</param>
+        /// <returns>服务构建实例。</returns>
+        public static IServiceBuilder AddEventLoggers(this IServiceBuilder builder)
+        {
+            builder.AddTransients<IDataMigration, DefaultEventDataMigration>();
+            builder.AddSingleton<IEventLogger, DefaultEventLogger>();
+            builder.AddSingleton<IEventManager, DefaultEventManager>();
+            builder.AddSingleton<IEventTypeManager, DefaultEventTypeManager>();
+            return builder;
         }
 
         /// <summary>

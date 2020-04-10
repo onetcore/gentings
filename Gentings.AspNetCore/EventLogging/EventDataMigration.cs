@@ -7,7 +7,7 @@ namespace Gentings.AspNetCore.EventLogging
     /// <summary>
     /// 事件数据库迁移类。
     /// </summary>
-    public class EventDataMigration : CategoryDataMigration<EventType>
+    public abstract class EventDataMigration : CategoryDataMigration<EventType>
     {
         /// <summary>
         /// 编辑表格其他属性列。

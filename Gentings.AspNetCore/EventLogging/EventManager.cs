@@ -8,13 +8,13 @@ namespace Gentings.AspNetCore.EventLogging
     /// <summary>
     /// 事件管理。
     /// </summary>
-    public class EventManager : ObjectManager<EventMessage>, IEventManager
+    public abstract class EventManager : ObjectManager<EventMessage>, IEventManager
     {
         /// <summary>
         /// 初始化类<see cref="EventManager"/>。
         /// </summary>
         /// <param name="context">数据库操作实例。</param>
-        public EventManager(IDbContext<EventMessage> context)
+        protected EventManager(IDbContext<EventMessage> context)
             : base(context)
         {
         }

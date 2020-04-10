@@ -1,7 +1,7 @@
 ﻿using Gentings.Data.Migrations;
 using Gentings.Data.Migrations.Builders;
+using Gentings.Identity.Captchas;
 using Gentings.Identity.Denies;
-using Gentings.Identity.Permissions;
 using Gentings.Identity.Roles;
 
 namespace Gentings.Identity
@@ -30,6 +30,13 @@ namespace Gentings.Identity
                 .Column(x => x.Id)
                 .Column(x => x.Name)
                 .UniqueConstraint(x => x.Name));
+            //短信验证码
+            if (EnabledCaptcha)
+                builder.CreateTable<Captcha>(table => table.Column(x => x.PhoneNumber)
+                    .Column(x => x.Type)
+                    .Column(x => x.Code)
+                    .Column(x => x.CaptchaExpiredDate)
+                );
             //用户
             builder.CreateTable<TUser>(table =>
             {
@@ -81,6 +88,11 @@ namespace Gentings.Identity
                 .Column(x => x.UserId)
                 .ForeignKey<TUser>(x => x.UserId, x => x.Id, onDelete: ReferentialAction.Cascade));
         }
+
+        /// <summary>
+        /// 是否激活短信验证码。
+        /// </summary>
+        protected virtual bool EnabledCaptcha { get; }
 
         /// <summary>
         /// 建索引。

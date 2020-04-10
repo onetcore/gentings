@@ -36,6 +36,8 @@ namespace Gentings.Messages
         {
             return builder.AddServices(services =>
             {
+                services.AddSingleton<INotificationManager, DefaultNotificationManager>();
+                services.AddSingleton<INotifier, DefaultNotifier>();
                 services.TryAddEnumerable(ServiceDescriptor.Singleton<ITaskService, DefaultNotificationTaskService>());
                 services.TryAddEnumerable(ServiceDescriptor.Transient<IDataMigration, DefaultNotificationDataMigration>());
             });

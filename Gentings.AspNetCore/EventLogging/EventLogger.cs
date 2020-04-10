@@ -10,7 +10,7 @@ namespace Gentings.AspNetCore.EventLogging
     /// <summary>
     /// 事件日志实现类。
     /// </summary>
-    public class EventLogger : IEventLogger
+    public abstract class EventLogger : IEventLogger
     {
         private readonly IEventTypeManager _eventTypeManager;
         private readonly IEventManager _eventManager;
@@ -24,7 +24,7 @@ namespace Gentings.AspNetCore.EventLogging
         /// <param name="eventManager">事件管理接口。</param>
         /// <param name="httpContextAccessor">HTTP上下文访问器。</param>
         /// <param name="logger">日志接口。</param>
-        public EventLogger(IEventTypeManager eventTypeManager, IEventManager eventManager, IHttpContextAccessor httpContextAccessor, ILogger<EventLogger> logger)
+        protected EventLogger(IEventTypeManager eventTypeManager, IEventManager eventManager, IHttpContextAccessor httpContextAccessor, ILogger<EventLogger> logger)
         {
             _eventTypeManager = eventTypeManager;
             _eventManager = eventManager;
@@ -116,7 +116,7 @@ namespace Gentings.AspNetCore.EventLogging
         /// <param name="message">事件消息。</param>
         public Task LogAsync(int userId, string eventType, string message)
         {
-            var eventMessage = new EventMessage {Message = message, UserId = userId};
+            var eventMessage = new EventMessage { Message = message, UserId = userId };
             return LogAsync(eventType, eventMessage);
         }
 
@@ -160,7 +160,7 @@ namespace Gentings.AspNetCore.EventLogging
         /// <param name="message">事件消息。</param>
         public void Log(int userId, string eventType, string message)
         {
-            var eventMessage = new EventMessage {Message = message, UserId = userId};
+            var eventMessage = new EventMessage { Message = message, UserId = userId };
             Log(eventType, eventMessage);
         }
 
@@ -180,7 +180,7 @@ namespace Gentings.AspNetCore.EventLogging
 
             Log(userId, eventType, message);
         }
-        
+
         /// <summary>
         /// 添加用户事件日志。
         /// </summary>

@@ -9,7 +9,6 @@
     <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="3.1.2" />
     <ProjectReference Include="..\Gentings.AspNetCore\Gentings.AspNetCore.csproj" />
     <ProjectReference Include="..\Gentings.Identity\Gentings.Identity.csproj" />
-    <ProjectReference Include="..\Gentings.Messages\Gentings.Messages.csproj" />
     <ProjectReference Include="..\Gentings.Storages\Gentings.Storages.csproj" />
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>

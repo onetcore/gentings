@@ -6,7 +6,7 @@ namespace Gentings.Messages.Notifications
     /// <summary>
     /// 通知类型。
     /// </summary>
-    public class Notifier : INotifier
+    public abstract class Notifier : INotifier
     {
         private readonly INotificationManager _notificationManager;
         private readonly INotificationTypeManager _typeManager;
@@ -15,7 +15,7 @@ namespace Gentings.Messages.Notifications
         /// </summary>
         /// <param name="notificationManager">通知管理接口。</param>
         /// <param name="typeManager">通知类型管理接口。</param>
-        public Notifier(INotificationManager notificationManager, INotificationTypeManager typeManager)
+        protected Notifier(INotificationManager notificationManager, INotificationTypeManager typeManager)
         {
             _notificationManager = notificationManager;
             _typeManager = typeManager;

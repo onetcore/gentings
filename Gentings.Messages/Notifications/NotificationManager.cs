@@ -11,7 +11,7 @@ namespace Gentings.Messages.Notifications
     /// <summary>
     /// 通知管理实现类。
     /// </summary>
-    public class NotificationManager : ObjectManager<Notification>, INotificationManager
+    public abstract class NotificationManager : ObjectManager<Notification>, INotificationManager
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISettingsManager _settingsManager;
@@ -22,7 +22,7 @@ namespace Gentings.Messages.Notifications
         /// <param name="context">数据库操作实例。</param>
         /// <param name="httpContextAccessor">Http上下文访问接口。</param>
         /// <param name="settingsManager">配置管理接口。</param>
-        public NotificationManager(IDbContext<Notification> context, IHttpContextAccessor httpContextAccessor, ISettingsManager settingsManager) : base(context)
+        protected NotificationManager(IDbContext<Notification> context, IHttpContextAccessor httpContextAccessor, ISettingsManager settingsManager) : base(context)
         {
             _httpContextAccessor = httpContextAccessor;
             _settingsManager = settingsManager;

@@ -7,7 +7,6 @@ using Gentings.AspNetCore.RazorPages.Properties;
 using Gentings.AspNetCore.RazorPages.StatusMessages;
 using Gentings.Extensions;
 using Gentings.Extensions.Settings;
-using Gentings.Messages.Notifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -106,12 +105,6 @@ namespace Gentings.AspNetCore.RazorPages
         /// <returns>返回当前字典实例。</returns>
         public string GetSettingString(string key) =>
             GetRequiredService<ISettingDictionaryManager>().GetOrAddSettings(key);
-
-        private INotifier _notifier;
-        /// <summary>
-        /// 通知信息。
-        /// </summary>
-        protected INotifier Notifier => _notifier??=GetRequiredService<INotifier>();
 
         #region pages
         private StatusMessage _statusMessage;

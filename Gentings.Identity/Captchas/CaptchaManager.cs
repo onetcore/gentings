@@ -10,7 +10,10 @@ namespace Gentings.Identity.Captchas
     public class CaptchaManager : ICaptchaManager
     {
         private readonly IDbContext<Captcha> _context;
-
+        /// <summary>
+        /// 初始化类<see cref="CaptchaManager"/>。
+        /// </summary>
+        /// <param name="context">数据库操作上下文实例。</param>
         public CaptchaManager(IDbContext<Captcha> context)
         {
             _context = context;
@@ -57,7 +60,7 @@ namespace Gentings.Identity.Captchas
             if (await _context.AnyAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type))
             {
                 return await _context.UpdateAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type,
-                    new {captcha.Code, captcha.CaptchaExpiredDate});
+                    new { captcha.Code, captcha.CaptchaExpiredDate });
             }
 
             return await _context.CreateAsync(captcha);
