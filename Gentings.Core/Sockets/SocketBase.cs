@@ -7,7 +7,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Gentings.ConsoleApp
+namespace Gentings.Sockets
 {
     /// <summary>
     /// 套接字处理基类。
@@ -34,8 +34,14 @@ namespace Gentings.ConsoleApp
             {
                 while (!TokenSource.IsCancellationRequested && Socket.Connected)
                 {
-                    await func(TokenSource.Token);
-                    await Task.Delay(10, TokenSource.Token);
+                    try
+                    {
+                        await func(TokenSource.Token);
+                    }
+                    finally
+                    {
+                        await Task.Delay(1, TokenSource.Token);
+                    }
                 }
             }));
         }
@@ -47,8 +53,8 @@ namespace Gentings.ConsoleApp
         protected SocketBase(Socket socket)
         {
             Socket = socket;
-            Local = (IPEndPoint) Socket.LocalEndPoint;
-            Remote = (IPEndPoint) Socket.RemoteEndPoint;
+            Local = (IPEndPoint)Socket.LocalEndPoint;
+            Remote = (IPEndPoint)Socket.RemoteEndPoint;
         }
 
         /// <summary>
@@ -121,17 +127,17 @@ namespace Gentings.ConsoleApp
                 var memory = writer.GetMemory(minimumBufferSize);
                 try
                 {
-                    var bytesRead = await Socket.ReceiveAsync(memory, SocketFlags.None, cancellationToken);
-                    if (bytesRead == 0)
+                    var reads = await Socket.ReceiveAsync(memory, SocketFlags.None, cancellationToken);
+                    if (reads == 0)
                         break;
 
                     Actived = DateTimeOffset.Now;
                     // 告诉PipeWriter从套接字读取了多少
-                    writer.Advance(bytesRead);
+                    writer.Advance(reads);
                 }
                 catch (SocketException exception)
                 {
-                    Consoles.Error("[{2}] 套接字读取出现错误：{1}({0})", exception.Message, exception.SocketErrorCode, Name);
+                    LogError("[{2}] 套接字读取出现错误：{1}({0})", exception.Message, exception.SocketErrorCode, Name);
                     if (!Socket.Connected)
                     {
                         await CloseAsync();
@@ -140,7 +146,7 @@ namespace Gentings.ConsoleApp
                 }
                 catch (Exception ex)
                 {
-                    Consoles.Error("[{0}] {1}", Name, ex.Message);
+                    LogError("[{0}] {1}", Name, ex.Message);
                     break;
                 }
 
@@ -190,6 +196,15 @@ namespace Gentings.ConsoleApp
         /// </summary>
         /// <param name="exception">错误实例。</param>
         protected virtual void LogError(Exception exception)
+        {
+        }
+
+        /// <summary>
+        /// 解析错误日志。
+        /// </summary>
+        /// <param name="message">错误消息。</param>
+        /// <param name="args">参数。</param>
+        protected virtual void LogError(string message, params object[] args)
         {
         }
 

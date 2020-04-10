@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Gentings.ConsoleApp
+namespace Gentings.Sockets
 {
     /// <summary>
     /// Marshal扩展类。

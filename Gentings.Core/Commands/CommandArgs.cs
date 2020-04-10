@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Gentings.Properties;
 
-namespace Gentings.ConsoleApp
+namespace Gentings.Commands
 {
     /// <summary>
     /// 命令参数。
@@ -85,7 +86,7 @@ namespace Gentings.ConsoleApp
                     }
                     else
                     {
-                        throw new Exception($"参数值必须以“{end}”结尾！");
+                        throw new Exception(string.Format(Resources.CommandArgs_Read_MustEndsWith, end));
                     }
                 }
 

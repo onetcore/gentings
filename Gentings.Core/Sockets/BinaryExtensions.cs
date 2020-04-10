@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Buffers.Binary;
 
-namespace Gentings
+namespace Gentings.Sockets
 {
     /// <summary>
     /// Span操作扩展类。

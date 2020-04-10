@@ -231,12 +231,6 @@
   <data name="Interval_Year" xml:space="preserve">
     <value>年</value>
   </data>
-  <data name="InvalidPropertiesExpression" xml:space="preserve">
-    <value>属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't =&gt; t.MyProperty'；如果式多个属性，需要如下代码表示：'t =&gt; new {{ t.MyProperty1, t.MyProperty2 }}'。</value>
-  </data>
-  <data name="InvalidPropertyExpression" xml:space="preserve">
-    <value>属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't =&gt; t.MyProperty'。</value>
-  </data>
   <data name="MigrationError" xml:space="preserve">
     <value>数据迁移出错：{0}。</value>
   </data>
@@ -257,9 +251,6 @@
   </data>
   <data name="PrimaryKeyIsNotSingleField" xml:space="preserve">
     <value>实体“{0}”的主键{1}包含的不值一个属性！</value>
-  </data>
-  <data name="RandomNumberGenerator_SizeInvalid" xml:space="preserve">
-    <value>字节大小必须能被 8 整除。</value>
   </data>
   <data name="RowVersionOnlyOnePropertyEachClass" xml:space="preserve">
     <value>每个类只能包含一个版本“TimestampAttribute”特性属性。</value>

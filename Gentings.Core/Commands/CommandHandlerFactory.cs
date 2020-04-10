@@ -3,8 +3,9 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Gentings.Properties;
 
-namespace Gentings.ConsoleApp
+namespace Gentings.Commands
 {
     /// <summary>
     /// 命令处理器工厂实现类。
@@ -36,24 +37,24 @@ namespace Gentings.ConsoleApp
             {
                 case "exit":
                 case "quit":
-                {
-                    await Consoles.CloseAsync(10);
-                    Consoles.TokenSource.Cancel();
-                }
+                    {
+                        await Consoles.CloseAsync(10);
+                        Consoles.TokenSource.Cancel();
+                    }
                     break;
                 case "help":
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("本程序可以使用的命令包含以下内容：");
-                    foreach (var commandHandler in _commandHandlers.Values.OrderBy(x => x.Command))
                     {
-                        Consoles.Display(commandHandler.Command, commandHandler.Help);
-                    }
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine(Resources.CommandHandlerFactory_CommandList);
+                        foreach (var commandHandler in _commandHandlers.Values.OrderBy(x => x.Command))
+                        {
+                            Consoles.Display(commandHandler.Command, commandHandler.Help);
+                        }
 
-                    Consoles.Display("help", "显示帮助信息");
-                    Consoles.Display("exit|quit", "推出应用程序");
-                    Console.ResetColor();
-                }
+                        Consoles.Display("help", Resources.CommandHandlerFactory_ExecuteAsync_HelpDescription);
+                        Consoles.Display("exit|quit", Resources.CommandHandlerFactory_ExecuteAsync_Quit);
+                        Console.ResetColor();
+                    }
                     break;
                 default:
                     if (_commandHandlers.TryGetValue(commandName, out var handler))
@@ -69,7 +70,7 @@ namespace Gentings.ConsoleApp
                     }
                     else
                     {
-                        Consoles.Error($"不支持命令：.{commandName}，请使用.help命令查看可用命令");
+                        Consoles.Error(Resources.CommandHandlerFactory_ExecuteAsync_NotSupported, commandName);
                     }
 
                     break;

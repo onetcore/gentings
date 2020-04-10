@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gentings.ConsoleApp
+namespace Gentings.Sockets
 {
     /// <summary>
     /// 字节写入辅助类。

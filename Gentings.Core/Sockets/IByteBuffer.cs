@@ -1,4 +1,4 @@
-﻿namespace Gentings.ConsoleApp
+﻿namespace Gentings.Sockets
 {
     /// <summary>
     /// 字节封包接口。

@@ -403,24 +403,6 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
-        ///   查找类似 属性表达式&apos;{0}&apos;不正确， 表达式必须提供一种属性访问，如： &apos;t =&gt; t.MyProperty&apos;；如果式多个属性，需要如下代码表示：&apos;t =&gt; new {{ t.MyProperty1, t.MyProperty2 }}&apos;。 的本地化字符串。
-        /// </summary>
-        internal static string InvalidPropertiesExpression {
-            get {
-                return ResourceManager.GetString("InvalidPropertiesExpression", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 属性表达式&apos;{0}&apos;不正确， 表达式必须提供一种属性访问，如： &apos;t =&gt; t.MyProperty&apos;。 的本地化字符串。
-        /// </summary>
-        internal static string InvalidPropertyExpression {
-            get {
-                return ResourceManager.GetString("InvalidPropertyExpression", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 数据迁移出错：{0}。 的本地化字符串。
         /// </summary>
         internal static string MigrationError {
@@ -480,15 +462,6 @@ namespace Gentings.Properties {
         internal static string PrimaryKeyIsNotSingleField {
             get {
                 return ResourceManager.GetString("PrimaryKeyIsNotSingleField", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 字节大小必须能被 8 整除。 的本地化字符串。
-        /// </summary>
-        internal static string RandomNumberGenerator_SizeInvalid {
-            get {
-                return ResourceManager.GetString("RandomNumberGenerator_SizeInvalid", resourceCulture);
             }
         }
         

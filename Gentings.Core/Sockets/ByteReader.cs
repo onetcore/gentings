@@ -2,7 +2,7 @@
 using System.Buffers;
 using System.Text;
 
-namespace Gentings.ConsoleApp
+namespace Gentings.Sockets
 {
     /// <summary>
     /// 字节读取器。

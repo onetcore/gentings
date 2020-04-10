@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Hosting;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Gentings.Properties;
+using Microsoft.Extensions.Hosting;
 
-namespace Gentings.ConsoleApp
+namespace Gentings.Commands
 {
     /// <summary>
     /// 控制台方法。
@@ -27,12 +28,12 @@ namespace Gentings.ConsoleApp
         /// <param name="args">参数。</param>
         public static async Task StartAsync(string[] args)
         {
-            Info("正在初始化应用程序！");
+            Info(Resources.Consoles_StartAsync_Initailize);
             using var host = Host.CreateDefaultBuilder(args)
                 .ConfigureServices((context, service) => service.AddGentings(context.Configuration))
                 .Build();
             await host.StartAsync(TokenSource.Token);
-            Info("已经成功启动了应用程序，可以输入命令进行手动操作！");
+            Info(Resources.Consoles_StartAsync_SuccessStart);
             var commandHandlerFactory =
                 host.Services.GetService(typeof(ICommandHandlerFactory)) as ICommandHandlerFactory;
             while (!TokenSource.IsCancellationRequested)
@@ -59,7 +60,7 @@ namespace Gentings.ConsoleApp
                     }
                     else
                     {
-                        Error($"不支持命令“{command}”，请使用.help命令来获取帮助信息！");
+                        Error(Resources.Consoles_StartAsync_UseHelp, command);
                     }
                 }
 
@@ -162,7 +163,7 @@ namespace Gentings.ConsoleApp
             lock (_locker)
             {
                 Console.ForegroundColor = color;
-                Console.Write("[{0:HH:mm:ss}] ", DateTime.Now);
+                Console.Write(@"[{0:HH:mm:ss}] ", DateTime.Now);
                 if (args?.Length > 0)
                     message = string.Format(message, args);
                 Console.WriteLine(message);
@@ -181,7 +182,7 @@ namespace Gentings.ConsoleApp
             lock (_locker)
             {
                 Console.ForegroundColor = color;
-                Console.Write("[{0:HH:mm:ss}] ", DateTime.Now);
+                Console.Write(@"[{0:HH:mm:ss}] ", DateTime.Now);
                 if (args?.Length > 0)
                     message = string.Format(message, args);
                 Console.Write(message);
@@ -237,7 +238,7 @@ namespace Gentings.ConsoleApp
         /// <param name="delay">倒计时秒数。</param>
         public static async Task CloseAsync(int delay = 10)
         {
-            Warning($"程序即将在“{delay}”秒后关闭...");
+            Warning(Resources.Consoles_CloseAsync_DelayClose, delay);
             await DelayAsync(delay);
         }
 
@@ -245,7 +246,7 @@ namespace Gentings.ConsoleApp
         {
             if (seconds < 1)
             {
-                Warning("关闭！");
+                Warning(Resources.Consoles_DelayAsync_Close);
                 return;
             }
 

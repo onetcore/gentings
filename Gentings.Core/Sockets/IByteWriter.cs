@@ -1,4 +1,4 @@
-﻿namespace Gentings.ConsoleApp
+﻿namespace Gentings.Sockets
 {
     /// <summary>
     /// 可写入接口。
