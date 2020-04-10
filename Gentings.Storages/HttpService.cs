@@ -9,7 +9,7 @@ namespace Gentings.Storages
     /// <summary>
     /// HTTP辅助类。
     /// </summary>
-    public static class HttpClient
+    public static class HttpService
     {
         /// <summary>
         /// 用户代理。
@@ -151,7 +151,7 @@ namespace Gentings.Storages
                 Directory.CreateDirectory(dir);
             }
 
-            return await HttpClient.ExecuteAsync(async client =>
+            return await HttpService.ExecuteAsync(async client =>
             {
                 await using var stream = await client.GetStreamAsync(uri);
                 await stream.SaveToAsync(path);
@@ -170,7 +170,7 @@ namespace Gentings.Storages
             try
             {
                 var uri = new Uri(url);
-                return await HttpClient.ExecuteAsync(async client =>
+                return await HttpService.ExecuteAsync(async client =>
                 {
                     await using var stream = await client.GetStreamAsync(uri);
                     await stream.SaveToAsync(path);

@@ -47,9 +47,21 @@
 </div>
 
 <div class="my-3 p-3 bg-white rounded shadow-sm">
-    <h6 class="border-bottom border-gray pb-2 mb-0">TypeScript</h6>
-    <div class="media text-muted pt-3">
-        <pre class="prettyprint linenums w-100 ts">@Model.Type.GetTypeScriptInterface()</pre>
+    <ul class="nav nav-tabs border-bottom border-gray mb-0" role="tablist">
+        <li class="nav-item active">
+            <a class="nav-link active" id="cs-tab" data-toggle="tab" href="#cs" role="tab">C#</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="ts-tab" data-toggle="tab" href="#ts" role="tab">TypeScript</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="cs" class="media text-muted pt-3 tab-pane fade show active">
+            <pre class="prettyprint border-0 linenums w-100">@Model.Type.GetClass()</pre>
+        </div>
+        <div id="ts" class="media text-muted pt-3 tab-pane fade">
+            <pre class="prettyprint border-0 linenums w-100">@Model.Type.GetTypeScriptInterface()</pre>
+        </div>
     </div>
 </div>
 

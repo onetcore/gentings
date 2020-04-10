@@ -114,6 +114,48 @@ namespace Gentings.Projects
         }
 
         /// <summary>
+        /// 获取类型定义。
+        /// </summary>
+        /// <param name="type">当前类型。</param>
+        /// <returns>返回接口定义。</returns>
+        public static string GetClass(this Type type)
+        {
+            var typeDescriptor = AssemblyDocument.GetTypeDescriptor(type);
+            var builder = new StringBuilder();
+            builder.AppendLine("/// <summary>")
+                .Append("/// ").AppendLine(typeDescriptor?.Summary)
+                .AppendLine("/// </summary>");
+            builder.Append("public class ").Append(type.Name).AppendLine("{");
+
+            void Append(PropertyInfo info)
+            {
+                var summary = typeDescriptor?.GetPropertyDescriptor(info)?.Summary;
+                if (summary != null)
+                {
+                    builder.AppendLine("    /// <summary>")
+                        .Append("    /// ").AppendLine(summary)
+                        .AppendLine("    /// </summary>");
+                }
+
+                builder.Append("    public ").Append(info.PropertyType.Name)
+                    .Append(" ").Append(info.Name)
+                    .AppendLine(" {get; set;}");
+            }
+
+            foreach (var property in type.GetProperties())
+            {
+                if (!property.CanRead || !property.CanWrite)
+                {
+                    continue;
+                }
+                Append(property);
+            }
+
+            builder.AppendLine("}");
+            return builder.ToString();
+        }
+
+        /// <summary>
         /// 获取TypeScript接口定义。
         /// </summary>
         /// <param name="type">当前类型。</param>

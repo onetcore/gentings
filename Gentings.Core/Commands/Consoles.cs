@@ -30,7 +30,16 @@ namespace Gentings.Commands
         {
             Info(Resources.Consoles_StartAsync_Initailize);
             using var host = Host.CreateDefaultBuilder(args)
-                .ConfigureServices((context, service) => service.AddGentings(context.Configuration))
+                .ConfigureServices((context, service) =>
+                {
+#if DEBUG
+                    context.HostingEnvironment.EnvironmentName = Environments.Development;
+#else
+                    context.HostingEnvironment.EnvironmentName = Environments.Production;
+#endif
+                    service.AddGentings(context.Configuration);
+                })
+                .UseConsoleLifetime()
                 .Build();
             await host.StartAsync(TokenSource.Token);
             Info(Resources.Consoles_StartAsync_SuccessStart);
@@ -68,7 +77,7 @@ namespace Gentings.Commands
             }
         }
 
-        #region commands output
+#region commands output
 
         /// <summary>
         /// 显示命令。
@@ -230,7 +239,7 @@ namespace Gentings.Commands
             }
         }
 
-        #endregion
+#endregion
 
         /// <summary>
         /// 倒计时关闭程序。

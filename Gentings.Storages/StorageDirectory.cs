@@ -110,7 +110,7 @@ namespace Gentings.Storages
         /// <returns>返回文件实例。</returns>
         public virtual Task<FileInfo> SaveToTempAsync(Uri uri)
         {
-            return HttpClient.ExecuteAsync(async client =>
+            return HttpService.ExecuteAsync(async client =>
             {
                 client.Timeout = TimeSpan.FromHours(1);
                 client.DefaultRequestHeaders.Referrer =
