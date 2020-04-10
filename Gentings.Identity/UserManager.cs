@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Gentings.Extensions;
+using Gentings.Extensions.Settings;
 using Gentings.Identity.Roles;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -21,12 +22,14 @@ namespace Gentings.Identity
     /// <typeparam name="TUserClaim">用户声明类型。</typeparam>
     /// <typeparam name="TUserLogin">用户登录类型。</typeparam>
     /// <typeparam name="TUserToken">用户标识类型。</typeparam>
-    public abstract class UserManager<TUser, TUserClaim, TUserLogin, TUserToken>
+    /// <typeparam name="TIdentitySettings">配置类型。</typeparam>
+    public abstract class UserManager<TUser, TUserClaim, TUserLogin, TUserToken, TIdentitySettings>
         : UserManager<TUser>, IUserManager<TUser>
         where TUser : UserBase, new()
         where TUserClaim : UserClaimBase, new()
         where TUserLogin : UserLoginBase, new()
         where TUserToken : UserTokenBase, new()
+        where TIdentitySettings : IdentitySettings, new()
     {
         private readonly IServiceProvider _serviceProvider;
         /// <summary>
@@ -539,6 +542,8 @@ namespace Gentings.Identity
             _serviceProvider = serviceProvider;
             _store = store as IUserStoreBase<TUser, TUserClaim, TUserLogin, TUserToken>;
             DbContext = store as IUserDbContext<TUser, TUserClaim, TUserLogin, TUserToken>;
+            //通过配置覆盖代码配置。
+            Options = serviceProvider.GetRequiredService<ISettingsManager>().GetSettings<TIdentitySettings>().ToIdentityOptions(optionsAccessor);
         }
     }
 
@@ -552,8 +557,9 @@ namespace Gentings.Identity
     /// <typeparam name="TUserLogin">用户登录类型。</typeparam>
     /// <typeparam name="TUserToken">用户标识类型。</typeparam>
     /// <typeparam name="TRoleClaim">角色声明类型。</typeparam>
-    public abstract class UserManager<TUser, TRole, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim>
-        : UserManager<TUser, TUserClaim, TUserLogin, TUserToken>, IUserManager<TUser, TRole>
+    /// <typeparam name="TIdentitySettings">配置类型。</typeparam>
+    public abstract class UserManager<TUser, TRole, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim, TIdentitySettings>
+        : UserManager<TUser, TUserClaim, TUserLogin, TUserToken, TIdentitySettings>, IUserManager<TUser, TRole>
         where TUser : UserBase, new()
         where TRole : RoleBase, new()
         where TUserClaim : UserClaimBase, new()
@@ -561,6 +567,7 @@ namespace Gentings.Identity
         where TUserLogin : UserLoginBase, new()
         where TUserToken : UserTokenBase, new()
         where TRoleClaim : RoleClaimBase, new()
+        where TIdentitySettings : IdentitySettings, new()
     {
         private readonly IUserStoreBase<TUser, TRole, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim> _store;
         /// <summary>
