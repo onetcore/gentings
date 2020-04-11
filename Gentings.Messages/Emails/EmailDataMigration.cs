@@ -27,7 +27,27 @@ namespace Gentings.Messages.Emails
                 .Column(x => x.Result)
                 .Column(x => x.ExtendProperties)
             );
+
             builder.CreateIndex<Email>(x => x.HashKey);
+        }
+
+        /// <summary>
+        /// 邮件配置。
+        /// </summary>
+        /// <param name="builder">迁移构建实例。</param>
+        public void Up1(MigrationBuilder builder)
+        {
+            builder.CreateTable<EmailSettings>(table => table
+                .Column(x => x.Enabled)
+                .Column(x => x.SmtpServer)
+                .Column(x => x.SmtpUserName)
+                .Column(x => x.SmtpPort)
+                .Column(x => x.UseSsl)
+                .Column(x => x.SmtpPassword)
+                .Column(x => x.MaxTryTimes)
+                .Column(x => x.Count)
+                .Column(x => x.Id)
+            );
         }
     }
 }
