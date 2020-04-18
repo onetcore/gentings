@@ -9,24 +9,26 @@ namespace Gentings.Configuration
     /// <summary>
     /// 配置管理。
     /// </summary>
-    public class ConfigurationManager : IConfigurationManager
+    public class AppDataManager : IAppDataManager
     {
         private readonly IMemoryCache _cache;
-        private const string ConfigDir = "config";
+        private const string ConfigDir = "App_Data";
 
         private string GetPath(string name)
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), ConfigDir);
-            return Path.Combine(path, $"{name}.json");
+            if (name.IndexOf('.') == -1)
+                name += ".json";
+            return Path.Combine(path, name);
         }
 
         private string GetCacheKey(string name) => $"{ConfigDir}:[{name}]";
 
         /// <summary>
-        /// 初始化类<see cref="ConfigurationManager"/>。
+        /// 初始化类<see cref="AppDataManager"/>。
         /// </summary>
         /// <param name="cache">缓存接口。</param>
-        public ConfigurationManager(IMemoryCache cache)
+        public AppDataManager(IMemoryCache cache)
         {
             _cache = cache;
         }
@@ -34,25 +36,51 @@ namespace Gentings.Configuration
         /// <summary>
         /// 加载配置。   
         /// </summary>
-        /// <typeparam name="TConfiguration">配置类型。</typeparam>
+        /// <typeparam name="TModel">配置类型。</typeparam>
         /// <param name="name">名称，不包含文件扩展名。</param>
         /// <param name="minutes">缓存分钟数。</param>
         /// <returns>返回配置实例。</returns>
-        public virtual TConfiguration LoadConfiguration<TConfiguration>(string name, int minutes = -1)
+        public virtual TModel LoadData<TModel>(string name, int minutes = -1)
         {
             if (minutes <= 0)
             {
-                return LoadConfigurationFile<TConfiguration>(name);
+                return Cores.FromJsonString<TModel>(LoadFile(name));
             }
 
             return _cache.GetOrCreate(GetCacheKey(name), ctx =>
             {
                 ctx.SetAbsoluteExpiration(TimeSpan.FromMinutes(minutes));
-                return LoadConfigurationFile<TConfiguration>(name);
+                return Cores.FromJsonString<TModel>(LoadFile(name));
             });
         }
 
-        private TConfiguration LoadConfigurationFile<TConfiguration>(string name)
+        /// <summary>
+        /// 加载配置。   
+        /// </summary>
+        /// <typeparam name="TModel">配置类型。</typeparam>
+        /// <param name="name">名称，不包含文件扩展名。</param>
+        /// <param name="minutes">缓存分钟数。</param>
+        /// <returns>返回配置实例。</returns>
+        public virtual async Task<TModel> LoadDataAsync<TModel>(string name, int minutes = -1)
+        {
+            if (minutes <= 0)
+            {
+                return Cores.FromJsonString<TModel>(await LoadFileAsync(name));
+            }
+
+            return await _cache.GetOrCreateAsync(GetCacheKey(name), async ctx =>
+            {
+                ctx.SetAbsoluteExpiration(TimeSpan.FromMinutes(minutes));
+                return Cores.FromJsonString<TModel>(await LoadFileAsync(name));
+            });
+        }
+
+        /// <summary>
+        /// 加载数据文件。
+        /// </summary>
+        /// <param name="name">文件名称。</param>
+        /// <returns>返回当前文件内容字符串。</returns>
+        public virtual string LoadFile(string name)
         {
             var path = GetPath(name);
             if (!File.Exists(path))
@@ -62,31 +90,15 @@ namespace Gentings.Configuration
 
             using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
             using var sr = new StreamReader(fs, Encoding.UTF8);
-            return Cores.FromJsonString<TConfiguration>(sr.ReadToEnd());
+            return sr.ReadToEnd();
         }
 
         /// <summary>
-        /// 加载配置。   
+        /// 加载数据文件。
         /// </summary>
-        /// <typeparam name="TConfiguration">配置类型。</typeparam>
-        /// <param name="name">名称，不包含文件扩展名。</param>
-        /// <param name="minutes">缓存分钟数。</param>
-        /// <returns>返回配置实例。</returns>
-        public virtual async Task<TConfiguration> LoadConfigurationAsync<TConfiguration>(string name, int minutes = -1)
-        {
-            if (minutes <= 0)
-            {
-                return await LoadConfigurationFileAsync<TConfiguration>(name);
-            }
-
-            return await _cache.GetOrCreateAsync(GetCacheKey(name), async ctx =>
-            {
-                ctx.SetAbsoluteExpiration(TimeSpan.FromMinutes(minutes));
-                return await LoadConfigurationFileAsync<TConfiguration>(name);
-            });
-        }
-
-        private async Task<TConfiguration> LoadConfigurationFileAsync<TConfiguration>(string name)
+        /// <param name="name">文件名称。</param>
+        /// <returns>返回当前文件内容字符串。</returns>
+        public virtual async Task<string> LoadFileAsync(string name)
         {
             var path = GetPath(name);
             if (!File.Exists(path))
@@ -96,7 +108,7 @@ namespace Gentings.Configuration
 
             await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
             using var sr = new StreamReader(fs, Encoding.UTF8);
-            return Cores.FromJsonString<TConfiguration>(await sr.ReadToEndAsync());
+            return await sr.ReadToEndAsync();
         }
     }
 }

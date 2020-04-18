@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-namespace Gentings.Installers
+namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 安装管理接口。
     /// </summary>
-    public interface IInstallerManager : ISingletonService
+    public interface IInitializerManager : ISingletonService
     {
         /// <summary>
         /// 保存注册码。
@@ -25,6 +25,6 @@ namespace Gentings.Installers
         /// </summary>
         /// <param name="status">状态。</param>
         /// <returns>返回保存结果。</returns>
-        Task<bool> SuccessAsync(InstallerStatus status);
+        Task<bool> SuccessAsync(InitializerStatus status);
     }
 }

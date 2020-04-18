@@ -5,7 +5,7 @@ namespace Gentings.Extensions.Settings
     /// <summary>
     /// 数据库迁移。
     /// </summary>
-    public class SettingsDataMigration : DataMigration
+    internal class SettingsDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。

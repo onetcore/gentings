@@ -4,26 +4,27 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Migrations;
+using Gentings.Properties;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Gentings.Installers
+namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 数据库迁移后台执行实现类。
     /// </summary>
-    public class InstallerHostedService : BackgroundService
+    public abstract class InitializerHostedService : BackgroundService
     {
-        private static InstallerStatus _current;
+        private static InitializerStatus _current;
         private static readonly object _locker = new object();
         private readonly IServiceProvider _serviceProvider;
-        private readonly IInstallerManager _installerManager;
+        private readonly IInitializerManager _installerManager;
         private readonly ILogger _logger;
 
         /// <summary>
         /// 当前安装状态。
         /// </summary>
-        public static InstallerStatus Current
+        public static InitializerStatus Current
         {
             get
             {
@@ -42,13 +43,13 @@ namespace Gentings.Installers
         }
 
         /// <summary>
-        /// 初始化类<see cref="InstallerHostedService"/>。
+        /// 初始化类<see cref="InitializerHostedService"/>。
         /// </summary>
         /// <param name="serviceProvider">服务提供者。</param>
         /// <param name="installerManager">安装管理接口。</param>
         /// <param name="logger">日志接口。</param>
-        public InstallerHostedService(IServiceProvider serviceProvider, IInstallerManager installerManager,
-            ILogger<InstallerHostedService> logger)
+        public InitializerHostedService(IServiceProvider serviceProvider, IInitializerManager installerManager,
+            ILogger<InitializerHostedService> logger)
         {
             _serviceProvider = serviceProvider;
             _installerManager = installerManager;
@@ -63,11 +64,7 @@ namespace Gentings.Installers
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             //数据库迁移
-            await cancellationToken.WaitDataMigrationCompletedAsync();
-            if (cancellationToken.IsCancellationRequested)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-            }
+            await ExecuteDataMigrationAsync(cancellationToken);
 
             //启动网站
             _logger.LogInformation("启动网站...");
@@ -75,7 +72,7 @@ namespace Gentings.Installers
             if (registration.Expired < DateTimeOffset.Now)
             {
                 //todo:远程连接获取验证信息
-                registration.Status = InstallerStatus.Expired;
+                registration.Status = InitializerStatus.Expired;
             }
             else
             {
@@ -97,7 +94,7 @@ namespace Gentings.Installers
                         }
                     }
 
-                    registration.Status = InstallerStatus.Success;
+                    registration.Status = InitializerStatus.Success;
                 }
                 catch (Exception exception)
                 {
@@ -107,13 +104,30 @@ namespace Gentings.Installers
 
             await _installerManager.SaveRegistrationAsync(registration);
             Current = registration.Status;
-            if (Current == InstallerStatus.Failured)
+            _logger.LogInformation(Current == InitializerStatus.Failured ? "启动网站失败。" : "启动网站完成。");
+        }
+
+        /// <summary>
+        /// 执行数据库迁移服务。
+        /// </summary>
+        /// <param name="cancellationToken">停止标记。</param>
+        /// <returns>返回当前任务。</returns>
+        protected async Task ExecuteDataMigrationAsync(CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            _logger.LogInformation(Resources.DataMigration_Start);
+            MigrationService.Status = MigrationStatus.Normal;
+            try
             {
-                _logger.LogInformation("启动网站失败。");
+                await _serviceProvider.GetRequiredService<IDataMigrator>().MigrateAsync();
+                MigrationService.Status = MigrationStatus.Completed;
+                _logger.LogInformation(Resources.DataMigration_Completed);
             }
-            else
+            catch (Exception e)
             {
-                _logger.LogInformation("启动网站完成。");
+                MigrationService.Status = MigrationStatus.Error;
+                MigrationService.Message = Resources.DataMigration_Error + e.Message;
+                _logger.LogError(Resources.DataMigration_Failured);
             }
         }
     }

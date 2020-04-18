@@ -20,6 +20,7 @@ namespace Gentings.Tasks
             {
                 services.TryAddEnumerable(ServiceDescriptor.Transient<IDataMigration, TaskDataMigration>());
                 services.TryAddEnumerable(ServiceDescriptor.Transient<IHostedService, TaskHostedService>());
+                services.AddSingleton<ITaskManager, TaskManager>();
             });
     }
 }

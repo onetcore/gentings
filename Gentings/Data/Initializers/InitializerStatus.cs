@@ -1,9 +1,9 @@
-﻿namespace Gentings.Installers
+﻿namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 验证结果。
     /// </summary>
-    public enum InstallerStatus
+    public enum InitializerStatus
     {
         /// <summary>
         /// 初始化。

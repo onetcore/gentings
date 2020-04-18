@@ -71,7 +71,7 @@ namespace Gentings
             for (var i = 0; i < bytes.Length; i++)
             {
                 var hex = hexString.Substring(i * 2, 2);
-                bytes[i] = (byte) int.Parse(hex, NumberStyles.HexNumber);
+                bytes[i] = (byte)int.Parse(hex, NumberStyles.HexNumber);
             }
 
             return bytes;
@@ -306,14 +306,14 @@ namespace Gentings
         public static string ToBase36(this long value)
         {
             var current = "";
-            current += _base36[(int) (value % 36)];
+            current += _base36[(int)(value % 36)];
             value /= 36;
             if (value > 36)
             {
                 return value.ToBase36() + current;
             }
 
-            return _base36[(int) value] + current;
+            return _base36[(int)value] + current;
         }
 
         private const string HtmlCaseRegexReplacement = "-$1$2";
@@ -460,8 +460,7 @@ namespace Gentings
 
         private static readonly JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions
         {
-            IgnoreNullValues = true,
-            PropertyNameCaseInsensitive = false,
+            PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
 
@@ -493,6 +492,8 @@ namespace Gentings
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(json))
+                    return default;
                 options ??= _defaultJsonSerializerOptions;
                 return JsonSerializer.Deserialize<TModel>(json, options);
             }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gentings.Installers
+namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 注册码。
@@ -20,11 +20,11 @@ namespace Gentings.Installers
         /// <summary>
         /// 过期时间。
         /// </summary>
-        public DateTimeOffset Expired { get; set; } = DateTimeOffset.MaxValue;
+        public DateTime Expired { get; set; } = DateTime.MaxValue;
 
         /// <summary>
         /// 安装状态。
         /// </summary>
-        public InstallerStatus Status { get; set; }
+        public InitializerStatus Status { get; set; }
     }
 }

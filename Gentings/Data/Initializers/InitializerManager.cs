@@ -1,21 +1,20 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Gentings.Data;
 
-namespace Gentings.Installers
+namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 安装管理实现类基类。
     /// </summary>
-    public class InstallerManager : IInstallerManager
+    public abstract class InitializerManager : IInitializerManager
     {
         private readonly IDbContext<Lisence> _context;
 
         /// <summary>
-        /// 初始化类<see cref="InstallerManager"/>。
+        /// 初始化类<see cref="InitializerManager"/>。
         /// </summary>
         /// <param name="context">数据库操作接口。</param>
-        public InstallerManager(IDbContext<Lisence> context)
+        protected InitializerManager(IDbContext<Lisence> context)
         {
             _context = context;
         }
@@ -67,7 +66,7 @@ namespace Gentings.Installers
         /// </summary>
         /// <param name="status">状态。</param>
         /// <returns>返回保存结果。</returns>
-        public async Task<bool> SuccessAsync(InstallerStatus status)
+        public async Task<bool> SuccessAsync(InitializerStatus status)
         {
             var registration = await GetRegistrationAsync();
             registration.Status = status;

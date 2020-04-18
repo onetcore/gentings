@@ -1,4 +1,5 @@
 ﻿using System;
+using Gentings.Data.Initializers;
 using Microsoft.Extensions.DependencyInjection;
 using Gentings.Data.Internal;
 using Gentings.Data.Migrations;
@@ -69,6 +70,7 @@ namespace Gentings.Data.SqlServer
                     o.Prefix = source.Prefix?.Trim();
                     o.Provider = "SqlServer";
                 })
+                .AddInitializerService()
                 .AddSingleton(typeof(IDbContext<>), typeof(DbContext<>))
                 .AddTransient<IDataMigrator, DataMigrator>()
                 .AddTransient<IMigrationRepository, SqlServerMigrationRepository>()
