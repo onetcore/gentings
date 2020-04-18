@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Gentings.AspNetCore.RazorPages.TagHelpers;
-using Gentings.Identity.Permissions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
 {
@@ -19,7 +16,6 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
     {
         private readonly IMenuProviderFactory _menuProviderFactory;
         private readonly IUrlHelperFactory _factory;
-        private readonly IPermissionManager _permissionManager;
         private IUrlHelper _urlHelper;
         private const string AttributeName = "provider";
 
@@ -34,12 +30,10 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
         /// </summary>
         /// <param name="menuProviderFactory">菜单提供者工厂接口。</param>
         /// <param name="factory">URL辅助类工厂接口。</param>
-        /// <param name="serviceProvider">服务提供者。</param>
-        public AdminMenuTagHelper(IMenuProviderFactory menuProviderFactory, IUrlHelperFactory factory, IServiceProvider serviceProvider)
+        public AdminMenuTagHelper(IMenuProviderFactory menuProviderFactory, IUrlHelperFactory factory)
         {
             _menuProviderFactory = menuProviderFactory;
             _factory = factory;
-            _permissionManager = serviceProvider.GetService<IPermissionManager>();
         }
 
         /// <summary>
@@ -142,11 +136,9 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus.TagHelpers
         /// </summary>
         /// <param name="item">菜单项。</param>
         /// <returns>返回验证结果。</returns>
-        public bool IsAuthorized(MenuItem item)
+        public virtual bool IsAuthorized(MenuItem item)
         {
-            if (item.PermissionName == null || _permissionManager == null)
-                return true;
-            return _permissionManager.IsAuthorized($"{item.PermissionName}");
+            return true;
         }
     }
 }

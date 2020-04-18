@@ -25,14 +25,14 @@ namespace Gentings.Commands
         /// <returns>返回执行任务。</returns>
         public Task ExecuteAsync(CommandArgs argument)
         {
-            Consoles.IsDebug = !argument.IsSubCommand("off");
-            if (Consoles.IsDebug)
+            CommandConsole.IsDebug = !argument.IsSubCommand("off");
+            if (CommandConsole.IsDebug)
             {
-                Consoles.Info(Resources.DebugCommandHandler_ExecuteAsync_DebugOn);
+                CommandConsole.Info(Resources.DebugCommandHandler_ExecuteAsync_DebugOn);
             }
             else
             {
-                Consoles.Warning(Resources.DebugCommandHandler_ExecuteAsync_DebugOff);
+                CommandConsole.Warning(Resources.DebugCommandHandler_ExecuteAsync_DebugOff);
             }
 
             return Task.CompletedTask;

@@ -186,9 +186,6 @@
   <data name="PageTagHelper_NumberPage" xml:space="preserve">
     <value>第{0}页</value>
   </data>
-  <data name="VerifierTagHelper_ClickRefresh" xml:space="preserve">
-    <value>点击刷新验证码</value>
-  </data>
   <data name="YearDateFormat" xml:space="preserve">
     <value>yyyy年MM月dd日</value>
   </data>

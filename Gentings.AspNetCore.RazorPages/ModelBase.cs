@@ -8,7 +8,6 @@ using Gentings.AspNetCore.RazorPages.StatusMessages;
 using Gentings.Extensions;
 using Gentings.Extensions.Settings;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
@@ -389,17 +388,6 @@ namespace Gentings.AspNetCore.RazorPages
             if (result.Succeed())
                 return Json(StatusType.Success, result.ToString(args));
             return Json(StatusType.Danger, result.ToString(args));
-        }
-
-        /// <summary>
-        /// 返回JSON试图结果。
-        /// </summary>
-        /// <param name="result">数据结果。</param>
-        /// <returns>返回JSON试图结果。</returns>
-        protected IActionResult Error(IdentityResult result)
-        {
-            var errors = result.Errors.Select(x => x.Description).ToList();
-            return Json(StatusType.Danger, string.Join(", ", errors));
         }
 
         /// <summary>

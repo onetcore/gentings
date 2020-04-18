@@ -129,19 +129,19 @@
   <data name="CommandHandlerFactory_CommandList" xml:space="preserve">
     <value>本程序可以使用的命令包含以下内容：</value>
   </data>
-  <data name="Consoles_DelayAsync_Close" xml:space="preserve">
+  <data name="CommandConsole_DelayAsync_Close" xml:space="preserve">
     <value>关闭！</value>
   </data>
-  <data name="Consoles_CloseAsync_DelayClose" xml:space="preserve">
+  <data name="CommandConsole_CloseAsync_DelayClose" xml:space="preserve">
     <value>程序即将在“{0}”秒后关闭...</value>
   </data>
-  <data name="Consoles_StartAsync_UseHelp" xml:space="preserve">
+  <data name="CommandConsole_StartAsync_UseHelp" xml:space="preserve">
     <value>不支持命令“{0}”，请使用.help命令来获取帮助信息！</value>
   </data>
-  <data name="Consoles_StartAsync_SuccessStart" xml:space="preserve">
+  <data name="CommandConsole_StartAsync_SuccessStart" xml:space="preserve">
     <value>已经成功启动了应用程序，可以输入命令进行手动操作！</value>
   </data>
-  <data name="Consoles_StartAsync_Initailize" xml:space="preserve">
+  <data name="CommandConsole_StartAsync_Initailize" xml:space="preserve">
     <value>正在初始化应用程序！</value>
   </data>
   <data name="CommandArgs_Read_MustEndsWith" xml:space="preserve">

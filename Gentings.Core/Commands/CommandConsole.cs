@@ -9,7 +9,7 @@ namespace Gentings.Commands
     /// <summary>
     /// 控制台方法。
     /// </summary>
-    public static class Consoles
+    public static class CommandConsole
     {
         /// <summary>
         /// 控制台使用全局取消标识。
@@ -25,24 +25,12 @@ namespace Gentings.Commands
         /// <summary>
         /// 启动应用程序，在控制台程序中的Main方法中调用。
         /// </summary>
-        /// <param name="args">参数。</param>
-        public static async Task StartAsync(string[] args)
+        /// <param name="host">服务器宿主。</param>
+        public static async Task StartCommandHostAsync(this IHost host)
         {
-            Info(Resources.Consoles_StartAsync_Initailize);
-            using var host = Host.CreateDefaultBuilder(args)
-                .ConfigureServices((context, service) =>
-                {
-#if DEBUG
-                    context.HostingEnvironment.EnvironmentName = Environments.Development;
-#else
-                    context.HostingEnvironment.EnvironmentName = Environments.Production;
-#endif
-                    service.AddGentings(context.Configuration);
-                })
-                .UseConsoleLifetime()
-                .Build();
+            Info(Resources.CommandConsole_StartAsync_Initailize);
             await host.StartAsync(TokenSource.Token);
-            Info(Resources.Consoles_StartAsync_SuccessStart);
+            Info(Resources.CommandConsole_StartAsync_SuccessStart);
             var commandHandlerFactory =
                 host.Services.GetService(typeof(ICommandHandlerFactory)) as ICommandHandlerFactory;
             while (!TokenSource.IsCancellationRequested)
@@ -69,7 +57,7 @@ namespace Gentings.Commands
                     }
                     else
                     {
-                        Error(Resources.Consoles_StartAsync_UseHelp, command);
+                        Error(Resources.CommandConsole_StartAsync_UseHelp, command);
                     }
                 }
 
@@ -247,7 +235,7 @@ namespace Gentings.Commands
         /// <param name="delay">倒计时秒数。</param>
         public static async Task CloseAsync(int delay = 10)
         {
-            Warning(Resources.Consoles_CloseAsync_DelayClose, delay);
+            Warning(Resources.CommandConsole_CloseAsync_DelayClose, delay);
             await DelayAsync(delay);
         }
 
@@ -255,7 +243,7 @@ namespace Gentings.Commands
         {
             if (seconds < 1)
             {
-                Warning(Resources.Consoles_DelayAsync_Close);
+                Warning(Resources.CommandConsole_DelayAsync_Close);
                 return;
             }
 

@@ -38,8 +38,8 @@ namespace Gentings.Commands
                 case "exit":
                 case "quit":
                     {
-                        await Consoles.CloseAsync(10);
-                        Consoles.TokenSource.Cancel();
+                        await CommandConsole.CloseAsync(10);
+                        CommandConsole.TokenSource.Cancel();
                     }
                     break;
                 case "help":
@@ -48,11 +48,11 @@ namespace Gentings.Commands
                         Console.WriteLine(Resources.CommandHandlerFactory_CommandList);
                         foreach (var commandHandler in _commandHandlers.Values.OrderBy(x => x.Command))
                         {
-                            Consoles.Display(commandHandler.Command, commandHandler.Help);
+                            CommandConsole.Display(commandHandler.Command, commandHandler.Help);
                         }
 
-                        Consoles.Display("help", Resources.CommandHandlerFactory_ExecuteAsync_HelpDescription);
-                        Consoles.Display("exit|quit", Resources.CommandHandlerFactory_ExecuteAsync_Quit);
+                        CommandConsole.Display("help", Resources.CommandHandlerFactory_ExecuteAsync_HelpDescription);
+                        CommandConsole.Display("exit|quit", Resources.CommandHandlerFactory_ExecuteAsync_Quit);
                         Console.ResetColor();
                     }
                     break;
@@ -65,12 +65,12 @@ namespace Gentings.Commands
                         }
                         catch (Exception exception)
                         {
-                            Consoles.Error(exception.Message);
+                            CommandConsole.Error(exception.Message);
                         }
                     }
                     else
                     {
-                        Consoles.Error(Resources.CommandHandlerFactory_ExecuteAsync_NotSupported, commandName);
+                        CommandConsole.Error(Resources.CommandHandlerFactory_ExecuteAsync_NotSupported, commandName);
                     }
 
                     break;

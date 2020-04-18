@@ -108,45 +108,45 @@ namespace Gentings.Properties {
         /// <summary>
         ///   查找类似 程序即将在“{0}”秒后关闭... 的本地化字符串。
         /// </summary>
-        internal static string Consoles_CloseAsync_DelayClose {
+        internal static string CommandConsole_CloseAsync_DelayClose {
             get {
-                return ResourceManager.GetString("Consoles_CloseAsync_DelayClose", resourceCulture);
+                return ResourceManager.GetString("CommandConsole_CloseAsync_DelayClose", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 关闭！ 的本地化字符串。
         /// </summary>
-        internal static string Consoles_DelayAsync_Close {
+        internal static string CommandConsole_DelayAsync_Close {
             get {
-                return ResourceManager.GetString("Consoles_DelayAsync_Close", resourceCulture);
+                return ResourceManager.GetString("CommandConsole_DelayAsync_Close", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 正在初始化应用程序！ 的本地化字符串。
         /// </summary>
-        internal static string Consoles_StartAsync_Initailize {
+        internal static string CommandConsole_StartAsync_Initailize {
             get {
-                return ResourceManager.GetString("Consoles_StartAsync_Initailize", resourceCulture);
+                return ResourceManager.GetString("CommandConsole_StartAsync_Initailize", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 已经成功启动了应用程序，可以输入命令进行手动操作！ 的本地化字符串。
         /// </summary>
-        internal static string Consoles_StartAsync_SuccessStart {
+        internal static string CommandConsole_StartAsync_SuccessStart {
             get {
-                return ResourceManager.GetString("Consoles_StartAsync_SuccessStart", resourceCulture);
+                return ResourceManager.GetString("CommandConsole_StartAsync_SuccessStart", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 不支持命令“{0}”，请使用.help命令来获取帮助信息！ 的本地化字符串。
         /// </summary>
-        internal static string Consoles_StartAsync_UseHelp {
+        internal static string CommandConsole_StartAsync_UseHelp {
             get {
-                return ResourceManager.GetString("Consoles_StartAsync_UseHelp", resourceCulture);
+                return ResourceManager.GetString("CommandConsole_StartAsync_UseHelp", resourceCulture);
             }
         }
         

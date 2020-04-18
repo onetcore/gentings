@@ -268,15 +268,6 @@ namespace Gentings.AspNetCore.RazorPages.Properties {
         }
         
         /// <summary>
-        ///   查找类似 点击刷新验证码 的本地化字符串。
-        /// </summary>
-        internal static string VerifierTagHelper_ClickRefresh {
-            get {
-                return ResourceManager.GetString("VerifierTagHelper_ClickRefresh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 yyyy年MM月dd日 的本地化字符串。
         /// </summary>
         internal static string YearDateFormat {
