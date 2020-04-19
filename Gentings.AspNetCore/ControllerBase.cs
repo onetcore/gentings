@@ -77,7 +77,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult BadResult()
         {
             var dic = new Dictionary<string, string>();
-            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = ErrorCode.ValidError };
+            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = (int)ErrorCode.ValidError };
             foreach (var key in ModelState.Keys)
             {
                 var error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;
@@ -121,7 +121,9 @@ namespace Gentings.AspNetCore
                 message = string.Format(message, args);
             }
 
-            return OkResult(new ApiResult { Code = code, Message = message });
+            ApiResult result = code;
+            result.Message = message;
+            return OkResult(result);
         }
 
         /// <summary>

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Gentings.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -24,7 +23,7 @@ namespace Gentings.AspNetCore.RazorPages.AdminMenus
         /// <param name="parent">父级菜单。</param>
         public MenuItem(string name, MenuItem parent = null)
         {
-            name = Check.NotEmpty(name, nameof(name)).ToLower();
+            name = name.ToLower();
             Parent = parent ?? new MenuItem();
             if (parent?.Name == null)
                 Name = name;

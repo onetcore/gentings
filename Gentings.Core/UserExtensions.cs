@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Security.Claims;
 
-namespace Gentings.Extensions
+namespace Gentings
 {
     /// <summary>
     /// 用户扩展类型。
