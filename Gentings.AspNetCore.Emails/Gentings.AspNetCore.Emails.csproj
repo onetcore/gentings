@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gentings.AspNetCore.RazorPages\Gentings.AspNetCore.RazorPages.csproj" />
+    <ProjectReference Include="..\Gentings.Core\Gentings.Core.csproj" />
+    <ProjectReference Include="..\Gentings.Extensions.Emails\Gentings.Extensions.Emails.csproj" />
+    <ProjectReference Include="..\Gentings.Identity\Gentings.Identity.csproj" />
+    <ProjectReference Include="..\Gentings\Gentings.csproj" />
+  </ItemGroup>
+
+
+</Project>

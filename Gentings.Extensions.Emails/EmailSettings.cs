@@ -9,6 +9,11 @@ namespace Gentings.Extensions.Emails
     public class EmailSettings : IIdObject
     {
         /// <summary>
+        /// 扩展名称。
+        /// </summary>
+        public const string ExtensionName = "emails";
+
+        /// <summary>
         /// 启用。
         /// </summary>
         public bool Enabled { get; set; }
