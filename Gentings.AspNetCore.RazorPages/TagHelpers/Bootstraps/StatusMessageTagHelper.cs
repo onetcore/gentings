@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Gentings.AspNetCore.RazorPages.StatusMessages;
+using Gentings.AspNetCore.StatusMessages;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
@@ -54,7 +54,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
                     output.SuppressOutput();
                     return;
                 }
-                message.Set(StatusType.Danger, errorMessage);
+                message.Reinitialize(StatusType.Danger, errorMessage);
             }
 
             var type = message.Type.ToString().ToLower();

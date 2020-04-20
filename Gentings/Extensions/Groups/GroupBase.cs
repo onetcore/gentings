@@ -8,7 +8,7 @@ namespace Gentings.Extensions.Groups
     /// <summary>
     /// 分组基类。
     /// </summary>
-    public abstract class GroupBase<TGroup> : CategoryBase, IParentable<TGroup>
+    public abstract class GroupBase<TGroup> : CategoryBase, IGroupable<TGroup>
         where TGroup : GroupBase<TGroup>
     {
         private readonly List<TGroup> _children = new List<TGroup>();
@@ -54,7 +54,7 @@ namespace Gentings.Extensions.Groups
         public void Add(TGroup group)
         {
             group.ParentId = Id;
-            group.Parent = (TGroup) this;
+            group.Parent = (TGroup)this;
             _children.Add(group);
         }
 

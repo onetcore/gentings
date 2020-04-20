@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Gentings.Extensions.Groups;
+using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -107,7 +107,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers
         /// <param name="func">获取值代理方法，默认为Id。</param>
         protected void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups,
             Predicate<TGroup> filter = null, Func<TGroup, string> func = null)
-            where TGroup : GroupBase<TGroup>
+            where TGroup : IGroupable<TGroup>
         {
             if (filter != null)
                 groups = groups.Where(x => filter(x)).ToList();
@@ -119,7 +119,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers
         }
 
         private void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups, Predicate<TGroup> filter, Func<TGroup, string> func, string header)
-            where TGroup : GroupBase<TGroup>
+            where TGroup : IGroupable<TGroup>
         {
             var index = 0;
             if (filter != null)

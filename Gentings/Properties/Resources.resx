@@ -204,6 +204,24 @@
   <data name="Differ_Uninitialized" xml:space="preserve">
     <value>对象变更原始对象未初始化，请在修改对象时候先调用Init方法。</value>
   </data>
+  <data name="ErrorCode_InvalidParameters" xml:space="preserve">
+    <value>参数错误：{0}。</value>
+  </data>
+  <data name="ErrorCode_UnknownError" xml:space="preserve">
+    <value>发生未知错误</value>
+  </data>
+  <data name="ErrorCode_ValidError" xml:space="preserve">
+    <value>验证失败</value>
+  </data>
+  <data name="EventMessage_NullMessage" xml:space="preserve">
+    <value>事件消息未设置！</value>
+  </data>
+  <data name="EventMessage_NullUserId" xml:space="preserve">
+    <value>事件消息的用户Id未设置，并且当前用户还未登录！</value>
+  </data>
+  <data name="EventType_Core" xml:space="preserve">
+    <value>默认</value>
+  </data>
   <data name="Interval_Day" xml:space="preserve">
     <value>日</value>
   </data>
@@ -249,11 +267,23 @@
   <data name="NoSetter" xml:space="preserve">
     <value>类型“{1}”的属性“{0}”必须包含set访问器。</value>
   </data>
+  <data name="NotificationTaskService" xml:space="preserve">
+    <value>系统通知清理服务</value>
+  </data>
+  <data name="NotificationTaskService_Description" xml:space="preserve">
+    <value>清理每个用户得系统通知，删除多余得系统通知</value>
+  </data>
   <data name="PrimaryKeyIsNotSingleField" xml:space="preserve">
     <value>实体“{0}”的主键{1}包含的不值一个属性！</value>
   </data>
   <data name="RowVersionOnlyOnePropertyEachClass" xml:space="preserve">
     <value>每个类只能包含一个版本“TimestampAttribute”特性属性。</value>
+  </data>
+  <data name="SaveSettings" xml:space="preserve">
+    <value>保存了“{0}”配置信息</value>
+  </data>
+  <data name="SaveSettingsFailured" xml:space="preserve">
+    <value>保存配置失败</value>
   </data>
   <data name="TaskExecuteError" xml:space="preserve">
     <value>[服务]{0}执行错误：{1}。</value>

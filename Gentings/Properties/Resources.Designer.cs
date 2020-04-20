@@ -322,6 +322,60 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 参数错误：{0}。 的本地化字符串。
+        /// </summary>
+        internal static string ErrorCode_InvalidParameters {
+            get {
+                return ResourceManager.GetString("ErrorCode_InvalidParameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发生未知错误 的本地化字符串。
+        /// </summary>
+        internal static string ErrorCode_UnknownError {
+            get {
+                return ResourceManager.GetString("ErrorCode_UnknownError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证失败 的本地化字符串。
+        /// </summary>
+        internal static string ErrorCode_ValidError {
+            get {
+                return ResourceManager.GetString("ErrorCode_ValidError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 事件消息未设置！ 的本地化字符串。
+        /// </summary>
+        internal static string EventMessage_NullMessage {
+            get {
+                return ResourceManager.GetString("EventMessage_NullMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 事件消息的用户Id未设置，并且当前用户还未登录！ 的本地化字符串。
+        /// </summary>
+        internal static string EventMessage_NullUserId {
+            get {
+                return ResourceManager.GetString("EventMessage_NullUserId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 默认 的本地化字符串。
+        /// </summary>
+        internal static string EventType_Core {
+            get {
+                return ResourceManager.GetString("EventType_Core", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 日 的本地化字符串。
         /// </summary>
         internal static string Interval_Day {
@@ -457,6 +511,24 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 系统通知清理服务 的本地化字符串。
+        /// </summary>
+        internal static string NotificationTaskService {
+            get {
+                return ResourceManager.GetString("NotificationTaskService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清理每个用户得系统通知，删除多余得系统通知 的本地化字符串。
+        /// </summary>
+        internal static string NotificationTaskService_Description {
+            get {
+                return ResourceManager.GetString("NotificationTaskService_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 实体“{0}”的主键{1}包含的不值一个属性！ 的本地化字符串。
         /// </summary>
         internal static string PrimaryKeyIsNotSingleField {
@@ -471,6 +543,24 @@ namespace Gentings.Properties {
         internal static string RowVersionOnlyOnePropertyEachClass {
             get {
                 return ResourceManager.GetString("RowVersionOnlyOnePropertyEachClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存了“{0}”配置信息 的本地化字符串。
+        /// </summary>
+        internal static string SaveSettings {
+            get {
+                return ResourceManager.GetString("SaveSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 保存配置失败 的本地化字符串。
+        /// </summary>
+        internal static string SaveSettingsFailured {
+            get {
+                return ResourceManager.GetString("SaveSettingsFailured", resourceCulture);
             }
         }
         
