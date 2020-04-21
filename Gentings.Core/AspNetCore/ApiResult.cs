@@ -29,7 +29,7 @@ namespace Gentings.AspNetCore
         /// <param name="code">当前错误代码。</param>
         public static implicit operator ApiResult(Enum code)
         {
-            return new ApiResult { Code = (int?)(object)code ?? 0 };
+            return new ApiResult { Code = (int)(object)code };
         }
 
         /// <summary>
