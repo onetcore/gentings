@@ -3,6 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>8</LangVersion>
+    <Copyright>donetz.cn</Copyright>
+    <RepositoryUrl>https://github.com/onetcore/gentings</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>netcore 3.1</PackageTags>
+    <PackageProjectUrl></PackageProjectUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
