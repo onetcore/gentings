@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <Version>1.0.1</Version>
+    <Company>Gentings</Company>
+    <Copyright>donetz.cn</Copyright>
+    <LicenseUrl>https://github.com/onetcore/gentings/blob/master/LICENSE</LicenseUrl>
+    <RepositoryUrl>https://github.com/onetcore/gentings</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>netcore 3.1</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

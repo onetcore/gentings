@@ -70,7 +70,6 @@ namespace Gentings.Extensions.AspNetCore
             return BadResult(Resources.SaveSettingsFailured);
         }
 
-
         private INotifier _notifier;
         /// <summary>
         /// 通知信息。
