@@ -120,6 +120,13 @@ namespace Gentings
             return configuration.GetSection("Excludes").AsList() ?? Enumerable.Empty<string>();
         }
 
+        private static bool IsGentingsDependency(this RuntimeLibrary library)
+        {
+            if (library.Name == "Gentings" || library.Name.StartsWith("Gentings."))
+                return true;
+            return library.Dependencies.Any(x => x.Name == "Gentings" || x.Name.StartsWith("Gentings."));
+        }
+
         /// <summary>
         /// 获取应用程序中的程序集。
         /// </summary>
@@ -131,9 +138,7 @@ namespace Gentings
             var excludes = GetExcludeAssemblies(configuration);
             foreach (var library in DependencyContext.Default.RuntimeLibraries)
             {
-                if (excludes.Contains(library.Name, StringComparer.OrdinalIgnoreCase) ||
-                    library.Name.StartsWith("Microsoft.") || library.Name == "Microsoft" ||
-                    library.Name.StartsWith("System.") || library.Name == "System" || library.Name.StartsWith("Newtonsoft."))
+                if (excludes.Contains(library.Name, StringComparer.OrdinalIgnoreCase) || !library.IsGentingsDependency())
                 {//尽量减少不需要的程序集
                     continue;
                 }
