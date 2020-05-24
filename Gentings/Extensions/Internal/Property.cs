@@ -25,9 +25,12 @@ namespace Gentings.Extensions.Internal
             PropertyInfo = info;
             ClrType = info.PropertyType;
             DeclaringType = entityType;
-            if (info.IsDefined(typeof(IdentityAttribute)))
+            var identityAttribute = info.GetCustomAttribute<IdentityAttribute>();
+            if (identityAttribute != null)
             {
-                IsIdentity = true;
+                Identity = true;
+                Seed = identityAttribute.Seed;
+                Step = identityAttribute.Step;
                 entityType.Identity = this;
             }
 
@@ -52,6 +55,12 @@ namespace Gentings.Extensions.Internal
             DisplayName = info.GetCustomAttribute<DisplayNameAttribute>()?.DisplayName ??
                           info.GetCustomAttribute<DisplayAttribute>()?.Name;
             IsConcurrency = info.IsDefined(typeof(ConcurrencyCheckAttribute));
+            var numberAttribute = info.GetCustomAttribute<NumberAttribute>();
+            if (numberAttribute != null)
+            {
+                Precision = numberAttribute.Precision;
+                Scale = numberAttribute.Scale;
+            }
         }
 
         /// <summary>
@@ -81,7 +90,7 @@ namespace Gentings.Extensions.Internal
         {
             get
             {
-                if (IsIdentity || IsPrimaryKey)
+                if (Identity || IsPrimaryKey)
                 {
                     return false;
                 }
@@ -94,6 +103,11 @@ namespace Gentings.Extensions.Internal
         /// 属性信息实例。
         /// </summary>
         public PropertyInfo PropertyInfo { get; }
+
+        /// <summary>
+        /// 小数长度。
+        /// </summary>
+        public int? Scale { get; }
 
         /// <summary>
         /// 版本列。
@@ -128,12 +142,27 @@ namespace Gentings.Extensions.Internal
         /// <summary>
         /// 是否为自增长属性。
         /// </summary>
-        public bool IsIdentity { get; }
+        public bool Identity { get; }
+
+        /// <summary>
+        /// 标识种子。
+        /// </summary>
+        public long Seed { get; }
+
+        /// <summary>
+        /// 标识增量。
+        /// </summary>
+        public int Step { get; }
 
         /// <summary>
         /// 最大长度。
         /// </summary>
         public int? MaxLength { get; }
+
+        /// <summary>
+        /// 数据长度。
+        /// </summary>
+        public int? Precision { get; }
 
         /// <summary>
         /// 是否为主键。

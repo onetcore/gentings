@@ -634,8 +634,12 @@ namespace Gentings.Data.Migrations
                 operation.ColumnType,
                 operation.IsUnicode,
                 operation.MaxLength,
+                operation.Precision,
+                operation.Scale,
                 operation.IsRowVersion,
-                operation.IsIdentity,
+                operation.Identity,
+                operation.Seed,
+                operation.Step,
                 operation.IsNullable,
                 operation.DefaultValue,
                 operation.DefaultValueSql,
@@ -651,13 +655,17 @@ namespace Gentings.Data.Migrations
         /// <param name="type">字段类型。</param>
         /// <param name="unicode">是否Unicode字符集。</param>
         /// <param name="maxLength">大小。</param>
+        /// <param name="scale">小数长度。</param>
         /// <param name="rowVersion">是否为RowVersion列。</param>
         /// <param name="identity">是否自增长。</param>
+        /// <param name="seed">标识种子。</param>
+        /// <param name="step">标识增量。</param>
         /// <param name="nullable">是否可空。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <param name="defaultValueSql">默认SQL字符串。</param>
         /// <param name="computedColumnSql">计算列的SQL字符串。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
+        /// <param name="precision">数据长度。</param>
         protected virtual void ColumnDefinition(
             string table,
             string name,
@@ -665,8 +673,12 @@ namespace Gentings.Data.Migrations
             string type,
             bool? unicode,
             int? maxLength,
+            int? precision,
+            int? scale,
             bool rowVersion,
             bool identity,
+            long seed,
+            int step,
             bool? nullable,
             object defaultValue,
             string defaultValueSql,
@@ -679,7 +691,7 @@ namespace Gentings.Data.Migrations
             builder
                 .Append(SqlHelper.DelimitIdentifier(name))
                 .Append(" ")
-                .Append(type ?? TypeMapper.GetMapping(clrType, maxLength, rowVersion, unicode));
+                .Append(type ?? TypeMapper.GetMapping(clrType, maxLength, rowVersion, unicode, precision, scale));
 
             if (nullable == false)
             {

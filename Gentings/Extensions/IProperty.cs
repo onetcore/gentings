@@ -41,12 +41,32 @@ namespace Gentings.Extensions
         /// <summary>
         /// 是否为自增长属性。
         /// </summary>
-        bool IsIdentity { get; }
+        bool Identity { get; }
+
+        /// <summary>
+        /// 标识种子。
+        /// </summary>
+        long Seed { get; }
+
+        /// <summary>
+        /// 标识增量。
+        /// </summary>
+        int Step { get; }
 
         /// <summary>
         /// 最大长度。
         /// </summary>
         int? MaxLength { get; }
+
+        /// <summary>
+        /// 数据长度。
+        /// </summary>
+        int? Precision { get; }
+
+        /// <summary>
+        /// 小数长度。
+        /// </summary>
+        int? Scale { get; }
 
         /// <summary>
         /// 版本列。

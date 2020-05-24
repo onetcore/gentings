@@ -38,6 +38,8 @@ namespace Gentings.Data.Migrations
         /// <param name="name">列名称。</param>
         /// <param name="type">字段类型。</param>
         /// <param name="identity">是否为自增长列。</param>
+        /// <param name="seed">标识种子。</param>
+        /// <param name="step">标识增量。</param>
         /// <param name="unicode">是否为Unicode编码。</param>
         /// <param name="nullable">是否为空。</param>
         /// <param name="defaultValue">默认值。</param>
@@ -50,6 +52,8 @@ namespace Gentings.Data.Migrations
             string type,
             bool nullable = true,
             bool identity = false,
+            long seed = 1,
+            int step = 1,
             bool? unicode = null,
             object defaultValue = null,
             string defaultValueSql = null,
@@ -65,7 +69,9 @@ namespace Gentings.Data.Migrations
                 Name = name,
                 ColumnType = type,
                 IsUnicode = unicode,
-                IsIdentity = identity,
+                Identity = identity,
+                Seed = seed,
+                Step = step,
                 IsNullable = nullable,
                 DefaultValue = defaultValue,
                 DefaultValueSql = defaultValueSql,
@@ -83,6 +89,8 @@ namespace Gentings.Data.Migrations
         /// <param name="name">列名称。</param>
         /// <param name="type">字段类型。</param>
         /// <param name="identity">是否为自增长列。</param>
+        /// <param name="seed">标识种子。</param>
+        /// <param name="step">标识增量。</param>
         /// <param name="unicode">是否为Unicode编码。</param>
         /// <param name="nullable">是否为空。</param>
         /// <param name="defaultValue">默认值。</param>
@@ -94,12 +102,14 @@ namespace Gentings.Data.Migrations
             string type,
             bool nullable = true,
             bool identity = false,
+            long seed = 1,
+            int step = 1,
             bool? unicode = null,
             object defaultValue = null,
             string defaultValueSql = null,
             string computedColumnSql = null)
         {
-            return AddColumn(typeof(TEntity).GetTableName(), name, type, nullable, identity, unicode, defaultValue,
+            return AddColumn(typeof(TEntity).GetTableName(), name, type, nullable, identity, seed, step, unicode, defaultValue,
                 defaultValueSql, computedColumnSql);
         }
 
@@ -134,8 +144,12 @@ namespace Gentings.Data.Migrations
                 ClrType = property.ClrType,
                 ColumnType = type,
                 IsUnicode = unicode,
-                IsIdentity = property.IsIdentity,
+                Identity = property.Identity,
+                Seed = property.Seed,
+                Step = property.Step,
                 MaxLength = property.MaxLength,
+                Precision = property.Precision,
+                Scale = property.Scale,
                 IsRowVersion = property.IsRowVersion,
                 IsNullable = nullable ?? property.IsNullable,
                 DefaultValue = defaultValue,
@@ -351,8 +365,12 @@ namespace Gentings.Data.Migrations
                 ClrType = property.ClrType,
                 ColumnType = type,
                 IsUnicode = unicode,
-                IsIdentity = property.IsIdentity,
+                Identity = property.Identity,
+                Seed = property.Seed,
+                Step = property.Step,
                 MaxLength = property.MaxLength,
+                Precision = property.Precision,
+                Scale = property.Scale,
                 IsRowVersion = property.IsRowVersion,
                 IsNullable = nullable ?? property.IsNullable,
                 DefaultValue = defaultValue,
@@ -374,6 +392,8 @@ namespace Gentings.Data.Migrations
         /// <param name="name">字段。</param>
         /// <param name="nullable">是否为空。</param>
         /// <param name="identity">是否为自增长。</param>
+        /// <param name="seed">标识种子。</param>
+        /// <param name="step">标识增量。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <param name="defaultValueSql">默认值SQL字符串。</param>
         /// <param name="computedColumnSql">计算列的SQL字符串。</param>
@@ -385,6 +405,8 @@ namespace Gentings.Data.Migrations
             bool? unicode = null,
             bool? nullable = true,
             bool identity = false,
+            long seed = 1,
+            int step = 1,
             object defaultValue = null,
             string defaultValueSql = null,
             string computedColumnSql = null)
@@ -396,7 +418,9 @@ namespace Gentings.Data.Migrations
                 Name = name,
                 ColumnType = type,
                 IsUnicode = unicode,
-                IsIdentity = identity,
+                Identity = identity,
+                Seed = seed,
+                Step = step,
                 IsNullable = nullable,
                 DefaultValue = defaultValue,
                 DefaultValueSql = defaultValueSql,

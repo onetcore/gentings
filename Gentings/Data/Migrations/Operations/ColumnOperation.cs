@@ -35,7 +35,27 @@ namespace Gentings.Data.Migrations.Operations
         /// <summary>
         /// 是否自增长。
         /// </summary>
-        public virtual bool IsIdentity { get; set; }
+        public virtual bool Identity { get; set; }
+
+        /// <summary>
+        /// 标识种子。
+        /// </summary>
+        public virtual long Seed { get; set; }
+
+        /// <summary>
+        /// 增长值。
+        /// </summary>
+        public virtual int Step { get; set; }
+
+        /// <summary>
+        /// 数据长度。
+        /// </summary>
+        public virtual int? Precision { get; set; }
+
+        /// <summary>
+        /// 小数长度。
+        /// </summary>
+        public virtual int? Scale { get; set; }
 
         /// <summary>
         /// 是否可空。

@@ -152,8 +152,12 @@ namespace Gentings.Data.Migrations.Builders
                 ClrType = property.ClrType,
                 ColumnType = type,
                 IsUnicode = unicode,
-                IsIdentity = property.IsIdentity,
+                Identity = property.Identity,
+                Seed = property.Seed,
+                Step = property.Step,
                 MaxLength = property.MaxLength,
+                Precision = property.Precision,
+                Scale = property.Scale,
                 IsRowVersion = property.IsRowVersion,
                 IsNullable = nullable ?? property.IsNullable,
                 DefaultValue = defaultValue,
@@ -174,6 +178,8 @@ namespace Gentings.Data.Migrations.Builders
         /// <param name="unicode">是否为Unicode编码。</param>
         /// <param name="nullable">是否为空。</param>
         /// <param name="identity">是否自增长。</param>
+        /// <param name="seed">标识种子。</param>
+        /// <param name="step">标识增量。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <param name="defaultValueSql">默认值SQL字符串。</param>
         /// <param name="computedColumnSql">计算列的SQL字符串。</param>
@@ -185,6 +191,8 @@ namespace Gentings.Data.Migrations.Builders
             bool? nullable = null,
             bool? unicode = null,
             bool identity = false,
+            long seed = 1,
+            int step = 1,
             object defaultValue = null,
             string defaultValueSql = null,
             string computedColumnSql = null,
@@ -198,7 +206,9 @@ namespace Gentings.Data.Migrations.Builders
                 Name = name,
                 ColumnType = type,
                 IsUnicode = unicode,
-                IsIdentity = identity,
+                Identity = identity,
+                Seed = seed,
+                Step = step,
                 IsNullable = nullable,
                 DefaultValue = defaultValue,
                 DefaultValueSql = defaultValueSql,

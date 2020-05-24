@@ -117,8 +117,12 @@ namespace Gentings.Data.SqlServer.Migrations
                 operation.ColumnType,
                 operation.IsUnicode,
                 operation.MaxLength,
+                operation.Precision,
+                operation.Scale,
                 operation.IsRowVersion,
-                operation.IsIdentity,
+                operation.Identity,
+                operation.Seed,
+                operation.Step,
                 operation.IsNullable,
                 /*defaultValue:*/ null,
                 /*defaultValueSql:*/ null,
@@ -242,6 +246,7 @@ namespace Gentings.Data.SqlServer.Migrations
             builder.EndCommand();
         }
 
+
         /// <summary>
         /// 列定义。
         /// </summary>
@@ -251,17 +256,35 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <param name="type">字段类型。</param>
         /// <param name="unicode">是否Unicode字符集。</param>
         /// <param name="maxLength">大小。</param>
+        /// <param name="scale">小数长度。</param>
         /// <param name="rowVersion">是否为RowVersion列。</param>
         /// <param name="identity">是否自增长。</param>
+        /// <param name="seed">标识种子。</param>
+        /// <param name="step">标识增量。</param>
         /// <param name="nullable">是否可空。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <param name="defaultValueSql">默认SQL字符串。</param>
         /// <param name="computedColumnSql">计算列的SQL字符串。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
-        protected override void ColumnDefinition(string table, string name, Type clrType, string type, bool? unicode,
+        /// <param name="precision">数据长度。</param>
+        protected override void ColumnDefinition(
+            string table,
+            string name,
+            Type clrType,
+            string type,
+            bool? unicode,
             int? maxLength,
-            bool rowVersion, bool identity, bool? nullable, object defaultValue, string defaultValueSql,
-            string computedColumnSql, MigrationCommandListBuilder builder)
+            int? precision,
+            int? scale,
+            bool rowVersion,
+            bool identity,
+            long seed,
+            int step,
+            bool? nullable,
+            object defaultValue,
+            string defaultValueSql,
+            string computedColumnSql,
+            MigrationCommandListBuilder builder)
         {
             if (computedColumnSql != null)
             {
@@ -273,12 +296,17 @@ namespace Gentings.Data.SqlServer.Migrations
                 return;
             }
 
-            base.ColumnDefinition(table, name, clrType, type, unicode, maxLength, rowVersion, identity, nullable,
-                defaultValue, defaultValueSql, computedColumnSql, builder);
+            base.ColumnDefinition(table, name, clrType, type, unicode, maxLength, precision, scale, rowVersion, identity, seed, step, nullable, defaultValue, defaultValueSql, computedColumnSql, builder);
 
             if (identity)
             {
                 builder.Append(" IDENTITY");
+                if (seed > 1)
+                {
+                    if (step < 1)
+                        step = 1;
+                    builder.Append($"({seed}, {step})");
+                }
             }
         }
 
