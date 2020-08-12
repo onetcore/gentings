@@ -21,11 +21,11 @@ namespace Gentings.Extensions
 
         /// <summary>初始化 <see cref="IdentityAttribute" /> 类的新实例。</summary>
         /// <param name="seed">标识种子。</param>
-        /// <param name="Step">标识增量。</param>
-        public IdentityAttribute(long seed = 1L, int Step = 1) : base(DatabaseGeneratedOption.Identity)
+        /// <param name="step">标识增量。</param>
+        public IdentityAttribute(long seed = 1L, int step = 1) : base(DatabaseGeneratedOption.Identity)
         {
             Seed = seed;
-            this.Step = Step;
+            Step = step;
         }
     }
 }
