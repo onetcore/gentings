@@ -26,7 +26,7 @@ namespace Gentings
             var resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
             {
-                return key.ToString();
+                return key.ToStr();
             }
 
             return resource;
@@ -44,7 +44,7 @@ namespace Gentings
             var resource = GetString(type, $"{type.Name}_{key}");
             if (resource == null)
             {
-                return key.ToString();
+                return key.ToStr();
             }
 
             return string.Format(resource, args);

@@ -4,6 +4,7 @@ using Gentings.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
@@ -502,5 +503,13 @@ namespace Gentings
                 return default;
             }
         }
+
+        /// <summary>
+        /// 获取枚举描述信息。
+        /// </summary>
+        /// <param name="value">枚举值。</param>
+        /// <returns>返回枚举的描述信息。</returns>
+        public static string ToStr(this Enum value) =>
+            value.GetType().GetCustomAttribute<DescriptionAttribute>()?.Description ?? value.ToString();
     }
 }
