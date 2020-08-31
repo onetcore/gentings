@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions.Emails"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore.Emails", "Gentings.AspNetCore.Emails\Gentings.AspNetCore.Emails.csproj", "{8A85251C-1F54-4233-827A-3E8450C9EC07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.SaaS", "Gentings.SaaS\Gentings.SaaS.csproj", "{7000C17B-9DE3-4B33-B797-D72EE46636C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.SaaS", "Gentings.SaaS\Gentings.SaaS.csproj", "{7000C17B-9DE3-4B33-B797-D72EE46636C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
