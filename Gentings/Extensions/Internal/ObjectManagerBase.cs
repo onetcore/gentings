@@ -147,10 +147,10 @@ namespace Gentings.Extensions.Internal
 
             if (Context.Any(model.Id))
             {
-                return DataResult.FromResult(await Context.UpdateAsync(model, cancellationToken), DataAction.Updated);
+                return DataResult.FromResult(await UpdateAsync(model, cancellationToken), DataAction.Updated);
             }
 
-            return DataResult.FromResult(await Context.CreateAsync(model, cancellationToken), DataAction.Created);
+            return DataResult.FromResult(await CreateAsync(model, cancellationToken), DataAction.Created);
         }
 
         /// <summary>
