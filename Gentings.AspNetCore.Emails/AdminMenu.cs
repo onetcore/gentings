@@ -11,12 +11,12 @@ namespace Gentings.AspNetCore.Emails
         /// <summary>
         /// 邮件管理。
         /// </summary>
-        public const string Index = "sys.emails";
+        public const string Index = "emails.index";
 
         /// <summary>
         /// 邮件配置。
         /// </summary>
-        public const string Settings = "sys.emails.settings";
+        public const string Settings = "emails.settings";
 
         /// <summary>
         /// 初始化菜单实例。
@@ -24,11 +24,11 @@ namespace Gentings.AspNetCore.Emails
         /// <param name="root">根目录菜单。</param>
         public override void Init(MenuItem root)
         {
-            root.AddMenu("sys", menu =>
-                menu.AddMenu("emails",
-                        it => it.Texted("邮件管理").Page("/Admin/Email/Index", area: EmailSettings.ExtensionName).Allow(Permissions.Email))
-                    .AddMenu("emails.settings",
-                        it => it.Texted("邮件配置").Page("/Admin/Email/Settings", area: EmailSettings.ExtensionName).Allow(Permissions.Settings)));
+            root.AddMenu("emails", menu => menu.Texted("邮件管理", "mail").Page("/Admin/Index", area: EmailSettings.ExtensionName).Allow(Permissions.Email)
+                .AddMenu("index",
+                        it => it.Texted("邮件发送列表").Page("/Admin/Index", area: EmailSettings.ExtensionName).Allow(Permissions.Email))
+                    .AddMenu("settings",
+                        it => it.Texted("邮件配置").Page("/Admin/Settings/Index", area: EmailSettings.ExtensionName).Allow(Permissions.Settings)));
         }
     }
 }

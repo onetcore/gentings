@@ -840,7 +840,7 @@ namespace Gentings.Identity
                 .InnerJoin<TUserRole>((r, ur) => r.Id == ur.RoleId)
                 .Where<TUserRole>(x => x.UserId == userId)
                 .FirstOrDefault();
-            return db.As<TUser>().Update(x => x.Id == userId, new { role.Id, RoleName = role.Name });
+            return db.As<TUser>().Update(x => x.Id == userId, new { RoleId = role.Id });
         }
 
         /// <summary>
@@ -858,7 +858,7 @@ namespace Gentings.Identity
                 .InnerJoin<TUserRole>((r, ur) => r.Id == ur.RoleId)
                 .Where<TUserRole>(x => x.UserId == userId)
                 .FirstOrDefaultAsync(cancellationToken);
-            return await db.As<TUser>().UpdateAsync(x => x.Id == userId, new { role.Id, RoleName = role.Name }, cancellationToken);
+            return await db.As<TUser>().UpdateAsync(x => x.Id == userId, new { RoleId = role.Id }, cancellationToken);
         }
 
         /// <summary>
@@ -901,11 +901,6 @@ namespace Gentings.Identity
                 db.Delete(x => x.UserId == userId);
                 foreach (var roleId in roleIds)
                 {
-                    if (db.Any(x => x.UserId == userId && x.RoleId == roleId))
-                    {
-                        continue;
-                    }
-
                     if (!db.Create(new TUserRole { RoleId = roleId, UserId = userId }))
                     {
                         return false;
@@ -929,11 +924,6 @@ namespace Gentings.Identity
                 await db.DeleteAsync(x => x.UserId == userId, cancellationToken);
                 foreach (var roleId in roleIds)
                 {
-                    if (await db.AnyAsync(x => x.UserId == userId && x.RoleId == roleId, cancellationToken))
-                    {
-                        continue;
-                    }
-
                     if (!await db.CreateAsync(new TUserRole { RoleId = roleId, UserId = userId }, cancellationToken))
                     {
                         return false;

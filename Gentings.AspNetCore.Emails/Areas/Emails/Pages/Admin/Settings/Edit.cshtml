@@ -1,0 +1,38 @@
+﻿@page
+@model EditModel
+@{
+    ViewBag.Title = "邮件配置";
+    Layout = "_Modal";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Input.Id"/>
+    <div class="form-group">
+        <gt:checkbox for="Input.Enabled">启用</gt:checkbox>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label>SMTP服务器</label>
+            <input asp-for="Input.SmtpServer" class="form-control"/>
+        </div>
+        <div class="form-group col-6 pl-0">
+            <label>SMTP端口</label>
+            <input asp-for="Input.SmtpPort" class="form-control"/>
+            <gt:checkbox for="Input.UseSsl">使用SSL</gt:checkbox>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label>SMTP用户名</label>
+            <input asp-for="Input.SmtpUserName" class="form-control"/>
+        </div>
+        <div class="form-group col-6 pl-0">
+            <label>SMTP密码</label>
+            <input value="@Model.Input?.SmtpPassword" asp-for="Input.SmtpPassword" type="password" class="form-control"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>备注</label>
+        <textarea asp-for="Input.Summary" class="form-control" rows="3"></textarea>
+    </div>
+</form>

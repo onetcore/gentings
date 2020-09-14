@@ -14,6 +14,11 @@ namespace Gentings.Extensions.Emails
         public const string ExtensionName = "emails";
 
         /// <summary>
+        /// 最大发送次数。
+        /// </summary>
+        public const int MaxTryTimes = 5;
+
+        /// <summary>
         /// 启用。
         /// </summary>
         public bool Enabled { get; set; }
@@ -47,13 +52,9 @@ namespace Gentings.Extensions.Emails
         public string SmtpPassword { get; set; }
 
         /// <summary>
-        /// 最大发送次数。
-        /// </summary>
-        public int MaxTryTimes { get; set; } = 5;
-
-        /// <summary>
         /// 发送个数。
         /// </summary>
+        [NotUpdated]
         public int Count { get; set; }
 
         /// <summary>
@@ -61,5 +62,11 @@ namespace Gentings.Extensions.Emails
         /// </summary>
         [Identity]
         public int Id { get; set; }
+
+        /// <summary>
+        /// 备注。
+        /// </summary>
+        [Size(256)]
+        public string Summary { get; set; }
     }
 }

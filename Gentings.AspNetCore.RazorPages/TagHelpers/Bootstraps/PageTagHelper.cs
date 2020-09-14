@@ -166,7 +166,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
             if (Page != null)
                 return page =>
                 {
-                    routeValues["pi"] = page;
+                    routeValues["current"] = page;
                     return Generator.GeneratePageLink(
                         ViewContext,
                         String.Empty,
@@ -181,7 +181,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
             if (Route == null)
                 return page =>
                 {
-                    routeValues["pi"] = page;
+                    routeValues["current"] = page;
                     return Generator.GenerateActionLink(
                         ViewContext,
                         string.Empty,
@@ -195,7 +195,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
                 };
             return page =>
             {
-                routeValues["pi"] = page;
+                routeValues["current"] = page;
                 return Generator.GenerateRouteLink(
                     ViewContext,
                     string.Empty,
@@ -232,7 +232,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
                 {
                     query[current.Key] = current.Value;
                 }
-                query["pi"] = "$page;";
+                query["current"] = "$page;";
                 Href = $"?{string.Join("&", query.Select(x => $"{x.Key}={x.Value}"))}";
             }
             if (Href != null)

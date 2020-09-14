@@ -94,6 +94,8 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
                     tag.MergeAttribute("js-date-min", MinSelector);
                 if (MaxSelector != null)
                     tag.MergeAttribute("js-date-max", MaxSelector);
+                if (Value != null)
+                    tag.MergeAttribute("value", Value);
             });
         }
     }

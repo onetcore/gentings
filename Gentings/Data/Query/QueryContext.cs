@@ -713,7 +713,6 @@ namespace Gentings.Data.Query
         #endregion
 
         #region database
-
         /// <summary>
         /// 查询数据库返回<paramref name="size"/>项结果。
         /// </summary>
@@ -822,14 +821,7 @@ namespace Gentings.Data.Query
             _requiredOrderby = true;
             Size = pageSize;
             PageIndex = pageIndex;
-            if (count != null)
-            {
-                Aggregation = Delimit<TModel>(count.GetPropertyAccess());
-            }
-            else
-            {
-                Aggregation = "1";
-            }
+            Aggregation = count != null ? Delimit<TModel>(count.GetPropertyAccess()) : "1";
 
             return LoadPage<TObject>();
         }
@@ -913,14 +905,7 @@ namespace Gentings.Data.Query
             _requiredOrderby = true;
             Size = pageSize;
             PageIndex = pageIndex;
-            if (count != null)
-            {
-                Aggregation = Delimit<TModel>(count.GetPropertyAccess());
-            }
-            else
-            {
-                Aggregation = "1";
-            }
+            Aggregation = count != null ? Delimit<TModel>(count.GetPropertyAccess()) : "1";
 
             return LoadPageAsync<TObject>(cancellationToken);
         }

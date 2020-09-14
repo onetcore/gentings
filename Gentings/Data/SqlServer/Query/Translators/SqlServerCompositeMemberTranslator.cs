@@ -17,6 +17,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
             {
                 new StringLengthTranslator(),
                 new DateTimeNowTranslator(),
+                new DateTimeOffsetNowTranslator(),
                 new DateTimeDateComponentTranslator(),
                 new DateTimeDatePartComponentTranslator(),
             };

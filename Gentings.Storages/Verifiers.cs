@@ -2,13 +2,14 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace Gentings.Storages
 {
     /// <summary>
     /// 验证码。
     /// </summary>
-    public class Verifiers
+    public static class Verifiers
     {
         /// <summary>
         /// 加密验证码。
@@ -106,6 +107,21 @@ namespace Gentings.Storages
             graphics.Dispose();
             bitmap.Dispose();
             return ms;
+        }
+
+        /// <summary>
+        /// 判断验证码。
+        /// </summary>
+        /// <param name="context">HTTP上下文。</param>
+        /// <param name="key">当前唯一键。</param>
+        /// <param name="code">验证码。</param>
+        /// <returns>返回判断结果。</returns>
+        public static bool IsCodeValid(this HttpContext context, string key, string code)
+        {
+            if (string.IsNullOrEmpty(code) || !context.Request.Cookies.TryGetValue(key, out var value))
+                return false;
+            code = Hashed(code);
+            return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
         }
     }
 }

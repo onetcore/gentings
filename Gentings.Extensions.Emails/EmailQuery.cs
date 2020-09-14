@@ -33,6 +33,11 @@ namespace Gentings.Extensions.Emails
         public int? Result { get; set; }
 
         /// <summary>
+        /// 配置Id。
+        /// </summary>
+        public int Sid { get; set; }
+
+        /// <summary>
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
@@ -63,6 +68,9 @@ namespace Gentings.Extensions.Emails
             {
                 context.Where(x => x.Result == Result);
             }
+
+            if (Sid > 0)
+                context.Where(x => x.SettingsId == Sid);
         }
     }
 }

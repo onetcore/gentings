@@ -16,12 +16,12 @@ namespace Gentings.AspNetCore.Emails
         /// <summary>
         /// 邮件管理。
         /// </summary>
-        public const string Email = "email.index";
+        public const string Email = "emails.index";
 
         /// <summary>
         /// 邮件配置管理。
         /// </summary>
-        public const string Settings = "email.settings";
+        public const string Settings = "emails.settings";
 
         /// <summary>
         /// 初始化权限实例。

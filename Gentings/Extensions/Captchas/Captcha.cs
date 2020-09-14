@@ -11,7 +11,7 @@ namespace Gentings.Extensions.Captchas
     public class Captcha
     {
         /// <summary>
-        /// 用户Id。
+        /// 用户手机号码。
         /// </summary>
         [Key]
         [Size(20)]

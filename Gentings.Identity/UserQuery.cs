@@ -117,7 +117,7 @@ namespace Gentings.Identity
             {
                 context.Select()
                     .LeftJoin<TRole>((u, r) => u.RoleId == r.Id)
-                    .Where<TRole>(x => x.RoleLevel <= MaxRoleLevel);
+                    .Where<TRole>(x => x.RoleLevel < MaxRoleLevel);
             }
         }
     }

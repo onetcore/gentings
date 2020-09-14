@@ -67,11 +67,11 @@ namespace Gentings.Extensions.Emails
                 try
                 {
                     await SendAsync(settings, message);
-                    await _emailManager.SetSuccessAsync(message.Id);
+                    await _emailManager.SetSuccessAsync(message.Id, settings.Id);
                 }
                 catch (Exception exception)
                 {
-                    await _emailManager.SetFailuredAsync(message.Id, settings.MaxTryTimes);
+                    await _emailManager.SetFailuredAsync(message.Id, EmailSettings.MaxTryTimes);
                     _logger.LogError(exception, "发送邮件错误");
                 }
                 await Task.Delay(100);

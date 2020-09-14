@@ -26,7 +26,7 @@ namespace Gentings.Extensions.Emails
         /// <returns>返回当前可用的配置。</returns>
         public virtual EmailSettings GetSettings()
         {
-            return Fetch(x => x.Enabled).OrderByDescending(x => x.Count).FirstOrDefault();
+            return Fetch(x => x.Enabled).OrderBy(x => x.Count).FirstOrDefault();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Gentings.Extensions.Emails
         public virtual async Task<EmailSettings> GetSettingsAsync()
         {
             var settings = await FetchAsync(x => x.Enabled);
-            return settings.OrderByDescending(x => x.Count).FirstOrDefault();
+            return settings.OrderBy(x => x.Count).FirstOrDefault();
         }
 
         /// <summary>

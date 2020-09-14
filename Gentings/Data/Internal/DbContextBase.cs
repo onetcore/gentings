@@ -600,6 +600,33 @@ namespace Gentings.Data.Internal
         }
 
         /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual IEnumerable<TModel> LoadAll<TQuery>(TQuery query) where TQuery : QueryBase<TModel>
+        {
+            var context = AsQueryable();
+            query.Init(context);
+            return context.AsEnumerable();
+        }
+
+        /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TObject">返回的对象模型类型。</typeparam>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual IEnumerable<TObject> LoadAll<TQuery, TObject>(TQuery query) where TQuery : QueryBase<TModel>
+        {
+            var context = AsQueryable();
+            query.Init(context);
+            return context.AsEnumerable(reader => typeof(TObject).GetEntityType().Read<TObject>(reader));
+        }
+
+        /// <summary>
         /// 分页获取实例列表。
         /// </summary>
         /// <typeparam name="TQuery">查询实例类型。</typeparam>
@@ -621,14 +648,43 @@ namespace Gentings.Data.Internal
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
-        public virtual async Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
+        public virtual Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
             Expression<Func<TModel, object>> countExpression = null,
             CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
         {
             var context = AsQueryable();
             query.Init(context);
-            return await context.AsEnumerableAsync<TObject>(query.Current, query.PageSize, countExpression,
+            return context.AsEnumerableAsync<TObject>(query.Current, query.PageSize, countExpression,
                 cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual Task<IEnumerable<TModel>> LoadAllAsync<TQuery>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        {
+            var context = AsQueryable();
+            query.Init(context);
+            return context.AsEnumerableAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TObject">返回的对象模型类型。</typeparam>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual Task<IEnumerable<TObject>> LoadAllAsync<TQuery, TObject>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        {
+            var context = AsQueryable();
+            query.Init(context);
+            return context.AsEnumerableAsync(reader => typeof(TObject).GetEntityType().Read<TObject>(reader), cancellationToken);
         }
 
         /// <summary>
@@ -736,7 +792,7 @@ namespace Gentings.Data.Internal
 
             if (convertFunc == null)
             {
-                return (TValue) Convert.ChangeType(scalar, typeof(TValue));
+                return (TValue)Convert.ChangeType(scalar, typeof(TValue));
             }
 
             return convertFunc(scalar);
@@ -765,7 +821,7 @@ namespace Gentings.Data.Internal
 
             if (convertFunc == null)
             {
-                return (TValue) Convert.ChangeType(scalar, typeof(TValue));
+                return (TValue)Convert.ChangeType(scalar, typeof(TValue));
             }
 
             return convertFunc(scalar);

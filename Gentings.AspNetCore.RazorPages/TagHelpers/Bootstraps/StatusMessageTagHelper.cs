@@ -62,7 +62,7 @@ namespace Gentings.AspNetCore.RazorPages.TagHelpers.Bootstraps
                 output.Render("script", builder =>
                 {
                     var json = new { message = message.Message, type };
-                    builder.InnerHtml.AppendHtml("$(function(){").AppendHtml($"$alert({json.ToJsonString()});").AppendHtml("});");
+                    builder.InnerHtml.AppendHtml("$(function(){").AppendHtml($"GtCore.alert({json.ToJsonString()});").AppendHtml("});");
                 });
             else
                 output.Render("div", builer =>

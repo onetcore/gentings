@@ -50,12 +50,7 @@ namespace Gentings.AspNetCore.StatusMessages
         /// </summary>
         public string Message
         {
-            get
-            {
-                if (_message == null)
-                    _message = _tempData[StatusMessageKey] as string;
-                return _message;
-            }
+            get => _message ??= _tempData[StatusMessageKey] as string;
             set
             {
                 _tempData[StatusMessageKey] = value;
@@ -69,12 +64,7 @@ namespace Gentings.AspNetCore.StatusMessages
         /// </summary>
         public string Url
         {
-            get
-            {
-                if (_url == null)
-                    _url = _tempData[StatusUrlKey] as string;
-                return _url;
-            }
+            get => _url ??= _tempData[StatusUrlKey] as string;
             set
             {
                 _tempData[StatusUrlKey] = value;

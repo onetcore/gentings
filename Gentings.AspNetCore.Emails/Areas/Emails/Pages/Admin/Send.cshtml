@@ -3,7 +3,7 @@
 @{
     Layout = "_Modal";
     ViewBag.Title = "发送邮件";
-    ViewBag.DialogClass = "modal-lg";
+    ViewBag.ClassName = "modal-lg";
 }
 
 <form method="post">
@@ -20,7 +20,7 @@
     </div>
     <div class="form-group">
         <label>内容</label>
-        <gt:markdown md-for="Input.Source" html-for="Input.Content"></gt:markdown>
+        <gt:markdown style="height: 300px" md-for="Input.Source" html-for="Input.Content"></gt:markdown>
         <span class="text-danger" asp-validation-for="Input.Content"></span>
     </div>
 </form>

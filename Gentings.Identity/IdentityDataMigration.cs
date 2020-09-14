@@ -1,6 +1,5 @@
 ﻿using Gentings.Data.Migrations;
 using Gentings.Data.Migrations.Builders;
-using Gentings.Identity.Denies;
 using Gentings.Identity.Roles;
 
 namespace Gentings.Identity
@@ -24,11 +23,6 @@ namespace Gentings.Identity
         /// <param name="builder">迁移构建实例对象。</param>
         public override void Create(MigrationBuilder builder)
         {
-            //禁用名称。
-            builder.CreateTable<DenyName>(table => table
-                .Column(x => x.Id)
-                .Column(x => x.Name)
-                .UniqueConstraint(x => x.Name));
             //用户
             builder.CreateTable<TUser>(table =>
             {

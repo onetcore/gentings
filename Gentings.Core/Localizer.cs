@@ -23,12 +23,10 @@ namespace Gentings
         public virtual string GetString(Enum key)
         {
             var type = key.GetType();
-            var resource = GetString(type, $"{type.Name}_{key}");
-            if (resource == null)
-            {
-                return key.ToStr();
-            }
-
+            var name = $"{type.Name}_{key}";
+            var resource = GetString(type, name);
+            if (resource == name)
+                resource = key.ToStr();
             return resource;
         }
 
@@ -41,12 +39,10 @@ namespace Gentings
         public virtual string GetString(Enum key, params object[] args)
         {
             var type = key.GetType();
-            var resource = GetString(type, $"{type.Name}_{key}");
-            if (resource == null)
-            {
-                return key.ToStr();
-            }
-
+            var name = $"{type.Name}_{key}";
+            var resource = GetString(type, name);
+            if (resource == name)
+                resource = key.ToStr();
             return string.Format(resource, args);
         }
 

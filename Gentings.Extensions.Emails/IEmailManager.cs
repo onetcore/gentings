@@ -156,15 +156,17 @@ namespace Gentings.Extensions.Emails
         /// 设置成功状态。
         /// </summary>
         /// <param name="id">当前电子邮件Id。</param>
+        /// <param name="settingsId">配置ID。</param>
         /// <returns>返回设置结果。</returns>
-        bool SetSuccess(int id);
+        bool SetSuccess(int id, int settingsId);
 
         /// <summary>
         /// 设置成功状态。
         /// </summary>
         /// <param name="id">当前电子邮件Id。</param>
+        /// <param name="settingsId">配置ID。</param>
         /// <returns>返回设置结果。</returns>
-        Task<bool> SetSuccessAsync(int id);
+        Task<bool> SetSuccessAsync(int id, int settingsId);
 
         /// <summary>
         /// 通过Id查询电子邮件。

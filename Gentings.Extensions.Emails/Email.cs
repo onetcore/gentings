@@ -72,7 +72,7 @@ namespace Gentings.Extensions.Emails
         [NotUpdated]
         public string HashKey
         {
-            get => _hashkey ?? (_hashkey = Cores.Md5(GetHashString()));
+            get => _hashkey ??= Cores.Md5(GetHashString());
             set => _hashkey = value;
         }
 
@@ -85,6 +85,11 @@ namespace Gentings.Extensions.Emails
             get => this[nameof(Source)];
             set => this[nameof(Source)] = value;
         }
+
+        /// <summary>
+        /// 发送成功的邮件配置Id。
+        /// </summary>
+        public int SettingsId { get; set; }
 
         /// <summary>
         /// 获取用于计算唯一键的哈希组合字符串的哈希值。

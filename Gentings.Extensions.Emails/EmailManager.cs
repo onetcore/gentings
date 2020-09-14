@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gentings.Data;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace Gentings.Extensions.Emails
 {
@@ -318,15 +319,41 @@ namespace Gentings.Extensions.Emails
         /// 设置成功状态。
         /// </summary>
         /// <param name="id">当前电子邮件Id。</param>
+        /// <param name="settingsId">配置ID。</param>
         /// <returns>返回设置结果。</returns>
-        public virtual bool SetSuccess(int id) => Update(id, new { Status = EmailStatus.Completed, ConfirmDate = DateTimeOffset.Now });
+        public virtual bool SetSuccess(int id, int settingsId)
+        {
+            return Context.BeginTransaction(db =>
+            {
+                if (db.Update(id,
+                    new
+                    {
+                        Status = EmailStatus.Completed,
+                        ConfirmDate = DateTimeOffset.Now,
+                        settingsId
+                    }))
+                    return db.As<EmailSettings>()
+                        .Update(x => x.Id == settingsId, x => new { Count = x.Count + 1 });
+                return false;
+            });
+        }
 
         /// <summary>
         /// 设置成功状态。
         /// </summary>
         /// <param name="id">当前电子邮件Id。</param>
+        /// <param name="settingsId">配置ID。</param>
         /// <returns>返回设置结果。</returns>
-        public virtual Task<bool> SetSuccessAsync(int id) => UpdateAsync(id, new { Status = EmailStatus.Completed, ConfirmDate = DateTimeOffset.Now });
+        public virtual Task<bool> SetSuccessAsync(int id, int settingsId)
+        {
+            return Context.BeginTransactionAsync(async db =>
+            {
+                if (await db.UpdateAsync(id,
+                    new { Status = EmailStatus.Completed, ConfirmDate = DateTimeOffset.Now, settingsId }))
+                    return await db.As<EmailSettings>().UpdateAsync(x => x.Id == settingsId, x => new { Count = x.Count + 1 });
+                return false;
+            });
+        }
 
         /// <summary>
         /// 通过Id查询电子邮件。
