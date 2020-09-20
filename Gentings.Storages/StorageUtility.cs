@@ -67,26 +67,6 @@ namespace Gentings.Storages
         }
 
         /// <summary>
-        /// 将文件流保存到文件中。
-        /// </summary>
-        /// <param name="stream">当前文件流。</param>
-        /// <param name="path">文件的物理路径。</param>
-        /// <param name="share">文件共享选项。</param>
-        /// <returns>返回保存任务。</returns>
-        public static async Task SaveToAsync(this Stream stream, string path, FileShare share = FileShare.None)
-        {
-            await using var fs = new FileStream(path, FileMode.Create, FileAccess.Write, share);
-            var size = 409600;
-            var buffer = new byte[size];
-            var current = await stream.ReadAsync(buffer, 0, size);
-            while (current > 0)
-            {
-                await fs.WriteAsync(buffer, 0, current);
-                current = await stream.ReadAsync(buffer, 0, size);
-            }
-        }
-
-        /// <summary>
         /// 获取文件的编码格式。
         /// </summary>
         /// <param name="path">当前文件的物理路径。</param>

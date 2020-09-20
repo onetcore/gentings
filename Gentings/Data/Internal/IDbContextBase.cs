@@ -425,7 +425,7 @@ namespace Gentings.Data.Internal
             CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 上移一个位置。
+        /// 上移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
@@ -435,7 +435,7 @@ namespace Gentings.Data.Internal
             Expression<Predicate<TModel>> expression = null);
 
         /// <summary>
-        /// 下移一个位置。
+        /// 下移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
@@ -445,7 +445,7 @@ namespace Gentings.Data.Internal
             Expression<Predicate<TModel>> expression = null);
 
         /// <summary>
-        /// 上移一个位置。
+        /// 上移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
@@ -456,7 +456,7 @@ namespace Gentings.Data.Internal
             Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// 下移一个位置。
+        /// 下移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>

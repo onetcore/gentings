@@ -828,7 +828,7 @@ namespace Gentings.Data.Internal
         }
 
         /// <summary>
-        /// 上移一个位置。
+        /// 上移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
@@ -844,7 +844,7 @@ namespace Gentings.Data.Internal
         }
 
         /// <summary>
-        /// 下移一个位置。
+        /// 下移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
@@ -860,7 +860,7 @@ namespace Gentings.Data.Internal
         }
 
         /// <summary>
-        /// 上移一个位置。
+        /// 上移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
@@ -877,7 +877,7 @@ namespace Gentings.Data.Internal
         }
 
         /// <summary>
-        /// 下移一个位置。
+        /// 下移一个位置，注意排序必须位降序排列。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>

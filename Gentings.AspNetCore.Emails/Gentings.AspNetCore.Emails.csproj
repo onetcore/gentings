@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gentings.AspNetCore.RazorPages\Gentings.AspNetCore.RazorPages.csproj" />
+    <ProjectReference Include="..\Gentings.AspNetCore\Gentings.AspNetCore.csproj" />
     <ProjectReference Include="..\Gentings.Core\Gentings.Core.csproj" />
     <ProjectReference Include="..\Gentings.Extensions.Emails\Gentings.Extensions.Emails.csproj" />
     <ProjectReference Include="..\Gentings.Identity\Gentings.Identity.csproj" />

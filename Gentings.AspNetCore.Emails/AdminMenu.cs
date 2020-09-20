@@ -1,4 +1,4 @@
-﻿using Gentings.AspNetCore.RazorPages.AdminMenus;
+﻿using Gentings.AspNetCore.AdminMenus;
 using Gentings.Extensions.Emails;
 
 namespace Gentings.AspNetCore.Emails
