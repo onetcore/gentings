@@ -19,11 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore.Emails"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.SaaS", "Gentings.SaaS\Gentings.SaaS.csproj", "{7000C17B-9DE3-4B33-B797-D72EE46636C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.Extensions.OpenServices", "Gentings.Extensions.OpenServices\Gentings.Extensions.OpenServices.csproj", "{8A5F9779-366B-401A-8CB8-B95970D7136E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore", "Gentings.AspNetCore\Gentings.AspNetCore.csproj", "{4520AA65-E8C0-4365-BCD3-4C3DD33846FA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.AspNetCore.OpenServices", "Gentings.AspNetCore.OpenServices\Gentings.AspNetCore.OpenServices.csproj", "{E08B4075-F89E-4BA7-8DC6-84A9C5DB8AEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,18 +59,10 @@ Global
 		{7000C17B-9DE3-4B33-B797-D72EE46636C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7000C17B-9DE3-4B33-B797-D72EE46636C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7000C17B-9DE3-4B33-B797-D72EE46636C1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8A5F9779-366B-401A-8CB8-B95970D7136E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8A5F9779-366B-401A-8CB8-B95970D7136E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8A5F9779-366B-401A-8CB8-B95970D7136E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8A5F9779-366B-401A-8CB8-B95970D7136E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4520AA65-E8C0-4365-BCD3-4C3DD33846FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4520AA65-E8C0-4365-BCD3-4C3DD33846FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4520AA65-E8C0-4365-BCD3-4C3DD33846FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4520AA65-E8C0-4365-BCD3-4C3DD33846FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E08B4075-F89E-4BA7-8DC6-84A9C5DB8AEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E08B4075-F89E-4BA7-8DC6-84A9C5DB8AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E08B4075-F89E-4BA7-8DC6-84A9C5DB8AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E08B4075-F89E-4BA7-8DC6-84A9C5DB8AEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

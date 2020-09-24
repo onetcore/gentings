@@ -36,7 +36,7 @@ namespace Gentings.Extensions.Internal
             if (properties.Count == 0 && Identity != null)
             {
                 Identity.IsPrimaryKey = true;
-                properties = new List<Property> {Identity};
+                properties = new List<Property> { Identity };
             }
 
             if (properties.Count > 0)
@@ -128,9 +128,9 @@ namespace Gentings.Extensions.Internal
 
                     property.Set(model, value);
                 }
-                else if (model is ExtendBase)
+                else if (model is ExtendBase extend)
                 {
-                    ((ExtendBase) (object) model)[name] = reader.GetValue(i)?.ToString();
+                    extend[name] = reader.GetValue(i)?.ToString();
                 }
             }
 

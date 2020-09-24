@@ -107,7 +107,7 @@ namespace Gentings.Data.Query
             if (!_alias.TryGetValue(type, out var alias))
             {
                 _current++;
-                alias = ((char) _current).ToString();
+                alias = ((char)_current).ToString();
                 _alias[type] = alias;
             }
 
@@ -848,9 +848,11 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="converter">对象转换器。</param>
         /// <returns>返回数据列表。</returns>
-        public IEnumerable<TValue> AsEnumerable<TValue>(Func<DbDataReader, TValue> converter)
+        public IEnumerable<TValue> AsEnumerable<TValue>(Func<DbDataReader, TValue> converter = null)
         {
             var models = new List<TValue>();
+            var type = typeof(TValue).GetEntityType();
+            converter ??= reader => type.Read<TValue>(reader);
             using (var reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
             {
                 while (reader.Read())
@@ -926,10 +928,12 @@ namespace Gentings.Data.Query
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter,
+        public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter = null,
             CancellationToken cancellationToken = default)
         {
             var models = new List<TValue>();
+            var type = typeof(TValue).GetEntityType();
+            converter ??= reader => type.Read<TValue>(reader);
             await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(),
                 cancellationToken: cancellationToken))
             {

@@ -1,11 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Gentings.Data;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Gentings.Extensions;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Gentings.Identity
 {
@@ -219,6 +225,28 @@ namespace Gentings.Identity
         internal static Task<TCache> GetOrCreateAsync<TCache>(this HttpContext context, Func<Task<TCache>> func)
         {
             return context.GetOrCreateAsync(typeof(TCache), func);
+        }
+
+        /// <summary>
+        /// 创建JWT访问Token。
+        /// </summary>
+        /// <param name="configuration">配置实例。</param>
+        /// <param name="claims">用户声明列表。</param>
+        /// <returns>返回Token字符串。</returns>
+        public static string CreateJwtSecurityToken(this IConfiguration configuration, IEnumerable<Claim> claims)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["Jwt:Expires"]));
+
+            var token = new JwtSecurityToken(
+                configuration["Jwt:Issuer"],
+                configuration["Jwt:Audience"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

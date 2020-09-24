@@ -14,7 +14,7 @@ namespace Gentings.Extensions
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
-        /// 扩展方法。
+        /// 扩展方法，注意如果使用这个扩展属性承载选择的其他项目，需要先选择当前表格的<see cref="ExtendProperties"/>列，否则可能会被覆盖。
         /// </summary>
         [JsonIgnore]
         public string ExtendProperties

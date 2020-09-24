@@ -268,7 +268,7 @@ namespace Gentings.Data
         /// </summary>
         /// <param name="converter">对象转换器。</param>
         /// <returns>返回数据列表。</returns>
-        IEnumerable<TValue> AsEnumerable<TValue>(Func<DbDataReader, TValue> converter);
+        IEnumerable<TValue> AsEnumerable<TValue>(Func<DbDataReader, TValue> converter = null);
 
         /// <summary>
         /// 查询数据库返回<paramref name="size"/>项结果。
@@ -317,7 +317,7 @@ namespace Gentings.Data
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter,
+        Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter = null,
             CancellationToken cancellationToken = default);
     }
 }
