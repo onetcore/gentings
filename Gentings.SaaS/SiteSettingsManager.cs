@@ -62,7 +62,7 @@ namespace Gentings.SaaS
         /// <param name="siteId">网站Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回网站配置实例。</returns>
-        public virtual TSiteSettings GetSettings<TSiteSettings>(int siteId, string key) where TSiteSettings : SiteSettingsBase, new()
+        public virtual TSiteSettings GetSettings<TSiteSettings>(int siteId, string key) where TSiteSettings : ISiteSettings, new()
         {
             return Cache.GetOrCreate(GetCacheKey(siteId, key), entry =>
             {
@@ -71,7 +71,9 @@ namespace Gentings.SaaS
                 if (settings == null)
                     return new TSiteSettings { SiteId = siteId };
 
-                var result = Cores.FromJsonString<TSiteSettings>(settings) ?? new TSiteSettings();
+                var result = Cores.FromJsonString<TSiteSettings>(settings);
+                if (result == null)
+                    result = new TSiteSettings();
                 result.SiteId = siteId;
                 return result;
             });
@@ -83,7 +85,7 @@ namespace Gentings.SaaS
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="siteId">网站Id。</param>
         /// <returns>返回网站配置实例。</returns>
-        public virtual TSiteSettings GetSettings<TSiteSettings>(int siteId) where TSiteSettings : SiteSettingsBase, new()
+        public virtual TSiteSettings GetSettings<TSiteSettings>(int siteId) where TSiteSettings : ISiteSettings, new()
         {
             return GetSettings<TSiteSettings>(siteId, typeof(TSiteSettings).FullName);
         }
@@ -111,7 +113,7 @@ namespace Gentings.SaaS
         /// <param name="siteId">网站Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回网站配置实例。</returns>
-        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(int siteId, string key) where TSiteSettings : SiteSettingsBase, new()
+        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(int siteId, string key) where TSiteSettings : ISiteSettings, new()
         {
             return Cache.GetOrCreateAsync(GetCacheKey(siteId, key), async entry =>
             {
@@ -120,7 +122,9 @@ namespace Gentings.SaaS
                 if (settings?.SettingValue == null)
                     return new TSiteSettings { SiteId = siteId };
 
-                var result = Cores.FromJsonString<TSiteSettings>(settings.SettingValue) ?? new TSiteSettings();
+                var result = Cores.FromJsonString<TSiteSettings>(settings.SettingValue);
+                if (result == null)
+                    result = new TSiteSettings();
                 result.SiteId = siteId;
                 return result;
             });
@@ -132,7 +136,7 @@ namespace Gentings.SaaS
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="siteId">网站Id。</param>
         /// <returns>返回网站配置实例。</returns>
-        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(int siteId) where TSiteSettings : SiteSettingsBase, new()
+        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(int siteId) where TSiteSettings : ISiteSettings, new()
         {
             return GetSettingsAsync<TSiteSettings>(siteId, typeof(TSiteSettings).FullName);
         }
@@ -142,7 +146,7 @@ namespace Gentings.SaaS
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="settings">网站配置实例。</param>
-        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings settings) where TSiteSettings : SiteSettingsBase, new()
+        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings settings) where TSiteSettings : ISiteSettings, new()
         {
             return SaveSettingsAsync(settings.SiteId, typeof(TSiteSettings).FullName, settings);
         }
@@ -191,7 +195,7 @@ namespace Gentings.SaaS
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="settings">网站配置实例。</param>
-        public virtual bool SaveSettings<TSiteSettings>(TSiteSettings settings) where TSiteSettings : SiteSettingsBase, new()
+        public virtual bool SaveSettings<TSiteSettings>(TSiteSettings settings) where TSiteSettings : ISiteSettings, new()
         {
             return SaveSettings(settings.SiteId, typeof(TSiteSettings).FullName, settings);
         }

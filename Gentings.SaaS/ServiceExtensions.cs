@@ -14,30 +14,42 @@ namespace Gentings.SaaS
         /// <summary>
         /// 添加Saas服务。
         /// </summary>
+        /// <typeparam name="TSite">网站实例类型。</typeparam>
         /// <param name="builder">服务构建实例对象。</param>
         /// <returns>返回服务构建实例对象。</returns>
-        public static IServiceBuilder AddSaaS(this IServiceBuilder builder)
+        public static IServiceBuilder AddSaaS<TSite>(this IServiceBuilder builder)
+            where TSite : Site, new()
         {
-            return builder.AddServices(services => services.AddScoped(service =>
-              {
-                  var siteManager = service.GetRequiredService<ISiteManager>();
-                  var request = service.GetRequiredService<IHttpContextAccessor>().HttpContext.Request;
-                  var current = request.GetDomain();
-                  return siteManager.GetSite(current);
-              }));
+            return builder.AddServices(services =>
+            {
+                services.AddSingleton(typeof(ISiteManager<>), typeof(SiteManager<>));
+                services.AddScoped(service =>
+                {
+                    var domainManager = service.GetRequiredService<ISiteDomainManager>();
+                    var request = service.GetRequiredService<IHttpContextAccessor>().HttpContext.Request;
+                    var current = domainManager.GetDomain(request.GetDomain());
+                    if (current == null)
+                        return null;
+                    var siteManager = service.GetRequiredService<ISiteManager<TSite>>();
+                    return siteManager.Find(current.SiteId);
+                });
+            });
         }
 
         /// <summary>
         /// 使用Saas中间件。
         /// </summary>
+        /// <typeparam name="TSite">网站实例类型。</typeparam>
         /// <param name="app">应用构建实例对象。</param>
         /// <returns>应用服务构建实例对象。</returns>
-        public static IApplicationBuilder UseSaaS(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSaaS<TSite>(this IApplicationBuilder app)
+            where TSite : Site, new()
         {
-            return app.UseMiddleware<SiteMiddleware>();
+            return app.UseMiddleware<SiteMiddleware<TSite>>();
         }
 
-        internal class SiteMiddleware
+        private class SiteMiddleware<TSite>
+            where TSite : Site
         {
             private readonly RequestDelegate _next;
 
@@ -48,9 +60,14 @@ namespace Gentings.SaaS
 
             public async Task Invoke(HttpContext context)
             {
-                var site = context.RequestServices.GetRequiredService<Site>();
-                if (site != null)
+                var site = context.RequestServices.GetService<TSite>();
+                if (site?.Disabled == false)
                     await _next(context);
+                else
+                {
+                    context.Response.Clear();
+                    context.Response.StatusCode = 400;
+                }
             }
         }
     }

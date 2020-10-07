@@ -13,18 +13,27 @@
         /// <param name="builder">迁移实例对象。</param>
         public override void Create(MigrationBuilder builder)
         {
-            builder.CreateTable<Site>(table => table
+            builder.CreateTable<SiteAdapter>(table => table
                 .Column(x => x.Id)
+                .Column(x => x.SiteKey)
+                .Column(x => x.SiteName)
+                .Column(x => x.Description)
+                .Column(x => x.Disabled)
+                .Column(x => x.SettingValue)
+                .UniqueConstraint(x => x.SiteKey)
+            );
+
+            builder.CreateTable<SiteDomain>(table => table
+                .Column(x => x.SiteId)
                 .Column(x => x.Domain)
-                .Column(x => x.IsEnabled)
-                .UniqueConstraint(x => x.Domain)
+                .ForeignKey<SiteAdapter>(x => x.SiteId, x => x.Id, onDelete: ReferentialAction.Cascade)
             );
 
             builder.CreateTable<SiteSettingsAdapter>(table => table
                 .Column(x => x.SiteId)
                 .Column(s => s.SettingKey)
                 .Column(s => s.SettingValue)
-                .ForeignKey<Site>(x => x.SiteId, x => x.Id, onDelete: ReferentialAction.Cascade)
+                .ForeignKey<SiteAdapter>(x => x.SiteId, x => x.Id, onDelete: ReferentialAction.Cascade)
             );
         }
     }

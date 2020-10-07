@@ -1,29 +1,42 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.Text.Json.Serialization;
 using Gentings.Extensions;
 
 namespace Gentings.SaaS
 {
     /// <summary>
-    /// 网站。
+    /// 配置基类。
     /// </summary>
-    [Table("saas_Sites")]
-    public class Site : IIdObject
+    [Target(typeof(SiteAdapter))]
+    public class Site
     {
         /// <summary>
-        /// 网站Id。
+        /// Id。
         /// </summary>
-        [Identity]
+        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>
-        /// 默认域名。
+        /// 唯一键。
         /// </summary>
-        [Size(64)]
-        public string Domain { get; set; }
+        [JsonIgnore]
+        public string SiteKey { get; set; }
+
+        /// <summary>
+        /// 网站名称。
+        /// </summary>
+        [JsonIgnore]
+        public string SiteName { get; set; }
+
+        /// <summary>
+        /// 网站描述。
+        /// </summary>
+        [JsonIgnore]
+        public string Description { get; set; }
 
         /// <summary>
         /// 禁用。
         /// </summary>
-        public bool IsEnabled { get; set; }
+        [JsonIgnore]
+        public bool Disabled { get; set; }
     }
 }

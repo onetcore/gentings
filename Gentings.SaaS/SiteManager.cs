@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Gentings.Data;
 using Gentings.Extensions;
 using Microsoft.Extensions.Caching.Memory;
@@ -12,97 +6,177 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Gentings.SaaS
 {
     /// <summary>
-    /// 网站管理实现类。
+    /// 网站管理基类。
     /// </summary>
-    public class SiteManager : CachableObjectManager<Site>, ISiteManager
+    /// <typeparam name="TSite">网站实例。</typeparam>
+    public class SiteManager<TSite> : ISiteManager<TSite> where TSite : Site, new()
     {
         /// <summary>
-        /// 初始化类<see cref="SiteManager"/>。
+        /// 数据库操作接口。
         /// </summary>
-        /// <param name="context">数据库操作实例。</param>
-        /// <param name="cache">缓存接口。</param>
-        public SiteManager(IDbContext<Site> context, IMemoryCache cache) : base(context, cache)
+        protected IDbContext<SiteAdapter> Context { get; }
+
+        /// <summary>
+        /// 缓存实例。
+        /// </summary>
+        protected IMemoryCache Cache { get; }
+
+        /// <summary>
+        /// 初始化类<see cref="SiteManager{TSite}"/>。
+        /// </summary>
+        /// <param name="context">数据库操作接口。</param>
+        /// <param name="cache">缓存实例。</param>
+        public SiteManager(IDbContext<SiteAdapter> context, IMemoryCache cache)
         {
+            Context = context;
+            Cache = cache;
         }
 
         /// <summary>
-        /// 通过域名获取网站。
+        /// 如果结果正确返回<paramref name="succeed"/>，否则返回失败项。
         /// </summary>
-        /// <param name="domain">域名和端口地址。</param>
-        /// <returns>返回当前域名的网站。</returns>
-        public virtual Site GetSite(string domain)
+        /// <param name="siteId">网站id。</param>
+        /// <param name="result">执行结果。</param>
+        /// <param name="succeed">执行成功返回的值。</param>
+        /// <returns>返回执行结果实例对象。</returns>
+        protected DataResult FromResult(int siteId, bool result, DataAction succeed)
         {
-            var sites = GetCacheSites();
-            sites.TryGetValue(domain, out var site);
-            return site;
+            if (result)
+            {
+                Cache.Remove(GetCacheKey(siteId));
+                return succeed;
+            }
+            return (DataAction)(-(int)succeed);
         }
 
         /// <summary>
-        /// 通过域名获取网站。
+        /// 获取缓存键。
         /// </summary>
-        /// <param name="domain">域名和端口地址。</param>
-        /// <returns>返回当前域名的网站。</returns>
-        public virtual async Task<Site> GetSiteAsync(string domain)
-        {
-            var sites = await GetCacheSitesAsync();
-            sites.TryGetValue(domain, out var site);
-            return site;
-        }
+        /// <param name="siteId">网站id。</param>
+        /// <returns>返回缓存键实例。</returns>
+        protected string GetCacheKey(int siteId) => $"Site{siteId}";
 
         /// <summary>
-        /// 获取网站缓存实例。
+        /// 获取网站实例。
         /// </summary>
-        /// <returns>返回网站缓存实例列表。</returns>
-        protected virtual ConcurrentDictionary<string, Site> GetCacheSites()
+        /// <param name="id">网站Id。</param>
+        /// <returns>返回网站实例。</returns>
+        public virtual TSite Find(int id)
         {
-            return Cache.GetOrCreate(CacheKey, ctx =>
+            return Cache.GetOrCreate(GetCacheKey(id), ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                var sites = Context.Fetch()
-                    .OrderByDescending(x => x.Domain.Length)
-                    .ToDictionary(x => x.Domain);
-                return new ConcurrentDictionary<string, Site>(sites, StringComparer.OrdinalIgnoreCase);
+                return Context.Find(id).AsSite<TSite>();
             });
         }
 
         /// <summary>
-        /// 获取网站缓存实例。
+        /// 获取网站实例。
         /// </summary>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回网站缓存实例列表。</returns>
-        protected virtual Task<ConcurrentDictionary<string, Site>> GetCacheSitesAsync(CancellationToken cancellationToken = default)
+        /// <param name="id">网站Id。</param>
+        /// <returns>返回网站实例。</returns>
+        public virtual Task<TSite> FindAsync(int id)
         {
-            return Cache.GetOrCreateAsync(CacheKey, async ctx =>
+            return Cache.GetOrCreateAsync(GetCacheKey(id), async ctx =>
+             {
+                 ctx.SetDefaultAbsoluteExpiration();
+                 var site = await Context.FindAsync(id);
+                 return site.AsSite<TSite>();
+             });
+        }
+
+        /// <summary>
+        /// 保存当前实例。
+        /// </summary>
+        /// <param name="site">网站实例对象。</param>
+        /// <returns>返回保存结果。</returns>
+        public virtual DataResult Save(TSite site)
+        {
+            var adapter = SiteAdapter.FromSite(site);
+            if (Context.Any(x => x.SiteKey == adapter.SiteKey && x.Id != adapter.Id))
+                return DataAction.Duplicate;
+            if (adapter.Id > 0)
+                return FromResult(adapter.Id, Context.Update(adapter), DataAction.Updated);
+            var result = Context.Create(adapter);
+            return FromResult(adapter.Id, result, DataAction.Created);
+        }
+
+        /// <summary>
+        /// 保存当前实例。
+        /// </summary>
+        /// <param name="site">网站实例对象。</param>
+        /// <returns>返回保存结果。</returns>
+        public virtual async Task<DataResult> SaveAsync(TSite site)
+        {
+            var adapter = SiteAdapter.FromSite(site);
+            if (Context.Any(x => x.SiteKey == adapter.SiteKey && x.Id != adapter.Id))
+                return DataAction.Duplicate;
+            if (adapter.Id > 0)
+                return FromResult(adapter.Id, await Context.UpdateAsync(adapter), DataAction.Updated);
+            var result = await Context.CreateAsync(adapter);
+            return FromResult(adapter.Id, result, DataAction.Created);
+        }
+
+        /// <summary>
+        /// 删除当前实例。
+        /// </summary>
+        /// <param name="ids">网站Id列表。</param>
+        /// <returns>返回删除结果。</returns>
+        public virtual DataResult Delete(int[] ids)
+        {
+            var result = Context.Delete(x => x.Id.Included(ids));
+            if (result)
             {
-                ctx.SetDefaultAbsoluteExpiration();
-                var sites = await Context.FetchAsync(cancellationToken: cancellationToken);
-                return new ConcurrentDictionary<string, Site>(sites
-                    .OrderByDescending(x => x.Domain.Length)
-                    .ToDictionary(x => x.Domain), StringComparer.OrdinalIgnoreCase);
-            });
+                foreach (var id in ids)
+                {
+                    Cache.Remove(GetCacheKey(id));
+                }
+
+                return DataAction.Created;
+            }
+
+            return DataAction.CreatedFailured;
         }
 
         /// <summary>
-        /// 根据条件获取列表。
+        /// 删除当前实例。
         /// </summary>
-        /// <param name="expression">条件表达式。</param>
-        /// <returns>返回模型实例列表。</returns>
-        public override IEnumerable<Site> Fetch(Expression<Predicate<Site>> expression = null)
+        /// <param name="ids">网站Id列表。</param>
+        /// <returns>返回删除结果。</returns>
+        public virtual async Task<DataResult> DeleteAsync(int[] ids)
         {
-            var sites = GetCacheSites();
-            return sites.Values.Filter(expression);
+            var result = await Context.DeleteAsync(x => x.Id.Included(ids));
+            if (result)
+            {
+                foreach (var id in ids)
+                {
+                    Cache.Remove(GetCacheKey(id));
+                }
+
+                return DataAction.Created;
+            }
+
+            return DataAction.CreatedFailured;
         }
 
         /// <summary>
-        /// 根据条件获取列表。
+        /// 分页查询网站实例。
         /// </summary>
-        /// <param name="expression">条件表达式。</param>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回模型实例列表。</returns>
-        public override async Task<IEnumerable<Site>> FetchAsync(Expression<Predicate<Site>> expression = null, CancellationToken cancellationToken = default)
+        /// <param name="query">网站查询实例。</param>
+        /// <returns>返回当前网站列表。</returns>
+        public virtual IPageEnumerable<Site> Load(SiteQuery query)
         {
-            var sites = await GetCacheSitesAsync(cancellationToken);
-            return sites.Values.Filter(expression);
+            return Context.Load<SiteQuery, Site>(query);
+        }
+
+        /// <summary>
+        /// 分页查询网站实例。
+        /// </summary>
+        /// <param name="query">网站查询实例。</param>
+        /// <returns>返回当前网站列表。</returns>
+        public virtual Task<IPageEnumerable<Site>> LoadAsync(SiteQuery query)
+        {
+            return Context.LoadAsync<SiteQuery, Site>(query);
         }
     }
 }
