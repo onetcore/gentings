@@ -48,6 +48,11 @@ namespace Gentings.Identity
         public string Email { get; set; }
 
         /// <summary>
+        /// 父级Id。
+        /// </summary>
+        public int Pid { get; set; }
+
+        /// <summary>
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
@@ -55,39 +60,21 @@ namespace Gentings.Identity
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Name))
-            {
                 context.Where(x => x.NickName.Contains(Name) || x.NormalizedUserName.Contains(Name));
-            }
-
             if (Start != null)
-            {
                 context.Where(x => x.CreatedDate >= Start);
-            }
-
             if (End != null)
-            {
                 context.Where(x => x.CreatedDate <= End);
-            }
-
             if (LoginStart != null)
-            {
                 context.Where(x => x.LastLoginDate >= LoginStart);
-            }
-
             if (LoginEnd != null)
-            {
                 context.Where(x => x.LastLoginDate <= LoginEnd);
-            }
-
             if (!string.IsNullOrWhiteSpace(PhoneNumber))
-            {
                 context.Where(x => x.PhoneNumber == PhoneNumber);
-            }
-
             if (!string.IsNullOrWhiteSpace(Email))
-            {
                 context.Where(x => x.NormalizedEmail.Contains(Email));
-            }
+            if (Pid > 0)
+                context.Where(x => x.ParentId == Pid);
         }
     }
 

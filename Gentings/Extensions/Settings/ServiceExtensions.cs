@@ -31,6 +31,20 @@ namespace Gentings.Extensions.Settings
         /// <summary>
         /// 添加字典组件。
         /// </summary>
+        /// <typeparam name="TGlobalSettings">全局配置实例类型。</typeparam>
+        /// <param name="builder">服务构建实例。</param>
+        /// <param name="includeDictionary">是否组成字典实例。</param>
+        /// <returns>服务构建实例。</returns>
+        public static IServiceBuilder AddSettings<TGlobalSettings>(this IServiceBuilder builder, bool includeDictionary = false)
+            where TGlobalSettings : class, new()
+        {
+            builder.AddServices(services => services.AddScoped(service => service.GetRequiredService<ISettingsManager>().GetSettings<TGlobalSettings>()));
+            return builder.AddSettings(includeDictionary);
+        }
+
+        /// <summary>
+        /// 添加字典组件。
+        /// </summary>
         /// <typeparam name="TSettingDictionaryManager">字典实现类。</typeparam>
         /// <param name="builder">服务构建实例。</param>
         /// <returns>服务构建实例。</returns>

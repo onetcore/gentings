@@ -379,19 +379,26 @@ namespace Gentings.Data.Query
         /// <summary>
         /// 设置选择列。
         /// </summary>
+        /// <param name="field">列表达式。</param>
+        /// <param name="alias">别名。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        public virtual IQueryable<TModel> Select(Expression<Func<TModel, object>> field, string alias)
+        {
+            var column = Delimit<TModel>(field.GetPropertyAccess());
+            alias = SqlHelper.DelimitIdentifier(alias);
+            _fields.Add($"{column} AS {alias}");
+            return this;
+        }
+
+        /// <summary>
+        /// 设置选择列。
+        /// </summary>
         /// <param name="fields">列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
         public virtual IQueryable<TModel> Select(Expression<Func<TModel, object>> fields)
         {
             return Select<TModel>(fields);
         }
-
-        /// <summary>
-        /// 设置选择列。
-        /// </summary>
-        /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.Select()
-            => Select();
 
         /// <summary>
         /// 设置选择列。
@@ -481,6 +488,22 @@ namespace Gentings.Data.Query
 
         IQueryContext<TModel> IQueryContext<TModel>.Select(Expression<Func<TModel, object>> fields)
             => Select(fields);
+
+        /// <summary>
+        /// 设置选择列。
+        /// </summary>
+        /// <param name="field">列表达式。</param>
+        /// <param name="alias">别名。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> IQueryContext<TModel>.Select(Expression<Func<TModel, object>> field, string alias)
+            => Select(field, alias);
+
+        /// <summary>
+        /// 设置选择列。
+        /// </summary>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> IQueryContext<TModel>.Select()
+            => Select();
 
         #endregion
 
@@ -1082,7 +1105,6 @@ namespace Gentings.Data.Query
 
             return models;
         }
-
         #endregion
     }
 }

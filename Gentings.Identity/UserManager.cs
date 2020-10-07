@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,6 +13,7 @@ using Gentings.Extensions;
 using Gentings.Extensions.Settings;
 using Gentings.Identity.Roles;
 using Microsoft.Extensions.Caching.Memory;
+using System.Data.Common;
 
 namespace Gentings.Identity
 {
@@ -525,8 +527,155 @@ namespace Gentings.Identity
             await UpdateAsync(user.Id, new { user.LastLoginDate, user.LoginIP });
         }
 
+        private readonly Type _cacheKey = typeof(CachedUser);
+        private readonly IEntityType _cachedUser = typeof(CachedUser).GetEntityType();
+
         /// <summary>
-        /// 初始化类<see cref="UserManager{TUser, TUserClaim, TUserLogin, TUserToken}"/>。
+        /// 获取缓存用户实例。
+        /// </summary>
+        /// <param name="id">用户Id。</param>
+        /// <returns>返回缓存用户实例对象。</returns>
+        public virtual CachedUser GetCachedUser(int id)
+        {
+            if (CachedUsers.TryGetValue(id, out var user))
+                return user;
+
+            user = CachedQueryable.Where(x => x.Id == id).FirstOrDefault(Converter);
+            CachedUsers.TryAdd(id, user);
+            return user;
+        }
+
+        /// <summary>
+        /// 缓存用户实例。
+        /// </summary>
+        protected ConcurrentDictionary<int, CachedUser> CachedUsers
+            => Cache.GetOrCreate(_cacheKey, ctx =>
+            {
+                ctx.SetDefaultAbsoluteExpiration();
+                return new ConcurrentDictionary<int, CachedUser>();
+            });
+
+        /// <summary>
+        /// 缓存查询实例。
+        /// </summary>
+        protected virtual Gentings.Data.IQueryable<TUser> CachedQueryable => DbContext.UserContext.AsQueryable()
+            .WithNolock()
+            .Select(x => new { x.Id, x.Avatar, x.Email, x.UserName, x.NickName, x.PhoneNumber, x.RoleId });
+
+        /// <summary>
+        /// 获取缓存用户实例。
+        /// </summary>
+        /// <param name="id">用户Id。</param>
+        /// <returns>返回缓存用户实例对象。</returns>
+        public virtual async Task<CachedUser> GetCachedUserAsync(int id)
+        {
+            if (CachedUsers.TryGetValue(id, out var user))
+                return user;
+
+            user = await CachedQueryable.Where(x => x.Id == id).FirstOrDefaultAsync(Converter);
+            CachedUsers.TryAdd(id, user);
+            return user;
+        }
+
+        /// <summary>
+        /// 转换实例。
+        /// </summary>
+        /// <param name="reader">数据库读取器。</param>
+        /// <returns>返回缓存用户实例。</returns>
+        protected CachedUser Converter(DbDataReader reader) => _cachedUser.Read<CachedUser>(reader);
+
+        /// <summary>
+        /// 获取缓存用户实例列表。
+        /// </summary>
+        /// <param name="ids">用户Id。</param>
+        /// <returns>返回缓存用户实例对象列表。</returns>
+        public virtual IEnumerable<CachedUser> GetCachedUsers(int[] ids)
+        {
+            var users = CachedUsers.Values.Where(x => ids.Contains(x.Id)).ToList();
+            var cacheds = users.Select(x => x.Id);
+            ids = ids.Where(x => !cacheds.Contains(x)).ToArray();
+            if (ids.Length > 0)
+            {
+                var current = CachedQueryable.Where(x => x.Included(ids)).AsEnumerable(Converter);
+                foreach (var cachedUser in current)
+                {
+                    CachedUsers.TryAdd(cachedUser.Id, cachedUser);
+                }
+                users.AddRange(current);
+            }
+
+            return users;
+        }
+
+        /// <summary>
+        /// 获取缓存用户实例列表。
+        /// </summary>
+        /// <param name="ids">用户Id。</param>
+        /// <returns>返回缓存用户实例对象列表。</returns>
+        public virtual async Task<IEnumerable<CachedUser>> GetCachedUsersAsync(int[] ids)
+        {
+            var users = CachedUsers.Values.Where(x => ids.Contains(x.Id)).ToList();
+            var cacheds = users.Select(x => x.Id);
+            ids = ids.Where(x => !cacheds.Contains(x)).ToArray();
+            if (ids.Length > 0)
+            {
+                var current = await CachedQueryable.Where(x => x.Included(ids)).AsEnumerableAsync(Converter);
+                foreach (var cachedUser in current)
+                {
+                    CachedUsers.TryAdd(cachedUser.Id, cachedUser);
+                }
+                users.AddRange(current);
+            }
+
+            return users;
+        }
+
+        /// <summary>
+        /// 获取当前用户的所有子账户列表。
+        /// </summary>
+        /// <param name="userId">当前用户Id。</param>
+        /// <param name="topOnly">是否只是第一层级账户。</param>
+        /// <returns>返回当前用户的所有子账户列表。</returns>
+        public virtual IEnumerable<GroupableIndexedUser> LoadChildren(int userId, bool topOnly = true)
+        {
+            var queryable = DbContext.UserContext.AsQueryable().WithNolock()
+                .Select(x => new { x.Id, x.ParentId })
+                .Select(x => x.NickName, "Name");
+            if (topOnly)
+                return queryable.AsEnumerable<GroupableIndexedUser>();
+            var users = queryable
+                .InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
+                .Where<IndexedUser>(x => x.UserId == userId)
+                .AsEnumerable<GroupableIndexedUser>();
+            if (users.MakeDictionary(userId).TryGetValue(userId, out var user))
+                return user.Children;
+            return Enumerable.Empty<GroupableIndexedUser>();
+        }
+
+        /// <summary>
+        /// 获取当前用户的所有子账户列表。
+        /// </summary>
+        /// <param name="userId">当前用户Id。</param>
+        /// <param name="topOnly">是否只是第一层级账户。</param>
+        /// <returns>返回当前用户的所有子账户列表。</returns>
+        public virtual async Task<IEnumerable<GroupableIndexedUser>> LoadChildrenAsync(int userId, bool topOnly = true)
+        {
+            var queryable = DbContext.UserContext.AsQueryable().WithNolock()
+                .Select(x => new { x.Id, x.ParentId })
+                .Select(x => x.NickName, "Name");
+            if (topOnly)
+                return await queryable.AsEnumerableAsync<GroupableIndexedUser>();
+            var users = await queryable
+                .InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
+                .Where<IndexedUser>(x => x.UserId == userId)
+                .AsEnumerableAsync<GroupableIndexedUser>();
+            if (users.MakeDictionary(userId).TryGetValue(userId, out var user))
+                return user.Children;
+            return Enumerable.Empty<GroupableIndexedUser>();
+        }
+
+        /// <summary>
+        /// 初始化类<see cref="UserManager{TUser,TUserClaim,TUserLogin,TUserToken,TIdentitySettings}"/>。
         /// </summary>
         /// <param name="store">用户存储接口。</param>
         /// <param name="optionsAccessor"><see cref="T:Microsoft.AspNetCore.Identity.IdentityOptions" />实例对象。</param>
@@ -699,5 +848,15 @@ namespace Gentings.Identity
         {
             return _store.SetUserToRolesAsync(userId, roleIds);
         }
+
+        /// <summary>
+        /// 缓存查询实例。
+        /// </summary>
+        protected override Data.IQueryable<TUser> CachedQueryable => base.CachedQueryable
+            .InnerJoin<TRole>((u, r) => u.RoleId == r.Id)
+            .Select<TRole>(x => x.Color, "RoleColor")
+            .Select<TRole>(x => x.Name, "RoleName")
+            .Select<TRole>(x => x.IconUrl, "RoleIcon")
+            .Select<TRole>(x => x.RoleLevel);
     }
 }

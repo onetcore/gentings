@@ -509,7 +509,7 @@ namespace Gentings
         /// </summary>
         /// <param name="value">枚举值。</param>
         /// <returns>返回枚举的描述信息。</returns>
-        public static string ToStr(this Enum value)
+        public static string ToDescriptionString(this Enum value)
         {
             var name = value.ToString();
             var info = value.GetType().GetField(name);

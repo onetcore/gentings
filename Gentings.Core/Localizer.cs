@@ -26,7 +26,7 @@ namespace Gentings
             var name = $"{type.Name}_{key}";
             var resource = GetString(type, name);
             if (resource == name)
-                resource = key.ToStr();
+                resource = key.ToDescriptionString();
             return resource;
         }
 
@@ -42,7 +42,7 @@ namespace Gentings
             var name = $"{type.Name}_{key}";
             var resource = GetString(type, name);
             if (resource == name)
-                resource = key.ToStr();
+                resource = key.ToDescriptionString();
             return string.Format(resource, args);
         }
 

@@ -501,6 +501,50 @@ namespace Gentings.Identity
         /// <param name="user">用户实例。</param>
         /// <returns>返回任务。</returns>
         Task SetLoginStatusAsync(TUser user);
+
+        /// <summary>
+        /// 获取缓存用户实例。
+        /// </summary>
+        /// <param name="id">用户Id。</param>
+        /// <returns>返回缓存用户实例对象。</returns>
+        CachedUser GetCachedUser(int id);
+
+        /// <summary>
+        /// 获取缓存用户实例。
+        /// </summary>
+        /// <param name="id">用户Id。</param>
+        /// <returns>返回缓存用户实例对象。</returns>
+        Task<CachedUser> GetCachedUserAsync(int id);
+
+        /// <summary>
+        /// 获取缓存用户实例列表。
+        /// </summary>
+        /// <param name="ids">用户Id。</param>
+        /// <returns>返回缓存用户实例对象列表。</returns>
+        IEnumerable<CachedUser> GetCachedUsers(int[] ids);
+
+        /// <summary>
+        /// 获取缓存用户实例列表。
+        /// </summary>
+        /// <param name="ids">用户Id。</param>
+        /// <returns>返回缓存用户实例对象列表。</returns>
+        Task<IEnumerable<CachedUser>> GetCachedUsersAsync(int[] ids);
+
+        /// <summary>
+        /// 获取当前用户的所有子账户列表。
+        /// </summary>
+        /// <param name="userId">当前用户Id。</param>
+        /// <param name="topOnly">是否只是第一层级账户。</param>
+        /// <returns>返回当前用户的所有子账户列表。</returns>
+        IEnumerable<GroupableIndexedUser> LoadChildren(int userId, bool topOnly = true);
+
+        /// <summary>
+        /// 获取当前用户的所有子账户列表。
+        /// </summary>
+        /// <param name="userId">当前用户Id。</param>
+        /// <param name="topOnly">是否只是第一层级账户。</param>
+        /// <returns>返回当前用户的所有子账户列表。</returns>
+        Task<IEnumerable<GroupableIndexedUser>> LoadChildrenAsync(int userId, bool topOnly = true);
     }
 
     /// <summary>

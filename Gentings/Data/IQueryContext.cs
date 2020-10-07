@@ -80,6 +80,14 @@ namespace Gentings.Data
         /// <summary>
         /// 设置选择列。
         /// </summary>
+        /// <param name="field">列表达式。</param>
+        /// <param name="alias">别名。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> Select(Expression<Func<TModel, object>> field, string alias);
+
+        /// <summary>
+        /// 设置选择列。
+        /// </summary>
         /// <param name="fields">列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
         IQueryContext<TModel> Select(Expression<Func<TModel, object>> fields);
