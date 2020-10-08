@@ -147,6 +147,69 @@ namespace Gentings.SaaS
         }
 
         /// <summary>
+        /// 判断域名是否已经存在。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        public virtual Task<bool> AnyAsync() => _context.AnyAsync();
+
+        /// <summary>
+        /// 添加默认网站。
+        /// </summary>
+        /// <param name="siteKey">唯一键。</param>
+        /// <param name="siteName">网站名称。</param>
+        /// <param name="domains">域名列表。</param>
+        /// <returns>返回添加结果。</returns>
+        public Task<bool> CreateDefaultSiteAsync(string siteKey, string siteName, IEnumerable<string> domains)
+        {
+            return CreateDefaultSiteAsync(siteKey, siteName, siteName, null, domains);
+        }
+
+        /// <summary>
+        /// 添加默认网站。
+        /// </summary>
+        /// <param name="siteKey">唯一键。</param>
+        /// <param name="siteName">网站名称。</param>
+        /// <param name="shortName">网站简称。</param>
+        /// <param name="description">描述。</param>
+        /// <param name="domains">域名列表。</param>
+        /// <returns>返回添加结果。</returns>
+        public virtual async Task<bool> CreateDefaultSiteAsync(string siteKey, string siteName, string shortName, string description, IEnumerable<string> domains)
+        {
+            if (await _context.BeginTransactionAsync(async db =>
+            {
+                var site = new SiteAdapter
+                {
+                    SiteKey = siteKey,
+                    SiteName = siteName,
+                    ShortName = shortName ?? siteName,
+                    Description = description
+                };
+                if (await db.As<SiteAdapter>().CreateAsync(site))
+                {
+                    foreach (var domain in domains)
+                    {
+                        var siteDomain = new SiteDomain
+                        {
+                            Domain = domain,
+                            SiteId = site.Id
+                        };
+                        await db.CreateAsync(siteDomain);
+                    }
+
+                    return true;
+                }
+
+                return false;
+            }))
+            {
+                _cache.Remove(_cacheKey);
+                return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// 获取网站缓存实例。
         /// </summary>
         /// <returns>返回网站缓存实例列表。</returns>

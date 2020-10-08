@@ -25,8 +25,8 @@ namespace Gentings.Identity.Permissions
             return builder.AddServices(services =>
             {
                 services.TryAddEnumerable(ServiceDescriptor.Transient<IDataMigration, DefaultPermissionDataMigration<TRole>>());
-                services.AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>();
-                services.AddSingleton<IPermissionManager, DefaultPermissionManager<TRole, TUserRole>>();
+                services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+                services.AddScoped<IPermissionManager, DefaultPermissionManager<TRole, TUserRole>>();
             });
         }
     }

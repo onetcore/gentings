@@ -23,7 +23,7 @@ namespace Gentings.SaaS
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回网站配置实例。</returns>
         TSiteSettings GetSettings<TSiteSettings>(int siteId, string key)
-            where TSiteSettings : ISiteSettings, new();
+            where TSiteSettings : ISite, new();
 
         /// <summary>
         /// 获取网站配置实例。
@@ -32,7 +32,7 @@ namespace Gentings.SaaS
         /// <param name="siteId">网站Id。</param>
         /// <returns>返回网站配置实例。</returns>
         TSiteSettings GetSettings<TSiteSettings>(int siteId)
-            where TSiteSettings : ISiteSettings, new();
+            where TSiteSettings : ISite, new();
 
         /// <summary>
         /// 获取配置字符串。
@@ -50,7 +50,7 @@ namespace Gentings.SaaS
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回网站配置实例。</returns>
         Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(int siteId, string key)
-            where TSiteSettings : ISiteSettings, new();
+            where TSiteSettings : ISite, new();
 
         /// <summary>
         /// 获取网站配置实例。
@@ -59,7 +59,7 @@ namespace Gentings.SaaS
         /// <param name="siteId">网站Id。</param>
         /// <returns>返回网站配置实例。</returns>
         Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(int siteId)
-            where TSiteSettings : ISiteSettings, new();
+            where TSiteSettings : ISite, new();
 
         /// <summary>
         /// 保存网站配置实例。
@@ -67,7 +67,7 @@ namespace Gentings.SaaS
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="settings">网站配置实例。</param>
         Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings settings)
-            where TSiteSettings : ISiteSettings, new();
+            where TSiteSettings : ISite, new();
 
         /// <summary>
         /// 保存网站配置实例。
@@ -92,7 +92,7 @@ namespace Gentings.SaaS
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="settings">网站配置实例。</param>
         bool SaveSettings<TSiteSettings>(TSiteSettings settings)
-            where TSiteSettings : ISiteSettings, new();
+            where TSiteSettings : ISite, new();
 
         /// <summary>
         /// 保存网站配置实例。

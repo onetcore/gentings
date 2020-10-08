@@ -53,6 +53,11 @@ namespace Gentings.Identity
                 Create(table);
             });
 
+            builder.CreateTable<IndexedUser>(table => table
+                .Column(x => x.UserId)
+                .Column(x => x.IndexedId)
+                .ForeignKey<TUser>(x => x.UserId, x => x.Id, onDelete: ReferentialAction.Cascade));
+
             builder.CreateTable<TUserClaim>(table => table
                 .Column(x => x.Id)
                 .Column(x => x.ClaimType, nullable: false)
@@ -158,16 +163,6 @@ namespace Gentings.Identity
                 .Column(x => x.ClaimValue)
                 .Column(x => x.RoleId)
                 .ForeignKey<TRole>(x => x.RoleId, x => x.Id, onDelete: ReferentialAction.Cascade));
-        }
-
-        /// <summary>
-        /// 建索引。
-        /// </summary>
-        /// <param name="builder">构建实例。</param>
-        protected override void CreateIndex(MigrationBuilder builder)
-        {
-            base.CreateIndex(builder);
-            builder.CreateIndex<TRole>(x => x.NormalizedName, true);
         }
     }
 }

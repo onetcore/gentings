@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
 
 namespace Gentings.SaaS
@@ -28,6 +29,12 @@ namespace Gentings.SaaS
         public string SiteName { get; set; }
 
         /// <summary>
+        /// 简称。
+        /// </summary>
+        [Size(32)]
+        public string ShortName { get; set; }
+
+        /// <summary>
         /// 网站描述。
         /// </summary>
         [Size(256)]
@@ -36,7 +43,19 @@ namespace Gentings.SaaS
         /// <summary>
         /// 禁用。
         /// </summary>
+        [NotUpdated]
         public bool Disabled { get; set; }
+
+        /// <summary>
+        /// 用户Id。
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// 添加时间。
+        /// </summary>
+        [NotUpdated]
+        public DateTimeOffset CreatedDate { get; set; }
 
         /// <summary>
         /// 配置的字符串或JSON格式化的字符串。
@@ -56,6 +75,9 @@ namespace Gentings.SaaS
             site.Id = Id;
             site.SiteKey = SiteKey;
             site.SiteName = SiteName;
+            site.ShortName = ShortName ?? SiteName;
+            site.UserId = UserId;
+            site.CreatedDate = CreatedDate;
             return site;
         }
 
@@ -74,6 +96,9 @@ namespace Gentings.SaaS
                 SettingValue = site.ToJsonString(),
                 SiteName = site.SiteName,
                 SiteKey = site.SiteKey,
+                ShortName = site.ShortName ?? site.SiteName,
+                UserId = site.UserId,
+                CreatedDate = site.CreatedDate,
             };
         }
     }

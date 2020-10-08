@@ -24,10 +24,11 @@ namespace Gentings.Extensions.Captchas
         /// </summary>
         /// <param name="phoneNumber">电话号码。</param>
         /// <param name="type">类型。</param>
+        /// <param name="id">预留Id。</param>
         /// <returns>返回验证码实例。</returns>
-        public virtual Task<Captcha> GetCaptchaAsync(string phoneNumber, string type)
+        public virtual Task<Captcha> GetCaptchaAsync(string phoneNumber, string type, int id = 0)
         {
-            return _context.FindAsync(x => x.PhoneNumber == phoneNumber && x.Type == type);
+            return _context.FindAsync(x => x.PhoneNumber == phoneNumber && x.Type == type && x.Id == id);
         }
 
         /// <summary>
@@ -37,16 +38,18 @@ namespace Gentings.Extensions.Captchas
         /// <param name="type">类型。</param>
         /// <param name="code">验证码。</param>
         /// <param name="minutes">过期分钟数。</param>
+        /// <param name="id">预留Id。</param>
         /// <returns>返回保存结果。</returns>
-        public virtual Task<bool> SaveCaptchAsync(string phoneNumber, string type, string code, int minutes)
+        public virtual Task<bool> SaveCaptchAsync(string phoneNumber, string type, string code, int minutes, int id = 0)
         {
             var captchaExpiredDate = DateTimeOffset.Now.AddMinutes(minutes);
             return SaveCaptchAsync(new Captcha
             {
-                CaptchaExpiredDate = captchaExpiredDate,
+                ExpiredDate = captchaExpiredDate,
                 Code = code,
                 PhoneNumber = phoneNumber,
-                Type = type
+                Type = type,
+                Id = id
             });
         }
 
@@ -57,10 +60,10 @@ namespace Gentings.Extensions.Captchas
         /// <returns>返回保存结果。</returns>
         public virtual async Task<bool> SaveCaptchAsync(Captcha captcha)
         {
-            if (await _context.AnyAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type))
+            if (await _context.AnyAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type && x.Id == captcha.Id))
             {
-                return await _context.UpdateAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type,
-                    new { captcha.Code, captcha.CaptchaExpiredDate });
+                return await _context.UpdateAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type && x.Id == captcha.Id,
+                    new { captcha.Code, CaptchaExpiredDate = captcha.ExpiredDate });
             }
 
             return await _context.CreateAsync(captcha);

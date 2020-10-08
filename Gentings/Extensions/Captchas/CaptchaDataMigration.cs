@@ -14,8 +14,11 @@ namespace Gentings.Extensions.Captchas
         public override void Create(MigrationBuilder builder)
         {
             builder.CreateTable<Captcha>(table => table
+                .Column(x => x.Id)
                 .Column(x => x.PhoneNumber)
                 .Column(x => x.Type)
+                .Column(x => x.Code)
+                .Column(x => x.ExpiredDate)
             );
         }
     }

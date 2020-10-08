@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 using Gentings.Extensions;
 
 namespace Gentings.SaaS
@@ -12,6 +13,7 @@ namespace Gentings.SaaS
         /// <summary>
         /// Id。
         /// </summary>
+        [Identity]
         [JsonIgnore]
         public int Id { get; set; }
 
@@ -28,6 +30,12 @@ namespace Gentings.SaaS
         public string SiteName { get; set; }
 
         /// <summary>
+        /// 简称。
+        /// </summary>
+        [JsonIgnore]
+        public string ShortName { get; set; }
+
+        /// <summary>
         /// 网站描述。
         /// </summary>
         [JsonIgnore]
@@ -38,5 +46,17 @@ namespace Gentings.SaaS
         /// </summary>
         [JsonIgnore]
         public bool Disabled { get; set; }
+
+        /// <summary>
+        /// 用户Id。
+        /// </summary>
+        [JsonIgnore]
+        public int UserId { get; set; }
+
+        /// <summary>
+        /// 添加时间。
+        /// </summary>
+        [JsonIgnore]
+        public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
     }
 }

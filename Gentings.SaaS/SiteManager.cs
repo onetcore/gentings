@@ -50,6 +50,25 @@ namespace Gentings.SaaS
         }
 
         /// <summary>
+        /// 刷新缓存。
+        /// </summary>
+        /// <param name="result">执行结果。</param>
+        /// <param name="ids">网站ID列表。</param>
+        /// <returns>返回执行结果。</returns>
+        protected bool Refresh(bool result, int[] ids)
+        {
+            if (result)
+            {
+                foreach (var id in ids)
+                {
+                    Cache.Remove(GetCacheKey(id));
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 获取缓存键。
         /// </summary>
         /// <param name="siteId">网站id。</param>
@@ -66,7 +85,7 @@ namespace Gentings.SaaS
             return Cache.GetOrCreate(GetCacheKey(id), ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                return Context.Find(id).AsSite<TSite>();
+                return Context.Find(id)?.AsSite<TSite>();
             });
         }
 
@@ -81,7 +100,7 @@ namespace Gentings.SaaS
              {
                  ctx.SetDefaultAbsoluteExpiration();
                  var site = await Context.FindAsync(id);
-                 return site.AsSite<TSite>();
+                 return site?.AsSite<TSite>();
              });
         }
 
@@ -124,18 +143,8 @@ namespace Gentings.SaaS
         /// <returns>返回删除结果。</returns>
         public virtual DataResult Delete(int[] ids)
         {
-            var result = Context.Delete(x => x.Id.Included(ids));
-            if (result)
-            {
-                foreach (var id in ids)
-                {
-                    Cache.Remove(GetCacheKey(id));
-                }
-
-                return DataAction.Created;
-            }
-
-            return DataAction.CreatedFailured;
+            var result = Refresh(Context.Delete(x => x.Id.Included(ids)), ids);
+            return DataResult.FromResult(result, DataAction.Created);
         }
 
         /// <summary>
@@ -145,18 +154,8 @@ namespace Gentings.SaaS
         /// <returns>返回删除结果。</returns>
         public virtual async Task<DataResult> DeleteAsync(int[] ids)
         {
-            var result = await Context.DeleteAsync(x => x.Id.Included(ids));
-            if (result)
-            {
-                foreach (var id in ids)
-                {
-                    Cache.Remove(GetCacheKey(id));
-                }
-
-                return DataAction.Created;
-            }
-
-            return DataAction.CreatedFailured;
+            var result = Refresh(await Context.DeleteAsync(x => x.Id.Included(ids)), ids);
+            return DataResult.FromResult(result, DataAction.Created);
         }
 
         /// <summary>
@@ -177,6 +176,46 @@ namespace Gentings.SaaS
         public virtual Task<IPageEnumerable<Site>> LoadAsync(SiteQuery query)
         {
             return Context.LoadAsync<SiteQuery, Site>(query);
+        }
+
+        /// <summary>
+        /// 启用网站。
+        /// </summary>
+        /// <param name="ids">启用Id列表。</param>
+        /// <returns>返回启用结果。</returns>
+        public virtual bool Enabled(int[] ids)
+        {
+            return Refresh(Context.Update(x => x.Id.Included(ids), new {Disabled = false}), ids);
+        }
+
+        /// <summary>
+        /// 启用网站。
+        /// </summary>
+        /// <param name="ids">启用Id列表。</param>
+        /// <returns>返回启用结果。</returns>
+        public virtual async Task<bool> EnabledAsync(int[] ids)
+        {
+            return Refresh(await Context.UpdateAsync(x => x.Id.Included(ids), new { Disabled = false }), ids);
+        }
+
+        /// <summary>
+        /// 禁用网站。
+        /// </summary>
+        /// <param name="ids">禁用Id列表。</param>
+        /// <returns>返回禁用结果。</returns>
+        public virtual bool Disabled(int[] ids)
+        {
+            return Refresh(Context.Update(x => x.Id.Included(ids), new { Disabled = true }), ids);
+        }
+
+        /// <summary>
+        /// 禁用网站。
+        /// </summary>
+        /// <param name="ids">禁用Id列表。</param>
+        /// <returns>返回禁用结果。</returns>
+        public virtual async Task<bool> DisabledAsync(int[] ids)
+        {
+            return Refresh(await Context.UpdateAsync(x => x.Id.Included(ids), new { Disabled = true }), ids);
         }
     }
 }

@@ -337,7 +337,7 @@ namespace Gentings.Identity.Permissions
         /// 获取当前所有者的角色Id。
         /// </summary>
         /// <returns>当前所有者的角色Id。</returns>
-        protected int GetOwnerId()
+        protected virtual int GetOwnerId()
         {
             return _rdb.AsQueryable()
                 .Select(x => x.Id)
@@ -350,7 +350,7 @@ namespace Gentings.Identity.Permissions
         /// 获取当前所有者的角色Id。
         /// </summary>
         /// <returns>当前所有者的角色Id。</returns>
-        protected Task<int> GetOwnerIdAsync()
+        protected virtual Task<int> GetOwnerIdAsync()
         {
             return _rdb.AsQueryable()
                 .Select(x => x.Id)

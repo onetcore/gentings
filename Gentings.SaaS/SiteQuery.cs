@@ -25,7 +25,7 @@ namespace Gentings.SaaS
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Name))
-                context.Where(x => x.SiteName.Included(Name) || x.SiteKey.Included(Name));
+                context.Where(x => x.SiteName.Contains(Name) || x.SiteKey.Contains(Name));
             if (Disabled != null)
                 context.Where(x => x.Disabled == Disabled);
         }

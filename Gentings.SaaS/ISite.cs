@@ -1,16 +1,13 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Gentings.SaaS
+﻿namespace Gentings.SaaS
 {
     /// <summary>
-    /// 网站基类。
+    /// 支持SaaS的接口。
     /// </summary>
-    public interface ISiteSettings
+    public interface ISite
     {
         /// <summary>
         /// 网站Id。
         /// </summary>
-        [JsonIgnore]
         int SiteId { get; set; }
     }
 }

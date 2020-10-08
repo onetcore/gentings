@@ -65,5 +65,33 @@ namespace Gentings.SaaS
         /// <param name="query">网站查询实例。</param>
         /// <returns>返回当前网站列表。</returns>
         Task<IPageEnumerable<Site>> LoadAsync(SiteQuery query);
+
+        /// <summary>
+        /// 启用网站。
+        /// </summary>
+        /// <param name="ids">启用Id列表。</param>
+        /// <returns>返回启用结果。</returns>
+        bool Enabled(int[] ids);
+
+        /// <summary>
+        /// 启用网站。
+        /// </summary>
+        /// <param name="ids">启用Id列表。</param>
+        /// <returns>返回启用结果。</returns>
+        Task<bool> EnabledAsync(int[] ids);
+
+        /// <summary>
+        /// 禁用网站。
+        /// </summary>
+        /// <param name="ids">禁用Id列表。</param>
+        /// <returns>返回禁用结果。</returns>
+        bool Disabled(int[] ids);
+
+        /// <summary>
+        /// 禁用网站。
+        /// </summary>
+        /// <param name="ids">禁用Id列表。</param>
+        /// <returns>返回禁用结果。</returns>
+        Task<bool> DisabledAsync(int[] ids);
     }
 }

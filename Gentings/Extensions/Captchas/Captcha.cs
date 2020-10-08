@@ -11,6 +11,12 @@ namespace Gentings.Extensions.Captchas
     public class Captcha
     {
         /// <summary>
+        /// 预留Id。
+        /// </summary>
+        [Key]
+        public int Id { get; set; }
+
+        /// <summary>
         /// 用户手机号码。
         /// </summary>
         [Key]
@@ -33,6 +39,6 @@ namespace Gentings.Extensions.Captchas
         /// <summary>
         /// 验证码过期时间。
         /// </summary>
-        public virtual DateTimeOffset CaptchaExpiredDate { get; set; } = DateTimeOffset.Now;
+        public virtual DateTimeOffset ExpiredDate { get; set; } = DateTimeOffset.Now;
     }
 }

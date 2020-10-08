@@ -8,6 +8,11 @@
     public class SiteDataMigration : DataMigration
     {
         /// <summary>
+        /// 优先级，在两个迁移数据需要先后时候使用。
+        /// </summary>
+        public override int Priority => int.MaxValue;
+
+        /// <summary>
         /// 当模型建立时候构建的表格实例。
         /// </summary>
         /// <param name="builder">迁移实例对象。</param>
@@ -17,8 +22,11 @@
                 .Column(x => x.Id)
                 .Column(x => x.SiteKey)
                 .Column(x => x.SiteName)
+                .Column(x => x.ShortName)
                 .Column(x => x.Description)
                 .Column(x => x.Disabled)
+                .Column(x => x.UserId)
+                .Column(x => x.CreatedDate)
                 .Column(x => x.SettingValue)
                 .UniqueConstraint(x => x.SiteKey)
             );
