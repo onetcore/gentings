@@ -14,6 +14,7 @@ using Gentings.Extensions.Settings;
 using Gentings.Identity.Roles;
 using Microsoft.Extensions.Caching.Memory;
 using System.Data.Common;
+using Gentings.Identity.Avatars;
 
 namespace Gentings.Identity
 {
@@ -672,6 +673,20 @@ namespace Gentings.Identity
             if (users.MakeDictionary(userId).TryGetValue(userId, out var user))
                 return user.Children;
             return Enumerable.Empty<GroupableIndexedUser>();
+        }
+
+        /// <summary>
+        /// 上传头像。
+        /// </summary>
+        /// <param name="id">用户Id。</param>
+        /// <param name="avatarFile">头像文件实例。</param>
+        /// <returns>返回上传结果。</returns>
+        public virtual async Task<string> UploadAvatarAsync(int id, IFormFile avatarFile)
+        {
+            var url = await GetRequiredService<IAvatarManager>().UploadAsync(id, avatarFile);
+            if (!string.IsNullOrEmpty(url))
+                await UpdateAsync(id, new { Avatar = url });
+            return url;
         }
 
         /// <summary>

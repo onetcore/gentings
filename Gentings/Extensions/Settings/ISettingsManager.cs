@@ -5,7 +5,7 @@ namespace Gentings.Extensions.Settings
     /// <summary>
     /// 配置管理接口。
     /// </summary>
-    public interface ISettingsManager
+    public interface ISettingsManager : ISingletonService
     {
         /// <summary>
         /// 获取配置字符串。

@@ -1,8 +1,7 @@
-﻿using Gentings.Data.Migrations;
+﻿using Gentings.Data.Initializers;
+using Gentings.Data.Migrations;
 using Gentings.Identity.Roles;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gentings.Identity.Permissions
 {
@@ -22,12 +21,10 @@ namespace Gentings.Identity.Permissions
             where TUserRole : IUserRole
             where TRole : RoleBase
         {
-            return builder.AddServices(services =>
-            {
-                services.TryAddEnumerable(ServiceDescriptor.Transient<IDataMigration, DefaultPermissionDataMigration<TRole>>());
-                services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-                services.AddScoped<IPermissionManager, DefaultPermissionManager<TRole, TUserRole>>();
-            });
+            return builder.AddTransients<IDataMigration, DefaultPermissionDataMigration<TRole>>()
+                 .AddTransients<IInitializer, DefaultPermissionInitializer>()
+                 .AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>()
+                 .AddScoped<IPermissionManager, DefaultPermissionManager<TRole, TUserRole>>();
         }
     }
 }

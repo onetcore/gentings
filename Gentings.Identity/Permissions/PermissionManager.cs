@@ -26,6 +26,7 @@ namespace Gentings.Identity.Permissions
         /// </summary>
         protected IDbContext<Permission> DbContext { get; }
         private readonly IDbContext<PermissionInRole> _prdb;
+        private readonly IServiceProvider _serviceProvider;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMemoryCache _cache;
         private readonly IDbContext<TRole> _rdb;
@@ -34,28 +35,32 @@ namespace Gentings.Identity.Permissions
         private readonly Type _valueKey = typeof(PermissionValue);
 
         /// <summary>
-        /// 初始化类<see cref="PermissionManager{TUserRole, TRole}"/>。
+        /// 初始化类<see cref="PermissionManager{TRole, TUserRole}"/>。
         /// </summary>
         /// <param name="db">数据库操作接口实例。</param>
         /// <param name="prdb">数据库操作接口。</param>
-        /// <param name="httpContextAccessor">当前HTTP上下文访问器。</param>
+        /// <param name="serviceProvider">服务提供者接口。</param>
         /// <param name="cache">缓存接口。</param>
         /// <param name="rdb">角色数据库操作接口。</param>
         /// <param name="urdb">用户角色数据库操作接口。</param>
-        protected PermissionManager(IDbContext<Permission> db, IDbContext<PermissionInRole> prdb, IHttpContextAccessor httpContextAccessor, IMemoryCache cache, IDbContext<TRole> rdb, IDbContext<TUserRole> urdb)
+        protected PermissionManager(IDbContext<Permission> db, IDbContext<PermissionInRole> prdb, IServiceProvider serviceProvider, IMemoryCache cache, IDbContext<TRole> rdb, IDbContext<TUserRole> urdb)
         {
             DbContext = db;
             _prdb = prdb;
-            _httpContextAccessor = httpContextAccessor;
+            _serviceProvider = serviceProvider;
+            _httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
             _cache = cache;
             _rdb = rdb;
             _urdb = urdb;
-            Init();
         }
 
-        private IEnumerable<Permission> LoadProviderPermissions()
+        /// <summary>
+        /// 获取权限提供者的权限列表。
+        /// </summary>
+        /// <returns>返回权限提供者的权限列表。</returns>
+        protected IEnumerable<Permission> LoadProviderPermissions()
         {
-            var providers = _httpContextAccessor.HttpContext.RequestServices.GetServices<IPermissionProvider>();
+            var providers = _serviceProvider.GetServices<IPermissionProvider>();
             providers = providers.OrderBy(x => x.Order);
             var permissions = new Dictionary<string, Permission>(StringComparer.OrdinalIgnoreCase);
             foreach (var provider in providers)
@@ -74,9 +79,41 @@ namespace Gentings.Identity.Permissions
             return permissions.Values;
         }
 
-        private void Init()
+        /// <summary>
+        /// 确保权限提供者添加到数据库中。
+        /// </summary>
+        /// <returns>返回所有权限列表。</returns>
+        protected virtual async Task<IEnumerable<Permission>> EnsuredProviderPermissionsAsync()
         {
-            var permissions = LoadProviderPermissions().ToList();
+            var permissions = LoadProviderPermissions();
+            foreach (var permission in permissions)
+            {
+                var dbPermission = await DbContext.FindAsync(x => x.Category == permission.Category && x.Name == permission.Name);
+                if (dbPermission == null)
+                {
+                    permission.Order = await DbContext.MaxAsync(x => x.Order, x => x.Category == permission.Category) + 1;
+                    await DbContext.CreateAsync(permission);
+                }
+                else
+                {
+                    await DbContext.UpdateAsync(x => x.Id == dbPermission.Id, new { permission.Text, permission.Description });
+                    permission.Id = dbPermission.Id;
+                }
+            }
+
+            var ids = permissions.Select(x => x.Id).ToList();
+            await DbContext.DeleteAsync(x => !x.Id.Included(ids));
+            RemoveCache();
+            return permissions;
+        }
+
+        /// <summary>
+        /// 确保权限提供者添加到数据库中。
+        /// </summary>
+        /// <returns>返回所有权限列表。</returns>
+        protected virtual IEnumerable<Permission> EnsuredProviderPermissions()
+        {
+            var permissions = LoadProviderPermissions();
             foreach (var permission in permissions)
             {
                 var dbPermission = DbContext.Find(x => x.Category == permission.Category && x.Name == permission.Name);
@@ -92,14 +129,10 @@ namespace Gentings.Identity.Permissions
                 }
             }
 
-            var permissionIds = permissions.Select(x => x.Id).ToList();
-            var dbs = DbContext.Fetch().Where(x => permissionIds.All(i => i != x.Id)).Select(x => x.Id).ToList();
-            if (dbs.Count > 0)
-            {
-                DbContext.Delete(x => x.Id.Included(dbs));
-            }
-
-            RefreshOwners();
+            var ids = permissions.Select(x => x.Id).ToList();
+            DbContext.Delete(x => !x.Id.Included(ids));
+            RemoveCache();
+            return permissions;
         }
 
         /// <summary>
@@ -362,49 +395,64 @@ namespace Gentings.Identity.Permissions
         /// <summary>
         /// 更新管理员权限配置。
         /// </summary>
-        public async Task RefreshOwnersAsync()
+        /// <returns>返回更新结果。</returns>
+        public async Task<bool> RefreshOwnersAsync()
         {
             var roleId = await GetOwnerIdAsync();
             if (roleId == 0)
-            {
-                return;
-            }
+                return false;
 
-            var permissions = await LoadCachePermissionsAsync();
-            foreach (var permission in permissions.Values)
+            var permissions = await EnsuredProviderPermissionsAsync();
+            if (await _prdb.BeginTransactionAsync(async db =>
             {
-                if (await _prdb.AnyAsync(x => x.PermissionId == permission.Id && x.RoleId == roleId))
+                foreach (var permission in permissions)
                 {
-                    continue;
+                    if (await db.AnyAsync(x => x.PermissionId == permission.Id && x.RoleId == roleId))
+                        continue;
+
+                    await db.CreateAsync(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = PermissionValue.Allow });
                 }
 
-                await _prdb.CreateAsync(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = PermissionValue.Allow });
+                return true;
+            }))
+            {
+                RemoveCache();
+                return true;
             }
-            RemoveCache();
+            return false;
         }
 
         /// <summary>
         /// 更新管理员权限配置。
         /// </summary>
-        public void RefreshOwners()
+        /// <returns>返回更新结果。</returns>
+        public bool RefreshOwners()
         {
             var roleId = GetOwnerId();
             if (roleId == 0)
             {
-                return;
+                return false;
             }
 
-            var permissions = LoadCachePermissions().Values;
-            foreach (var permission in permissions)
+            var permissions = EnsuredProviderPermissions();
+            if (_prdb.BeginTransaction(db =>
             {
-                if (_prdb.Any(x => x.PermissionId == permission.Id && x.RoleId == roleId))
+                foreach (var permission in permissions)
                 {
-                    continue;
+                    if (db.Any(x => x.PermissionId == permission.Id && x.RoleId == roleId))
+                        continue;
+
+                    db.Create(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = PermissionValue.Allow });
                 }
 
-                _prdb.Create(new PermissionInRole { PermissionId = permission.Id, RoleId = roleId, Value = PermissionValue.Allow });
+                return true;
+            }))
+            {
+                RemoveCache();
+                return true;
             }
-            RemoveCache();
+
+            return false;
         }
 
         /// <summary>

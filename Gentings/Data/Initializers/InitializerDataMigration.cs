@@ -5,7 +5,7 @@ namespace Gentings.Data.Initializers
     /// <summary>
     /// 数据库迁移类。
     /// </summary>
-    public abstract class InitializerDataMigration : DataMigration
+    public class InitializerDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。

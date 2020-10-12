@@ -36,20 +36,18 @@ namespace Gentings.Storages.Excels
         public IEnumerable<TModel> Load<TModel>(string path) where TModel : class, new()
         {
             var model = new ExcelEnumerable<TModel>();
-            using (var document = SpreadsheetDocument.Open(path, false))
-            {
-                var sheet = document.WorkbookPart
-                    .WorksheetParts
-                    .Select(x => x.Worksheet)
-                    .FirstOrDefault();
-                if (sheet == null)
-                    throw new Exception("Excel中没有存在任何工作表。");
-                var shared = document.WorkbookPart.SharedStringTablePart?.SharedStringTable;
-                var data = sheet.GetFirstChild<SheetData>();
-                model.SheetName = sheet.LocalName;
-                Load(model, shared, data);
-                return model;
-            }
+            using var document = SpreadsheetDocument.Open(path, false);
+            var sheet = document.WorkbookPart
+                .WorksheetParts
+                .Select(x => x.Worksheet)
+                .FirstOrDefault();
+            if (sheet == null)
+                throw new Exception("Excel中没有存在任何工作表。");
+            var shared = document.WorkbookPart.SharedStringTablePart?.SharedStringTable;
+            var data = sheet.GetFirstChild<SheetData>();
+            model.SheetName = sheet.LocalName;
+            Load(model, shared, data);
+            return model;
         }
 
         /// <summary>
@@ -151,108 +149,106 @@ namespace Gentings.Storages.Excels
         public void Save<TModel>(IEnumerable<TModel> models, string path) where TModel : class, new()
         {
             var data = models as ExcelEnumerable<TModel> ?? new ExcelEnumerable<TModel>(models);
-            using (var document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
+            using var document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook);
+            var index = 1U;
+            var workbookPart = document.AddWorkbookPart();
+            //写入样式
+            WriteStylesheet(workbookPart, data);
+            //工作表
+            var workSheetPart = workbookPart.AddNewPart<WorksheetPart>();
+            var writer = OpenXmlWriter.Create(workSheetPart);
+            writer.WriteStartElement(new Worksheet());
+            writer.WriteStartElement(new SheetData());
+            //字段定义
+            var descriptors = data.Descriptors.OrderBy(x => x.Index).ToList();
+            var sharedStrings = new List<string>();
+            //第一行标题
+            var row = new Row();
+            row.RowIndex = index;
+            for (var i = 0; i < data.Columns; i++)
             {
-                var index = 1U;
-                var workbookPart = document.AddWorkbookPart();
-                //写入样式
-                WriteStylesheet(workbookPart, data);
-                //工作表
-                var workSheetPart = workbookPart.AddNewPart<WorksheetPart>();
-                var writer = OpenXmlWriter.Create(workSheetPart);
-                writer.WriteStartElement(new Worksheet());
-                writer.WriteStartElement(new SheetData());
-                //字段定义
-                var descriptors = data.Descriptors.OrderBy(x => x.Index).ToList();
-                var sharedStrings = new List<string>();
-                //第一行标题
-                var row = new Row();
+                var descriptor = descriptors[i];
+                var cell = new Cell();
+                cell.StyleIndex = descriptor.HeadCellFormat.FormatId;
+                cell.DataType = CellValues.String;
+                cell.CellValue = new CellValue(descriptor.ColumnName);
+                cell.CellReference = $"{(char)('A' + i)}{index}";
+                row.AppendChild(cell);
+            }
+            writer.WriteElement(row);
+
+            index++;
+            //写入数据
+            foreach (var model in data)
+            {
+                row = new Row();
                 row.RowIndex = index;
                 for (var i = 0; i < data.Columns; i++)
                 {
                     var descriptor = descriptors[i];
+                    var value = descriptor.Get(model);
+                    if (value == null)
+                        continue;
+                    var type = CellValues.Error;
+                    if (value is DateTime date)
+                        value = date.ToOADate();
+                    else if (value is DateTimeOffset dateTimeOffset)
+                        value = dateTimeOffset.DateTime.ToOADate();
+                    else if (value is bool bValue)
+                    {
+                        value = bValue ? 1 : 0;
+                        type = CellValues.Boolean;
+                    }
+                    else if (!value.GetType().IsValueType)
+                    {
+                        type = CellValues.SharedString;
+                        var current = value.ToString();
+                        var si = sharedStrings.IndexOf(current);
+                        if (si == -1)
+                        {
+                            si = sharedStrings.Count;
+                            sharedStrings.Add(current);
+                        }
+                        value = si;
+                    }
+
                     var cell = new Cell();
-                    cell.StyleIndex = descriptor.HeadCellFormat.FormatId;
-                    cell.DataType = CellValues.String;
-                    cell.CellValue = new CellValue(descriptor.ColumnName);
+                    cell.StyleIndex = descriptor.CellFormat.FormatId;
+                    if (type != CellValues.Error)
+                        cell.DataType = type;
                     cell.CellReference = $"{(char)('A' + i)}{index}";
+                    cell.CellValue = new CellValue(value.ToString());
                     row.AppendChild(cell);
                 }
                 writer.WriteElement(row);
-
                 index++;
-                //写入数据
-                foreach (var model in data)
-                {
-                    row = new Row();
-                    row.RowIndex = index;
-                    for (var i = 0; i < data.Columns; i++)
-                    {
-                        var descriptor = descriptors[i];
-                        var value = descriptor.Get(model);
-                        if (value == null)
-                            continue;
-                        var type = CellValues.Error;
-                        if (value is DateTime date)
-                            value = date.ToOADate();
-                        else if (value is DateTimeOffset dateTimeOffset)
-                            value = dateTimeOffset.DateTime.ToOADate();
-                        else if (value is bool bValue)
-                        {
-                            value = bValue ? 1 : 0;
-                            type = CellValues.Boolean;
-                        }
-                        else if (!value.GetType().IsValueType)
-                        {
-                            type = CellValues.SharedString;
-                            var current = value.ToString();
-                            var si = sharedStrings.IndexOf(current);
-                            if (si == -1)
-                            {
-                                si = sharedStrings.Count;
-                                sharedStrings.Add(current);
-                            }
-                            value = si;
-                        }
-
-                        var cell = new Cell();
-                        cell.StyleIndex = descriptor.CellFormat.FormatId;
-                        if (type != CellValues.Error)
-                            cell.DataType = type;
-                        cell.CellReference = $"{(char)('A' + i)}{index}";
-                        cell.CellValue = new CellValue(value.ToString());
-                        row.AppendChild(cell);
-                    }
-                    writer.WriteElement(row);
-                    index++;
-                }
-
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                writer.Close();
-                //工作区
-                writer = OpenXmlWriter.Create(document.WorkbookPart);
-                writer.WriteStartElement(new Workbook());
-                writer.WriteStartElement(new Sheets());
-                writer.WriteElement(new Sheet
-                {
-                    Name = data.SheetName,
-                    SheetId = 1,
-                    Id = document.WorkbookPart.GetIdOfPart(workSheetPart)
-                });
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                writer.Close();
-
-                //写入字符串
-                var shared = workbookPart.AddNewPart<SharedStringTablePart>();
-                var table = new SharedStringTable();
-                foreach (var sharedString in sharedStrings)
-                {
-                    table.AppendChild(new SharedStringItem(new Text(sharedString)));
-                }
-                table.Save(shared);
             }
+
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.Close();
+            //工作区
+            writer = OpenXmlWriter.Create(document.WorkbookPart);
+            writer.WriteStartElement(new Workbook());
+            writer.WriteStartElement(new Sheets());
+            writer.WriteElement(new Sheet
+            {
+                Name = data.SheetName,
+                SheetId = 1,
+                Id = document.WorkbookPart.GetIdOfPart(workSheetPart)
+            });
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.Close();
+
+            //写入字符串
+            var shared = workbookPart.AddNewPart<SharedStringTablePart>();
+            var table = new SharedStringTable();
+            foreach (var sharedString in sharedStrings)
+            {
+                table.AppendChild(new SharedStringItem(new Text(sharedString)));
+            }
+            table.Save(shared);
         }
 
         /// <summary>
@@ -374,109 +370,105 @@ namespace Gentings.Storages.Excels
         /// <param name="sheetName">工作表名称。</param>
         public void Save(string path, DataTable models, string sheetName = "sheet1")
         {
-            using (var document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook))
+            using var document = SpreadsheetDocument.Create(path, SpreadsheetDocumentType.Workbook);
+            var index = 1U;
+            var workbookPart = document.AddWorkbookPart();
+            //写入样式
+            WriteStylesheet(workbookPart, null);
+            //工作表
+            var workSheetPart = workbookPart.AddNewPart<WorksheetPart>();
+            var writer = OpenXmlWriter.Create(workSheetPart);
+            writer.WriteStartElement(new Worksheet());
+            writer.WriteStartElement(new SheetData());
+            //字段定义
+            var sharedStrings = new List<string>();
+            //第一行标题
+            var row = new Row();
+            row.RowIndex = index;
+            for (var i = 0; i < models.Columns.Count; i++)
             {
-                var index = 1U;
-                var workbookPart = document.AddWorkbookPart();
-                //写入样式
-                WriteStylesheet(workbookPart, null);
-                //工作表
-                var workSheetPart = workbookPart.AddNewPart<WorksheetPart>();
-                var writer = OpenXmlWriter.Create(workSheetPart);
-                writer.WriteStartElement(new Worksheet());
-                writer.WriteStartElement(new SheetData());
-                //字段定义
-                var sharedStrings = new List<string>();
-                //第一行标题
-                var row = new Row();
+                var descriptor = models.Columns[i];
+                var cell = new Cell();
+                cell.StyleIndex = 11;
+                cell.DataType = CellValues.String;
+                cell.CellValue = new CellValue(descriptor.ColumnName);
+                cell.CellReference = $"{(char)('A' + i)}{index}";
+                row.AppendChild(cell);
+            }
+            writer.WriteElement(row);
+
+            index++;
+            //写入数据
+            foreach (DataRow model in models.Rows)
+            {
+                row = new Row();
                 row.RowIndex = index;
                 for (var i = 0; i < models.Columns.Count; i++)
                 {
                     var descriptor = models.Columns[i];
+                    var value = model[descriptor.ColumnName];
+                    if (value == null)
+                        continue;
+                    var type = CellValues.Error;
+                    if (value is DateTime date)
+                        value = date.ToOADate();
+                    else if (value is DateTimeOffset dateTimeOffset)
+                        value = dateTimeOffset.DateTime.ToOADate();
+                    else if (value is bool bValue)
+                    {
+                        value = bValue ? 1 : 0;
+                        type = CellValues.Boolean;
+                    }
+                    else if (!value.GetType().IsValueType)
+                    {
+                        type = CellValues.SharedString;
+                        var current = value.ToString();
+                        var si = sharedStrings.IndexOf(current);
+                        if (si == -1)
+                        {
+                            si = sharedStrings.Count;
+                            sharedStrings.Add(current);
+                        }
+                        value = si;
+                    }
+
                     var cell = new Cell();
-                    cell.StyleIndex = 11;
-                    cell.DataType = CellValues.String;
-                    cell.CellValue = new CellValue(descriptor.ColumnName);
+                    cell.StyleIndex = 10;
+                    if (type != CellValues.Error)
+                        cell.DataType = type;
                     cell.CellReference = $"{(char)('A' + i)}{index}";
+                    cell.CellValue = new CellValue(value.ToString());
                     row.AppendChild(cell);
                 }
                 writer.WriteElement(row);
-
                 index++;
-                //写入数据
-                foreach (DataRow model in models.Rows)
-                {
-                    row = new Row();
-                    row.RowIndex = index;
-                    for (var i = 0; i < models.Columns.Count; i++)
-                    {
-                        var descriptor = models.Columns[i];
-                        var value = model[descriptor.ColumnName];
-                        if (value == null)
-                            continue;
-                        var type = CellValues.Error;
-                        if (value is DateTime date)
-                            value = date.ToOADate();
-                        else if (value is DateTimeOffset dateTimeOffset)
-                            value = dateTimeOffset.DateTime.ToOADate();
-                        else if (value is bool bValue)
-                        {
-                            value = bValue ? 1 : 0;
-                            type = CellValues.Boolean;
-                        }
-                        else if (!value.GetType().IsValueType)
-                        {
-                            type = CellValues.SharedString;
-                            var current = value.ToString();
-                            var si = sharedStrings.IndexOf(current);
-                            if (si == -1)
-                            {
-                                si = sharedStrings.Count;
-                                sharedStrings.Add(current);
-                            }
-                            value = si;
-                        }
-
-                        var cell = new Cell();
-                        cell.StyleIndex = 10;
-                        if (type != CellValues.Error)
-                            cell.DataType = type;
-                        cell.CellReference = $"{(char)('A' + i)}{index}";
-                        cell.CellValue = new CellValue(value.ToString());
-                        row.AppendChild(cell);
-                    }
-                    writer.WriteElement(row);
-                    index++;
-                }
-
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                writer.Close();
-                //工作区
-                writer = OpenXmlWriter.Create(document.WorkbookPart);
-                writer.WriteStartElement(new Workbook());
-                writer.WriteStartElement(new Sheets());
-                writer.WriteElement(new Sheet
-                {
-                    Name = sheetName,
-                    SheetId = 1,
-                    Id = document.WorkbookPart.GetIdOfPart(workSheetPart)
-                });
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                writer.Close();
-
-                //写入字符串
-                var shared = workbookPart.AddNewPart<SharedStringTablePart>();
-                var table = new SharedStringTable();
-                foreach (var sharedString in sharedStrings)
-                {
-                    table.AppendChild(new SharedStringItem(new Text(sharedString)));
-                }
-                table.Save(shared);
             }
+
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.Close();
+            //工作区
+            writer = OpenXmlWriter.Create(document.WorkbookPart);
+            writer.WriteStartElement(new Workbook());
+            writer.WriteStartElement(new Sheets());
+            writer.WriteElement(new Sheet
+            {
+                Name = sheetName,
+                SheetId = 1,
+                Id = document.WorkbookPart.GetIdOfPart(workSheetPart)
+            });
+            writer.WriteEndElement();
+            writer.WriteEndElement();
+            writer.Close();
+
+            //写入字符串
+            var shared = workbookPart.AddNewPart<SharedStringTablePart>();
+            var table = new SharedStringTable();
+            foreach (var sharedString in sharedStrings)
+            {
+                table.AppendChild(new SharedStringItem(new Text(sharedString)));
+            }
+            table.Save(shared);
         }
-
-
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Gentings.Extensions;
+using Microsoft.AspNetCore.Http;
 
 namespace Gentings.Identity
 {
@@ -552,6 +553,15 @@ namespace Gentings.Identity
         /// <param name="user">用户实例。</param>
         /// <returns>返回判断结果。</returns>
         Task<bool> IsEmailConfirmedAsync(TUser user);
+
+        /// <summary>
+        /// 上传头像。
+        /// </summary>
+        /// <param name="id">用户Id。</param>
+        /// <param name="avatarFile">头像文件实例。</param>
+        /// <returns>返回上传结果。</returns>
+        Task<string> UploadAvatarAsync(int id, IFormFile avatarFile);
+
     }
 
     /// <summary>

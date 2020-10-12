@@ -177,48 +177,6 @@
   <data name="DataResult_Updated" xml:space="preserve">
     <value>更新了</value>
   </data>
-  <data name="DifferAction_Add" xml:space="preserve">
-    <value>新增了</value>
-  </data>
-  <data name="DifferAction_AddFormat" xml:space="preserve">
-    <value>”{0}“(”{1}“)</value>
-  </data>
-  <data name="DifferAction_Modify" xml:space="preserve">
-    <value>修改了</value>
-  </data>
-  <data name="DifferAction_ModifyFormat" xml:space="preserve">
-    <value>“{0}”由”{1}“修改为“{2}”</value>
-  </data>
-  <data name="DifferAction_Remove" xml:space="preserve">
-    <value>移除了</value>
-  </data>
-  <data name="DifferAction_RemoveFormat" xml:space="preserve">
-    <value>”{0}“(”{1}“)</value>
-  </data>
-  <data name="Differ_Duplicated_Differed" xml:space="preserve">
-    <value>你已经对比过一次新对象，不能重复对比变更对象！</value>
-  </data>
-  <data name="Differ_Duplicated_Initialized" xml:space="preserve">
-    <value>原有对象已经初始化，不能重复调用初始化方法！</value>
-  </data>
-  <data name="Differ_Uninitialized" xml:space="preserve">
-    <value>对象变更原始对象未初始化，请在修改对象时候先调用Init方法。</value>
-  </data>
-  <data name="EmailStatus_Completed" xml:space="preserve">
-    <value>成功发送</value>
-  </data>
-  <data name="EmailStatus_Failured" xml:space="preserve">
-    <value>发送失败</value>
-  </data>
-  <data name="EmailStatus_Pending" xml:space="preserve">
-    <value>等待发送</value>
-  </data>
-  <data name="EmailTaskService" xml:space="preserve">
-    <value>电子邮件发送服务</value>
-  </data>
-  <data name="EmailTaskService_Description" xml:space="preserve">
-    <value>发送队列在数据库中的电子邮件</value>
-  </data>
   <data name="ErrorCode_InvalidParameters" xml:space="preserve">
     <value>参数错误：{0}。</value>
   </data>
@@ -228,14 +186,8 @@
   <data name="ErrorCode_ValidError" xml:space="preserve">
     <value>验证失败</value>
   </data>
-  <data name="EventMessage_NullMessage" xml:space="preserve">
-    <value>事件消息未设置！</value>
-  </data>
-  <data name="EventMessage_NullUserId" xml:space="preserve">
-    <value>事件消息的用户Id未设置，并且当前用户还未登录！</value>
-  </data>
-  <data name="EventType_Core" xml:space="preserve">
-    <value>默认</value>
+  <data name="FormFileInvalid" xml:space="preserve">
+    <value>未能获取表单文件实例或者文件长度为0！</value>
   </data>
   <data name="Interval_Day" xml:space="preserve">
     <value>日</value>
@@ -282,23 +234,11 @@
   <data name="NoSetter" xml:space="preserve">
     <value>类型“{1}”的属性“{0}”必须包含set访问器。</value>
   </data>
-  <data name="NotificationTaskService" xml:space="preserve">
-    <value>系统通知清理服务</value>
-  </data>
-  <data name="NotificationTaskService_Description" xml:space="preserve">
-    <value>清理每个用户得系统通知，删除多余得系统通知</value>
-  </data>
   <data name="PrimaryKeyIsNotSingleField" xml:space="preserve">
     <value>实体“{0}”的主键{1}包含的不值一个属性！</value>
   </data>
   <data name="RowVersionOnlyOnePropertyEachClass" xml:space="preserve">
     <value>每个类只能包含一个版本“TimestampAttribute”特性属性。</value>
-  </data>
-  <data name="SaveSettings" xml:space="preserve">
-    <value>保存了“{0}”配置信息</value>
-  </data>
-  <data name="SaveSettingsFailured" xml:space="preserve">
-    <value>保存配置失败</value>
   </data>
   <data name="TaskExecuteError" xml:space="preserve">
     <value>[服务]{0}执行错误：{1}。</value>

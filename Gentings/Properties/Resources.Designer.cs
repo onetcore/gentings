@@ -241,132 +241,6 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
-        ///   查找类似 你已经对比过一次新对象，不能重复对比变更对象！ 的本地化字符串。
-        /// </summary>
-        internal static string Differ_Duplicated_Differed {
-            get {
-                return ResourceManager.GetString("Differ_Duplicated_Differed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 原有对象已经初始化，不能重复调用初始化方法！ 的本地化字符串。
-        /// </summary>
-        internal static string Differ_Duplicated_Initialized {
-            get {
-                return ResourceManager.GetString("Differ_Duplicated_Initialized", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 对象变更原始对象未初始化，请在修改对象时候先调用Init方法。 的本地化字符串。
-        /// </summary>
-        internal static string Differ_Uninitialized {
-            get {
-                return ResourceManager.GetString("Differ_Uninitialized", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 新增了 的本地化字符串。
-        /// </summary>
-        internal static string DifferAction_Add {
-            get {
-                return ResourceManager.GetString("DifferAction_Add", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 ”{0}“(”{1}“) 的本地化字符串。
-        /// </summary>
-        internal static string DifferAction_AddFormat {
-            get {
-                return ResourceManager.GetString("DifferAction_AddFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 修改了 的本地化字符串。
-        /// </summary>
-        internal static string DifferAction_Modify {
-            get {
-                return ResourceManager.GetString("DifferAction_Modify", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 “{0}”由”{1}“修改为“{2}” 的本地化字符串。
-        /// </summary>
-        internal static string DifferAction_ModifyFormat {
-            get {
-                return ResourceManager.GetString("DifferAction_ModifyFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 移除了 的本地化字符串。
-        /// </summary>
-        internal static string DifferAction_Remove {
-            get {
-                return ResourceManager.GetString("DifferAction_Remove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 ”{0}“(”{1}“) 的本地化字符串。
-        /// </summary>
-        internal static string DifferAction_RemoveFormat {
-            get {
-                return ResourceManager.GetString("DifferAction_RemoveFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 成功发送 的本地化字符串。
-        /// </summary>
-        internal static string EmailStatus_Completed {
-            get {
-                return ResourceManager.GetString("EmailStatus_Completed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 发送失败 的本地化字符串。
-        /// </summary>
-        internal static string EmailStatus_Failured {
-            get {
-                return ResourceManager.GetString("EmailStatus_Failured", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 等待发送 的本地化字符串。
-        /// </summary>
-        internal static string EmailStatus_Pending {
-            get {
-                return ResourceManager.GetString("EmailStatus_Pending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 电子邮件发送服务 的本地化字符串。
-        /// </summary>
-        internal static string EmailTaskService {
-            get {
-                return ResourceManager.GetString("EmailTaskService", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 发送队列在数据库中的电子邮件 的本地化字符串。
-        /// </summary>
-        internal static string EmailTaskService_Description {
-            get {
-                return ResourceManager.GetString("EmailTaskService_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 参数错误：{0}。 的本地化字符串。
         /// </summary>
         internal static string ErrorCode_InvalidParameters {
@@ -394,29 +268,11 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
-        ///   查找类似 事件消息未设置！ 的本地化字符串。
+        ///   查找类似 未能获取表单文件实例或者文件长度为0！ 的本地化字符串。
         /// </summary>
-        internal static string EventMessage_NullMessage {
+        internal static string FormFileInvalid {
             get {
-                return ResourceManager.GetString("EventMessage_NullMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 事件消息的用户Id未设置，并且当前用户还未登录！ 的本地化字符串。
-        /// </summary>
-        internal static string EventMessage_NullUserId {
-            get {
-                return ResourceManager.GetString("EventMessage_NullUserId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 默认 的本地化字符串。
-        /// </summary>
-        internal static string EventType_Core {
-            get {
-                return ResourceManager.GetString("EventType_Core", resourceCulture);
+                return ResourceManager.GetString("FormFileInvalid", resourceCulture);
             }
         }
         
@@ -556,24 +412,6 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
-        ///   查找类似 系统通知清理服务 的本地化字符串。
-        /// </summary>
-        internal static string NotificationTaskService {
-            get {
-                return ResourceManager.GetString("NotificationTaskService", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 清理每个用户得系统通知，删除多余得系统通知 的本地化字符串。
-        /// </summary>
-        internal static string NotificationTaskService_Description {
-            get {
-                return ResourceManager.GetString("NotificationTaskService_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 实体“{0}”的主键{1}包含的不值一个属性！ 的本地化字符串。
         /// </summary>
         internal static string PrimaryKeyIsNotSingleField {
@@ -588,24 +426,6 @@ namespace Gentings.Properties {
         internal static string RowVersionOnlyOnePropertyEachClass {
             get {
                 return ResourceManager.GetString("RowVersionOnlyOnePropertyEachClass", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 保存了“{0}”配置信息 的本地化字符串。
-        /// </summary>
-        internal static string SaveSettings {
-            get {
-                return ResourceManager.GetString("SaveSettings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 保存配置失败 的本地化字符串。
-        /// </summary>
-        internal static string SaveSettingsFailured {
-            get {
-                return ResourceManager.GetString("SaveSettingsFailured", resourceCulture);
             }
         }
         

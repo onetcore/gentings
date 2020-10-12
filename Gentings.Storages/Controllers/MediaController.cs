@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Gentings.Storages.Media;
 using Microsoft.AspNetCore.Mvc;
+using ControllerBase = Gentings.AspNetCore.ControllerBase;
 
 namespace Gentings.Storages.Controllers
 {
@@ -10,7 +10,7 @@ namespace Gentings.Storages.Controllers
     /// 存储控制器。
     /// </summary>
     [ApiExplorerSettings(IgnoreApi = true)]
-    public class MediaController : Controller
+    public class MediaController : ControllerBase
     {
         private readonly IMediaDirectory _mediaFileProvider;
         /// <summary>

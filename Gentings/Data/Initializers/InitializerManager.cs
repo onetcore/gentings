@@ -6,7 +6,7 @@ namespace Gentings.Data.Initializers
     /// <summary>
     /// 安装管理实现类基类。
     /// </summary>
-    public abstract class InitializerManager : IInitializerManager
+    public class InitializerManager : IInitializerManager
     {
         private readonly IDbContext<Lisence> _context;
 
@@ -14,7 +14,7 @@ namespace Gentings.Data.Initializers
         /// 初始化类<see cref="InitializerManager"/>。
         /// </summary>
         /// <param name="context">数据库操作接口。</param>
-        protected InitializerManager(IDbContext<Lisence> context)
+        public InitializerManager(IDbContext<Lisence> context)
         {
             _context = context;
         }

@@ -101,13 +101,14 @@ namespace Gentings.Identity.Permissions
         /// <summary>
         /// 更新管理员权限配置。
         /// </summary>
-        Task RefreshOwnersAsync();
+        /// <returns>返回更新结果。</returns>
+        Task<bool> RefreshOwnersAsync();
 
         /// <summary>
         /// 更新管理员权限配置。
         /// </summary>
         /// <returns>返回更新结果。</returns>
-        void RefreshOwners();
+        bool RefreshOwners();
 
         /// <summary>
         /// 加载权限列表。

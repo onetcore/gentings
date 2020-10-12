@@ -157,38 +157,6 @@ namespace Gentings.AspNetCore
             return OkResult(new ApiPageResult<TPageData>(query) { Message = message });
         }
 
-        /// <summary>
-        /// 获取枚举名称列表。
-        /// </summary>
-        /// <typeparam name="T">枚举类型。</typeparam>
-        /// <returns>返回枚举名称列表。</returns>
-        protected IDictionary<int, string> GetNames<T>() where T : Enum
-        {
-            var dic = new Dictionary<int, string>();
-            foreach (T value in Enum.GetValues(typeof(T)))
-            {
-                dic[(int)(object)value] = value.ToString();
-            }
-
-            return dic;
-        }
-
-        /// <summary>
-        /// 获取枚举名称资源列表。
-        /// </summary>
-        /// <typeparam name="T">枚举类型。</typeparam>
-        /// <returns>返回枚举名称资源列表。</returns>
-        protected IDictionary<int, string> GetDisplayNames<T>() where T : Enum
-        {
-            var dic = new Dictionary<int, string>();
-            foreach (T value in Enum.GetValues(typeof(T)))
-            {
-                dic[(int)(object)value] = Localizer.GetString(value);
-            }
-
-            return dic;
-        }
-
         private int? _userId;
         /// <summary>
         /// 当前登录用户Id。

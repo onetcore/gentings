@@ -70,7 +70,6 @@ namespace Gentings.Data.SqlServer
                     o.Prefix = source.Prefix?.Trim();
                     o.Provider = "SqlServer";
                 })
-                .AddInitializerService()
                 .AddSingleton(typeof(IDbContext<>), typeof(DbContext<>))
                 .AddTransient<IDataMigrator, DataMigrator>()
                 .AddTransient<IMigrationRepository, SqlServerMigrationRepository>()

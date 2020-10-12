@@ -13,7 +13,7 @@ namespace Gentings.Data.Initializers
     /// <summary>
     /// 数据库迁移后台执行实现类。
     /// </summary>
-    public abstract class InitializerHostedService : BackgroundService
+    public class InitializerHostedService : BackgroundService
     {
         private static InitializerStatus _current;
         private static readonly object _locker = new object();

@@ -1,5 +1,4 @@
 ﻿using Gentings.Data.Migrations;
-using Gentings.Storages.Media;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Gentings.Storages

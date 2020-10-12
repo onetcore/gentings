@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Gentings.Storages.Media;
 using Gentings.Storages.Properties;
 using Gentings.Tasks;
 using Microsoft.Extensions.DependencyInjection;

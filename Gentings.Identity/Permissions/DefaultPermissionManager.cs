@@ -1,6 +1,6 @@
-﻿using Gentings.Data;
+﻿using System;
+using Gentings.Data;
 using Gentings.Identity.Roles;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings.Identity.Permissions
@@ -14,12 +14,12 @@ namespace Gentings.Identity.Permissions
         /// </summary>
         /// <param name="db">数据库操作接口实例。</param>
         /// <param name="prdb">数据库操作接口。</param>
-        /// <param name="httpContextAccessor">当前HTTP上下文访问器。</param>
+        /// <param name="serviceProvider">服务提供者接口。</param>
         /// <param name="cache">缓存接口。</param>
         /// <param name="rdb">角色数据库操作接口。</param>
         /// <param name="urdb">用户角色数据库操作接口。</param>
-        public DefaultPermissionManager(IDbContext<Permission> db, IDbContext<PermissionInRole> prdb, IHttpContextAccessor httpContextAccessor, IMemoryCache cache, IDbContext<TRole> rdb, IDbContext<TUserRole> urdb) 
-            : base(db, prdb, httpContextAccessor, cache, rdb, urdb)
+        public DefaultPermissionManager(IDbContext<Permission> db, IDbContext<PermissionInRole> prdb, IServiceProvider serviceProvider, IMemoryCache cache, IDbContext<TRole> rdb, IDbContext<TUserRole> urdb) 
+            : base(db, prdb, serviceProvider, cache, rdb, urdb)
         {
         }
     }
