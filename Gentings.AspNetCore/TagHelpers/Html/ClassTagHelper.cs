@@ -21,7 +21,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         [HtmlAttributeName(ClassValuesDictionaryName, DictionaryAttributePrefix = ClassValuesPrefix)]
         public IDictionary<string, bool> ClassNames
         {
-            get => _classNames ?? (_classNames = new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase));
+            get => _classNames ??= new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
             set => _classNames = value;
         }
 

@@ -8,7 +8,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     /// 附加按钮的控件。
     /// </summary>
     [HtmlTargetElement("*", Attributes = ".icon")]
-    public class IconableTagHelper : TagHelperBase
+    public class IconTagHelper : TagHelperBase
     {
         /// <summary>
         /// 位置。

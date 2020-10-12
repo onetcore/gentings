@@ -322,6 +322,51 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 成功发送 的本地化字符串。
+        /// </summary>
+        internal static string EmailStatus_Completed {
+            get {
+                return ResourceManager.GetString("EmailStatus_Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发送失败 的本地化字符串。
+        /// </summary>
+        internal static string EmailStatus_Failured {
+            get {
+                return ResourceManager.GetString("EmailStatus_Failured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待发送 的本地化字符串。
+        /// </summary>
+        internal static string EmailStatus_Pending {
+            get {
+                return ResourceManager.GetString("EmailStatus_Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 电子邮件发送服务 的本地化字符串。
+        /// </summary>
+        internal static string EmailTaskService {
+            get {
+                return ResourceManager.GetString("EmailTaskService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发送队列在数据库中的电子邮件 的本地化字符串。
+        /// </summary>
+        internal static string EmailTaskService_Description {
+            get {
+                return ResourceManager.GetString("EmailTaskService_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 参数错误：{0}。 的本地化字符串。
         /// </summary>
         internal static string ErrorCode_InvalidParameters {

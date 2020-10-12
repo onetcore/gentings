@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,6 +72,54 @@ namespace Gentings.Extensions
             where TQuery : QueryBase<TModel>
         {
             return Context.LoadAsync<TQuery, TObject>(query, countExpression, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual IEnumerable<TModel> Fetch<TQuery>(TQuery query) where TQuery : QueryBase<TModel>
+        {
+            return Context.Fetch(query);
+        }
+
+        /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TObject">返回的对象模型类型。</typeparam>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual IEnumerable<TObject> Fetch<TQuery, TObject>(TQuery query) where TQuery : QueryBase<TModel>
+        {
+            return Context.Fetch<TQuery, TObject>(query);
+        }
+
+        /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual Task<IEnumerable<TModel>> FetchAsync<TQuery>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        {
+            return Context.FetchAsync(query, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取所有符合条件的实例列表，主要用于导出操作。
+        /// </summary>
+        /// <typeparam name="TObject">返回的对象模型类型。</typeparam>
+        /// <typeparam name="TQuery">查询实例类型。</typeparam>
+        /// <param name="query">查询实例。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回实例列表。</returns>
+        public virtual Task<IEnumerable<TObject>> FetchAsync<TQuery, TObject>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        {
+            return Context.FetchAsync<TQuery, TObject>(query, cancellationToken);
         }
 
         /// <summary>

@@ -17,7 +17,16 @@ namespace Gentings.SaaS.Security
         where TUserLogin : UserLoginBase, new()
         where TUserToken : UserTokenBase, new()
     {
-
+        /// <summary>
+        /// 建立索引。
+        /// </summary>
+        /// <param name="builder">数据迁移构建实例。</param>
+        public override void Up1(MigrationBuilder builder)
+        {
+            base.Up1(builder);
+            builder.AddColumn<TUser>(x => x.SiteId);
+            builder.AddUniqueConstraint<TUser>(x => new { x.SiteId, x.NickName });
+        }
     }
 
     /// <summary>
@@ -47,6 +56,8 @@ namespace Gentings.SaaS.Security
         public override void Up1(MigrationBuilder builder)
         {
             base.Up1(builder);
+            builder.AddColumn<TUser>(x => x.SiteId);
+            builder.AddUniqueConstraint<TUser>(x => new { x.SiteId, x.NickName });
             builder.AddColumn<TRole>(x => x.SiteId);
             builder.AddUniqueConstraint<TRole>(x => new { x.SiteId, x.Name });
             builder.AddForeignKey<TRole, Site>(x => x.SiteId, x => x.Id, onDelete: ReferentialAction.Cascade);

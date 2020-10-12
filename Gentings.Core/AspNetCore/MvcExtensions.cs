@@ -37,9 +37,7 @@ namespace Gentings.AspNetCore
         {
             var uri = request.GetUri();
             if (uri.IsDefaultPort)
-            {
                 return uri.DnsSafeHost;
-            }
 
             return $"{uri.DnsSafeHost}:{uri.Port}";
         }

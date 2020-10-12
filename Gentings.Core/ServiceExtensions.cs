@@ -150,6 +150,15 @@ namespace Gentings
         }
 
         /// <summary>
+        /// 判断当前服务是否已经注册，可以用于判断某一块模型是否使用。
+        /// </summary>
+        /// <typeparam name="TInterface">接口类型。</typeparam>
+        /// <param name="serviceProvider">服务提供者。</param>
+        /// <returns>返回判断结果。</returns>
+        public static bool IsServiceRegistered<TInterface>(this IServiceProvider serviceProvider) =>
+            serviceProvider.GetService<TInterface>() != null;
+
+        /// <summary>
         /// 获取配置节点的字符串列表。
         /// </summary>
         /// <param name="section">配置节点。</param>
@@ -157,6 +166,33 @@ namespace Gentings
         public static List<string> AsList(this IConfigurationSection section)
         {
             return section?.AsEnumerable().Where(x => x.Value != null).Select(x => x.Value).ToList();
+        }
+
+        /// <summary>
+        /// 获取配置节点的字符串实例。
+        /// </summary>
+        /// <param name="section">配置节点。</param>
+        /// <param name="key">配置键或者路径。</param>
+        /// <param name="defaultValue">默认值。</param>
+        /// <returns>返回配置节点的字符串实例。</returns>
+        public static string GetString(this IConfiguration section, string key, string defaultValue = null)
+        {
+            return section[key]?.Trim() ?? defaultValue;
+        }
+
+        /// <summary>
+        /// 获取配置节点的整形实例。
+        /// </summary>
+        /// <param name="section">配置节点。</param>
+        /// <param name="key">配置键或者路径。</param>
+        /// <param name="defaultValue">默认值。</param>
+        /// <returns>返回配置节点的整形实例。</returns>
+        public static int GetInt32(this IConfiguration section, string key, int defaultValue = 0)
+        {
+            var value = section.GetString(key);
+            if (value == null || !int.TryParse(value, out var result))
+                return defaultValue;
+            return result;
         }
     }
 }

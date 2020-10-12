@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Gentings.Extensions.Emails.Properties;
+using Gentings.Properties;
 using Gentings.Tasks;
 using Microsoft.Extensions.Logging;
 using MimeKit;
@@ -11,7 +11,7 @@ namespace Gentings.Extensions.Emails
     /// <summary>
     /// 邮件发送服务。
     /// </summary>
-    public class EmailTaskService : TaskService
+    public abstract class EmailTaskService : TaskService
     {
         private readonly IEmailSettingsManager _settingsManager;
         private readonly IEmailManager _emailManager;

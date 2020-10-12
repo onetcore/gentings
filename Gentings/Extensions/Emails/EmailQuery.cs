@@ -41,7 +41,7 @@ namespace Gentings.Extensions.Emails
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
-        protected override void Init(IQueryContext<Email> context)
+        protected internal override void Init(IQueryContext<Email> context)
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Title))

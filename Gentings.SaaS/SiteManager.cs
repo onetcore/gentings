@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Gentings.Data;
 using Gentings.Extensions;
 using Microsoft.Extensions.Caching.Memory;
@@ -11,6 +13,8 @@ namespace Gentings.SaaS
     /// <typeparam name="TSite">网站实例。</typeparam>
     public class SiteManager<TSite> : ISiteManager<TSite> where TSite : Site, new()
     {
+        private readonly IEnumerable<ISiteEventHandler<TSite>> _eventHandlers;
+
         /// <summary>
         /// 数据库操作接口。
         /// </summary>
@@ -26,8 +30,10 @@ namespace Gentings.SaaS
         /// </summary>
         /// <param name="context">数据库操作接口。</param>
         /// <param name="cache">缓存实例。</param>
-        public SiteManager(IDbContext<SiteAdapter> context, IMemoryCache cache)
+        /// <param name="eventHandlers">网站事件处理器。</param>
+        public SiteManager(IDbContext<SiteAdapter> context, IMemoryCache cache, IEnumerable<ISiteEventHandler<TSite>> eventHandlers)
         {
+            _eventHandlers = eventHandlers.OrderByDescending(x => x.Priority);
             Context = context;
             Cache = cache;
         }
@@ -116,7 +122,21 @@ namespace Gentings.SaaS
                 return DataAction.Duplicate;
             if (adapter.Id > 0)
                 return FromResult(adapter.Id, Context.Update(adapter), DataAction.Updated);
-            var result = Context.Create(adapter);
+            var result = Context.BeginTransaction(db =>
+            {
+                if (!db.Create(adapter))
+                    return false;
+                site.Id = adapter.Id;
+                foreach (var eventHandler in _eventHandlers)
+                {
+                    if (!eventHandler.OnCreated(db, site))
+                    {
+                        site.Id = 0;
+                        return false;
+                    }
+                }
+                return true;
+            }, 600);
             return FromResult(adapter.Id, result, DataAction.Created);
         }
 
@@ -132,7 +152,21 @@ namespace Gentings.SaaS
                 return DataAction.Duplicate;
             if (adapter.Id > 0)
                 return FromResult(adapter.Id, await Context.UpdateAsync(adapter), DataAction.Updated);
-            var result = await Context.CreateAsync(adapter);
+            var result = await Context.BeginTransactionAsync(async db =>
+            {
+                if (!await db.CreateAsync(adapter))
+                    return false;
+                site.Id = adapter.Id;
+                foreach (var eventHandler in _eventHandlers)
+                {
+                    if (!await eventHandler.OnCreatedAsync(db, site))
+                    {
+                        site.Id = 0;
+                        return false;
+                    }
+                }
+                return true;
+            }, 600);
             return FromResult(adapter.Id, result, DataAction.Created);
         }
 
@@ -143,7 +177,16 @@ namespace Gentings.SaaS
         /// <returns>返回删除结果。</returns>
         public virtual DataResult Delete(int[] ids)
         {
-            var result = Refresh(Context.Delete(x => x.Id.Included(ids)), ids);
+            var result = Refresh(Context.BeginTransaction(db =>
+            {
+                foreach (var eventHandler in _eventHandlers)
+                {
+                    if (!eventHandler.OnDelete(db, ids))
+                        return false;
+                }
+
+                return db.Delete(x => x.Id.Included(ids));
+            }, 600), ids);
             return DataResult.FromResult(result, DataAction.Created);
         }
 
@@ -154,7 +197,16 @@ namespace Gentings.SaaS
         /// <returns>返回删除结果。</returns>
         public virtual async Task<DataResult> DeleteAsync(int[] ids)
         {
-            var result = Refresh(await Context.DeleteAsync(x => x.Id.Included(ids)), ids);
+            var result = Refresh(await Context.BeginTransactionAsync(async db =>
+            {
+                foreach (var eventHandler in _eventHandlers)
+                {
+                    if (!await eventHandler.OnDeleteAsync(db, ids))
+                        return false;
+                }
+
+                return await db.DeleteAsync(x => x.Id.Included(ids));
+            }, 600), ids);
             return DataResult.FromResult(result, DataAction.Created);
         }
 
@@ -185,7 +237,7 @@ namespace Gentings.SaaS
         /// <returns>返回启用结果。</returns>
         public virtual bool Enabled(int[] ids)
         {
-            return Refresh(Context.Update(x => x.Id.Included(ids), new {Disabled = false}), ids);
+            return Refresh(Context.Update(x => x.Id.Included(ids), new { Disabled = false }), ids);
         }
 
         /// <summary>

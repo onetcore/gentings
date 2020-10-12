@@ -294,7 +294,7 @@ namespace Gentings.Data.Internal
         /// <typeparam name="TQuery">查询实例类型。</typeparam>
         /// <param name="query">查询实例。</param>
         /// <returns>返回实例列表。</returns>
-        IEnumerable<TModel> LoadAll<TQuery>(TQuery query) where TQuery : QueryBase<TModel>;
+        IEnumerable<TModel> Fetch<TQuery>(TQuery query) where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 获取所有符合条件的实例列表，主要用于导出操作。
@@ -303,7 +303,7 @@ namespace Gentings.Data.Internal
         /// <typeparam name="TQuery">查询实例类型。</typeparam>
         /// <param name="query">查询实例。</param>
         /// <returns>返回实例列表。</returns>
-        IEnumerable<TObject> LoadAll<TQuery, TObject>(TQuery query) where TQuery : QueryBase<TModel>;
+        IEnumerable<TObject> Fetch<TQuery, TObject>(TQuery query) where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 分页获取实例列表。
@@ -337,7 +337,7 @@ namespace Gentings.Data.Internal
         /// <param name="query">查询实例。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回实例列表。</returns>
-        Task<IEnumerable<TModel>> LoadAllAsync<TQuery>(TQuery query, CancellationToken cancellationToken = default)
+        Task<IEnumerable<TModel>> FetchAsync<TQuery>(TQuery query, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>;
 
         /// <summary>
@@ -348,7 +348,7 @@ namespace Gentings.Data.Internal
         /// <param name="query">查询实例。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回实例列表。</returns>
-        Task<IEnumerable<TObject>> LoadAllAsync<TQuery, TObject>(TQuery query, CancellationToken cancellationToken = default)
+        Task<IEnumerable<TObject>> FetchAsync<TQuery, TObject>(TQuery query, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>;
 
         /// <summary>

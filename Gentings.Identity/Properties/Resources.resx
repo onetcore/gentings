@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="DefaultPermissions_Administrator_Description" xml:space="preserve">
+    <value>允许用户可以管理初始配置相关内容!</value>
+  </data>
+  <data name="DefaultPermissions_Administrator_Name" xml:space="preserve">
+    <value>初始配置管理</value>
+  </data>
   <data name="ErrorDescriptor_ConcurrencyFailure" xml:space="preserve">
     <value>并发处理错误，对象已经被更改。</value>
   </data>

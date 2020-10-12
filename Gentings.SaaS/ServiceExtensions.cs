@@ -23,11 +23,10 @@ namespace Gentings.SaaS
             return builder.AddServices(services =>
             {
                 services.AddSingleton(typeof(ISiteManager<>), typeof(SiteManager<>));
+                services.AddScoped(service => service.GetRequiredService<ISiteDomainManager>().Current);
                 services.AddScoped(service =>
                 {
-                    var domainManager = service.GetRequiredService<ISiteDomainManager>();
-                    var request = service.GetRequiredService<IHttpContextAccessor>().HttpContext.Request;
-                    var current = domainManager.GetDomain(request.GetDomain());
+                    var current = service.GetRequiredService<SiteDomain>();
                     if (current == null)
                         return null;
                     var siteManager = service.GetRequiredService<ISiteManager<TSite>>();

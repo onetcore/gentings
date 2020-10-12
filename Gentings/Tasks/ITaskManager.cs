@@ -7,7 +7,7 @@ namespace Gentings.Tasks
     /// <summary>
     /// 后台服务管理接口。
     /// </summary>
-    public interface ITaskManager : ISingletonService
+    public interface ITaskManager 
     {
         /// <summary>
         /// 确保服务列表。

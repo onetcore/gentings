@@ -11,7 +11,7 @@ namespace Gentings.Tasks
     /// <summary>
     /// 后台服务管理类型。
     /// </summary>
-    internal class TaskManager : ITaskManager
+    public class TaskManager : ITaskManager
     {
         private readonly IDbContext<TaskDescriptor> _db;
         private readonly ILogger<TaskManager> _logger;

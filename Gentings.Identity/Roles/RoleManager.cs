@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Identity;
@@ -195,12 +196,12 @@ namespace Gentings.Identity.Roles
         /// <summary>
         /// 通过角色名称获取角色实例。
         /// </summary>
-        /// <param name="normalizedName">角色名称。</param>
+        /// <param name="roleName">角色名称。</param>
         /// <returns>返回当前角色实例对象。</returns>
-        public virtual TRole FindByName(string normalizedName)
+        public virtual TRole FindByName(string roleName)
         {
-            normalizedName = NormalizeKey(normalizedName);
-            return _store.FindByName(normalizedName);
+            roleName = NormalizeKey(roleName);
+            return _store.FindByName(roleName);
         }
 
         /// <summary>
@@ -318,7 +319,29 @@ namespace Gentings.Identity.Roles
         /// <returns>返回移动结果。</returns>
         public virtual bool MoveUp(TRole role)
         {
-            return FromResult(_store.MoveUp(role), role);
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (role is IRoleEventHandler<TRole> handler)
+            {
+                return FromResult(DbContext.RoleContext.BeginTransaction(db =>
+                {
+                    if (!db.MoveUp(role.Id, x => x.RoleLevel, MoveExpression(role)))
+                    {
+                        return false;
+                    }
+
+                    if (!handler.OnUpdate(db))
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }), role);
+            }
+            return FromResult(DbContext.RoleContext.MoveUp(role.Id, x => x.RoleLevel, MoveExpression(role)), role);
         }
 
         /// <summary>
@@ -328,7 +351,39 @@ namespace Gentings.Identity.Roles
         /// <returns>返回移动结果。</returns>
         public virtual bool MoveDown(TRole role)
         {
-            return FromResult(_store.MoveDown(role), role);
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (role is IRoleEventHandler<TRole> handler)
+            {
+                return FromResult(DbContext.RoleContext.BeginTransaction(db =>
+                {
+                    if (!db.MoveDown(role.Id, x => x.RoleLevel, MoveExpression(role)))
+                    {
+                        return false;
+                    }
+
+                    if (!handler.OnUpdate(db))
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }), role);
+            }
+            return FromResult(DbContext.RoleContext.MoveDown(role.Id, x => x.RoleLevel, MoveExpression(role)), role);
+        }
+
+        /// <summary>
+        /// 移动角色分组条件表达式。
+        /// </summary>
+        /// <param name="role">当前角色。</param>
+        /// <returns>返回条件表达式。</returns>
+        protected virtual Expression<Predicate<TRole>> MoveExpression(TRole role)
+        {
+            return x => x.RoleLevel > 0 && x.RoleLevel < int.MaxValue;
         }
 
         /// <summary>
@@ -338,7 +393,29 @@ namespace Gentings.Identity.Roles
         /// <returns>返回移动结果。</returns>
         public virtual async Task<bool> MoveUpAsync(TRole role)
         {
-            return FromResult(await _store.MoveUpAsync(role), role);
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (role is IRoleEventHandler<TRole> handler)
+            {
+                return FromResult(await DbContext.RoleContext.BeginTransactionAsync(async db =>
+                {
+                    if (!await db.MoveUpAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken))
+                    {
+                        return false;
+                    }
+
+                    if (!await handler.OnUpdateAsync(db, CancellationToken))
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }, cancellationToken: CancellationToken), role);
+            }
+            return FromResult(await DbContext.RoleContext.MoveUpAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken), role);
         }
 
         /// <summary>
@@ -348,7 +425,29 @@ namespace Gentings.Identity.Roles
         /// <returns>返回移动结果。</returns>
         public virtual async Task<bool> MoveDownAsync(TRole role)
         {
-            return FromResult(await _store.MoveDownAsync(role), role);
+            if (role == null)
+            {
+                throw new ArgumentNullException(nameof(role));
+            }
+            // ReSharper disable once SuspiciousTypeConversion.Global
+            if (role is IRoleEventHandler<TRole> handler)
+            {
+                return FromResult(await DbContext.RoleContext.BeginTransactionAsync(async db =>
+                {
+                    if (!await db.MoveDownAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken))
+                    {
+                        return false;
+                    }
+
+                    if (!await handler.OnUpdateAsync(db, CancellationToken))
+                    {
+                        return false;
+                    }
+
+                    return true;
+                }, cancellationToken: CancellationToken), role);
+            }
+            return FromResult(await DbContext.RoleContext.MoveDownAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken), role);
         }
 
         /// <summary>

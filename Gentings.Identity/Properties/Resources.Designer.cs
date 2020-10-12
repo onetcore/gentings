@@ -61,6 +61,24 @@ namespace Gentings.Identity.Properties {
         }
         
         /// <summary>
+        ///   查找类似 允许用户可以管理初始配置相关内容! 的本地化字符串。
+        /// </summary>
+        internal static string DefaultPermissions_Administrator_Description {
+            get {
+                return ResourceManager.GetString("DefaultPermissions_Administrator_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 初始配置管理 的本地化字符串。
+        /// </summary>
+        internal static string DefaultPermissions_Administrator_Name {
+            get {
+                return ResourceManager.GetString("DefaultPermissions_Administrator_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 并发处理错误，对象已经被更改。 的本地化字符串。
         /// </summary>
         internal static string ErrorDescriptor_ConcurrencyFailure {

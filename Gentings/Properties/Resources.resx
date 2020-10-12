@@ -204,6 +204,21 @@
   <data name="Differ_Uninitialized" xml:space="preserve">
     <value>对象变更原始对象未初始化，请在修改对象时候先调用Init方法。</value>
   </data>
+  <data name="EmailStatus_Completed" xml:space="preserve">
+    <value>成功发送</value>
+  </data>
+  <data name="EmailStatus_Failured" xml:space="preserve">
+    <value>发送失败</value>
+  </data>
+  <data name="EmailStatus_Pending" xml:space="preserve">
+    <value>等待发送</value>
+  </data>
+  <data name="EmailTaskService" xml:space="preserve">
+    <value>电子邮件发送服务</value>
+  </data>
+  <data name="EmailTaskService_Description" xml:space="preserve">
+    <value>发送队列在数据库中的电子邮件</value>
+  </data>
   <data name="ErrorCode_InvalidParameters" xml:space="preserve">
     <value>参数错误：{0}。</value>
   </data>

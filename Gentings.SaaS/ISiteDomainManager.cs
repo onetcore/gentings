@@ -10,6 +10,11 @@ namespace Gentings.SaaS
     public interface ISiteDomainManager : ISingletonService
     {
         /// <summary>
+        /// 获取当前请求的域名实例。
+        /// </summary>
+        SiteDomain Current { get; }
+
+        /// <summary>
         /// 通过域名获取网站。
         /// </summary>
         /// <param name="domain">域名和端口地址。</param>

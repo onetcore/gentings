@@ -104,35 +104,5 @@ namespace Gentings.Identity.Roles
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回角色更新结果。</returns>
         Task<IdentityResult> DeleteAsync(TRole role, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 上移角色。
-        /// </summary>
-        /// <param name="role">角色实例。</param>
-        /// <returns>返回移动结果。</returns>
-        bool MoveUp(TRole role);
-
-        /// <summary>
-        /// 上移角色。
-        /// </summary>
-        /// <param name="role">角色实例。</param>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回移动结果。</returns>
-        Task<bool> MoveUpAsync(TRole role, CancellationToken cancellationToken = default);
-
-        /// <summary>
-        /// 下移角色。
-        /// </summary>
-        /// <param name="role">角色实例。</param>
-        /// <returns>返回移动结果。</returns>
-        bool MoveDown(TRole role);
-
-        /// <summary>
-        /// 下移角色。
-        /// </summary>
-        /// <param name="role">角色实例。</param>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回移动结果。</returns>
-        Task<bool> MoveDownAsync(TRole role, CancellationToken cancellationToken = default);
     }
 }

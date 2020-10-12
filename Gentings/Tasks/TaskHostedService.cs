@@ -11,7 +11,7 @@ namespace Gentings.Tasks
     /// <summary>
     /// 后台服务。
     /// </summary>
-    internal class TaskHostedService : Microsoft.Extensions.Hosting.BackgroundService
+    public class TaskHostedService : Microsoft.Extensions.Hosting.BackgroundService
     {
         private readonly IEnumerable<ITaskService> _services;
         private readonly ITaskManager _taskManager;

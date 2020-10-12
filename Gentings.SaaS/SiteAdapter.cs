@@ -55,7 +55,7 @@ namespace Gentings.SaaS
         /// 添加时间。
         /// </summary>
         [NotUpdated]
-        public DateTimeOffset CreatedDate { get; set; }
+        public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
 
         /// <summary>
         /// 配置的字符串或JSON格式化的字符串。

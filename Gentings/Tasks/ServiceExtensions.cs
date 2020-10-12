@@ -1,6 +1,4 @@
 ﻿using Gentings.Data.Migrations;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace Gentings.Tasks
@@ -10,17 +8,21 @@ namespace Gentings.Tasks
     /// </summary>
     public static class ServiceExtensions
     {
+        private class DefaultTaskDataMigration : TaskDataMigration
+        {
+
+        }
+
         /// <summary>
         /// 添加后台服务。
         /// </summary>
         /// <param name="builder">服务构建实例。</param>
         /// <returns>服务构建实例。</returns>
-        public static IServiceBuilder AddTaskServices(this IServiceBuilder builder) =>
-            builder.AddServices(services =>
-            {
-                services.TryAddEnumerable(ServiceDescriptor.Transient<IDataMigration, TaskDataMigration>());
-                services.TryAddEnumerable(ServiceDescriptor.Transient<IHostedService, TaskHostedService>());
-                services.AddSingleton<ITaskManager, TaskManager>();
-            });
+        public static IServiceBuilder AddTaskServices(this IServiceBuilder builder)
+        {
+            return builder.AddTransients<IDataMigration, DefaultTaskDataMigration>()
+             .AddTransients<IHostedService, TaskHostedService>()
+             .AddSingleton<ITaskManager, TaskManager>();
+        }
     }
 }

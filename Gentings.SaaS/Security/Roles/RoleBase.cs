@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Gentings.Extensions;
 
 namespace Gentings.SaaS.Security.Roles
 {
@@ -11,6 +12,7 @@ namespace Gentings.SaaS.Security.Roles
         /// <summary>
         /// 网站Id。
         /// </summary>
+        [NotUpdated]
         public int SiteId { get; set; }
     }
 }

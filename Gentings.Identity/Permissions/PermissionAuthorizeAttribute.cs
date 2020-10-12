@@ -24,7 +24,7 @@ namespace Gentings.Identity.Permissions
         /// <summary>
         /// 初始化类<see cref="PermissionAuthorizeAttribute"/>。
         /// </summary>
-        public PermissionAuthorizeAttribute() : base(typeof(PermissionAuthorizeAttributeImpl))
+        public PermissionAuthorizeAttribute() : this(DefaultPermissions.Administrator)
         {
         }
 

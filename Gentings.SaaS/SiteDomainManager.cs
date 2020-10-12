@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Gentings.AspNetCore;
 using Gentings.Data;
 using Gentings.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings.SaaS
@@ -17,6 +19,7 @@ namespace Gentings.SaaS
     {
         private readonly IDbContext<SiteDomain> _context;
         private readonly IMemoryCache _cache;
+        private readonly IHttpContextAccessor _contextAccessor;
         private readonly Type _cacheKey = typeof(SiteDomain);
 
         /// <summary>
@@ -24,10 +27,24 @@ namespace Gentings.SaaS
         /// </summary>
         /// <param name="context">数据库操作实例。</param>
         /// <param name="cache">缓存接口。</param>
-        public SiteDomainManager(IDbContext<SiteDomain> context, IMemoryCache cache)
+        /// <param name="contextAccessor">HTTP请求上下文。</param>
+        public SiteDomainManager(IDbContext<SiteDomain> context, IMemoryCache cache, IHttpContextAccessor contextAccessor)
         {
             _context = context;
             _cache = cache;
+            _contextAccessor = contextAccessor;
+        }
+
+        /// <summary>
+        /// 获取当前请求的域名实例。
+        /// </summary>
+        public SiteDomain Current
+        {
+            get
+            {
+                var domain = _contextAccessor.HttpContext.Request.GetDomain();
+                return GetDomain(domain);
+            }
         }
 
         /// <summary>

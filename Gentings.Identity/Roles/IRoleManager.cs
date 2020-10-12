@@ -77,18 +77,18 @@ namespace Gentings.Identity.Roles
         bool MoveUp(TRole role);
 
         /// <summary>
-        /// 下移角色。
-        /// </summary>
-        /// <param name="role">角色实例。</param>
-        /// <returns>返回移动结果。</returns>
-        bool MoveDown(TRole role);
-
-        /// <summary>
         /// 上移角色。
         /// </summary>
         /// <param name="role">角色实例。</param>
         /// <returns>返回移动结果。</returns>
         Task<bool> MoveUpAsync(TRole role);
+
+        /// <summary>
+        /// 下移角色。
+        /// </summary>
+        /// <param name="role">角色实例。</param>
+        /// <returns>返回移动结果。</returns>
+        bool MoveDown(TRole role);
 
         /// <summary>
         /// 下移角色。
