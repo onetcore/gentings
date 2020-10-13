@@ -5,42 +5,80 @@ using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
 using Gentings.Data;
+using Gentings.Data.Internal;
 using Gentings.Extensions;
+using Gentings.Identity.Roles;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Data
 {
     /// <summary>
-    /// 用户存储类型。
+    /// 用户存储基类，包含用户角色的相关操作。
     /// </summary>
     /// <typeparam name="TUser">用户类型。</typeparam>
+    /// <typeparam name="TRole">角色类型。</typeparam>
     /// <typeparam name="TUserClaim">用户声明类型。</typeparam>
+    /// <typeparam name="TUserRole">用户角色类型。</typeparam>
     /// <typeparam name="TUserLogin">用户登录类型。</typeparam>
     /// <typeparam name="TUserToken">用户标识类型。</typeparam>
-    public abstract class UserOnlyStoreBase<TUser, TUserClaim, TUserLogin, TUserToken>
-        : UserStoreBase<TUser, int, TUserClaim, TUserLogin, TUserToken>, IUserStoreBase<TUser, TUserClaim, TUserLogin, TUserToken>
+    /// <typeparam name="TRoleClaim">角色声明类型。</typeparam>
+    public abstract class UserStoreBase<TUser, TRole, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim>
+        : UserStoreBase<TUser, TRole, int, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim>,
+        IUserStoreBase<TUser, TRole, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim>
         where TUser : UserBase
+        where TRole : RoleBase
         where TUserClaim : UserClaimBase, new()
+        where TUserRole : UserRoleBase, new()
         where TUserLogin : UserLoginBase, new()
         where TUserToken : UserTokenBase, new()
+        where TRoleClaim : RoleClaimBase, new()
     {
+        /// <summary>
+        /// 角色数据库操作接口。
+        /// </summary>
+        public IDbContext<TRole> RoleContext { get; }
+
         /// <summary>
         /// 用户数据库操作接口。
         /// </summary>
         public IDbContext<TUser> UserContext { get; }
+
         /// <summary>
         /// 用户声明数据库操作接口。
         /// </summary>
         public IDbContext<TUserClaim> UserClaimContext { get; }
+
         /// <summary>
         /// 用户登录数据库操作接口。
         /// </summary>
         public IDbContext<TUserLogin> UserLoginContext { get; }
+
         /// <summary>
         /// 用户标识数据库操作接口。
         /// </summary>
         public IDbContext<TUserToken> UserTokenContext { get; }
+
+        /// <summary>
+        /// 用户角色数据库操作接口。
+        /// </summary>
+        public IDbContext<TUserRole> UserRoleContext { get; }
+
+        /// <summary>
+        /// 用户声明数据库操作接口。
+        /// </summary>
+        public IDbContext<TRoleClaim> RoleClaimContext { get; }
+
+        /// <summary>
+        /// 服务提供者。
+        /// </summary>
+        public IServiceProvider ServiceProvider { get; }
+
+        /// <summary>
+        /// 返回用户实例。
+        /// </summary>
+        public override System.Linq.IQueryable<TUser> Users { get; } = null;
 
         /// <summary>
         /// 通过用户验证名称查询用户实例。
@@ -72,7 +110,7 @@ namespace Gentings.Identity
         /// <returns>返回更新结果。</returns>
         public virtual bool Update(int userId, object fields)
         {
-            return UserContext.Update(x => x.Id == userId, fields);
+            return UserContext.Update(userId, fields);
         }
 
         /// <summary>
@@ -84,27 +122,39 @@ namespace Gentings.Identity
         /// <returns>返回更新结果。</returns>
         public virtual Task<bool> UpdateAsync(int userId, object fields, CancellationToken cancellationToken = default)
         {
-            return UserContext.UpdateAsync(x => x.Id == userId, fields, cancellationToken);
+            return UserContext.UpdateAsync(userId, fields, cancellationToken);
         }
 
         /// <summary>
-        /// 初始化类<see cref="UserOnlyStoreBase{TUser,TRole, TUserLogin, TUserToken}"/>。
+        /// 初始化类<see cref="UserStoreBase{TUser, TRole, TUserClaim, TUserRole, TUserLogin, TUserToken, TRoleClaim}"/>。
         /// </summary>
         /// <param name="describer">错误描述<see cref="IdentityErrorDescriber"/>实例。</param>
         /// <param name="userContext">用户数据库接口。</param>
         /// <param name="userClaimContext">用户声明数据库接口。</param>
         /// <param name="userLoginContext">用户登录数据库接口。</param>
         /// <param name="userTokenContext">用户标识数据库接口。</param>
-        protected UserOnlyStoreBase(IdentityErrorDescriber describer,
+        /// <param name="roleContext">角色上下文。</param>
+        /// <param name="userRoleContext">用户角色数据库操作接口。</param>
+        /// <param name="roleClaimContext">角色声明数据库操作接口。</param>
+        /// <param name="serviceProvider">服务提供者。</param>
+        protected UserStoreBase(IdentityErrorDescriber describer,
             IDbContext<TUser> userContext,
             IDbContext<TUserClaim> userClaimContext,
             IDbContext<TUserLogin> userLoginContext,
-            IDbContext<TUserToken> userTokenContext) : base(describer)
+            IDbContext<TUserToken> userTokenContext,
+            IDbContext<TRole> roleContext,
+            IDbContext<TUserRole> userRoleContext,
+            IDbContext<TRoleClaim> roleClaimContext,
+            IServiceProvider serviceProvider) : base(describer)
         {
+            RoleContext = roleContext;
             UserContext = userContext;
             UserClaimContext = userClaimContext;
             UserLoginContext = userLoginContext;
             UserTokenContext = userTokenContext;
+            UserRoleContext = userRoleContext;
+            RoleClaimContext = roleClaimContext;
+            ServiceProvider = serviceProvider;
         }
 
         /// <summary>
@@ -120,19 +170,20 @@ namespace Gentings.Identity
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (user is IUserEventHandler<TUser> handler)
+
+            var handlers = ServiceProvider.GetServices<IUserEventHandler<TUser>>().ToList();
+            if (handlers.Count > 0)
             {
+                handlers = handlers.OrderByDescending(x => x.Priority).ToList();
                 if (await UserContext.BeginTransactionAsync(async db =>
                 {
                     if (!await db.CreateAsync(user, cancellationToken))
-                    {
                         return false;
-                    }
 
-                    if (!await handler.OnCreatedAsync(db, cancellationToken))
+                    foreach (var handler in handlers)
                     {
-                        return false;
+                        if (!await handler.OnCreatedAsync(db, user, cancellationToken))
+                            return false;
                     }
 
                     return true;
@@ -162,28 +213,8 @@ namespace Gentings.Identity
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (user is IUserEventHandler<TUser> handler)
-            {
-                if (await UserContext.BeginTransactionAsync(async db =>
-                {
-                    if (!await handler.OnUpdateAsync(db, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    if (!await db.UpdateAsync(user, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }, cancellationToken: cancellationToken))
-                {
-                    return IdentityResult.Success;
-                }
-            }
-            else if (await UserContext.UpdateAsync(user, cancellationToken))
+            user.UpdatedDate = DateTimeOffset.Now;
+            if (await UserContext.UpdateAsync(user, cancellationToken))
             {
                 return IdentityResult.Success;
             }
@@ -204,14 +235,16 @@ namespace Gentings.Identity
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (user is IUserEventHandler<TUser> handler)
+            var handlers = ServiceProvider.GetServices<IUserEventHandler<TUser>>().ToList();
+            if (handlers.Count > 0)
             {
+                handlers = handlers.OrderByDescending(x => x.Priority).ToList();
                 if (await UserContext.BeginTransactionAsync(async db =>
                 {
-                    if (!await handler.OnDeleteAsync(db, cancellationToken))
+                    foreach (var handler in handlers)
                     {
-                        return false;
+                        if (!await handler.OnDeleteAsync(db, user, cancellationToken))
+                            return false;
                     }
 
                     if (!await db.DeleteAsync(user.Id, cancellationToken))
@@ -284,7 +317,9 @@ namespace Gentings.Identity
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回查询分页实例。</returns>
         public virtual IPageEnumerable<TUser> Load<TQuery>(TQuery query, Expression<Func<TUser, object>> countExpression = null) where TQuery : UserQuery<TUser>
-            => Load<TQuery, TUser>(query, countExpression);
+        {
+            return UserContext.Load(query, countExpression);
+        }
 
         /// <summary>
         /// 分页加载用户。
@@ -307,9 +342,10 @@ namespace Gentings.Identity
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回查询分页实例。</returns>
-        public virtual Task<IPageEnumerable<TUser>> LoadAsync<TQuery>(TQuery query, Expression<Func<TUser, object>> countExpression = null,
-            CancellationToken cancellationToken = default) where TQuery : UserQuery<TUser>
-            => LoadAsync<TQuery, TUser>(query, countExpression, cancellationToken);
+        public virtual Task<IPageEnumerable<TUser>> LoadAsync<TQuery>(TQuery query, Expression<Func<TUser, object>> countExpression = null, CancellationToken cancellationToken = default) where TQuery : UserQuery<TUser>
+        {
+            return UserContext.LoadAsync(query, countExpression, cancellationToken);
+        }
 
         /// <summary>
         /// 分页加载用户。
@@ -320,7 +356,8 @@ namespace Gentings.Identity
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回查询分页实例。</returns>
-        public virtual Task<IPageEnumerable<TUserModel>> LoadAsync<TQuery, TUserModel>(TQuery query, Expression<Func<TUser, object>> countExpression = null, CancellationToken cancellationToken = default) where TQuery : UserQuery<TUser>
+        public virtual Task<IPageEnumerable<TUserModel>> LoadAsync<TQuery, TUserModel>(TQuery query, Expression<Func<TUser, object>> countExpression = null,
+            CancellationToken cancellationToken = default) where TQuery : UserQuery<TUser>
         {
             return UserContext.LoadAsync<TQuery, TUserModel>(query, countExpression, cancellationToken);
         }
@@ -614,7 +651,299 @@ namespace Gentings.Identity
             return UserContext.FindAsync(x => x.NormalizedEmail == normalizedEmail, cancellationToken);
         }
 
+        /// <summary>
+        /// 判断用户是否包含当前角色。
+        /// </summary>
+        /// <param name="user">用户实例。</param>
+        /// <param name="normalizedRoleName">验证角色名称。</param>
+        /// <param name="cancellationToken">取消标志。</param>
+        /// <returns>返回判断结果。</returns>
+        public override async Task<bool> IsInRoleAsync(TUser user, string normalizedRoleName,
+            CancellationToken cancellationToken = default)
+        {
+            var role = await FindRoleAsync(normalizedRoleName, cancellationToken);
+            if (role == null)
+            {
+                return false;
+            }
+
+            return await UserRoleContext.AnyAsync(x => x.UserId == user.Id && x.RoleId == role.Id, cancellationToken);
+        }
+
+        /// <summary>
+        /// 检索当前角色的所有用户列表。
+        /// </summary>
+        /// <param name="normalizedRoleName">验证角色名称。</param>
+        /// <param name="cancellationToken">取消标志。</param>
+        /// <returns>
+        /// 返回用户列表。 
+        /// </returns>
+        public override async Task<IList<TUser>> GetUsersInRoleAsync(string normalizedRoleName, CancellationToken cancellationToken = default)
+        {
+            var role = await FindRoleAsync(normalizedRoleName, cancellationToken);
+            if (role == null)
+            {
+                return null;
+            }
+
+            var users = await UserContext.AsQueryable()
+                .InnerJoin<TUserRole>((u, ur) => u.Id == ur.UserId)
+                .Where<TUserRole>(x => x.RoleId == role.Id)
+                .AsEnumerableAsync(cancellationToken);
+            return users.ToList();
+        }
+
         Task<TUser> IUserStoreBase<TUser, TUserClaim, TUserLogin, TUserToken>.FindUserAsync(int userId,
             CancellationToken cancellationToken) => FindUserAsync(userId, cancellationToken);
+
+        #region roles
+        /// <summary>
+        /// 添加用户角色。
+        /// </summary>
+        /// <param name="user">当前用户实例。</param>
+        /// <param name="normalizedRoleName">验证角色名称。</param>
+        /// <param name="cancellationToken">取消标志。</param>
+        public override async Task AddToRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
+        {
+            var role = await FindRoleAsync(normalizedRoleName, cancellationToken);
+            if (role == null || await UserRoleContext.AnyAsync(x => x.UserId == user.Id && x.RoleId == role.Id, cancellationToken))
+            {
+                return;
+            }
+            //更新用户表显示角色Id和角色名称
+            await UserRoleContext.BeginTransactionAsync(async db =>
+            {
+                if (!await db.CreateAsync(CreateUserRole(user, role), cancellationToken))
+                {
+                    return false;
+                }
+
+                return await SetMaxRoleAsync(db.As<TRole>(), user.Id, cancellationToken);
+            }, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 移除用户角色。
+        /// </summary>
+        /// <param name="user">用户实例对象。</param>
+        /// <param name="normalizedRoleName">验证角色名称。</param>
+        /// <param name="cancellationToken">取消标志。</param>
+        public override async Task RemoveFromRoleAsync(TUser user, string normalizedRoleName, CancellationToken cancellationToken = default)
+        {
+            var role = await FindRoleAsync(normalizedRoleName, cancellationToken);
+            if (role != null)
+            {
+                await UserRoleContext.BeginTransactionAsync(async db =>
+                {
+                    if (await db.DeleteAsync(x => x.UserId == user.Id && x.RoleId == role.Id,
+                        cancellationToken))
+                    {
+                        return await SetMaxRoleAsync(db.As<TRole>(), user.Id, cancellationToken);
+                    }
+
+                    return false;
+                }, cancellationToken: cancellationToken);
+            }
+        }
+
+        /// <summary>
+        /// 获取用户的所有角色。
+        /// </summary>
+        /// <param name="user">用户实例对象。</param>
+        /// <param name="cancellationToken">取消标志。</param>
+        /// <returns>返回当前用户的所有角色列表。</returns>
+        public override async Task<IList<string>> GetRolesAsync(TUser user, CancellationToken cancellationToken = default)
+        {
+            var roles = await RoleContext.AsQueryable()
+                .Select(x => x.Name)
+                .InnerJoin<TUserRole>((r, ur) => r.Id == ur.RoleId)
+                .Where<TUserRole>(x => x.UserId == user.Id)
+                .AsEnumerableAsync(reader => reader.GetString(0), cancellationToken);
+            return roles.ToList();
+        }
+
+        /// <summary>
+        /// 获取用户角色列表。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <returns>返回角色列表。</returns>
+        public virtual IEnumerable<TRole> GetRoles(int userId)
+        {
+            return RoleContext.AsQueryable()
+                .Select()
+                .InnerJoin<TUserRole>((r, ur) => r.Id == ur.RoleId)
+                .Where<TUserRole>(x => x.UserId == userId)
+                .AsEnumerable();
+        }
+
+        /// <summary>
+        /// 获取用户角色列表。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回角色列表。</returns>
+        public virtual Task<IEnumerable<TRole>> GetRolesAsync(int userId, CancellationToken cancellationToken = default)
+        {
+            return RoleContext.AsQueryable()
+                .Select()
+                .InnerJoin<TUserRole>((r, ur) => r.Id == ur.RoleId)
+                .Where<TUserRole>(x => x.UserId == userId)
+                .AsEnumerableAsync(cancellationToken);
+        }
+
+        /// <summary>
+        /// 将用户添加到角色中。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="roleIds">角色Id列表。</param>
+        /// <returns>返回添加结果。</returns>
+        public virtual bool AddUserToRoles(int userId, int[] roleIds)
+        {
+            return UserRoleContext.BeginTransaction(db =>
+            {
+                foreach (var roleId in roleIds)
+                {
+                    if (db.Any(x => x.UserId == userId && x.RoleId == roleId))
+                    {
+                        continue;
+                    }
+
+                    if (!db.Create(new TUserRole { RoleId = roleId, UserId = userId }))
+                    {
+                        return false;
+                    }
+                }
+                return SetMaxRole(db.As<TRole>(), userId);
+            });
+        }
+
+        /// <summary>
+        /// 设置用户最高级的角色。
+        /// </summary>
+        /// <param name="db">事务实例。</param>
+        /// <param name="userId">用户Id。</param>
+        /// <returns>返回设置结果。</returns>
+        protected virtual bool SetMaxRole(IDbTransactionContext<TRole> db, int userId)
+        {
+            var role = db.AsQueryable()
+                .Select()
+                .OrderByDescending(x => x.RoleLevel)
+                .InnerJoin<TUserRole>((r, ur) => r.Id == ur.RoleId)
+                .Where<TUserRole>(x => x.UserId == userId)
+                .FirstOrDefault();
+            return db.As<TUser>().Update(x => x.Id == userId, new { RoleId = role.Id });
+        }
+
+        /// <summary>
+        /// 设置用户最高级的角色。
+        /// </summary>
+        /// <param name="db">事务实例。</param>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回设置结果。</returns>
+        protected virtual async Task<bool> SetMaxRoleAsync(IDbTransactionContext<TRole> db, int userId, CancellationToken cancellationToken = default)
+        {
+            var role = await db.AsQueryable()
+                .Select()
+                .OrderByDescending(x => x.RoleLevel)
+                .InnerJoin<TUserRole>((r, ur) => r.Id == ur.RoleId)
+                .Where<TUserRole>(x => x.UserId == userId)
+                .FirstOrDefaultAsync(cancellationToken);
+            return await db.As<TUser>().UpdateAsync(x => x.Id == userId, new { RoleId = role.Id }, cancellationToken);
+        }
+
+        /// <summary>
+        /// 将用户添加到角色中。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="roleIds">角色Id列表。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回添加结果。</returns>
+        public virtual Task<bool> AddUserToRolesAsync(int userId, int[] roleIds, CancellationToken cancellationToken = default)
+        {
+            return UserRoleContext.BeginTransactionAsync(async db =>
+            {
+                foreach (var roleId in roleIds)
+                {
+                    if (await db.AnyAsync(x => x.UserId == userId && x.RoleId == roleId, cancellationToken))
+                    {
+                        continue;
+                    }
+
+                    if (!await db.CreateAsync(new TUserRole { RoleId = roleId, UserId = userId }, cancellationToken))
+                    {
+                        return false;
+                    }
+                }
+                return await SetMaxRoleAsync(db.As<TRole>(), userId, cancellationToken);
+            }, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// 设置用户角色。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="roleIds">角色Id列表。</param>
+        /// <returns>返回添加结果。</returns>
+        public virtual bool SetUserToRoles(int userId, int[] roleIds)
+        {
+            return UserRoleContext.BeginTransaction(db =>
+            {
+                db.Delete(x => x.UserId == userId);
+                foreach (var roleId in roleIds)
+                {
+                    if (!db.Create(new TUserRole { RoleId = roleId, UserId = userId }))
+                    {
+                        return false;
+                    }
+                }
+                return SetMaxRole(db.As<TRole>(), userId);
+            });
+        }
+
+        /// <summary>
+        /// 设置用户角色。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="roleIds">角色Id列表。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回设置结果。</returns>
+        public virtual Task<bool> SetUserToRolesAsync(int userId, int[] roleIds, CancellationToken cancellationToken = default)
+        {
+            return UserRoleContext.BeginTransactionAsync(async db =>
+            {
+                await db.DeleteAsync(x => x.UserId == userId, cancellationToken);
+                foreach (var roleId in roleIds)
+                {
+                    if (!await db.CreateAsync(new TUserRole { RoleId = roleId, UserId = userId }, cancellationToken))
+                    {
+                        return false;
+                    }
+                }
+                return await SetMaxRoleAsync(db.As<TRole>(), userId, cancellationToken);
+            }, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>通过角色名称获取角色实例。</summary>
+        /// <param name="normalizedRoleName">角色名称。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回角色实例。</returns>
+        protected override Task<TRole> FindRoleAsync(string normalizedRoleName, CancellationToken cancellationToken)
+        {
+            return RoleContext.FindAsync(x => x.NormalizedName == normalizedRoleName, cancellationToken);
+        }
+
+        /// <summary>
+        /// 获取用户角色实例对象。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="roleId">角色Id。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回用户角色实例。</returns>
+        protected override Task<TUserRole> FindUserRoleAsync(int userId, int roleId, CancellationToken cancellationToken)
+        {
+            return UserRoleContext.FindAsync(x => x.UserId == userId && x.RoleId == roleId, cancellationToken);
+        }
+        #endregion
     }
 }

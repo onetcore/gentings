@@ -1,6 +1,6 @@
 ﻿using Gentings.Data;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Data
 {
     /// <summary>
     /// 用户数据库操作上下文接口。

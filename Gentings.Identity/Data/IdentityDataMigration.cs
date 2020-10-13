@@ -2,7 +2,7 @@
 using Gentings.Data.Migrations.Builders;
 using Gentings.Identity.Roles;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Data
 {
     /// <summary>
     /// 数据库迁移。
@@ -46,10 +46,13 @@ namespace Gentings.Identity
                     .Column(x => x.CreatedDate)
                     .Column(x => x.UpdatedDate)
                     .Column(x => x.Avatar)
-                    .Column(x => x.RoleId, defaultValue: 0)
+                    .Column(x => x.RoleId)
                     .Column(x => x.LoginIP)
                     .Column(x => x.LastLoginDate)
-                    .Column(x => x.ParentId);
+                    .Column(x => x.ParentId)
+                    .Column(x => x.Type)
+                    .Column(x => x.Level)
+                    .Column(x => x.Summary);
                 Create(table);
             });
 

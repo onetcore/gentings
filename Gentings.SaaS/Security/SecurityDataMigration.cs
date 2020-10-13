@@ -1,5 +1,6 @@
 ﻿using Gentings.Data.Migrations;
 using Gentings.Identity;
+using Gentings.Identity.Data;
 using Gentings.SaaS.Security.Roles;
 
 namespace Gentings.SaaS.Security

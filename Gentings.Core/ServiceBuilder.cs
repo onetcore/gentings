@@ -80,6 +80,18 @@ namespace Gentings
         }
 
         /// <summary>
+        /// 添加Scoped服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        public IServiceBuilder AddScoped<TService>(Func<IServiceProvider, TService> func)
+            where TService : class
+        {
+            _services.TryAddScoped(func);
+            return this;
+        }
+
+        /// <summary>
         /// 添加Transient服务。
         /// </summary>
         /// <typeparam name="TService">服务类型。</typeparam>

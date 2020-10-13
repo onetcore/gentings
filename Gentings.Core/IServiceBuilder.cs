@@ -66,6 +66,14 @@ namespace Gentings
             where TImplementation : class, TService;
 
         /// <summary>
+        /// 添加Scoped服务。
+        /// </summary>
+        /// <typeparam name="TService">服务类型。</typeparam>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder AddScoped<TService>(Func<IServiceProvider, TService> func)
+            where TService : class;
+
+        /// <summary>
         /// 添加Transient服务。
         /// </summary>
         /// <typeparam name="TService">服务类型。</typeparam>

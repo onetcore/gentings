@@ -6,7 +6,7 @@ namespace Gentings.Extensions.EventLogging
     /// <summary>
     /// 事件消息。
     /// </summary>
-    [Table("core_Users_Events")]
+    [Table("core_Events")]
     public class EventMessage : ExtendBase, IIdObject
     {
         /// <summary>

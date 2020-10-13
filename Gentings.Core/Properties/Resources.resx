@@ -165,4 +165,16 @@
   <data name="DebugCommandHandler_ExecuteAsync_DebugOff" xml:space="preserve">
     <value>关闭调试信息显示！</value>
   </data>
+  <data name="IndexedMode_Day" xml:space="preserve">
+    <value>日报表</value>
+  </data>
+  <data name="IndexedMode_Hour" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="IndexedMode_Month" xml:space="preserve">
+    <value>月报表</value>
+  </data>
+  <data name="IndexedMode_Year" xml:space="preserve">
+    <value>年报表</value>
+  </data>
 </root>

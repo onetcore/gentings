@@ -1,4 +1,5 @@
-﻿using Gentings.Identity.Roles;
+﻿using Gentings.Identity.Data;
+using Gentings.Identity.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

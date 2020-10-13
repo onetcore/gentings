@@ -6,7 +6,7 @@ namespace Gentings.Extensions.EventLogging
     /// <summary>
     /// 事件类型。
     /// </summary>
-    [Table("core_Users_Events_Types")]
+    [Table("core_Events_Types")]
     public class EventType : CategoryBase
     {
         /// <summary>

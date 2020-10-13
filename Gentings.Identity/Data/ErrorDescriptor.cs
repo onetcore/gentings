@@ -1,6 +1,6 @@
 ﻿using Gentings.Extensions;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Data
 {
     /// <summary>
     /// 错误枚举。

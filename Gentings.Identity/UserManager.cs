@@ -15,6 +15,7 @@ using Gentings.Identity.Roles;
 using Microsoft.Extensions.Caching.Memory;
 using System.Data.Common;
 using Gentings.Identity.Avatars;
+using Gentings.Identity.Data;
 
 namespace Gentings.Identity
 {
@@ -867,7 +868,7 @@ namespace Gentings.Identity
         /// <summary>
         /// 缓存查询实例。
         /// </summary>
-        protected override Data.IQueryable<TUser> CachedQueryable => base.CachedQueryable
+        protected override Gentings.Data.IQueryable<TUser> CachedQueryable => base.CachedQueryable
             .InnerJoin<TRole>((u, r) => u.RoleId == r.Id)
             .Select<TRole>(x => x.Color, "RoleColor")
             .Select<TRole>(x => x.Name, "RoleName")

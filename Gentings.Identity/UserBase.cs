@@ -161,6 +161,24 @@ namespace Gentings.Identity
         public virtual int ParentId { get; set; }
 
         /// <summary>
+        /// 用户等级。
+        /// </summary>
+        [NotUpdated]
+        public virtual int Level { get; set; }
+
+        /// <summary>
+        /// 用户类型。
+        /// </summary>
+        [NotUpdated]
+        public virtual UserType Type { get; set; }
+
+        /// <summary>
+        /// 备注。
+        /// </summary>
+        [Size(64)]
+        public virtual string Summary { get; set; }
+
+        /// <summary>
         /// 返回当前用户的用户名。
         /// </summary>
         public override string ToString()

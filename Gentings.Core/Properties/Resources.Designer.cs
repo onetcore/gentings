@@ -70,42 +70,6 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
-        ///   查找类似 本程序可以使用的命令包含以下内容： 的本地化字符串。
-        /// </summary>
-        internal static string CommandHandlerFactory_CommandList {
-            get {
-                return ResourceManager.GetString("CommandHandlerFactory_CommandList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 显示帮助信息 的本地化字符串。
-        /// </summary>
-        internal static string CommandHandlerFactory_ExecuteAsync_HelpDescription {
-            get {
-                return ResourceManager.GetString("CommandHandlerFactory_ExecuteAsync_HelpDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 不支持命令：.{0}，请使用.help命令查看可用命令 的本地化字符串。
-        /// </summary>
-        internal static string CommandHandlerFactory_ExecuteAsync_NotSupported {
-            get {
-                return ResourceManager.GetString("CommandHandlerFactory_ExecuteAsync_NotSupported", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 退出应用程序 的本地化字符串。
-        /// </summary>
-        internal static string CommandHandlerFactory_ExecuteAsync_Quit {
-            get {
-                return ResourceManager.GetString("CommandHandlerFactory_ExecuteAsync_Quit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 程序即将在“{0}”秒后关闭... 的本地化字符串。
         /// </summary>
         internal static string CommandConsole_CloseAsync_DelayClose {
@@ -151,6 +115,42 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 本程序可以使用的命令包含以下内容： 的本地化字符串。
+        /// </summary>
+        internal static string CommandHandlerFactory_CommandList {
+            get {
+                return ResourceManager.GetString("CommandHandlerFactory_CommandList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 显示帮助信息 的本地化字符串。
+        /// </summary>
+        internal static string CommandHandlerFactory_ExecuteAsync_HelpDescription {
+            get {
+                return ResourceManager.GetString("CommandHandlerFactory_ExecuteAsync_HelpDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 不支持命令：.{0}，请使用.help命令查看可用命令 的本地化字符串。
+        /// </summary>
+        internal static string CommandHandlerFactory_ExecuteAsync_NotSupported {
+            get {
+                return ResourceManager.GetString("CommandHandlerFactory_ExecuteAsync_NotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退出应用程序 的本地化字符串。
+        /// </summary>
+        internal static string CommandHandlerFactory_ExecuteAsync_Quit {
+            get {
+                return ResourceManager.GetString("CommandHandlerFactory_ExecuteAsync_Quit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 关闭调试信息显示！ 的本地化字符串。
         /// </summary>
         internal static string DebugCommandHandler_ExecuteAsync_DebugOff {
@@ -174,6 +174,42 @@ namespace Gentings.Properties {
         internal static string DebugCommandHandler_Help_DebugOff {
             get {
                 return ResourceManager.GetString("DebugCommandHandler_Help_DebugOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 日报表 的本地化字符串。
+        /// </summary>
+        internal static string IndexedMode_Day {
+            get {
+                return ResourceManager.GetString("IndexedMode_Day", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 小时 的本地化字符串。
+        /// </summary>
+        internal static string IndexedMode_Hour {
+            get {
+                return ResourceManager.GetString("IndexedMode_Hour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 月报表 的本地化字符串。
+        /// </summary>
+        internal static string IndexedMode_Month {
+            get {
+                return ResourceManager.GetString("IndexedMode_Month", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 年报表 的本地化字符串。
+        /// </summary>
+        internal static string IndexedMode_Year {
+            get {
+                return ResourceManager.GetString("IndexedMode_Year", resourceCulture);
             }
         }
         

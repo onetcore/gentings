@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Extensions;
 using Gentings.Identity.Roles;
+using Microsoft.AspNetCore.Identity;
 
-namespace Gentings.Identity
+namespace Gentings.Identity.Data
 {
     /// <summary>
     /// 用户存储类型。

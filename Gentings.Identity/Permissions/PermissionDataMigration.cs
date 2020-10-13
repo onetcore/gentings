@@ -1,9 +1,8 @@
-﻿using Gentings.Identity.Roles;
+﻿using Gentings.Data.Migrations;
+using Gentings.Identity.Roles;
 
 namespace Gentings.Identity.Permissions
 {
-    using Data.Migrations;
-
     /// <summary>
     /// 数据库迁移类。
     /// </summary>
