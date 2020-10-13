@@ -8,12 +8,12 @@
         /// <summary>
         /// 失败。
         /// </summary>
-        public static readonly SmsResult Failured = new SmsResult { Status = NoteStatus.Failured };
+        public static readonly SmsResult Failured = new SmsResult { Status = SmsStatus.Failured };
 
         /// <summary>
         /// 成功。
         /// </summary>
-        public static readonly SmsResult Succeed = new SmsResult { Status = NoteStatus.Completed };
+        public static readonly SmsResult Succeed = new SmsResult { Status = SmsStatus.Completed };
 
         /// <summary>
         /// 编码。
@@ -21,20 +21,20 @@
         public int Code { get; set; }
 
         /// <summary>
-        /// 电子邮件。
+        /// 返回短信Id。
         /// </summary>
-        public string Msg { get; set; }
+        public string MsgId { get; set; }
 
         /// <summary>
         /// 状态。
         /// </summary>
-        public NoteStatus Status { get; set; }
+        public SmsStatus Status { get; set; }
 
         /// <summary>
         /// 隐士转换为布尔类型。
         /// </summary>
         /// <param name="result">当前值。</param>
-        public static implicit operator bool(SmsResult result) => result.Status == NoteStatus.Completed;
+        public static implicit operator bool(SmsResult result) => result.Status == SmsStatus.Completed;
 
         /// <summary>
         /// 隐士转换为布尔类型。

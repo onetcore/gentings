@@ -6,7 +6,7 @@ namespace Gentings.Extensions.SMS
     /// <summary>
     /// 短信管理接口。
     /// </summary>
-    public interface ISmsManager : IObjectManager<Note>, ISingletonService
+    public interface ISmsManager : IObjectManager<SmsMessage>, ISingletonService
     {
         /// <summary>
         /// 保存短信。
@@ -29,9 +29,9 @@ namespace Gentings.Extensions.SMS
         /// <summary>
         /// 发送并保存短信。
         /// </summary>
-        /// <param name="note">短信实例对象。</param>
+        /// <param name="message">短信实例对象。</param>
         /// <returns>返回发送结果。</returns>
-        Task<SmsResult> SendAsync(Note note);
+        Task<SmsResult> SendAsync(SmsMessage message);
 
         /// <summary>
         /// 发送并保存短信。
@@ -47,6 +47,6 @@ namespace Gentings.Extensions.SMS
         /// </summary>
         /// <param name="size">加载数量。</param>
         /// <returns>未发送的短信列表。</returns>
-        Task<IEnumerable<Note>> LoadAsync(int size);
+        Task<IEnumerable<SmsMessage>> LoadAsync(int size);
     }
 }

@@ -13,20 +13,27 @@ namespace Gentings.Extensions.SMS
         /// <param name="builder">迁移实例对象。</param>
         public override void Create(MigrationBuilder builder)
         {
-            builder.CreateTable<Note>(table => table
+            builder.CreateTable<SmsMessage>(table => table
                 .Column(x => x.Id)
                 .Column(x => x.Client)
                 .Column(x => x.Status)
                 .Column(x => x.Message)
+                .Column(x => x.Count)
                 .Column(x => x.PhoneNumber)
+                .Column(x => x.ServiceType)
                 .Column(x => x.CreatedDate)
                 .Column(x => x.HashKey)
                 .Column(x => x.TryTimes)
-                .Column(x => x.Msg)
+                .Column(x => x.MsgId)
                 .Column(x => x.SentDate)
+                .Column(x => x.TemplateId)
+                .Column(x => x.TemplateParameters)
+                .Column(x => x.DeliveredDate)
+                .Column(x => x.DeliveredStatus)
             );
-            builder.CreateIndex<Note>(x => x.HashKey);
-            builder.CreateIndex<Note>(x => new { x.Status, x.CreatedDate });
+            builder.CreateIndex<SmsMessage>(x => x.HashKey);
+            builder.CreateIndex<SmsMessage>(x => new { x.MsgId, x.PhoneNumber });
+            builder.CreateIndex<SmsMessage>(x => new { x.Status, x.SentDate });
             builder.CreateTable<SmsSettings>(table => table
                 .Column(x => x.Id)
                 .Column(x => x.Client)

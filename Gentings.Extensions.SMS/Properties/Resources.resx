@@ -117,17 +117,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NoteStatus_Completed" xml:space="preserve">
-    <value>成功发送</value>
+  <data name="ServiceType_Mobile" xml:space="preserve">
+    <value>移动</value>
   </data>
-  <data name="NoteStatus_Failured" xml:space="preserve">
-    <value>发送失败</value>
+  <data name="ServiceType_None" xml:space="preserve">
+    <value>未知</value>
   </data>
-  <data name="NoteStatus_Pending" xml:space="preserve">
-    <value>等待发送</value>
+  <data name="ServiceType_Telecom" xml:space="preserve">
+    <value>电信</value>
+  </data>
+  <data name="ServiceType_Unicom" xml:space="preserve">
+    <value>联通</value>
   </data>
   <data name="SMSClientNotFound" xml:space="preserve">
     <value>短信发送客户端不存在！</value>
+  </data>
+  <data name="SmsStatus_Completed" xml:space="preserve">
+    <value>成功发送</value>
+  </data>
+  <data name="SmsStatus_Failured" xml:space="preserve">
+    <value>发送失败</value>
+  </data>
+  <data name="SmsStatus_Pending" xml:space="preserve">
+    <value>等待发送</value>
+  </data>
+  <data name="SmsStatus_Sending" xml:space="preserve">
+    <value>发送中</value>
   </data>
   <data name="SMSTaskService" xml:space="preserve">
     <value>短信发送服务</value>

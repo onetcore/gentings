@@ -40,10 +40,10 @@ namespace Gentings.Extensions.SMS
         /// <param name="argument">参数。</param>
         public override async Task ExecuteAsync(Argument argument)
         {
-            var notes = await _smsManager.LoadAsync(SmsSettings.BatchSize);
-            foreach (var note in notes)
+            var messages = await _smsManager.LoadAsync(SmsSettings.BatchSize);
+            foreach (var message in messages)
             {
-                await _smsManager.SendAsync(note);
+                await _smsManager.SendAsync(message);
             }
         }
     }

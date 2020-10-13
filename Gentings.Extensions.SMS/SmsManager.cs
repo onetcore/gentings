@@ -11,7 +11,7 @@ namespace Gentings.Extensions.SMS
     /// <summary>
     /// 短信管理类型。
     /// </summary>
-    public class SmsManager : ObjectManager<Note>, ISmsManager
+    public class SmsManager : ObjectManager<SmsMessage>, ISmsManager
     {
         private readonly ConcurrentDictionary<string, ISmsClient> _clients;
 
@@ -20,7 +20,7 @@ namespace Gentings.Extensions.SMS
         /// </summary>
         /// <param name="context">数据库操作实例。</param>
         /// <param name="clients">客户端列表。</param>
-        public SmsManager(IDbContext<Note> context, IEnumerable<ISmsClient> clients) : base(context)
+        public SmsManager(IDbContext<SmsMessage> context, IEnumerable<ISmsClient> clients) : base(context)
         {
             _clients = new ConcurrentDictionary<string, ISmsClient>(clients.ToDictionary(x => x.Name), StringComparer.OrdinalIgnoreCase);
         }
@@ -39,9 +39,10 @@ namespace Gentings.Extensions.SMS
                 return Resources.SMSClientNotFound;
             }
 
-            var note = new Note();
-            note.Client = client;
-            note.Message = message;
+            var msg = new SmsMessage();
+            msg.Client = client;
+            msg.Message = message;
+            msg.Count = message.GetSmsCount();
             var numbers = phoneNumbers
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim())
@@ -51,18 +52,19 @@ namespace Gentings.Extensions.SMS
             {
                 foreach (var number in numbers)
                 {
-                    note.Id = 0;
-                    note.PhoneNumber = number;
+                    msg.Id = 0;
+                    msg.PhoneNumber = number;
+                    msg.ServiceType = number.GetServiceType();
                     var prev = db.AsQueryable()
-                        .Where(x => x.HashKey == note.HashKey)
+                        .Where(x => x.HashKey == msg.HashKey)
                         .OrderByDescending(x => x.CreatedDate)
                         .FirstOrDefault();
-                    if (prev != null && smsClient.IsDuplicated(note, prev))
+                    if (prev != null && smsClient.IsDuplicated(msg, prev))
                     {
                         continue;
                     }
 
-                    db.Create(note);
+                    db.Create(msg);
                 }
 
                 return true;
@@ -83,9 +85,10 @@ namespace Gentings.Extensions.SMS
                 return Resources.SMSClientNotFound;
             }
 
-            var note = new Note();
-            note.Client = client;
-            note.Message = message;
+            var msg = new SmsMessage();
+            msg.Client = client;
+            msg.Message = message;
+            msg.Count = message.GetSmsCount();
             var numbers = phoneNumbers
                 .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                 .Select(x => x.Trim())
@@ -95,18 +98,19 @@ namespace Gentings.Extensions.SMS
             {
                 foreach (var number in numbers)
                 {
-                    note.Id = 0;
-                    note.PhoneNumber = number;
+                    msg.Id = 0;
+                    msg.PhoneNumber = number;
+                    msg.ServiceType = number.GetServiceType();
                     var prev = await db.AsQueryable()
-                        .Where(x => x.HashKey == note.HashKey)
+                        .Where(x => x.HashKey == msg.HashKey)
                         .OrderByDescending(x => x.CreatedDate)
                         .FirstOrDefaultAsync();
-                    if (prev != null && smsClient.IsDuplicated(note, prev))
+                    if (prev != null && smsClient.IsDuplicated(msg, prev))
                     {
                         continue;
                     }
 
-                    await db.CreateAsync(note);
+                    await db.CreateAsync(msg);
                 }
 
                 return true;
@@ -116,33 +120,33 @@ namespace Gentings.Extensions.SMS
         /// <summary>
         /// 发送并保存短信。
         /// </summary>
-        /// <param name="note">短信实例对象。</param>
+        /// <param name="message">短信实例对象。</param>
         /// <returns>返回发送结果。</returns>
-        public virtual async Task<SmsResult> SendAsync(Note note)
+        public virtual async Task<SmsResult> SendAsync(SmsMessage message)
         {
-            if (!_clients.TryGetValue(note.Client, out var client))
+            if (!_clients.TryGetValue(message.Client, out var client))
             {
                 return false;
             }
 
-            var result = await client.SendAsync(note);
-            if (result.Status == NoteStatus.Failured)
+            var result = await client.SendAsync(message);
+            if (result.Status == SmsStatus.Failured)
             {
-                note.TryTimes++;
-                if (note.TryTimes >= SmsSettings.MaxTimes)
+                message.TryTimes++;
+                if (message.TryTimes >= SmsSettings.MaxTimes)
                 {
-                    note.Status = NoteStatus.Failured;
+                    message.Status = SmsStatus.Failured;
                 }
 
-                note.Msg = result.Msg;
-                await SaveAsync(note);
+                message.MsgId = result.MsgId;
+                await SaveAsync(message);
                 return false;
             }
 
-            note.Status = NoteStatus.Completed;
-            note.SentDate = DateTimeOffset.Now;
-            note.TryTimes = 0;
-            await SaveAsync(note);
+            message.Status = SmsStatus.Completed;
+            message.SentDate = DateTimeOffset.Now;
+            message.TryTimes = 0;
+            await SaveAsync(message);
             return true;
         }
 
@@ -155,11 +159,13 @@ namespace Gentings.Extensions.SMS
         /// <returns>返回发送结果。</returns>
         public Task<SmsResult> SendAsync(string client, string phoneNumber, string message)
         {
-            var note = new Note();
-            note.Client = client;
-            note.PhoneNumber = phoneNumber;
-            note.Message = message;
-            return SendAsync(note);
+            var msg = new SmsMessage();
+            msg.Client = client;
+            msg.PhoneNumber = phoneNumber;
+            msg.ServiceType = phoneNumber.GetServiceType();
+            msg.Message = message;
+            msg.Count = message.GetSmsCount();
+            return SendAsync(msg);
         }
 
         /// <summary>
@@ -167,12 +173,12 @@ namespace Gentings.Extensions.SMS
         /// </summary>
         /// <param name="size">加载数量。</param>
         /// <returns>未发送的短信列表。</returns>
-        public virtual Task<IEnumerable<Note>> LoadAsync(int size)
+        public virtual Task<IEnumerable<SmsMessage>> LoadAsync(int size)
         {
             return Context.AsQueryable()
                 .WithNolock()
                 .OrderBy(x => x.Id)
-                .Where(x => x.Status == NoteStatus.Pending)
+                .Where(x => x.Status == SmsStatus.Pending)
                 .AsEnumerableAsync(size);
         }
     }
