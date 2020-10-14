@@ -5,7 +5,7 @@ namespace Gentings.Extensions.SMS
     /// <summary>
     /// 短信配置管理接口。
     /// </summary>
-    public interface ISmsSettingManager : ICachableObjectManager<SmsSettings>, ISingletonService
+    public interface ISmsSettingManager : ICachableObjectManager<SmsSettings>
     {
         /// <summary>
         /// 通过名称查询配置。

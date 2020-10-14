@@ -5,7 +5,7 @@ namespace Gentings.Extensions.SMS
     /// <summary>
     /// 短信数据库迁移类。
     /// </summary>
-    public class SmsDataMigration : DataMigration
+    public abstract class SmsDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。

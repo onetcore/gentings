@@ -248,5 +248,104 @@ namespace Gentings.Extensions.Properties {
                 return ResourceManager.GetString("SaveSettingsFailured", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 移动 的本地化字符串。
+        /// </summary>
+        internal static string ServiceType_Mobile {
+            get {
+                return ResourceManager.GetString("ServiceType_Mobile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未知 的本地化字符串。
+        /// </summary>
+        internal static string ServiceType_None {
+            get {
+                return ResourceManager.GetString("ServiceType_None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 电信 的本地化字符串。
+        /// </summary>
+        internal static string ServiceType_Telecom {
+            get {
+                return ResourceManager.GetString("ServiceType_Telecom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 联通 的本地化字符串。
+        /// </summary>
+        internal static string ServiceType_Unicom {
+            get {
+                return ResourceManager.GetString("ServiceType_Unicom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 短信发送客户端不存在！ 的本地化字符串。
+        /// </summary>
+        internal static string SMSClientNotFound {
+            get {
+                return ResourceManager.GetString("SMSClientNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成功发送 的本地化字符串。
+        /// </summary>
+        internal static string SmsStatus_Completed {
+            get {
+                return ResourceManager.GetString("SmsStatus_Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发送失败 的本地化字符串。
+        /// </summary>
+        internal static string SmsStatus_Failured {
+            get {
+                return ResourceManager.GetString("SmsStatus_Failured", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待发送 的本地化字符串。
+        /// </summary>
+        internal static string SmsStatus_Pending {
+            get {
+                return ResourceManager.GetString("SmsStatus_Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发送中 的本地化字符串。
+        /// </summary>
+        internal static string SmsStatus_Sending {
+            get {
+                return ResourceManager.GetString("SmsStatus_Sending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 短信发送服务 的本地化字符串。
+        /// </summary>
+        internal static string SMSTaskService {
+            get {
+                return ResourceManager.GetString("SMSTaskService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 发送短信相关服务 的本地化字符串。
+        /// </summary>
+        internal static string SMSTaskService_Description {
+            get {
+                return ResourceManager.GetString("SMSTaskService_Description", resourceCulture);
+            }
+        }
     }
 }

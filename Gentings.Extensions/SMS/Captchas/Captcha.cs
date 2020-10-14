@@ -7,7 +7,7 @@ namespace Gentings.Extensions.SMS.Captchas
     /// <summary>
     /// 短信验证码。
     /// </summary>
-    [Table("core_Captchas")]
+    [Table("core_SMS_Captchas")]
     public class Captcha
     {
         /// <summary>

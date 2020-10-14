@@ -6,7 +6,7 @@ namespace Gentings.Extensions.SMS
     /// <summary>
     /// 短信管理接口。
     /// </summary>
-    public interface ISmsManager : IObjectManager<SmsMessage>, ISingletonService
+    public interface ISmsManager : IObjectManager<SmsMessage>
     {
         /// <summary>
         /// 保存短信。

@@ -177,4 +177,7 @@
   <data name="IndexedMode_Year" xml:space="preserve">
     <value>年报表</value>
   </data>
+  <data name="FormFileInvalid" xml:space="preserve">
+    <value>未能获取表单文件实例或者文件长度为0！</value>
+  </data>
 </root>

@@ -178,6 +178,15 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 未能获取表单文件实例或者文件长度为0！ 的本地化字符串。
+        /// </summary>
+        internal static string FormFileInvalid {
+            get {
+                return ResourceManager.GetString("FormFileInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 日报表 的本地化字符串。
         /// </summary>
         internal static string IndexedMode_Day {

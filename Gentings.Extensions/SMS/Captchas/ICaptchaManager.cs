@@ -5,7 +5,7 @@ namespace Gentings.Extensions.SMS.Captchas
     /// <summary>
     /// 验证码管理接口。
     /// </summary>
-    public interface ICaptchaManager : ISingletonService
+    public interface ICaptchaManager
     {
         /// <summary>
         /// 获取验证码。

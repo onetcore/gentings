@@ -186,9 +186,6 @@
   <data name="ErrorCode_ValidError" xml:space="preserve">
     <value>验证失败</value>
   </data>
-  <data name="FormFileInvalid" xml:space="preserve">
-    <value>未能获取表单文件实例或者文件长度为0！</value>
-  </data>
   <data name="Interval_Day" xml:space="preserve">
     <value>日</value>
   </data>

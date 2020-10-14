@@ -5,7 +5,7 @@ namespace Gentings.Extensions.SMS.Captchas
     /// <summary>
     /// 数据库迁移类。
     /// </summary>
-    public class CaptchaDataMigration : DataMigration
+    public abstract class CaptchaDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。
