@@ -1,7 +1,7 @@
 ﻿using System;
 using DocumentFormat.OpenXml.Spreadsheet;
 
-namespace Gentings.Storages.Offices.Excels
+namespace Gentings.Offices.Excels
 {
     /// <summary>
     /// Excel导出字体特性。

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gentings.Storages.Offices.Excels
+namespace Gentings.Offices.Excels
 {
     /// <summary>
     /// EXCEL管理接口。

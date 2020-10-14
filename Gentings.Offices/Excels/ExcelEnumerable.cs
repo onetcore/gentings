@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Gentings.Extensions;
 
-namespace Gentings.Storages.Offices.Excels
+namespace Gentings.Offices.Excels
 {
     /// <summary>
     /// Excel数据。

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gentings.Storages.Offices.Excels
+namespace Gentings.Offices.Excels
 {
     /// <summary>
     /// 工作表名称。

@@ -5,7 +5,7 @@ using System.Reflection;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Gentings.Extensions;
 
-namespace Gentings.Storages.Offices.Excels
+namespace Gentings.Offices.Excels
 {
     /// <summary>
     /// Excel列描述信息。
