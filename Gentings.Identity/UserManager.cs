@@ -640,15 +640,16 @@ namespace Gentings.Identity
         /// <returns>返回当前用户的所有子账户列表。</returns>
         public virtual IEnumerable<GroupableIndexedUser> LoadChildren(int userId, bool topOnly = true)
         {
-            var queryable = DbContext.UserContext.AsQueryable().WithNolock()
+            var queryable = DbContext.UserContext.AsQueryable()
+                .WithNolock()
                 .Select(x => new { x.Id, x.ParentId })
                 .Select(x => x.NickName, "Name");
             if (topOnly)
-                return queryable.AsEnumerable<GroupableIndexedUser>();
-            var users = queryable
-                .InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
-                .Where<IndexedUser>(x => x.UserId == userId)
-                .AsEnumerable<GroupableIndexedUser>();
+                return queryable.Where(x => x.ParentId == userId).AsEnumerable<GroupableIndexedUser>();
+            if (userId > 0)
+                queryable = queryable.InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
+                    .Where<IndexedUser>(x => x.UserId == userId);
+            var users = queryable.AsEnumerable<GroupableIndexedUser>();
             if (users.MakeDictionary(userId).TryGetValue(userId, out var user))
                 return user.Children;
             return Enumerable.Empty<GroupableIndexedUser>();
@@ -662,15 +663,16 @@ namespace Gentings.Identity
         /// <returns>返回当前用户的所有子账户列表。</returns>
         public virtual async Task<IEnumerable<GroupableIndexedUser>> LoadChildrenAsync(int userId, bool topOnly = true)
         {
-            var queryable = DbContext.UserContext.AsQueryable().WithNolock()
+            var queryable = DbContext.UserContext.AsQueryable()
+                .WithNolock()
                 .Select(x => new { x.Id, x.ParentId })
                 .Select(x => x.NickName, "Name");
             if (topOnly)
-                return await queryable.AsEnumerableAsync<GroupableIndexedUser>();
-            var users = await queryable
-                .InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
-                .Where<IndexedUser>(x => x.UserId == userId)
-                .AsEnumerableAsync<GroupableIndexedUser>();
+                return await queryable.Where(x => x.ParentId == userId).AsEnumerableAsync<GroupableIndexedUser>();
+            if (userId > 0)
+                queryable = queryable.InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
+                    .Where<IndexedUser>(x => x.UserId == userId);
+            var users = await queryable.AsEnumerableAsync<GroupableIndexedUser>();
             if (users.MakeDictionary(userId).TryGetValue(userId, out var user))
                 return user.Children;
             return Enumerable.Empty<GroupableIndexedUser>();

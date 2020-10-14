@@ -7,7 +7,7 @@ namespace Gentings.Sites
     /// <summary>
     /// 网站。
     /// </summary>
-    [Table("saas_Sites_Domains")]
+    [Table("core_Sites_Domains")]
     public class SiteDomain
     {
         /// <summary>
