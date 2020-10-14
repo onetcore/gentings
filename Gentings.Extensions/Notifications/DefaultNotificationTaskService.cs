@@ -1,5 +1,5 @@
 ﻿using Gentings.Data;
-using Gentings.Extensions.Settings;
+using Gentings.Settings;
 
 namespace Gentings.Extensions.Notifications
 {

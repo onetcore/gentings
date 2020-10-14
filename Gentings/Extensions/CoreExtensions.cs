@@ -1,6 +1,4 @@
-﻿using System.IO;
-using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings.Extensions
 {

@@ -1,4 +1,4 @@
-﻿namespace Gentings.SaaS
+﻿namespace Gentings.Sites
 {
     /// <summary>
     /// 支持SaaS的接口。
@@ -6,7 +6,7 @@
     public interface ISite
     {
         /// <summary>
-        /// 网站Id。
+        /// 用户Id。
         /// </summary>
         int SiteId { get; set; }
     }

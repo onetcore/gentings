@@ -1,11 +1,12 @@
-﻿namespace Gentings.SaaS
-{
-    using Data.Migrations;
+﻿using Gentings.Data.Migrations;
+using Gentings.Sites.Settings;
 
+namespace Gentings.Sites
+{
     /// <summary>
     /// 数据库迁移类。
     /// </summary>
-    public class SiteDataMigration : DataMigration
+    public abstract class SiteDataMigration : DataMigration
     {
         /// <summary>
         /// 优先级，在两个迁移数据需要先后时候使用。
@@ -25,7 +26,6 @@
                 .Column(x => x.ShortName)
                 .Column(x => x.Description)
                 .Column(x => x.Disabled)
-                .Column(x => x.UserId)
                 .Column(x => x.CreatedDate)
                 .Column(x => x.SettingValue)
                 .UniqueConstraint(x => x.SiteKey)

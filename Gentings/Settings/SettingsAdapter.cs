@@ -1,7 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gentings.Extensions;
 
-namespace Gentings.Extensions.Settings
+namespace Gentings.Settings
 {
     /// <summary>
     /// 网站配置数据库操作适配器。

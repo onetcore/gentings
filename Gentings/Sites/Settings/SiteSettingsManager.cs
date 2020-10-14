@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Gentings.Data;
 using Gentings.Extensions;
-using Gentings.Extensions.Settings;
+using Gentings.Settings;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites.Settings
 {
     /// <summary>
     /// 网站配置管理类。
@@ -27,7 +27,7 @@ namespace Gentings.SaaS
         /// <param name="siteId">网站Id。</param>
         /// <param name="key">唯一键。</param>
         /// <returns></returns>
-        protected virtual string GetCacheKey(int siteId, string key) => $"SAAS[{siteId}][{key}]";
+        protected virtual string GetCacheKey(int siteId, string key) => $"Sites[{siteId}][{key}]";
 
         /// <summary>
         /// 初始化类<see cref="SettingsManager"/>。

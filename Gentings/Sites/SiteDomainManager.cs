@@ -10,7 +10,7 @@ using Gentings.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites
 {
     /// <summary>
     /// 网站管理实现类。

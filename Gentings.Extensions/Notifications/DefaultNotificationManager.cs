@@ -1,5 +1,5 @@
 ﻿using Gentings.Data;
-using Gentings.Extensions.Settings;
+using Gentings.Settings;
 using Microsoft.AspNetCore.Http;
 
 namespace Gentings.Extensions.Notifications

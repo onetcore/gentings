@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Gentings.Data.Internal;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites
 {
     /// <summary>
     /// 网站处理接口。

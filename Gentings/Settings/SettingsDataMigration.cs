@@ -1,6 +1,6 @@
 ﻿using Gentings.Data.Migrations;
 
-namespace Gentings.Extensions.Settings
+namespace Gentings.Settings
 {
     /// <summary>
     /// 数据库迁移。

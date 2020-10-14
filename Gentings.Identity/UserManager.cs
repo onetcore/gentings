@@ -10,12 +10,12 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Gentings.Extensions;
-using Gentings.Extensions.Settings;
 using Gentings.Identity.Roles;
 using Microsoft.Extensions.Caching.Memory;
 using System.Data.Common;
 using Gentings.Identity.Avatars;
 using Gentings.Identity.Data;
+using Gentings.Settings;
 
 namespace Gentings.Identity
 {

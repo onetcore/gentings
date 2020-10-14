@@ -138,11 +138,11 @@ namespace Gentings.Extensions.SMS
                     message.Status = SmsStatus.Failured;
                 }
 
-                message.MsgId = result.MsgId;
                 await SaveAsync(message);
                 return false;
             }
 
+            message.MsgId = result.MsgId;
             message.Status = SmsStatus.Completed;
             message.SentDate = DateTimeOffset.Now;
             message.TryTimes = 0;

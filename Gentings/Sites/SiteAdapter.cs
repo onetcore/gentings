@@ -1,19 +1,20 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites
 {
     /// <summary>
     /// 网站配置数据库操作适配器。
     /// </summary>
-    [Table("saas_Sites")]
+    [Table("core_Sites")]
     public class SiteAdapter
     {
         /// <summary>
         /// Id。
         /// </summary>
-        [Identity]
+        [Key]
         public int Id { get; set; }
 
         /// <summary>
@@ -47,11 +48,6 @@ namespace Gentings.SaaS
         public bool Disabled { get; set; }
 
         /// <summary>
-        /// 用户Id。
-        /// </summary>
-        public int UserId { get; set; }
-
-        /// <summary>
         /// 添加时间。
         /// </summary>
         [NotUpdated]
@@ -76,7 +72,6 @@ namespace Gentings.SaaS
             site.SiteKey = SiteKey;
             site.SiteName = SiteName;
             site.ShortName = ShortName ?? SiteName;
-            site.UserId = UserId;
             site.CreatedDate = CreatedDate;
             return site;
         }
@@ -97,7 +92,6 @@ namespace Gentings.SaaS
                 SiteName = site.SiteName,
                 SiteKey = site.SiteKey,
                 ShortName = site.ShortName ?? site.SiteName,
-                UserId = site.UserId,
                 CreatedDate = site.CreatedDate,
             };
         }

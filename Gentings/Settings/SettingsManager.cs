@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using System.Threading.Tasks;
 using Gentings.Data;
-using System.Threading.Tasks;
+using Gentings.Extensions;
+using Microsoft.Extensions.Caching.Memory;
 
-namespace Gentings.Extensions.Settings
+namespace Gentings.Settings
 {
     /// <summary>
     /// 网站配置管理类。

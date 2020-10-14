@@ -23,6 +23,16 @@ namespace Gentings
         /// <summary>
         /// 添加Singleton服务。
         /// </summary>
+        /// <returns>返回构建实例。</returns>
+        public IServiceBuilder AddSingleton(Type serviceType, Type implementationType)
+        {
+            _services.AddSingleton(serviceType, implementationType);
+            return this;
+        }
+
+        /// <summary>
+        /// 添加Singleton服务。
+        /// </summary>
         /// <typeparam name="TService">服务类型。</typeparam>
         /// <returns>返回构建实例。</returns>
         public IServiceBuilder AddSingleton<TService>() where TService : class

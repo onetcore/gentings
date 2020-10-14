@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites.Settings
 {
     /// <summary>
     /// 配置管理接口。

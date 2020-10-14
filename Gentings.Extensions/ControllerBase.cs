@@ -2,7 +2,7 @@
 using Gentings.Extensions.EventLogging;
 using Gentings.Extensions.Notifications;
 using Gentings.Extensions.Properties;
-using Gentings.Extensions.Settings;
+using Gentings.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gentings.Settings;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites.Settings
 {
     /// <summary>
     /// 网站配置数据库操作适配器。
     /// </summary>
-    [Table("saas_Settings")]
-    public class SiteSettingsAdapter : Extensions.Settings.SettingsAdapter
+    [Table("core_Sites_Settings")]
+    public class SiteSettingsAdapter : SettingsAdapter
     {
         /// <summary>
         /// 网站Id。

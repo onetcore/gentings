@@ -1,30 +1,34 @@
 ﻿using System.Threading.Tasks;
-using Gentings.AspNetCore;
+using Gentings.Data.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites
 {
     /// <summary>
     /// 扩展类。
     /// </summary>
     public static class ServiceExtensions
     {
+        private class DefaultSiteDataMigration : SiteDataMigration
+        {
+
+        }
+
         /// <summary>
         /// 添加Saas服务。
         /// </summary>
         /// <typeparam name="TSite">网站实例类型。</typeparam>
         /// <param name="builder">服务构建实例对象。</param>
         /// <returns>返回服务构建实例对象。</returns>
-        public static IServiceBuilder AddSaaS<TSite>(this IServiceBuilder builder)
+        public static IServiceBuilder AddSites<TSite>(this IServiceBuilder builder)
             where TSite : Site, new()
         {
-            return builder.AddServices(services =>
-            {
-                services.AddSingleton(typeof(ISiteManager<>), typeof(SiteManager<>));
-                services.AddScoped(service => service.GetRequiredService<ISiteDomainManager>().Current);
-                services.AddScoped(service =>
+            return builder.AddTransients<IDataMigration, DefaultSiteDataMigration>()
+                .AddSingleton(typeof(ISiteManager<>), typeof(SiteManager<>))
+                .AddScoped(service => service.GetRequiredService<ISiteDomainManager>().Current)
+                .AddScoped(service =>
                 {
                     var current = service.GetRequiredService<SiteDomain>();
                     if (current == null)
@@ -32,7 +36,6 @@ namespace Gentings.SaaS
                     var siteManager = service.GetRequiredService<ISiteManager<TSite>>();
                     return siteManager.Find(current.SiteId);
                 });
-            });
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace Gentings.SaaS
         /// <typeparam name="TSite">网站实例类型。</typeparam>
         /// <param name="app">应用构建实例对象。</param>
         /// <returns>应用服务构建实例对象。</returns>
-        public static IApplicationBuilder UseSaaS<TSite>(this IApplicationBuilder app)
+        public static IApplicationBuilder UseSites<TSite>(this IApplicationBuilder app)
             where TSite : Site, new()
         {
             return app.UseMiddleware<SiteMiddleware<TSite>>();

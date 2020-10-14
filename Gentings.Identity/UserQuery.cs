@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using Gentings.Data;
 using Gentings.Identity.Roles;
+using Gentings.Identity.Scores;
 
 namespace Gentings.Identity
 {
@@ -58,7 +59,10 @@ namespace Gentings.Identity
         /// <param name="context">查询上下文。</param>
         protected override void Init(IQueryContext<TUser> context)
         {
-            context.WithNolock();
+            context.WithNolock()
+                .InnerJoin<UserScore>((u, us) => u.Id == us.UserId)
+                .Select()
+                .Select<UserScore>(x => x.Score);
             if (!string.IsNullOrWhiteSpace(Name))
                 context.Where(x => x.NickName.Contains(Name) || x.NormalizedUserName.Contains(Name));
             if (Start != null)

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Gentings.Extensions;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites
 {
     /// <summary>
     /// 配置基类。
@@ -13,7 +14,7 @@ namespace Gentings.SaaS
         /// <summary>
         /// Id。
         /// </summary>
-        [Identity]
+        [Key]
         [JsonIgnore]
         public int Id { get; set; }
 
@@ -46,12 +47,6 @@ namespace Gentings.SaaS
         /// </summary>
         [JsonIgnore]
         public bool Disabled { get; set; }
-
-        /// <summary>
-        /// 用户Id。
-        /// </summary>
-        [JsonIgnore]
-        public int UserId { get; set; }
 
         /// <summary>
         /// 添加时间。

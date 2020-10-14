@@ -1,6 +1,6 @@
 ﻿using Gentings.Data;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites
 {
     /// <summary>
     /// 网站查询实例。
@@ -21,7 +21,7 @@ namespace Gentings.SaaS
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
-        protected override void Init(IQueryContext<SiteAdapter> context)
+        protected internal override void Init(IQueryContext<SiteAdapter> context)
         {
             context.WithNolock();
             if (!string.IsNullOrWhiteSpace(Name))

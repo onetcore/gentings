@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
 
-namespace Gentings.SaaS
+namespace Gentings.Sites
 {
     /// <summary>
     /// 网站。
