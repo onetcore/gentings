@@ -21,6 +21,7 @@ namespace Gentings.Sites
         {
             builder.CreateTable<SiteAdapter>(table => table
                 .Column(x => x.Id)
+                .Column(x => x.UserId)
                 .Column(x => x.SiteKey)
                 .Column(x => x.SiteName)
                 .Column(x => x.ShortName)

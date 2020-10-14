@@ -148,7 +148,7 @@ namespace Gentings.Sites
         public virtual async Task<DataResult> SaveAsync(TSite site)
         {
             var adapter = SiteAdapter.FromSite(site);
-            if (Context.Any(x => x.SiteKey == adapter.SiteKey && x.Id != adapter.Id))
+            if (await Context.AnyAsync(x => x.SiteKey == adapter.SiteKey && x.Id != adapter.Id))
                 return DataAction.Duplicate;
             if (adapter.Id > 0)
                 return FromResult(adapter.Id, await Context.UpdateAsync(adapter), DataAction.Updated);

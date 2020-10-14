@@ -54,6 +54,11 @@ namespace Gentings.Identity
         public int Pid { get; set; }
 
         /// <summary>
+        /// 获取所有子账户的用户Id，设置此用户Id将获取当前Id下的所有级联子账户。
+        /// </summary>
+        public int Sid { get; set; }
+
+        /// <summary>
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
@@ -79,6 +84,9 @@ namespace Gentings.Identity
                 context.Where(x => x.NormalizedEmail.Contains(Email));
             if (Pid > 0)
                 context.Where(x => x.ParentId == Pid);
+            if (Sid > 0)
+                context.InnerJoin<IndexedUser>((u, iu) => u.Id == iu.IndexedId)
+                    .Where<IndexedUser>(x => x.UserId == Sid);
         }
     }
 

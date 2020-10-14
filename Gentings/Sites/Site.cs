@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using Gentings.Extensions;
 
@@ -14,9 +13,15 @@ namespace Gentings.Sites
         /// <summary>
         /// Id。
         /// </summary>
-        [Key]
+        [Identity]
         [JsonIgnore]
         public int Id { get; set; }
+
+        /// <summary>
+        /// 所属用户。
+        /// </summary>
+        [JsonIgnore]
+        public int UserId { get; set; }
 
         /// <summary>
         /// 唯一键。

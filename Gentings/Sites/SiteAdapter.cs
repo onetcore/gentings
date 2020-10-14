@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Gentings.Extensions;
 
@@ -14,8 +13,13 @@ namespace Gentings.Sites
         /// <summary>
         /// Id。
         /// </summary>
-        [Key]
+        [Identity]
         public int Id { get; set; }
+
+        /// <summary>
+        /// 所属用户。
+        /// </summary>
+        public int UserId { get; set; }
 
         /// <summary>
         /// 唯一键。
@@ -73,6 +77,7 @@ namespace Gentings.Sites
             site.SiteName = SiteName;
             site.ShortName = ShortName ?? SiteName;
             site.CreatedDate = CreatedDate;
+            site.UserId = UserId;
             return site;
         }
 
@@ -88,6 +93,7 @@ namespace Gentings.Sites
                 Description = site.Description,
                 Disabled = site.Disabled,
                 Id = site.Id,
+                UserId = site.UserId,
                 SettingValue = site.ToJsonString(),
                 SiteName = site.SiteName,
                 SiteKey = site.SiteKey,
