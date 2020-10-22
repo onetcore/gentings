@@ -86,28 +86,7 @@ namespace Gentings.Identity.Roles
                 throw new ArgumentNullException(nameof(role));
             }
             role.RoleLevel = await GetMaxRoleLevelAsync(role) + 1;//获取当前角色等级
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                if (await RoleContext.BeginTransactionAsync(async db =>
-                {
-                    if (!await db.CreateAsync(role, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    if (!await handler.OnCreatedAsync(db, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }, cancellationToken: cancellationToken))
-                {
-                    return IdentityResult.Success;
-                }
-            }
-            else if (await RoleContext.CreateAsync(role, cancellationToken))
+            if (await RoleContext.CreateAsync(role, cancellationToken))
             {
                 return IdentityResult.Success;
             }
@@ -128,28 +107,8 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                if (await RoleContext.BeginTransactionAsync(async db =>
-                {
-                    if (!await handler.OnUpdateAsync(db, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    if (!await db.UpdateAsync(role, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }, cancellationToken: cancellationToken))
-                {
-                    return IdentityResult.Success;
-                }
-            }
-            else if (await RoleContext.UpdateAsync(role, cancellationToken))
+            
+            if (await RoleContext.UpdateAsync(role, cancellationToken))
             {
                 return IdentityResult.Success;
             }
@@ -170,28 +129,8 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                if (await RoleContext.BeginTransactionAsync(async db =>
-                {
-                    if (!await handler.OnDeleteAsync(db, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    if (!await db.DeleteAsync(role.Id, cancellationToken))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }, cancellationToken: cancellationToken))
-                {
-                    return IdentityResult.Success;
-                }
-            }
-            else if (await RoleContext.DeleteAsync(role.Id, cancellationToken))
+            
+            if (await RoleContext.DeleteAsync(role.Id, cancellationToken))
             {
                 return IdentityResult.Success;
             }
@@ -210,28 +149,8 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                if (RoleContext.BeginTransaction(db =>
-                {
-                    if (!handler.OnDelete(db))
-                    {
-                        return false;
-                    }
-
-                    if (!db.Delete(role.Id))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }))
-                {
-                    return IdentityResult.Success;
-                }
-            }
-            else if (RoleContext.Delete(role.Id))
+            
+            if (RoleContext.Delete(role.Id))
             {
                 return IdentityResult.Success;
             }
@@ -367,28 +286,8 @@ namespace Gentings.Identity.Roles
                 throw new ArgumentNullException(nameof(role));
             }
             role.RoleLevel = GetMaxRoleLevel(role) + 1;//获取当前角色等级
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                if (RoleContext.BeginTransaction(db =>
-                {
-                    if (!db.Create(role))
-                    {
-                        return false;
-                    }
-
-                    if (!handler.OnCreated(db))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }))
-                {
-                    return IdentityResult.Success;
-                }
-            }
-            else if (RoleContext.Create(role))
+            
+            if (RoleContext.Create(role))
             {
                 return IdentityResult.Success;
             }
@@ -407,28 +306,8 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                if (RoleContext.BeginTransaction(db =>
-                {
-                    if (!handler.OnUpdate(db))
-                    {
-                        return false;
-                    }
-
-                    if (!db.Update(role))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }))
-                {
-                    return IdentityResult.Success;
-                }
-            }
-            else if (RoleContext.Update(role))
+            
+            if (RoleContext.Update(role))
             {
                 return IdentityResult.Success;
             }

@@ -11,7 +11,7 @@ namespace Gentings.Extensions
     /// <summary>
     /// 页面模型基类。
     /// </summary>
-    public abstract class ModelBase : Gentings.AspNetCore.ModelBase
+    public abstract class ModelBase : AspNetCore.ModelBase
     {
         /// <summary>
         /// 获取对象对比实例。

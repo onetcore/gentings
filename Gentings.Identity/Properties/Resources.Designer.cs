@@ -365,5 +365,41 @@ namespace Gentings.Identity.Properties {
                 return ResourceManager.GetString("PermissionValue_NotSet", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 消费 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Consume {
+            get {
+                return ResourceManager.GetString("ScoreType_Consume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 其他 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Others {
+            get {
+                return ResourceManager.GetString("ScoreType_Others", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 充值 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Recharge {
+            get {
+                return ResourceManager.GetString("ScoreType_Recharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退款 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Refund {
+            get {
+                return ResourceManager.GetString("ScoreType_Refund", resourceCulture);
+            }
+        }
     }
 }

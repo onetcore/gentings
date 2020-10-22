@@ -21,6 +21,7 @@
             builder.CreateTable<UserScore>(table => table
                 .Column(x => x.UserId)
                 .Column(x => x.Score)
+                .Column(x => x.RowVersion)
                 .Column(x => x.ScoredDate)
             );
             builder.CreateTable<ScoreLog>(table => table

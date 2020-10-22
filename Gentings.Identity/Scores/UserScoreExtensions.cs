@@ -19,11 +19,11 @@ namespace Gentings.Identity.Scores
         /// <param name="remark">描述。</param>
         /// <param name="scoreType">积分使用类型。</param>
         /// <returns>返回添加结果。</returns>
-        public static bool UpdateScore(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null)
+        public static UpdateScoreStatus UpdateScore(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null)
         {
             var userScore = db.AsQueryable().WithNolock().Where(x => x.UserId == userId).FirstOrDefault();
             if (userScore == null || userScore.Score < score)
-                return false;
+                return UpdateScoreStatus.NotEnough;
 
             var log = new ScoreLog();
             log.BeforeScore = userScore.Score;
@@ -33,15 +33,15 @@ namespace Gentings.Identity.Scores
             if (scoreType == null)
                 scoreType = score > 0 ? ScoreType.Consume : ScoreType.Recharge;
             log.ScoreType = scoreType.Value;
-            if (!db.Update(userId, new { userScore.Score, userScore.ScoredDate }))
-                return false;
+            if (!db.Update(x => x.UserId == userId && x.RowVersion == userScore.RowVersion, new { userScore.Score, userScore.ScoredDate }))
+                return UpdateScoreStatus.ScoreError;
 
             log.AfterScore = userScore.Score;
             log.Remark = remark;
             log.UserId = userId;
 
             var sdb = db.As<ScoreLog>();
-            return sdb.Create(log);
+            return sdb.Create(log) ? UpdateScoreStatus.Success : UpdateScoreStatus.LogError;
         }
 
         /// <summary>
@@ -54,11 +54,11 @@ namespace Gentings.Identity.Scores
         /// <param name="scoreType">积分使用类型。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回添加结果。</returns>
-        public static async Task<bool> UpdateScoreAsync(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null, CancellationToken cancellationToken = default)
+        public static async Task<UpdateScoreStatus> UpdateScoreAsync(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null, CancellationToken cancellationToken = default)
         {
             var userScore = await db.AsQueryable().WithNolock().Where(x => x.UserId == userId).FirstOrDefaultAsync(cancellationToken);
             if (userScore == null || userScore.Score < score)
-                return false;
+                return UpdateScoreStatus.NotEnough;
 
             var log = new ScoreLog();
             log.BeforeScore = userScore.Score;
@@ -68,15 +68,15 @@ namespace Gentings.Identity.Scores
             if (scoreType == null)
                 scoreType = score > 0 ? ScoreType.Consume : ScoreType.Recharge;
             log.ScoreType = scoreType.Value;
-            if (!await db.UpdateAsync(userId, new { userScore.Score, userScore.ScoredDate }, cancellationToken))
-                return false;
+            if (!await db.UpdateAsync(x => x.UserId == userId && x.RowVersion == userScore.RowVersion, new { userScore.Score, userScore.ScoredDate }, cancellationToken))
+                return UpdateScoreStatus.ScoreError;
 
             log.AfterScore = userScore.Score;
             log.Remark = remark;
             log.UserId = userId;
 
             var sdb = db.As<ScoreLog>();
-            return await sdb.CreateAsync(log, cancellationToken);
+            return await sdb.CreateAsync(log, cancellationToken) ? UpdateScoreStatus.Success : UpdateScoreStatus.LogError;
         }
     }
 }

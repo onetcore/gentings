@@ -562,6 +562,13 @@ namespace Gentings.Identity
         /// <returns>返回上传结果。</returns>
         Task<string> UploadAvatarAsync(int id, IFormFile avatarFile);
 
+        /// <summary>
+        /// 获取用户下的子级用户实例。
+        /// </summary>
+        /// <param name="userId">子级Id。</param>
+        /// <param name="parentId">父级Id。</param>
+        /// <returns>返回用户实例。</returns>
+        Task<TUser> FindIndexedUserAsync(int userId, int parentId);
     }
 
     /// <summary>

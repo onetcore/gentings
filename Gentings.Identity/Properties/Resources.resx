@@ -219,4 +219,16 @@
   <data name="PermissionValue_NotSet" xml:space="preserve">
     <value>未设置</value>
   </data>
+  <data name="ScoreType_Consume" xml:space="preserve">
+    <value>消费</value>
+  </data>
+  <data name="ScoreType_Others" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="ScoreType_Recharge" xml:space="preserve">
+    <value>充值</value>
+  </data>
+  <data name="ScoreType_Refund" xml:space="preserve">
+    <value>退款</value>
+  </data>
 </root>

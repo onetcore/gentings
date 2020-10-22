@@ -80,6 +80,16 @@ namespace Gentings.Identity
         public bool RequireConfirmedAccount { get; set; }
 
         /// <summary>
+        /// 积分名称。
+        /// </summary>
+        public string ScoreName { get; set; }
+
+        /// <summary>
+        /// 积分单位。
+        /// </summary>
+        public string ScoreUnit { get; set; }
+
+        /// <summary>
         /// 转换用户配置。
         /// </summary>
         /// <param name="optionsAccessor">代码中配置选项。</param>

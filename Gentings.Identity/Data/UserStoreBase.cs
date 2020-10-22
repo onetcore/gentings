@@ -171,10 +171,11 @@ namespace Gentings.Identity.Data
                 throw new ArgumentNullException(nameof(user));
             }
 
-            var handlers = ServiceProvider.GetServices<IUserEventHandler<TUser>>().ToList();
+            var handlers = ServiceProvider.GetServices<IUserEventHandler<TUser>>()
+                .OrderByDescending(x => x.Priority)
+                .ToList();
             if (handlers.Count > 0)
             {
-                handlers = handlers.OrderByDescending(x => x.Priority).ToList();
                 if (await UserContext.BeginTransactionAsync(async db =>
                 {
                     if (!await db.CreateAsync(user, cancellationToken))
@@ -235,10 +236,11 @@ namespace Gentings.Identity.Data
             {
                 throw new ArgumentNullException(nameof(user));
             }
-            var handlers = ServiceProvider.GetServices<IUserEventHandler<TUser>>().ToList();
+            var handlers = ServiceProvider.GetServices<IUserEventHandler<TUser>>()
+                .OrderByDescending(x => x.Priority)
+                .ToList();
             if (handlers.Count > 0)
             {
-                handlers = handlers.OrderByDescending(x => x.Priority).ToList();
                 if (await UserContext.BeginTransactionAsync(async db =>
                 {
                     foreach (var handler in handlers)

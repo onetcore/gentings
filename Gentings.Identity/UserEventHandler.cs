@@ -46,7 +46,6 @@ namespace Gentings.Identity
                 user.RoleId = maxRole.Id;
                 context.Update(user.Id, new { user.RoleId });
             }
-            //推广链接
             //子账号
             if (user.ParentId > 0)
             {

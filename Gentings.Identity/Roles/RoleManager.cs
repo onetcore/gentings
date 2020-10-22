@@ -323,24 +323,7 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                return FromResult(DbContext.RoleContext.BeginTransaction(db =>
-                {
-                    if (!db.MoveUp(role.Id, x => x.RoleLevel, MoveExpression(role)))
-                    {
-                        return false;
-                    }
-
-                    if (!handler.OnUpdate(db))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }), role);
-            }
+            
             return FromResult(DbContext.RoleContext.MoveUp(role.Id, x => x.RoleLevel, MoveExpression(role)), role);
         }
 
@@ -355,24 +338,7 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                return FromResult(DbContext.RoleContext.BeginTransaction(db =>
-                {
-                    if (!db.MoveDown(role.Id, x => x.RoleLevel, MoveExpression(role)))
-                    {
-                        return false;
-                    }
-
-                    if (!handler.OnUpdate(db))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }), role);
-            }
+            
             return FromResult(DbContext.RoleContext.MoveDown(role.Id, x => x.RoleLevel, MoveExpression(role)), role);
         }
 
@@ -397,24 +363,7 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                return FromResult(await DbContext.RoleContext.BeginTransactionAsync(async db =>
-                {
-                    if (!await db.MoveUpAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken))
-                    {
-                        return false;
-                    }
-
-                    if (!await handler.OnUpdateAsync(db, CancellationToken))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }, cancellationToken: CancellationToken), role);
-            }
+            
             return FromResult(await DbContext.RoleContext.MoveUpAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken), role);
         }
 
@@ -429,24 +378,7 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            // ReSharper disable once SuspiciousTypeConversion.Global
-            if (role is IRoleEventHandler<TRole> handler)
-            {
-                return FromResult(await DbContext.RoleContext.BeginTransactionAsync(async db =>
-                {
-                    if (!await db.MoveDownAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken))
-                    {
-                        return false;
-                    }
-
-                    if (!await handler.OnUpdateAsync(db, CancellationToken))
-                    {
-                        return false;
-                    }
-
-                    return true;
-                }, cancellationToken: CancellationToken), role);
-            }
+            
             return FromResult(await DbContext.RoleContext.MoveDownAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken), role);
         }
 

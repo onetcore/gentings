@@ -24,6 +24,12 @@ namespace Gentings.Identity.Scores
         public virtual int Score { get; set; }
 
         /// <summary>
+        /// 更新版本。
+        /// </summary>
+        [Timestamp]
+        public virtual byte[] RowVersion { get; set; }
+
+        /// <summary>
         /// 改变积分时间。
         /// </summary>
         [NotUpdated]

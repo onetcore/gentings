@@ -8,11 +8,11 @@
         /// <summary>
         /// 角色ID。
         /// </summary>
-        int RoleId { get; }
+        int RoleId { get; set; }
 
         /// <summary>
         /// 用户ID。
         /// </summary>
-        int UserId { get; }
+        int UserId { get; set; }
     }
 }

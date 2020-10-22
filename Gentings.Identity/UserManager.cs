@@ -693,6 +693,22 @@ namespace Gentings.Identity
         }
 
         /// <summary>
+        /// 获取用户下的子级用户实例。
+        /// </summary>
+        /// <param name="userId">子级Id。</param>
+        /// <param name="parentId">父级Id。</param>
+        /// <returns>返回用户实例。</returns>
+        public virtual Task<TUser> FindIndexedUserAsync(int userId, int parentId)
+        {
+            return DbContext.UserContext.AsQueryable()
+                .WithNolock()
+                .InnerJoin<IndexedUser>((u, iu) => u.Id == iu.IndexedId)
+                .Where(x => x.Id == userId)
+                .Where<IndexedUser>(x => x.UserId == parentId)
+                .FirstOrDefaultAsync();
+        }
+
+        /// <summary>
         /// 初始化类<see cref="UserManager{TUser,TUserClaim,TUserLogin,TUserToken,TIdentitySettings}"/>。
         /// </summary>
         /// <param name="store">用户存储接口。</param>

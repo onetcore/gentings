@@ -44,7 +44,10 @@ namespace Gentings.Identity
                 var userId = httpContext.User.GetUserId();
                 if (userId > 0)
                 {
-                    return httpContext.RequestServices.GetRequiredService<IDbContext<TUser>>().Find(userId);
+                    return httpContext.RequestServices.GetRequiredService<IDbContext<TUser>>()
+                        .AsQueryable().WithNolock()
+                        .Where(x => x.Id == userId)
+                        .FirstOrDefault();
                 }
 
                 return null;
@@ -75,7 +78,10 @@ namespace Gentings.Identity
                 var userId = httpContext.User.GetUserId();
                 if (userId > 0)
                 {
-                    return await httpContext.RequestServices.GetRequiredService<IDbContext<TUser>>().FindAsync(userId);
+                    return await httpContext.RequestServices.GetRequiredService<IDbContext<TUser>>()
+                        .AsQueryable().WithNolock()
+                        .Where(x => x.Id == userId)
+                        .FirstOrDefaultAsync();
                 }
 
                 return null;
