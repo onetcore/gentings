@@ -122,16 +122,7 @@ namespace Gentings
         {
             var resourceManager = _localizers.GetOrAdd(type, t =>
             {
-                Assembly assembly;
-                if (t == NullLocalizer.InstanceType)
-                {
-                    assembly = Assembly.GetEntryAssembly();
-                }
-                else
-                {
-                    assembly = t.Assembly;
-                }
-
+                var assembly = t == NullLocalizer.InstanceType ? Assembly.GetEntryAssembly() : t.Assembly;
                 var baseName = assembly.GetManifestResourceNames()
                     .SingleOrDefault(x => x.EndsWith(Resources));
                 if (baseName == null)
@@ -173,5 +164,35 @@ namespace Gentings
 
             return string.Format(resource, args);
         }
+
+        /// <summary>
+        /// 获取当前键的本地化字符串实例。
+        /// </summary>
+        /// <param name="key">资源键。</param>
+        /// <returns>返回当前本地化字符串。</returns>
+        public virtual string this[Enum key] => GetString(key);
+
+        /// <summary>
+        /// 获取当前键的本地化字符串实例。
+        /// </summary>
+        /// <param name="key">资源键。</param>
+        /// <param name="args">格式化参数。</param>
+        /// <returns>返回当前本地化字符串。</returns>
+        public virtual string this[Enum key, params object[] args] => GetString(key, args);
+
+        /// <summary>
+        /// 获取当前键的本地化字符串实例（网站程序集）。
+        /// </summary>
+        /// <param name="key">资源键。</param>
+        /// <returns>返回当前本地化字符串。</returns>
+        public virtual string this[string key] => GetString(key);
+
+        /// <summary>
+        /// 获取当前键的本地化字符串实例（网站程序集）。
+        /// </summary>
+        /// <param name="key">资源键。</param>
+        /// <param name="args">格式化参数。</param>
+        /// <returns>返回当前本地化字符串。</returns>
+        public virtual string this[string key, params object[] args] => GetString(key, args);
     }
 }

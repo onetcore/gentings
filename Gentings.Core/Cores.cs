@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
@@ -432,6 +433,22 @@ namespace Gentings
             }
 
             return string.Join(separator, list);
+        }
+
+        /// <summary>
+        /// 将字符串分割为数值列表。
+        /// </summary>
+        /// <param name="items">当前数值字符串。</param>
+        /// <param name="separator">分隔符。</param>
+        /// <returns>返回数值列表。</returns>
+        public static int[] ToInt32Array(this string items, string separator = ",")
+        {
+            if (string.IsNullOrEmpty(items))
+                return null;
+            return items.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(x => Convert.ToInt32(x.Trim()))
+                .Distinct()
+                .ToArray();
         }
 
         /// <summary>
