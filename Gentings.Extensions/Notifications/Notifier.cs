@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Gentings.Extensions.Notifications
 {
@@ -43,7 +42,14 @@ namespace Gentings.Extensions.Notifications
         /// </summary>
         /// <param name="typeName">类型名称。</param>
         /// <returns>返回类型Id。</returns>
-        protected int GetTypeId(string typeName) => _typeManager.Find(x => x.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase))?.Id ?? 0;
+        protected int GetTypeId(string typeName) => _typeManager.GetOrCreate(typeName)?.Id ?? 0;
+
+        /// <summary>
+        /// 通过类型名称获取类型Id。
+        /// </summary>
+        /// <param name="typeName">类型名称。</param>
+        /// <returns>返回类型Id。</returns>
+        protected async Task<int> GetTypeIdAsync(string typeName) => (await _typeManager.GetOrCreateAsync(typeName))?.Id ?? 0;
 
         /// <summary>
         /// 发送通知。
@@ -88,8 +94,8 @@ namespace Gentings.Extensions.Notifications
         /// <param name="typeName">通知类型。</param>
         /// <param name="message">通知内容。</param>
         /// <param name="args">通知内容参数。</param>
-        public virtual Task SendAsync(int userId, string typeName, string message, params object[] args) =>
-            SendAsync(userId, GetTypeId(typeName), message, args);
+        public virtual async Task SendAsync(int userId, string typeName, string message, params object[] args) =>
+            await SendAsync(userId, await GetTypeIdAsync(typeName), message, args);
 
         /// <summary>
         /// 发送通知。
@@ -134,7 +140,7 @@ namespace Gentings.Extensions.Notifications
         /// <param name="typeName">通知类型。</param>
         /// <param name="message">通知内容。</param>
         /// <param name="args">通知内容参数。</param>
-        public virtual Task SendAsync(int[] userId, string typeName, string message, params object[] args) =>
-            SendAsync(userId, GetTypeId(typeName), message, args);
+        public virtual async Task SendAsync(int[] userId, string typeName, string message, params object[] args) =>
+            await SendAsync(userId, await GetTypeIdAsync(typeName), message, args);
     }
 }

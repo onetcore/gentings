@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data;
@@ -31,6 +32,30 @@ namespace Gentings.Extensions.Notifications
         /// 当前用户ID。
         /// </summary>
         protected int UserId => _httpContextAccessor.HttpContext.User.GetUserId();
+
+        /// <summary>
+        /// 判断是否重复。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <returns>返回判断结果。</returns>
+        public override bool IsDuplicated(Notification model)
+        {
+            var date = DateTimeOffset.Now.AddHours(-_settingsManager.GetSettings<NotificationSettings>().DuplicateHours);
+            return Context.Any(x => x.UserId == model.UserId && x.Message == model.Message && x.CreatedDate > date);
+        }
+
+        /// <summary>
+        /// 判断是否重复。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <returns>返回判断结果。</returns>
+        /// <param name="cancellationToken">取消标识。</param>
+        public override async Task<bool> IsDuplicatedAsync(Notification model, CancellationToken cancellationToken = default)
+        {
+            var settings = await _settingsManager.GetSettingsAsync<NotificationSettings>();
+            var date = DateTimeOffset.Now.AddHours(-settings.DuplicateHours);
+            return await Context.AnyAsync(x => x.UserId == model.UserId && x.Message == model.Message && x.CreatedDate > date, cancellationToken);
+        }
 
         /// <summary>
         /// 加载当前用户最新得通知。
@@ -102,12 +127,16 @@ namespace Gentings.Extensions.Notifications
         /// <returns>返回保存结果。</returns>
         public virtual DataResult Save(int[] userId, Notification model)
         {
+            var settings = _settingsManager.GetSettings<NotificationSettings>();
+            var date = DateTimeOffset.Now.AddHours(-settings.DuplicateHours);
             if (Context.BeginTransaction(db =>
             {
                 foreach (var id in userId)
                 {
                     model.Id = 0;
                     model.UserId = id;
+                    if (db.Any(x => x.UserId == model.UserId && x.Message == model.Message && x.CreatedDate > date))
+                        continue;
                     db.Create(model);
                 }
                 return true;
@@ -127,12 +156,16 @@ namespace Gentings.Extensions.Notifications
         /// <returns>返回保存结果。</returns>
         public virtual async Task<DataResult> SaveAsync(int[] userId, Notification model)
         {
+            var settings = await _settingsManager.GetSettingsAsync<NotificationSettings>();
+            var date = DateTimeOffset.Now.AddHours(-settings.DuplicateHours);
             if (await Context.BeginTransactionAsync(async db =>
             {
                 foreach (var id in userId)
                 {
                     model.Id = 0;
                     model.UserId = id;
+                    if (await db.AnyAsync(x => x.UserId == model.UserId && x.Message == model.Message && x.CreatedDate > date))
+                        continue;
                     await db.CreateAsync(model);
                 }
                 return true;
