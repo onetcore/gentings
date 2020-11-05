@@ -180,6 +180,9 @@
   <data name="SaveSettingsFailured" xml:space="preserve">
     <value>保存配置失败</value>
   </data>
+  <data name="ServiceType_All" xml:space="preserve">
+    <value>三网通</value>
+  </data>
   <data name="ServiceType_Mobile" xml:space="preserve">
     <value>移动</value>
   </data>

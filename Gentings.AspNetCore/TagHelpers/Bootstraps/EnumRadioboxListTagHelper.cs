@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Gentings.AspNetCore.Properties;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -22,6 +23,18 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         }
 
         /// <summary>
+        /// 忽略值。
+        /// </summary>
+        [HtmlAttributeName("ignore")]
+        public Enum? IgnoreValue { get; set; }
+
+        /// <summary>
+        /// 忽略值。
+        /// </summary>
+        [HtmlAttributeName("ignores")]
+        public Enum[] IgnoreValues { get; set; }
+
+        /// <summary>
         /// 附加复选项目列表，文本/值。
         /// </summary>
         /// <param name="items">复选框项目列表实例。</param>
@@ -33,6 +46,15 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 Init(items, value.GetType());
             else
                 throw new Exception(Resources.EnumDropdownListTagHelper_TypeNotFound);
+        }
+
+        private bool IsIgnore(Enum value)
+        {
+            if (IgnoreValue != null)
+                return Equals(value, IgnoreValue);
+            if (IgnoreValues?.Length > 0)
+                return IgnoreValues.Contains(value);
+            return false;
         }
 
         private object _value;
@@ -50,20 +72,13 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             }
         }
 
-        /// <summary>
-        /// 最小值。
-        /// </summary>
-        [HtmlAttributeName("min")]
-        public int MinValue { get; set; }
-
         private void Init(IDictionary<string, string> items, Type type)
         {
             if (type.IsNullableType())
                 type = Nullable.GetUnderlyingType(type);
             foreach (Enum value in Enum.GetValues(type))
             {
-                if (MinValue > (int)(object)value)
-                    continue;
+                if (IsIgnore(value)) continue;
                 items.Add(_localizer.GetString(value), value.ToString());
             }
         }

@@ -250,6 +250,15 @@ namespace Gentings.Extensions.Properties {
         }
         
         /// <summary>
+        ///   查找类似 三网通 的本地化字符串。
+        /// </summary>
+        internal static string ServiceType_All {
+            get {
+                return ResourceManager.GetString("ServiceType_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 移动 的本地化字符串。
         /// </summary>
         internal static string ServiceType_Mobile {

@@ -47,15 +47,15 @@ namespace Gentings.AspNetCore.AdminMenus
         /// </summary>
         public int Priority { get; private set; }
 
-        private readonly IDictionary<string, MenuItem> _children =
-            new Dictionary<string, MenuItem>(StringComparer.OrdinalIgnoreCase);
-
         private string _controller;
         private string _action;
         private string _page;
         private string _pageHandler;
         private RouteValueDictionary _routeValues;
         private string _href;
+
+        private readonly IDictionary<string, MenuItem> _children =
+            new Dictionary<string, MenuItem>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// 返回一个循环访问集合的枚举器。
@@ -284,5 +284,51 @@ namespace Gentings.AspNetCore.AdminMenus
         /// 权限名称。
         /// </summary>
         public string PermissionName { get; private set; }
+
+        private readonly IDictionary<string, object> _extensions =
+            new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        /// <summary>
+        /// 获取或设置扩展属性实例。
+        /// </summary>
+        /// <param name="name">扩展属性名称。</param>
+        /// <returns>返回扩展属性值。</returns>
+        public object this[string name]
+        {
+            get
+            {
+                if (_extensions.TryGetValue(name, out var value))
+                    return value;
+                return null;
+            }
+            set => _extensions[name] = value;
+        }
+
+        /// <summary>
+        /// 设置扩展属性。
+        /// </summary>
+        /// <param name="name">扩展属性名称。</param>
+        /// <param name="value">扩展属性值。</param>
+        public void Set(string name, object value) => this[name] = value;
+
+        /// <summary>
+        /// 获取当前扩展属性值。
+        /// </summary>
+        /// <param name="name">扩展属性名称。</param>
+        /// <returns>返回当前扩展属性值。</returns>
+        public string Get(string name) => this[name]?.ToString();
+
+        /// <summary>
+        /// 获取当前扩展属性值。
+        /// </summary>
+        /// <param name="name">扩展属性名称。</param>
+        /// <param name="defaultValue">默认值。</param>
+        /// <returns>返回当前扩展属性值。</returns>
+        public TValue Get<TValue>(string name, TValue defaultValue = default)
+        {
+            var value = this[name];
+            if (value == null)
+                return defaultValue;
+            return (TValue)value;
+        }
     }
 }

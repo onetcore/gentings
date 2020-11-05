@@ -1,8 +1,11 @@
-﻿namespace Gentings.Extensions.SMS
+﻿using System;
+
+namespace Gentings.Extensions.SMS
 {
     /// <summary>
     /// 运营商。
     /// </summary>
+    [Flags]
     public enum ServiceType
     {
         /// <summary>
@@ -20,6 +23,10 @@
         /// <summary>
         /// 联通网关
         /// </summary>
-        Unicom = 3
+        Unicom = 4,
+        /// <summary>
+        /// 三网通。
+        /// </summary>
+        All = Mobile | Telecom | Unicom,
     }
 }
