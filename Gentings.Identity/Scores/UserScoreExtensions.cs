@@ -19,7 +19,7 @@ namespace Gentings.Identity.Scores
         /// <param name="remark">描述。</param>
         /// <param name="scoreType">积分使用类型。</param>
         /// <returns>返回添加结果。</returns>
-        public static UpdateScoreStatus UpdateScore(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null)
+        public static UpdateScoreResult UpdateScore(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null)
         {
             var userScore = db.AsQueryable().WithNolock().Where(x => x.UserId == userId).FirstOrDefault();
             if (userScore == null || userScore.Score < score)
@@ -41,7 +41,9 @@ namespace Gentings.Identity.Scores
             log.UserId = userId;
 
             var sdb = db.As<ScoreLog>();
-            return sdb.Create(log) ? UpdateScoreStatus.Success : UpdateScoreStatus.LogError;
+            if (sdb.Create(log))
+                return log.Id;
+            return UpdateScoreStatus.LogError;
         }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace Gentings.Identity.Scores
         /// <param name="scoreType">积分使用类型。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回添加结果。</returns>
-        public static async Task<UpdateScoreStatus> UpdateScoreAsync(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null, CancellationToken cancellationToken = default)
+        public static async Task<UpdateScoreResult> UpdateScoreAsync(this IDbTransactionContext<UserScore> db, int userId, int score, string remark = null, ScoreType? scoreType = null, CancellationToken cancellationToken = default)
         {
             var userScore = await db.AsQueryable().WithNolock().Where(x => x.UserId == userId).FirstOrDefaultAsync(cancellationToken);
             if (userScore == null || userScore.Score < score)
@@ -76,7 +78,9 @@ namespace Gentings.Identity.Scores
             log.UserId = userId;
 
             var sdb = db.As<ScoreLog>();
-            return await sdb.CreateAsync(log, cancellationToken) ? UpdateScoreStatus.Success : UpdateScoreStatus.LogError;
+            if (await sdb.CreateAsync(log, cancellationToken))
+                return log.Id;
+            return UpdateScoreStatus.LogError;
         }
     }
 }

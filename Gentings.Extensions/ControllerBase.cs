@@ -11,7 +11,7 @@ namespace Gentings.Extensions
     /// <summary>
     /// 控制器基类。
     /// </summary>
-    public abstract class ControllerBase : Gentings.AspNetCore.ControllerBase
+    public abstract class ControllerBase : AspNetCore.ControllerBase
     {
         /// <summary>
         /// 获取对象对比实例。

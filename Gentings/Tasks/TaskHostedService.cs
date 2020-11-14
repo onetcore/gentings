@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Migrations;
+using Gentings.Properties;
 using Microsoft.Extensions.Logging;
 
 namespace Gentings.Tasks
@@ -11,16 +12,23 @@ namespace Gentings.Tasks
     /// <summary>
     /// 后台服务。
     /// </summary>
-    public class TaskHostedService : Microsoft.Extensions.Hosting.BackgroundService
+    public class TaskHostedService : BackgroundService
     {
         private readonly IEnumerable<ITaskService> _services;
         private readonly ITaskManager _taskManager;
-
-        private readonly ConcurrentDictionary<string, TaskContext> _contexts =
-            new ConcurrentDictionary<string, TaskContext>(StringComparer.OrdinalIgnoreCase);
-
+        private readonly ConcurrentDictionary<string, TaskContext> _contexts = new ConcurrentDictionary<string, TaskContext>(StringComparer.OrdinalIgnoreCase);
         private DateTime _updatedDate = DateTime.MinValue;
         private readonly ILogger _logger;
+
+        /// <summary>
+        /// 名称。
+        /// </summary>
+        public override string Name => Resources.TaskHostedService;
+
+        /// <summary>
+        /// 描述。
+        /// </summary>
+        public override string Description => Resources.TaskHostedService_Description;
 
         /// <summary>
         /// 初始化<see cref="TaskHostedService"/>。
@@ -140,11 +148,10 @@ namespace Gentings.Tasks
                         await Task.Delay(100, cancellationToken);
                     }
                 }
-                catch
+                finally
                 {
+                    await Task.Delay(500, cancellationToken);
                 }
-
-                await Task.Delay(500, cancellationToken);
             }
 
             _logger.LogInformation("关闭后台任务执行...");

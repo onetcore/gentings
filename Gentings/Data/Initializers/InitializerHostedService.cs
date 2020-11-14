@@ -22,6 +22,16 @@ namespace Gentings.Data.Initializers
         private readonly ILogger _logger;
 
         /// <summary>
+        /// 名称。
+        /// </summary>
+        public override string Name => Resources.InitializerHostedService;
+
+        /// <summary>
+        /// 描述。
+        /// </summary>
+        public override string Description => Resources.InitializerHostedService_Description;
+
+        /// <summary>
         /// 当前安装状态。
         /// </summary>
         public static InitializerStatus Current
@@ -105,6 +115,7 @@ namespace Gentings.Data.Initializers
             await _installerManager.SaveRegistrationAsync(registration);
             Current = registration.Status;
             _logger.LogInformation(Current == InitializerStatus.Failured ? "启动网站失败。" : "启动网站完成。");
+            IsRunning = false;
         }
 
         /// <summary>

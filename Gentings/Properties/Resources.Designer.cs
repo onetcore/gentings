@@ -268,6 +268,24 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 应用程序初始进程 的本地化字符串。
+        /// </summary>
+        internal static string InitializerHostedService {
+            get {
+                return ResourceManager.GetString("InitializerHostedService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 应用程序执行开始时执行的后台服务，数据库初始化等操作 的本地化字符串。
+        /// </summary>
+        internal static string InitializerHostedService_Description {
+            get {
+                return ResourceManager.GetString("InitializerHostedService_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 日 的本地化字符串。
         /// </summary>
         internal static string Interval_Day {
@@ -426,6 +444,24 @@ namespace Gentings.Properties {
         internal static string TaskExecuteError {
             get {
                 return ResourceManager.GetString("TaskExecuteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 后台任务进程 的本地化字符串。
+        /// </summary>
+        internal static string TaskHostedService {
+            get {
+                return ResourceManager.GetString("TaskHostedService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 用于执行后台任务定时服务，后台单独线程监听定时任务操作 的本地化字符串。
+        /// </summary>
+        internal static string TaskHostedService_Description {
+            get {
+                return ResourceManager.GetString("TaskHostedService_Description", resourceCulture);
             }
         }
         

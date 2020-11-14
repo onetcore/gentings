@@ -115,6 +115,13 @@ namespace Gentings.Sockets
             });
 
         /// <summary>
+        /// 读取字符串。
+        /// </summary>
+        /// <param name="size">字节大小。</param>
+        /// <returns>返回当前字符串实例。</returns>
+        public string ReadASCII(int size) => ReadString(size, Encoding.ASCII);
+
+        /// <summary>
         /// 读取一个字节。
         /// </summary>
         /// <returns>返回读取结果。</returns>
