@@ -123,6 +123,9 @@
   <data name="DefaultPermissions_Administrator_Name" xml:space="preserve">
     <value>初始配置管理</value>
   </data>
+  <data name="DefaultScoreName" xml:space="preserve">
+    <value>积分</value>
+  </data>
   <data name="ErrorDescriptor_ConcurrencyFailure" xml:space="preserve">
     <value>并发处理错误，对象已经被更改。</value>
   </data>

@@ -51,7 +51,7 @@ namespace Gentings.Extensions.SMS
         public static int GetSmsCount(this string msg)
         {
             if (string.IsNullOrEmpty(msg)) return 0;
-            if (msg.Length > 70) return (int) Math.Ceiling(msg.Length / 65.0);
+            if (msg.Length > 70) return (int)Math.Ceiling(msg.Length * 1.0 / SmsSettings.MultiSize);
             return 1;
         }
     }

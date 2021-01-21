@@ -534,5 +534,22 @@ namespace Gentings
                 return name;
             return info.GetCustomAttribute<DescriptionAttribute>()?.Description ?? name;
         }
+
+        /// <summary>
+        /// 截取数组中的区间并且返回数组实例。
+        /// </summary>
+        /// <typeparam name="TModel">模型类型。</typeparam>
+        /// <param name="array">当前数组实例。</param>
+        /// <param name="index">开始索引。</param>
+        /// <param name="length">长度。</param>
+        /// <returns>返回截取的数组列表。</returns>
+        public static IEnumerable<TModel> Slice<TModel>(this IEnumerable<TModel> array, int index, int length)
+        {
+            length = Math.Min(index + length, array.Count());
+            for (var i = index; i < length; i++)
+            {
+                yield return array.ElementAt(i);
+            }
+        }
     }
 }

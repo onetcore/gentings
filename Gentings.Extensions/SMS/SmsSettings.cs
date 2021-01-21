@@ -24,6 +24,11 @@ namespace Gentings.Extensions.SMS
         public const int BatchSize = 100;
 
         /// <summary>
+        /// 长短信每条最大字符数。
+        /// </summary>
+        public const int MultiSize = 65;
+
+        /// <summary>
         /// 获取或设置唯一Id。
         /// </summary>
         [Identity]

@@ -147,8 +147,7 @@ namespace Gentings.Data
         /// <param name="parameters">参数（字典实例或者匿名对象）。</param>
         /// <param name="stringComparer">属性字符串对比实例。</param>
         /// <returns>返回键值对字典实例。</returns>
-        public static IDictionary<string, object> ToDictionary(this object parameters,
-            StringComparer stringComparer = null)
+        public static IDictionary<string, object> ToDictionary(this object parameters,  StringComparer stringComparer = null)
         {
             if (parameters is IDictionary<string, object> dic)
             {

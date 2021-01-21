@@ -1,4 +1,5 @@
 ﻿using System;
+using Gentings.Identity.Properties;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 
@@ -22,10 +23,10 @@ namespace Gentings.Identity
         /// <summary>
         /// 密码最小长度。
         /// </summary>
-        public int RequiredLength { get; set; } = 6;
+        public int RequiredPasswordLength { get; set; } = 6;
 
         /// <summary>
-        /// 密码唯一字符数。
+        /// 密码必须包含的最小唯一字符数。
         /// </summary>
         public int RequiredUniqueChars { get; set; } = 1;
 
@@ -52,7 +53,7 @@ namespace Gentings.Identity
         /// <summary>
         /// 对新用户是否开启锁定功能。
         /// </summary>
-        public bool AllowedForNewUsers { get; set; } = true;
+        public bool AllowedLockoutForNewUsers { get; set; } = true;
 
         /// <summary>
         /// 用户尝试登录失败的次数，当达到这个次数时账号将被锁定。
@@ -82,7 +83,7 @@ namespace Gentings.Identity
         /// <summary>
         /// 积分名称。
         /// </summary>
-        public string ScoreName { get; set; }
+        public string ScoreName { get; set; } = Resources.DefaultScoreName;
 
         /// <summary>
         /// 积分单位。
@@ -108,12 +109,12 @@ namespace Gentings.Identity
                 RequireLowercase = RequireLowercase,
                 RequireNonAlphanumeric = RequireNonAlphanumeric,
                 RequireUppercase = RequireUppercase,
-                RequiredLength = RequiredLength,
+                RequiredLength = RequiredPasswordLength,
                 RequiredUniqueChars = RequiredUniqueChars
             };
             options.Lockout = new LockoutOptions
             {
-                AllowedForNewUsers = AllowedForNewUsers,
+                AllowedForNewUsers = AllowedLockoutForNewUsers,
                 DefaultLockoutTimeSpan = DefaultLockoutTimeSpan,
                 MaxFailedAccessAttempts = MaxFailedAccessAttempts
             };
