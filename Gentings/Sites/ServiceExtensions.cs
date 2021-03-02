@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Gentings.Data.Initializers;
 using Gentings.Data.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -35,7 +36,8 @@ namespace Gentings.Sites
                         return null;
                     var siteManager = service.GetRequiredService<ISiteManager<TSite>>();
                     return siteManager.Find(current.SiteId);
-                });
+                })
+                .AddTransients<IInitializer, SiteInitializer<TSite>>();
         }
 
         /// <summary>

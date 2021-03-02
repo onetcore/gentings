@@ -211,6 +211,32 @@ namespace Gentings.Sites
         }
 
         /// <summary>
+        /// 获取激活的网站列表。
+        /// </summary>
+        /// <returns>返回所有激活的网站列表。</returns>
+        public virtual IEnumerable<Site> Load()
+        {
+            return Context.As<Site>()
+                .AsQueryable()
+                .WithNolock()
+                .Where(x => !x.Disabled)
+                .AsEnumerable();
+        }
+
+        /// <summary>
+        /// 获取激活的网站列表。
+        /// </summary>
+        /// <returns>返回所有激活的网站列表。</returns>
+        public virtual Task<IEnumerable<Site>> LoadAsync()
+        {
+            return Context.As<Site>()
+                .AsQueryable()
+                .WithNolock()
+                .Where(x => !x.Disabled)
+                .AsEnumerableAsync();
+        }
+
+        /// <summary>
         /// 分页查询网站实例。
         /// </summary>
         /// <param name="query">网站查询实例。</param>
@@ -268,6 +294,24 @@ namespace Gentings.Sites
         public virtual async Task<bool> DisabledAsync(int[] ids)
         {
             return Refresh(await Context.UpdateAsync(x => x.Id.Included(ids), new { Disabled = true }), ids);
+        }
+
+        /// <summary>
+        /// 是否已经有网站实例。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        public virtual bool Any()
+        {
+            return Context.Any();
+        }
+
+        /// <summary>
+        /// 是否已经有网站实例。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        public virtual Task<bool> AnyAsync()
+        {
+            return Context.AnyAsync();
         }
     }
 }

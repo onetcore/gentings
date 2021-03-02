@@ -98,5 +98,10 @@ namespace Gentings.Sites
         /// <returns>返回添加结果。</returns>
         Task<bool> CreateDefaultSiteAsync(string siteKey, string siteName, string shortName, string description,
             IEnumerable<string> domains);
+
+        /// <summary>
+        /// 刷新缓存。
+        /// </summary>
+        void Refresh();
     }
 }

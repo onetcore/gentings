@@ -6,7 +6,7 @@
     public interface ISite
     {
         /// <summary>
-        /// 用户Id。
+        /// 网站Id。
         /// </summary>
         int SiteId { get; set; }
     }

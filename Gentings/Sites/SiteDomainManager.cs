@@ -81,7 +81,7 @@ namespace Gentings.Sites
         {
             if (result)
             {
-                _cache.Remove(_cacheKey);
+                Refresh();
                 return succeed;
             }
             return (DataAction)(-(int)succeed);
@@ -219,11 +219,19 @@ namespace Gentings.Sites
                 return false;
             }))
             {
-                _cache.Remove(_cacheKey);
+                Refresh();
                 return true;
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 刷新缓存。
+        /// </summary>
+        public virtual void Refresh()
+        {
+            _cache.Remove(_cacheKey);
         }
 
         /// <summary>

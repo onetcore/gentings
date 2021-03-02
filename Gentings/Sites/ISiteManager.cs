@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Gentings.Extensions;
 
 namespace Gentings.Sites
@@ -53,6 +54,18 @@ namespace Gentings.Sites
         Task<DataResult> DeleteAsync(int[] ids);
 
         /// <summary>
+        /// 获取激活的网站列表。
+        /// </summary>
+        /// <returns>返回所有激活的网站列表。</returns>
+        IEnumerable<Site> Load();
+
+        /// <summary>
+        /// 获取激活的网站列表。
+        /// </summary>
+        /// <returns>返回所有激活的网站列表。</returns>
+        Task<IEnumerable<Site>> LoadAsync();
+
+        /// <summary>
         /// 分页查询网站实例。
         /// </summary>
         /// <param name="query">网站查询实例。</param>
@@ -93,5 +106,17 @@ namespace Gentings.Sites
         /// <param name="ids">禁用Id列表。</param>
         /// <returns>返回禁用结果。</returns>
         Task<bool> DisabledAsync(int[] ids);
+
+        /// <summary>
+        /// 是否已经有网站实例。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        bool Any();
+
+        /// <summary>
+        /// 是否已经有网站实例。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        Task<bool> AnyAsync();
     }
 }
