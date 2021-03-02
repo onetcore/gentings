@@ -226,7 +226,7 @@ namespace Gentings.Identity.Scores
                     .WithNolock()
                     .Where(x => x.UserId == log.UserId)
                     .FirstOrDefaultAsync();
-                score.Score += log.Score;
+                score.Score -= log.Score;
                 score.ScoredDate = DateTimeOffset.Now;
                 if (await db.UpdateAsync(x => x.UserId == score.UserId && x.RowVersion == score.RowVersion,
                     new { score.Score, score.ScoredDate }))
