@@ -8,7 +8,7 @@ namespace Gentings.Identity
     /// <summary>
     /// 用户登录提供者的一些信息存储。
     /// </summary>
-    [Table("core_Users_Tokens")]
+    [Table("sec_Users_Tokens")]
     public abstract class UserTokenBase : IdentityUserToken<int>
     {
         /// <summary>

@@ -40,7 +40,25 @@ namespace Gentings.Identity.Scores
         Task<bool> IsEnoughAsync(int userId, int score);
 
         /// <summary>
-        /// 充值积分。
+        /// 充值积分，直接增加用户积分。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="score">用户积分。</param>
+        /// <param name="remark">备注。</param>
+        /// <returns>返回充值结果。</returns>
+        UpdateScoreResult Recharge(int userId, int score, string remark = null);
+
+        /// <summary>
+        /// 充值积分，直接增加用户积分。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="score">用户积分。</param>
+        /// <param name="remark">备注。</param>
+        /// <returns>返回充值结果。</returns>
+        Task<UpdateScoreResult> RechargeAsync(int userId, int score, string remark = null);
+
+        /// <summary>
+        /// 充值积分，扣除<paramref name="sourceId"/>的积分添加到<paramref name="userId"/>中。
         /// </summary>
         /// <param name="sourceId">原始用户Id。</param>
         /// <param name="userId">用户Id。</param>
@@ -50,7 +68,7 @@ namespace Gentings.Identity.Scores
         UpdateScoreResult Recharge(int sourceId, int userId, int score, string remark = null);
 
         /// <summary>
-        /// 充值积分。
+        /// 充值积分，扣除<paramref name="sourceId"/>的积分添加到<paramref name="userId"/>中。
         /// </summary>
         /// <param name="sourceId">原始用户Id。</param>
         /// <param name="userId">用户Id。</param>

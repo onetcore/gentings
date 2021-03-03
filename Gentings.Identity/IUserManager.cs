@@ -568,6 +568,14 @@ namespace Gentings.Identity
         /// <param name="userId">子级Id。</param>
         /// <param name="parentId">父级Id。</param>
         /// <returns>返回用户实例。</returns>
+        TUser FindIndexedUser(int userId, int parentId);
+
+        /// <summary>
+        /// 获取用户下的子级用户实例。
+        /// </summary>
+        /// <param name="userId">子级Id。</param>
+        /// <param name="parentId">父级Id。</param>
+        /// <returns>返回用户实例。</returns>
         Task<TUser> FindIndexedUserAsync(int userId, int parentId);
     }
 

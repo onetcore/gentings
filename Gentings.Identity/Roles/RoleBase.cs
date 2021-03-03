@@ -8,7 +8,7 @@ namespace Gentings.Identity.Roles
     /// <summary>
     /// 角色基类。
     /// </summary>
-    [Table("core_Roles")]
+    [Table("sec_Roles")]
     public abstract class RoleBase : IdentityRole<int>
     {
         /// <summary>

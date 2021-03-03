@@ -83,7 +83,43 @@ namespace Gentings.Identity.Scores
         }
 
         /// <summary>
-        /// 充值积分。
+        /// 充值积分，直接增加用户积分。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="score">用户积分。</param>
+        /// <param name="remark">备注。</param>
+        /// <returns>返回充值结果。</returns>
+        public virtual UpdateScoreResult Recharge(int userId, int score, string remark = null)
+        {
+            UpdateScoreResult result = UpdateScoreStatus.ScoreError;
+            Context.BeginTransaction(db =>
+            {
+                result = db.UpdateScore(userId, -score, remark);
+                return result;
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 充值积分，直接增加用户积分。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="score">用户积分。</param>
+        /// <param name="remark">备注。</param>
+        /// <returns>返回充值结果。</returns>
+        public virtual async Task<UpdateScoreResult> RechargeAsync(int userId, int score, string remark = null)
+        {
+            UpdateScoreResult result = UpdateScoreStatus.ScoreError;
+            await Context.BeginTransactionAsync(async db =>
+            {
+                result = await db.UpdateScoreAsync(userId, -score, remark);
+                return result;
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 充值积分，扣除<paramref name="sourceId"/>的积分添加到<paramref name="userId"/>中。
         /// </summary>
         /// <param name="sourceId">原始用户Id。</param>
         /// <param name="userId">用户Id。</param>
@@ -104,7 +140,7 @@ namespace Gentings.Identity.Scores
         }
 
         /// <summary>
-        /// 充值积分。
+        /// 充值积分，扣除<paramref name="sourceId"/>的积分添加到<paramref name="userId"/>中。
         /// </summary>
         /// <param name="sourceId">原始用户Id。</param>
         /// <param name="userId">用户Id。</param>

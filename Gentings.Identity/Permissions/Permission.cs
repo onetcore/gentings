@@ -6,7 +6,7 @@ namespace Gentings.Identity.Permissions
     /// <summary>
     /// 权限实体。
     /// </summary>
-    [Table("core_Permissions")]
+    [Table("sec_Permissions")]
     public class Permission
     {
         /// <summary>

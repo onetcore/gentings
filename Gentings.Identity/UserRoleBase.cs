@@ -7,7 +7,7 @@ namespace Gentings.Identity
     /// <summary>
     /// 用户和角色。
     /// </summary>
-    [Table("core_Users_Roles")]
+    [Table("sec_Users_Roles")]
     public abstract class UserRoleBase : IdentityUserRole<int>,IUserRole
     {
         /// <summary>

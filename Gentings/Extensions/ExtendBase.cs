@@ -34,23 +34,140 @@ namespace Gentings.Extensions
         {
             get
             {
-                if (!name.StartsWith("ex:"))
-                {
-                    name = "ex:" + name;
-                }
-
                 _extendProperties.TryGetValue(name, out var value);
                 return value;
             }
-            set
-            {
-                if (!name.StartsWith("ex:"))
-                {
-                    name = "ex:" + name;
-                }
+            set => _extendProperties[name] = value;
+        }
 
-                _extendProperties[name] = value;
-            }
+        /// <summary>
+        /// 获取布尔值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <returns>返回当前名称的布尔值。</returns>
+        protected bool? GetBoolean(string name)
+        {
+            if (_extendProperties.TryGetValue(name, out var value) &&
+                bool.TryParse(value.Trim(), out var result))
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 设置布尔值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <param name="value">参数值。</param>
+        protected void SetBoolean(string name, bool? value)
+        {
+            if (value == null)
+                _extendProperties.Remove(name);
+            else
+                this[name] = value.ToString();
+        }
+
+        /// <summary>
+        /// 获取数值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <returns>返回当前名称的数值。</returns>
+        protected int? GetInt32(string name)
+        {
+            if (_extendProperties.TryGetValue(name, out var value) &&
+                int.TryParse(value.Trim(), out var result))
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 设置数值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <param name="value">参数值。</param>
+        protected void SetInt32(string name, int? value)
+        {
+            if (value == null)
+                _extendProperties.Remove(name);
+            else
+                this[name] = value.ToString();
+        }
+
+        /// <summary>
+        /// 获取数值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <returns>返回当前名称的数值。</returns>
+        protected long? GetInt64(string name)
+        {
+            if (_extendProperties.TryGetValue(name, out var value) &&
+                long.TryParse(value.Trim(), out var result))
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 设置数值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <param name="value">参数值。</param>
+        protected void SetInt64(string name, long? value)
+        {
+            if (value == null)
+                _extendProperties.Remove(name);
+            else
+                this[name] = value.ToString();
+        }
+
+        /// <summary>
+        /// 获取日期值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <returns>返回当前名称的日期值。</returns>
+        protected DateTime? GetDateTime(string name)
+        {
+            if (_extendProperties.TryGetValue(name, out var value) &&
+                DateTime.TryParse(value.Trim(), out var result))
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 设置日期值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <param name="value">参数值。</param>
+        protected void SetDateTime(string name, DateTime? value)
+        {
+            if (value == null)
+                _extendProperties.Remove(name);
+            else
+                this[name] = value.ToString();
+        }
+
+        /// <summary>
+        /// 获取日期值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <returns>返回当前名称的日期值。</returns>
+        protected DateTimeOffset? GetDateTimeOffset(string name)
+        {
+            if (_extendProperties.TryGetValue(name, out var value) &&
+                DateTimeOffset.TryParse(value.Trim(), out var result))
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 设置日期值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <param name="value">参数值。</param>
+        protected void SetDateTimeOffset(string name, DateTimeOffset? value)
+        {
+            if (value == null)
+                _extendProperties.Remove(name);
+            else
+                this[name] = value.ToString();
         }
 
         /// <summary>

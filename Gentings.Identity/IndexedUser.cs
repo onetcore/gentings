@@ -6,7 +6,7 @@ namespace Gentings.Identity
     /// <summary>
     /// 子用户索引表格。
     /// </summary>
-    [Table("core_Users_Indexed")]
+    [Table("sec_Users_Indexed")]
     public class IndexedUser
     {
         /// <summary>

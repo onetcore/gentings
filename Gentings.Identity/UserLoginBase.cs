@@ -8,7 +8,7 @@ namespace Gentings.Identity
     /// <summary>
     /// 用户登录实例。
     /// </summary>
-    [Table("core_Users_Logins")]
+    [Table("sec_Users_Logins")]
     public abstract class UserLoginBase : IdentityUserLogin<int>
     {
         /// <summary>

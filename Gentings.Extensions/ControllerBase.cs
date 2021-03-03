@@ -36,7 +36,7 @@ namespace Gentings.Extensions
             {
                 if (key.StartsWith("ex:"))
                 {
-                    extend[key] = form[key];
+                    extend[key[3..]] = form[key];
                 }
             }
         }

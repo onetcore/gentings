@@ -7,7 +7,7 @@ namespace Gentings.Identity.Scores
     /// <summary>
     /// 报表。
     /// </summary>
-    [Table("core_Scores_Reporters")]
+    [Table("sec_Scores_Reporters")]
     public class ScoreReporter : IIdObject
     {
         /// <summary>

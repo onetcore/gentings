@@ -8,7 +8,7 @@ namespace Gentings.Identity.Scores
     /// <summary>
     /// 用户积分。
     /// </summary>
-    [Table("core_Scores")]
+    [Table("sec_Scores")]
     public class UserScore
     {
         /// <summary>

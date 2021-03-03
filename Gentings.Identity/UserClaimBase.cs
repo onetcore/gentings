@@ -8,7 +8,7 @@ namespace Gentings.Identity
     /// <summary>
     /// 用户声明类。
     /// </summary>
-    [Table("core_Users_Claims")]
+    [Table("sec_Users_Claims")]
     public abstract class UserClaimBase : IdentityUserClaim<int>
     {
         /// <summary>

@@ -9,7 +9,7 @@ namespace Gentings.Identity
     /// <summary>
     /// 用户基类。
     /// </summary>
-    [Table("core_Users")]
+    [Table("sec_Users")]
     public abstract class UserBase : IdentityUser<int>, IUser
     {
         /// <summary>

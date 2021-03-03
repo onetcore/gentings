@@ -410,5 +410,41 @@ namespace Gentings.Identity.Properties {
                 return ResourceManager.GetString("ScoreType_Refund", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 更新积分日志失败 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_LogError {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_LogError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 积分不足 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_NotEnough {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_NotEnough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更新积分失败 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_ScoreError {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_ScoreError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成功 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_Success {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_Success", resourceCulture);
+            }
+        }
     }
 }

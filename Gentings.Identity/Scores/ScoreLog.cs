@@ -7,7 +7,7 @@ namespace Gentings.Identity.Scores
     /// <summary>
     /// 用户积分日志。
     /// </summary>
-    [Table("core_Scores_Logs")]
+    [Table("sec_Scores_Logs")]
     public class ScoreLog : IIdObject
     {
         /// <summary>
