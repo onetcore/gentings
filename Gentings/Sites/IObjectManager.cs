@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Gentings.Data;
-using Gentings.Extensions.Internal;
+using Gentings.Sites.Internal;
 
-namespace Gentings.Extensions
+namespace Gentings.Sites
 {
     /// <summary>
     /// 对象管理接口。
@@ -12,7 +11,7 @@ namespace Gentings.Extensions
     /// <typeparam name="TModel">模型类型。</typeparam>
     /// <typeparam name="TKey">唯一键类型。</typeparam>
     public interface IObjectManager<TModel, TKey> : IObjectManagerBase<TModel, TKey>
-        where TModel : IIdObject<TKey>
+        where TModel : ISiteIdObject<TKey>
     {
         /// <summary>
         /// 获取所有符合条件的实例列表，主要用于导出操作。
@@ -20,7 +19,7 @@ namespace Gentings.Extensions
         /// <typeparam name="TQuery">查询实例类型。</typeparam>
         /// <param name="query">查询实例。</param>
         /// <returns>返回实例列表。</returns>
-        IEnumerable<TModel> Fetch<TQuery>(TQuery query) where TQuery : QueryBase<TModel>;
+        IEnumerable<TModel> Fetch<TQuery>(TQuery query) where TQuery : SiteQueryBase<TModel>;
 
         /// <summary>
         /// 获取所有符合条件的实例列表，主要用于导出操作。
@@ -29,7 +28,7 @@ namespace Gentings.Extensions
         /// <typeparam name="TQuery">查询实例类型。</typeparam>
         /// <param name="query">查询实例。</param>
         /// <returns>返回实例列表。</returns>
-        IEnumerable<TObject> Fetch<TQuery, TObject>(TQuery query) where TQuery : QueryBase<TModel>;
+        IEnumerable<TObject> Fetch<TQuery, TObject>(TQuery query) where TQuery : SiteQueryBase<TModel>;
 
         /// <summary>
         /// 获取所有符合条件的实例列表，主要用于导出操作。
@@ -39,7 +38,7 @@ namespace Gentings.Extensions
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回实例列表。</returns>
         Task<IEnumerable<TModel>> FetchAsync<TQuery>(TQuery query, CancellationToken cancellationToken = default)
-            where TQuery : QueryBase<TModel>;
+            where TQuery : SiteQueryBase<TModel>;
 
         /// <summary>
         /// 获取所有符合条件的实例列表，主要用于导出操作。
@@ -50,7 +49,7 @@ namespace Gentings.Extensions
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回实例列表。</returns>
         Task<IEnumerable<TObject>> FetchAsync<TQuery, TObject>(TQuery query, CancellationToken cancellationToken = default)
-            where TQuery : QueryBase<TModel>;
+            where TQuery : SiteQueryBase<TModel>;
     }
 
     /// <summary>
@@ -58,7 +57,7 @@ namespace Gentings.Extensions
     /// </summary>
     /// <typeparam name="TModel">模型类型。</typeparam>
     public interface IObjectManager<TModel> : IObjectManager<TModel, int>
-        where TModel : IIdObject
+        where TModel : ISiteIdObject
     {
     }
 }

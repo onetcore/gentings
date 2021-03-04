@@ -551,5 +551,66 @@ namespace Gentings
                 yield return array.ElementAt(i);
             }
         }
+
+        /// <summary>
+        /// 读取直到遇到<paramref name="end"/>字符。
+        /// </summary>
+        /// <param name="source">源代码。</param>
+        /// <param name="index">当前字符索引。</param>
+        /// <param name="end">字符。</param>
+        /// <returns>返回当前读取到的字符串。</returns>
+        public static string ReadWhile(this string source, ref int index, char end)
+        {
+            var builder = new StringBuilder();
+            while (index < source.Length)
+            {
+                var current = source[index];
+                index++;
+                if (end == current)
+                    return builder.ToString();
+                builder.Append(current);
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// 读取直到遇到<paramref name="ends"/>的字符。
+        /// </summary>
+        /// <param name="source">源代码。</param>
+        /// <param name="index">当前字符索引。</param>
+        /// <param name="ends">分隔符。</param>
+        /// <returns>返回当前读取到的字符串。</returns>
+        public static (string Current, char End) ReadWhile(this string source, ref int index, params char[] ends)
+        {
+            char current;
+            var builder = new StringBuilder();
+            while (index < source.Length)
+            {
+                current = source[index];
+                index++;
+                if (ends.Any(x => x == current))
+                    return (builder.ToString(), current);
+                builder.Append(current);
+            }
+
+            return (builder.ToString(), '\0');
+        }
+
+        /// <summary>
+        /// 跳过空白字符。
+        /// </summary>
+        /// <param name="source">源代码。</param>
+        /// <param name="index">当前字符索引。</param>
+        public static void EscapeWhiteSpace(this string source, ref int index)
+        {
+            while (index < source.Length)
+            {
+                var current = source[index];
+                if (!char.IsWhiteSpace(current))
+                    break;
+                index++;
+            }
+        }
     }
 }

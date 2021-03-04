@@ -4,6 +4,7 @@ using Gentings.Data.Migrations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Org.BouncyCastle.Math.EC.Rfc7748;
 
 namespace Gentings.Sites
 {

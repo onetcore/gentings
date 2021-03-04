@@ -47,8 +47,8 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
-        ///   重写当前线程的 CurrentUICulture 属性
-        ///   重写当前线程的 CurrentUICulture 属性。
+        ///   重写当前线程的 CurrentUICulture 属性，对
+        ///   使用此强类型资源类的所有资源查找执行重写。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
         internal static global::System.Globalization.CultureInfo Culture {
@@ -120,6 +120,60 @@ namespace Gentings.AspNetCore.Properties {
         internal static string HoursBefore {
             get {
                 return ResourceManager.GetString("HoursBefore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Bootstrap 的本地化字符串。
+        /// </summary>
+        internal static string ImportLibrary_Bootstrap {
+            get {
+                return ResourceManager.GetString("ImportLibrary_Bootstrap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Feather图标 的本地化字符串。
+        /// </summary>
+        internal static string ImportLibrary_Feather {
+            get {
+                return ResourceManager.GetString("ImportLibrary_Feather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Font Awesome图标 的本地化字符串。
+        /// </summary>
+        internal static string ImportLibrary_FontAwesome {
+            get {
+                return ResourceManager.GetString("ImportLibrary_FontAwesome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 GtCore 的本地化字符串。
+        /// </summary>
+        internal static string ImportLibrary_GtCore {
+            get {
+                return ResourceManager.GetString("ImportLibrary_GtCore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 jQuery 的本地化字符串。
+        /// </summary>
+        internal static string ImportLibrary_JQuery {
+            get {
+                return ResourceManager.GetString("ImportLibrary_JQuery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 无 的本地化字符串。
+        /// </summary>
+        internal static string ImportLibrary_None {
+            get {
+                return ResourceManager.GetString("ImportLibrary_None", resourceCulture);
             }
         }
         

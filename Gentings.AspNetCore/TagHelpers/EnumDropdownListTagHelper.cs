@@ -27,7 +27,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// 忽略值。
         /// </summary>
         [HtmlAttributeName("ignore")]
-        public Enum? IgnoreValue { get; set; }
+        public Enum IgnoreValue { get; set; }
 
         /// <summary>
         /// 忽略值。

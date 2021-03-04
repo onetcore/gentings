@@ -138,6 +138,24 @@
   <data name="HoursBefore" xml:space="preserve">
     <value>{0} 小时前</value>
   </data>
+  <data name="ImportLibrary_Bootstrap" xml:space="preserve">
+    <value>Bootstrap</value>
+  </data>
+  <data name="ImportLibrary_Feather" xml:space="preserve">
+    <value>Feather图标</value>
+  </data>
+  <data name="ImportLibrary_FontAwesome" xml:space="preserve">
+    <value>Font Awesome图标</value>
+  </data>
+  <data name="ImportLibrary_GtCore" xml:space="preserve">
+    <value>GtCore</value>
+  </data>
+  <data name="ImportLibrary_JQuery" xml:space="preserve">
+    <value>jQuery</value>
+  </data>
+  <data name="ImportLibrary_None" xml:space="preserve">
+    <value>无</value>
+  </data>
   <data name="JustNow" xml:space="preserve">
     <value>刚刚</value>
   </data>
