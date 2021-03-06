@@ -2,42 +2,38 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Gentings.Utils
+namespace Gentings.AspNetCore.Syntax
 {
     /// <summary>
     /// 字符串扩展类。
     /// </summary>
     public static class HtmlStringExtensions
     {
+        private const string HtmlCaseRegexReplacement = "-$1$2";
+
+        private static readonly Regex _htmlCaseRegex =
+            new Regex(
+                "(?<!^)((?<=[a-zA-Z0-9])[A-Z][a-z])|((?<=[a-z])[A-Z])",
+                RegexOptions.None,
+                TimeSpan.FromMilliseconds(500));
+
         /// <summary>
-        /// 截图字符串。
+        /// 将pascal/camel格式的名称转换为小写并且以“-”分隔的字符串名称。
         /// </summary>
-        /// <param name="source">原字符串。</param>
-        /// <param name="start">开始字符串，结果不包含此字符串。</param>
-        /// <param name="end">结束字符串，结果不包含此字符串。</param>
-        /// <param name="comparison">对比模式。</param>
-        /// <returns>返回截取得到的字符串。</returns>
-        public static string Substring(this string source, string start, string end = null, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        /// <example>
+        /// SomeThing => some-thing
+        /// capsONInside => caps-on-inside
+        /// CAPSOnOUTSIDE => caps-on-outside
+        /// ALLCAPS => allcaps
+        /// One1Two2Three3 => one1-two2-three3
+        /// ONE1TWO2THREE3 => one1two2three3
+        /// First_Second_ThirdHi => first_second_third-hi
+        /// </example>
+        public static string ToHtmlCase(this string name)
         {
-            var index = source.IndexOf(start, comparison);
-            if (index == -1)
-            {
+            if (string.IsNullOrWhiteSpace(name))
                 return null;
-            }
-
-            source = source.Substring(index + start.Length);
-            if (end != null)
-            {
-                index = source.IndexOf(end, comparison);
-                if (index == -1)
-                {
-                    return null;
-                }
-
-                source = source.Substring(0, index);
-            }
-
-            return source.Trim();
+            return _htmlCaseRegex.Replace(name, HtmlCaseRegexReplacement).ToLowerInvariant();
         }
 
         private static readonly Regex _htmlRegex =

@@ -10,13 +10,6 @@ namespace Gentings.AspNetCore.TagHelpers.Pages
     public class HeaderTagHelper : ViewContextableTagHelperBase
     {
         private const string AttributeName = "title";
-
-        /// <summary>
-        /// 引入库实例。
-        /// </summary>
-        [HtmlAttributeName("import")]
-        public ImportLibrary Import { get; set; }
-
         /// <summary>
         /// 标题。
         /// </summary>
@@ -43,18 +36,18 @@ namespace Gentings.AspNetCore.TagHelpers.Pages
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = null;
-            Import |= ViewContext.ViewData.GetLibraries();
+            var libraries = ViewContext.ViewData.GetLibraries();
             output.Content.AppendHtml($"<title>{Title}</title>");
             if (!string.IsNullOrWhiteSpace(Keyword))
                 output.Content.AppendHtml($"<meta name=\"keyword\" content=\"{Keyword}\" />");
             if (!string.IsNullOrWhiteSpace(Description))
                 output.Content.AppendHtml($"<meta name=\"description\" content=\"{Description}\" />");
-            if ((Import & ImportLibrary.FontAwesome) == ImportLibrary.FontAwesome)
+            if ((libraries & ImportLibrary.FontAwesome) == ImportLibrary.FontAwesome)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/font-awesome/css/font-awesome.min.css\" />");
-            if ((Import & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
-                (Import & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+            if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
+                (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap/css/bootstrap.min.css\" />");
-            if ((Import & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+            if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/gtcore/dist/css/gtcore.min.css\" />");
             output.AppendHtml(await output.GetChildContentAsync());
         }

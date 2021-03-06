@@ -27,12 +27,6 @@ namespace Gentings.AspNetCore.TagHelpers.Pages
         }
 
         /// <summary>
-        /// 引入库实例。
-        /// </summary>
-        [HtmlAttributeName("import")]
-        public ImportLibrary Import { get; set; }
-
-        /// <summary>
         /// 是否显示消息弹窗。
         /// </summary>
         [HtmlAttributeName("alert")]
@@ -46,16 +40,16 @@ namespace Gentings.AspNetCore.TagHelpers.Pages
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = null;
-            Import |= ViewContext.ViewData.GetLibraries();
+            var libraries = ViewContext.ViewData.GetLibraries();
             if (IsAlert)
-                Import |= ImportLibrary.GtCore | ImportLibrary.Bootstrap;
+                libraries |= ImportLibrary.GtCore | ImportLibrary.Bootstrap;
             output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/jquery/jquery.min.js"));
-            if ((Import & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
-                (Import & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+            if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
+                (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/bootstrap/js/bootstrap.bundle.min.js"));
-            if ((Import & ImportLibrary.Feather) == ImportLibrary.Feather)
+            if ((libraries & ImportLibrary.Feather) == ImportLibrary.Feather)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/feather-icons/feather.min.js"));
-            if ((Import & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+            if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/gtcore/dist/js/gtcore.min.js"));
             output.AppendHtml(await output.GetChildContentAsync());
             var status = GetStatusMessage();

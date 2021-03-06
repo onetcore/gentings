@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Gentings.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
+using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,8 +30,7 @@ namespace Gentings.Extensions.Groups
         /// <returns>返回判断结果。</returns>
         public override bool IsDuplicated(TGroup category)
         {
-            var groups = Fetch(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name);
-            return groups.Any();
+            return Context.Any(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name);
         }
 
         /// <summary>
@@ -43,47 +39,42 @@ namespace Gentings.Extensions.Groups
         /// <param name="category">分类实例。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回判断结果。</returns>
-        public override async Task<bool> IsDuplicatedAsync(TGroup category,
+        public override Task<bool> IsDuplicatedAsync(TGroup category,
             CancellationToken cancellationToken = default)
         {
-            var groups =
-                await FetchAsync(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name,
-                    cancellationToken);
-            return groups.Any();
+            return Context.AnyAsync(x => x.ParentId == category.ParentId && x.Id != category.Id && x.Name == category.Name,
+                cancellationToken);
         }
 
         /// <summary>
-        /// 加载所有的分类。
+        /// 缓存当前网站所有实例。
         /// </summary>
-        /// <param name="expression">条件表达式。</param>
-        /// <returns>返回分类列表。</returns>
-        public override IEnumerable<TGroup> Fetch(Expression<Predicate<TGroup>> expression = null)
+        /// <returns>返回当前网站所有实例。</returns>
+        protected override ConcurrentDictionary<int, TGroup> LoadCached()
         {
-            var models = Cache.GetOrCreate(CacheKey, ctx =>
+            return Cache.GetOrCreate(CacheKey, ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                var categories = Context.Fetch();
-                return categories.MakeDictionary().Values;
+                var models = Context.Fetch();
+                var groups = models.MakeDictionary();
+                return new ConcurrentDictionary<int, TGroup>(groups);
             });
-            return models.Filter(expression);
         }
 
         /// <summary>
-        /// 加载所有的分类。
+        /// 缓存当前网站所有实例。
         /// </summary>
-        /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回分类列表。</returns>
-        public override async Task<IEnumerable<TGroup>> FetchAsync(Expression<Predicate<TGroup>> expression = null,
-            CancellationToken cancellationToken = default)
+        /// <returns>返回当前网站所有实例。</returns>
+        protected override Task<ConcurrentDictionary<int, TGroup>> LoadCachedAsync(CancellationToken cancellationToken)
         {
-            var models = await Cache.GetOrCreateAsync(CacheKey, async ctx =>
+            return Cache.GetOrCreateAsync(CacheKey, async ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                var categories = await Context.FetchAsync(cancellationToken: cancellationToken);
-                return categories.MakeDictionary().Values;
+                var models = await Context.FetchAsync(cancellationToken: cancellationToken);
+                var groups = models.MakeDictionary();
+                return new ConcurrentDictionary<int, TGroup>(groups);
             });
-            return models.Filter(expression);
         }
     }
 }

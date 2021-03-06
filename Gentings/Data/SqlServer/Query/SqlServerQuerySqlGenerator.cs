@@ -71,15 +71,14 @@ namespace Gentings.Data.SqlServer.Query
         }
 
         /// <summary>
-        /// 移动排序。
+        /// 按照<paramref name="order"/>的降序排列移动排序。
         /// </summary>
         /// <param name="entityType">模型实例。</param>
         /// <param name="direction">方向："&lt;"下移，"&gt;"上移。</param>
         /// <param name="order">排序列。</param>
         /// <param name="expression">分组条件表达式。</param>
         /// <returns>返回SQL构建实例。</returns>
-        public override SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order,
-            Expression expression)
+        public override SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order, Expression expression)
         {
             var column = SqlHelper.DelimitIdentifier(order.GetPropertyAccess().Name);
             var table = SqlHelper.DelimitIdentifier(entityType.Table);

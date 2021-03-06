@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Text;
 
-namespace Gentings.Utils
+namespace Gentings.AspNetCore.Syntax
 {
     /// <summary>
     /// 源码读取器。

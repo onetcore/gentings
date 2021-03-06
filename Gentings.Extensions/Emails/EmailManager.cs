@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Gentings.AspNetCore.Syntax;
 using Gentings.Data;
 
 namespace Gentings.Extensions.Emails
@@ -54,7 +55,7 @@ namespace Gentings.Extensions.Emails
             var replacements = fields.ToDictionary(StringComparer.OrdinalIgnoreCase);
             foreach (var replacement in replacements)
             {
-                resourceKey = resourceKey.Replace("{" + Cores.ToHtmlCase(replacement.Key) + "}", replacement.Value?.ToString());
+                resourceKey = resourceKey.Replace("{" + replacement.Key.ToHtmlCase() + "}", replacement.Value?.ToString());
             }
 
             return resourceKey;

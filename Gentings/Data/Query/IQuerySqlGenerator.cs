@@ -79,8 +79,7 @@ namespace Gentings.Data.Query
         /// <param name="order">排序列。</param>
         /// <param name="expression">分组条件表达式。</param>
         /// <returns>返回SQL构建实例。</returns>
-        SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order,
-            Expression expression);
+        SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order, Expression expression);
 
         /// <summary>
         /// 聚合函数。

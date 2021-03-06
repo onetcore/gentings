@@ -104,21 +104,22 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="items">选项列表。</param>
         /// <param name="groups">当前分组。</param>
         /// <param name="filter">过滤器。</param>
-        /// <param name="func">获取值代理方法，默认为Id。</param>
+        /// <param name="getValue">获取值代理方法，默认为Id。</param>
+        /// <param name="getText">获取字符串的代理方法，默认为Name。</param>
         protected void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups,
-            Predicate<TGroup> filter = null, Func<TGroup, string> func = null)
+            Predicate<TGroup> filter = null, Func<TGroup, string> getValue = null, Func<TGroup, string> getText = null)
             where TGroup : IGroupable<TGroup>
         {
             if (filter != null)
                 groups = groups.Where(x => filter(x)).ToList();
             foreach (var group in groups)
             {
-                items.Add(new SelectListItem { Text = group.Name, Value = func?.Invoke(group) ?? group.Id.ToString() });
-                InitChildren(items, group.Children, filter, func, null);
+                items.Add(new SelectListItem { Text = getText?.Invoke(group) ?? group.Name, Value = getValue?.Invoke(group) ?? group.Id.ToString() });
+                InitChildren(items, group.Children, filter, getValue, getText, null);
             }
         }
 
-        private void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups, Predicate<TGroup> filter, Func<TGroup, string> func, string header)
+        private void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups, Predicate<TGroup> filter, Func<TGroup, string> getValue, Func<TGroup, string> getText, string header)
             where TGroup : IGroupable<TGroup>
         {
             var index = 0;
@@ -135,9 +136,9 @@ namespace Gentings.AspNetCore.TagHelpers
                     current += "  ├─";
                 else
                     current += "  └─";
-                items.Add(new SelectListItem { Text = $"{current} {group.Name}", Value = func?.Invoke(group) ?? group.Id.ToString() });
+                items.Add(new SelectListItem { Text = $"{current} {getText?.Invoke(group) ?? group.Name}", Value = getValue?.Invoke(group) ?? group.Id.ToString() });
                 current = current.Replace("└─", " ").Replace("├─", index < count ? "│ " : "  ");
-                InitChildren(items, group.Children, filter, func, current);
+                InitChildren(items, group.Children, filter, getValue, getText, current);
             }
         }
     }

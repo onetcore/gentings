@@ -22,7 +22,7 @@ namespace Gentings.Extensions
         /// <typeparam name="TQuery">查询实例类型。</typeparam>
         /// <param name="query">查询实例。</param>
         /// <returns>返回实例列表。</returns>
-        public virtual IEnumerable<TModel> Fetch<TQuery>(TQuery query) where TQuery : QueryBase<TModel>
+        public virtual IEnumerable<TModel> LoadAll<TQuery>(TQuery query) where TQuery : QueryBase<TModel>
         {
             return Context.Fetch(query);
         }
@@ -34,7 +34,7 @@ namespace Gentings.Extensions
         /// <typeparam name="TQuery">查询实例类型。</typeparam>
         /// <param name="query">查询实例。</param>
         /// <returns>返回实例列表。</returns>
-        public virtual IEnumerable<TObject> Fetch<TQuery, TObject>(TQuery query) where TQuery : QueryBase<TModel>
+        public virtual IEnumerable<TObject> LoadAll<TQuery, TObject>(TQuery query) where TQuery : QueryBase<TModel>
         {
             return Context.Fetch<TQuery, TObject>(query);
         }
@@ -46,7 +46,7 @@ namespace Gentings.Extensions
         /// <param name="query">查询实例。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回实例列表。</returns>
-        public virtual Task<IEnumerable<TModel>> FetchAsync<TQuery>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        public virtual Task<IEnumerable<TModel>> LoadAllAsync<TQuery>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
         {
             return Context.FetchAsync(query, cancellationToken);
         }
@@ -59,7 +59,7 @@ namespace Gentings.Extensions
         /// <param name="query">查询实例。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回实例列表。</returns>
-        public virtual Task<IEnumerable<TObject>> FetchAsync<TQuery, TObject>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
+        public virtual Task<IEnumerable<TObject>> LoadAllAsync<TQuery, TObject>(TQuery query, CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
         {
             return Context.FetchAsync<TQuery, TObject>(query, cancellationToken);
         }

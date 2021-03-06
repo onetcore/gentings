@@ -19,7 +19,8 @@ namespace Gentings.Sites
         public static Expression<Predicate<TModel>> AndAlso<TModel>(this Expression<Predicate<TModel>> expression,
             int siteId) where TModel : ISite
         {
-            return expression.AndAlso(x => x.SiteId == siteId);
+            Expression<Predicate<TModel>> predicate = x => x.SiteId == siteId;
+            return expression == null ? predicate : expression.AndAlso(predicate);
         }
     }
 }

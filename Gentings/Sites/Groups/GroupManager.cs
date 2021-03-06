@@ -57,8 +57,9 @@ namespace Gentings.Sites.Groups
             return Cache.GetOrCreate(GetCacheKey(siteId), ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                var categories = Context.Fetch();
-                return new ConcurrentDictionary<int, TGroup>(categories.MakeDictionary());
+                var models = Context.Fetch(x => x.SiteId == siteId);
+                var groups = models.MakeDictionary();
+                return new ConcurrentDictionary<int, TGroup>(groups);
             });
         }
 
@@ -73,8 +74,9 @@ namespace Gentings.Sites.Groups
             return Cache.GetOrCreateAsync(GetCacheKey(siteId), async ctx =>
             {
                 ctx.SetDefaultAbsoluteExpiration();
-                var categories = await Context.FetchAsync(cancellationToken: cancellationToken);
-                return new ConcurrentDictionary<int, TGroup>(categories.MakeDictionary());
+                var models = await Context.FetchAsync(x => x.SiteId == siteId, cancellationToken);
+                var groups = models.MakeDictionary();
+                return new ConcurrentDictionary<int, TGroup>(groups);
             });
         }
     }

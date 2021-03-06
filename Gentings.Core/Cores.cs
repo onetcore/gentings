@@ -12,7 +12,6 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace Gentings
 {
@@ -318,31 +317,6 @@ namespace Gentings
             return _base36[(int)value] + current;
         }
 
-        private const string HtmlCaseRegexReplacement = "-$1$2";
-
-        private static readonly Regex _htmlCaseRegex =
-            new Regex(
-                "(?<!^)((?<=[a-zA-Z0-9])[A-Z][a-z])|((?<=[a-z])[A-Z])",
-                RegexOptions.None,
-                TimeSpan.FromMilliseconds(500));
-
-        /// <summary>
-        /// 将pascal/camel格式的名称转换为小写并且以“-”分隔的字符串名称。
-        /// </summary>
-        /// <example>
-        /// SomeThing => some-thing
-        /// capsONInside => caps-on-inside
-        /// CAPSOnOUTSIDE => caps-on-outside
-        /// ALLCAPS => allcaps
-        /// One1Two2Three3 => one1-two2-three3
-        /// ONE1TWO2THREE3 => one1two2three3
-        /// First_Second_ThirdHi => first_second_third-hi
-        /// </example>
-        public static string ToHtmlCase(string name)
-        {
-            return _htmlCaseRegex.Replace(name, HtmlCaseRegexReplacement).ToLowerInvariant();
-        }
-
         /// <summary>
         /// 加密字符串。
         /// </summary>
@@ -549,67 +523,6 @@ namespace Gentings
             for (var i = index; i < length; i++)
             {
                 yield return array.ElementAt(i);
-            }
-        }
-
-        /// <summary>
-        /// 读取直到遇到<paramref name="end"/>字符。
-        /// </summary>
-        /// <param name="source">源代码。</param>
-        /// <param name="index">当前字符索引。</param>
-        /// <param name="end">字符。</param>
-        /// <returns>返回当前读取到的字符串。</returns>
-        public static string ReadWhile(this string source, ref int index, char end)
-        {
-            var builder = new StringBuilder();
-            while (index < source.Length)
-            {
-                var current = source[index];
-                index++;
-                if (end == current)
-                    return builder.ToString();
-                builder.Append(current);
-            }
-
-            return builder.ToString();
-        }
-
-        /// <summary>
-        /// 读取直到遇到<paramref name="ends"/>的字符。
-        /// </summary>
-        /// <param name="source">源代码。</param>
-        /// <param name="index">当前字符索引。</param>
-        /// <param name="ends">分隔符。</param>
-        /// <returns>返回当前读取到的字符串。</returns>
-        public static (string Current, char End) ReadWhile(this string source, ref int index, params char[] ends)
-        {
-            char current;
-            var builder = new StringBuilder();
-            while (index < source.Length)
-            {
-                current = source[index];
-                index++;
-                if (ends.Any(x => x == current))
-                    return (builder.ToString(), current);
-                builder.Append(current);
-            }
-
-            return (builder.ToString(), '\0');
-        }
-
-        /// <summary>
-        /// 跳过空白字符。
-        /// </summary>
-        /// <param name="source">源代码。</param>
-        /// <param name="index">当前字符索引。</param>
-        public static void EscapeWhiteSpace(this string source, ref int index)
-        {
-            while (index < source.Length)
-            {
-                var current = source[index];
-                if (!char.IsWhiteSpace(current))
-                    break;
-                index++;
             }
         }
     }

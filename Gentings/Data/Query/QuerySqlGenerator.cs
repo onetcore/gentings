@@ -282,7 +282,7 @@ namespace Gentings.Data.Query
         }
 
         /// <summary>
-        /// 移动排序。
+        /// 按照<paramref name="order"/>的降序排列移动排序。
         /// </summary>
         /// <param name="entityType">模型实例。</param>
         /// <param name="direction">方向："&lt;"下移，"&gt;"上移。</param>

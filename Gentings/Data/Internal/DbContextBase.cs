@@ -828,66 +828,69 @@ namespace Gentings.Data.Internal
         }
 
         /// <summary>
-        /// 上移一个位置，注意排序必须位降序排列。
+        /// 上移一个位置。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
         /// <param name="expression">条件表达式。</param>
+        /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <returns>返回移动结果。</returns>
-        public virtual bool MoveUp(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null)
+        public virtual bool MoveUp(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null, bool isDesc = true)
         {
-            var sql = SqlGenerator.Move(EntityType, ">", order, expression);
+            var sql = SqlGenerator.Move(EntityType, isDesc ? ">" : "<", order, expression);
             sql.AddPrimaryKey(key);
             var scalar = ScalarSql(sql);
             return Convert.ToBoolean(scalar);
         }
 
         /// <summary>
-        /// 下移一个位置，注意排序必须位降序排列。
+        /// 下移一个位置。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
         /// <param name="expression">条件表达式。</param>
+        /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <returns>返回移动结果。</returns>
         public virtual bool MoveDown(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null)
+            Expression<Predicate<TModel>> expression = null, bool isDesc = true)
         {
-            var sql = SqlGenerator.Move(EntityType, "<", order, expression);
+            var sql = SqlGenerator.Move(EntityType, isDesc ? "<" : ">", order, expression);
             sql.AddPrimaryKey(key);
             var scalar = ScalarSql(sql);
             return Convert.ToBoolean(scalar);
         }
 
         /// <summary>
-        /// 上移一个位置，注意排序必须位降序排列。
+        /// 上移一个位置。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
         /// <param name="expression">条件表达式。</param>
+        /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
         public virtual async Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
+            Expression<Predicate<TModel>> expression = null, bool isDesc = true, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Move(EntityType, ">", order, expression);
+            var sql = SqlGenerator.Move(EntityType, isDesc ? ">" : "<", order, expression);
             sql.AddPrimaryKey(key);
             var scalar = await ScalarSqlAsync(sql, cancellationToken);
             return Convert.ToBoolean(scalar);
         }
 
         /// <summary>
-        /// 下移一个位置，注意排序必须位降序排列。
+        /// 下移一个位置。
         /// </summary>
         /// <param name="key">主键值。</param>
         /// <param name="order">排序。</param>
         /// <param name="expression">条件表达式。</param>
+        /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
         public virtual async Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, CancellationToken cancellationToken = default)
+            Expression<Predicate<TModel>> expression = null, bool isDesc = true, CancellationToken cancellationToken = default)
         {
-            var sql = SqlGenerator.Move(EntityType, "<", order, expression);
+            var sql = SqlGenerator.Move(EntityType, isDesc ? "<" : ">", order, expression);
             sql.AddPrimaryKey(key);
             var scalar = await ScalarSqlAsync(sql, cancellationToken);
             return Convert.ToBoolean(scalar);

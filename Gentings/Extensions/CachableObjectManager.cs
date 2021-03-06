@@ -330,7 +330,8 @@ namespace Gentings.Extensions
             {
                 ctx.SetDefaultAbsoluteExpiration();
                 var models = Context.Fetch();
-                return new ConcurrentDictionary<TKey, TModel>(models.ToDictionary(x => x.Id));
+                var dic = models.ToDictionary(x => x.Id);
+                return new ConcurrentDictionary<TKey, TModel>(dic);
             });
         }
 
@@ -346,7 +347,8 @@ namespace Gentings.Extensions
             {
                 ctx.SetDefaultAbsoluteExpiration();
                 var models = await Context.FetchAsync(cancellationToken: cancellationToken);
-                return new ConcurrentDictionary<TKey, TModel>(models.ToDictionary(x => x.Id));
+                var dic = models.ToDictionary(x => x.Id);
+                return new ConcurrentDictionary<TKey, TModel>(dic);
             });
         }
 

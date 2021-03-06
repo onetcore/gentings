@@ -323,7 +323,7 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            
+
             return FromResult(DbContext.RoleContext.MoveUp(role.Id, x => x.RoleLevel, MoveExpression(role)), role);
         }
 
@@ -338,7 +338,7 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            
+
             return FromResult(DbContext.RoleContext.MoveDown(role.Id, x => x.RoleLevel, MoveExpression(role)), role);
         }
 
@@ -363,8 +363,8 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            
-            return FromResult(await DbContext.RoleContext.MoveUpAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken), role);
+
+            return FromResult(await DbContext.RoleContext.MoveUpAsync(role.Id, x => x.RoleLevel, MoveExpression(role), cancellationToken: CancellationToken), role);
         }
 
         /// <summary>
@@ -378,8 +378,8 @@ namespace Gentings.Identity.Roles
             {
                 throw new ArgumentNullException(nameof(role));
             }
-            
-            return FromResult(await DbContext.RoleContext.MoveDownAsync(role.Id, x => x.RoleLevel, MoveExpression(role), CancellationToken), role);
+
+            return FromResult(await DbContext.RoleContext.MoveDownAsync(role.Id, x => x.RoleLevel, MoveExpression(role), cancellationToken: CancellationToken), role);
         }
 
         /// <summary>
