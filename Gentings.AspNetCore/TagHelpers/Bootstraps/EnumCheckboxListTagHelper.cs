@@ -1,23 +1,23 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Gentings.AspNetCore.Properties;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {
     /// <summary>
-    /// 枚举单选框列表。
+    /// 枚举复选框列表。
     /// </summary>
-    [HtmlTargetElement("gt:enum-radioboxlist")]
-    public class EnumRadioboxListTagHelper : RadioboxListTagHelper
+    [HtmlTargetElement("gt:enum-checkboxlist")]
+    public class EnumCheckboxListTagHelper : CheckboxListTagHelper
     {
         private readonly ILocalizer _localizer;
         /// <summary>
-        /// 初始化类<see cref="EnumRadioboxListTagHelper"/>。
+        /// 初始化类<see cref="EnumCheckboxListTagHelper"/>。
         /// </summary>
         /// <param name="localizer">本地化接口。</param>
-        public EnumRadioboxListTagHelper(ILocalizer localizer)
+        public EnumCheckboxListTagHelper(ILocalizer localizer)
         {
             _localizer = localizer;
         }

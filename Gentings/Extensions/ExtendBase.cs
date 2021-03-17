@@ -67,6 +67,33 @@ namespace Gentings.Extensions
         }
 
         /// <summary>
+        /// 获取枚举值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <returns>返回当前名称的枚举值。</returns>
+        protected TEnum? GetEnum<TEnum>(string name)
+            where TEnum : struct
+        {
+            if (_extendProperties.TryGetValue(name, out var value) &&
+                Enum.TryParse<TEnum>(value.Trim(), true, out var result))
+                return result;
+            return null;
+        }
+
+        /// <summary>
+        /// 设置枚举值。
+        /// </summary>
+        /// <param name="name">当前名称。</param>
+        /// <param name="value">参数值。</param>
+        protected void SetEnum(string name, Enum value)
+        {
+            if (value == null)
+                _extendProperties.Remove(name);
+            else
+                this[name] = value.ToString();
+        }
+
+        /// <summary>
         /// 获取数值。
         /// </summary>
         /// <param name="name">当前名称。</param>

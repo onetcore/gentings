@@ -71,11 +71,11 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         {
             if (Value != null)
                 Value = $",{Value},";
-            var items = new Dictionary<string, string>();
+            var items = new Dictionary<string, object>();
             Init(items);
             foreach (var item in items)
             {
-                output.Content.AppendHtml(Create(item.Key, item.Value, IsChecked(item.Value)));
+                output.Content.AppendHtml(Create(item.Key, item.Value.ToString(), IsChecked(item.Value)));
             }
             output.Render("div", builder => builder.AddCssClass("gt-checkboxlist"));
         }
@@ -85,7 +85,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// </summary>
         /// <param name="current">当前项目值。</param>
         /// <returns>返回判断结果。</returns>
-        protected virtual bool IsChecked(string current)
+        protected virtual bool IsChecked(object current)
         {
             return Value?.IndexOf($",{current},") >= 0;
         }
@@ -94,7 +94,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 附加复选项目列表，文本/值。
         /// </summary>
         /// <param name="items">复选框项目列表实例。</param>
-        protected abstract void Init(IDictionary<string, string> items);
+        protected abstract void Init(IDictionary<string, object> items);
 
         private TagBuilder Create(string text, string value, bool isChecked)
         {
