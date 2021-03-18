@@ -5,7 +5,7 @@ namespace Gentings.Sites
     /// <summary>
     /// 网站查询实例。
     /// </summary>
-    public class SiteQuery : QueryBase<SiteAdapter>
+    public class SiteQuery : Data.QueryBase<SiteAdapter>
     {
         /// <summary>
         /// 名称。

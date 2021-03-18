@@ -6,7 +6,7 @@ namespace Gentings.Sites
     /// 查询基类。
     /// </summary>
     /// <typeparam name="TModel">数据库实体类型。</typeparam>
-    public abstract class SiteQueryBase<TModel> : Data.QueryBase<TModel>
+    public abstract class QueryBase<TModel> : Data.QueryBase<TModel>
         where TModel : ISite
     {
         /// <summary>
