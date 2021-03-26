@@ -38,7 +38,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <summary>
         /// 设置属性模型。
         /// </summary>
-        [HtmlAttributeName("for")]
+        [HtmlAttributeName("asp-for")]
         public ModelExpression For { get; set; }
 
         /// <summary>

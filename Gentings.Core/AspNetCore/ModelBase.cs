@@ -124,63 +124,62 @@ namespace Gentings.AspNetCore
         /// 消息页面。
         /// </summary>
         /// <param name="message">消息字符串。</param>
-        /// <param name="pageOrUrl">页面或者URL地址。</param>
+        /// <param name="pageName">页面名称。</param>
         /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="area">区域。</param>
+        /// <param name="routeValues">参数匿名对象。</param>
         /// <returns>返回当前页面结果。</returns>
-        protected IActionResult RedirectToInfoPage(string message, string pageOrUrl = null, string pageHandler = null, string area = null)
-            => RedirectToPage(StatusType.Info, message, pageOrUrl, pageHandler, area);
+        protected IActionResult RedirectToInfoPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
+            => RedirectToPage(StatusType.Info, message, pageName, pageHandler, routeValues);
 
         /// <summary>
         /// 警告消息页面。
         /// </summary>
         /// <param name="message">消息字符串。</param>
-        /// <param name="pageOrUrl">页面或者URL地址。</param>
+        /// <param name="pageName">页面名称。</param>
         /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="area">区域。</param>
+        /// <param name="routeValues">参数匿名对象。</param>
         /// <returns>返回当前页面结果。</returns>
-        protected IActionResult RedirectToWarningPage(string message, string pageOrUrl = null, string pageHandler = null, string area = null)
-            => RedirectToPage(StatusType.Warning, message, pageOrUrl, pageHandler, area);
+        protected IActionResult RedirectToWarningPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
+            => RedirectToPage(StatusType.Warning, message, pageName, pageHandler, routeValues);
 
         /// <summary>
         /// 错误消息页面。
         /// </summary>
         /// <param name="message">消息字符串。</param>
-        /// <param name="pageOrUrl">页面或者URL地址。</param>
+        /// <param name="pageName">页面名称。</param>
         /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="area">区域。</param>
+        /// <param name="routeValues">参数匿名对象。</param>
         /// <returns>返回当前页面结果。</returns>
-        protected IActionResult RedirectToErrorPage(string message, string pageOrUrl = null, string pageHandler = null, string area = null)
-            => RedirectToPage(StatusType.Danger, message, pageOrUrl, pageHandler, area);
+        protected IActionResult RedirectToErrorPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
+            => RedirectToPage(StatusType.Danger, message, pageName, pageHandler, routeValues);
 
         /// <summary>
         /// 成功消息页面。
         /// </summary>
         /// <param name="message">消息字符串。</param>
-        /// <param name="pageOrUrl">页面或者URL地址。</param>
+        /// <param name="pageName">页面名称。</param>
         /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="area">区域。</param>
+        /// <param name="routeValues">参数匿名对象。</param>
         /// <returns>返回当前页面结果。</returns>
-        protected IActionResult RedirectToSuccessPage(string message, string pageOrUrl = null, string pageHandler = null, string area = null)
-            => RedirectToPage(StatusType.Success, message, pageOrUrl, pageHandler, area);
+        protected IActionResult RedirectToSuccessPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
+            => RedirectToPage(StatusType.Success, message, pageName, pageHandler, routeValues);
 
         /// <summary>
         /// 返回带状态消息页面结果。
         /// </summary>
         /// <param name="statusType">状态类型。</param>
         /// <param name="message">消息。</param>
-        /// <param name="pageOrUrl">页面或者URL地址。</param>
+        /// <param name="pageName">页面名称。</param>
         /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="area">区域。</param>
+        /// <param name="routeValues">参数匿名对象。</param>
         /// <returns>返回当前页面结果。</returns>
-        private IActionResult RedirectToPage(StatusType statusType, string message, string pageOrUrl = null, string pageHandler = null, string area = null)
+        private IActionResult RedirectToPage(StatusType statusType, string message, string pageName = null, string pageHandler = null, object routeValues = null)
         {
             StatusMessage(statusType, message);
-            if (pageOrUrl != null)
-                return RedirectToPage(pageOrUrl, pageHandler, new { area });
+            if (pageName != null)
+                return RedirectToPage(pageName, pageHandler, routeValues);
             return RedirectToPage();
         }
-
         #endregion
 
         #region jsons

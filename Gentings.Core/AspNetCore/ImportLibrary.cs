@@ -32,5 +32,9 @@ namespace Gentings.AspNetCore
         /// Feather图标。
         /// </summary>
         Feather = 0x10,
+        /// <summary>
+        /// 脚本高亮渲染。
+        /// </summary>
+        Highlight = 0x20,
     }
 }

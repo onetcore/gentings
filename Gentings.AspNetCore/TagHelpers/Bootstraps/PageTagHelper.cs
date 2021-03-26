@@ -23,9 +23,9 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         private const string FragmentAttributeName = "fragment";
         private const string HostAttributeName = "host";
         private const string ProtocolAttributeName = "protocol";
-        private const string RouteAttributeName = "route";
+        private const string RouteAttributeName = "asp-route";
         private const string RouteValuesDictionaryName = "all-route-data";
-        private const string RouteValuesPrefix = "route-";
+        private const string RouteValuesPrefix = "asp-route-";
         private const string HrefAttributeName = "href";
         private const string DataAttributeName = "data";
         private const string FactorAttributeName = "factor";

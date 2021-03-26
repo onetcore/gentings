@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Pages
+namespace Gentings.AspNetCore.TagHelpers.Html
 {
     /// <summary>
     /// 头部标签。
@@ -49,6 +49,8 @@ namespace Gentings.AspNetCore.TagHelpers.Pages
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap/css/bootstrap.min.css\" />");
             if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/gtcore/dist/css/gtcore.min.css\" />");
+            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/highlight.js/styles/vs2015.min.css\" />");
             output.AppendHtml(await output.GetChildContentAsync());
         }
     }

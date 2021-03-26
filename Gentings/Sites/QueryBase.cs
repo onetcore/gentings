@@ -21,6 +21,7 @@ namespace Gentings.Sites
         protected internal override void Init(IQueryContext<TModel> context)
         {
             context.WithNolock().Where(x => x.SiteId == SiteId);
+            base.Init(context);
         }
     }
 }

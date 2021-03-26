@@ -19,7 +19,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <summary>
         /// 模型属性。
         /// </summary>
-        [HtmlAttributeName("for")]
+        [HtmlAttributeName("asp-for")]
         public ModelExpression For { get; set; }
 
         /// <summary>
@@ -103,15 +103,16 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <typeparam name="TGroup">分组列表。</typeparam>
         /// <param name="items">选项列表。</param>
         /// <param name="groups">当前分组。</param>
-        /// <param name="filter">过滤器。</param>
+        /// <param name="filter">过滤器，筛选，排序等等操作。</param>
         /// <param name="getValue">获取值代理方法，默认为Id。</param>
         /// <param name="getText">获取字符串的代理方法，默认为Name。</param>
         protected void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups,
-            Predicate<TGroup> filter = null, Func<TGroup, string> getValue = null, Func<TGroup, string> getText = null)
+            Func<IEnumerable<TGroup>, IEnumerable<TGroup>> filter = null,
+            Func<TGroup, string> getValue = null,
+            Func<TGroup, string> getText = null)
             where TGroup : IGroupable<TGroup>
         {
-            if (filter != null)
-                groups = groups.Where(x => filter(x)).ToList();
+            groups = filter?.Invoke(groups);
             foreach (var group in groups)
             {
                 items.Add(new SelectListItem { Text = getText?.Invoke(group) ?? group.Name, Value = getValue?.Invoke(group) ?? group.Id.ToString() });
@@ -119,12 +120,11 @@ namespace Gentings.AspNetCore.TagHelpers
             }
         }
 
-        private void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups, Predicate<TGroup> filter, Func<TGroup, string> getValue, Func<TGroup, string> getText, string header)
+        private void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups, Func<IEnumerable<TGroup>, IEnumerable<TGroup>> filter, Func<TGroup, string> getValue, Func<TGroup, string> getText, string header)
             where TGroup : IGroupable<TGroup>
         {
             var index = 0;
-            if (filter != null)
-                groups = groups.Where(x => filter(x)).ToList();
+            groups = filter?.Invoke(groups);
             var count = groups.Count();
             if (count == 0)
                 return;

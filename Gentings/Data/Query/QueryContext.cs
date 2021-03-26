@@ -77,7 +77,7 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="name">标识字符串。</param>
         /// <returns>返回格式化后的字符串。</returns>
-        protected virtual string Delimit(string name) => SqlHelper.DelimitIdentifier(name, GetAlias(typeof(TModel)));
+        protected virtual string Delimit(string name) => Delimit<TModel>(name);
 
         /// <summary>
         /// 格式化列名称，如列名称加上“[]”和前缀。
@@ -87,7 +87,18 @@ namespace Gentings.Data.Query
         /// <returns>返回格式化后的字符串。</returns>
         protected virtual string Delimit<TAlias>(PropertyInfo property)
         {
-            return SqlHelper.DelimitIdentifier(property.Name, GetAlias(typeof(TAlias)));
+            return Delimit<TAlias>(property.Name);
+        }
+
+        /// <summary>
+        /// 格式化列名称，如列名称加上“[]”和前缀。
+        /// </summary>
+        /// <typeparam name="TAlias">别名类型。</typeparam>
+        /// <param name="name">字段名称。</param>
+        /// <returns>返回格式化后的字符串。</returns>
+        protected virtual string Delimit<TAlias>(string name)
+        {
+            return SqlHelper.DelimitIdentifier(name, GetAlias(typeof(TAlias)));
         }
 
         private int _current = 'a';
@@ -647,6 +658,50 @@ namespace Gentings.Data.Query
         /// <summary>
         /// 添加排序规则。
         /// </summary>
+        /// <param name="field">列名称。</param>
+        /// <param name="isDesc">是否为降序。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> IQueryContext<TModel>.OrderBy(string field, bool isDesc)
+        {
+            return OrderBy(field, isDesc);
+        }
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <param name="field">列名称。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending(string field)
+        {
+            return OrderByDescending(field);
+        }
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <typeparam name="TEntity">模型类型。</typeparam>
+        /// <param name="field">列名称。</param>
+        /// <param name="isDesc">是否为降序。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(string field, bool isDesc)
+        {
+            return OrderBy(field, isDesc);
+        }
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <typeparam name="TEntity">模型类型。</typeparam>
+        /// <param name="field">列名称。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending<TEntity>(string field)
+        {
+            return OrderByDescending(field);
+        }
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="expression">列名称表达式。</param>
         /// <param name="isDesc">是否为降序。</param>
@@ -665,6 +720,51 @@ namespace Gentings.Data.Query
 
             return this;
         }
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <param name="field">列名称。</param>
+        /// <param name="isDesc">是否为降序。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        public virtual IQueryable<TModel> OrderBy(string field, bool isDesc) => OrderBy<TModel>(field, isDesc);
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <param name="field">列名称。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        public IQueryable<TModel> OrderByDescending(string field) => OrderBy<TModel>(field, true);
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <typeparam name="TEntity">模型类型。</typeparam>
+        /// <param name="field">列名称。</param>
+        /// <param name="isDesc">是否为降序。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        public virtual IQueryable<TModel> OrderBy<TEntity>(string field, bool isDesc)
+        {
+            field = Delimit<TEntity>(field);
+            if (isDesc)
+            {
+                _orderbys.Add(field + " DESC");
+            }
+            else
+            {
+                _orderbys.Add(field);
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <typeparam name="TEntity">模型类型。</typeparam>
+        /// <param name="field">列名称。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        public IQueryable<TModel> OrderByDescending<TEntity>(string field) => OrderBy<TEntity>(field, true);
 
         /// <summary>
         /// 添加排序规则。

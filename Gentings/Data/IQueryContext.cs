@@ -183,6 +183,38 @@ namespace Gentings.Data
         /// <summary>
         /// 添加排序规则。
         /// </summary>
+        /// <param name="field">列名称。</param>
+        /// <param name="isDesc">是否为降序。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> OrderBy(string field, bool isDesc);
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <param name="field">列名称。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> OrderByDescending(string field);
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <typeparam name="TEntity">模型类型。</typeparam>
+        /// <param name="field">列名称。</param>
+        /// <param name="isDesc">是否为降序。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> OrderBy<TEntity>(string field, bool isDesc);
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
+        /// <typeparam name="TEntity">模型类型。</typeparam>
+        /// <param name="field">列名称。</param>
+        /// <returns>返回当前查询实例对象。</returns>
+        IQueryContext<TModel> OrderByDescending<TEntity>(string field);
+
+        /// <summary>
+        /// 添加排序规则。
+        /// </summary>
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="expression">列名称表达式。</param>
         /// <param name="isDesc">是否为降序。</param>

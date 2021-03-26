@@ -1,4 +1,6 @@
-﻿namespace Gentings.Sites.Categories
+﻿using Gentings.Extensions;
+
+namespace Gentings.Sites.Categories
 {
     /// <summary>
     /// 分类基类。
@@ -8,6 +10,7 @@
         /// <summary>
         /// 网站Id。
         /// </summary>
+        [NotUpdated]
         public int SiteId { get; set; }
     }
 }

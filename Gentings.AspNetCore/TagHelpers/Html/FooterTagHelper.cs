@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
-namespace Gentings.AspNetCore.TagHelpers.Pages
+namespace Gentings.AspNetCore.TagHelpers.Html
 {
     /// <summary>
     /// 底部部标签。
@@ -51,7 +51,11 @@ namespace Gentings.AspNetCore.TagHelpers.Pages
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/feather-icons/feather.min.js"));
             if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/gtcore/dist/js/gtcore.min.js"));
-            output.AppendHtml(await output.GetChildContentAsync());
+            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/highlight.js/highlight.min.js"));
+            var content = await output.GetChildContentAsync();
+            if (!content.IsEmptyOrWhiteSpace)
+                output.AppendHtml(content.GetContent().Trim());
             var status = GetStatusMessage();
             if (status != null)
             {
@@ -60,7 +64,7 @@ namespace Gentings.AspNetCore.TagHelpers.Pages
                     x.MergeAttribute("type", "text/javascript");
                     x.InnerHtml.AppendHtml("$(function(){");
                     var type = status.Type.ToString().ToLower();
-                    var json = new {message = status.Message, type};
+                    var json = new { message = status.Message, type };
                     if (IsAlert)
                         x.InnerHtml.AppendHtml($"GtCore.alert({json.ToJsonString()});");
                     else

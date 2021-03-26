@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Gentings.AspNetCore.Syntax;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Pages
+namespace Gentings.AspNetCore.TagHelpers.Html
 {
     /// <summary>
     /// 样式节点。
