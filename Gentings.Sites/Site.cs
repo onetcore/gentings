@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 using Gentings.Data.Extensions;
-using Gentings.Extensions;
 
 namespace Gentings.Sites
 {
