@@ -12,7 +12,7 @@ namespace Gentings.Storages
     /// <summary>
     /// 媒体文件提供者实现类。
     /// </summary>
-    public abstract class MediaDirectory : IMediaDirectory
+    public class MediaDirectory : IMediaDirectory
     {
         private readonly IStorageDirectory _directory;
         private readonly IDbContext<MediaFile> _mfdb;
@@ -26,7 +26,7 @@ namespace Gentings.Storages
         /// <param name="directory">存储文件夹。</param>
         /// <param name="mfdb">数据库操作接口。</param>
         /// <param name="sfdb">数据库操作接口。</param>
-        protected MediaDirectory(IStorageDirectory directory, IDbContext<MediaFile> mfdb, IDbContext<StoredFile> sfdb)
+        public MediaDirectory(IStorageDirectory directory, IDbContext<MediaFile> mfdb, IDbContext<StoredFile> sfdb)
         {
             _directory = directory;
             _mfdb = mfdb;

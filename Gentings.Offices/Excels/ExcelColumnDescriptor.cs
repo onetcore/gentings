@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
 using DocumentFormat.OpenXml.Spreadsheet;
+using Gentings.Data.Extensions;
 using Gentings.Extensions;
 
 namespace Gentings.Offices.Excels

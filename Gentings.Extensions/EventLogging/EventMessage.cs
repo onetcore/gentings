@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using Gentings.Data.Extensions;
 
 namespace Gentings.Extensions.EventLogging
 {

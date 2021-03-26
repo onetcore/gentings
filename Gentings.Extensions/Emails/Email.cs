@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using Gentings.Data.Extensions;
 
 namespace Gentings.Extensions.Emails
 {

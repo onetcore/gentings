@@ -2,7 +2,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using ControllerBase = Gentings.AspNetCore.ControllerBase;
 
 namespace Gentings.Storages.Controllers
 {

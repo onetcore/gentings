@@ -13,9 +13,10 @@ using Gentings.Extensions;
 using Gentings.Identity.Roles;
 using Microsoft.Extensions.Caching.Memory;
 using System.Data.Common;
+using Gentings.Data.Extensions;
+using Gentings.Extensions.Settings;
 using Gentings.Identity.Avatars;
 using Gentings.Identity.Data;
-using Gentings.Settings;
 
 namespace Gentings.Identity
 {

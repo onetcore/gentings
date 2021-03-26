@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Gentings.Data;
+using Gentings.Data.Extensions;
 using Gentings.Extensions.Properties;
 
 namespace Gentings.Extensions

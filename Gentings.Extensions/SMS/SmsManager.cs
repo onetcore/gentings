@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Gentings.Data;
+using Gentings.Data.Extensions;
 using Gentings.Extensions.Properties;
 
 namespace Gentings.Extensions.SMS

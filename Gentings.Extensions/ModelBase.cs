@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Gentings.Data.Extensions;
 using Gentings.Extensions.EventLogging;
 using Gentings.Extensions.Notifications;
 using Gentings.Extensions.Properties;

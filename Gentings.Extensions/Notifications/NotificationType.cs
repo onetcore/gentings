@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Gentings.Data.Extensions;
 using Gentings.Extensions.Categories;
 
 namespace Gentings.Extensions.Notifications

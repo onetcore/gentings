@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
+using Gentings.Data.Extensions;
 using Gentings.Extensions.EventLogging;
 using Gentings.Extensions.Notifications;
 using Gentings.Extensions.Properties;
-using Gentings.Settings;
+using Gentings.Extensions.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

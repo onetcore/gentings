@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Gentings.Data.Extensions;
 using Gentings.Extensions;
 
 namespace Gentings.Offices.Excels

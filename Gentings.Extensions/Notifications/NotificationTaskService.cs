@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Gentings.Data;
 using Gentings.Extensions.Properties;
-using Gentings.Settings;
+using Gentings.Extensions.Settings;
 using Gentings.Tasks;
 
 namespace Gentings.Extensions.Notifications

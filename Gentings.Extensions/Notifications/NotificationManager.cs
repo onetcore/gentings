@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data;
-using Gentings.Settings;
+using Gentings.Data.Extensions;
+using Gentings.Extensions.Settings;
 using Microsoft.AspNetCore.Http;
 
 namespace Gentings.Extensions.Notifications

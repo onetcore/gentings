@@ -9,7 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gentings\Gentings.csproj" />
+    <ProjectReference Include="..\Gentings.Core\Gentings.Core.csproj" />
+    <ProjectReference Include="..\Gentings.Data\Gentings.Data.csproj" />
+    <ProjectReference Include="..\Gentings.Tasks\Gentings.Tasks.csproj" />
   </ItemGroup>
 
   <ItemGroup>

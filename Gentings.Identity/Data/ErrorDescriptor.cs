@@ -1,4 +1,5 @@
-﻿using Gentings.Extensions;
+﻿using Gentings.Data.Extensions;
+using Gentings.Extensions;
 
 namespace Gentings.Identity.Data
 {

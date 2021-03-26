@@ -1,4 +1,6 @@
-﻿namespace Gentings.Extensions.Categories
+﻿using Gentings.Data.Extensions;
+
+namespace Gentings.Extensions.Categories
 {
     /// <summary>
     /// 分类基类。

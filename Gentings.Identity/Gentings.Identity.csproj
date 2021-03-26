@@ -21,6 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gentings.Core\Gentings.Core.csproj" />
+    <ProjectReference Include="..\Gentings.Data\Gentings.Data.csproj" />
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 
