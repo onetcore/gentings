@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Gentings.Data.Extensions;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Identity;
 

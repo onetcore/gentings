@@ -22,7 +22,7 @@ namespace Gentings.Extensions.Groups
                     .Column(x => x.Name)
                     .Column(x => x.ParentId);
                 Create(table);
-                table.UniqueConstraint(x => new {x.ParentId, x.Name});
+                table.UniqueConstraint(x => new { x.ParentId, x.Name });
             });
         }
 

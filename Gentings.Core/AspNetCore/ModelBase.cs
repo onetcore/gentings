@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gentings.AspNetCore.StatusMessages;
+using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,7 @@ namespace Gentings.AspNetCore
     /// </summary>
     public abstract class ModelBase : PageModel
     {
+        #region common
         private Version _version;
         /// <summary>
         /// 当前程序的版本。
@@ -62,7 +64,7 @@ namespace Gentings.AspNetCore
         /// 是否已经登录。
         /// </summary>
         public bool IsAuthenticated => User.Identity.IsAuthenticated;
-
+        #endregion
 
         #region pages
         private StatusMessage _statusMessage;
@@ -179,6 +181,44 @@ namespace Gentings.AspNetCore
             if (pageName != null)
                 return RedirectToPage(pageName, pageHandler, routeValues);
             return RedirectToPage();
+        }
+
+        /// <summary>
+        /// 获取对象对比实例。
+        /// </summary>
+        /// <param name="instance">当前对象实例，在更改对象实例之前的实例。</param>
+        /// <returns>返回当前实例。</returns>
+        protected IObjectDiffer GetObjectDiffer(object instance)
+        {
+            var differ = GetRequiredService<IObjectDiffer>();
+            differ.Stored(instance);
+            return differ;
+        }
+
+        /// <summary>
+        /// 返回带状态消息页面结果。
+        /// </summary>
+        /// <param name="result">数据结果。</param>
+        /// <param name="args">参数。</param>
+        /// <returns>返回当前页面结果。</returns>
+        protected IActionResult Page(DataResult result, params object[] args)
+        {
+            if (result.Succeed())
+                return SuccessPage(result.ToString(args));
+            return ErrorPage(result.ToString(args));
+        }
+
+        /// <summary>
+        /// 返回带状态消息页面结果。
+        /// </summary>
+        /// <param name="result">数据结果。</param>
+        /// <param name="args">参数。</param>
+        /// <returns>返回当前页面结果。</returns>
+        protected IActionResult RedirectToResult(DataResult result, params object[] args)
+        {
+            if (result.Succeed())
+                return RedirectToSuccessPage(result.ToString(args));
+            return RedirectToErrorPage(result.ToString(args));
         }
         #endregion
 
@@ -318,6 +358,19 @@ namespace Gentings.AspNetCore
         protected IActionResult Json(object data)
         {
             return new JsonResult(data);
+        }
+
+        /// <summary>
+        /// 返回JSON试图结果。
+        /// </summary>
+        /// <param name="result">数据结果。</param>
+        /// <param name="args">参数。</param>
+        /// <returns>返回JSON试图结果。</returns>
+        protected IActionResult Json(DataResult result, params object[] args)
+        {
+            if (result.Succeed())
+                return Success(result.ToString(args));
+            return Error(result.ToString(args));
         }
         #endregion
     }

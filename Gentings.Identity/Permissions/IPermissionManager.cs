@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Gentings.Data.Extensions;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Http;
 

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Gentings.AspNetCore
 {
@@ -141,30 +140,6 @@ namespace Gentings.AspNetCore
                 return ipAddress?.Split(':').FirstOrDefault();
             }
             return null;
-        }
-
-        /// <summary>
-        /// 添加当前页面试图引入库实例。
-        /// </summary>
-        /// <param name="viewData">当前试图字典实例。</param>
-        /// <param name="libraries">引入库实例。</param>
-        public static void AddLibraries(this ViewDataDictionary viewData, ImportLibrary libraries)
-        {
-            libraries |= viewData.GetLibraries();
-            viewData[nameof(ImportLibrary)] = libraries;
-        }
-
-        /// <summary>
-        /// 获取当前页面试图引入库实例。
-        /// </summary>
-        /// <param name="viewData">当前试图字典实例。</param>
-        /// <returns>返回当前页面试图引入库实例。</returns>
-        public static ImportLibrary GetLibraries(this ViewDataDictionary viewData)
-        {
-            if (viewData.TryGetValue(nameof(ImportLibrary), out var value) &&
-                value is ImportLibrary data)
-                return data;
-            return ImportLibrary.None;
         }
     }
 }

@@ -59,32 +59,5 @@ namespace Gentings.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   查找类似 参数错误：{0}。 的本地化字符串。
-        /// </summary>
-        internal static string ErrorCode_InvalidParameters {
-            get {
-                return ResourceManager.GetString("ErrorCode_InvalidParameters", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 发生未知错误 的本地化字符串。
-        /// </summary>
-        internal static string ErrorCode_UnknownError {
-            get {
-                return ResourceManager.GetString("ErrorCode_UnknownError", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 验证失败 的本地化字符串。
-        /// </summary>
-        internal static string ErrorCode_ValidError {
-            get {
-                return ResourceManager.GetString("ErrorCode_ValidError", resourceCulture);
-            }
-        }
     }
 }

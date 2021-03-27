@@ -248,7 +248,7 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="uri">当前URL地址。</param>
         /// <returns>返回URL的首页域名地址。</returns>
-        public static string GetHomeUrl(Uri uri)
+        public static string GetHomeUrl(this Uri uri)
         {
             return $"{uri.Scheme}://{uri.DnsSafeHost}{(uri.IsDefaultPort ? null : ":" + uri.Port)}/";
         }
@@ -261,7 +261,7 @@ namespace Gentings.AspNetCore
         public static string GetHomeUrl(string url)
         {
             var uri = new Uri(url);
-            return GetHomeUrl(uri);
+            return uri.GetHomeUrl();
         }
         #endregion
     }

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Gentings.Data.Extensions;
 using Gentings.Extensions.Internal;
 
 namespace Gentings.Extensions

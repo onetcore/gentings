@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
-using Gentings.Data.Extensions;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Identity;
 

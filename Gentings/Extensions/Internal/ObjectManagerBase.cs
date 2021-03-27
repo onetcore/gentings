@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data;
-using Gentings.Data.Extensions;
 
 namespace Gentings.Extensions.Internal
 {

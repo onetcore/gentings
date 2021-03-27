@@ -1,6 +1,5 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Mvc;
-using ControllerBase = Gentings.AspNetCore.ControllerBase;
 
 namespace Gentings.Storages.Controllers
 {
@@ -46,7 +45,7 @@ namespace Gentings.Storages.Controllers
         /// <param name="dir">文件夹名称。</param>
         /// <param name="name">文件名称。</param>
         /// <returns>返回文件结果。</returns>
-        [Route("s-dfiles/{dir:alpha}/{name}")]
+        [Route("d-files/{dir:alpha}/{name}")]
         public IActionResult Attachment(string dir, string name)
         {
             name = Path.Combine(dir, name);

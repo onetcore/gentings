@@ -13,6 +13,7 @@ namespace Gentings.AspNetCore
     /// </summary>
     public abstract class ControllerBase : Microsoft.AspNetCore.Mvc.ControllerBase
     {
+        #region common
         private Version _version;
         /// <summary>
         /// 当前程序的版本。
@@ -45,6 +46,37 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前服务的实例对象。</returns>
         protected TService GetRequiredService<TService>() => HttpContext.RequestServices.GetRequiredService<TService>();
 
+        private int? _userId;
+        /// <summary>
+        /// 当前登录用户Id。
+        /// </summary>
+        protected int UserId => _userId ??= User.GetUserId();
+
+        private string _userName;
+        /// <summary>
+        /// 当前登录用户名称。
+        /// </summary>
+        protected string UserName => _userName ??= User.GetUserName();
+
+        /// <summary>
+        /// 是否已经登录。
+        /// </summary>
+        protected bool IsAuthenticated => User.Identity.IsAuthenticated;
+
+        /// <summary>
+        /// 获取对象对比实例。
+        /// </summary>
+        /// <param name="instance">当前对象实例，在更改对象实例之前的实例。</param>
+        /// <returns>返回当前实例。</returns>
+        protected IObjectDiffer GetObjectDiffer(object instance)
+        {
+            var differ = GetRequiredService<IObjectDiffer>();
+            differ.Stored(instance);
+            return differ;
+        }
+        #endregion
+
+        #region json
         /// <summary>
         /// 参数错误。
         /// </summary>
@@ -156,22 +188,6 @@ namespace Gentings.AspNetCore
         {
             return OkResult(new ApiPageResult<TPageData>(query) { Message = message });
         }
-
-        private int? _userId;
-        /// <summary>
-        /// 当前登录用户Id。
-        /// </summary>
-        protected int UserId => _userId ??= User.GetUserId();
-
-        private string _userName;
-        /// <summary>
-        /// 当前登录用户名称。
-        /// </summary>
-        protected string UserName => _userName ??= User.GetUserName();
-
-        /// <summary>
-        /// 是否已经登录。
-        /// </summary>
-        protected bool IsAuthenticated => User.Identity.IsAuthenticated;
+        #endregion
     }
 }

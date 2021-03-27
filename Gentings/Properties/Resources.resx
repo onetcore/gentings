@@ -117,13 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorCode_InvalidParameters" xml:space="preserve">
-    <value>参数错误：{0}。</value>
-  </data>
-  <data name="ErrorCode_UnknownError" xml:space="preserve">
-    <value>发生未知错误</value>
-  </data>
-  <data name="ErrorCode_ValidError" xml:space="preserve">
-    <value>验证失败</value>
-  </data>
 </root>

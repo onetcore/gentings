@@ -1,7 +1,6 @@
 ﻿using Gentings.Extensions.Groups;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using Gentings.Data.Extensions;
 
 namespace Gentings.Extensions.Settings
 {

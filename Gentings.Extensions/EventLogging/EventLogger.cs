@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Gentings.AspNetCore;
-using Gentings.Data.Extensions;
 using Gentings.Extensions.Properties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;

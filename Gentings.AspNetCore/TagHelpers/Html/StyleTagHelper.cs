@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Gentings.AspNetCore.Syntax;
+using Gentings.Syntax;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.TagHelpers.Html

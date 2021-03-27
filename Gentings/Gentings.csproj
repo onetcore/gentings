@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gentings.Core\Gentings.Core.csproj" />
-    <ProjectReference Include="..\Gentings.Data\Gentings.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

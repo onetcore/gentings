@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Gentings.AspNetCore.Syntax;
 using Gentings.Data;
+using Gentings.Syntax;
 
 namespace Gentings.Extensions.Emails
 {

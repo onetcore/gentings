@@ -72,7 +72,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             Init(items);
             foreach (var item in items)
             {
-                output.Content.AppendHtml(Create(item.Key, item.Value.ToString(), IsChecked(item.Value)));
+                output.Content.AppendHtml(Create(item.Key, item.Value?.ToString(), IsChecked(item.Value)));
             }
             var builder = new TagBuilder("div");
             builder.AddCssClass("gt-radioboxlist");
@@ -86,7 +86,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="itemValue">当前选项的值。</param>
         /// <returns>返回判断结果。</returns>
         protected virtual bool IsChecked(object itemValue) =>
-            string.Equals(itemValue.ToString(), Value);
+            string.Equals(itemValue?.ToString(), Value);
 
         /// <summary>
         /// 附加复选项目列表，文本/值。

@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Gentings.Data.Extensions;
 using Gentings.Extensions.EventLogging;
 using Gentings.Extensions.Notifications;
 using Gentings.Extensions.Properties;
@@ -14,18 +13,6 @@ namespace Gentings.Extensions
     /// </summary>
     public abstract class ControllerBase : AspNetCore.ControllerBase
     {
-        /// <summary>
-        /// 获取对象对比实例。
-        /// </summary>
-        /// <param name="instance">当前对象实例，在更改对象实例之前的实例。</param>
-        /// <returns>返回当前实例。</returns>
-        protected IObjectDiffer GetObjectDiffer(object instance)
-        {
-            var differ = GetRequiredService<IObjectDiffer>();
-            differ.Stored(instance);
-            return differ;
-        }
-
         /// <summary>
         /// 从表单中读取扩展属性。
         /// </summary>

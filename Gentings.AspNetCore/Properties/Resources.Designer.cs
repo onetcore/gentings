@@ -61,6 +61,51 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
+        ///   查找类似 禁用 的本地化字符串。
+        /// </summary>
+        internal static string ApplicationStatus_Disabled {
+            get {
+                return ResourceManager.GetString("ApplicationStatus_Disabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 过期 的本地化字符串。
+        /// </summary>
+        internal static string ApplicationStatus_Expired {
+            get {
+                return ResourceManager.GetString("ApplicationStatus_Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 正常 的本地化字符串。
+        /// </summary>
+        internal static string ApplicationStatus_Normal {
+            get {
+                return ResourceManager.GetString("ApplicationStatus_Normal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 等待验证 的本地化字符串。
+        /// </summary>
+        internal static string ApplicationStatus_Pending {
+            get {
+                return ResourceManager.GetString("ApplicationStatus_Pending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 验证失败 的本地化字符串。
+        /// </summary>
+        internal static string ApplicationStatus_Unapproved {
+            get {
+                return ResourceManager.GetString("ApplicationStatus_Unapproved", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 MM月dd日 的本地化字符串。
         /// </summary>
         internal static string DateFormat {
@@ -93,6 +138,24 @@ namespace Gentings.AspNetCore.Properties {
         internal static string EnumDropdownListTagHelper_TypeNotFound {
             get {
                 return ResourceManager.GetString("EnumDropdownListTagHelper_TypeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 应用不存在 的本地化字符串。
+        /// </summary>
+        internal static string ErrorCode_ApplicationNotFound {
+            get {
+                return ResourceManager.GetString("ErrorCode_ApplicationNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 密钥不正确 的本地化字符串。
+        /// </summary>
+        internal static string ErrorCode_AppSecretInvalid {
+            get {
+                return ResourceManager.GetString("ErrorCode_AppSecretInvalid", resourceCulture);
             }
         }
         

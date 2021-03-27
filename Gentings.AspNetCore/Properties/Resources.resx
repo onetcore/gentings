@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ApplicationStatus_Disabled" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="ApplicationStatus_Expired" xml:space="preserve">
+    <value>过期</value>
+  </data>
+  <data name="ApplicationStatus_Normal" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="ApplicationStatus_Pending" xml:space="preserve">
+    <value>等待验证</value>
+  </data>
+  <data name="ApplicationStatus_Unapproved" xml:space="preserve">
+    <value>验证失败</value>
+  </data>
   <data name="DateFormat" xml:space="preserve">
     <value>MM月dd日</value>
   </data>
@@ -128,6 +143,12 @@
   </data>
   <data name="EnumDropdownListTagHelper_TypeNotFound" xml:space="preserve">
     <value>无法找到枚举类型，需要设置Value值或者使用For指定枚举属性！</value>
+  </data>
+  <data name="ErrorCode_ApplicationNotFound" xml:space="preserve">
+    <value>应用不存在</value>
+  </data>
+  <data name="ErrorCode_AppSecretInvalid" xml:space="preserve">
+    <value>密钥不正确</value>
   </data>
   <data name="EventType_Core" xml:space="preserve">
     <value>默认</value>
