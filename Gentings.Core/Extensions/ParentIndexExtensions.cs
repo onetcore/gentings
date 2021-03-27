@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Internal;
 using Gentings.Data.Migrations;
-using Gentings.Extensions;
 
-namespace Gentings
+namespace Gentings.Extensions
 {
     /// <summary>
     /// 父级索引扩展类。
@@ -36,14 +36,15 @@ namespace Gentings
         /// <param name="db">数据库事务操作接口实例。</param>
         /// <param name="id">当前实例Id。</param>
         /// <param name="parentId">父级Id。</param>
+        /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回添加结果。</returns>
-        public static async Task<bool> CreateIndexAsync<TParentIndex>(this IDbTransactionContext<TParentIndex> db, int id, int parentId)
+        public static async Task<bool> CreateIndexAsync<TParentIndex>(this IDbTransactionContext<TParentIndex> db, int id, int parentId, CancellationToken cancellationToken = default)
             where TParentIndex : IParentIndex, new()
         {
             //最顶级无需更新
             if (parentId <= 0) return true;
-            await db.ExecuteNonQueryAsync($@"INSERT INTO {db.EntityType.Table}(ParentId, Id) SELECT ParentId, {id} FROM {db.EntityType.Table} WITH(NOLOCK) WHERE Id = {parentId};");
-            return await db.CreateAsync(new TParentIndex { Id = id, ParentId = parentId });
+            await db.ExecuteNonQueryAsync($@"INSERT INTO {db.EntityType.Table}(ParentId, Id) SELECT ParentId, {id} FROM {db.EntityType.Table} WITH(NOLOCK) WHERE Id = {parentId};", cancellationToken: cancellationToken);
+            return await db.CreateAsync(new TParentIndex { Id = id, ParentId = parentId }, cancellationToken);
         }
 
         /// <summary>
@@ -68,12 +69,13 @@ namespace Gentings
         /// <param name="db">数据库事务操作接口实例。</param>
         /// <param name="id">当前实例Id。</param>
         /// <param name="parentId">父级Id。</param>
+        /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回添加结果。</returns>
-        public static async Task<bool> UpdateIndexAsync<TParentIndex>(this IDbTransactionContext<TParentIndex> db, int id, int parentId)
+        public static async Task<bool> UpdateIndexAsync<TParentIndex>(this IDbTransactionContext<TParentIndex> db, int id, int parentId, CancellationToken cancellationToken = default)
             where TParentIndex : IParentIndex, new()
         {
-            await db.DeleteAsync(x => x.Id == id);//删除原有的父级ID
-            return await db.CreateIndexAsync(id, parentId);
+            await db.DeleteAsync(x => x.Id == id, cancellationToken);//删除原有的父级ID
+            return await db.CreateIndexAsync(id, parentId, cancellationToken);
         }
 
         /// <summary>

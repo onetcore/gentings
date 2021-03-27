@@ -327,4 +327,19 @@
   <data name="Differ_Uninitialized" xml:space="preserve">
     <value>对象变更原始对象未初始化，请在修改对象时候先调用Init方法。</value>
   </data>
+  <data name="EventLevel_Success" xml:space="preserve">
+    <value>成功</value>
+  </data>
+  <data name="EventLevel_Error" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="EventLevel_Information" xml:space="preserve">
+    <value>消息</value>
+  </data>
+  <data name="EventLevel_Warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="EventType" xml:space="preserve">
+    <value>系统</value>
+  </data>
 </root>

@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Gentings.Extensions;
+using Gentings.Extensions.Events;
+using Gentings.Properties;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -70,7 +73,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前实例。</returns>
         protected IObjectDiffer GetObjectDiffer(object instance)
         {
-            var differ = GetRequiredService<IObjectDiffer>();
+            var differ = new ObjectDiffer(HttpContext);
             differ.Stored(instance);
             return differ;
         }
@@ -188,6 +191,85 @@ namespace Gentings.AspNetCore
         {
             return OkResult(new ApiPageResult<TPageData>(query) { Message = message });
         }
+        #endregion
+
+        #region events
+        private IEventLogger _eventLogger;
+        /// <summary>
+        /// 本地化接口。
+        /// </summary>
+        protected IEventLogger Events => _eventLogger ??= GetRequiredService<IEventLogger>();
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">消息。</param>
+        /// <param name="level">事件等级。</param>
+        /// <param name="source">来源。</param>
+        protected void Log(string message, EventLevel level = EventLevel.Success, string source = null)
+            => Events.Log(message, EventType, level, source);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">消息。</param>
+        /// <param name="level">事件等级。</param>
+        /// <param name="source">来源。</param>
+        protected Task LogAsync(string message, EventLevel level = EventLevel.Success, string source = null)
+            => Events.LogAsync(message, EventType, level, source);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected void Log(string message, params object[] args)
+            => Events.Log(string.Format(message, args));
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="message">事件消息。</param>
+        /// <param name="args">格式化参数。</param>
+        protected Task LogAsync(string message, params object[] args)
+            => Events.LogAsync(string.Format(message, args));
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="exception">错误实例对象。</param>
+        protected void Log(Exception exception)
+            => Events.Log(exception, EventType);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="exception">错误实例对象。</param>
+        protected Task LogAsync(Exception exception)
+            => Events.LogAsync(exception, EventType);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="name">名称。</param>
+        /// <param name="source">来源。</param>
+        protected void LogResult(DataResult result, string name, string source = null)
+            => Events.LogResult(result, name, EventType, source);
+
+        /// <summary>
+        /// 添加事件日志。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="name">名称。</param>
+        /// <param name="source">来源。</param>
+        protected Task LogResultAsync(DataResult result, string name, string source = null)
+            => Events.LogResultAsync(result, name, EventType, source);
+
+        /// <summary>
+        /// 事件类型。
+        /// </summary>
+        protected virtual string EventType => Resources.EventType;
         #endregion
     }
 }

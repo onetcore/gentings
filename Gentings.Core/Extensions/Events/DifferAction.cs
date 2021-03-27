@@ -1,4 +1,4 @@
-﻿namespace Gentings
+﻿namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 变更类型。

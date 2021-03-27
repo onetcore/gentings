@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Internal;
+using Gentings.Extensions;
 using Gentings.Identity.Roles;
 using Gentings.Identity.Scores;
 
@@ -49,10 +50,8 @@ namespace Gentings.Identity
             //子账号
             if (user.ParentId > 0)
             {
-                var sdb = context.As<IndexedUser>();
-                context.ExecuteNonQuery($@"INSERT INTO {sdb.EntityType.Table}(UserId,IndexedId)
-SELECT UserId, {user.Id} FROM {sdb.EntityType.Table} WHERE IndexedId = {user.ParentId};");
-                sdb.Create(new IndexedUser { IndexedId = user.Id, UserId = user.ParentId });
+                var sdb = context.As<UserIndex>();
+                sdb.CreateIndex(user.Id, user.ParentId);
             }
             //积分
             var usdb = context.As<UserScore>();
@@ -88,10 +87,8 @@ SELECT UserId, {user.Id} FROM {sdb.EntityType.Table} WHERE IndexedId = {user.Par
             //子账号
             if (user.ParentId > 0)
             {
-                var sdb = context.As<IndexedUser>();
-                await context.ExecuteNonQueryAsync($@"INSERT INTO {sdb.EntityType.Table}(UserId,IndexedId)
-SELECT UserId, {user.Id} FROM {sdb.EntityType.Table} WHERE IndexedId = {user.ParentId};", cancellationToken: cancellationToken);
-                await sdb.CreateAsync(new IndexedUser { IndexedId = user.Id, UserId = user.ParentId }, cancellationToken);
+                var sdb = context.As<UserIndex>();
+                await sdb.CreateIndexAsync(user.Id, user.ParentId);
             }
             //积分
             var usdb = context.As<UserScore>();

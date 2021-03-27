@@ -1,4 +1,4 @@
-﻿namespace Gentings
+﻿namespace Gentings.Extensions
 {
     /// <summary>
     /// 索引接口。

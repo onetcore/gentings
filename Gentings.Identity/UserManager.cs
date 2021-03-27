@@ -638,21 +638,21 @@ namespace Gentings.Identity
         /// <param name="userId">当前用户Id。</param>
         /// <param name="topOnly">是否只是第一层级账户。</param>
         /// <returns>返回当前用户的所有子账户列表。</returns>
-        public virtual IEnumerable<GroupableIndexedUser> LoadChildren(int userId, bool topOnly = true)
+        public virtual IEnumerable<IndexedUser> LoadChildren(int userId, bool topOnly = true)
         {
             var queryable = DbContext.UserContext.AsQueryable()
                 .WithNolock()
                 .Select(x => new { x.Id, x.ParentId })
                 .Select(x => x.NickName, "Name");
             if (topOnly)
-                return queryable.Where(x => x.ParentId == userId).AsEnumerable<GroupableIndexedUser>();
+                return queryable.Where(x => x.ParentId == userId).AsEnumerable<IndexedUser>();
             if (userId > 0)
-                queryable = queryable.InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
-                    .Where<IndexedUser>(x => x.UserId == userId);
-            var users = queryable.AsEnumerable<GroupableIndexedUser>();
+                queryable = queryable.InnerJoin<UserIndex>((u, s) => u.Id == s.Id)
+                    .Where<UserIndex>(x => x.ParentId == userId);
+            var users = queryable.AsEnumerable<IndexedUser>();
             if (users.MakeDictionary(userId).TryGetValue(userId, out var user))
                 return user.Children;
-            return Enumerable.Empty<GroupableIndexedUser>();
+            return Enumerable.Empty<IndexedUser>();
         }
 
         /// <summary>
@@ -661,21 +661,21 @@ namespace Gentings.Identity
         /// <param name="userId">当前用户Id。</param>
         /// <param name="topOnly">是否只是第一层级账户。</param>
         /// <returns>返回当前用户的所有子账户列表。</returns>
-        public virtual async Task<IEnumerable<GroupableIndexedUser>> LoadChildrenAsync(int userId, bool topOnly = true)
+        public virtual async Task<IEnumerable<IndexedUser>> LoadChildrenAsync(int userId, bool topOnly = true)
         {
             var queryable = DbContext.UserContext.AsQueryable()
                 .WithNolock()
                 .Select(x => new { x.Id, x.ParentId })
                 .Select(x => x.NickName, "Name");
             if (topOnly)
-                return await queryable.Where(x => x.ParentId == userId).AsEnumerableAsync<GroupableIndexedUser>();
+                return await queryable.Where(x => x.ParentId == userId).AsEnumerableAsync<IndexedUser>();
             if (userId > 0)
-                queryable = queryable.InnerJoin<IndexedUser>((u, s) => u.Id == s.IndexedId)
-                    .Where<IndexedUser>(x => x.UserId == userId);
-            var users = await queryable.AsEnumerableAsync<GroupableIndexedUser>();
+                queryable = queryable.InnerJoin<UserIndex>((u, s) => u.Id == s.Id)
+                    .Where<UserIndex>(x => x.ParentId == userId);
+            var users = await queryable.AsEnumerableAsync<IndexedUser>();
             if (users.MakeDictionary(userId).TryGetValue(userId, out var user))
                 return user.Children;
-            return Enumerable.Empty<GroupableIndexedUser>();
+            return Enumerable.Empty<IndexedUser>();
         }
 
         /// <summary>
@@ -702,9 +702,9 @@ namespace Gentings.Identity
         {
             return DbContext.UserContext.AsQueryable()
                 .WithNolock()
-                .InnerJoin<IndexedUser>((u, iu) => u.Id == iu.IndexedId)
+                .InnerJoin<UserIndex>((u, iu) => u.Id == iu.Id)
                 .Where(x => x.Id == userId)
-                .Where<IndexedUser>(x => x.UserId == parentId)
+                .Where<UserIndex>(x => x.ParentId == parentId)
                 .FirstOrDefault();
         }
 
@@ -718,9 +718,9 @@ namespace Gentings.Identity
         {
             return DbContext.UserContext.AsQueryable()
                 .WithNolock()
-                .InnerJoin<IndexedUser>((u, iu) => u.Id == iu.IndexedId)
+                .InnerJoin<UserIndex>((u, iu) => u.Id == iu.Id)
                 .Where(x => x.Id == userId)
-                .Where<IndexedUser>(x => x.UserId == parentId)
+                .Where<UserIndex>(x => x.ParentId == parentId)
                 .FirstOrDefaultAsync();
         }
 

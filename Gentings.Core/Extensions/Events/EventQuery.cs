@@ -1,13 +1,12 @@
 ﻿using System;
 using Gentings.Data;
 
-namespace Gentings.Extensions.EventLogging
+namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 事件查询实例。
     /// </summary>
-    public abstract class EventQueryBase<TUser> : QueryBase<EventMessage>
-        where TUser : IUser
+    public class EventQuery : QueryBase<Event>, IOrderBy
     {
         /// <summary>
         /// 事件类型Id。
@@ -15,19 +14,34 @@ namespace Gentings.Extensions.EventLogging
         public int EventId { get; set; }
 
         /// <summary>
-        /// 用户Id。
+        /// 当前用户Id。
         /// </summary>
         public int UserId { get; set; }
-
-        /// <summary>
-        /// 用户名称。
-        /// </summary>
-        public string Name { get; set; }
 
         /// <summary>
         /// IP地址。
         /// </summary>
         public string IP { get; set; }
+
+        /// <summary>
+        /// 来源。
+        /// </summary>
+        public string Source { get; set; }
+
+        /// <summary>
+        /// 是否降序。
+        /// </summary>
+        public bool Desc { get; set; } = true;
+
+        /// <summary>
+        /// 排序列枚举。
+        /// </summary>
+        Enum IOrderBy.Order => Order;
+
+        /// <summary>
+        /// 排序。
+        /// </summary>
+        public EventOrderBy Order { get; set; }
 
         /// <summary>
         /// 起始时间。
@@ -43,43 +57,21 @@ namespace Gentings.Extensions.EventLogging
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
-        protected override void Init(IQueryContext<EventMessage> context)
+        protected internal override void Init(IQueryContext<Event> context)
         {
-            context.WithNolock().Select();
-            context.InnerJoin<TUser>((a, u) => a.UserId == u.Id)
-                .Select<TUser>(x => new { x.UserName, x.NickName, x.Avatar });
-
+            base.Init(context);
             if (EventId > 0)
-            {
                 context.Where(x => x.EventId == EventId);
-            }
-
             if (UserId > 0)
-            {
                 context.Where(x => x.UserId == UserId);
-            }
-
-            if (Start != null)
-            {
-                context.Where(x => x.CreatedDate >= Start);
-            }
-
-            if (End != null)
-            {
-                context.Where(x => x.CreatedDate <= End);
-            }
-
             if (!string.IsNullOrEmpty(IP))
-            {
                 context.Where(x => x.IPAdress == IP);
-            }
-
-            if (!string.IsNullOrEmpty(Name))
-            {
-                context.Where<TUser>(x => x.UserName.Contains(Name) || x.NickName.Contains(Name));
-            }
-
-            context.OrderByDescending(x => x.Id);
+            if (!string.IsNullOrEmpty(Source))
+                context.Where(x => x.Source.Contains(Source));
+            if (Start != null)
+                context.Where(x => x.CreatedDate >= Start);
+            if (End != null)
+                context.Where(x => x.CreatedDate <= End);
         }
     }
 }

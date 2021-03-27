@@ -466,6 +466,51 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 错误 的本地化字符串。
+        /// </summary>
+        internal static string EventLevel_Error {
+            get {
+                return ResourceManager.GetString("EventLevel_Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 消息 的本地化字符串。
+        /// </summary>
+        internal static string EventLevel_Information {
+            get {
+                return ResourceManager.GetString("EventLevel_Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成功 的本地化字符串。
+        /// </summary>
+        internal static string EventLevel_Success {
+            get {
+                return ResourceManager.GetString("EventLevel_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 警告 的本地化字符串。
+        /// </summary>
+        internal static string EventLevel_Warning {
+            get {
+                return ResourceManager.GetString("EventLevel_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 系统 的本地化字符串。
+        /// </summary>
+        internal static string EventType {
+            get {
+                return ResourceManager.GetString("EventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 未能获取表单文件实例或者文件长度为0！ 的本地化字符串。
         /// </summary>
         internal static string FormFileInvalid {

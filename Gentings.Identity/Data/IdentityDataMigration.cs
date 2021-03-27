@@ -56,10 +56,11 @@ namespace Gentings.Identity.Data
                 Create(table);
             });
 
-            builder.CreateTable<IndexedUser>(table => table
-                .Column(x => x.UserId)
-                .Column(x => x.IndexedId)
-                .ForeignKey<TUser>(x => x.UserId, x => x.Id, onDelete: ReferentialAction.Cascade));
+            //创建父级索引表格
+            builder.CreateTable<UserIndex>(table => table
+                .Column(x => x.ParentId)
+                .Column(x => x.Id)
+                .ForeignKey<TUser>(x => x.ParentId, x => x.Id, onDelete: ReferentialAction.Cascade));
 
             builder.CreateTable<TUserClaim>(table => table
                 .Column(x => x.Id)

@@ -1,6 +1,5 @@
 ﻿using Gentings.Storages;
 using Microsoft.AspNetCore.Mvc;
-using ControllerBase = Gentings.AspNetCore.ControllerBase;
 
 namespace Gentings.Identity.Avatars.Controllers
 {

@@ -85,8 +85,8 @@ namespace Gentings.Identity
             if (Pid > 0)
                 context.Where(x => x.ParentId == Pid);
             if (Sid > 0)
-                context.InnerJoin<IndexedUser>((u, iu) => u.Id == iu.IndexedId)
-                    .Where<IndexedUser>(x => x.UserId == Sid);
+                context.InnerJoin<UserIndex>((u, ui) => u.Id == ui.Id)
+                    .Where<UserIndex>(x => x.ParentId == Sid);
         }
     }
 

@@ -537,7 +537,7 @@ namespace Gentings.Identity
         /// <param name="userId">当前用户Id。</param>
         /// <param name="topOnly">是否只是第一层级账户。</param>
         /// <returns>返回当前用户的所有子账户列表。</returns>
-        IEnumerable<GroupableIndexedUser> LoadChildren(int userId, bool topOnly = true);
+        IEnumerable<IndexedUser> LoadChildren(int userId, bool topOnly = true);
 
         /// <summary>
         /// 获取当前用户的所有子账户列表。
@@ -545,7 +545,7 @@ namespace Gentings.Identity
         /// <param name="userId">当前用户Id。</param>
         /// <param name="topOnly">是否只是第一层级账户。</param>
         /// <returns>返回当前用户的所有子账户列表。</returns>
-        Task<IEnumerable<GroupableIndexedUser>> LoadChildrenAsync(int userId, bool topOnly = true);
+        Task<IEnumerable<IndexedUser>> LoadChildrenAsync(int userId, bool topOnly = true);
 
         /// <summary>
         /// 判断电子邮件是否已经确认过。

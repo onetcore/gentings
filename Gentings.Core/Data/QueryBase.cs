@@ -14,6 +14,7 @@ namespace Gentings.Data
         /// <param name="context">查询上下文。</param>
         protected internal virtual void Init(IQueryContext<TModel> context)
         {
+            context.WithNolock();
             if (this is IOrderBy order && order.Order != null)
                 context.OrderBy<TModel>(order.Order.ToString(), order.Desc);
         }

@@ -1,24 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Gentings.Extensions.Groups;
 
 namespace Gentings.Identity
 {
     /// <summary>
-    /// 子用户索引表格。
+    /// 分组层级化用户，用于获取子账户列表。
     /// </summary>
-    [Table("sec_Users_Indexed")]
-    public class IndexedUser
+    public class IndexedUser : GroupBase<IndexedUser>
     {
-        /// <summary>
-        /// 用户Id。
-        /// </summary>
-        [Key]
-        public int UserId { get; set; }
 
-        /// <summary>
-        /// 子用户Id。
-        /// </summary>
-        [Key]
-        public int IndexedId { get; set; }
     }
 }

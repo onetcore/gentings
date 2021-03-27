@@ -6,41 +6,46 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Gentings.Data;
-using Gentings.Extensions;
 using Gentings.Properties;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Gentings
+namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 对象变更对比实现类。
     /// </summary>
-    public class ObjectDiffer : IObjectDiffer, IEnumerable<ObjectDiffer.Differ>
+    internal class ObjectDiffer : IObjectDiffer
     {
-        private readonly ILocalizer _localizer;
-        private bool _initialized;
         private bool _differed;
+        private string _typeName;
+        private bool _initialized;
         private IEntityType _entityType;
-
-        private readonly IDictionary<string, string> _stored =
-            new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private IList<Differ> _entities;
+        private readonly ILocalizer _localizer;
+        private readonly int _userId;
+        private readonly IDictionary<string, string> _stored = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly IEventManager _eventManager;
 
         /// <summary>
         /// 初始化类<see cref="ObjectDiffer"/>。
         /// </summary>
-        /// <param name="localizer">本地化接口。</param>
-        public ObjectDiffer(ILocalizer localizer)
+        /// <param name="context">HTTP上下文。</param>
+        public ObjectDiffer(HttpContext context)
         {
-            _localizer = localizer;
+            _localizer = context.RequestServices.GetRequiredService<ILocalizer>();
+            _userId = context.User.GetUserId();
+            _eventManager = context.RequestServices.GetRequiredService<IEventManager>();
         }
 
         /// <summary>
         /// 存储对象的属性，一般为原有对象实例。
         /// </summary>
-        /// <typeparam name="T">当前对象类型。</typeparam>
         /// <param name="oldInstance">原有对象实例。</param>
         /// <returns>返回当前实例。</returns>
-        public virtual T Stored<T>(T oldInstance)
+        public void Stored(object oldInstance)
         {
             if (_initialized)
             {
@@ -56,8 +61,6 @@ namespace Gentings
             {
                 _stored[property.Name] = GetValue(property, oldInstance);
             }
-
-            return oldInstance;
         }
 
         private string GetValue(IProperty property, object instance)
@@ -68,18 +71,15 @@ namespace Gentings
                 return null;
             }
 
-            return value.GetType().IsEnum ? _localizer?.GetString((Enum) value) : value.ToString();
+            return value.GetType().IsEnum ? _localizer?.GetString((Enum)value) : value.ToString();
         }
-
-        private IList<Differ> _entities;
-        private string _typeName;
 
         /// <summary>
         /// 对象新的对象，判断是否已经变更。
         /// </summary>
-        /// <param name="newInstance">新对象实例。</param>
+        /// <param name="instance">新对象实例。</param>
         /// <returns>返回对比结果。</returns>
-        public virtual bool IsDifference(object newInstance)
+        public virtual bool IsDifference(object instance)
         {
             if (!_initialized)
             {
@@ -101,7 +101,7 @@ namespace Gentings
                 }
 
                 var source = _stored[property.Name];
-                var value = GetValue(property, newInstance);
+                var value = GetValue(property, instance);
                 if (string.IsNullOrEmpty(source))
                 {
                     if (string.IsNullOrEmpty(value))
@@ -112,7 +112,11 @@ namespace Gentings
                     //新增
                     _entities.Add(new Differ
                     {
-                        Action = DifferAction.Add, TypeName = _typeName, PropertyName = GetName(property), Value = value
+                        Action = DifferAction.Add,
+                        TypeName = _typeName,
+                        PropertyName = GetName(property),
+                        Value = value,
+                        UserId = _userId
                     });
                     continue;
                 }
@@ -122,8 +126,11 @@ namespace Gentings
                     //删除
                     _entities.Add(new Differ
                     {
-                        Action = DifferAction.Remove, TypeName = _typeName, PropertyName = GetName(property),
-                        Source = source
+                        Action = DifferAction.Remove,
+                        TypeName = _typeName,
+                        PropertyName = GetName(property),
+                        Source = source,
+                        UserId = _userId
                     });
                     continue;
                 }
@@ -136,12 +143,34 @@ namespace Gentings
                 //修改
                 _entities.Add(new Differ
                 {
-                    Action = DifferAction.Modify, TypeName = _typeName, PropertyName = GetName(property),
-                    Source = source, Value = value
+                    Action = DifferAction.Modify,
+                    TypeName = _typeName,
+                    PropertyName = GetName(property),
+                    Source = source,
+                    Value = value,
+                    UserId = _userId
                 });
             }
 
             return _entities.Count > 0;
+        }
+
+        /// <summary>
+        /// 保存当前对象对比实例。
+        /// </summary>
+        /// <returns>返回保存结果。</returns>
+        public bool Save()
+        {
+            return _eventManager.Create(this);
+        }
+
+        /// <summary>
+        /// 保存当前对象对比实例。
+        /// </summary>
+        /// <returns>返回保存结果。</returns>
+        public Task<bool> SaveAsync()
+        {
+            return _eventManager.CreateAsync(this);
         }
 
         private string GetName(IProperty property)
@@ -226,37 +255,6 @@ namespace Gentings
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        /// <summary>
-        /// 变更实体。
-        /// </summary>
-        public class Differ
-        {
-            /// <summary>
-            /// 日志操作实例。
-            /// </summary>
-            public DifferAction Action { get; internal set; }
-
-            /// <summary>
-            /// 类型名称。
-            /// </summary>
-            public string TypeName { get; internal set; }
-
-            /// <summary>
-            /// 属性名称。
-            /// </summary>
-            public string PropertyName { get; internal set; }
-
-            /// <summary>
-            /// 原始数据。
-            /// </summary>
-            public string Source { get; internal set; }
-
-            /// <summary>
-            /// 修改后得值。
-            /// </summary>
-            public string Value { get; internal set; }
         }
     }
 }
