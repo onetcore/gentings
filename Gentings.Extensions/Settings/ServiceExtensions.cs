@@ -3,29 +3,34 @@
 namespace Gentings.Extensions.Settings
 {
     /// <summary>
-    /// 服务扩展类。
+    /// 扩展类。
     /// </summary>
     public static class ServiceExtensions
     {
-        /// <summary>
-        /// 添加字典组件。
-        /// </summary>
-        /// <param name="builder">服务构建实例。</param>
-        /// <returns>服务构建实例。</returns>
-        public static IServiceBuilder AddSettingDictionary(this IServiceBuilder builder)
-            => builder.AddSettingDictionary<SettingDictionaryManager>();
+        private class DefaultSettingsDataMigration : SettingsDataMigration
+        {
+
+        }
+
+        private class DefaultNamedStringDataMigration : NamedStringDataMigration
+        {
+
+        }
 
         /// <summary>
-        /// 添加字典组件。
+        /// 添加配置组件。
         /// </summary>
-        /// <typeparam name="TSettingDictionaryManager">字典实现类。</typeparam>
-        /// <param name="builder">服务构建实例。</param>
-        /// <returns>服务构建实例。</returns>
-        public static IServiceBuilder AddSettingDictionary<TSettingDictionaryManager>(this IServiceBuilder builder)
-            where TSettingDictionaryManager : class, ISettingDictionaryManager
+        /// <param name="builder">服务构建实例对象。</param>
+        /// <param name="namedString">是否添加名称值组件。</param>
+        /// <returns>返回服务构建实例对象。</returns>
+        public static IServiceBuilder AddSettings(this IServiceBuilder builder, bool namedString = false)
         {
-            return builder.AddTransients<IDataMigration, SettingDictionaryDataMigration>()
-                .AddSingleton<ISettingDictionaryManager, TSettingDictionaryManager>();
+            builder.AddTransients<IDataMigration, DefaultSettingsDataMigration>()
+               .AddSingleton<ISettingsManager, SettingsManager>();
+            if (namedString)
+                builder.AddTransients<IDataMigration, DefaultNamedStringDataMigration>()
+                    .AddSingleton<INamedStringManager, NamedStringManager>();
+            return builder;
         }
     }
 }

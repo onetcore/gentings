@@ -13,14 +13,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gentings.Tasks\Gentings.Tasks.csproj" />
-    <ProjectReference Include="..\Gentings\Gentings.csproj" />
+    <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="DocumentFormat.OpenXml" Version="2.11.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+    <ProjectReference Include="..\Gentings.Extensions\Gentings.Extensions.csproj" />
+    <ProjectReference Include="..\Gentings.Tasks\Gentings.Tasks.csproj" />
+    <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 
   <ItemGroup>

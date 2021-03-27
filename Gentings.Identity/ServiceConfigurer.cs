@@ -1,4 +1,6 @@
 ﻿using Gentings.Identity.Data;
+using Gentings.Identity.Notifications;
+using Gentings.Identity.Permissions;
 using Gentings.Identity.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,10 +16,12 @@ namespace Gentings.Identity
     /// <typeparam name="TRoleStore">角色存储。</typeparam>
     /// <typeparam name="TUserManager">用户管理类。</typeparam>
     /// <typeparam name="TRoleManager">角色管理类。</typeparam>
-    public abstract class ServiceConfigurer<TUser, TRole, TUserStore, TRoleStore, TUserManager, TRoleManager>
+    /// <typeparam name="TUserRole">用户角色。</typeparam>
+    public abstract class ServiceConfigurer<TUser, TRole, TUserRole, TUserStore, TRoleStore, TUserManager, TRoleManager>
         : IServiceConfigurer
         where TUser : UserBase
         where TRole : RoleBase
+        where TUserRole : UserRoleBase
         where TUserStore : class, IUserStore<TUser>
         where TRoleStore : class, IRoleStore<TRole>
         where TUserManager : UserManager<TUser>
@@ -54,7 +58,16 @@ namespace Gentings.Identity
                 services.AddIdentity<TUser, TRole>();
                 ConfigureIdentityServices(new IdentityBuilder(typeof(TUser), typeof(TRole), services));
             });
+            if ((IdentityMode & IdentityMode.Notification) == IdentityMode.Notification)
+                builder.AddNotification();
+            if ((IdentityMode & IdentityMode.PermissionAuthorization) == IdentityMode.PermissionAuthorization)
+                builder.AddPermissions<TRole, TUserRole>();
             ConfigureIdentityServices(builder);
         }
+
+        /// <summary>
+        /// 开启的功能模型。
+        /// </summary>
+        protected virtual IdentityMode IdentityMode => IdentityMode.None;
     }
 }

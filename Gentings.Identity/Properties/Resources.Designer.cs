@@ -340,6 +340,60 @@ namespace Gentings.Identity.Properties {
         }
         
         /// <summary>
+        ///   查找类似 已确认 的本地化字符串。
+        /// </summary>
+        internal static string NotificationStatus_Confirmed {
+            get {
+                return ResourceManager.GetString("NotificationStatus_Confirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已过期 的本地化字符串。
+        /// </summary>
+        internal static string NotificationStatus_Expired {
+            get {
+                return ResourceManager.GetString("NotificationStatus_Expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 新通知 的本地化字符串。
+        /// </summary>
+        internal static string NotificationStatus_New {
+            get {
+                return ResourceManager.GetString("NotificationStatus_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 已展示 的本地化字符串。
+        /// </summary>
+        internal static string NotificationStatus_Notified {
+            get {
+                return ResourceManager.GetString("NotificationStatus_Notified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 系统通知清理服务 的本地化字符串。
+        /// </summary>
+        internal static string NotificationTaskService {
+            get {
+                return ResourceManager.GetString("NotificationTaskService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清理每个用户得系统通知，删除多余得系统通知 的本地化字符串。
+        /// </summary>
+        internal static string NotificationTaskService_Description {
+            get {
+                return ResourceManager.GetString("NotificationTaskService_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 管理员角色权限不能被设置！ 的本地化字符串。
         /// </summary>
         internal static string PermissionSetCannotBeOwner {

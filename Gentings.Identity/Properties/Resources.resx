@@ -210,6 +210,24 @@
   <data name="ErrorDescriptor_UserNotInRole" xml:space="preserve">
     <value>用户不在角色'{0}'中。</value>
   </data>
+  <data name="NotificationStatus_Confirmed" xml:space="preserve">
+    <value>已确认</value>
+  </data>
+  <data name="NotificationStatus_Expired" xml:space="preserve">
+    <value>已过期</value>
+  </data>
+  <data name="NotificationStatus_New" xml:space="preserve">
+    <value>新通知</value>
+  </data>
+  <data name="NotificationStatus_Notified" xml:space="preserve">
+    <value>已展示</value>
+  </data>
+  <data name="NotificationTaskService" xml:space="preserve">
+    <value>系统通知清理服务</value>
+  </data>
+  <data name="NotificationTaskService_Description" xml:space="preserve">
+    <value>清理每个用户得系统通知，删除多余得系统通知</value>
+  </data>
   <data name="PermissionSetCannotBeOwner" xml:space="preserve">
     <value>管理员角色权限不能被设置！</value>
   </data>
