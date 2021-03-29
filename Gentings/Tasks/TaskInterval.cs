@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Gentings.Data;
-using Gentings.Tasks.Properties;
+using Gentings.Properties;
 
 namespace Gentings.Tasks
 {

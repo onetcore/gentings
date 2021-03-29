@@ -5,7 +5,7 @@ namespace Gentings.Tasks
     /// <summary>
     /// 后台服务数据迁移类型。
     /// </summary>
-    public class TaskDataMigration : DataMigration
+    public abstract class TaskDataMigration : DataMigration
     {
         /// <summary>
         /// 创建操作。

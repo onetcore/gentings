@@ -342,4 +342,40 @@
   <data name="EventType" xml:space="preserve">
     <value>系统</value>
   </data>
+  <data name="Interval_Day" xml:space="preserve">
+    <value>日</value>
+  </data>
+  <data name="Interval_Each_Day" xml:space="preserve">
+    <value>每天</value>
+  </data>
+  <data name="Interval_Each_Month" xml:space="preserve">
+    <value>每月</value>
+  </data>
+  <data name="Interval_Each_Year" xml:space="preserve">
+    <value>每年</value>
+  </data>
+  <data name="Interval_Format_Error" xml:space="preserve">
+    <value>格式错误，必须为MM-dd HH:mm格式。</value>
+  </data>
+  <data name="Interval_Month" xml:space="preserve">
+    <value>月</value>
+  </data>
+  <data name="Interval_Second" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="Interval_Seconds" xml:space="preserve">
+    <value>每隔</value>
+  </data>
+  <data name="Interval_Year" xml:space="preserve">
+    <value>年</value>
+  </data>
+  <data name="TaskExecuteError" xml:space="preserve">
+    <value>[服务]{0}执行错误：{1}。</value>
+  </data>
+  <data name="TaskHostedService" xml:space="preserve">
+    <value>后台任务进程</value>
+  </data>
+  <data name="TaskHostedService_Description" xml:space="preserve">
+    <value>用于执行后台任务定时服务，后台单独线程监听定时任务操作</value>
+  </data>
 </root>

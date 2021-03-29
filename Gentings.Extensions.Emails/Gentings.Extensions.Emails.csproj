@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gentings.Extensions\Gentings.Extensions.csproj" />
-    <ProjectReference Include="..\Gentings.Tasks\Gentings.Tasks.csproj" />
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 

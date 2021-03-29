@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Gentings.Data;
-using Gentings.Tasks.Properties;
+using Gentings.Properties;
 using Microsoft.Extensions.Logging;
 
 namespace Gentings.Tasks

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Migrations;
-using Gentings.Tasks.Properties;
+using Gentings.Properties;
 using Microsoft.Extensions.Logging;
 
 namespace Gentings.Tasks
@@ -12,7 +12,7 @@ namespace Gentings.Tasks
     /// <summary>
     /// 后台服务。
     /// </summary>
-    public class TaskHostedService : BackgroundService
+    public abstract class TaskHostedService : BackgroundService
     {
         private readonly IEnumerable<ITaskService> _services;
         private readonly ITaskManager _taskManager;

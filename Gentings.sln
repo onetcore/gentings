@@ -13,17 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions", "Gent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Encodings", "Gentings.Encodings\Gentings.Encodings.csproj", "{06141021-06D4-4221-813C-1F21AA5E5415}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Tasks", "Gentings.Tasks\Gentings.Tasks.csproj", "{743C3D65-845F-47B5-87EA-9D41575F4EC1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Data.SqlServer", "Gentings.Data.SqlServer\Gentings.Data.SqlServer.csproj", "{494573D4-AADA-44A3-B7F0-47D2DA711FD8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.RabbitMQ", "Gentings.RabbitMQ\Gentings.RabbitMQ.csproj", "{C43F3E43-3DD3-4D70-B4DB-2AB1EC30B69B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.Extensions.Emails", "Gentings.Extensions.Emails\Gentings.Extensions.Emails.csproj", "{175B00E7-02B5-47FE-B871-8034826CB988}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions.Emails", "Gentings.Extensions.Emails\Gentings.Extensions.Emails.csproj", "{175B00E7-02B5-47FE-B871-8034826CB988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.Extensions.SensitiveWords", "Gentings.Extensions.SensitiveWords\Gentings.Extensions.SensitiveWords.csproj", "{FDB85BC7-7E6B-439C-8085-D180C384C703}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions.SensitiveWords", "Gentings.Extensions.SensitiveWords\Gentings.Extensions.SensitiveWords.csproj", "{FDB85BC7-7E6B-439C-8085-D180C384C703}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.Extensions.SMS", "Gentings.Extensions.SMS\Gentings.Extensions.SMS.csproj", "{E74CAF92-A757-4731-8158-B6A1C5256603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions.SMS", "Gentings.Extensions.SMS\Gentings.Extensions.SMS.csproj", "{E74CAF92-A757-4731-8158-B6A1C5256603}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Saas", "Gentings.Saas\Gentings.Saas.csproj", "{E5AC02DD-E779-4EB1-AC69-4F2EE7E828CE}"
 EndProject
@@ -57,10 +55,6 @@ Global
 		{06141021-06D4-4221-813C-1F21AA5E5415}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06141021-06D4-4221-813C-1F21AA5E5415}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06141021-06D4-4221-813C-1F21AA5E5415}.Release|Any CPU.Build.0 = Release|Any CPU
-		{743C3D65-845F-47B5-87EA-9D41575F4EC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{743C3D65-845F-47B5-87EA-9D41575F4EC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{743C3D65-845F-47B5-87EA-9D41575F4EC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{743C3D65-845F-47B5-87EA-9D41575F4EC1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{494573D4-AADA-44A3-B7F0-47D2DA711FD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{494573D4-AADA-44A3-B7F0-47D2DA711FD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{494573D4-AADA-44A3-B7F0-47D2DA711FD8}.Release|Any CPU.ActiveCfg = Release|Any CPU

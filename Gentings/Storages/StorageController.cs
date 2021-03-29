@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gentings.Storages.Controllers
+namespace Gentings.Storages
 {
     /// <summary>
     /// 存储控制器。
