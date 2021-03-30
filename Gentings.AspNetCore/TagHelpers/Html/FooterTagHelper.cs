@@ -53,6 +53,8 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/gtcore/dist/js/gtcore.min.js"));
             if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/highlight.js/highlight.min.js"));
+            if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/prettify/prettify.min.js"));
             var content = await output.GetChildContentAsync();
             if (!content.IsEmptyOrWhiteSpace)
                 output.AppendHtml(content.GetContent().Trim());

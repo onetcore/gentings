@@ -33,7 +33,7 @@ namespace Gentings.AspNetCore.Controllers
             }
 
             using var ms = Verifiers.Create(out var code, number, fontSize, height);
-            Response.Cookies.Append(key, Verifiers.Hashed(code), new CookieOptions { Expires = DateTimeOffset.Now.AddMinutes(3) });
+            Response.Cookies.Append(key, Cores.Hashed(code), new CookieOptions { Expires = DateTimeOffset.Now.AddMinutes(3) });
             Response.Body.Dispose();
             return File(ms.ToArray(), @"image/png");
         }

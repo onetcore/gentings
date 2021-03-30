@@ -51,6 +51,8 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/gtcore/dist/css/gtcore.min.css\" />");
             if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/highlight.js/styles/vs2015.min.css\" />");
+            if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/prettify/prettify.min.css\" />");
             output.AppendHtml(await output.GetChildContentAsync());
         }
     }

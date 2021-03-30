@@ -79,6 +79,20 @@ namespace Gentings.AspNetCore
             differ.Stored(instance);
             return differ;
         }
+
+        /// <summary>
+        /// 判断验证码。
+        /// </summary>
+        /// <param name="key">当前唯一键。</param>
+        /// <param name="code">验证码。</param>
+        /// <returns>返回判断结果。</returns>
+        public bool IsCodeValid(string key, string code)
+        {
+            if (string.IsNullOrEmpty(code) || !Request.Cookies.TryGetValue(key, out var value))
+                return false;
+            code = Cores.Hashed(code);
+            return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
+        }
         #endregion
 
         #region pages

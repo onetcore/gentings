@@ -210,6 +210,17 @@ namespace Gentings
         }
 
         /// <summary>
+        /// 加密验证码。
+        /// </summary>
+        /// <param name="code">验证码。</param>
+        /// <returns>返回加密后的验证码。</returns>
+        public static string Hashed(string code)
+        {
+            const string salt = "AmazingHashedCodeForGentings!";
+            return Md5(Sha1(salt + code.ToUpper()));
+        }
+
+        /// <summary>
         /// 获取页面区间。
         /// </summary>
         /// <param name="pageIndex">页码。</param>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Gentings.AspNetCore;
-using Gentings.OpenServices.Properties;
+using Gentings.Extensions.OpenServices.Properties;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -36,5 +36,9 @@ namespace Gentings.AspNetCore
         /// 脚本高亮渲染。
         /// </summary>
         Highlight = 0x20,
+        /// <summary>
+        /// 脚本高亮渲染。
+        /// </summary>
+        Prettify = 0x40,
     }
 }
