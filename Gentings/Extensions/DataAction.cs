@@ -51,7 +51,7 @@
         /// <summary>
         /// 子项不为空，不能删除！
         /// </summary>
-        ChildrenNotEmpty = 5,
+        DeletedFailuredItemsNotEmpty = 5,
 
         /// <summary>
         /// 未知错误。

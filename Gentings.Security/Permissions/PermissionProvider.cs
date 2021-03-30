@@ -7,6 +7,78 @@ namespace Gentings.Security.Permissions
     /// </summary>
     public abstract class PermissionProvider : IPermissionProvider
     {
+        /// <summary>
+        /// 权限名称。
+        /// </summary>
+        protected class Names
+        {
+            /// <summary>
+            /// 访问。
+            /// </summary>
+            public const string View = "view";
+
+            /// <summary>
+            /// 添加。
+            /// </summary>
+            public const string Create = "create";
+
+            /// <summary>
+            /// 更新。
+            /// </summary>
+            public const string Update = "update";
+
+            /// <summary>
+            /// 删除。
+            /// </summary>
+            public const string Delete = "delete";
+
+            /// <summary>
+            /// 编辑。
+            /// </summary>
+            public const string Edit = "edit";
+
+            /// <summary>
+            /// 配置。
+            /// </summary>
+            public const string Setting = "setting";
+        }
+
+        /// <summary>
+        /// 权限名称。
+        /// </summary>
+        protected class DotNames
+        {
+            /// <summary>
+            /// 访问。
+            /// </summary>
+            public const string View = ".view";
+
+            /// <summary>
+            /// 添加。
+            /// </summary>
+            public const string Create = ".create";
+
+            /// <summary>
+            /// 更新。
+            /// </summary>
+            public const string Update = ".update";
+
+            /// <summary>
+            /// 删除。
+            /// </summary>
+            public const string Delete = ".delete";
+
+            /// <summary>
+            /// 编辑。
+            /// </summary>
+            public const string Edit = ".edit";
+
+            /// <summary>
+            /// 配置。
+            /// </summary>
+            public const string Setting = ".setting";
+        }
+
         internal const string Core = "core";
 
         /// <summary>

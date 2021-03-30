@@ -133,15 +133,6 @@ namespace Gentings.Security
         public Task<TUser> GetUserAsync() => HttpContext.GetUserAsync<TUser>();
 
         /// <summary>
-        /// 判断当前用户是否已经登录。
-        /// </summary>
-        /// <returns>返回判断结果。</returns>
-        public bool IsSignedIn()
-        {
-            return SignInManager.IsSignedIn(HttpContext.User);
-        }
-
-        /// <summary>
         /// 密码登录。
         /// </summary>
         /// <param name="user">用户实例。</param>
@@ -149,14 +140,6 @@ namespace Gentings.Security
         /// <param name="isRemembered">是否记住登录状态。</param>
         /// <returns>返回登录结果。</returns>
         public Task<SignInResult> PasswordSignInAsync(TUser user, string password, bool isRemembered) => SignInManager.PasswordSignInAsync(user, password, isRemembered, true);
-
-        /// <summary>
-        /// 登出。
-        /// </summary>
-        public virtual Task SignOutAsync()
-        {
-            return SignInManager.SignOutAsync();
-        }
 
         /// <summary>
         /// 修改密码。

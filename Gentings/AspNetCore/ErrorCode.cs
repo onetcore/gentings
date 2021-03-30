@@ -17,5 +17,9 @@
         /// 未知错误。
         /// </summary>
         UnknownError = -1,
+        /// <summary>
+        /// 完成。
+        /// </summary>
+        Success = 0,
     }
 }

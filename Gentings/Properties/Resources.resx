@@ -378,4 +378,7 @@
   <data name="TaskHostedService_Description" xml:space="preserve">
     <value>用于执行后台任务定时服务，后台单独线程监听定时任务操作</value>
   </data>
+  <data name="ErrorCode_Success" xml:space="preserve">
+    <value>完成</value>
+  </data>
 </root>

@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Gentings.Extensions;
 using Gentings.Extensions.Events;
 using Gentings.Properties;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Gentings.AspNetCore
 {
@@ -64,7 +69,29 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 是否已经登录。
         /// </summary>
-        protected bool IsAuthenticated => User.Identity.IsAuthenticated;
+        protected virtual bool IsAuthenticated => User.Identity.IsAuthenticated;
+
+        /// <summary>
+        /// 创建JWT访问Token。
+        /// </summary>
+        /// <param name="claims">用户声明列表。</param>
+        /// <returns>返回Token字符串。</returns>
+        protected string CreateJwtSecurityToken(IEnumerable<Claim> claims)
+        {
+            var configuration = GetRequiredService<IConfiguration>();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["Jwt:Expires"]));
+
+            var token = new JwtSecurityToken(
+                configuration["Jwt:Issuer"],
+                configuration["Jwt:Audience"],
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
 
         /// <summary>
         /// 获取对象对比实例。
@@ -83,21 +110,11 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 参数错误。
         /// </summary>
-        /// <param name="parameterName">参数名称。</param>
-        /// <returns>返回错误结果。</returns>
-        protected virtual IActionResult BadParameter(string parameterName)
-        {
-            return BadResult(ErrorCode.InvalidParameters, args: parameterName);
-        }
-
-        /// <summary>
-        /// 参数错误。
-        /// </summary>
         /// <param name="parameterNames">参数名称列表。</param>
         /// <returns>返回错误结果。</returns>
-        protected virtual IActionResult BadParameters(params string[] parameterNames)
+        protected virtual IActionResult InvalidParameters(params string[] parameterNames)
         {
-            return BadParameter(string.Join(", ", parameterNames));
+            return BadResult(ErrorCode.InvalidParameters, args: parameterNames.Join());
         }
 
         /// <summary>
@@ -129,8 +146,11 @@ namespace Gentings.AspNetCore
         /// <param name="message">错误消息。</param>
         /// <param name="args">错误消息参数。</param>
         /// <returns>返回JSON结果。</returns>
-        protected virtual IActionResult BadResult(string message, params object[] args) =>
-            BadResult(ErrorCode.UnknownError, message, args);
+        protected virtual IActionResult BadResult(string message, params object[] args)
+        {
+            if (args != null) message = string.Format(message, args);
+            return Ok(new ApiResult { Code = (int)ErrorCode.UnknownError, Message = message });
+        }
 
         /// <summary>
         /// 返回错误结果。
@@ -139,21 +159,19 @@ namespace Gentings.AspNetCore
         /// <param name="message">错误消息。</param>
         /// <param name="args">错误消息参数。</param>
         /// <returns>返回JSON结果。</returns>
-        protected virtual IActionResult BadResult(Enum code, string message = null, params object[] args)
+        protected virtual IActionResult BadResult(Enum code, params object[] args)
         {
-            if (message == null)
-            {
-                message = Localizer.GetString(code);
-            }
+            var resource = Localizer.GetString(code, args);
+            return Ok(new ApiResult { Code = (int)(object)code, Message = resource });
+        }
 
-            if (args != null)
-            {
-                message = string.Format(message, args);
-            }
-
-            ApiResult result = code;
-            result.Message = message;
-            return OkResult(result);
+        /// <summary>
+        /// 返回数据结果。
+        /// </summary>
+        /// <returns>返回包含数据的结果。</returns>
+        protected virtual IActionResult OkResult()
+        {
+            return Ok(ApiResult.Success);
         }
 
         /// <summary>
@@ -161,9 +179,9 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="result">API执行结果。</param>
         /// <returns>返回包含数据的结果。</returns>
-        protected virtual IActionResult OkResult(ApiResult result = null)
+        protected virtual IActionResult OkResult(ApiResult result)
         {
-            return Ok(result ?? ApiResult.Success);
+            return Ok(result);
         }
 
         /// <summary>
@@ -190,6 +208,97 @@ namespace Gentings.AspNetCore
             where TPageData : IPageEnumerable
         {
             return OkResult(new ApiPageResult<TPageData>(query) { Message = message });
+        }
+
+        /// <summary>
+        /// 返回数据操作结果，如果成功则返回成功实例。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="action">操作方法。</param>
+        /// <param name="name">名称。</param>
+        /// <returns>返回数据操作结果。</returns>
+        protected virtual IActionResult DataResult(bool result, DataAction action, string name)
+        {
+            if (!result) action = (DataAction)(-(int)action);
+            var resource = Localizer.GetString(action, name);
+            return Ok(new ApiResult { Message = resource, Code = result ? 0 : (int)action });
+        }
+
+        /// <summary>
+        /// 返回数据操作结果，如果成功则返回成功实例。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="name">名称。</param>
+        /// <returns>返回数据操作结果。</returns>
+        protected virtual IActionResult DataResult(DataResult result, string name)
+        {
+            return Ok(new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code });
+        }
+
+        /// <summary>
+        /// 返回数据操作结果，如果成功则返回成功实例。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="action">操作方法。</param>
+        /// <param name="name">名称。</param>
+        /// <returns>返回数据操作结果。</returns>
+        protected virtual IActionResult LogDataResult(bool result, DataAction action, string name)
+        {
+            if (!result) action = (DataAction)(-(int)action);
+            var resource = Localizer.GetString(action, name);
+            var api = new ApiResult
+            {
+                Message = resource,
+                Code = result ? 0 : (int)action
+            };
+            if (api.Status) Log(api.Message);
+            return Ok(api);
+        }
+
+        /// <summary>
+        /// 返回数据操作结果，如果成功则返回成功实例。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="name">名称。</param>
+        /// <returns>返回数据操作结果。</returns>
+        protected virtual IActionResult LogDataResult(DataResult result, string name)
+        {
+            var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
+            if (api.Status) Log(api.Message);
+            return Ok(api);
+        }
+
+        /// <summary>
+        /// 返回数据操作结果，如果成功则返回成功实例。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="action">操作方法。</param>
+        /// <param name="name">名称。</param>
+        /// <returns>返回数据操作结果。</returns>
+        protected virtual async Task<IActionResult> LogDataResultAsync(bool result, DataAction action, string name)
+        {
+            if (!result) action = (DataAction)(-(int)action);
+            var resource = Localizer.GetString(action, name);
+            var api = new ApiResult
+            {
+                Message = resource,
+                Code = result ? 0 : (int)action
+            };
+            if (api.Status) await LogAsync(api.Message);
+            return Ok(api);
+        }
+
+        /// <summary>
+        /// 返回数据操作结果，如果成功则返回成功实例。
+        /// </summary>
+        /// <param name="result">数据操作结果。</param>
+        /// <param name="name">名称。</param>
+        /// <returns>返回数据操作结果。</returns>
+        protected virtual async Task<IActionResult> LogDataResultAsync(DataResult result, string name)
+        {
+            var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
+            if (api.Status) await LogAsync(api.Message);
+            return Ok(api);
         }
         #endregion
 

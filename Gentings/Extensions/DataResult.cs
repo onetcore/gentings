@@ -33,7 +33,7 @@ namespace Gentings.Extensions
         /// <param name="action">数据操作结果。</param>
         public static implicit operator DataResult(DataAction action)
         {
-            return (int) action;
+            return (int)action;
         }
 
         /// <summary>
@@ -51,7 +51,12 @@ namespace Gentings.Extensions
         /// <param name="action">数据操作结果。</param>
         public static implicit operator DataResult(int action)
         {
-            return new DataResult(action, Resources.ResourceManager.GetString($"DataAction_{(DataAction) action}"));
+            return new DataResult(action, GetResource((DataAction)action));
+        }
+
+        private static string GetResource(DataAction action)
+        {
+            return Resources.ResourceManager.GetString($"DataAction_{action}");
         }
 
         /// <summary>
@@ -60,7 +65,7 @@ namespace Gentings.Extensions
         /// <param name="msg">数据操作描述结果。</param>
         public static implicit operator DataResult(string msg)
         {
-            return new DataResult((int) DataAction.UnknownError, msg);
+            return new DataResult((int)DataAction.UnknownError, msg);
         }
 
         /// <summary>
@@ -93,7 +98,7 @@ namespace Gentings.Extensions
         /// <returns>返回执行结果实例对象。</returns>
         public static DataResult FromResult(bool result, DataAction succeed)
         {
-            return result ? succeed : (DataAction) (-(int) succeed);
+            return result ? succeed : (DataAction)(-(int)succeed);
         }
 
         /// <summary>
@@ -104,7 +109,7 @@ namespace Gentings.Extensions
         /// <returns>返回执行结果实例对象。</returns>
         public static DataResult FromResult(Func<bool> result, DataAction succeed)
         {
-            return result() ? succeed : (DataAction) (-(int) succeed);
+            return result() ? succeed : (DataAction)(-(int)succeed);
         }
 
         /// <summary>
@@ -122,7 +127,7 @@ namespace Gentings.Extensions
                 return succeed;
             }
 
-            return (DataAction) (-(int) succeed);
+            return (DataAction)(-(int)succeed);
         }
 
         /// <summary>
@@ -140,7 +145,7 @@ namespace Gentings.Extensions
                 return succeed;
             }
 
-            return (DataAction) (-(int) succeed);
+            return (DataAction)(-(int)succeed);
         }
 
         /// <summary>
@@ -158,7 +163,7 @@ namespace Gentings.Extensions
                 return succeed;
             }
 
-            return (DataAction) (-(int) succeed);
+            return (DataAction)(-(int)succeed);
         }
 
         /// <summary>
@@ -176,7 +181,7 @@ namespace Gentings.Extensions
                 return succeed;
             }
 
-            return (DataAction) (-(int) succeed);
+            return (DataAction)(-(int)succeed);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Gentings.Data;
+﻿using System.Threading.Tasks;
 using Gentings.Extensions;
 
 namespace Gentings.Security.Notifications
@@ -8,20 +8,56 @@ namespace Gentings.Security.Notifications
     /// </summary>
     public interface INotificationManager : IObjectManager<Notification>
     {
-
-    }
-
-    /// <summary>
-    /// 通知管理实现类。
-    /// </summary>
-    public class NotificationManager : ObjectManager<Notification>, INotificationManager
-    {
         /// <summary>
-        /// 初始化类<see cref="NotificationManager"/>。
+        /// 获取当前用户的最新通知。
         /// </summary>
-        /// <param name="context">数据库操作实例。</param>
-        public NotificationManager(IDbContext<Notification> context) : base(context)
-        {
-        }
+        /// <param name="userId">用户Id。</param>
+        /// <param name="size">获取记录数。</param>
+        /// <returns>返回当前用户的最新通知。</returns>
+        NotificationCollection Load(int userId, int size);
+
+        /// <summary>
+        /// 获取当前用户的最新通知。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <param name="size">获取记录数。</param>
+        /// <returns>返回当前用户的最新通知。</returns>
+        Task<NotificationCollection> LoadAsync(int userId, int size);
+
+        /// <summary>
+        /// 添加通知。
+        /// </summary>
+        /// <param name="notification">通知实例。</param>
+        /// <param name="ids">通知Id列表。</param>
+        /// <returns>返回添加结果。</returns>
+        bool Create(Notification notification, int[] ids);
+
+        /// <summary>
+        /// 添加通知。
+        /// </summary>
+        /// <param name="notification">通知实例。</param>
+        /// <param name="ids">通知Id列表。</param>
+        /// <returns>返回添加结果。</returns>
+        Task<bool> CreateAsync(Notification notification, int[] ids);
+
+        /// <summary>
+        /// 添加通知。
+        /// </summary>
+        /// <typeparam name="TUserRole">用户角色关联类型。</typeparam>
+        /// <param name="notification">通知实例。</param>
+        /// <param name="roleId">角色Id。</param>
+        /// <returns>返回添加结果。</returns>
+        bool Create<TUserRole>(Notification notification, int roleId)
+            where TUserRole : UserRoleBase;
+
+        /// <summary>
+        /// 添加通知。
+        /// </summary>
+        /// <typeparam name="TUserRole">用户角色关联类型。</typeparam>
+        /// <param name="notification">通知实例。</param>
+        /// <param name="roleId">角色Id。</param>
+        /// <returns>返回添加结果。</returns>
+        Task<bool> CreateAsync<TUserRole>(Notification notification, int roleId)
+            where TUserRole : UserRoleBase;
     }
 }

@@ -62,8 +62,6 @@ namespace Gentings.Extensions.Events
             base.Init(context);
             if (EventId > 0)
                 context.Where(x => x.EventId == EventId);
-            if (UserId > 0)
-                context.Where(x => x.UserId == UserId);
             if (!string.IsNullOrEmpty(IP))
                 context.Where(x => x.IPAdress == IP);
             if (!string.IsNullOrEmpty(Source))
@@ -72,6 +70,16 @@ namespace Gentings.Extensions.Events
                 context.Where(x => x.CreatedDate >= Start);
             if (End != null)
                 context.Where(x => x.CreatedDate <= End);
+        }
+
+        /// <summary>
+        /// 初始化用户条件。
+        /// </summary>
+        /// <param name="context">查询上下文。</param>
+        protected virtual void InitUsers(IQueryContext<Event> context)
+        {
+            if (UserId > 0)
+                context.Where(x => x.UserId == UserId);
         }
     }
 }

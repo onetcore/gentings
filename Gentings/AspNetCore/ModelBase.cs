@@ -66,7 +66,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 是否已经登录。
         /// </summary>
-        public bool IsAuthenticated => User.Identity.IsAuthenticated;
+        public virtual bool IsAuthenticated => User.Identity.IsAuthenticated;
 
         /// <summary>
         /// 获取对象对比实例。
@@ -367,13 +367,28 @@ namespace Gentings.AspNetCore
         /// 返回JSON试图结果。
         /// </summary>
         /// <param name="result">数据结果。</param>
-        /// <param name="args">参数。</param>
+        /// <param name="name">操作对象名称。</param>
         /// <returns>返回JSON试图结果。</returns>
-        protected IActionResult Json(DataResult result, params object[] args)
+        protected IActionResult Json(DataResult result, string name)
         {
             if (result.Succeed())
-                return Success(result.ToString(args));
-            return Error(result.ToString(args));
+                return Success(result.ToString(name));
+            return Error(result.ToString(name));
+        }
+
+        /// <summary>
+        /// 返回JSON试图结果。
+        /// </summary>
+        /// <param name="result">数据结果。</param>
+        /// <param name="action">操作成功的方法。</param>
+        /// <param name="name">操作对象名称。</param>
+        /// <returns>返回JSON试图结果。</returns>
+        protected IActionResult Json(bool result, DataAction action, string name)
+        {
+            if (result)
+                return Success(Localizer.GetString(action, name));
+            action = (DataAction)(-(int)action);
+            return Error(Localizer.GetString(action, name));
         }
         #endregion
 

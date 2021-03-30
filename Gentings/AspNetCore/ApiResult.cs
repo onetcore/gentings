@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Gentings.Properties;
 
 namespace Gentings.AspNetCore
 {
@@ -10,7 +10,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 成功实例。
         /// </summary>
-        public static readonly ApiResult Success = new ApiResult();
+        public static readonly ApiResult Success = new ApiResult { Message = Resources.ErrorCode_Success };
 
         /// <summary>
         /// 状态：成功true/失败false。
@@ -21,15 +21,6 @@ namespace Gentings.AspNetCore
         /// 设置错误编码。
         /// </summary>
         public int Code { get; set; }
-
-        /// <summary>
-        /// 隐式转换为返回结果。
-        /// </summary>
-        /// <param name="code">当前错误代码。</param>
-        public static implicit operator ApiResult(Enum code)
-        {
-            return new ApiResult { Code = (int)(object)code };
-        }
 
         /// <summary>
         /// 消息。

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using Gentings.AspNetCore;
+using Gentings.RabbitMQ.Properties;
 using RabbitMQ.Client;
 
 namespace Gentings.RabbitMQ
@@ -63,7 +64,7 @@ namespace Gentings.RabbitMQ
             try
             {
                 if (body == null)
-                    return ErrorCode.NullBody;
+                    return new ApiResult { Message = Resources.ErrorCode_NullBody, Code = (int)ErrorCode.NullBody };
                 var channel = _configuration.GetOrCreateChannel(routingKey, settingName);
                 channel.ExchangeDeclare(exchange, exchangeType.ToString().ToLower(), persistent, false, null);
                 if (!string.IsNullOrEmpty(queue))
@@ -80,7 +81,7 @@ namespace Gentings.RabbitMQ
 
                 var buffer = Encoding.UTF8.GetBytes(body.ToJsonString());
                 channel.BasicPublish(exchange, routingKey, properties, buffer);
-                return ErrorCode.Success;
+                return ApiResult.Success;
             }
             catch (Exception exception)
             {

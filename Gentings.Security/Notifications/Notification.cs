@@ -29,6 +29,12 @@ namespace Gentings.Security.Notifications
         public string Code { get => this[nameof(Code)]; set => this[nameof(Code)] = value; }
 
         /// <summary>
+        /// 角色Id。
+        /// </summary>
+        [NotMapped]
+        public int? RoleId { get => GetInt32(this[nameof(RoleId)]); set => SetInt32(nameof(RoleId), value); }
+
+        /// <summary>
         /// 接收通知用户Id。
         /// </summary>
         public int UserId { get; set; }
@@ -53,6 +59,7 @@ namespace Gentings.Security.Notifications
         /// <summary>
         /// 通知状态。
         /// </summary>
+        [NotUpdated]
         public NotificationStatus Status { get; set; } = NotificationStatus.New;
     }
 }

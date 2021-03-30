@@ -6,6 +6,7 @@ namespace Gentings.AspNetCore.TagHelpers.Toolbars
     /// Toolbar附加按钮。
     /// </summary>
     [HtmlTargetElement("gt:append-search", ParentTag = "gt:toolbar-input-group", TagStructure = TagStructure.WithoutEndTag)]
+    [HtmlTargetElement("gt:append-search", ParentTag = "gt:toolbar-range-group", TagStructure = TagStructure.WithoutEndTag)]
     public class ToolbarSearchTagHelper : TagHelperBase
     {
         /// <summary>

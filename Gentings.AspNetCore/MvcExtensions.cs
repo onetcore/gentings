@@ -37,27 +37,5 @@ namespace Gentings.AspNetCore
                 return data;
             return ImportLibrary.None;
         }
-
-        /// <summary>
-        /// 创建JWT访问Token。
-        /// </summary>
-        /// <param name="configuration">配置实例。</param>
-        /// <param name="claims">用户声明列表。</param>
-        /// <returns>返回Token字符串。</returns>
-        public static string CreateJwtSecurityToken(this IConfiguration configuration, IEnumerable<Claim> claims)
-        {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["Jwt:Expires"]));
-
-            var token = new JwtSecurityToken(
-                configuration["Jwt:Issuer"],
-                configuration["Jwt:Audience"],
-                claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
     }
 }

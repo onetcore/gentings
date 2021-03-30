@@ -448,6 +448,15 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 完成 的本地化字符串。
+        /// </summary>
+        internal static string ErrorCode_Success {
+            get {
+                return ResourceManager.GetString("ErrorCode_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 发生未知错误 的本地化字符串。
         /// </summary>
         internal static string ErrorCode_UnknownError {

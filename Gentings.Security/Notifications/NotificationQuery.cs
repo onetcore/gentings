@@ -23,6 +23,11 @@ namespace Gentings.Security.Notifications
         public NotificationStatus? Status { get; set; }
 
         /// <summary>
+        /// 标题。
+        /// </summary>
+        public string Title { get; set; }
+
+        /// <summary>
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
@@ -37,6 +42,8 @@ namespace Gentings.Security.Notifications
                 context.Where(x => x.SendId == SendId);
             if (Status != null)
                 context.Where(x => x.Status == Status);
+            if (!string.IsNullOrEmpty(Title))
+                context.Where(x => x.Title.Contains(Title));
         }
     }
 }

@@ -12,12 +12,8 @@ namespace Gentings.Extensions.SensitiveWords
     /// <summary>
     /// 敏感词汇管理实现类。
     /// </summary>
-    public class SensitiveWordManager : ISensitiveWordManager
+    public class SensitiveWordManager : ObjectManager<SensitiveWord>, ISensitiveWordManager
     {
-        /// <summary>
-        /// 数据库上下文接口实例。
-        /// </summary>
-        public IDbContext<SensitiveWord> Context { get; }
         private readonly IStorageDirectory _storageDirectory;
         private readonly IMemoryCache _cache;
         private readonly Type _cacheKey = typeof(SensitiveWord);
@@ -28,9 +24,9 @@ namespace Gentings.Extensions.SensitiveWords
         /// <param name="context">数据库操作实例。</param>
         /// <param name="storageDirectory">存储文件夹接口实例。</param>
         /// <param name="cache">缓存接口。</param>
-        public SensitiveWordManager(IDbContext<SensitiveWord> context, IStorageDirectory storageDirectory, IMemoryCache cache) 
+        public SensitiveWordManager(IDbContext<SensitiveWord> context, IStorageDirectory storageDirectory, IMemoryCache cache)
+            : base(context)
         {
-            Context = context;
             _storageDirectory = storageDirectory;
             _cache = cache;
         }

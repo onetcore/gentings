@@ -61,6 +61,15 @@ namespace Gentings.Security.Properties {
         }
         
         /// <summary>
+        ///   查找类似 游客 的本地化字符串。
+        /// </summary>
+        internal static string Anonymous {
+            get {
+                return ResourceManager.GetString("Anonymous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 允许用户可以管理初始配置相关内容! 的本地化字符串。
         /// </summary>
         internal static string DefaultPermissions_Administrator_Description {
@@ -327,6 +336,15 @@ namespace Gentings.Security.Properties {
         internal static string ErrorDescriptor_UserNotInRole {
             get {
                 return ResourceManager.GetString("ErrorDescriptor_UserNotInRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退出了登录。 的本地化字符串。
+        /// </summary>
+        internal static string Logout_Success {
+            get {
+                return ResourceManager.GetString("Logout_Success", resourceCulture);
             }
         }
         
