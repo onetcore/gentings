@@ -467,8 +467,6 @@ namespace Gentings.Security
             return base.CheckPasswordAsync(user, password);
         }
 
-        private const string TwoFactorTokenName = "TwoFactor";
-
         /// <summary>
         /// 二次登录验证判定。
         /// </summary>
