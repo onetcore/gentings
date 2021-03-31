@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Security", "Gentin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Utilities", "Gentings.Utilities\Gentings.Utilities.csproj", "{06C78F72-967A-4A06-B28E-4923C100E2D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Security.Scores", "Gentings.Security.Scores\Gentings.Security.Scores.csproj", "{926816AE-A102-4861-BBE3-B3CB80B1A1E3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions.OpenServices", "Gentings.Extensions.OpenServices\Gentings.Extensions.OpenServices.csproj", "{A1EDF3F7-539A-4927-B418-3CBD7FAE4B17}"
 EndProject
 Global
@@ -87,10 +85,6 @@ Global
 		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{926816AE-A102-4861-BBE3-B3CB80B1A1E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{926816AE-A102-4861-BBE3-B3CB80B1A1E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{926816AE-A102-4861-BBE3-B3CB80B1A1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{926816AE-A102-4861-BBE3-B3CB80B1A1E3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A1EDF3F7-539A-4927-B418-3CBD7FAE4B17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A1EDF3F7-539A-4927-B418-3CBD7FAE4B17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1EDF3F7-539A-4927-B418-3CBD7FAE4B17}.Release|Any CPU.ActiveCfg = Release|Any CPU
