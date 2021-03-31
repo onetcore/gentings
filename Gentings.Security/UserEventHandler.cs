@@ -84,7 +84,7 @@ namespace Gentings.Security
             if (user.ParentId > 0)
             {
                 var sdb = context.As<UserIndex>();
-                await sdb.CreateIndexAsync(user.Id, user.ParentId);
+                await sdb.CreateIndexAsync(user.Id, user.ParentId, cancellationToken);
             }
 
             return true;

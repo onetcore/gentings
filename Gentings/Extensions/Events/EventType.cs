@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Gentings.Extensions.Events
 {
@@ -12,7 +11,7 @@ namespace Gentings.Extensions.Events
         /// <summary>
         /// 事件类型Id。
         /// </summary>
-        [Key]
+        [Identity]
         public int Id { get; set; }
 
         /// <summary>

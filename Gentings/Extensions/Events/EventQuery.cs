@@ -70,6 +70,7 @@ namespace Gentings.Extensions.Events
                 context.Where(x => x.CreatedDate >= Start);
             if (End != null)
                 context.Where(x => x.CreatedDate <= End);
+            InitUsers(context);
         }
 
         /// <summary>

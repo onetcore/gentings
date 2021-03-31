@@ -126,6 +126,9 @@
   <data name="DefaultPermissions_Administrator_Name" xml:space="preserve">
     <value>初始配置管理</value>
   </data>
+  <data name="DefaultScoreName" xml:space="preserve">
+    <value>积分</value>
+  </data>
   <data name="ErrorDescriptor_ConcurrencyFailure" xml:space="preserve">
     <value>并发处理错误，对象已经被更改。</value>
   </data>
@@ -242,5 +245,29 @@
   </data>
   <data name="PermissionValue_NotSet" xml:space="preserve">
     <value>未设置</value>
+  </data>
+  <data name="ScoreType_Consume" xml:space="preserve">
+    <value>消费</value>
+  </data>
+  <data name="ScoreType_Recharge" xml:space="preserve">
+    <value>充值</value>
+  </data>
+  <data name="ScoreType_Refund" xml:space="preserve">
+    <value>退款</value>
+  </data>
+  <data name="ScoreType_Withdraw" xml:space="preserve">
+    <value>提款</value>
+  </data>
+  <data name="UpdateScoreStatus_LogError" xml:space="preserve">
+    <value>更新积分日志失败</value>
+  </data>
+  <data name="UpdateScoreStatus_NotEnough" xml:space="preserve">
+    <value>积分不足</value>
+  </data>
+  <data name="UpdateScoreStatus_ScoreError" xml:space="preserve">
+    <value>更新积分失败</value>
+  </data>
+  <data name="UpdateScoreStatus_Success" xml:space="preserve">
+    <value>成功</value>
   </data>
 </root>

@@ -24,7 +24,7 @@ namespace Gentings.AspNetCore.TagHelpers.Toolbars
                 {
                     x.MergeAttribute("type", "submit");
                     x.AddCssClass("btn btn-sm btn-outline-secondary");
-                    x.AppendTag("span", i => i.MergeAttribute("data-feather", "search"));
+                    x.AppendTag("i", i => i.AddCssClass("fa fa-search mr-0"));
                 });
             });
         }

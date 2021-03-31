@@ -36,12 +36,37 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = null;
-            var libraries = ViewContext.ViewData.GetLibraries();
             output.Content.AppendHtml($"<title>{Title}</title>");
             if (!string.IsNullOrWhiteSpace(Keyword))
                 output.Content.AppendHtml($"<meta name=\"keyword\" content=\"{Keyword}\" />");
             if (!string.IsNullOrWhiteSpace(Description))
                 output.Content.AppendHtml($"<meta name=\"description\" content=\"{Description}\" />");
+            AppendLibraries(output);
+            output.AppendHtml(await output.GetChildContentAsync());
+        }
+
+        private void AppendLibraries(TagHelperOutput output)
+        {
+            var libraries = ViewContext.ViewData.GetLibraries();
+#if !DEBUG
+            if ((libraries & ImportLibrary.FontAwesome) == ImportLibrary.FontAwesome)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/font-awesome/css/font-awesome.css\" />");
+            if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
+                (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap/css/bootstrap.css\" />");
+            if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/gtcore/dist/css/gtcore.min.css\" />");
+            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/highlight.js/styles/vs2015.css\" />");
+            if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/prettify/prettify.css\" />");
+            if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
+            {
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/codemirror.css\" />");
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/theme/idea.css\" />");
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/addon/hint/show-hint.css\" />");
+            }
+#else
             if ((libraries & ImportLibrary.FontAwesome) == ImportLibrary.FontAwesome)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/font-awesome/css/font-awesome.min.css\" />");
             if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
@@ -53,7 +78,13 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/highlight.js/styles/vs2015.min.css\" />");
             if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/prettify/prettify.min.css\" />");
-            output.AppendHtml(await output.GetChildContentAsync());
+            if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
+            {
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/codemirror.min.css\" />");
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/theme/idea.min.css\" />");
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/addon/hint/show-hint.min.css\" />");
+            }
+#endif
         }
     }
 }

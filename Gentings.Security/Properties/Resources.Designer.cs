@@ -88,6 +88,15 @@ namespace Gentings.Security.Properties {
         }
         
         /// <summary>
+        ///   查找类似 积分 的本地化字符串。
+        /// </summary>
+        internal static string DefaultScoreName {
+            get {
+                return ResourceManager.GetString("DefaultScoreName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 并发处理错误，对象已经被更改。 的本地化字符串。
         /// </summary>
         internal static string ErrorDescriptor_ConcurrencyFailure {
@@ -435,6 +444,78 @@ namespace Gentings.Security.Properties {
         internal static string PermissionValue_NotSet {
             get {
                 return ResourceManager.GetString("PermissionValue_NotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 消费 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Consume {
+            get {
+                return ResourceManager.GetString("ScoreType_Consume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 充值 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Recharge {
+            get {
+                return ResourceManager.GetString("ScoreType_Recharge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 退款 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Refund {
+            get {
+                return ResourceManager.GetString("ScoreType_Refund", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提款 的本地化字符串。
+        /// </summary>
+        internal static string ScoreType_Withdraw {
+            get {
+                return ResourceManager.GetString("ScoreType_Withdraw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更新积分日志失败 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_LogError {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_LogError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 积分不足 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_NotEnough {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_NotEnough", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 更新积分失败 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_ScoreError {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_ScoreError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 成功 的本地化字符串。
+        /// </summary>
+        internal static string UpdateScoreStatus_Success {
+            get {
+                return ResourceManager.GetString("UpdateScoreStatus_Success", resourceCulture);
             }
         }
     }

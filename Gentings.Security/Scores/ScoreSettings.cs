@@ -1,4 +1,4 @@
-﻿using Gentings.Security.Scores.Properties;
+﻿using Gentings.Security.Properties;
 
 namespace Gentings.Security.Scores
 {

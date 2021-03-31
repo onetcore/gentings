@@ -40,5 +40,9 @@ namespace Gentings.AspNetCore
         /// 脚本高亮渲染。
         /// </summary>
         Prettify = 0x40,
+        /// <summary>
+        /// 代码编辑器。
+        /// </summary>
+        CodeMirror = 0x80,
     }
 }

@@ -55,6 +55,19 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/highlight.js/highlight.min.js"));
             if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/prettify/prettify.min.js"));
+            if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
+            {
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/codemirror.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/mode/htmlmixed/htmlmixed.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/show-hint.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/javascript-hint.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/sql-hint.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/html-hint.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/xml-hint.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/anyword-hint.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/css-hint.min.js"));
+                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/show-hint.min.js"));
+            }
             var content = await output.GetChildContentAsync();
             if (!content.IsEmptyOrWhiteSpace)
                 output.AppendHtml(content.GetContent().Trim());

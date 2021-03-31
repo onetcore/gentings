@@ -4,11 +4,13 @@ using Gentings.Security.Notifications;
 using Gentings.Security.Permissions;
 using Gentings.Security.Properties;
 using Gentings.Security.Roles;
+using Gentings.Security.Scores;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Gentings.Security
 {
@@ -27,7 +29,7 @@ namespace Gentings.Security
         : IServiceConfigurer
         where TUser : UserBase, new()
         where TRole : RoleBase
-        where TUserRole : UserRoleBase
+        where TUserRole : UserRoleBase, new()
         where TUserStore : class, IUserStore<TUser>
         where TRoleStore : class, IRoleStore<TRole>
         where TUserManager : UserManager<TUser>
@@ -40,7 +42,7 @@ namespace Gentings.Security
         /// 配置<see cref="IdentityBuilder"/>实例。
         /// </summary>
         /// <param name="builder"><see cref="IdentityBuilder"/>实例。</param>
-        protected virtual void ConfigureIdentityServices(IdentityBuilder builder)
+        protected virtual void ConfigureServices(IdentityBuilder builder)
         {
             builder.AddUserStore<TUserStore>()
                 .AddRoleStore<TRoleStore>()
@@ -61,7 +63,7 @@ namespace Gentings.Security
                 services.AddIdentity<TUser, TRole>();
                 services.AddScoped(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext.GetUser<TUser>() ?? _anonymous);
                 services.AddScoped(service => service.GetRequiredService<ISettingsManager>().GetSettings<TSettings>());
-                ConfigureIdentityServices(new IdentityBuilder(typeof(TUser), typeof(TRole), services));
+                ConfigureServices(new IdentityBuilder(typeof(TUser), typeof(TRole), services));
                 ConfigureCookieServices(services, builder.Configuration.GetSection("Cookies"));
             });
             if ((EnabledModule & EnabledModule.Notification) == EnabledModule.Notification)

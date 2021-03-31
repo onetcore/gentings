@@ -8,7 +8,7 @@ namespace Gentings.Security.Scores
     /// 用户添加时候增加积分实例。
     /// </summary>
     /// <typeparam name="TUser">用户类型。</typeparam>
-    public class UserEventHandler<TUser> : IUserEventHandler<TUser>
+    public abstract class UserEventHandler<TUser> : IUserEventHandler<TUser>
         where TUser : UserBase
     {
         /// <summary>
