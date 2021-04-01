@@ -267,3 +267,4 @@ __pycache__/
 /**/appsettings.Development.json
 *.lock
 *.gitignore.cs
+*.rar
