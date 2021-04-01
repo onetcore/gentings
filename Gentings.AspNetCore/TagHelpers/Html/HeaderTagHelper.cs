@@ -48,30 +48,13 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         private void AppendLibraries(TagHelperOutput output)
         {
             var libraries = ViewContext.ViewData.GetLibraries();
-#if !DEBUG
-            if ((libraries & ImportLibrary.FontAwesome) == ImportLibrary.FontAwesome)
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/font-awesome/css/font-awesome.css\" />");
-            if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
-                (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap/css/bootstrap.css\" />");
-            if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/gtcore/dist/css/gtcore.min.css\" />");
-            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/highlight.js/styles/vs2015.css\" />");
-            if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/prettify/prettify.css\" />");
-            if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
-            {
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/codemirror.css\" />");
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/theme/idea.css\" />");
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/addon/hint/show-hint.css\" />");
-            }
-#else
             if ((libraries & ImportLibrary.FontAwesome) == ImportLibrary.FontAwesome)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/font-awesome/css/font-awesome.min.css\" />");
             if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
                 (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap/css/bootstrap.min.css\" />");
+            if ((libraries & ImportLibrary.BootstrapIcons) == ImportLibrary.BootstrapIcons)
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap-icons/font/bootstrap-icons.min.css\" />");
             if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/gtcore/dist/css/gtcore.min.css\" />");
             if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
@@ -84,7 +67,6 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/theme/idea.min.css\" />");
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/addon/hint/show-hint.min.css\" />");
             }
-#endif
         }
     }
 }

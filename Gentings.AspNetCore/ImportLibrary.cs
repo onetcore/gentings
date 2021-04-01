@@ -29,9 +29,9 @@ namespace Gentings.AspNetCore
         /// </summary>
         GtCore = 8,
         /// <summary>
-        /// Feather图标。
+        /// Bootstrap图标。
         /// </summary>
-        Feather = 0x10,
+        BootstrapIcons = 0x10,
         /// <summary>
         /// 脚本高亮渲染。
         /// </summary>

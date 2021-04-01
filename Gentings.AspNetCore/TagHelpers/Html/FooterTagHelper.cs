@@ -47,8 +47,6 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
                 (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/bootstrap/js/bootstrap.bundle.min.js"));
-            if ((libraries & ImportLibrary.Feather) == ImportLibrary.Feather)
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/feather-icons/feather.min.js"));
             if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/gtcore/dist/js/gtcore.min.js"));
             if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
