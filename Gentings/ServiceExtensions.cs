@@ -115,14 +115,14 @@ namespace Gentings
             }
         }
 
-        private static IEnumerable<string> GetExcludeAssemblies(IConfiguration configuration)
+        private static List<string> GetExcludeAssemblies(IConfiguration configuration)
         {
-            return configuration.GetSection("Excludes").AsList() ?? Enumerable.Empty<string>();
+            return configuration.GetSection("Excludes").AsList() ?? new List<string>();
         }
 
         private static bool IsGentingsDependency(this RuntimeLibrary library)
         {
-            if (library.Name == "Gentings" || library.Name.StartsWith("Gentings."))
+            if (library.Name == "Gentings" || library.Name.StartsWith("Gentings.") || library.Type == "project")
                 return true;
             return library.Dependencies.Any(x => x.Name == "Gentings" || x.Name.StartsWith("Gentings."));
         }

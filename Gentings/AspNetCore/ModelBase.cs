@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Gentings.AspNetCore.StatusMessages;
 using Gentings.Extensions;
 using Gentings.Extensions.Events;
+using Gentings.Localization;
 using Gentings.Properties;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

@@ -7,7 +7,7 @@ namespace Gentings.Extensions.OpenServices
     /// <summary>
     /// 开发服务管理接口。
     /// </summary>
-    public interface IOpenServiceManager 
+    public interface IOpenServiceManager
     {
         /// <summary>
         /// 获取或者添加开放服务实例。

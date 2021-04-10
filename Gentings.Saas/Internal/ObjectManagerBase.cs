@@ -14,24 +14,9 @@ namespace Gentings.Saas.Internal
     /// </summary>
     /// <typeparam name="TModel">当前模型实例。</typeparam>
     /// <typeparam name="TKey">唯一键类型。</typeparam>
-    public abstract class ObjectManagerBase<TModel, TKey> : IObjectManagerBase<TModel, TKey>
+    public abstract class ObjectManagerBase<TModel, TKey> : ObjectManagerBase<TModel>, IObjectManagerBase<TModel, TKey>
         where TModel : ISiteIdObject<TKey>
     {
-        /// <summary>
-        /// 数据库操作实例。
-        /// </summary>
-        // ReSharper disable once InconsistentNaming
-        protected IDbContext<TModel> Context { get; }
-
-        /// <summary>
-        /// 初始化类<see cref="ObjectManagerBase{TModel,TKey}"/>。
-        /// </summary>
-        /// <param name="context">数据库操作实例。</param>
-        protected ObjectManagerBase(IDbContext<TModel> context)
-        {
-            Context = context;
-        }
-
         /// <summary>
         /// 保存对象实例。
         /// </summary>
@@ -206,22 +191,6 @@ namespace Gentings.Saas.Internal
         /// <summary>
         /// 清空所有数据。
         /// </summary>
-        public virtual void Clear()
-        {
-            Context.Delete();
-        }
-
-        /// <summary>
-        /// 清空所有数据。
-        /// </summary>
-        public virtual Task ClearAsync(CancellationToken cancellationToken = default)
-        {
-            return Context.DeleteAsync(cancellationToken: cancellationToken);
-        }
-
-        /// <summary>
-        /// 清空所有数据。
-        /// </summary>
         /// <param name="siteId">网站Id。</param>
         public virtual void Clear(int siteId)
         {
@@ -327,112 +296,11 @@ namespace Gentings.Saas.Internal
         }
 
         /// <summary>
-        /// 实例化一个查询实例，这个实例相当于实例化一个查询类，不能当作属性直接调用。
+        /// 初始化类<see cref="ObjectManagerBase{TModel, TKey}"/>。
         /// </summary>
-        /// <returns>返回模型的一个查询实例。</returns>
-        public virtual IQueryable<TModel> AsQueryable()
+        /// <param name="context">数据库操作实例。</param>
+        protected ObjectManagerBase(IDbContext<TModel> context) : base(context)
         {
-            return Context.AsQueryable();
-        }
-
-        /// <summary>
-        /// 更新特定的实例。
-        /// </summary>
-        /// <param name="model">更新对象。</param>
-        /// <returns>返回更新结果。</returns>
-        public virtual bool Update(TModel model)
-        {
-            return Context.Update(model);
-        }
-
-        /// <summary>
-        /// 更新特定的实例。
-        /// </summary>
-        /// <param name="model">更新对象。</param>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回更新结果。</returns>
-        public virtual Task<bool> UpdateAsync(TModel model, CancellationToken cancellationToken = default)
-        {
-            return Context.UpdateAsync(model, cancellationToken);
-        }
-
-        /// <summary>
-        /// 添加实例。
-        /// </summary>
-        /// <param name="model">添加对象。</param>
-        /// <returns>返回添加结果。</returns>
-        public virtual bool Create(TModel model)
-        {
-            return Context.Create(model);
-        }
-
-        /// <summary>
-        /// 添加实例。
-        /// </summary>
-        /// <param name="model">添加对象。</param>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回添加结果。</returns>
-        public virtual Task<bool> CreateAsync(TModel model, CancellationToken cancellationToken = default)
-        {
-            return Context.CreateAsync(model, cancellationToken);
-        }
-
-        /// <summary>
-        /// 分页获取实例列表。
-        /// </summary>
-        /// <typeparam name="TQuery">查询实例类型。</typeparam>
-        /// <param name="query">查询实例。</param>
-        /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
-        /// <returns>返回分页实例列表。</returns>
-        public virtual IPageEnumerable<TModel> Load<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
-        {
-            return Context.Load(query, countExpression);
-        }
-
-        /// <summary>
-        /// 分页获取实例列表。
-        /// </summary>
-        /// <typeparam name="TObject">返回的对象模型类型。</typeparam>
-        /// <typeparam name="TQuery">查询实例类型。</typeparam>
-        /// <param name="query">查询实例。</param>
-        /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
-        /// <returns>返回分页实例列表。</returns>
-        public virtual IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
-        {
-            return Context.Load<TQuery, TObject>(query, countExpression);
-        }
-
-        /// <summary>
-        /// 分页获取实例列表。
-        /// </summary>
-        /// <typeparam name="TQuery">查询实例类型。</typeparam>
-        /// <param name="query">查询实例。</param>
-        /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回分页实例列表。</returns>
-        public virtual Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
-            where TQuery : QueryBase<TModel>
-        {
-            return Context.LoadAsync(query, countExpression, cancellationToken);
-        }
-
-        /// <summary>
-        /// 分页获取实例列表。
-        /// </summary>
-        /// <typeparam name="TObject">返回的对象模型类型。</typeparam>
-        /// <typeparam name="TQuery">查询实例类型。</typeparam>
-        /// <param name="query">查询实例。</param>
-        /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
-        /// <param name="cancellationToken">取消标识。</param>
-        /// <returns>返回分页实例列表。</returns>
-        public virtual Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
-            where TQuery : QueryBase<TModel>
-        {
-            return Context.LoadAsync<TQuery, TObject>(query, countExpression, cancellationToken);
         }
     }
 }

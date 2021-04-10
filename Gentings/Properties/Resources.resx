@@ -130,7 +130,7 @@
     <value>本程序可以使用的命令包含以下内容：</value>
   </data>
   <data name="CommandConsole_DelayAsync_Close" xml:space="preserve">
-    <value>关闭！</value>
+    <value>关闭!</value>
   </data>
   <data name="CommandConsole_CloseAsync_DelayClose" xml:space="preserve">
     <value>程序即将在“{0}”秒后关闭...</value>
@@ -142,7 +142,7 @@
     <value>已经成功启动了应用程序，可以输入命令进行手动操作！</value>
   </data>
   <data name="CommandConsole_StartAsync_Initailize" xml:space="preserve">
-    <value>正在初始化应用程序！</value>
+    <value>正在初始化应用程序！ </value>
   </data>
   <data name="CommandArgs_Read_MustEndsWith" xml:space="preserve">
     <value>参数值必须以“{0}”结尾！</value>
@@ -380,5 +380,11 @@
   </data>
   <data name="ErrorCode_Success" xml:space="preserve">
     <value>完成</value>
+  </data>
+  <data name="SourceReader_OutOfIndex" xml:space="preserve">
+    <value>超过了索引长度。</value>
+  </data>
+  <data name="SourceReader_StartCharNotMatch" xml:space="preserve">
+    <value>起始位置字符和‘{0}’不匹配！</value>
   </data>
 </root>

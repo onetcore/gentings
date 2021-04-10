@@ -47,12 +47,12 @@ namespace Gentings.AspNetCore.TagHelpers.Html
 
         private void AppendLibraries(TagHelperOutput output)
         {
-            var libraries = ViewContext.ViewData.GetLibraries();
+            var libraries = ViewContext.GetLibraries();
             if ((libraries & ImportLibrary.FontAwesome) == ImportLibrary.FontAwesome)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/font-awesome/css/font-awesome.min.css\" />");
             if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
                 (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap/css/bootstrap.min.css\" />");
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/twitter-bootstrap/css/bootstrap.min.css\" />");
             if ((libraries & ImportLibrary.BootstrapIcons) == ImportLibrary.BootstrapIcons)
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/bootstrap-icons/font/bootstrap-icons.min.css\" />");
             if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
@@ -64,8 +64,9 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
             {
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/codemirror.min.css\" />");
-                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/theme/idea.min.css\" />");
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/theme/eclipse.min.css\" />");
                 output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/addon/hint/show-hint.min.css\" />");
+                output.Content.AppendHtml("<link rel=\"stylesheet\" href=\"/lib/codemirror/addon/fold/foldgutter.min.css\" />");
             }
         }
     }

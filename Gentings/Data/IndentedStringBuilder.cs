@@ -156,14 +156,39 @@ namespace Gentings.Data
         }
 
         /// <summary>
-        /// 清空内容。
+        /// 附加“IS NULL”或者“IS NOT NULL”。
         /// </summary>
-        protected void Clear() => _builder.Clear();
+        public void AppendIsNullOrNotNull()
+        {
+            var index = LastIndex('=');
+            if (index == -1)
+                return;
+            var notIndex = index - 1;
+            if (notIndex >= 0 && _builder[notIndex] == '!')
+            {
+                _builder.Remove(notIndex, _builder.Length - notIndex);
+                _builder.Append("IS NOT NULL");
+            }
+            else
+            {
+                _builder.Remove(index, _builder.Length - index);
+                _builder.Append("IS NULL");
+            }
+        }
 
-        /// <summary>
-        /// 判断是否为空。
-        /// </summary>
-        /// <returns>返回判断结果。</returns>
-        protected bool IsEmpty() => _builder.Length == 0;
+        private int LastIndex(char end)
+        {
+            for (var i = _builder.Length - 1; i > 0; i--)
+            {
+                var current = _builder[i];
+                if (char.IsWhiteSpace(current))
+                    continue;
+                if (current == end)
+                    return i;
+                return -1;
+            }
+
+            return -1;
+        }
     }
 }

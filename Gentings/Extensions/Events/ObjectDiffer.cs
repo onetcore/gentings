@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Gentings.Data;
+using Gentings.Localization;
 using Gentings.Properties;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;

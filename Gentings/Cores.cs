@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Gentings.Properties;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +11,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using Gentings.Properties;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings

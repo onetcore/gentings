@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Gentings.Data;
 using Gentings.Data.Initializers;
 using Gentings.Data.Internal;
+using Gentings.Localization;
 using Gentings.Security.Roles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

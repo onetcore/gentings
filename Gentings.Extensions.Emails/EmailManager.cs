@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gentings.Data;
+using Gentings.Localization;
 using Gentings.Syntax;
 
 namespace Gentings.Extensions.Emails

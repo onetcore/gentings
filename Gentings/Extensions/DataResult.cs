@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Gentings.Properties;
+using Gentings.Localization;
 
 namespace Gentings.Extensions
 {
@@ -56,7 +56,7 @@ namespace Gentings.Extensions
 
         private static string GetResource(DataAction action)
         {
-            return Resources.ResourceManager.GetString($"DataAction_{action}");
+            return ResourceManager.GetString(action);
         }
 
         /// <summary>

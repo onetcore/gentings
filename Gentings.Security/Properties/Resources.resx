@@ -121,10 +121,22 @@
     <value>游客</value>
   </data>
   <data name="DefaultPermissions_Administrator_Description" xml:space="preserve">
-    <value>允许用户可以管理初始配置相关内容!</value>
+    <value>允许用户可以登录到后台管理，拥有后台管理权限。</value>
   </data>
   <data name="DefaultPermissions_Administrator_Name" xml:space="preserve">
-    <value>初始配置管理</value>
+    <value>后台管理</value>
+  </data>
+  <data name="DefaultPermissions_Developer_Description" xml:space="preserve">
+    <value>开发者权限，建站时候初始化的信息。</value>
+  </data>
+  <data name="DefaultPermissions_Developer_Name" xml:space="preserve">
+    <value>建站初始配置</value>
+  </data>
+  <data name="DefaultPermissions_Owner_Description" xml:space="preserve">
+    <value>拥有者权限，允许用户配置网站信息。</value>
+  </data>
+  <data name="DefaultPermissions_Owner_Name" xml:space="preserve">
+    <value>网站配置管理</value>
   </data>
   <data name="DefaultScoreName" xml:space="preserve">
     <value>积分</value>

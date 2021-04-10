@@ -40,32 +40,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = null;
-            var libraries = ViewContext.ViewData.GetLibraries();
-            if (IsAlert)
-                libraries |= ImportLibrary.GtCore | ImportLibrary.Bootstrap;
-            output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/jquery/jquery.min.js"));
-            if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
-                (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/bootstrap/js/bootstrap.bundle.min.js"));
-            if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/gtcore/dist/js/gtcore.min.js"));
-            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/highlight.js/highlight.min.js"));
-            if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/prettify/prettify.min.js"));
-            if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
-            {
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/codemirror.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/mode/htmlmixed/htmlmixed.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/show-hint.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/javascript-hint.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/sql-hint.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/html-hint.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/xml-hint.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/anyword-hint.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/css-hint.min.js"));
-                output.AppendHtml("script", x => x.MergeAttribute("src", "/lib/codemirror/addon/hint/show-hint.min.js"));
-            }
+            AppendLibraries(output);
             var content = await output.GetChildContentAsync();
             if (!content.IsEmptyOrWhiteSpace)
                 output.AppendHtml(content.GetContent().Trim());
@@ -115,6 +90,47 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             }
 
             return message;
+        }
+
+        private void AppendLibraries(TagHelperOutput output)
+        {
+            var libraries = ViewContext.GetLibraries();
+            if (IsAlert)
+                libraries |= ImportLibrary.GtCore | ImportLibrary.Bootstrap;
+            output.AppendScript("/lib/jquery/jquery.min.js");
+            if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
+                (libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+                output.AppendScript("/lib/twitter-bootstrap/js/bootstrap.bundle.min.js");
+            if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
+                output.AppendScript("/lib/gtcore/dist/js/gtcore.min.js");
+            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
+                output.AppendScript("/lib/highlight.js/highlight.min.js");
+            if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
+                output.AppendScript("/lib/prettify/prettify.min.js");
+            if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
+            {
+                output.AppendScript("/lib/codemirror/codemirror.min.js");
+                output.AppendScript("/lib/codemirror/addon/mode/loadmode.min.js");
+                //output.AppendScript("/lib/codemirror/mode/htmlmixed/htmlmixed.min.js");
+                // 代码提示
+                output.AppendScript("/lib/codemirror/addon/hint/show-hint.min.js");
+                output.AppendScript("/lib/codemirror/addon/hint/javascript-hint.min.js");
+                output.AppendScript("/lib/codemirror/addon/hint/sql-hint.min.js");
+                output.AppendScript("/lib/codemirror/addon/hint/html-hint.min.js");
+                output.AppendScript("/lib/codemirror/addon/hint/xml-hint.min.js");
+                output.AppendScript("/lib/codemirror/addon/hint/anyword-hint.min.js");
+                output.AppendScript("/lib/codemirror/addon/hint/css-hint.min.js");
+                output.AppendScript("/lib/codemirror/addon/hint/show-hint.min.js");
+                // 代码折叠
+                output.AppendScript("/lib/codemirror/addon/selection/active-line.min.js");
+                output.AppendScript("/lib/codemirror/addon/fold/foldcode.min.js");
+                output.AppendScript("/lib/codemirror/addon/fold/foldgutter.min.js");
+                output.AppendScript("/lib/codemirror/addon/fold/brace-fold.min.js");
+                output.AppendScript("/lib/codemirror/addon/fold/comment-fold.min.js");
+                output.AppendScript("/lib/codemirror/addon/fold/xml-fold.min.js");
+                // 匹配代码
+                output.AppendScript("/js/codemirror.min.js");
+            }
         }
     }
 }

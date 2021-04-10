@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Gentings.Data.Migrations;
-using Gentings.Data.Properties;
+using Gentings.Data.SqlServer.Properties;
 
 namespace Gentings.Data.SqlServer.Migrations
 {

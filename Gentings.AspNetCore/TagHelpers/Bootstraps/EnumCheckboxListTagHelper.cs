@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gentings.AspNetCore.Properties;
+using Gentings.Localization;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using Resources = Gentings.AspNetCore.Properties.Resources;
 
 namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {

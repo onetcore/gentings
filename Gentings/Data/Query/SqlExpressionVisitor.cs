@@ -21,6 +21,9 @@ namespace Gentings.Data.Query
         private readonly IMemberTranslator _memberTranslator;
         private readonly IMethodCallTranslator _methodCallTranslator;
         private readonly IExpressionFragmentTranslator _fragmentTranslator;
+        /// <summary>
+        /// 附加前后缀代理方法。
+        /// </summary>
         protected readonly Func<MemberInfo, Type, string> Delimter;
 
         /// <summary>
@@ -340,7 +343,7 @@ namespace Gentings.Data.Query
             var value = expression.Invoke();
             if (value == null)
             {
-                Sql.Append("null");
+                Sql.AppendIsNullOrNotNull();
             }
             else
             {

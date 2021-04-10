@@ -208,5 +208,15 @@ namespace Gentings.AspNetCore.TagHelpers
                 a.AddCssClass($"mozmd-syntax-{key}");
             });
         }
+
+        /// <summary>
+        /// 附加脚本文件引用。
+        /// </summary>
+        /// <param name="output">输出实例对象。</param>
+        /// <param name="path">脚本文件路径。</param>
+        public static void AppendScript(this TagHelperOutput output, string path)
+        {
+            output.AppendHtml("script", x => x.MergeAttribute("src", path));
+        }
     }
 }

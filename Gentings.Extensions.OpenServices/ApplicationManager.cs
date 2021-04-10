@@ -53,7 +53,6 @@ namespace Gentings.Extensions.OpenServices
         /// <summary>
         /// 获取用户应用，包含用户实例。
         /// </summary>
-        /// <typeparam name="TUser">用户类型。</typeparam>
         /// <param name="appId">应用Id。</param>
         /// <returns>返回包含用户实例的应用类型实例。</returns>
         public virtual Task<Application> FindUserApplicationAsync(Guid appId)

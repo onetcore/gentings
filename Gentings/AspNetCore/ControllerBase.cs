@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gentings.Extensions;
 using Gentings.Extensions.Events;
+using Gentings.Localization;
 using Gentings.Properties;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -111,7 +112,7 @@ namespace Gentings.AspNetCore
         /// <param name="key">当前唯一键。</param>
         /// <param name="code">验证码。</param>
         /// <returns>返回判断结果。</returns>
-        public bool IsCodeValid(string key, string code)
+        protected bool IsCodeValid(string key, string code)
         {
             if (string.IsNullOrEmpty(code) || !Request.Cookies.TryGetValue(key, out var value))
                 return false;
@@ -138,7 +139,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult BadResult()
         {
             var dic = new Dictionary<string, string>();
-            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = (int)ErrorCode.ValidError };
+            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = (int)ErrorCode.ValidError, Message = Localizer[ErrorCode.ValidError] };
             foreach (var key in ModelState.Keys)
             {
                 var error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Gentings.Localization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Gentings.Security.Data
 {

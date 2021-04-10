@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Gentings
+namespace Gentings.Localization
 {
     /// <summary>
     /// 本地化服务接口。

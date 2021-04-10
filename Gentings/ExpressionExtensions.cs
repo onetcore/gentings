@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Gentings.Properties;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Gentings.Properties;
 
 namespace Gentings
 {
