@@ -134,7 +134,7 @@ namespace Gentings.Data
             var key = entityType.PrimaryKey.Properties;
             if (key.Count > 1)
             {
-                throw new IndexOutOfRangeException(string.Format(Resources.PrimaryKeyIsNotSingleField,
+                throw new IndexOutOfRangeException(string.Format(Resources.TypeExtensions_PrimaryKeyIsNotSingleField,
                     entityType.ClrType, string.Join(", ", key)));
             }
 

@@ -43,7 +43,7 @@ namespace Gentings
             if (propertyInfo == null)
             {
                 throw new ArgumentException(
-                    string.Format(Resources.InvalidPropertyExpression, propertyAccessExpression),
+                    string.Format(Resources.ExpressionExtensions_InvalidPropertyExpression, propertyAccessExpression),
                     nameof(propertyAccessExpression));
             }
 
@@ -86,7 +86,7 @@ namespace Gentings
             if (propertyPaths == null)
             {
                 throw new ArgumentException(
-                    string.Format(Resources.InvalidPropertiesExpression, propertyAccessExpression),
+                    string.Format(Resources.ExpressionExtensions_InvalidPropertiesExpression, propertyAccessExpression),
                     nameof(propertyAccessExpression));
             }
 

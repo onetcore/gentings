@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using Gentings.Properties;
 
 namespace Gentings.Tasks
 {
@@ -53,7 +54,7 @@ namespace Gentings.Tasks
             {
                 if (name == nameof(IsStack) || name == nameof(Interval))
                 {
-                    throw new Exception($"不能在服务内部设置 {nameof(IsStack)} 和 {nameof(Interval)} 属性！");
+                    throw new Exception(Resources.Argument_CannotSetIsStackAndInterval);
                 }
 
                 _arguments[name] = value;

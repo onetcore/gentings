@@ -605,7 +605,7 @@ namespace Gentings.Data.Query
 
             if (typeMapping == null)
             {
-                throw new InvalidOperationException(string.Format(Resources.UnsupportedType,
+                throw new InvalidOperationException(string.Format(Resources.SqlExpressionVisitor_UnsupportedType,
                     explicitCastExpression.Type.DisplayName(false)));
             }
 

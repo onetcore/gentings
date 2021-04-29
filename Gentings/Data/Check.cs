@@ -46,7 +46,7 @@ namespace Gentings.Data
                 NotEmpty(parameterName, nameof(parameterName));
                 NotEmpty(propertyName, nameof(propertyName));
 
-                throw new ArgumentException(string.Format(Resources.ArgumentPropertyNull, propertyName, parameterName));
+                throw new ArgumentException(string.Format(Resources.Check_ArgumentPropertyNull, propertyName, parameterName));
             }
 
             return value;
@@ -67,7 +67,7 @@ namespace Gentings.Data
             {
                 NotEmpty(parameterName, nameof(parameterName));
 
-                throw new ArgumentException(string.Format(Resources.CollectionArgumentIsEmpty, parameterName));
+                throw new ArgumentException(string.Format(Resources.Check_CollectionArgumentIsEmpty, parameterName));
             }
 
             return value;
@@ -88,7 +88,7 @@ namespace Gentings.Data
             }
             else if (value.Trim().Length == 0)
             {
-                e = new ArgumentException(string.Format(Resources.ArgumentIsEmpty, parameterName));
+                e = new ArgumentException(string.Format(Resources.Check_ArgumentIsEmpty, parameterName));
             }
 
             if (e != null)
@@ -114,7 +114,7 @@ namespace Gentings.Data
             {
                 NotEmpty(parameterName, nameof(parameterName));
 
-                throw new ArgumentException(string.Format(Resources.ArgumentIsEmpty, parameterName));
+                throw new ArgumentException(string.Format(Resources.Check_ArgumentIsEmpty, parameterName));
             }
 
             return value;

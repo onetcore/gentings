@@ -2,6 +2,7 @@
 // ReSharper disable InconsistentNaming
 namespace Gentings.Properties
 {
+    using System;
     using Gentings.Localization;
 
     /// <summary>
@@ -22,12 +23,12 @@ namespace Gentings.Properties
         /// <summary>
         /// 属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't => t.MyProperty'；如果式多个属性，需要如下代码表示：'t => new {{ t.MyProperty1, t.MyProperty2 }}'。
         /// </summary>
-        internal static string InvalidPropertiesExpression => GetString("InvalidPropertiesExpression");
+        internal static string ExpressionExtensions_InvalidPropertiesExpression => GetString("ExpressionExtensions_InvalidPropertiesExpression");
 
         /// <summary>
         /// 属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't => t.MyProperty'。
         /// </summary>
-        internal static string InvalidPropertyExpression => GetString("InvalidPropertyExpression");
+        internal static string ExpressionExtensions_InvalidPropertyExpression => GetString("ExpressionExtensions_InvalidPropertyExpression");
 
         /// <summary>
         /// 字节大小必须能被 8 整除。
@@ -122,22 +123,22 @@ namespace Gentings.Properties
         /// <summary>
         /// 未能获取表单文件实例或者文件长度为0！
         /// </summary>
-        internal static string FormFileInvalid => GetString("FormFileInvalid");
+        internal static string StorageDirectory_FormFileInvalid => GetString("StorageDirectory_FormFileInvalid");
 
         /// <summary>
         /// 参数'{0}'不能为空。
         /// </summary>
-        internal static string ArgumentIsEmpty => GetString("ArgumentIsEmpty");
+        internal static string Check_ArgumentIsEmpty => GetString("Check_ArgumentIsEmpty");
 
         /// <summary>
         /// 参数'{1}'的'{0}'属性不能为空。
         /// </summary>
-        internal static string ArgumentPropertyNull => GetString("ArgumentPropertyNull");
+        internal static string Check_ArgumentPropertyNull => GetString("Check_ArgumentPropertyNull");
 
         /// <summary>
         /// 参数'{0}'集合最少需要包含一个值。
         /// </summary>
-        internal static string CollectionArgumentIsEmpty => GetString("CollectionArgumentIsEmpty");
+        internal static string Check_CollectionArgumentIsEmpty => GetString("Check_CollectionArgumentIsEmpty");
 
         /// <summary>
         /// 恭喜你，你已经成功添加了“{0}”。
@@ -277,37 +278,37 @@ namespace Gentings.Properties
         /// <summary>
         /// 类型“{1}”的属性“{0}”必须包含get访问器。
         /// </summary>
-        internal static string NoGetter => GetString("NoGetter");
+        internal static string ClrPropertyGetterFactory_NoGetter => GetString("ClrPropertyGetterFactory_NoGetter");
 
         /// <summary>
         /// 类型“{1}”的属性“{0}”必须包含set访问器。
         /// </summary>
-        internal static string NoSetter => GetString("NoSetter");
+        internal static string ClrPropertySetterFactory_NoSetter => GetString("ClrPropertySetterFactory_NoSetter");
 
         /// <summary>
         /// 实体“{0}”的主键{1}包含的不值一个属性！
         /// </summary>
-        internal static string PrimaryKeyIsNotSingleField => GetString("PrimaryKeyIsNotSingleField");
+        internal static string TypeExtensions_PrimaryKeyIsNotSingleField => GetString("TypeExtensions_PrimaryKeyIsNotSingleField");
 
         /// <summary>
         /// 每个类只能包含一个版本“TimestampAttribute”特性属性。
         /// </summary>
-        internal static string RowVersionOnlyOnePropertyEachClass => GetString("RowVersionOnlyOnePropertyEachClass");
+        internal static string Property_RowVersionOnlyOnePropertyEachClass => GetString("Property_RowVersionOnlyOnePropertyEachClass");
 
         /// <summary>
         /// 在“{1}”找不到“{0}”的操作符。
         /// </summary>
-        internal static string UnknownOperation => GetString("UnknownOperation");
+        internal static string MigrationsSqlGenerator_UnknownOperation => GetString("MigrationsSqlGenerator_UnknownOperation");
 
         /// <summary>
         /// “TimestampAttribute”特性属性的数据类型必须为byte[]。
         /// </summary>
-        internal static string TypeMustBeBytes => GetString("TypeMustBeBytes");
+        internal static string Property_TypeMustBeBytes => GetString("Property_TypeMustBeBytes");
 
         /// <summary>
         /// 数据类型'{0}'暂时还不支持。
         /// </summary>
-        internal static string UnsupportedType => GetString("UnsupportedType");
+        internal static string SqlExpressionVisitor_UnsupportedType => GetString("SqlExpressionVisitor_UnsupportedType");
 
         /// <summary>
         /// 参数错误：{0}。
@@ -468,6 +469,21 @@ namespace Gentings.Properties
         /// 起始位置字符和‘{0}’不匹配！
         /// </summary>
         internal static string SourceReader_StartCharNotMatch => GetString("SourceReader_StartCharNotMatch");
+
+        /// <summary>
+        /// 不能在服务内部设置 IsStack 和 Interval 属性！
+        /// </summary>
+        internal static string Argument_CannotSetIsStackAndInterval => GetString("Argument_CannotSetIsStackAndInterval");
+
+        /// <summary>
+        /// [数据库]执行SQL错误：
+        /// </summary>
+        internal static string Database_SqlExecuteError => GetString("Database_SqlExecuteError");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        internal static string FileHelper_InvalidByte => GetString("FileHelper_InvalidByte");
     }
 }
 

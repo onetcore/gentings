@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Gentings.Properties;
 
 namespace Gentings.Data
 {
@@ -78,15 +79,15 @@ namespace Gentings.Data
                     type = Enum.GetUnderlyingType(type);
                     if (type == typeof(int))
                     {
-                        value = (int) value;
+                        value = (int)value;
                     }
                     else if (type == typeof(short))
                     {
-                        value = (short) value;
+                        value = (short)value;
                     }
                     else if (type == typeof(long))
                     {
-                        value = (long) value;
+                        value = (long)value;
                     }
                 }
 
@@ -176,7 +177,7 @@ namespace Gentings.Data
             }
 
             var error = new StringBuilder();
-            error.Append("[数据库]执行SQL错误：").AppendLine(exception.Message);
+            error.Append(Resources.Database_SqlExecuteError).AppendLine(exception.Message);
             error.AppendLine("==================================================");
             error.AppendLine(commandText);
             error.AppendLine("==================================================");

@@ -40,12 +40,12 @@ namespace Gentings.Extensions.Internal
             {
                 if (ClrType != typeof(byte[]))
                 {
-                    throw new Exception(Resources.TypeMustBeBytes);
+                    throw new Exception(Resources.Property_TypeMustBeBytes);
                 }
 
                 if (entityType.RowVersion != null)
                 {
-                    throw new Exception(Resources.RowVersionOnlyOnePropertyEachClass);
+                    throw new Exception(Resources.Property_RowVersionOnlyOnePropertyEachClass);
                 }
 
                 entityType.RowVersion = this;

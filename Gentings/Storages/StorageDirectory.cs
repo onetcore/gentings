@@ -146,7 +146,7 @@ namespace Gentings.Storages
         {
             if (file == null || file.Length == 0)
             {
-                throw new Exception(Resources.FormFileInvalid);
+                throw new Exception(Resources.StorageDirectory_FormFileInvalid);
             }
 
             if (fileName != null && fileName.EndsWith(".$"))

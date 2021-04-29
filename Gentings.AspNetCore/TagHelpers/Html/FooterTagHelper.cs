@@ -104,7 +104,10 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if ((libraries & ImportLibrary.GtCore) == ImportLibrary.GtCore)
                 output.AppendScript("/lib/gtcore/dist/js/gtcore.min.js");
             if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
+            {
                 output.AppendScript("/lib/highlight.js/highlight.min.js");
+                output.AppendHtml("<script>$(function(){hljs.highlightAll();});</script>");
+            }
             if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
                 output.AppendScript("/lib/prettify/prettify.min.js");
             if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)

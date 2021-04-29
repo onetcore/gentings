@@ -26,7 +26,7 @@ namespace Gentings.Extensions.Internal
             if (memberInfo == null)
             {
                 throw new InvalidOperationException(string.Format(
-                    Resources.NoSetter, propertyInfo.Name, propertyInfo.DeclaringType.DisplayName(false)));
+                    Resources.ClrPropertySetterFactory_NoSetter, propertyInfo.Name, propertyInfo.DeclaringType.DisplayName(false)));
             }
 
             var entityParameter = Expression.Parameter(typeof(TEntity), "entity");

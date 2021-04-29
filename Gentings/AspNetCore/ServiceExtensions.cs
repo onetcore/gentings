@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Gentings.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,6 +33,15 @@ namespace Gentings.AspNetCore
             }
 
             return app;
+        }
+
+        /// <summary>
+        /// 页面路由路径添加{culture}。
+        /// </summary>
+        /// <param name="options">页面配置选项。</param>
+        public static void AddCultureLocalizationOptions(this RazorPagesOptions options)
+        {
+            options.Conventions.Add(new CulturePageRouteModelConvention());
         }
 
         /// <summary>

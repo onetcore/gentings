@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Gentings.Properties;
 
 namespace Gentings.Storages
 {
@@ -146,7 +147,7 @@ namespace Gentings.Storages
             }
             if (counter > 1)
             {
-                throw new Exception("非预期的byte格式");
+                throw new Exception(Resources.FileHelper_InvalidByte);
             }
             return true;
         }

@@ -106,7 +106,7 @@ namespace Gentings.Data.Migrations
             var operationType = operation.GetType();
             if (!_generateActions.TryGetValue(operationType, out var generateAction))
             {
-                throw new InvalidOperationException(string.Format(Resources.UnknownOperation, operationType,
+                throw new InvalidOperationException(string.Format(Resources.MigrationsSqlGenerator_UnknownOperation, operationType,
                     GetType().DisplayName(false)));
             }
 

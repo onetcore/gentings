@@ -117,10 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="InvalidPropertiesExpression" xml:space="preserve">
+  <data name="ExpressionExtensions_InvalidPropertiesExpression" xml:space="preserve">
     <value>属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't =&gt; t.MyProperty'；如果式多个属性，需要如下代码表示：'t =&gt; new {{ t.MyProperty1, t.MyProperty2 }}'。</value>
   </data>
-  <data name="InvalidPropertyExpression" xml:space="preserve">
+  <data name="ExpressionExtensions_InvalidPropertyExpression" xml:space="preserve">
     <value>属性表达式'{0}'不正确， 表达式必须提供一种属性访问，如： 't =&gt; t.MyProperty'。</value>
   </data>
   <data name="RandomNumberGenerator_SizeInvalid" xml:space="preserve">
@@ -177,16 +177,16 @@
   <data name="IndexedMode_Year" xml:space="preserve">
     <value>年报表</value>
   </data>
-  <data name="FormFileInvalid" xml:space="preserve">
+  <data name="StorageDirectory_FormFileInvalid" xml:space="preserve">
     <value>未能获取表单文件实例或者文件长度为0！</value>
   </data>
-  <data name="ArgumentIsEmpty" xml:space="preserve">
+  <data name="Check_ArgumentIsEmpty" xml:space="preserve">
     <value>参数'{0}'不能为空。</value>
   </data>
-  <data name="ArgumentPropertyNull" xml:space="preserve">
+  <data name="Check_ArgumentPropertyNull" xml:space="preserve">
     <value>参数'{1}'的'{0}'属性不能为空。</value>
   </data>
-  <data name="CollectionArgumentIsEmpty" xml:space="preserve">
+  <data name="Check_CollectionArgumentIsEmpty" xml:space="preserve">
     <value>参数'{0}'集合最少需要包含一个值。</value>
   </data>
   <data name="DataAction_Created" xml:space="preserve">
@@ -270,25 +270,25 @@
   <data name="MigrationStatus_Normal" xml:space="preserve">
     <value>迁移中</value>
   </data>
-  <data name="NoGetter" xml:space="preserve">
+  <data name="ClrPropertyGetterFactory_NoGetter" xml:space="preserve">
     <value>类型“{1}”的属性“{0}”必须包含get访问器。</value>
   </data>
-  <data name="NoSetter" xml:space="preserve">
+  <data name="ClrPropertySetterFactory_NoSetter" xml:space="preserve">
     <value>类型“{1}”的属性“{0}”必须包含set访问器。</value>
   </data>
-  <data name="PrimaryKeyIsNotSingleField" xml:space="preserve">
+  <data name="TypeExtensions_PrimaryKeyIsNotSingleField" xml:space="preserve">
     <value>实体“{0}”的主键{1}包含的不值一个属性！</value>
   </data>
-  <data name="RowVersionOnlyOnePropertyEachClass" xml:space="preserve">
+  <data name="Property_RowVersionOnlyOnePropertyEachClass" xml:space="preserve">
     <value>每个类只能包含一个版本“TimestampAttribute”特性属性。</value>
   </data>
-  <data name="UnknownOperation" xml:space="preserve">
+  <data name="MigrationsSqlGenerator_UnknownOperation" xml:space="preserve">
     <value>在“{1}”找不到“{0}”的操作符。</value>
   </data>
-  <data name="TypeMustBeBytes" xml:space="preserve">
+  <data name="Property_TypeMustBeBytes" xml:space="preserve">
     <value>“TimestampAttribute”特性属性的数据类型必须为byte[]。</value>
   </data>
-  <data name="UnsupportedType" xml:space="preserve">
+  <data name="SqlExpressionVisitor_UnsupportedType" xml:space="preserve">
     <value>数据类型'{0}'暂时还不支持。</value>
   </data>
   <data name="ErrorCode_InvalidParameters" xml:space="preserve">
@@ -386,5 +386,14 @@
   </data>
   <data name="SourceReader_StartCharNotMatch" xml:space="preserve">
     <value>起始位置字符和‘{0}’不匹配！</value>
+  </data>
+  <data name="Argument_CannotSetIsStackAndInterval" xml:space="preserve">
+    <value>不能在服务内部设置 IsStack 和 Interval 属性！</value>
+  </data>
+  <data name="Database_SqlExecuteError" xml:space="preserve">
+    <value>[数据库]执行SQL错误：</value>
+  </data>
+  <data name="FileHelper_InvalidByte" xml:space="preserve">
+    <value>没有达到预期的字节。</value>
   </data>
 </root>
