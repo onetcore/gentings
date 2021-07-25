@@ -20,5 +20,9 @@ namespace Gentings.Security
         /// 用户通知。
         /// </summary>
         Notification = 2,
+        /// <summary>
+        /// Cookie验证。
+        /// </summary>
+        Cookies = 4,
     }
 }

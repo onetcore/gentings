@@ -1,0 +1,14 @@
+﻿@using Gentings.Blazored.Components.Menu
+<ul class="nav sidebar-menu">
+    @foreach (var item in MenuView.Items)
+    {
+        if (item.Any())
+        {
+            <NavMenuGroup Item="item"></NavMenuGroup>
+        }
+        else
+        {
+            <NavMenuItem Item="item"></NavMenuItem>
+        }
+    }
+</ul>

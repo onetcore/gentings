@@ -1,4 +1,5 @@
 ﻿using System;
+using Gentings.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Gentings.Data.Internal;
 using Gentings.Data.Migrations;
@@ -61,7 +62,8 @@ namespace Gentings.Data.SqlServer
             var source = new DatabaseOptions();
             options(source);
 
-            return builder.AddServices(services => services
+            return builder.AddDataInitializer()
+                .AddServices(services => services
                 .AddSingleton<IDatabase, SqlServerDatabase>()
                 .Configure<DatabaseOptions>(o =>
                 {

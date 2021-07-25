@@ -80,13 +80,13 @@ namespace Gentings.AspNetCore
         protected string CreateJwtSecurityToken(IEnumerable<Claim> claims)
         {
             var configuration = GetRequiredService<IConfiguration>();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"] ?? "This'sJWTSecurityKeyPleaseConfigInFile!"));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["Jwt:Expires"]));
+            var expires = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["Jwt:Expires"] ?? "1440"));
 
             var token = new JwtSecurityToken(
-                configuration["Jwt:Issuer"],
-                configuration["Jwt:Audience"],
+                configuration["Jwt:Issuer"] ?? "https://localhost/",
+                configuration["Jwt:Audience"] ?? "https://localhost/",
                 claims,
                 expires: expires,
                 signingCredentials: creds
@@ -171,7 +171,6 @@ namespace Gentings.AspNetCore
         /// 返回错误结果。
         /// </summary>
         /// <param name="code">错误编码。</param>
-        /// <param name="message">错误消息。</param>
         /// <param name="args">错误消息参数。</param>
         /// <returns>返回JSON结果。</returns>
         protected virtual IActionResult BadResult(Enum code, params object[] args)

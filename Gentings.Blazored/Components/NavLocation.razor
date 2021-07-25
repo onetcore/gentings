@@ -1,0 +1,19 @@
+﻿<div class="page-title-container">
+    <div class="page-title">@(MenuView.Current.Name)</div>
+    <div class="page-title-right">
+        <ol class="breadcrumb m-0">
+            @for (int i = 0; i < _items.Count; i++)
+            {
+                var item = _items[i];
+                if (i == _items.Count - 1)
+                {
+                    <li class="breadcrumb-item active">@(item.Name)</li>
+                }
+                else
+                {
+                    <li class="breadcrumb-item"><a @onclick="()=>MenuView.ActivedMenuAsync(item.First)" href="@(item.First.LinkUrl)">@(item.Name)</a></li>
+                }
+            }
+        </ol>
+    </div>
+</div>

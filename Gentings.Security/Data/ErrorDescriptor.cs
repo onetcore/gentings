@@ -107,5 +107,9 @@ namespace Gentings.Security.Data
         /// 角色唯一键已经存在。
         /// </summary>
         DuplicateNormalizedRoleName,
+        /// <summary>
+        /// 用户不允许登录。
+        /// </summary>
+        NotAllowedSignIn,
     }
 }

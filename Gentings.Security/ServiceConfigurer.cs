@@ -1,4 +1,5 @@
-﻿using Gentings.Extensions.Settings;
+﻿using System.Text;
+using Gentings.Extensions.Settings;
 using Gentings.Security.Data;
 using Gentings.Security.Notifications;
 using Gentings.Security.Permissions;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Gentings.Security
 {
@@ -62,7 +64,8 @@ namespace Gentings.Security
                 services.AddScoped(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext.GetUser<TUser>() ?? _anonymous);
                 services.AddScoped(service => service.GetRequiredService<ISettingsManager>().GetSettings<TSettings>());
                 ConfigureServices(new IdentityBuilder(typeof(TUser), typeof(TRole), services));
-                ConfigureCookieServices(services, builder.Configuration.GetSection("Cookies"));
+                if ((EnabledModule & EnabledModule.Cookies) == EnabledModule.Cookies)
+                    ConfigureCookieServices(services, builder.Configuration.GetSection("Cookies"));
             });
             if ((EnabledModule & EnabledModule.Notification) == EnabledModule.Notification)
                 builder.AddNotification();

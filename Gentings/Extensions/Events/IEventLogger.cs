@@ -6,7 +6,7 @@ namespace Gentings.Extensions.Events
     /// <summary>
     /// 事件日志接口。
     /// </summary>
-    public interface IEventLogger : ISingletonService
+    public interface IEventLogger 
     {
         /// <summary>
         /// 添加事件日志。

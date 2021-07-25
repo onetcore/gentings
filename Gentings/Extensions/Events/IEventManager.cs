@@ -6,7 +6,7 @@ namespace Gentings.Extensions.Events
     /// <summary>
     /// 事件管理接口。
     /// </summary>
-    public interface IEventManager : ISingletonService
+    public interface IEventManager 
     {
         #region eventTypes
         /// <summary>

@@ -1,0 +1,20 @@
+﻿<li class="nav-item nav-group">
+    <a class="nav-link@(_active)" href="#">
+        @if (!string.IsNullOrEmpty(Item.IconName))
+        {<i class="@Item.IconName"></i>}
+        <span>@Item.Name</span><span class="menu-arrow"></span>
+    </a>
+    <ul class="menu-@(Item.Level)">
+        @foreach (var item in _children)
+        {
+            if (item.Any())
+            {
+                <NavMenuGroup Item="item"></NavMenuGroup>
+            }
+            else
+            {
+                <NavMenuItem Item="item"></NavMenuItem>
+            }
+        }
+    </ul>
+</li>

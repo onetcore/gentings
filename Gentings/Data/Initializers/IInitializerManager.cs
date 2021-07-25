@@ -5,7 +5,7 @@ namespace Gentings.Data.Initializers
     /// <summary>
     /// 安装管理接口。
     /// </summary>
-    public interface IInitializerManager : ISingletonService
+    public interface IInitializerManager
     {
         /// <summary>
         /// 保存注册码。

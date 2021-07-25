@@ -56,13 +56,11 @@ namespace Gentings.Data.Initializers
         /// 初始化类<see cref="InitializerHostedService"/>。
         /// </summary>
         /// <param name="serviceProvider">服务提供者。</param>
-        /// <param name="installerManager">安装管理接口。</param>
         /// <param name="logger">日志接口。</param>
-        public InitializerHostedService(IServiceProvider serviceProvider, IInitializerManager installerManager,
-            ILogger<InitializerHostedService> logger)
+        public InitializerHostedService(IServiceProvider serviceProvider, ILogger<InitializerHostedService> logger)
         {
             _serviceProvider = serviceProvider;
-            _installerManager = installerManager;
+            _installerManager = serviceProvider.GetService<IInitializerManager>();
             _logger = logger;
         }
 
@@ -73,6 +71,10 @@ namespace Gentings.Data.Initializers
         /// <returns>返回任务实例。</returns>
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
+            //不使用数据库模块时候用。
+            if (_installerManager == null)
+                return;
+
             //数据库迁移
             await ExecuteDataMigrationAsync(cancellationToken);
 
