@@ -132,6 +132,57 @@
   <data name="ApplicationStatus_Unapproved" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="EmailStatus_Completed" xml:space="preserve">
+    <value>成功发送</value>
+  </data>
+  <data name="EmailStatus_Failured" xml:space="preserve">
+    <value>发送失败</value>
+  </data>
+  <data name="EmailStatus_Pending" xml:space="preserve">
+    <value>等待发送</value>
+  </data>
+  <data name="EmailTaskService" xml:space="preserve">
+    <value>电子邮件发送服务</value>
+  </data>
+  <data name="EmailTaskService_Description" xml:space="preserve">
+    <value>发送队列在数据库中的电子邮件</value>
+  </data>
+  <data name="ServiceType_All" xml:space="preserve">
+    <value>三网通</value>
+  </data>
+  <data name="ServiceType_Mobile" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="ServiceType_None" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ServiceType_Telecom" xml:space="preserve">
+    <value>电信</value>
+  </data>
+  <data name="ServiceType_Unicom" xml:space="preserve">
+    <value>联通</value>
+  </data>
+  <data name="SMSClientNotFound" xml:space="preserve">
+    <value>短信发送客户端不存在！</value>
+  </data>
+  <data name="SmsStatus_Completed" xml:space="preserve">
+    <value>成功发送</value>
+  </data>
+  <data name="SmsStatus_Failured" xml:space="preserve">
+    <value>发送失败</value>
+  </data>
+  <data name="SmsStatus_Pending" xml:space="preserve">
+    <value>等待发送</value>
+  </data>
+  <data name="SmsStatus_Sending" xml:space="preserve">
+    <value>发送中</value>
+  </data>
+  <data name="SMSTaskService" xml:space="preserve">
+    <value>短信发送服务</value>
+  </data>
+  <data name="SMSTaskService_Description" xml:space="preserve">
+    <value>发送短信相关服务</value>
+  </data>
   <data name="TokenModel_AppIdNull" xml:space="preserve">
     <value>AppId不能为空！</value>
   </data>

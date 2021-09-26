@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Gentings.Extensions.Emails.Properties;
+using Gentings.Extensions.Properties;
 using Gentings.Tasks;
 using Microsoft.Extensions.Logging;
 using MimeKit;

@@ -6,6 +6,7 @@ using Gentings.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Gentings.Security.Data;
+using Gentings.Extensions;
 
 namespace Gentings.Security
 {

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Gentings.Extensions.SMS.Properties;
+using Gentings.Extensions.Properties;
 using Gentings.Tasks;
 
 namespace Gentings.Extensions.SMS

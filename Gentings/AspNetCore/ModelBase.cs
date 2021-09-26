@@ -412,7 +412,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 本地化接口。
         /// </summary>
-        protected IEventLogger Events => _eventLogger ??= GetRequiredService<IEventLogger>();
+        protected IEventLogger Events => _eventLogger ??= GetService<IEventLogger>();
 
         /// <summary>
         /// 添加事件日志。
@@ -421,7 +421,7 @@ namespace Gentings.AspNetCore
         /// <param name="level">事件等级。</param>
         /// <param name="source">来源。</param>
         protected void Log(string message, EventLevel level = EventLevel.Success, string source = null)
-            => Events.Log(message, EventType, level, source);
+            => Events?.Log(message, EventType, level, source);
 
         /// <summary>
         /// 添加事件日志。
@@ -429,8 +429,11 @@ namespace Gentings.AspNetCore
         /// <param name="message">消息。</param>
         /// <param name="level">事件等级。</param>
         /// <param name="source">来源。</param>
-        protected Task LogAsync(string message, EventLevel level = EventLevel.Success, string source = null)
-            => Events.LogAsync(message, EventType, level, source);
+        protected async Task LogAsync(string message, EventLevel level = EventLevel.Success, string source = null)
+        {
+            if (Events != null)
+                await Events.LogAsync(message, EventType, level, source);
+        }
 
         /// <summary>
         /// 添加事件日志。
@@ -438,29 +441,35 @@ namespace Gentings.AspNetCore
         /// <param name="message">事件消息。</param>
         /// <param name="args">格式化参数。</param>
         protected void Log(string message, params object[] args)
-            => Events.Log(string.Format(message, args));
+            => Events?.Log(string.Format(message, args));
 
         /// <summary>
         /// 添加事件日志。
         /// </summary>
         /// <param name="message">事件消息。</param>
         /// <param name="args">格式化参数。</param>
-        protected Task LogAsync(string message, params object[] args)
-            => Events.LogAsync(string.Format(message, args));
+        protected async Task LogAsync(string message, params object[] args)
+        {
+            if (Events != null)
+                await Events.LogAsync(string.Format(message, args));
+        }
 
         /// <summary>
         /// 添加事件日志。
         /// </summary>
         /// <param name="exception">错误实例对象。</param>
         protected void Log(Exception exception)
-            => Events.Log(exception, EventType);
+            => Events?.Log(exception, EventType);
 
         /// <summary>
         /// 添加事件日志。
         /// </summary>
         /// <param name="exception">错误实例对象。</param>
-        protected Task LogAsync(Exception exception)
-            => Events.LogAsync(exception, EventType);
+        protected async Task LogAsync(Exception exception)
+        {
+            if (Events != null)
+                await Events.LogAsync(exception, EventType);
+        }
 
         /// <summary>
         /// 添加事件日志。
@@ -469,7 +478,7 @@ namespace Gentings.AspNetCore
         /// <param name="name">名称。</param>
         /// <param name="source">来源。</param>
         protected void LogResult(DataResult result, string name, string source = null)
-            => Events.LogResult(result, name, EventType, source);
+            => Events?.LogResult(result, name, EventType, source);
 
         /// <summary>
         /// 添加事件日志。
@@ -477,8 +486,11 @@ namespace Gentings.AspNetCore
         /// <param name="result">数据操作结果。</param>
         /// <param name="name">名称。</param>
         /// <param name="source">来源。</param>
-        protected Task LogResultAsync(DataResult result, string name, string source = null)
-            => Events.LogResultAsync(result, name, EventType, source);
+        protected async Task LogResultAsync(DataResult result, string name, string source = null)
+        {
+            if (Events != null)
+                await Events.LogResultAsync(result, name, EventType, source);
+        }
 
         /// <summary>
         /// 事件类型。

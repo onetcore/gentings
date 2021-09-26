@@ -1,16 +1,15 @@
-﻿using System.Text;
-using Gentings.Extensions.Settings;
+﻿using Gentings.Extensions.Settings;
 using Gentings.Security.Data;
 using Gentings.Security.Notifications;
 using Gentings.Security.Permissions;
 using Gentings.Security.Properties;
 using Gentings.Security.Roles;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Gentings.Security
 {

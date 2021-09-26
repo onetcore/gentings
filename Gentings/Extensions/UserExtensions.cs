@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace Gentings
+namespace Gentings.Extensions
 {
     /// <summary>
     /// 用户扩展类型。

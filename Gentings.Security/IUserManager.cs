@@ -495,9 +495,21 @@ namespace Gentings.Security
         /// <summary>
         /// 获取缓存用户实例。
         /// </summary>
+        /// <returns>返回缓存用户实例对象。</returns>
+        CachedUser GetCachedUser();
+
+        /// <summary>
+        /// 获取缓存用户实例。
+        /// </summary>
         /// <param name="id">用户Id。</param>
         /// <returns>返回缓存用户实例对象。</returns>
         CachedUser GetCachedUser(int id);
+
+        /// <summary>
+        /// 获取缓存用户实例。
+        /// </summary>
+        /// <returns>返回缓存用户实例对象。</returns>
+        Task<CachedUser> GetCachedUserAsync();
 
         /// <summary>
         /// 获取缓存用户实例。

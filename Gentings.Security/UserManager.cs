@@ -516,6 +516,15 @@ namespace Gentings.Security
         /// <summary>
         /// 获取缓存用户实例。
         /// </summary>
+        /// <returns>返回缓存用户实例对象。</returns>
+        public virtual CachedUser GetCachedUser()
+        {
+            return GetCachedUser(HttpContext.User.GetUserId());
+        }
+
+        /// <summary>
+        /// 获取缓存用户实例。
+        /// </summary>
         /// <param name="id">用户Id。</param>
         /// <returns>返回缓存用户实例对象。</returns>
         public virtual CachedUser GetCachedUser(int id)
@@ -544,6 +553,15 @@ namespace Gentings.Security
         protected virtual Gentings.Data.IQueryable<TUser> CachedQueryable => DbContext.UserContext.AsQueryable()
             .WithNolock()
             .Select(x => new { x.Id, x.Avatar, x.Email, x.UserName, x.NickName, x.PhoneNumber, x.RoleId });
+
+        /// <summary>
+        /// 获取缓存用户实例。
+        /// </summary>
+        /// <returns>返回缓存用户实例对象。</returns>
+        public virtual Task<CachedUser> GetCachedUserAsync()
+        {
+            return GetCachedUserAsync(HttpContext.User.GetUserId());
+        }
 
         /// <summary>
         /// 获取缓存用户实例。
