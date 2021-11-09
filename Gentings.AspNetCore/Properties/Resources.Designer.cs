@@ -61,245 +61,20 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
-        ///   查找类似 MM月dd日 的本地化字符串。
-        /// </summary>
-        internal static string DateFormat {
-            get {
-                return ResourceManager.GetString("DateFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} 天前 的本地化字符串。
-        /// </summary>
-        internal static string DaysBefore {
-            get {
-                return ResourceManager.GetString("DaysBefore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 请选择 的本地化字符串。
         /// </summary>
-        internal static string DropdownListTagHelper_SelectDefaultText {
+        internal static string DropdownListTagHelper_DefaultText {
             get {
-                return ResourceManager.GetString("DropdownListTagHelper_SelectDefaultText", resourceCulture);
+                return ResourceManager.GetString("DropdownListTagHelper-DefaultText", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 无法找到枚举类型，需要设置Value值或者使用For指定枚举属性！ 的本地化字符串。
+        ///   查找类似 未找到枚举类型 的本地化字符串。
         /// </summary>
         internal static string EnumDropdownListTagHelper_TypeNotFound {
             get {
-                return ResourceManager.GetString("EnumDropdownListTagHelper_TypeNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 应用不存在 的本地化字符串。
-        /// </summary>
-        internal static string ErrorCode_ApplicationNotFound {
-            get {
-                return ResourceManager.GetString("ErrorCode_ApplicationNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 密钥不正确 的本地化字符串。
-        /// </summary>
-        internal static string ErrorCode_AppSecretInvalid {
-            get {
-                return ResourceManager.GetString("ErrorCode_AppSecretInvalid", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 FileProvider不存在！ 的本地化字符串。
-        /// </summary>
-        internal static string FileProviderNotFound {
-            get {
-                return ResourceManager.GetString("FileProviderNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} 小时前 的本地化字符串。
-        /// </summary>
-        internal static string HoursBefore {
-            get {
-                return ResourceManager.GetString("HoursBefore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Bootstrap 的本地化字符串。
-        /// </summary>
-        internal static string ImportLibrary_Bootstrap {
-            get {
-                return ResourceManager.GetString("ImportLibrary_Bootstrap", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Feather图标 的本地化字符串。
-        /// </summary>
-        internal static string ImportLibrary_Feather {
-            get {
-                return ResourceManager.GetString("ImportLibrary_Feather", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Font Awesome图标 的本地化字符串。
-        /// </summary>
-        internal static string ImportLibrary_FontAwesome {
-            get {
-                return ResourceManager.GetString("ImportLibrary_FontAwesome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 GtCore 的本地化字符串。
-        /// </summary>
-        internal static string ImportLibrary_GtCore {
-            get {
-                return ResourceManager.GetString("ImportLibrary_GtCore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 jQuery 的本地化字符串。
-        /// </summary>
-        internal static string ImportLibrary_JQuery {
-            get {
-                return ResourceManager.GetString("ImportLibrary_JQuery", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 无 的本地化字符串。
-        /// </summary>
-        internal static string ImportLibrary_None {
-            get {
-                return ResourceManager.GetString("ImportLibrary_None", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 刚刚 的本地化字符串。
-        /// </summary>
-        internal static string JustNow {
-            get {
-                return ResourceManager.GetString("JustNow", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 全屏显示 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_FullScreen {
-            get {
-                return ResourceManager.GetString("Mozmd_FullScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 预览 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_ModePreview {
-            get {
-                return ResourceManager.GetString("Mozmd_ModePreview", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 加粗 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Bold {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Bold", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 代码 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Code {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Code", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 标题 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Header {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Header", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 图片 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Image {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Image", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 斜体 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Italic {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Italic", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 链接 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Link {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Link", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 排序 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Ol {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Ol", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 引用 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Quote {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Quote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 列表 的本地化字符串。
-        /// </summary>
-        internal static string Mozmd_Syntax_Ul {
-            get {
-                return ResourceManager.GetString("Mozmd_Syntax_Ul", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 {0} 分钟前 的本地化字符串。
-        /// </summary>
-        internal static string MunitesBefore {
-            get {
-                return ResourceManager.GetString("MunitesBefore", resourceCulture);
+                return ResourceManager.GetString("EnumDropdownListTagHelper-TypeNotFound", resourceCulture);
             }
         }
         
@@ -327,24 +102,6 @@ namespace Gentings.AspNetCore.Properties {
         internal static string PageTagHelper_NumberPage {
             get {
                 return ResourceManager.GetString("PageTagHelper_NumberPage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 点击刷新验证码 的本地化字符串。
-        /// </summary>
-        internal static string VerifierTagHelper_ClickRefresh {
-            get {
-                return ResourceManager.GetString("VerifierTagHelper_ClickRefresh", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 yyyy年MM月dd日 的本地化字符串。
-        /// </summary>
-        internal static string YearDateFormat {
-            get {
-                return ResourceManager.GetString("YearDateFormat", resourceCulture);
             }
         }
     }

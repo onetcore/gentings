@@ -268,3 +268,4 @@ __pycache__/
 *.lock
 *.gitignore.cs
 *.rar
+/Gentings.AspNetCore1

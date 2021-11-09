@@ -5,7 +5,7 @@ namespace Gentings.Extensions.Events
     /// <summary>
     /// 事件数据库迁移类。
     /// </summary>
-    public class EventDataMigration : DataMigration
+    public abstract class EventDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。

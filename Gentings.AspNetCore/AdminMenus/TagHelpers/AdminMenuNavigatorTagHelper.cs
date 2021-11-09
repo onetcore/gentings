@@ -38,7 +38,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
-            output.TagName = "ul";
+            output.TagName = "ol";
             output.AddCssClass("breadcrumb");
             var current = ViewContext.GetCurrent(_factory, Provider, urlHelper);
             var navigators = LoadNavigators(current).OrderBy(n => n.Level).ToList();
@@ -51,16 +51,20 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
                     continue;
                 links[navigator.Text] = navigator.LinkUrl(urlHelper, null);
             }
-            links[Title] = null;
-            links.Remove(Home);
-            output.Content.AppendHtml($"<li><a href=\"{Href}\">{Home}</a></li>");
+            if(!string.IsNullOrEmpty(Title))
+                links[Title] = null;
+            if (!string.IsNullOrEmpty(Home))
+            {
+                links.Remove(Home);
+                output.Content.AppendHtml($"<li><a href=\"{Href}\">{Home}</a></li>");
+            }
             foreach (var link in links)
             {
                 output.Content.AppendHtml(CreateLink(link.Value, link.Key));
             }
         }
 
-        private string _title;
+        private string? _title;
         /// <summary>
         /// 标题。
         /// </summary>
@@ -69,6 +73,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
         private TagBuilder CreateLink(string linkUrl, string text)
         {
             var builder = new TagBuilder("li");
+            builder.AddCssClass("breadcrumb-item");
             if (linkUrl != null)
             {
                 var anchor = new TagBuilder("a");
@@ -77,7 +82,10 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
                 builder.InnerHtml.AppendHtml(anchor);
             }
             else
+            {
+                builder.AddCssClass("active");
                 builder.InnerHtml.AppendHtml(text);
+            }
             return builder;
         }
 

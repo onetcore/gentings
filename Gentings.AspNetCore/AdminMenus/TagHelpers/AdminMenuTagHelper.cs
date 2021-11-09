@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using Gentings.AspNetCore.TagHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,6 +46,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
         {
             _urlHelper = _factory.GetUrlHelper(ViewContext);
             output.TagName = "ul";
+            output.AddCssClass("nav");
             var items = _menuProviderFactory.GetRoots(Provider)
                 .Where(IsAuthorized)//当前项
                 .ToList();
@@ -67,34 +69,34 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             var li = new TagBuilder("li");
             if (items?.Count > 0)
             {
-                if (current.IsCurrent(item))
-                    li.AddCssClass("opened");
-                li.AddCssClass("has-sub");
+                li.AddCssClass("nav-group");
             }
             else if (hasSub)
             {//包含子菜单，子菜单中没有一个有权限，则主菜单也没有权限
                 return null;
             }
             li.AddCssClass("nav-item");
+            if (item.IsTitle)
+            {//分组标题
+                li.AddCssClass("nav-title");
+                li.InnerHtml.AppendHtml(item.Text);
+                return li;
+            }
             var isCurrent = current.IsCurrent(item);
-            if (isCurrent)
-                li.AddCssClass("active");
             var anchor = new TagBuilder("a");
+            if (isCurrent)
+                anchor.AddCssClass("active");
             var url = item.LinkUrl(_urlHelper);
             anchor.MergeAttribute("href", url);
             anchor.MergeAttribute("title", item.Text);
-            anchor.AddCssClass($"nav-link level-{item.Level}");
+            anchor.AddCssClass($"nav-link");
             //图标
             if (!string.IsNullOrWhiteSpace(item.IconName))
             {
-                if (item.IconName.StartsWith("fa-"))
-                    anchor.InnerHtml.AppendHtml($"<i class=\"fa {item.IconName}\"></i>");
-                else
-                    anchor.InnerHtml.AppendHtml($"<span data-feather=\"{item.IconName}\"></span>");
+                anchor.InnerHtml.AppendHtml($"<i class=\"{item.IconName}\"></i>");
             }
             //文本
             var span = new TagBuilder("span");
-            span.AddCssClass("title");
             span.InnerHtml.Append(item.Text);
             anchor.InnerHtml.AppendHtml(span);
             if (!string.IsNullOrWhiteSpace(item.BadgeText))
@@ -109,14 +111,21 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             li.InnerHtml.AppendHtml(anchor);
             //子菜单
             if (items?.Count > 0)
-                CreateChildren(li, items, current);
+            {
+                var arrow = new TagBuilder("span");
+                arrow.AddCssClass("menu-arrow");
+                anchor.InnerHtml.AppendHtml(arrow);
+                anchor.MergeAttribute("onclick", "$(this).toggleClass(\"active\");return false;");
+                CreateChildren(li, items, current, item.Level + 1);
+            }
             return li;
         }
 
-        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem current)
+        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem current, int level)
         {
             var ihasSub = false;
             var iul = new TagBuilder("ul");
+            iul.AddCssClass($"menu-{level}");
             foreach (var it in items.OrderByDescending(x => x.Priority))
             {
                 var children = it.Where(IsAuthorized).ToList();

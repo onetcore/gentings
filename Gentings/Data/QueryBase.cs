@@ -19,23 +19,23 @@ namespace Gentings.Data
                 context.OrderBy<TModel>(order.Order.ToString(), order.Desc);
         }
 
-        private int _current;
+        private int _page;
 
         /// <summary>
         /// 页码。
         /// </summary>
-        public int Current
+        public int Page
         {
             get
             {
-                if (_current < 1)
+                if (_page < 1)
                 {
-                    _current = 1;
+                    _page = 1;
                 }
 
-                return _current;
+                return _page;
             }
-            set => _current = Math.Max(1, value);
+            set => _page = Math.Max(1, value);
         }
 
         /// <summary>

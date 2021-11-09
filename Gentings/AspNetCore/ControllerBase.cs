@@ -265,7 +265,7 @@ namespace Gentings.AspNetCore
                 Message = resource,
                 Code = result ? 0 : (int)action
             };
-            if (api.Status) Log(api.Message);
+            if (result) Log(api.Message);
             return Ok(api);
         }
 
@@ -278,7 +278,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult LogDataResult(DataResult result, string name)
         {
             var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
-            if (api.Status) Log(api.Message);
+            if (result.Succeed()) Log(api.Message);
             return Ok(api);
         }
 
@@ -298,7 +298,7 @@ namespace Gentings.AspNetCore
                 Message = resource,
                 Code = result ? 0 : (int)action
             };
-            if (api.Status) await LogAsync(api.Message);
+            if (result) await LogAsync(api.Message);
             return Ok(api);
         }
 
@@ -311,7 +311,7 @@ namespace Gentings.AspNetCore
         protected virtual async Task<IActionResult> LogDataResultAsync(DataResult result, string name)
         {
             var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
-            if (api.Status) await LogAsync(api.Message);
+            if (result.Succeed()) await LogAsync(api.Message);
             return Ok(api);
         }
         #endregion
@@ -359,7 +359,7 @@ namespace Gentings.AspNetCore
         /// <param name="args">格式化参数。</param>
         protected async Task LogAsync(string message, params object[] args)
         {
-            if (Events != null) 
+            if (Events != null)
                 await Events.LogAsync(string.Format(message, args));
         }
 

@@ -13,11 +13,6 @@ namespace Gentings.AspNetCore
         public static readonly ApiResult Success = new ApiResult { Message = Resources.ErrorCode_Success };
 
         /// <summary>
-        /// 状态：成功true/失败false。
-        /// </summary>
-        public bool Status => Code == 0;
-
-        /// <summary>
         /// 设置错误编码。
         /// </summary>
         public int Code { get; set; }

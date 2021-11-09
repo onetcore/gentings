@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Gentings.AspNetCore.TagHelpers.Bootstraps;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -21,7 +22,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// </summary>
         /// <param name="name">唯一名称，需要保证同一级下的名称唯一。</param>
         /// <param name="parent">父级菜单。</param>
-        public MenuItem(string name, MenuItem parent = null)
+        public MenuItem(string name, MenuItem? parent = null)
         {
             name = name.ToLower();
             Parent = parent ?? new MenuItem();
@@ -85,6 +86,26 @@ namespace Gentings.AspNetCore.AdminMenus
         public MenuItem Parent { get; private set; }
 
         /// <summary>
+        /// 只添加标注字符串。
+        /// </summary>
+        /// <param name="name">唯一名称。</param>
+        /// <param name="title">标题。</param>
+        /// <param name="priority">优先级。</param>
+        /// <returns>返回当前菜单选项。</returns>
+        public MenuItem AddMenu(string name, string title, int priority = 0)
+        {
+            return AddMenu(name, item => { 
+                item.Texted(title, priority: priority);
+                item.IsTitle = true;
+            });
+        }
+
+        /// <summary>
+        /// 是否为标题。
+        /// </summary>
+        public bool IsTitle { get; private set; }
+
+        /// <summary>
         /// 添加子菜单。
         /// </summary>
         /// <param name="name">唯一名称。</param>
@@ -133,7 +154,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <param name="text">标记显示字符串。</param>
         /// <param name="className">样式类型名称。</param>
         /// <returns>返回当前项目实例。</returns>
-        public MenuItem Badged(string text, string className = null)
+        public MenuItem Badged(string text, string? className = null)
         {
             BadgeText = text;
             BadgeClassName = className;
@@ -179,7 +200,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <param name="area">区域。</param>
         /// <param name="routeValues">路由实例。</param>
         /// <returns>返回当前菜单实例。</returns>
-        public MenuItem Page(string page, string pageHandler = null, string area = "", object routeValues = null)
+        public MenuItem Page(string page, string? pageHandler = null, string area = "", object? routeValues = null)
         {
             _page = page;
             _pageHandler = pageHandler;
@@ -199,7 +220,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <param name="area">区域。</param>
         /// <param name="routeValues">路由实例。</param>
         /// <returns>返回当前菜单实例。</returns>
-        public MenuItem Action(string action, string controller, string area = "", object routeValues = null)
+        public MenuItem Action(string action, string controller, string area = "", object? routeValues = null)
         {
             _controller = controller;
             _action = action;
@@ -215,14 +236,29 @@ namespace Gentings.AspNetCore.AdminMenus
         /// 设置内容以及链接地址。
         /// </summary>
         /// <param name="text">字符串。</param>
-        /// <param name="iconName">图标名称，一般为awesome标签fa-后面的部分。</param>
+        /// <param name="iconName">图标样式名称。</param>
         /// <param name="priority">优先级，越大越靠前。</param>
         /// <returns>返回当前实例。</returns>
-        public MenuItem Texted(string text, string iconName = null, int priority = 0)
+        public MenuItem Texted(string text, string? iconName = null, int priority = 0)
         {
             Priority = priority;
             Text = text;
             IconName = iconName;
+            return this;
+        }
+
+        /// <summary>
+        /// 设置内容以及链接地址。
+        /// </summary>
+        /// <param name="text">字符串。</param>
+        /// <param name="iconName">图标类型。</param>
+        /// <param name="priority">优先级，越大越靠前。</param>
+        /// <returns>返回当前实例。</returns>
+        public MenuItem Texted(string text, IconType iconName, int priority = 0)
+        {
+            Priority = priority;
+            Text = text;
+            IconName = iconName.ToDescriptionString();
             return this;
         }
 
@@ -262,21 +298,11 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <summary>
         /// 依赖权限。
         /// </summary>
-        /// <returns>返回当前实例。</returns>
-        public MenuItem Allow()
-        {
-            PermissionName = Name;
-            return this;
-        }
-
-        /// <summary>
-        /// 依赖权限。
-        /// </summary>
         /// <param name="permissionName">权限名称。</param>
         /// <returns>返回当前实例。</returns>
-        public MenuItem Allow(string permissionName)
+        public MenuItem Allow(string? permissionName = null)
         {
-            PermissionName = permissionName;
+            PermissionName = permissionName ?? Name;
             return this;
         }
 
@@ -292,7 +318,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// </summary>
         /// <param name="name">扩展属性名称。</param>
         /// <returns>返回扩展属性值。</returns>
-        public object this[string name]
+        public object? this[string name]
         {
             get
             {
@@ -315,7 +341,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// </summary>
         /// <param name="name">扩展属性名称。</param>
         /// <returns>返回当前扩展属性值。</returns>
-        public string Get(string name) => this[name]?.ToString();
+        public string? Get(string name) => this[name]?.ToString();
 
         /// <summary>
         /// 获取当前扩展属性值。

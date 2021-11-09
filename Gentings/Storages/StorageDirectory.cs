@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Gentings.AspNetCore;
 using Gentings.Properties;
@@ -73,8 +74,7 @@ namespace Gentings.Storages
         /// <returns>文件的操作提供者接口实例。</returns>
         public IStorageFile GetFile(string path)
         {
-            path = GetPhysicalPath(path);
-            return new StorageFile(path);
+            return new StorageFile(GetPhysicalPath(path), path);
         }
 
         /// <summary>
@@ -149,27 +149,21 @@ namespace Gentings.Storages
                 throw new Exception(Resources.StorageDirectory_FormFileInvalid);
             }
 
-            if (fileName != null && fileName.EndsWith(".$"))
-            {
-                fileName = fileName[0..^2] + Path.GetExtension(file.FileName);
-            }
-            else
-            {
+            if (fileName == null)
                 fileName = file.FileName;
-            }
+            else if (fileName.EndsWith(".$"))
+                fileName = fileName[0..^2] + Path.GetExtension(file.FileName);
 
-            directoryName = GetPhysicalPath(directoryName);
-            if (!Directory.Exists(directoryName))
-            {
-                Directory.CreateDirectory(directoryName);
-            }
+            var path = GetPhysicalPath(directoryName);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
-            fileName = Path.Combine(directoryName, fileName);
-            await using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+            path = Path.Combine(path, fileName);
+            await using (var fs = new FileStream(path, FileMode.Create, FileAccess.Write))
             {
                 await file.CopyToAsync(fs);
             }
-            return new StorageFile(fileName);
+            return new StorageFile(path, Path.Combine(directoryName, fileName));
         }
 
         /// <summary>
@@ -181,15 +175,13 @@ namespace Gentings.Storages
         /// <returns>返回文件提供者操作接口实例。</returns>
         public virtual async Task<IStorageFile> SaveAsync(string text, string directoryName, string fileName)
         {
-            directoryName = GetPhysicalPath(directoryName);
-            if (!Directory.Exists(directoryName))
-            {
-                Directory.CreateDirectory(directoryName);
-            }
+            var path = GetPhysicalPath(directoryName);
+            if (!Directory.Exists(path))
+                Directory.CreateDirectory(path);
 
-            fileName = Path.Combine(directoryName, fileName);
-            await FileHelper.SaveTextAsync(fileName, text);
-            return new StorageFile(fileName);
+            path = Path.Combine(path, fileName);
+            await FileHelper.SaveTextAsync(path, text);
+            return new StorageFile(path, Path.Combine(directoryName, fileName));
         }
 
         /// <summary>
@@ -239,10 +231,26 @@ namespace Gentings.Storages
         private class StorageFile : IStorageFile
         {
             private readonly FileInfo _info;
-            public StorageFile(string path)
+            public StorageFile(string path, string absolutePath)
             {
                 _info = new FileInfo(path);
+                Path = absolutePath?.Replace('\\', '/');
             }
+
+            /// <summary>
+            /// 绝对地址。
+            /// </summary>
+            public string Path { get; }
+
+            /// <summary>
+            /// 访问地址。
+            /// </summary>
+            public string Url => $"/s-files/{Path}";
+
+            /// <summary>
+            /// 下载地址。
+            /// </summary>
+            public string DownloadUrl => $"/d-files/{Path}";
 
             /// <summary>
             /// 大小。

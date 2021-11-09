@@ -56,7 +56,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <param name="provider">提供者名称。</param>
         /// <param name="name">当前菜单唯一Id。</param>
         /// <returns>返回当前菜单项。</returns>
-        public MenuItem GetMenu(string provider, string name)
+        public MenuItem? GetMenu(string provider, string name)
         {
             LoadMenus(provider).TryGetValue(name, out var item);
             return item;

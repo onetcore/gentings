@@ -596,7 +596,7 @@ namespace Gentings.Data.Internal
         {
             var context = AsQueryable();
             query.Init(context);
-            return context.AsEnumerable<TObject>(query.Current, query.PageSize, countExpression);
+            return context.AsEnumerable<TObject>(query.Page, query.PageSize, countExpression);
         }
 
         /// <summary>
@@ -654,7 +654,7 @@ namespace Gentings.Data.Internal
         {
             var context = AsQueryable();
             query.Init(context);
-            return context.AsEnumerableAsync<TObject>(query.Current, query.PageSize, countExpression,
+            return context.AsEnumerableAsync<TObject>(query.Page, query.PageSize, countExpression,
                 cancellationToken);
         }
 

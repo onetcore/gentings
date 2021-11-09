@@ -18,6 +18,21 @@ namespace Gentings.Storages
         string FullName { get; }
 
         /// <summary>
+        /// 绝对地址。
+        /// </summary>
+        string Path { get; }
+
+        /// <summary>
+        /// 访问地址。
+        /// </summary>
+        string Url { get; }
+
+        /// <summary>
+        /// 下载地址。
+        /// </summary>
+        string DownloadUrl { get; }
+
+        /// <summary>
         /// 文件名称。
         /// </summary>
         string Name { get; }
