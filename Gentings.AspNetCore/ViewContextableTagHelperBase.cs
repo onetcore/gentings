@@ -16,11 +16,11 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <summary>
         /// 试图上下文。
         /// </summary>
-        [HtmlAttributeNotBound]
         [ViewContext]
-        // ReSharper disable once MemberCanBePrivate.Global
-        // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        [HtmlAttributeNotBound]
+#pragma warning disable CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
         public ViewContext ViewContext { get; set; }
+#pragma warning restore CS8618 // 在退出构造函数时，不可为 null 的字段必须包含非 null 值。请考虑声明为可以为 null。
 
         /// <summary>
         /// HTTP上下文实例。
@@ -62,7 +62,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// </summary>
         /// <typeparam name="TService">服务类型或者接口。</typeparam>
         /// <returns>返回当前服务的实例对象。</returns>
-        protected TService GetRequiredService<TService>()
+        protected TService GetRequiredService<TService>() where TService : notnull
         {
             return HttpContext.RequestServices.GetRequiredService<TService>();
         }

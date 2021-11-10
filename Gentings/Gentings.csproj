@@ -13,12 +13,12 @@
 
   <ItemGroup>
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.14.1" />
-    <PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
     <PackageReference Include="System.IO.Pipelines" Version="6.0.0" />
+	<PackageReference Include="CoreCompat.System.Drawing.v2" Version="5.2.0-preview1-r131" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-
 using Gentings.AspNetCore.TagHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -15,8 +14,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
     [HtmlTargetElement("gt:menu", Attributes = AttributeName)]
     public class AdminMenuTagHelper : ViewContextableTagHelperBase
     {
-        private readonly IMenuProviderFactory _menuProviderFactory;
-        private readonly IUrlHelperFactory _factory;
+        private readonly IMenuProviderFactory _factory;
         private IUrlHelper _urlHelper;
         private const string AttributeName = "provider";
 
@@ -24,17 +22,17 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
         /// 菜单提供者名称。
         /// </summary>
         [HtmlAttributeName(AttributeName)]
-        public string Provider { get; set; }
+        public string? Provider { get; set; }
 
         /// <summary>
         /// 初始化类<see cref="AdminMenuTagHelper"/>。
         /// </summary>
-        /// <param name="menuProviderFactory">菜单提供者工厂接口。</param>
-        /// <param name="factory">URL辅助类工厂接口。</param>
-        public AdminMenuTagHelper(IMenuProviderFactory menuProviderFactory, IUrlHelperFactory factory)
+        /// <param name="factory">菜单提供者工厂接口。</param>
+        /// <param name="urlHelper">URL辅助类工厂接口。</param>
+        public AdminMenuTagHelper(IMenuProviderFactory factory, IUrlHelperFactory urlHelper)
         {
-            _menuProviderFactory = menuProviderFactory;
             _factory = factory;
+            _urlHelper = urlHelper.GetUrlHelper(ViewContext)!;
         }
 
         /// <summary>
@@ -44,15 +42,14 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            _urlHelper = _factory.GetUrlHelper(ViewContext);
             output.TagName = "ul";
-            output.AddCssClass("nav");
-            var items = _menuProviderFactory.GetRoots(Provider)
+            output.AddClass("nav");
+            var items = _factory.GetRoots(Provider!)
                 .Where(IsAuthorized)//当前项
                 .ToList();
             if (items.Count == 0)
                 return;
-            var current = ViewContext.GetCurrent(_menuProviderFactory, Provider, _urlHelper);
+            var current = ViewContext.GetCurrent(_factory, Provider!, _urlHelper);
             foreach (var item in items)
             {
                 var children = item.Where(IsAuthorized).ToList();
@@ -64,7 +61,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             }
         }
 
-        private TagBuilder CreateMenuItem(MenuItem item, MenuItem current, List<MenuItem> items, bool hasSub)
+        private TagBuilder? CreateMenuItem(MenuItem item, MenuItem? current, List<MenuItem> items, bool hasSub)
         {
             var li = new TagBuilder("li");
             if (items?.Count > 0)
@@ -121,7 +118,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             return li;
         }
 
-        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem current, int level)
+        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem? current, int level)
         {
             var ihasSub = false;
             var iul = new TagBuilder("ul");

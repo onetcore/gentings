@@ -1,16 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
-namespace Gentings.AspNetCore.StatusMessages
+namespace Gentings.AspNetCore
 {
     /// <summary>
-    /// 消息类型。
+    /// 状态消息，主要用于页面提示信息。
     /// </summary>
     public class StatusMessage
     {
         private readonly ITempDataDictionary _tempData;
-        private const string StatusMessageKey = "StatusMessage";
-        private const string StatusTypeKey = "StatusType";
-        private const string StatusUrlKey = "StatusUrl";
+        private const string StatusMessageKey = "Status.Message";
+        private const string StatusCodeKey = "Status.Code";
         /// <summary>
         /// 初始化类<see cref="StatusMessage"/>。
         /// </summary>
@@ -20,27 +19,27 @@ namespace Gentings.AspNetCore.StatusMessages
             _tempData = tempData;
         }
 
-        private StatusType? _statusType;
+        private int? _code;
         /// <summary>
         /// 消息类型。
         /// </summary>
-        public StatusType Type
+        public int Code
         {
             get
             {
-                if (_statusType == null)
+                if (_code == null)
                 {
-                    if (_tempData.TryGetValue(StatusTypeKey, out var status))
-                        _statusType = (StatusType)status;
+                    if (_tempData.TryGetValue(StatusCodeKey, out var code))
+                        _code = (int)code;
                     else
-                        _statusType = StatusType.Danger;
+                        _code = 0;
                 }
-                return _statusType.Value;
+                return _code.Value;
             }
             set
             {
-                _tempData[StatusTypeKey] = value;
-                _statusType = value;
+                _tempData[StatusCodeKey] = value;
+                _code = value;
             }
         }
 
@@ -58,28 +57,14 @@ namespace Gentings.AspNetCore.StatusMessages
             }
         }
 
-        private string _url;
-        /// <summary>
-        /// 转向地址。
-        /// </summary>
-        public string Url
-        {
-            get => _url ??= _tempData[StatusUrlKey] as string;
-            set
-            {
-                _tempData[StatusUrlKey] = value;
-                _url = value;
-            }
-        }
-
         /// <summary>
         /// 重新初始化实例。
         /// </summary>
-        /// <param name="type">类型状态。</param>
+        /// <param name="code">错误代码。</param>
         /// <param name="message">消息实例。</param>
-        public void Reinitialize(StatusType type, string message)
+        public void Reinitialize(int code, string message)
         {
-            _statusType = type;
+            _code = code;
             _message = message;
         }
 

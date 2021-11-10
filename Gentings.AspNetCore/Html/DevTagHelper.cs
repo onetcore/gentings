@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Hosting;
 
@@ -15,7 +14,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         private readonly IHostEnvironment _hostEnvironment;
         private const string DevValuesPrefix = ".dev-";
         private const string DevValuesDictionaryName = ".dev-data";
-        private IDictionary<string, string> _classNames;
+        private IDictionary<string, string>? _classNames;
         /// <summary>
         /// 初始化类<see cref="DevTagHelper"/>。
         /// </summary>

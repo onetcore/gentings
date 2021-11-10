@@ -79,6 +79,15 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
+        ///   查找类似 FileProvider不存在！ 的本地化字符串。
+        /// </summary>
+        internal static string FileProviderNotFound {
+            get {
+                return ResourceManager.GetString("FileProviderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 上一页 的本地化字符串。
         /// </summary>
         internal static string PageTagHelper_LastPage {
@@ -102,6 +111,15 @@ namespace Gentings.AspNetCore.Properties {
         internal static string PageTagHelper_NumberPage {
             get {
                 return ResourceManager.GetString("PageTagHelper_NumberPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 点击刷新验证码 的本地化字符串。
+        /// </summary>
+        internal static string VerifierTagHelper_ClickRefresh {
+            get {
+                return ResourceManager.GetString("VerifierTagHelper_ClickRefresh", resourceCulture);
             }
         }
     }

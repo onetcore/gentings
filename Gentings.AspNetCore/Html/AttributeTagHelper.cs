@@ -13,7 +13,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     {
         private const string ValuesPrefix = ".attr-";
         private const string ValuesDictionaryName = ".attr-data";
-        private IDictionary<string, object> _attributes;
+        private IDictionary<string, object>? _attributes;
 
         /// <summary>
         /// 样式列表。
@@ -50,13 +50,16 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                             if (value is bool bValue && bValue)
                             {
                                 output.SetAttribute(attributeName, attributeName);
-                                output.AddCssClass("disabled");
+                                output.AddClass("disabled");
                             }
                         }
                         break;
                     default:
-                        if (value != null && !string.IsNullOrWhiteSpace(value.ToString()))
-                            output.SetAttribute(attributeName, value.ToString());
+                        {
+                            var attributeValue = value?.ToString();
+                            if (attributeValue != null)
+                                output.SetAttribute(attributeName, attributeValue);
+                        }
                         break;
                 }
             }

@@ -269,3 +269,5 @@ __pycache__/
 *.gitignore.cs
 *.rar
 /Gentings.AspNetCore1
+/Gentings.AspNetCore/compilerconfig.json.defaults
+/GS/wwwroot/lib

@@ -28,7 +28,7 @@ namespace Gentings.Extensions.Events
         private readonly ILocalizer _localizer;
         private readonly int _userId;
         private readonly IDictionary<string, string> _stored = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        private readonly IEventManager _eventManager;
+        private readonly IDifferManager _differManager;
 
         /// <summary>
         /// 初始化类<see cref="ObjectDiffer"/>。
@@ -38,7 +38,7 @@ namespace Gentings.Extensions.Events
         {
             _localizer = context.RequestServices.GetRequiredService<ILocalizer>();
             _userId = context.User.GetUserId();
-            _eventManager = context.RequestServices.GetRequiredService<IEventManager>();
+            _differManager = context.RequestServices.GetRequiredService<IDifferManager>();
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Gentings.Extensions.Events
         /// <returns>返回保存结果。</returns>
         public bool Save()
         {
-            return _eventManager.Create(this);
+            return _differManager.Create(this);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Gentings.Extensions.Events
         /// <returns>返回保存结果。</returns>
         public Task<bool> SaveAsync()
         {
-            return _eventManager.CreateAsync(this);
+            return _differManager.CreateAsync(this);
         }
 
         private string GetName(IProperty property)

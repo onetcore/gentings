@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -20,7 +19,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// 模型属性。
         /// </summary>
         [HtmlAttributeName("asp-for")]
-        public ModelExpression For { get; set; }
+        public ModelExpression? For { get; set; }
 
         /// <summary>
         /// 默认显示字符串：“请选择”。
@@ -107,7 +106,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <returns>返回选项列表。</returns>
         protected virtual Task<IEnumerable<SelectListItem>> InitAsync()
         {
-            return Task.FromResult<IEnumerable<SelectListItem>>(null);
+            return Task.FromResult(Enumerable.Empty<SelectListItem>());
         }
 
         /// <summary>
@@ -125,7 +124,8 @@ namespace Gentings.AspNetCore.TagHelpers
             Func<TGroup, string>? getText = null)
             where TGroup : IGroupable<TGroup>
         {
-            groups = filter?.Invoke(groups);
+            if (filter != null)
+                groups = filter(groups);
             foreach (var group in groups)
             {
                 items.Add(new SelectListItem { Text = getText?.Invoke(group) ?? group.Name, Value = getValue?.Invoke(group) ?? group.Id.ToString() });
@@ -133,11 +133,12 @@ namespace Gentings.AspNetCore.TagHelpers
             }
         }
 
-        private void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup>? groups, Func<IEnumerable<TGroup>, IEnumerable<TGroup>>? filter, Func<TGroup, string>? getValue, Func<TGroup, string>? getText, string? header)
+        private void InitChildren<TGroup>(List<SelectListItem> items, IEnumerable<TGroup> groups, Func<IEnumerable<TGroup>, IEnumerable<TGroup>>? filter, Func<TGroup, string>? getValue, Func<TGroup, string>? getText, string? header)
             where TGroup : IGroupable<TGroup>
         {
             var index = 0;
-            groups = filter?.Invoke(groups);
+            if (filter != null)
+                groups = filter(groups);
             var count = groups.Count();
             if (count == 0)
                 return;

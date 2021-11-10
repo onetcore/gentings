@@ -545,7 +545,7 @@ namespace Gentings
         /// <returns>返回缓存实体接口。</returns>
         public static ICacheEntry SetDefaultAbsoluteExpiration(this ICacheEntry cache)
         {
-            return cache.SetAbsoluteExpiration(Cores.DefaultCacheExpiration);
+            return cache.SetAbsoluteExpiration(DefaultCacheExpiration);
         }
     }
 }

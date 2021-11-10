@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS8714: 类型不能用作泛型类型或方法中的类型参数。类型参数的为 Null 性与 "notnull" 约束不匹配。
+dotnet_diagnostic.CS8714.severity = none

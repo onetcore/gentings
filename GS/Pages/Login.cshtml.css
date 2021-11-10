@@ -1,0 +1,13 @@
+﻿main {
+    width: 100%;
+    height: 100vh;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    main > .card {
+        max-width: 500px;
+        width: 100%;
+    }

@@ -123,6 +123,9 @@
   <data name="EnumDropdownListTagHelper-TypeNotFound" xml:space="preserve">
     <value>未找到枚举类型</value>
   </data>
+  <data name="FileProviderNotFound" xml:space="preserve">
+    <value>FileProvider不存在！</value>
+  </data>
   <data name="PageTagHelper_LastPage" xml:space="preserve">
     <value>上一页</value>
   </data>
@@ -131,5 +134,8 @@
   </data>
   <data name="PageTagHelper_NumberPage" xml:space="preserve">
     <value>第{0}页</value>
+  </data>
+  <data name="VerifierTagHelper_ClickRefresh" xml:space="preserve">
+    <value>点击刷新验证码</value>
   </data>
 </root>

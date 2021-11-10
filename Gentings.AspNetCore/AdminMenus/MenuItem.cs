@@ -36,7 +36,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <summary>
         /// 菜单项在父级下的唯一名称。
         /// </summary>
-        public string Name { get; private set; }
+        public string? Name { get; private set; }
 
         /// <summary>
         /// 层级。
@@ -48,12 +48,12 @@ namespace Gentings.AspNetCore.AdminMenus
         /// </summary>
         public int Priority { get; private set; }
 
-        private string _controller;
-        private string _action;
-        private string _page;
-        private string _pageHandler;
-        private RouteValueDictionary _routeValues;
-        private string _href;
+        private string? _controller;
+        private string? _action;
+        private string? _page;
+        private string? _pageHandler;
+        private RouteValueDictionary? _routeValues;
+        private string? _href;
 
         private readonly IDictionary<string, MenuItem> _children =
             new Dictionary<string, MenuItem>(StringComparer.OrdinalIgnoreCase);
@@ -83,7 +83,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <summary>
         /// 父级菜单项。
         /// </summary>
-        public MenuItem Parent { get; private set; }
+        public MenuItem? Parent { get; private set; }
 
         /// <summary>
         /// 只添加标注字符串。
@@ -94,7 +94,8 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <returns>返回当前菜单选项。</returns>
         public MenuItem AddMenu(string name, string title, int priority = 0)
         {
-            return AddMenu(name, item => { 
+            return AddMenu(name, item =>
+            {
                 item.Texted(title, priority: priority);
                 item.IsTitle = true;
             });
@@ -115,7 +116,7 @@ namespace Gentings.AspNetCore.AdminMenus
         {
             var menu = new MenuItem(name, this);
             action(menu);
-            _children.Add(menu.Name, menu);
+            _children.Add(menu.Name!, menu);
             return this;
         }
 
@@ -141,12 +142,12 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <summary>
         /// 标记颜色。
         /// </summary>
-        public string BadgeClassName { get; private set; }
+        public string? BadgeClassName { get; private set; }
 
         /// <summary>
         /// 标记字符串。
         /// </summary>
-        public string BadgeText { get; private set; }
+        public string? BadgeText { get; private set; }
 
         /// <summary>
         /// 设置标记示例。
@@ -164,12 +165,12 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <summary>
         /// 图标名称，一般为awesome标签fa-后面的部分。
         /// </summary>
-        public string IconName { get; private set; }
+        public string? IconName { get; private set; }
 
         /// <summary>
         /// 链接地址。
         /// </summary>
-        public string LinkUrl(IUrlHelper urlHelper, string defaultUrl = "#")
+        public string? LinkUrl(IUrlHelper urlHelper, string? defaultUrl = "#")
         {
             if (_href != null) return _href;
             if (_page != null)
@@ -265,7 +266,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <summary>
         /// 显示文本字符串。
         /// </summary>
-        public string Text { get; private set; }
+        public string? Text { get; private set; }
 
         internal void Merge(MenuItem item)
         {
@@ -285,12 +286,12 @@ namespace Gentings.AspNetCore.AdminMenus
 
             foreach (var it in item)
             {
-                if (_children.TryGetValue(it.Name, out var i))
+                if (_children.TryGetValue(it.Name!, out var i))
                     i.Merge(it);
                 else
                 {
                     it.Parent = this;
-                    _children.Add(it.Name, it);
+                    _children.Add(it.Name!, it);
                 }
             }
         }
@@ -309,7 +310,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <summary>
         /// 权限名称。
         /// </summary>
-        public string PermissionName { get; private set; }
+        public string? PermissionName { get; private set; }
 
         private readonly IDictionary<string, object> _extensions =
             new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
@@ -326,7 +327,13 @@ namespace Gentings.AspNetCore.AdminMenus
                     return value;
                 return null;
             }
-            set => _extensions[name] = value;
+            set
+            {
+                if (value == null)
+                    _extensions.Remove(name);
+                else
+                    _extensions[name] = value;
+            }
         }
 
         /// <summary>
@@ -349,7 +356,7 @@ namespace Gentings.AspNetCore.AdminMenus
         /// <param name="name">扩展属性名称。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <returns>返回当前扩展属性值。</returns>
-        public TValue Get<TValue>(string name, TValue defaultValue = default)
+        public TValue? Get<TValue>(string name, TValue? defaultValue = default)
         {
             var value = this[name];
             if (value == null)

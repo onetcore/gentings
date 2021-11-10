@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -9,7 +8,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
     {
         private const string CurrentKey = "Current";
         private const string CurrentCacheKey = "CurrentNav";
-        public static MenuItem GetCurrent(this ViewContext viewContext, IMenuProviderFactory factory, string provider, IUrlHelper urlHelper)
+        public static MenuItem? GetCurrent(this ViewContext viewContext, IMenuProviderFactory factory, string provider, IUrlHelper urlHelper)
         {
             var current = viewContext.HttpContext.Items[CurrentCacheKey] as MenuItem;
             if (current == null)
@@ -28,7 +27,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             return current;
         }
         
-        public static bool IsCurrent(this MenuItem current, MenuItem item)
+        public static bool IsCurrent(this MenuItem? current, MenuItem item)
         {
             while (current != null && current.Level >= 0)
             {

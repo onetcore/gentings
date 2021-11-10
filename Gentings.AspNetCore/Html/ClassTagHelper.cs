@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.TagHelpers.Html
@@ -14,7 +13,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     {
         private const string ClassValuesPrefix = ".class-";
         private const string ClassValuesDictionaryName = ".class-data";
-        private IDictionary<string, bool> _classNames;
+        private IDictionary<string, bool>? _classNames;
 
         /// <summary>
         /// 样式列表。
@@ -34,7 +33,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var classNames = ClassNames.Where(x => x.Value).Select(x => x.Key).ToArray();
-            output.AddCssClass(classNames);
+            output.AddClass(classNames);
         }
     }
 }

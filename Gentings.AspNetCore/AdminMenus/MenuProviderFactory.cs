@@ -68,7 +68,7 @@ namespace Gentings.AspNetCore.AdminMenus
             provider.Init(root);
             foreach (var menu in root)
             {
-                if (dic.TryGetValue(menu.Name, out var item))
+                if (dic.TryGetValue(menu.Name!, out var item))
                     item.Merge(menu);
                 else
                     item = menu;
@@ -78,7 +78,7 @@ namespace Gentings.AspNetCore.AdminMenus
 
         private void AddSubMenus(IDictionary<string, MenuItem> dic, MenuItem item)
         {
-            dic[item.Name] = item;
+            dic[item.Name!] = item;
             foreach (var it in item)
             {
                 AddSubMenus(dic, it);

@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <gt:header title="@ViewData["Title"] - @ViewData["SiteName"]" import="GtSkin">
+        <link rel="stylesheet" href="~/GS.styles.css" asp-append-version="true" />
+        @await RenderSectionAsync("header", required: false)
+    </gt:header>
+</head>
+<body>
+    @RenderBody()
+    <gt:footer antiforgery="true" status="true">
+        @await RenderSectionAsync("scripts", required: false)
+    </gt:footer>
+</body>
+</html>

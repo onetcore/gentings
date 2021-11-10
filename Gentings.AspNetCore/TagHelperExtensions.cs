@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -37,7 +36,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// </summary>
         /// <param name="output">输出实例对象。</param>
         /// <param name="builder">构建实例对象。</param>
-        public static void SetTag(this TagHelperOutput output, TagBuilder builder)
+        public static void Render(this TagHelperOutput output, TagBuilder builder)
         {
             output.TagName = builder.TagName;
             output.MergeAttributes(builder);
@@ -52,11 +51,9 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="action">构建实例对象。</param>
         public static void Render(this TagHelperOutput output, string tagName, Action<TagBuilder> action)
         {
-            output.TagName = tagName;
             var builder = new TagBuilder(tagName);
             action(builder);
-            output.MergeAttributes(builder);
-            output.Content.AppendHtml(builder.InnerHtml);
+            output.Render(builder);
         }
 
         /// <summary>
@@ -67,11 +64,9 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="action">构建实例对象。</param>
         public static async Task RenderAsync(this TagHelperOutput output, string tagName, Func<TagBuilder, Task> action)
         {
-            output.TagName = tagName;
             var builder = new TagBuilder(tagName);
             await action(builder);
-            output.MergeAttributes(builder);
-            output.Content.AppendHtml(builder.InnerHtml);
+            output.Render(builder);
         }
 
         /// <summary>
@@ -125,21 +120,12 @@ namespace Gentings.AspNetCore.TagHelpers
         /// </summary>
         /// <param name="output">输出实例对象。</param>
         /// <param name="classNames">样式列表。</param>
-        public static void AddCssClass(this TagHelperOutput output, params string[] classNames)
+        public static void AddClass(this TagHelperOutput output, params string[] classNames)
         {
-            if (!output.Attributes.TryGetAttribute("class", out var attribute))
-            {
-                output.Attributes.Add("class", string.Join(" ", classNames));
-                return;
-            }
-            var classes = ExtractClassValue(attribute);
             foreach (var className in classNames)
             {
-                if (classes.Contains(className))
-                    continue;
-                classes.Insert(0, className);
+                output.AddClass(className, HtmlEncoder.Default);
             }
-            output.SetAttribute("class", string.Join(" ", classes));
         }
 
         /// <summary>
@@ -149,10 +135,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="className">样式表。</param>
         public static void RemoveClass(this TagHelperOutput output, string className)
         {
-            if (!output.Attributes.TryGetAttribute("class", out var attribute))
-                return;
-            var classes = ExtractClassValue(attribute).Where(x => x != className);
-            output.SetAttribute("class", string.Join(" ", classes));
+            output.RemoveClass(className, HtmlEncoder.Default);
         }
 
         /// <summary>
@@ -164,32 +147,6 @@ namespace Gentings.AspNetCore.TagHelpers
         public static void SetAttribute(this TagHelperOutput output, string name, string value)
         {
             output.Attributes.SetAttribute(new TagHelperAttribute(name, value));
-        }
-
-        private static List<string> ExtractClassValue(TagHelperAttribute classAttribute)
-        {
-            string extractedClassValue;
-            switch (classAttribute.Value)
-            {
-                case string valueAsString:
-                    extractedClassValue = HtmlEncoder.Default.Encode(valueAsString);
-                    break;
-                case HtmlString valueAsHtmlString:
-                    extractedClassValue = valueAsHtmlString.Value;
-                    break;
-                case IHtmlContent htmlContent:
-                    using (var stringWriter = new StringWriter())
-                    {
-                        htmlContent.WriteTo(stringWriter, HtmlEncoder.Default);
-                        extractedClassValue = stringWriter.ToString();
-                    }
-                    break;
-                default:
-                    extractedClassValue = HtmlEncoder.Default.Encode(classAttribute.Value?.ToString());
-                    break;
-            }
-            var currentClassValue = extractedClassValue ?? string.Empty;
-            return currentClassValue.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         }
 
         /// <summary>
@@ -211,12 +168,64 @@ namespace Gentings.AspNetCore.TagHelpers
         }
 
         /// <summary>
+        /// 附加样式文件引用。
+        /// </summary>
+        /// <param name="output">输出实例对象。</param>
+        /// <param name="path">样式文件路径。</param>
+        public static void AppendStyle(this TagHelperOutput output, string path)
+        {
+            if (!path.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
+                path += ".css";
+            output.AppendHtml("link", x => {
+                x.MergeAttribute("rel", "stylesheet");
+                x.MergeAttribute("href", path);
+                x.TagRenderMode = TagRenderMode.SelfClosing;
+            });
+        }
+
+        /// <summary>
         /// 附加脚本文件引用。
         /// </summary>
         /// <param name="output">输出实例对象。</param>
         /// <param name="path">脚本文件路径。</param>
         public static void AppendScript(this TagHelperOutput output, string path)
         {
+            if (!path.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
+                path += ".js";
+            output.AppendHtml("script", x => x.MergeAttribute("src", path));
+        }
+
+        /// <summary>
+        /// 附加样式文件引用。
+        /// </summary>
+        /// <param name="output">输出实例对象。</param>
+        /// <param name="path">样式文件路径。</param>
+        /// <param name="isDevelopment">是否为开发版本。</param>
+        public static void AppendStyle(this TagHelperOutput output, string path, bool isDevelopment)
+        {
+            if (isDevelopment)
+                path += ".css";
+            else
+                path += ".min.css";
+            output.AppendHtml("link", x => {
+                x.MergeAttribute("rel", "stylesheet");
+                x.MergeAttribute("href", path);
+                x.TagRenderMode = TagRenderMode.SelfClosing;
+            });
+        }
+
+        /// <summary>
+        /// 附加脚本文件引用。
+        /// </summary>
+        /// <param name="output">输出实例对象。</param>
+        /// <param name="path">脚本文件路径。</param>
+        /// <param name="isDevelopment">是否为开发版本。</param>
+        public static void AppendScript(this TagHelperOutput output, string path, bool isDevelopment)
+        {
+            if (isDevelopment)
+                path += ".js";
+            else
+                path += ".min.js";
             output.AppendHtml("script", x => x.MergeAttribute("src", path));
         }
     }

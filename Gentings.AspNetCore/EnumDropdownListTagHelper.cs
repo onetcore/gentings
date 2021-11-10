@@ -27,13 +27,13 @@ namespace Gentings.AspNetCore.TagHelpers
         /// 忽略值。
         /// </summary>
         [HtmlAttributeName("ignore")]
-        public Enum IgnoreValue { get; set; }
+        public Enum? IgnoreValue { get; set; }
 
         /// <summary>
         /// 忽略值。
         /// </summary>
         [HtmlAttributeName("ignores")]
-        public Enum[] IgnoreValues { get; set; }
+        public Enum[]? IgnoreValues { get; set; }
 
         /// <summary>
         /// 初始化选项列表。
@@ -63,9 +63,9 @@ namespace Gentings.AspNetCore.TagHelpers
             {
                 if (DefaultText == null)
                     DefaultText = Localizer["DropdownListTagHelper-DefaultText"];
-                type = Nullable.GetUnderlyingType(type);
+                type = Nullable.GetUnderlyingType(type)!;
             }
-            foreach (Enum value in Enum.GetValues(type))
+            foreach (Enum value in Enum.GetValues(type!))
             {
                 if (IsIgnore(value)) continue;
                 yield return new SelectListItem
