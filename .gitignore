@@ -271,3 +271,4 @@ __pycache__/
 /Gentings.AspNetCore1
 /Gentings.AspNetCore/compilerconfig.json.defaults
 /GS/wwwroot/lib
+/Gentings.AspNetCore/wwwroot/scss

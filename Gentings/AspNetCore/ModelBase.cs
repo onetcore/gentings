@@ -80,12 +80,7 @@ namespace Gentings.AspNetCore
         /// <returns>登录任务。</returns>
         protected async Task SignInAsync(IUser user, string authenticationScheme, string defaultRedirectUri = "/backend", bool isRemembered = false)
         {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.UserName!),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
-            var identity = new ClaimsIdentity(claims, authenticationScheme);
+            var identity = user.Create(authenticationScheme);
             string returnUrl = Request.Query["ReturnUrl"];
             var properties = new AuthenticationProperties
             {
@@ -93,7 +88,7 @@ namespace Gentings.AspNetCore
                 RedirectUri = string.IsNullOrWhiteSpace(returnUrl) ? defaultRedirectUri : returnUrl,//如果用户点“登录“进来，登录成功后跳转到首页，否则跳转到上一个页面
                 ExpiresUtc = DateTime.UtcNow.AddDays(1) //设置 cookie 过期时间：一天后过期
             };
-            
+
             //生成一个加密的 cookie 并输出到浏览器。
             await HttpContext.SignInAsync(authenticationScheme, new ClaimsPrincipal(identity), properties);
         }

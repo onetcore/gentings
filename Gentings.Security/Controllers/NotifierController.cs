@@ -28,7 +28,7 @@ namespace Gentings.Security.Controllers
         public async Task<IActionResult> Index()
         {
             var notifications = await _notificationManager.LoadAsync(UserId, 10);
-            return OkResult(notifications);
+            return Success(notifications);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Gentings.Security.Controllers
         public async Task<IActionResult> Confirmed(int id)
         {
             await _notificationManager.UpdateAsync(id, new { Status = NotificationStatus.Confirmed });
-            return OkResult();
+            return Success();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Gentings.Security.Controllers
         public async Task<IActionResult> Clear()
         {
             await _notificationManager.DeleteAsync(x => x.UserId == UserId);
-            return OkResult();
+            return Success();
         }
     }
 }

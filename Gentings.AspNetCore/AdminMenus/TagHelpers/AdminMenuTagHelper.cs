@@ -15,7 +15,8 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
     public class AdminMenuTagHelper : ViewContextableTagHelperBase
     {
         private readonly IMenuProviderFactory _factory;
-        private IUrlHelper _urlHelper;
+        private readonly IUrlHelperFactory _urlHelperFactory;
+        private IUrlHelper? _urlHelper;
         private const string AttributeName = "provider";
 
         /// <summary>
@@ -28,11 +29,20 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
         /// 初始化类<see cref="AdminMenuTagHelper"/>。
         /// </summary>
         /// <param name="factory">菜单提供者工厂接口。</param>
-        /// <param name="urlHelper">URL辅助类工厂接口。</param>
-        public AdminMenuTagHelper(IMenuProviderFactory factory, IUrlHelperFactory urlHelper)
+        /// <param name="urlHelperFactory">URL辅助类工厂接口。</param>
+        public AdminMenuTagHelper(IMenuProviderFactory factory, IUrlHelperFactory urlHelperFactory)
         {
             _factory = factory;
-            _urlHelper = urlHelper.GetUrlHelper(ViewContext)!;
+            _urlHelperFactory = urlHelperFactory;
+        }
+
+        /// <summary>
+        /// 初始化当前标签上下文。
+        /// </summary>
+        /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
+        public override void Init(TagHelperContext context)
+        {
+            _urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext)!;
         }
 
         /// <summary>
@@ -49,7 +59,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
                 .ToList();
             if (items.Count == 0)
                 return;
-            var current = ViewContext.GetCurrent(_factory, Provider!, _urlHelper);
+            var current = ViewContext.GetCurrent(_factory, Provider!, _urlHelper!);
             foreach (var item in items)
             {
                 var children = item.Where(IsAuthorized).ToList();
@@ -75,7 +85,7 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             li.AddCssClass("nav-item");
             if (item.IsTitle)
             {//分组标题
-                li.AddCssClass("nav-title");
+                li.AddCssClass("nav-heading");
                 li.InnerHtml.AppendHtml(item.Text);
                 return li;
             }
@@ -83,8 +93,6 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             var anchor = new TagBuilder("a");
             if (isCurrent)
                 anchor.AddCssClass("active");
-            var url = item.LinkUrl(_urlHelper);
-            anchor.MergeAttribute("href", url);
             anchor.MergeAttribute("title", item.Text);
             anchor.AddCssClass($"nav-link");
             //图标
@@ -109,20 +117,32 @@ namespace Gentings.AspNetCore.AdminMenus.TagHelpers
             //子菜单
             if (items?.Count > 0)
             {
-                var arrow = new TagBuilder("span");
-                arrow.AddCssClass("menu-arrow");
-                anchor.InnerHtml.AppendHtml(arrow);
-                anchor.MergeAttribute("onclick", "$(this).toggleClass(\"active\");return false;");
-                CreateChildren(li, items, current, item.Level + 1);
+                var id = item.Name!.Replace('.', '_');
+                anchor.AddCssClass("dropdown-indicator");
+                if (isCurrent)
+                    anchor.MergeAttribute("aria-expanded", "true");
+                else
+                    anchor.AddCssClass("collapsed");
+                anchor.MergeAttribute("data-bs-toggle", "collapse");
+                anchor.MergeAttribute("href", "#" + id);
+                CreateChildren(li, items, current, item.Level + 1, id, isCurrent);
+            }
+            else
+            {
+                var url = item.LinkUrl(_urlHelper!);
+                anchor.MergeAttribute("href", url);
             }
             return li;
         }
 
-        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem? current, int level)
+        private void CreateChildren(TagBuilder li, List<MenuItem> items, MenuItem? current, int level, string id, bool isCurrent)
         {
             var ihasSub = false;
             var iul = new TagBuilder("ul");
-            iul.AddCssClass($"menu-{level}");
+            iul.GenerateId(id, ".");
+            iul.AddCssClass($"menu-{level} collapse");
+            if (isCurrent)
+                iul.AddCssClass("show");
             foreach (var it in items.OrderByDescending(x => x.Priority))
             {
                 var children = it.Where(IsAuthorized).ToList();

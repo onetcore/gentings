@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
@@ -64,6 +66,24 @@ namespace Gentings.Extensions
         public static string GetUserFirstValue(this HttpContext context, string claimType)
         {
             return context.User.FindFirst(claimType)?.Value;
+        }
+
+        /// <summary>
+        /// 通过用户实例创建声明标志。
+        /// </summary>
+        /// <param name="user">当前用户实例。</param>
+        /// <param name="authenticationScheme">验证方式。</param>
+        /// <param name="action">实例化声明列表。</param>
+        /// <returns>返回用户声明标志。</returns>
+        public static ClaimsIdentity Create(this IUser user, string authenticationScheme, Action<List<Claim>> action = null)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.UserName!),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+            };
+            if (action != null) action(claims);
+            return new ClaimsIdentity(claims, authenticationScheme);
         }
     }
 }

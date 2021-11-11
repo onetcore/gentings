@@ -81,11 +81,9 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
                 (libraries & ImportLibrary.GtSkin) == ImportLibrary.GtSkin)
             {
-                output.AppendStyle("/lib/bootstrap/css/bootstrap", isDevelopment);
+                output.AppendStyle("/css/gt-skin", isDevelopment);
                 output.AppendStyle("/lib/bootstrap-icons/font/bootstrap-icons", isDevelopment);
             }
-            if ((libraries & ImportLibrary.GtSkin) == ImportLibrary.GtSkin)
-                output.AppendStyle("/css/gt-skin", isDevelopment);
             if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
                 output.AppendStyle("/lib/highlight.js/styles/vs2015", isDevelopment);
             if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)

@@ -11,11 +11,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="wwwroot\gt-skin.js" />
+	  <None Remove="wwwroot\gt-skin.scss" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="wwwroot\gt-skin.js" />
+	  <Content Include="wwwroot\gt-skin.scss">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </Content>
 	</ItemGroup>
 
 	<ItemGroup>

@@ -1,4 +1,5 @@
 ﻿using GS.Extensions;
+using GS.Extensions.Security;
 
 namespace GS.Pages
 {
@@ -12,5 +13,11 @@ namespace GS.Pages
         /// 网站配置。
         /// </summary>
         public SiteSettings Settings => _settings ??= GetRequiredService<SiteSettings>();
+
+        private User? _currentUser;
+        /// <summary>
+        /// 获取当前登录用户。
+        /// </summary>
+        public User CurrentUser => _currentUser ??= GetRequiredService<User>();
     }
 }

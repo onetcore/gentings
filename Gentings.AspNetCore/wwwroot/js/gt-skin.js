@@ -333,6 +333,15 @@ var resources = {
         if (window.hljs) $('pre code', context).each(function () {
             hljs.highlightBlock(this);
         });
+        // 图片
+        $('img[_error]', context).each(function () {
+            var src = this._error;
+            if (src) {
+                $(this).on('error', function () {
+                    if (this.src != src) this.src = src;
+                });
+            }
+        });
         // 表格排序
         $('table thead .sorting', context).on('click', function () {
             var current = 'sorting-asc';

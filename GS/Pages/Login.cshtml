@@ -23,7 +23,7 @@
             <form role="form" method="post" asp-route-returnUrl="@Model.ReturnUrl">
                 <div class="form-group mb-2">
                     <label class="form-control-label mb-1">账户名称</label>
-                    <div class="input-group-preppend">
+                    <div class="input-group-prepend">
                         <label><i class="bi-person"></i></label>
                         <input type="text" asp-for="Input.UserName" class="form-control" placeholder="请输入账户名称">
                     </div>
@@ -31,7 +31,7 @@
                 </div>
                 <div class="form-group mb-2">
                     <label class="form-control-label mb-1">密码</label>
-                    <div class="input-group-preppend">
+                    <div class="input-group-prepend">
                         <label><i class="bi-key"></i></label>
                         <input type="password" asp-for="Input.Password" class="form-control" placeholder="请输入密码">
                     </div>
@@ -39,9 +39,9 @@
                 </div>
                 <div class="form-group mb-2" .visible="@Model.Settings.ValidCode">
                     <label class="form-control-label mb-1">验证码</label>
-                    <div class="input-group-preppend input-group-append">
+                    <div class="input-group-prepend input-group-append">
                         <label><i class="bi-lock"></i></label>
-                        <input type="text" asp-for="Input.Code" class="form-control" placeholder="请输入验证码">
+                        <input type="text" asp-for="Input.Code" class="form-control verifier-input" placeholder="请输入验证码">
                         <gt:verifier key="login"></gt:verifier>
                     </div>
                     <span class="text-danger" asp-validation-for="Input.Code"></span>

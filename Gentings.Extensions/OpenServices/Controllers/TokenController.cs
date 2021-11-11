@@ -52,10 +52,10 @@ namespace Gentings.Extensions.OpenServices.Controllers
             {
                 var application = await _applicationManager.FindUserApplicationAsync(appid);
                 if (application == null)
-                    return BadResult(ErrorCode.ApplicationNotFound);
+                    return Error(ErrorCode.ApplicationNotFound);
 
                 if (!application.AppSecret.Equals(input.AppSecret, StringComparison.OrdinalIgnoreCase))
-                    return BadResult(ErrorCode.AppSecretInvalid);
+                    return Error(ErrorCode.AppSecretInvalid);
 
                 var claims = new List<Claim>
                 {
@@ -64,10 +64,10 @@ namespace Gentings.Extensions.OpenServices.Controllers
                     new Claim(ClaimTypes.PrimarySid, application.Id.ToString("N"))
                 };
                 var result = CreateJwtSecurityToken(claims);
-                return OkResult(new TokenResult(result));
+                return Success(new TokenResult(result));
             }
 
-            return BadResult();
+            return Error();
         }
     }
 }

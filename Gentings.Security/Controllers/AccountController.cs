@@ -41,7 +41,7 @@ namespace Gentings.Security.Controllers
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
             await HttpContext.SignOutAsync(IdentityConstants.TwoFactorUserIdScheme);
             await LogAsync(Resources.Logout_Success);
-            return OkResult();
+            return Success();
         }
     }
 }
