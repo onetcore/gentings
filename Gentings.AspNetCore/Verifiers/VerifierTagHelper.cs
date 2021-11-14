@@ -7,7 +7,7 @@ namespace Gentings.AspNetCore.Verifiers
     /// <summary>
     /// 验证码图片。
     /// </summary>
-    [HtmlTargetElement("gt:verifier", Attributes = "key")]
+    [HtmlTargetElement("gt:verifier", Attributes = AttributeName)]
     public class VerifierTagHelper : TagHelperBase
     {
         /// <summary>
@@ -28,10 +28,11 @@ namespace Gentings.AspNetCore.Verifiers
         [HtmlAttributeName("height")]
         public int Height { get; set; } = 32;
 
+        private const string AttributeName = "key";
         /// <summary>
         /// 验证唯一键。
         /// </summary>
-        [HtmlAttributeName("key")]
+        [HtmlAttributeName(AttributeName)]
         public string Key { get; set; }
 
         /// <summary>

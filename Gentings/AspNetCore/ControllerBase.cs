@@ -9,6 +9,7 @@ using Gentings.Extensions;
 using Gentings.Extensions.Events;
 using Gentings.Localization;
 using Gentings.Properties;
+using Gentings.Storages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -164,7 +165,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult Error(string message, params object[] args)
         {
             if (args != null) message = string.Format(message, args);
-            return Ok(new ApiResult { Code = (int)ErrorCode.UnknownError, Message = message });
+            return Json(new ApiResult { Code = (int)ErrorCode.UnknownError, Message = message });
         }
 
         /// <summary>
@@ -176,7 +177,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult Error(Enum code, params object[] args)
         {
             var resource = Localizer.GetString(code, args);
-            return Ok(new ApiResult { Code = (int)(object)code, Message = resource });
+            return Json(new ApiResult { Code = (int)(object)code, Message = resource });
         }
 
         /// <summary>
@@ -185,7 +186,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult Success()
         {
-            return Ok(ApiResult.Success);
+            return Json(ApiResult.Success);
         }
 
         /// <summary>
@@ -195,7 +196,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult Success(ApiResult result)
         {
-            return Ok(result);
+            return Json(result);
         }
 
         /// <summary>
@@ -232,7 +233,7 @@ namespace Gentings.AspNetCore
         /// <param name="name">名称。</param>
         /// <param name="logged">如果操作成功，是否保存到日志记录中。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual IActionResult Success(bool result, DataAction action, string name, bool logged = false)
+        protected virtual IActionResult Json(bool result, DataAction action, string name, bool logged = false)
         {
             if (!result) action = (DataAction)(-(int)action);
             var resource = Localizer.GetString(action, name);
@@ -242,7 +243,7 @@ namespace Gentings.AspNetCore
                 Code = result ? 0 : (int)action
             };
             if (result && logged) Log(api.Message);
-            return Ok(api);
+            return Json(api);
         }
 
         /// <summary>
@@ -252,11 +253,11 @@ namespace Gentings.AspNetCore
         /// <param name="name">名称。</param>
         /// <param name="logged">如果操作成功，是否保存到日志记录中。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual IActionResult Success(DataResult result, string name, bool logged = false)
+        protected virtual IActionResult Json(DataResult result, string name, bool logged = false)
         {
-            var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
-            if (result.Succeed()) Log(api.Message);
-            return Ok(api);
+            var api = new ApiResult { Message = result.ToString(name), Code = result ? 0 : result.Code };
+            if (result) Log(api.Message);
+            return Json(api);
         }
 
         /// <summary>
@@ -266,7 +267,7 @@ namespace Gentings.AspNetCore
         /// <param name="action">操作方法。</param>
         /// <param name="name">名称。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual async Task<IActionResult> SuccessAsync(bool result, DataAction action, string name)
+        protected virtual async Task<IActionResult> JsonAsync(bool result, DataAction action, string name)
         {
             if (!result) action = (DataAction)(-(int)action);
             var resource = Localizer.GetString(action, name);
@@ -276,7 +277,7 @@ namespace Gentings.AspNetCore
                 Code = result ? 0 : (int)action
             };
             if (result) await LogAsync(api.Message);
-            return Ok(api);
+            return Json(api);
         }
 
         /// <summary>
@@ -285,11 +286,32 @@ namespace Gentings.AspNetCore
         /// <param name="result">数据操作结果。</param>
         /// <param name="name">名称。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual async Task<IActionResult> SuccessAsync(DataResult result, string name)
+        protected virtual async Task<IActionResult> JsonAsync(DataResult result, string name)
         {
-            var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
-            if (result.Succeed()) await LogAsync(api.Message);
-            return Ok(api);
+            var api = new ApiResult { Message = result.ToString(name), Code = result ? 0 : result.Code };
+            if (result) await LogAsync(api.Message);
+            return Json(api);
+        }
+
+        /// <summary>
+        /// 返回上传文件结果，如果成功返回URL地址。
+        /// </summary>
+        /// <param name="file">上传后的文件实例。</param>
+        /// <returns>返回上传文件结果。</returns>
+        protected virtual IActionResult Json(IStorageFile file)
+        {
+            if (file != null) return Json(new { file.Url });
+            return Error(Resources.UploadFileFailured);
+        }
+
+        /// <summary>
+        /// 返回JSON数据。
+        /// </summary>
+        /// <param name="data">返回的数据对象。</param>
+        /// <returns>返回JSON数据结果。</returns>
+        protected virtual IActionResult Json(object data)
+        {
+            return Ok(data);
         }
         #endregion
 

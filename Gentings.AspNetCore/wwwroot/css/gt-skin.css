@@ -8068,3 +8068,38 @@ input:disabled + label {
   font-family: bootstrap-icons !important;
   content: '\f285';
   color: currentColor; }
+
+.modal-dialog.alert-dialog .modal-body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem 3rem; }
+  .modal-dialog.alert-dialog .modal-body .icon {
+    font-size: 50px; }
+  .modal-dialog.alert-dialog .modal-body .msg {
+    padding-left: 2rem;
+    line-height: 1.8; }
+
+.nav-tabs {
+  border: none; }
+  .nav-tabs li.nav-item {
+    margin-bottom: 0; }
+    .nav-tabs li.nav-item .nav-link {
+      color: #95aac9;
+      border: none;
+      border-bottom: 2px solid transparent; }
+    .nav-tabs li.nav-item .nav-link.active,
+    .nav-tabs li.nav-item .nav-link:focus {
+      border-bottom: 2px solid transparent; }
+    .nav-tabs li.nav-item .nav-link:hover, .nav-tabs li.nav-item .nav-link:focus {
+      color: #6e84a3;
+      border-bottom-color: #2c7be5;
+      transition: .2s ease; }
+    .nav-tabs li.nav-item .nav-link.active {
+      color: #6e84a3;
+      border-bottom-color: #2c7be5; }
+
+th.checkbox, td.checkbox {
+  width: 39px;
+  text-align: center; }

@@ -7,6 +7,7 @@ using Gentings.Extensions;
 using Gentings.Extensions.Events;
 using Gentings.Localization;
 using Gentings.Properties;
+using Gentings.Storages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -147,7 +148,10 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="message">消息字符串。</param>
         /// <returns>返回当前页面结果。</returns>
-        protected IActionResult SuccessPage(string message) => Page(0, message);
+        protected IActionResult SuccessPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
+        {
+            return Page(0, message, pageName, pageHandler, routeValues);
+        }
 
         /// <summary>
         /// 返回带状态消息页面结果。
@@ -157,9 +161,10 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前页面结果。</returns>
         protected IActionResult Page(DataResult result, params object[] args)
         {
-            if (result.Succeed())
-                return SuccessPage(result.ToString(args));
-            return ErrorPage(result.ToString(args));
+            var message = result.ToString(args);
+            if (result)
+                return SuccessPage(message);
+            return ErrorPage(message);
         }
 
         /// <summary>
@@ -168,60 +173,12 @@ namespace Gentings.AspNetCore
         /// <param name="code">错误代码。</param>
         /// <param name="message">消息。</param>
         /// <returns>返回当前页面结果实例。</returns>
-        private IActionResult Page(int code, string message)
+        private IActionResult Page(int code, string message, string pageName = null, string pageHandler = null, object routeValues = null)
         {
             StatusMessage(code, message);
+            if (code == 0)
+                return RedirectToPage(pageName, pageHandler, routeValues);
             return Page();
-        }
-
-        /// <summary>
-        /// 错误消息页面。
-        /// </summary>
-        /// <param name="message">消息字符串。</param>
-        /// <param name="pageName">页面名称。</param>
-        /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="routeValues">参数匿名对象。</param>
-        /// <returns>返回当前页面结果。</returns>
-        protected IActionResult RedirectToErrorPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
-            => RedirectToPage(-1, message, pageName, pageHandler, routeValues);
-
-        /// <summary>
-        /// 成功消息页面。
-        /// </summary>
-        /// <param name="message">消息字符串。</param>
-        /// <param name="pageName">页面名称。</param>
-        /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="routeValues">参数匿名对象。</param>
-        /// <returns>返回当前页面结果。</returns>
-        protected IActionResult RedirectToSuccessPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
-            => RedirectToPage(0, message, pageName, pageHandler, routeValues);
-
-        /// <summary>
-        /// 返回带状态消息页面结果。
-        /// </summary>
-        /// <param name="code">错误代码。</param>
-        /// <param name="message">消息。</param>
-        /// <param name="pageName">页面名称。</param>
-        /// <param name="pageHandler">页面处理方法。</param>
-        /// <param name="routeValues">参数匿名对象。</param>
-        /// <returns>返回当前页面结果。</returns>
-        private IActionResult RedirectToPage(int code, string message, string pageName = null, string pageHandler = null, object routeValues = null)
-        {
-            StatusMessage(code, message);
-            return RedirectToPage(pageName, pageHandler, routeValues);
-        }
-
-        /// <summary>
-        /// 返回带状态消息页面结果。
-        /// </summary>
-        /// <param name="result">数据结果。</param>
-        /// <param name="args">参数。</param>
-        /// <returns>返回当前页面结果。</returns>
-        protected IActionResult RedirectToPage(DataResult result, params object[] args)
-        {
-            if (result.Succeed())
-                return RedirectToSuccessPage(result.ToString(args));
-            return RedirectToErrorPage(result.ToString(args));
         }
         #endregion
 
@@ -268,7 +225,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult Error(string message, params object[] args)
         {
             if (args != null) message = string.Format(message, args);
-            return Ok(new ApiResult { Code = (int)ErrorCode.UnknownError, Message = message });
+            return Json(new ApiResult { Code = (int)ErrorCode.UnknownError, Message = message });
         }
 
         /// <summary>
@@ -280,7 +237,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult Error(Enum code, params object[] args)
         {
             var resource = Localizer.GetString(code, args);
-            return Ok(new ApiResult { Code = (int)(object)code, Message = resource });
+            return Json(new ApiResult { Code = (int)(object)code, Message = resource });
         }
 
         /// <summary>
@@ -289,7 +246,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult Success()
         {
-            return Ok(ApiResult.Success);
+            return Json(ApiResult.Success);
         }
 
         /// <summary>
@@ -299,7 +256,7 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult Success(ApiResult result)
         {
-            return Ok(result);
+            return Json(result);
         }
 
         /// <summary>
@@ -336,7 +293,7 @@ namespace Gentings.AspNetCore
         /// <param name="name">名称。</param>
         /// <param name="logged">如果操作成功，是否保存到日志记录中。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual IActionResult Success(bool result, DataAction action, string name, bool logged = false)
+        protected virtual IActionResult Json(bool result, DataAction action, string name, bool logged = false)
         {
             if (!result) action = (DataAction)(-(int)action);
             var resource = Localizer.GetString(action, name);
@@ -346,7 +303,7 @@ namespace Gentings.AspNetCore
                 Code = result ? 0 : (int)action
             };
             if (result && logged) Log(api.Message);
-            return Ok(api);
+            return Json(api);
         }
 
         /// <summary>
@@ -356,11 +313,11 @@ namespace Gentings.AspNetCore
         /// <param name="name">名称。</param>
         /// <param name="logged">如果操作成功，是否保存到日志记录中。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual IActionResult Success(DataResult result, string name, bool logged = false)
+        protected virtual IActionResult Json(DataResult result, string name, bool logged = false)
         {
-            var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
-            if (result.Succeed()) Log(api.Message);
-            return Ok(api);
+            var api = new ApiResult { Message = result.ToString(name), Code = result ? 0 : result.Code };
+            if (result) Log(api.Message);
+            return Json(api);
         }
 
         /// <summary>
@@ -370,7 +327,7 @@ namespace Gentings.AspNetCore
         /// <param name="action">操作方法。</param>
         /// <param name="name">名称。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual async Task<IActionResult> SuccessAsync(bool result, DataAction action, string name)
+        protected virtual async Task<IActionResult> JsonAsync(bool result, DataAction action, string name)
         {
             if (!result) action = (DataAction)(-(int)action);
             var resource = Localizer.GetString(action, name);
@@ -380,7 +337,7 @@ namespace Gentings.AspNetCore
                 Code = result ? 0 : (int)action
             };
             if (result) await LogAsync(api.Message);
-            return Ok(api);
+            return Json(api);
         }
 
         /// <summary>
@@ -389,21 +346,32 @@ namespace Gentings.AspNetCore
         /// <param name="result">数据操作结果。</param>
         /// <param name="name">名称。</param>
         /// <returns>返回数据操作结果。</returns>
-        protected virtual async Task<IActionResult> SuccessAsync(DataResult result, string name)
+        protected virtual async Task<IActionResult> JsonAsync(DataResult result, string name)
         {
-            var api = new ApiResult { Message = result.ToString(name), Code = result.Succeed() ? 0 : result.Code };
-            if (result.Succeed()) await LogAsync(api.Message);
-            return Ok(api);
+            var api = new ApiResult { Message = result.ToString(name), Code = result ? 0 : result.Code };
+            if (result) await LogAsync(api.Message);
+            return Json(api);
         }
 
         /// <summary>
-        /// 返回对象的JSON结果对象。
+        /// 返回上传文件结果，如果成功返回URL地址。
         /// </summary>
-        /// <param name="data">返回的数据结果。</param>
-        /// <returns>返回对象的JSON结果对象。</returns>
-        protected IActionResult Ok(object data)
+        /// <param name="file">上传后的文件实例。</param>
+        /// <returns>返回上传文件结果。</returns>
+        protected virtual IActionResult Json(IStorageFile file)
         {
-            return new JsonResult(data);
+            if (file != null) return Json(new { file.Url });
+            return Error(Resources.UploadFileFailured);
+        }
+
+        /// <summary>
+        /// 返回JSON数据。
+        /// </summary>
+        /// <param name="data">返回的数据对象。</param>
+        /// <returns>返回JSON数据结果。</returns>
+        protected virtual IActionResult Json(object data)
+        {
+            return new OkObjectResult(data);
         }
         #endregion
 

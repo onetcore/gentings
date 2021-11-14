@@ -161,13 +161,13 @@ namespace Gentings.Extensions.Events
         /// <param name="source">来源。</param>
         public virtual void LogResult(DataResult result, string name, string eventType = null, string source = null)
         {
-            if (result.Succeed())
-                Log(@event =>
-                {
-                    @event.Message = result.ToString(name);
-                    @event.Source = source;
-                    @event.Level = EventLevel.Success;
-                }, eventType);
+            if (!result) return;
+            Log(@event =>
+            {
+                @event.Message = result.ToString(name);
+                @event.Source = source;
+                @event.Level = EventLevel.Success;
+            }, eventType);
         }
 
         /// <summary>
@@ -179,13 +179,13 @@ namespace Gentings.Extensions.Events
         /// <param name="source">来源。</param>
         public virtual async Task LogResultAsync(DataResult result, string name, string eventType = null, string source = null)
         {
-            if (result.Succeed())
-                await LogAsync(@event =>
-                {
-                    @event.Message = result.ToString(name);
-                    @event.Source = source;
-                    @event.Level = EventLevel.Success;
-                }, eventType);
+            if (!result) return;
+            await LogAsync(@event =>
+            {
+                @event.Message = result.ToString(name);
+                @event.Source = source;
+                @event.Level = EventLevel.Success;
+            }, eventType);
         }
     }
 }

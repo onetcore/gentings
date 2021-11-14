@@ -20,12 +20,14 @@ namespace GS.Extensions.Security
         /// 用户名称。
         /// </summary>
         [Size(64)]
+        [NotUpdated]
         public string? UserName { get; set; }
 
         /// <summary>
         /// 密码。
         /// </summary>
         [Size(128)]
+        [NotUpdated]
         public string? Password { get; set; }
 
         /// <summary>

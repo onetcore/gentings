@@ -396,4 +396,7 @@
   <data name="FileHelper_InvalidByte" xml:space="preserve">
     <value>没有达到预期的字节。</value>
   </data>
+  <data name="UploadFileFailured" xml:space="preserve">
+    <value>上传文件失败，请重试！</value>
+  </data>
 </root>

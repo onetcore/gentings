@@ -896,5 +896,14 @@ namespace Gentings.Properties {
                 return ResourceManager.GetString("TypeExtensions_PrimaryKeyIsNotSingleField", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   查找类似 上传文件失败，请重试！ 的本地化字符串。
+        /// </summary>
+        internal static string UploadFileFailured {
+            get {
+                return ResourceManager.GetString("UploadFileFailured", resourceCulture);
+            }
+        }
     }
 }

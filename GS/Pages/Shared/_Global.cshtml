@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <gt:header title="@ViewData["Title"] - @ViewData["SiteName"]" import="GtSkin">
+    <gt:header title="@ViewData["Title"] - @(Model!.Settings.SiteName)" import="GtSkin">
         <link rel="stylesheet" href="~/GS.styles.css" asp-append-version="true" />
         @await RenderSectionAsync("header", required: false)
     </gt:header>

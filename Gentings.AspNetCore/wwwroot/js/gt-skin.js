@@ -16,6 +16,9 @@ var resources = {
         "noHeader": "没有配置RequestVerificationToken验证表单！",
         "mustFormElement": "当前请求的元素必须为form表单元素！"
     },
+    "alert": {
+        "confirm": "确认"
+    },
     "elementError": "元素不存在或者操作一个元素实例，不能获取data-*相关数据！"
 };
 
@@ -38,7 +41,7 @@ var resources = {
     String.prototype.appendRandom = function () {
         var url = this;
         if (url.indexOf('?') == -1) url += '?';else url += '&';
-        url += 't=' + new Date().valueOf();
+        url += '_=' + new Date().valueOf();
     };
     // jQuery方法扩展。
     $.fn.extend({
@@ -82,7 +85,7 @@ var resources = {
          * @param {Function} func 如果不存在获取对象的方法。
          * @returns 返回对象实例。
          */
-        dataSet: function dataSet(key, func) {
+        dset: function dset(key, func) {
             var data = this.data(key);
             if (!data) {
                 data = func();
@@ -107,7 +110,7 @@ var resources = {
          * @param {Function|undefined} success 成功后执行的方法。
          * @param {Function|undefined} error 错误后执行的方法。
          */
-        submit: function submit(_success, _error) {
+        ajaxSubmit: function ajaxSubmit(_success, _error) {
             if (!this.is('form')) throw Error(resources.ajax.mustFormElement);
             var form = this;
             var data = new FormData(this[0]);
@@ -118,17 +121,15 @@ var resources = {
                 contentType: false,
                 processData: false,
                 data: data,
-                headers: headers(),
+                headers: ajaxHeaders(),
                 success: function success(d) {
                     submit.removeAttr('disabled');
                     if (_success && _success(d, form)) {
-                        return;
+                        return; //如果success返回true结束处理，否则将会展示错误消息
                     }
-                    if (d.message) {
-                        showMsg(d.message, d.type, function () {
-                            if (d.data && d.data.url) location.href = d.data.url;else if (d.code === 0) location.href = location.href;
-                        });
-                    }
+                    showMsg(d, function () {
+                        if (d.data && d.data.url) location.href = d.data.url;else if (!d.code) location.href = location.href;
+                    });
                 },
                 error: function error(e) {
                     submit.enabled();
@@ -143,12 +144,12 @@ var resources = {
         loadModal: function loadModal() {
             var _this = this;
 
-            var current = this.dataSet('app-modal', function () {
-                return $('<div class="modal fade" data-backdrop="static"><div>').appendTo(document.body).data('target', _this.targetElement());
+            var current = this.dset('gt-modal', function () {
+                return $('<div class="modal fade" data-bs-backdrop="static"><div>').appendTo(document.body).data('target', _this.targetElement());
             });
             var url = this.attr('href') || this.attr('action');
             url = url.appendQuery(this.dataAttrs());
-            current.load(url, function (response, status, xhr) {
+            current.load(url, function (_, status, xhr) {
                 switch (status) {
                     case 'error':
                         var errorMsg = resources.status[xhr.status];
@@ -164,30 +165,31 @@ var resources = {
                     if (!form.attr('action')) form.attr('action', url);
                     if (form.find('input[type=file]').length > 0) form.attr('enctype', 'multipart/form-data');
                     current.find('[type=submit]').click(function () {
-                        form.submit(function (d, form) {
-                            form.find('.field-validation-valid').hide();
-                            if (d.data) {
-                                //表单验证
-                                for (var key in d.data) {
-                                    var element = form.find("[data-valmsg-for=\"" + key + "\"]");
-                                    if (element.length == 0) {
-                                        var char = key.charAt(0);
-                                        if (char >= 'a' && char <= 'z') {
-                                            var id = char.toUpperCase() + key.substr(1);
-                                            element = form.find("[data-valmsg-for=\"" + id + "\"]");
+                        form.ajaxSubmit(function (d, form) {
+                            if (d.code) {
+                                form.find('.field-validation-valid').hide();
+                                if (d.data) {
+                                    //表单验证
+                                    for (var key in d.data) {
+                                        var element = form.find("[data-valmsg-for=\"" + key + "\"]");
+                                        if (element.length == 0) {
+                                            var char = key.charAt(0);
+                                            if (char >= 'a' && char <= 'z') {
+                                                var id = char.toUpperCase() + key.substr(1);
+                                                element = form.find("[data-valmsg-for=\"" + id + "\"]");
+                                            }
                                         }
+                                        if (element.length) element.html(d.data[key]).show();
                                     }
-                                    if (element.length) element.html(d.data[key]).show();
                                 }
+                                if (d.message) showMsg(d.message);
+                            } else {
+                                showAlert(d, function () {
+                                    location.href = location.href;
+                                });
+                                current.modal('hide');
                             }
-                            if (d.message) {
-                                if (d.code == 0) //成功刷新
-                                    showMsg(d.message, function () {
-                                        current.data('app-modal').modal('hide');
-                                        location.href = location.href;
-                                    });else //失败显示错误消息
-                                    showMsg(d.message);
-                            }
+                            return true; //结束这次处理，无需再显示状态信息
                         });
                     });
                 }
@@ -258,9 +260,9 @@ var resources = {
                                     contentType: false,
                                     processData: false,
                                     data: data,
-                                    headers: headers(),
+                                    headers: ajaxHeaders(),
                                     success: function success(d) {
-                                        if (d.message) showMsg(d.message, d.code);
+                                        showMsg(d);
                                         if (d.url) {
                                             current.trigger('uploaded', d.url);
                                             current.parent().find('.uploaded').each(function () {
@@ -367,17 +369,11 @@ var resources = {
             data: data,
             dataType: 'JSON',
             type: 'POST',
-            headers: headers(),
+            headers: ajaxHeaders(),
             success: function success(d) {
-                if (d.message) {
-                    if (d.code == 0) {
-                        showMsg(d.message, d.code, function () {
-                            location.href = d.data && d.data.url ? d.data.url : location.href;
-                        });
-                    } else {
-                        showMsg(d.message);
-                    }
-                }
+                showMsg(d, function () {
+                    location.href = d.data && d.data.url ? d.data.url : location.href;
+                });
                 if (_success2) _success2(d.data);
             },
             error: function error(e) {
@@ -387,29 +383,84 @@ var resources = {
     };
     /**
      * 显示消息。
-     * @param {string|Object} message 消息字符串。
+     * @param {string|Object} msg 消息字符串。
      * @param {Number|Function} code 错误代码或者回调函数。
      * @param {Function|undefined} func 回调函数。
      */
-    window.showMsg = function (message, code, func) {
+    window.showMsg = function (msg, code, func) {
         if (typeof code === 'function') {
             func = code;
             code = -1;
+        } else if (typeof code === 'undefined') {
+            code = -1;
         }
-        if (typeof message === 'object') {
-            code = message.code;
-            message = message.message;
+        if (typeof msg === 'object') {
+            code = msg.code;
+            msg = msg.message;
         }
-        var type = code == 0 ? 'success' : 'danger';
-        var container = $("<div style=\"z-index:100000;\" class=\"toast bg-" + type + " text-white position-fixed top-0 start-50 translate-middle-x\">\n\t<div class=\"d-flex\">\n\t\t<div class=\"toast-body\">\n\t\t\t" + message + "\n\t\t</div>\n\t\t<button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button>\n\t</div>\n</div>").appendTo(document.body);
-        var toast = new bootstrap.Toast(container, { timeout: 3000 });
-        if (func) container.on('hide.bs.toast', func);
-        toast.show();
+        // 没有提示信息直接返回
+        if (!msg) return;
+        var current = $(document.body).dset('gt-toast', function () {
+            return $("<div style=\"z-index:100000;\" class=\"toast text-white position-fixed top-0 start-50 translate-middle-x\"><div class=\"d-flex\"><div class=\"toast-body\"></div><button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button></div></div>").appendTo(document.body);
+        });
+        if (code) {
+            msg = '<span class="bi-exclamation-circle"></span> ' + msg;
+            current.removeClass('bg-success').addClass('bg-danger');
+        } else {
+            msg = '<span class="bi-check-circle"></span> ' + msg;
+            current.removeClass('bg-danger').addClass('bg-success');
+        }
+        current.off('hide.bs.toast').find('.toast-body').html(msg);
+        if (!code && func) current.on('hide.bs.toast', function () {
+            func();
+        });
+        current.toast('show'); //.data('toast').show();
+    };
+    /**
+     * 显示模态对话框。
+     * @param {string|Object} msg 消息字符串。
+     * @param {Number|Function} code 错误代码或者回调函数。
+     * @param {Function|undefined} func 回调函数。
+     */
+    window.showAlert = function (msg, code, func) {
+        if (typeof code === "function") {
+            func = code;
+            code = -1;
+        } else if (typeof code === 'undefined') {
+            code = -1;
+        }
+        if (typeof msg === "object") {
+            code = msg.code;
+            msg = msg.message;
+        }
+        if (!msg) return;
+        var current = $(document.body).dset('gt-alert', function () {
+            return $('<div class="modal fade" data-bs-backdrop="static"><div class="modal-dialog alert-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body"><div class="icon"><i></i></div> <div class="msg"></div></div><div class="modal-footer"><button type="button" class="btn btn-primary"> ' + resources.alert.confirm + ' </button></div></div></div></div>').appendTo(document.body);
+        });
+        var body = current.find('.modal-body');
+        var type = !code ? 'success' : 'danger';
+        var icon = !code ? "bi-check-circle" : "bi-exclamation-circle";
+        body.attr('class', 'modal-body text-' + type).find('i').attr('class', icon);
+        body.find('div.msg').html(msg);
+        var button = current.find('button').attr('class', 'btn btn-' + type);
+        if (!code && func) {
+            button.removeAttr('data-bs-dismiss').on('click', function () {
+                if (typeof func === 'function') {
+                    func(current);
+                    current.modal('hide');
+                } else if (typeof func === 'object') {
+                    location.href = func.url || location.href;
+                } else {
+                    location.href = location.href;
+                }
+            });
+        } else button.attr('data-bs-dismiss', 'modal').off('click');
+        current.modal('show');
     };
     /**
      * 请求标题头。
      * */
-    function headers() {
+    function ajaxHeaders() {
         var token = $('#ajax-protected-form').find('[name="__RequestVerificationToken"]');
         if (token.length == 0) {
             throw new Error(resources.ajax.noHeader);
@@ -427,12 +478,15 @@ var resources = {
         if (error && error(e)) return;
         var status = resources.status[e.status];
         if (status) {
-            showMsg(status, false);
+            showMsg(status);
             return;
         } else {
             console.error(e.responseText);
-            showMsg(resources.unknownError, false);
+            showMsg(resources.unknownError);
         }
     };
+    $(function () {
+        render();
+    });
 })(jQuery);
 

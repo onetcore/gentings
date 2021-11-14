@@ -42,7 +42,7 @@ namespace Gentings.Extensions
         /// <param name="result">数据操作结果。</param>
         public static implicit operator bool(DataResult result)
         {
-            return result.Succeed();
+            return result.Code <= 0;
         }
 
         /// <summary>
@@ -83,12 +83,6 @@ namespace Gentings.Extensions
         {
             return string.Format(_desc, args);
         }
-
-        /// <summary>
-        /// 是否成功。
-        /// </summary>
-        /// <returns>返回判断结果。</returns>
-        public bool Succeed() => Code <= 0;
 
         /// <summary>
         /// 如果结果正确返回<paramref name="succeed"/>，否则返回失败项。

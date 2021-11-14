@@ -247,3 +247,58 @@ input:disabled + label {
     content: '\f285';
     color: currentColor;
 }
+
+//modal
+.modal-dialog.alert-dialog .modal-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 2rem 3rem;
+
+    .icon {
+        font-size: 50px;
+    }
+
+    .msg {
+        padding-left: 2rem;
+        line-height: 1.8;
+    }
+}
+
+//tabs
+.nav-tabs {
+    border: none;
+
+    li.nav-item {
+        margin-bottom: 0;
+
+        .nav-link {
+            color: $gray-600;
+            border: none;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link.active,
+        .nav-link:focus {
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover, .nav-link:focus {
+            color: $gray-700;
+            border-bottom-color: $primary;
+            transition: .2s ease;
+        }
+
+        .nav-link.active {
+            color: $gray-700;
+            border-bottom-color: $primary;
+        }
+    }
+}
+
+//table
+th.checkbox, td.checkbox {
+    width: 39px;
+    text-align: center;
+}
