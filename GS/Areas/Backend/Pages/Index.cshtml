@@ -26,33 +26,34 @@
 
 
 <div class="table-responsive">
-	<table class="table table-bordered table-striped table-hover data-list">
-		<thead>
-			<tr>
-				<th class="checkbox"><input type="checkbox" onclick="$('.data-item').find('input[type=checkbox]').prop('checked', this.checked);" class="form-check-input" /></th>
-				<th>序号</th>
-				<th>时间</th>
-				<th>结果</th>
-				<th>登录</th>
-				<th>操作</th>
-			</tr>
-		</thead>
-		<tbody class="align-middle">
-			@foreach (var item in types)
-			{
-				<tr class="data-item">
-					<td class="checkbox"><input type="checkbox" value="@item" class="form-check-input" /></td>
-					<td>
-						item
-					</td>
-					<td>item</td>
-					<td>item</td>
-					<td><a _click="modal" asp-page="/Play" asp-route-id="@item"><span class="bi-camera-video-fill"></span></a></td>
-					<td><a _click="modal" asp-page="./Edit" asp-route-id="@item">编辑</a></td>
-				</tr>
-			}
-		</tbody>
-	</table>
+    <table class="table table-bordered table-striped table-hover data-list">
+        <thead>
+            <tr>
+                <th class="checkbox"><input type="checkbox" onclick="$('.data-item').find('input[type=checkbox]').prop('checked', this.checked);" class="form-check-input" /></th>
+                <th>序号</th>
+                <th>时间</th>
+                <th>结果</th>
+                <th>登录</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            @foreach (var item in types)
+            {
+                <tr class="data-item">
+                    <td class="checkbox"><input type="checkbox" value="@item" class="form-check-input" /></td>
+                    <td>
+                        item
+                    </td>
+                    <td>item</td>
+                    <td>item</td>
+                    <td><a _click="modal" asp-page="/Play" asp-route-id="@item"><span class="bi-camera-video-fill"></span></a></td>
+                    <td><a _click="modal" asp-page="./Edit" asp-route-id="@item">编辑</a></td>
+                </tr>
+            }
+            <gt:warning colspan="6">还没找到相关信息！</gt:warning>
+        </tbody>
+    </table>
 </div>
 
 <i class="bi bi-chevron-right"></i>

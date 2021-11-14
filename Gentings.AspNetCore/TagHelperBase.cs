@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers
+namespace Gentings.AspNetCore
 {
     /// <summary>
     /// 标记基类。

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Html
+namespace Gentings.AspNetCore.Html
 {
     /// <summary>
     /// 显示标签。

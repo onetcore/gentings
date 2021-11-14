@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Gentings.AspNetCore.TagHelpers.Bootstraps;
+using Gentings.AspNetCore.Bootstraps;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 

@@ -5,7 +5,7 @@ using Gentings.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers
+namespace Gentings.AspNetCore
 {
     /// <summary>
     /// 枚举下拉列表框。

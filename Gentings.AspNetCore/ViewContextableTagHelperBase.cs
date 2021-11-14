@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Gentings.AspNetCore.TagHelpers
+namespace Gentings.AspNetCore
 {
     /// <summary>
     /// 可访问<see cref="Microsoft.AspNetCore.Mvc.Rendering.ViewContext"/>实例的标记。

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Gentings
+namespace Gentings.Tasks
 {
     /// <summary>
     /// 后台服务基类。

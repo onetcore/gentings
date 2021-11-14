@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Gentings.AspNetCore.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Hosting;

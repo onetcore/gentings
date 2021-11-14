@@ -1,5 +1,4 @@
 ﻿using Gentings.AspNetCore.Properties;
-using Gentings.AspNetCore.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.Verifiers

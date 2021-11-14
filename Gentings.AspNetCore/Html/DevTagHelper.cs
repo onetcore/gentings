@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Hosting;
 
-namespace Gentings.AspNetCore.TagHelpers.Html
+namespace Gentings.AspNetCore.Html
 {
     /// <summary>
     /// 在开发模式下使用的属性。

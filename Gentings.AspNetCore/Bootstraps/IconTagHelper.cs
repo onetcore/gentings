@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Bootstraps
+namespace Gentings.AspNetCore.Bootstraps
 {
     /// <summary>
     /// 图标。

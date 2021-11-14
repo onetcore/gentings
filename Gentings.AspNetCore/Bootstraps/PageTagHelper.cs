@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gentings.AspNetCore.Properties;
-using Gentings.AspNetCore.TagHelpers;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Rendering;

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Migrations;
 using Gentings.Properties;
+using Gentings.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

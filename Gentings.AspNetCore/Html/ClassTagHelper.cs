@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Html
+namespace Gentings.AspNetCore.Html
 {
     /// <summary>
     /// 样式标签。

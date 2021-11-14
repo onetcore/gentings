@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Html
+namespace Gentings.AspNetCore.Html
 {
     /// <summary>
     /// 属性标签，如果值不为空则添加标签值，为空不显示。

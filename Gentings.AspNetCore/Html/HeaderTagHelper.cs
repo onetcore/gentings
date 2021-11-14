@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Hosting;
 
-namespace Gentings.AspNetCore.TagHelpers.Html
+namespace Gentings.AspNetCore.Html
 {
     /// <summary>
     /// 头部标签。

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers
+namespace Gentings.AspNetCore
 {
     /// <summary>
     /// 下拉列表标签基类。

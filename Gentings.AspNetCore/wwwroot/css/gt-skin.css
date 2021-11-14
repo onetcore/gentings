@@ -8103,3 +8103,21 @@ input:disabled + label {
 th.checkbox, td.checkbox {
   width: 39px;
   text-align: center; }
+
+.scrollbar {
+  overflow: hidden; }
+  .scrollbar::-webkit-scrollbar {
+    height: 10px;
+    width: 10px; }
+  .scrollbar::-webkit-scrollbar-thumb, .scrollbar::-webkit-scrollbar-thumb:hover {
+    border-radius: 10px;
+    border: solid 2px transparent;
+    background-clip: content-box;
+    background-color: rgba(200, 200, 200, 0.25); }
+  .scrollbar:hover {
+    overflow: scroll;
+    overflow: overlay; }
+  .scrollbar.scrollbar-vertical:hover {
+    overflow-x: hidden; }
+  .scrollbar.scrollbar-horizontal:hover {
+    overflow-y: hidden; }
