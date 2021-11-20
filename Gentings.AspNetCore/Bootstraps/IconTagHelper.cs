@@ -1,37 +1,32 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.Bootstraps
 {
     /// <summary>
     /// 图标。
     /// </summary>
-    [HtmlTargetElement("*", Attributes = ".icon")]
-    [HtmlTargetElement("*", Attributes = ".icon-type")]
+    [HtmlTargetElement("gt:icon", Attributes = "name")]
+    [HtmlTargetElement("gt:icon", Attributes = "type")]
     public class IconTagHelper : TagHelperBase
     {
         /// <summary>
         /// 图标类型。
         /// </summary>
-        [HtmlAttributeName(".icon-type")]
+        [HtmlAttributeName("type")]
         public IconType? Type { get; set; }
 
         /// <summary>
         /// 图标样式名称。
         /// </summary>
-        [HtmlAttributeName(".icon")]
-        public string? IconName { get; set; }
+        [HtmlAttributeName("name")]
+        public string IconName { get; set; }
 
         /// <summary>
-        /// 图标位置是否为末尾。
+        /// 初始化当前标签上下文。
         /// </summary>
-        [HtmlAttributeName(".icon-append")]
-        public bool IsAppend { get; set; }
-
+        /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
         public override void Init(TagHelperContext context)
         {
-            base.Init(context);
             if (string.IsNullOrEmpty(IconName) && Type != null)
                 IconName = Type.ToDescriptionString();
         }
@@ -41,17 +36,15 @@ namespace Gentings.AspNetCore.Bootstraps
         /// </summary>
         /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
-        public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+        public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (string.IsNullOrWhiteSpace(IconName))
                 return;
-            TagBuilder icon = new("i");
-            icon.AddCssClass(IconName);
-            if (!IsAppend)
-                output.Content.AppendHtml(icon);
-            output.Content.AppendHtml(await output.GetChildContentAsync());
-            if (IsAppend)
-                output.Content.AppendHtml(icon);
+
+            output.Render("span", builder =>
+            {
+                builder.AddCssClass(IconName);
+            });
         }
     }
 }

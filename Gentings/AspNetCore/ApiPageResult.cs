@@ -32,7 +32,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 页码。
         /// </summary>
-        public int Current => Data.Page;
+        public int Current => Data.PageIndex;
 
         /// <summary>
         /// 每页显示记录数。

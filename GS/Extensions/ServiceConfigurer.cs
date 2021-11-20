@@ -2,6 +2,8 @@
 using Gentings.Data.SqlServer;
 using Gentings.Extensions.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GS.Extensions
 {

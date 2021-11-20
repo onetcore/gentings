@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Data
+﻿namespace Gentings.Data
 {
     /// <summary>
     /// 查询基类。
@@ -19,23 +17,22 @@ namespace Gentings.Data
                 context.OrderBy<TModel>(order.Order.ToString(), order.Desc);
         }
 
-        private int _page;
-
+        private int _pageIndex;
         /// <summary>
         /// 页码。
         /// </summary>
-        public int Page
+        public int PageIndex
         {
             get
             {
-                if (_page < 1)
-                {
-                    _page = 1;
-                }
-
-                return _page;
+                if (_pageIndex < 0)
+                    _pageIndex = 1;
+                return _pageIndex;
             }
-            set => _page = Math.Max(1, value);
+            set
+            {
+                _pageIndex = value;
+            }
         }
 
         /// <summary>

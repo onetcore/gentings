@@ -140,7 +140,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult Error()
         {
             var dic = new Dictionary<string, string>();
-            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = (int)ErrorCode.ValidError, Message = Localizer[ErrorCode.ValidError] };
+            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = (int)ErrorCode.ValidError };
             foreach (var key in ModelState.Keys)
             {
                 var error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;

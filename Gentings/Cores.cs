@@ -336,20 +336,20 @@ namespace Gentings
         /// <returns>返回加密后的字符串。</returns>
         public static string Encrypto(string text)
         {
-            var rijndael = Rijndael.Create();
-            rijndael.GenerateIV();
-            rijndael.GenerateKey();
+            var aes = Aes.Create();
+            aes.GenerateIV();
+            aes.GenerateKey();
             var buffer = Encoding.UTF8.GetBytes(text);
             using var ms = new MemoryStream();
-            var encrypto = rijndael.CreateEncryptor();
+            var encrypto = aes.CreateEncryptor();
             var cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Write);
             cs.Write(buffer, 0, buffer.Length);
             cs.FlushFinalBlock();
             var result = ms.ToArray();
             buffer = new byte[48 + result.Length];
-            rijndael.IV.CopyTo(buffer, 0);
+            aes.IV.CopyTo(buffer, 0);
             result.CopyTo(buffer, 16);
-            rijndael.Key.CopyTo(buffer, 16 + result.Length);
+            aes.Key.CopyTo(buffer, 16 + result.Length);
             return Convert.ToBase64String(buffer);
         }
 
@@ -361,7 +361,7 @@ namespace Gentings
         public static string Decrypto(string text)
         {
             var buffer = Convert.FromBase64String(text);
-            var rijndael = Rijndael.Create();
+            var aes = Aes.Create();
             var iv = new byte[16];
             var key = new byte[32];
             using (var ms = new MemoryStream(buffer))
@@ -372,11 +372,11 @@ namespace Gentings
                 ms.Read(key, 0, 32);
             }
 
-            rijndael.IV = iv;
-            rijndael.Key = key;
+            aes.IV = iv;
+            aes.Key = key;
             using (var ms = new MemoryStream(buffer))
             {
-                var encrypto = rijndael.CreateDecryptor();
+                var encrypto = aes.CreateDecryptor();
                 var cs = new CryptoStream(ms, encrypto, CryptoStreamMode.Read);
                 using var sr = new StreamReader(cs, Encoding.UTF8);
                 return sr.ReadToEnd();

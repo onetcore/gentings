@@ -19,6 +19,7 @@
             <a class="btn-white btn" .icon="bi-grid"></a>
         </div>
         <div class="btn-group">
+            <a class="btn-outline-primary btn" data-bs-toggle="offcanvas" data-bs-target="#page-options"> 抽屉式内容</a>
             <a class="btn-danger btn"><span class="bi-plus"></span> 添加新内容</a>
         </div>
     </div>
@@ -29,11 +30,11 @@
     <table class="table table-bordered table-striped table-hover data-list">
         <thead>
             <tr>
-                <th class="checkbox"><input type="checkbox" onclick="$('.data-item').find('input[type=checkbox]').prop('checked', this.checked);" class="form-check-input" /></th>
+                <th class="checkbox"><gt:checkall /></th>
                 <th>序号</th>
-                <th>时间</th>
+                <th class="sorting">时间</th>
                 <th>结果</th>
-                <th>登录</th>
+                <th class="sorting">登录</th>
                 <th>操作</th>
             </tr>
         </thead>
@@ -56,7 +57,6 @@
     </table>
 </div>
 
-<i class="bi bi-chevron-right"></i>
 <div class="text-center mb-4">
     @foreach (var type in types)
     {
@@ -95,16 +95,18 @@
 </div>
 
 <div class="mb-4">
-    <label class="form-check form-switch">
-        <input type="checkbox" class="form-check-input" />
-        表单
-    </label>
+    <gt:checkbox switch="true"></gt:checkbox>
+    <gt:checkbox switch="true">表单</gt:checkbox>
+    <gt:checkbox checked="true"></gt:checkbox>
+    <gt:checkbox>表单选项</gt:checkbox>
 
     <!-- Without label-->
+    <gt:switch></gt:switch>
     <input type="checkbox" id="switch0" data-switch="none" />
     <label for="switch0" data-on-label="" data-off-label=""></label>
 
     <!-- Bool Switch-->
+    <gt:switch type="Bool" checked on="On" off="Off"></gt:switch>
     <input type="checkbox" id="switch1" checked data-switch="bool" />
     <label for="switch1" data-on-label="On" data-off-label="Off"></label>
 
@@ -179,7 +181,7 @@
         </div>
     </div>
 
-    <div class="mb-4">
+    <div id="tt" class="mb-4">
         <div class="form-check mb-2">
             <input type="checkbox" class="form-check-input" id="customCheckcolor1" checked>
             <label class="form-check-label" for="customCheckcolor1">Default Checkbox</label>
@@ -210,3 +212,70 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+
+<div id="page-options" class="offcanvas offcanvas-end">
+    <div class="offcanvas-header">
+        <h3>Page Options</h3>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="alert alert-warning" role="alert">
+            <strong>Customize </strong> the overall color scheme, sidebar menu, etc.
+        </div>
+        <h5 class="mt-3">Width Mode</h5>
+        <hr class="mt-1" />
+        <div class="form-check form-switch">
+            <input id="width-scheme" class="form-check-input" type="checkbox" _checked="class" checked.class="boxed"
+                   :target="body" />
+            <label for="width-scheme" class="form-check-label">Boxed</label>
+        </div>
+        <div class="form-check form-switch">
+            <input id="sideup-scheme" class="form-check-input" type="checkbox" _checked="class"
+                   checked.class="topmenu" :target="body" />
+            <label for="sideup-scheme" class="form-check-label">Top menu</label>
+        </div>
+        <h5 class="mt-3">Color Scheme</h5>
+        <hr class="mt-1" />
+        <div class="form-check form-switch">
+            <input id="default-scheme" checked="checked" name="theme-scheme" class="form-check-input" type="radio"
+                   _checked="class" unchecked.class="theme-dark" :target="body" />
+            <label for="default-scheme" class="form-check-label">Default Mode</label>
+        </div>
+        <div class="form-check form-switch">
+            <input id="color-scheme" name="theme-scheme" class="form-check-input" type="radio" _checked="class"
+                   checked.class="theme-dark" unchecked.class="sidebar-dark sidebar-light" :target="body" />
+            <label for="color-scheme" class="form-check-label">Dark Mode</label>
+        </div>
+        <h5 class="mt-3">Menu Sidebar</h5>
+        <hr class="mt-1" />
+        <div class="form-check form-switch">
+            <input id="sidebar-default" checked="checked" class="form-check-input" name="sidebar-menu" type="radio"
+                   _checked="class" unchecked.class="sidebar-dark sidebar-light" :target="body" />
+            <label for="sidebar-default" class="form-check-label">Default Menu</label>
+        </div>
+        <div class="form-check form-switch">
+            <input id="sidebar-dark" class="form-check-input" name="sidebar-menu" type="radio" _checked="class"
+                   checked.class="sidebar-dark" unchecked.class="sidebar-light" :target="body" />
+            <label for="sidebar-dark" class="form-check-label">Dark Menu</label>
+        </div>
+        <div class="form-check form-switch">
+            <input id="sidebar-light" class="form-check-input" name="sidebar-menu" type="radio" _checked="class"
+                   checked.class="sidebar-light" unchecked.class="sidebar-dark" :target="body" />
+            <label for="sidebar-light" class="form-check-label">Light Menu</label>
+        </div>
+        <div class="form-check form-switch mt-3">
+            <input id="collapse-scheme" name="collapse-scheme" class="form-check-input" type="checkbox"
+                   _checked="attr" checked.collapsed="collapsed" :target="body" />
+            <label for="collapse-scheme" class="form-check-label">Collapsed Menu</label>
+        </div>
+        <div class="form-check form-switch">
+            <input id="fixed-scheme" name="fixed-scheme" class="form-check-input" type="checkbox" attr="toggle"
+                   _checked="attr" checked.fixed="fixed" :target="body" />
+            <label for="fixed-scheme" class="form-check-label">Fixed Navigation</label>
+        </div>
+        <a href="index.html" class="mt-3 btn btn-primary w-100">Reset to Default</a>
+    </div>
+</div>
+}

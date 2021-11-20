@@ -35,7 +35,7 @@ namespace GS.Areas.Backend.Pages
             if (string.IsNullOrEmpty(Input.SiteName))
             {
                 ModelState.AddModelError("Input.SiteName", "网站名称不能为空！");
-                return Error();
+                return Page();
             }
             var result = _settingsManager.SaveSettings(Input);
             if (result)

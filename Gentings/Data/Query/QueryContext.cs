@@ -1157,7 +1157,7 @@ namespace Gentings.Data.Query
         protected IPageEnumerable<TObject> LoadPage<TObject>()
         {
             var models = new PageEnumerable<TObject>();
-            models.Page = PageIndex ?? 1;
+            models.PageIndex = Math.Max(PageIndex ?? 1, 1);
             models.PageSize = Size ?? 20;
             var entityType = typeof(TObject).GetEntityType();
             using (var reader = _db.ExecuteReader(_sqlGenerator.Query(this).ToString()))
@@ -1186,7 +1186,7 @@ namespace Gentings.Data.Query
             CancellationToken cancellationToken = default)
         {
             var models = new PageEnumerable<TObject>();
-            models.Page = PageIndex ?? 1;
+            models.PageIndex = Math.Max(PageIndex ?? 1, 1);
             models.PageSize = Size ?? 20;
             var entityType = typeof(TObject).GetEntityType();
             await using (var reader = await _db.ExecuteReaderAsync(_sqlGenerator.Query(this).ToString(),

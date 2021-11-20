@@ -1,5 +1,6 @@
 ﻿using Gentings;
 using Gentings.Extensions;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace GS.Extensions.Security

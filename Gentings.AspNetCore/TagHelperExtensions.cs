@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Html;
@@ -13,6 +14,31 @@ namespace Gentings.AspNetCore
     /// </summary>
     public static class TagHelperExtensions
     {
+        /// <summary>
+        /// 获取小写字符串。
+        /// </summary>
+        /// <param name="value">枚举值。</param>
+        /// <returns>返回枚举值的小写字符串。</returns>
+        public static string ToLowerString(this Enum value) => value.ToString().ToLower();
+
+        /// <summary>
+        /// 获取状态图标。
+        /// </summary>
+        /// <param name="status">状态类型。</param>
+        /// <returns>返回图标样式名称。</returns>
+        public static string GetIconClassName(this StatusType status)
+        {
+            switch (status)
+            {
+                case StatusType.Success:
+                    return "bi-check-circle";
+                case StatusType.Info:
+                    return "bi-info-circle";
+                default:
+                    return "bi-exclamation-circle";
+            }
+        }
+
         /// <summary>
         /// 添加子元素。
         /// </summary>
@@ -173,7 +199,8 @@ namespace Gentings.AspNetCore
         {
             if (!path.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
                 path += ".css";
-            output.AppendHtml("link", x => {
+            output.AppendHtml("link", x =>
+            {
                 x.MergeAttribute("rel", "stylesheet");
                 x.MergeAttribute("href", path);
                 x.TagRenderMode = TagRenderMode.SelfClosing;
@@ -204,7 +231,8 @@ namespace Gentings.AspNetCore
                 path += ".css";
             else
                 path += ".min.css";
-            output.AppendHtml("link", x => {
+            output.AppendHtml("link", x =>
+            {
                 x.MergeAttribute("rel", "stylesheet");
                 x.MergeAttribute("href", path);
                 x.TagRenderMode = TagRenderMode.SelfClosing;

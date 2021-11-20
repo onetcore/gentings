@@ -200,6 +200,21 @@ input:disabled + label {
     }
 }
 
+.action-dropdown {
+    color: inherit;
+    display: block;
+    text-align: center;
+
+    &:after {
+        display: none !important;
+    }
+
+    ~ .dropdown-menu .dropdown-item [class^="bi-"],
+    ~ .dropdown-menu .dropdown-item [class*=" bi-"] {
+        margin-right: 0.75rem;
+    }
+}
+
 //btn
 @each $color, $value in $theme-colors {
     @if $color != 'light' {
@@ -266,6 +281,16 @@ input:disabled + label {
     }
 }
 
+.modal-validation-summary {
+    display: flex;
+    padding: 0.5rem;
+
+    > span[class^="bi-"],
+    > span[class*=" bi-"] {
+        margin-right: 0.5rem;
+    }
+}
+
 //tabs
 .nav-tabs {
     border: none;
@@ -297,10 +322,72 @@ input:disabled + label {
     }
 }
 
+//card
+.card {
+    border-width: 0;
+}
+
+//page
+.pagination {
+    justify-content: flex-end;
+}
+
 //table
 th.checkbox, td.checkbox {
     width: 39px;
     text-align: center;
+}
+//sorting
+th.sorting,
+th.sorting-asc,
+th.sorting-desc {
+    padding-right: 30px;
+    padding-left: .95rem;
+    position: relative;
+    cursor: pointer;
+}
+
+th.sorting:before,
+th.sorting:after,
+th.sorting-asc:before,
+th.sorting-asc:after,
+th.sorting-desc:before,
+th.sorting-desc:after,
+th.sorting-asc-disabled:before,
+th.sorting-asc-disabled:after,
+th.sorting-desc-disabled:before,
+th.sorting-desc-disabled:after {
+    position: absolute;
+    bottom: 0.9rem;
+    display: block;
+    opacity: 0.3;
+    font-family: bootstrap-icons;
+    right: .5rem;
+    left: auto;
+    font-size: 0.75rem;
+}
+
+th.sorting:before,
+th.sorting-asc:before,
+th.sorting-asc-disabled:before,
+th.sorting-desc:before,
+th.sorting-desc-disabled:before {
+    content: "\f235";
+    top: calc(50% - 14px);
+}
+
+th.sorting:after,
+th.sorting-asc:after,
+th.sorting-asc-disabled:after,
+th.sorting-desc:after,
+th.sorting-desc-disabled:after {
+    content: "\f229";
+    top: calc(50% - 6px);
+}
+
+th.sorting-asc:before,
+th.sorting-desc:after {
+    opacity: 1;
 }
 
 //scrollbar

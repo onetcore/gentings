@@ -1,18 +1,20 @@
-﻿using Gentings.Extensions.Settings;
-using Gentings.Storages;
+﻿using Gentings.Storages;
+using GS.Extensions.Security;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Threading.Tasks;
 
 namespace GS.Areas.Backend.Pages.Profile
 {
     public class IndexModel : ModelBase
     {
-        private readonly ISettingsManager _settingsManager;
+        private readonly IUserManager _userManager;
         private readonly IStorageDirectory _storageDirectory;
 
-        public IndexModel(ISettingsManager settingsManager, IStorageDirectory storageDirectory)
+        public IndexModel(IUserManager userManager, IStorageDirectory storageDirectory)
         {
-            _settingsManager = settingsManager;
+            _userManager = userManager;
             _storageDirectory = storageDirectory;
         }
 
@@ -60,7 +62,7 @@ namespace GS.Areas.Backend.Pages.Profile
                 user.Email = Input.Email;
                 user.NickName = Input.NickName;
                 user.Avatar = Input.Avatar;
-                if (await _settingsManager.SaveSettingsAsync(user))
+                if (await _userManager.SaveAsync(user))
                     return SuccessPage("你已经成功更新了用户信息！");
             }
             return ErrorPage("更新用户信息失败，请重试！");

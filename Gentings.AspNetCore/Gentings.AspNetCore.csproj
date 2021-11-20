@@ -2,7 +2,6 @@
 
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
-		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -11,18 +10,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="wwwroot\gt-skin.scss" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="wwwroot\gt-skin.scss">
-	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-	    <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-	  </Content>
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\..\gentings\Gentings\Gentings.csproj" />
+		<PackageReference Include="BuildWebCompiler" Version="1.12.405" />
 		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
 		<PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="5.0.0" />
 	</ItemGroup>
@@ -41,5 +30,4 @@
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
-
 </Project>

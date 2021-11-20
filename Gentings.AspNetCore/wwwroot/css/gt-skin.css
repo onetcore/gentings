@@ -8008,6 +8008,16 @@ input:disabled + label {
   .dropdown-indicator[aria-expanded="true"]:after {
     transform: translateY(-50%) rotate(225deg); }
 
+.action-dropdown {
+  color: inherit;
+  display: block;
+  text-align: center; }
+  .action-dropdown:after {
+    display: none !important; }
+  .action-dropdown ~ .dropdown-menu .dropdown-item [class^="bi-"],
+  .action-dropdown ~ .dropdown-menu .dropdown-item [class*=" bi-"] {
+    margin-right: 0.75rem; }
+
 .btn-primary, .btn-white.active, .btn-primary:hover, .btn-white.active:hover, .btn-primary:focus, .btn-white.active:focus {
   color: #fff; }
 
@@ -8081,6 +8091,13 @@ input:disabled + label {
     padding-left: 2rem;
     line-height: 1.8; }
 
+.modal-validation-summary {
+  display: flex;
+  padding: 0.5rem; }
+  .modal-validation-summary > span[class^="bi-"],
+  .modal-validation-summary > span[class*=" bi-"] {
+    margin-right: 0.5rem; }
+
 .nav-tabs {
   border: none; }
   .nav-tabs li.nav-item {
@@ -8100,9 +8117,62 @@ input:disabled + label {
       color: #6e84a3;
       border-bottom-color: #2c7be5; }
 
+.card {
+  border-width: 0; }
+
+.pagination {
+  justify-content: flex-end; }
+
 th.checkbox, td.checkbox {
   width: 39px;
   text-align: center; }
+
+th.sorting,
+th.sorting-asc,
+th.sorting-desc {
+  padding-right: 30px;
+  padding-left: .95rem;
+  position: relative;
+  cursor: pointer; }
+
+th.sorting:before,
+th.sorting:after,
+th.sorting-asc:before,
+th.sorting-asc:after,
+th.sorting-desc:before,
+th.sorting-desc:after,
+th.sorting-asc-disabled:before,
+th.sorting-asc-disabled:after,
+th.sorting-desc-disabled:before,
+th.sorting-desc-disabled:after {
+  position: absolute;
+  bottom: 0.9rem;
+  display: block;
+  opacity: 0.3;
+  font-family: bootstrap-icons;
+  right: .5rem;
+  left: auto;
+  font-size: 0.75rem; }
+
+th.sorting:before,
+th.sorting-asc:before,
+th.sorting-asc-disabled:before,
+th.sorting-desc:before,
+th.sorting-desc-disabled:before {
+  content: "\f235";
+  top: calc(50% - 14px); }
+
+th.sorting:after,
+th.sorting-asc:after,
+th.sorting-asc-disabled:after,
+th.sorting-desc:after,
+th.sorting-desc-disabled:after {
+  content: "\f229";
+  top: calc(50% - 6px); }
+
+th.sorting-asc:before,
+th.sorting-desc:after {
+  opacity: 1; }
 
 .scrollbar {
   overflow: hidden; }

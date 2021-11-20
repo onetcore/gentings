@@ -3,7 +3,7 @@
 }
 
 @section header{
-<link rel="stylesheet" href="~/css/backend.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/gt-admin.css" asp-append-version="true" />
 	@await RenderSectionAsync("header", required: false)
 }
 
@@ -12,35 +12,31 @@
 }
 
 <main>
-    <nav class="navbar navbar-vertical navbar-light">
-        <div class="container-fluid">
-            <a asp-page="/index" asp-area="@AdminMenu.AreaName" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <div class="logo"></div>
-                <span class="fs-4">@Model.Settings.SiteName</span>
+    <div class="navbar navbar-vertical navbar-dark navbar-fixed">
+        <a class="logo" asp-page="/index" asp-area="@AdminMenu.AreaName">
+            <img src="/images/logo.svg" alt="@Model.Settings.SiteName" />
+            <h1>@(Model.Settings.SiteName)</h1>
+        </a>
+        <gt:menu class="nav" provider="admin"></gt:menu>
+        <div class="dropdown dropup" style="padding:1rem; border-top:1px solid var(--bs-gray-300);">
+            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="@Model.CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <strong>@Model.CurrentUser.NickName</strong>
             </a>
-            <hr>
-            <gt:menu class="main-menu" provider="admin"></gt:menu>
-            <hr>
-            <div class="dropdown dropup">
-                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="@Model.CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                    <strong>@Model.CurrentUser.NickName</strong>
-                </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                    <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="@AdminMenu.AreaName">修改资料</a></li>
-                    <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="@AdminMenu.AreaName">修改密码</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="/logout">退出登录</a></li>
-                </ul>
-            </div>
+            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="@AdminMenu.AreaName">修改资料</a></li>
+                <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="@AdminMenu.AreaName">修改密码</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="/logout">退出登录</a></li>
+            </ul>
         </div>
-    </nav>
-    <div class="main-content">
+    </div>
+    <div class="main-container">
         <div class="main-heading">
             <h1 class="h2">@ViewBag.Title</h1>
             <gt:menu-navigator provider="admin"></gt:menu-navigator>
         </div>
-        <div class="main-container">
+        <div class="main-body">
             @RenderBody()
         </div>
     </div>

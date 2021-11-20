@@ -12,7 +12,8 @@
         "notFoundUrl": "操作地址没有配置，请检查a[href],form[action]值！",
         "selectedFirst": "请选择项目后再进行操作！",
         "noHeader": "没有配置RequestVerificationToken验证表单！",
-        "mustFormElement": "当前请求的元素必须为form表单元素！"
+        "mustFormElement": "当前请求的元素必须为form表单元素！",
+        "uploading": "上传中..."
     },
     "alert": {
         "confirm": "确认"
@@ -21,32 +22,6 @@
 };
 
 (function ($) {
-    /**
-     * 将对象附加到URL字符串之后。
-     * @param {Object} query 查询对象实例。
-     */
-    String.prototype.appendQuery = function (query) {
-        let url = this;
-        for (const key in query) {
-            if (url.indexOf('?') == -1)
-                url += '?';
-            else
-                url += '&';
-            url += key + '=' + query[key];
-        }
-        return url;
-    };
-    /**
-     * 附加URL字符串之后的随机数。
-     */
-    String.prototype.appendRandom = function () {
-        let url = this;
-        if (url.indexOf('?') == -1)
-            url += '?';
-        else
-            url += '&';
-        url += '_=' + new Date().valueOf();
-    };
     // jQuery方法扩展。
     $.fn.extend({
         /**
@@ -56,6 +31,8 @@
          * @returns 返回当前属性值或者当前对象。
          */
         dataAttr: function (attributeName, value) {
+            if (typeof value == 'undefined')
+                return this.attr('data-' + attributeName);
             return this.attr('data-' + attributeName, value);
         },
         /**
@@ -153,9 +130,10 @@
         loadModal: function () {
             let current = this.dset('gt-modal', () => $('<div class="modal fade" data-bs-backdrop="static"><div>')
                 .appendTo(document.body)
-                .data('target', this.targetElement()));
+                .data('target', this.targetElement())).empty();
             let url = this.attr('href') || this.attr('action');
-            url = url.appendQuery(this.dataAttrs());
+            const query = this.dataAttrs();
+            url = URL.appendQuery(url, query);
             current.load(url, function (_, status, xhr) {
                 switch (status) {
                     case 'error':
@@ -174,9 +152,10 @@
                     if (form.find('input[type=file]').length > 0)
                         form.attr('enctype', 'multipart/form-data');
                     current.find('[type=submit]').click(function () {
+                        form.find('.field-validation-valid').hide();
+                        form.find('.modal-validation-summary').remove();
                         form.ajaxSubmit(function (d, form) {
                             if (d.code) {
-                                form.find('.field-validation-valid').hide();
                                 if (d.data) {
                                     //表单验证
                                     for (const key in d.data) {
@@ -192,7 +171,9 @@
                                             element.html(d.data[key]).show();
                                     }
                                 }
-                                if (d.message) showMsg(d.message);
+                                if (d.message) {
+                                    form.prepend(`<div class="alert alert-danger modal-validation-summary"><span class="bi-exclamation-circle"></span><span class="summary">${d.message}</span></div>`);
+                                }
                             }
                             else {
                                 showAlert(d, function () {
@@ -206,6 +187,10 @@
                 }
                 render(current);
                 current.modal('show');
+                if (!current._onrendered && window.onrendered) {
+                    window.onrendered.call(current);
+                    current._onrendered = true;
+                }
             });
         }
     });
@@ -257,7 +242,8 @@
                             file.remove();
                             return false;
                         }
-                        current.disabled();
+                        const inner = current.html();
+                        current.disabled().html('<span class="spinner-border spinner-border-sm"></span> ' + resources.ajax.uploading);
                         var data = new FormData();
                         data.append("file", this.files[0]);
                         const elements = current.dataAttrs();
@@ -285,24 +271,15 @@
                                     });
                                 }
                                 file.remove();
-                                current.enabled();
+                                current.enabled().html(inner);
                             },
                             error: function (e) {
                                 errorHandler(e);
                                 file.remove();
-                                current.enabled();
+                                current.enabled().html(inner);
                             }
                         });
                     }).click();
-                    return false;
-                });
-            }
-            else if (eventType == '') {
-                current.off('click').on('click', function (event) {
-                    var offcanvas = new bootstrap.Offcanvas(target[0]);
-                    offcanvas.show();
-                    event.preventDefault();
-                    event.stopPropagation();
                     return false;
                 });
             }
@@ -318,6 +295,9 @@
                         event.preventDefault();
                         eventType = eventType.replace(':prevent', '');
                     }
+                    const confirm = current.attr('_confirm');
+                    if (confirm && !window.confirm(confirm))
+                        return false;
                     switch (eventType) {
                         case 'modal':
                             current.loadModal();
@@ -361,14 +341,33 @@
         });
         // 表格排序
         $('table thead .sorting', context).on('click', function () {
-            let current = 'sorting-asc';
-            let desc = 'false';
-            if ($(this).hasClass('sorting-asc')) {
-                desc = 'true';
-                current = 'sorting-desc';
+            // sort
+            const current = $(this);
+            let order = 'sorting-asc';
+            if (current.hasClass('sorting-asc')) {
+                current.dataAttr('desc', 'true');
+                order = 'sorting-desc';
+            } else {
+                current.removeAttr('data-desc');
             }
-            $(this).parent().find('.sorting').removeAttr('data-desc').removeClass('sorting-asc').removeClass('sorting-desc');
-            $(this).addClass(current).dataAttr('desc', desc);
+            current.parent().find('.sorting').removeClass('sorting-asc').removeClass('sorting-desc');
+            const query = current.addClass(order).dataAttrs();
+            // form[method=get]
+            let search = {};
+            $('.toolbar form[method=get]', context).find('input,select,textarea').each(function () {
+                if (this.value) search[this.name] = this.value.trim();
+            });
+            location.href = URL.toSearch(search, query);
+        });
+        // 表单
+        $('form[method=get]', context).each(function () {
+            $(this).find('input,select,textarea').each(function () {
+                var name = this.name.toLowerCase();
+                var index = name.indexOf('.');
+                if (index > 0)
+                    name = name.substr(index + 1);
+                this.name = name;
+            });
         });
     };
     /**
@@ -386,16 +385,102 @@
             type: 'POST',
             headers: ajaxHeaders(),
             success: function (d) {
+                if (success && success(d.data)) return;
                 showMsg(d, function () {
                     location.href = d.data && d.data.url ? d.data.url : location.href;
                 });
-                if (success) success(d.data);
             },
             error: function (e) {
                 if (error) error(e);
                 else errorHandler(e);
             }
         });
+    };
+    //URL辅助方法
+    if (!window.URL) window.URL = {};
+    /**
+     * 将查询字符串附加到URL地址后面。
+     * @param {string} url URL地址。
+     * @param {object} query 查询对象。
+     */
+    URL.appendQuery = function (url, query) {
+        if (typeof url === 'object') {
+            query = url;
+            url = '?';
+        }
+        const index = url.indexOf('?');
+        if (index != -1) {
+            let search = url.substr(index + 1);
+            url = url.substr(0, index);
+            query = URL.toSearch(search, query)
+        } else {
+            query = URL.toSearch(query);
+        }
+        return url + query;
+    };
+    /**
+     * 将对象组合后格式化为搜索字符串，以“?”开头。
+     * @param {Object|string} search 搜索字符串或者对象。
+     * @param {Object} query 修改的搜索字符串对象。
+     * @returns {string} 以"?"开头的字符串。
+     */
+    URL.toSearch = function (search, query) {
+        if (typeof search === 'string')
+            search = URL.parseQuery(search);
+        if (!search) search = {};
+        if (query) {
+            for (const key in query) {
+                search[key] = query[key];
+            }
+        }
+        query = '';
+        for (const key in search) {
+            const value = search[key];
+            if (value == '') continue;
+            if (query.length > 0) query += '&';
+            query += key;
+            query += '=';
+            query += value;
+        }
+        return '?' + query;
+    };
+    /**
+     * 匹配查询字符串。
+     * @param {string} search 查询字符串。
+     * @returns {object} 返回查询对象实例。
+     */
+    URL.parseQuery = function (search) {
+        var query = {},
+            seg = search.replace(/^\?/, '').split('&'),
+            len = seg.length, i = 0, s;
+        for (; i < len; i++) {
+            if (!seg[i]) { continue; }
+            s = seg[i].split('=');
+            query[s[0]] = s[1];
+        }
+        return query;
+    }
+    /**
+     * 匹配URL地址。
+     * @param {string} url URL地址。
+     * @returns {object} 返回地址对象实例。
+     */
+    URL.parse = function (url) {
+        var a = document.createElement('a');
+        a.href = url;
+        return {
+            source: url,
+            protocol: a.protocol.replace(':', ''),
+            host: a.hostname,
+            port: a.port,
+            query: a.search,
+            params: URL.parseQuery(a.search),
+            file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+            hash: a.hash.replace('#', ''),
+            path: a.pathname.replace(/^([^\/])/, '/$1'),
+            relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+            segments: a.pathname.replace(/^\//, '').split('/')
+        };
     };
     /**
      * 显示消息。
@@ -426,7 +511,7 @@
         }
         current.off('hide.bs.toast').find('.toast-body').html(msg);
         if (!code && func) current.on('hide.bs.toast', function () { func(); });
-        current.toast('show');//.data('toast').show();
+        current.toast('show');
     };
     /**
      * 显示模态对话框。

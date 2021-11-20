@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Gentings.AspNetCore.Properties;
+using Gentings.Data;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -133,6 +134,12 @@ namespace Gentings.AspNetCore.Bootstraps
         public string? PageHandler { get; set; }
 
         /// <summary>
+        /// 排序。
+        /// </summary>
+        [HtmlAttributeName("orderby")]
+        public IOrderBy OrderBy { get; set; }
+
+        /// <summary>
         /// 初始化当前标签上下文。
         /// </summary>
         /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
@@ -160,13 +167,19 @@ namespace Gentings.AspNetCore.Bootstraps
                 }
             }
 
+            if (OrderBy != null)
+            {
+                routeValues["order"] = OrderBy.Order.ToString();
+                routeValues["desc"] = OrderBy.Desc.ToString();
+            }
+
             if (Area != null)
                 routeValues["area"] = Area;
 
             if (Page != null)
                 return page =>
                 {
-                    routeValues["page"] = page;
+                    routeValues["pageindex"] = page;
                     return Generator.GeneratePageLink(
                         ViewContext,
                         string.Empty,
@@ -181,7 +194,7 @@ namespace Gentings.AspNetCore.Bootstraps
             if (Route == null)
                 return page =>
                 {
-                    routeValues["page"] = page;
+                    routeValues["pageindex"] = page;
                     return Generator.GenerateActionLink(
                         ViewContext,
                         string.Empty,
@@ -195,7 +208,7 @@ namespace Gentings.AspNetCore.Bootstraps
                 };
             return page =>
             {
-                routeValues["page"] = page;
+                routeValues["pageindex"] = page;
                 return Generator.GenerateRouteLink(
                     ViewContext,
                     string.Empty,
@@ -232,7 +245,7 @@ namespace Gentings.AspNetCore.Bootstraps
                 {
                     query[current.Key] = current.Value;
                 }
-                query["page"] = "$page;";
+                query["pageindex"] = "$page;";
                 Href = $"?{string.Join("&", query.Select(x => $"{x.Key}={x.Value}"))}";
             }
             if (Href != null)
@@ -251,9 +264,9 @@ namespace Gentings.AspNetCore.Bootstraps
 
             var builder = new TagBuilder("ul");
             builder.AddCssClass("pagination");
-            var startIndex = Cores.GetRange(Data.Page, Data.Pages, Factor, out var endIndex);
-            if (Data.Page > 1)
-                builder.InnerHtml.AppendHtml(CreateLink(Data.Page - 1, Resources.PageTagHelper_LastPage, Resources.PageTagHelper_LastPage));
+            var startIndex = Cores.GetRange(Data.PageIndex, Data.Pages, Factor, out var endIndex);
+            if (Data.PageIndex > 1)
+                builder.InnerHtml.AppendHtml(CreateLink(Data.PageIndex - 1, Resources.PageTagHelper_LastPage, Resources.PageTagHelper_LastPage));
             if (startIndex > 1)
                 builder.InnerHtml.AppendHtml(CreateLink(1, "1"));
             if (startIndex > 2)
@@ -266,8 +279,8 @@ namespace Gentings.AspNetCore.Bootstraps
                 builder.InnerHtml.AppendHtml("<li class=\"page-item\"><span>…</span></li>");
             if (endIndex <= Data.Pages)
                 builder.InnerHtml.AppendHtml(CreateLink(Data.Pages, Data.Pages.ToString()));
-            if (Data.Page < Data.Pages)
-                builder.InnerHtml.AppendHtml(CreateLink(Data.Page + 1, Resources.PageTagHelper_NextPage, Resources.PageTagHelper_NextPage));
+            if (Data.PageIndex < Data.Pages)
+                builder.InnerHtml.AppendHtml(CreateLink(Data.PageIndex + 1, Resources.PageTagHelper_NextPage, Resources.PageTagHelper_NextPage));
             output.TagName = "ul";
             output.MergeAttributes(builder);
             output.Content.AppendHtml(builder.InnerHtml);
@@ -277,16 +290,26 @@ namespace Gentings.AspNetCore.Bootstraps
         {
             var li = new TagBuilder("li");
             li.AddCssClass("page-item");
-            var anchor = _createAnchor!(pageIndex);
-            anchor.AddCssClass("page-link");
-            anchor.MergeAttribute("title", title ?? string.Format(Resources.PageTagHelper_NumberPage, pageIndex));
-            if (Data!.Page == pageIndex)
+            title = title ?? string.Format(Resources.PageTagHelper_NumberPage, pageIndex);
+
+            if (Data!.PageIndex == pageIndex)
             {
                 li.AddCssClass("active");
-                anchor.MergeAttribute("href", "#", true);
+                li.AppendTag("span", span =>
+                {
+                    span.AddCssClass("page-link");
+                    span.MergeAttribute("title", title);
+                    span.InnerHtml.AppendHtml(innerHtml);
+                });
             }
-            anchor.InnerHtml.AppendHtml(innerHtml);
-            li.InnerHtml.AppendHtml(anchor);
+            else
+            {
+                var anchor = _createAnchor!(pageIndex);
+                anchor.AddCssClass("page-link");
+                anchor.MergeAttribute("title", title);
+                anchor.InnerHtml.AppendHtml(innerHtml);
+                li.InnerHtml.AppendHtml(anchor);
+            }
             return li;
         }
     }

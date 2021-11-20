@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Gentings.Localization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -13,16 +12,6 @@ namespace Gentings.AspNetCore
     [HtmlTargetElement("gt:enum-dropdownlist")]
     public class EnumDropdownListTagHelper : DropdownListTagHelper
     {
-        private readonly ILocalizer _localizer;
-        /// <summary>
-        /// 初始化类<see cref="EnumDropdownListTagHelper"/>。
-        /// </summary>
-        /// <param name="localizer">本地化接口。</param>
-        public EnumDropdownListTagHelper(ILocalizer localizer)
-        {
-            _localizer = localizer;
-        }
-
         /// <summary>
         /// 忽略值。
         /// </summary>
@@ -70,7 +59,7 @@ namespace Gentings.AspNetCore
                 if (IsIgnore(value)) continue;
                 yield return new SelectListItem
                 {
-                    Text = _localizer.GetString(value),
+                    Text = Localizer.GetString(value),
                     Value = value.ToString()
                 };
             }

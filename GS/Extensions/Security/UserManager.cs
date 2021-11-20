@@ -1,6 +1,9 @@
 ﻿using Gentings;
 using Gentings.Data;
 using Gentings.Extensions;
+using Microsoft.AspNetCore.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace GS.Extensions.Security
 {
@@ -43,7 +46,27 @@ namespace GS.Extensions.Security
                 return new User();
             return Find(_contextAccessor.HttpContext.User.GetUserId());
         }
-    }
 
+        /// <summary>
+        /// 判断是否重复。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <returns>返回判断结果。</returns>
+        public override bool IsDuplicated(User model)
+        {
+            return Context.Any(x => (x.UserName == model.UserName || x.NickName == model.NickName) && x.Id != model.Id);
+        }
+
+        /// <summary>
+        /// 判断是否重复。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <returns>返回判断结果。</returns>
+        /// <param name="cancellationToken">取消标识。</param>
+        public override Task<bool> IsDuplicatedAsync(User model, CancellationToken cancellationToken = default)
+        {
+            return Context.AnyAsync(x => (x.UserName == model.UserName || x.NickName == model.NickName) && x.Id != model.Id, cancellationToken);
+        }
+    }
 }
 

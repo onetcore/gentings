@@ -11,7 +11,7 @@ namespace Gentings.Extensions
         /// <summary>
         /// 页码。
         /// </summary>
-        int Page { get; }
+        int PageIndex { get; }
 
         /// <summary>
         /// 每页显示记录数。

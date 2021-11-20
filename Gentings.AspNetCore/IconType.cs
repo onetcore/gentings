@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Gentings.AspNetCore.Bootstraps
+namespace Gentings.AspNetCore
 {
     /// <summary>
     /// Bootstrap 图标类型。
