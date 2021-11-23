@@ -228,6 +228,27 @@ namespace Gentings.Storages
             }
         }
 
+        /// <summary>
+        /// 刪除文件。
+        /// </summary>
+        /// <param name="path">文件路径。</param>
+        public void DeleteFile(string path)
+        {
+            path = GetPhysicalPath(path);
+            if (File.Exists(path)) File.Delete(path);
+        }
+
+        /// <summary>
+        /// 刪除文件夹。
+        /// </summary>
+        /// <param name="path">文件夹路径。</param>
+        /// <param name="recursive">是否刪除文件夹以及子文件夹的所有文件。</param>
+        public void DeleteDirectory(string path, bool recursive = false)
+        {
+            path = GetPhysicalPath(path);
+            if (Directory.Exists(path)) Directory.Delete(path, recursive);
+        }
+
         private class StorageFile : IStorageFile
         {
             private readonly FileInfo _info;

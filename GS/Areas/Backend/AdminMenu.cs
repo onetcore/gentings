@@ -1,4 +1,4 @@
-﻿using Gentings.AspNetCore.AdminMenus;
+﻿using Gentings.AspNetCore.Menus;
 
 namespace GS.Areas.Backend
 {

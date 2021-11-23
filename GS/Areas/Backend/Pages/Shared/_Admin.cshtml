@@ -1,7 +1,8 @@
 ﻿@{
     Layout = "_Global";
+    ViewContext.AddLibraries(ImportLibrary.GtSkin);
 }
-
+@inject SkinSettings SkinSettings
 @section header{
 <link rel="stylesheet" href="~/css/gt-admin.css" asp-append-version="true" />
 	@await RenderSectionAsync("header", required: false)
@@ -11,29 +12,99 @@
 	@await RenderSectionAsync("scripts", required: false)
 }
 
-<main>
-    <div class="navbar navbar-vertical navbar-dark navbar-fixed">
-        <a class="logo" asp-page="/index" asp-area="@AdminMenu.AreaName">
-            <img src="/images/logo.svg" alt="@Model.Settings.SiteName" />
-            <h1>@(Model.Settings.SiteName)</h1>
+<main class="@SkinSettings.MainClass">
+    <div class="@SkinSettings.NavbarClass">
+        <a title="@Model.Settings.SiteName" class="navbar-brand" asp-page="/index" asp-area="@AdminMenu.AreaName">
+            <svg class="icon" viewBox="0 0 430 430" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor"
+                      d="m214.18,1.71c-117.79,0 -213.28,95.49 -213.28,213.29a213.62,213.62 0 0 0 5.5,48l203.6,-214.29l14.6,15.75l109.91,116.79l-62.26,-5l-60.36,-63.08l-149.73,154.43a430.19,430.19 0 0 1 65.32,-31.9c112.44,-43.65 227.14,-35.51 297.26,13.24a214.63,214.63 0 0 0 2.72,-33.94c0,-117.8 -95.46,-213.29 -213.28,-213.29z" />
+                <path fill="currentColor"
+                      d="m259.7,241.18l-0.11,0c-17.73,-2.22 -37.4,-1.73 -59,1.16c-48.81,6 -93.63,22.91 -126.07,38.25a295.46,295.46 0 0 0 -51.72,28.54a213.2,213.2 0 0 0 339,59.79c2.85,-30.67 -3.72,-59.45 -21.06,-82.6c-19.88,-26.49 -46.85,-40.84 -81.04,-45.14z" />
+            </svg>
+            <svg class="logo" viewBox="0 0 2050 430" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor"
+                      d="m231.18,1.71c-117.79,0 -213.28,95.49 -213.28,213.29a213.62,213.62 0 0 0 5.5,48l203.6,-214.29l14.6,15.75l109.91,116.79l-62.26,-5l-60.36,-63.08l-149.73,154.43a430.19,430.19 0 0 1 65.32,-31.9c112.44,-43.65 227.14,-35.51 297.26,13.24a214.63,214.63 0 0 0 2.72,-33.94c0,-117.8 -95.46,-213.29 -213.28,-213.29z" />
+                <path fill="currentColor"
+                      d="m276.7,241.18l-0.11,0c-17.73,-2.22 -37.4,-1.73 -59,1.16c-48.81,6 -93.63,22.91 -126.07,38.25a295.46,295.46 0 0 0 -51.72,28.54a213.2,213.2 0 0 0 339,59.79c2.85,-30.67 -3.72,-59.45 -21.06,-82.6c-19.88,-26.49 -46.85,-40.84 -81.04,-45.14z" />
+                <text transform="matrix(5.145610769995451,0,0,4.913394523345013,-2026.0961853825281,24.870658606076724) "
+                      font-weight="bold" xml:space="preserve" text-anchor="start"
+                      font-family="'League Gothic', sans-serif" font-size="72" y="63.213008" x="503.657946"
+                      stroke-width="0" fill="currentColor">@Model.Settings.SiteName</text>
+            </svg>
+
+            @*<img src="/images/logo.svg" alt="@Model.Settings.SiteName" />
+                <h1>@(Model.Settings.SiteName)</h1>*@
         </a>
-        <gt:menu class="nav" provider="admin"></gt:menu>
-        <div class="dropdown dropup" style="padding:1rem; border-top:1px solid var(--bs-gray-300);">
-            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="@Model.CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>@Model.CurrentUser.NickName</strong>
-            </a>
-            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="@AdminMenu.AreaName">修改资料</a></li>
-                <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="@AdminMenu.AreaName">修改密码</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/logout">退出登录</a></li>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div id="main-menu" class="navbar-collapse collapse">
+            <gt:menu align="@SkinSettings.MenuAlign" provider="admin"></gt:menu>
+            <ul class="navbar-horizontal-navigator nav">
+                <li class="nav-item"><a class="nav-link" asp-page="/index" asp-area="" title="访问首页"><i class="bi-house"></i></a></li>
+                <li class="nav-item"><a class="nav-link" href="#" title="查看消息"><i class="bi-bell"></i><span class="icon-badge"></span></a></li>
+                <li class="nav-item">
+                    <a href="#" data-bs-toggle="offcanvas" data-bs-target="#page-options" title="皮肤设置" class="nav-link">
+                        <i class="bi-gear"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="avatar" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="@Model.CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <div>
+                            <strong>@Model.CurrentUser.NickName</strong>
+                            <small>管理员</small>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                        <li><div class="dropdown-header">Welcome @(Model.CurrentUser.NickName)!</div></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="@AdminMenu.AreaName"><span class="bi-person-circle"></span>修改资料</a></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="@AdminMenu.AreaName"><span class="bi-key"></span>修改密码</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout"><span class="bi-box-arrow-right"></span>退出登录</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
     <div class="main-container">
-        <div class="main-heading">
-            <h1 class="h2">@ViewBag.Title</h1>
+        <div class="main-header">
+            <a href="#" onclick="$('main').toggleClass('navbar-collapsed');return false;" class="navbar-toggler"><span class="navbar-toggler-icon"></span></a>
+            <ul class="main-horizontal-navigator nav">
+                <li class="nav-item"><a class="nav-link" asp-page="/index" asp-area="" title="访问首页"><i class="bi-house"></i></a></li>
+                <li class="nav-item"><a class="nav-link" href="#" title="查看消息"><i class="bi-bell"></i><span class="icon-badge"></span></a></li>
+                <li class="nav-item">
+                    <a href="#" data-bs-toggle="offcanvas" data-bs-target="#page-options" title="皮肤设置" class="nav-link">
+                        <i class="bi-gear"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="avatar" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="@Model.CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <div>
+                            <strong>@Model.CurrentUser.NickName</strong>
+                            <small>管理员</small>
+                        </div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+                        <li><div class="dropdown-header">Welcome @(Model.CurrentUser.NickName)!</div></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="@AdminMenu.AreaName"><span class="bi-person-circle"></span>修改资料</a></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="@AdminMenu.AreaName"><span class="bi-key"></span>修改密码</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="/logout"><span class="bi-box-arrow-right"></span>退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="main-navigator">
+            @if (IsSectionDefined("navigator"))
+            {
+                @await RenderSectionAsync("navigator", false)
+            }
+            else
+            {
+                <h1>@ViewBag.Title</h1>
+            }
             <gt:menu-navigator provider="admin"></gt:menu-navigator>
         </div>
         <div class="main-body">
@@ -41,3 +112,30 @@
         </div>
     </div>
 </main>
+
+<div id="page-options" class="offcanvas offcanvas-end">
+    <div class="offcanvas-header">
+        <h3>皮肤选项</h3>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="alert alert-warning" role="alert">
+            <strong>自定义 </strong>后台皮肤，主要包含：菜单布局，导航，以及色调等等
+        </div>
+        <form asp-action="Save" asp-controller="Skin" asp-area="" method="post" onsubmit="$(this).ajaxSubmit();return false;">
+            <h5 class="mt-3">菜单布局</h5>
+            <hr class="mt-1" />
+            <gt:enum-radiolist name="MenuAlign" value="@SkinSettings.MenuAlign"></gt:enum-radiolist>
+            <h5 class="mt-3">菜单颜色</h5>
+            <hr class="mt-1" />
+            <gt:enum-radiolist name="MenuMode" value="@SkinSettings.MenuMode"></gt:enum-radiolist>
+            <h5 class="mt-3">其他选项</h5>
+            <hr class="mt-1" />
+            <gt:checkbox name="IsBoxed" checked="@SkinSettings.IsBoxed">居中对齐</gt:checkbox>
+            <gt:checkbox name="IsFixed" checked="@SkinSettings.IsFixed">固定导航</gt:checkbox>
+            <gt:checkbox name="IsMenuCollapsed" checked="@SkinSettings.IsMenuCollapsed">菜单显示为图标</gt:checkbox>
+            <gt:checkbox name="IsMenuPills" checked="@SkinSettings.IsMenuPills">菜单选中高亮展示</gt:checkbox>
+            <button type="submit" class="mt-3 btn btn-primary w-100">保存配置</button>
+        </form>
+    </div>
+</div>

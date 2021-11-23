@@ -1,4 +1,5 @@
 ﻿using Gentings;
+using Gentings.AspNetCore;
 using Gentings.Data.SqlServer;
 using Gentings.Extensions.Settings;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -19,6 +20,7 @@ namespace GS.Extensions
         public void ConfigureServices(IServiceBuilder builder)
         {
             builder.AddSettings()
+                .AddScoped(services => services.GetRequiredService<ISettingsManager>().GetSettings<SkinSettings>())
                 .AddScoped(services => services.GetRequiredService<ISettingsManager>().GetSettings<SiteSettings>());
             builder.AddSqlServer()
                 .AddServices(services =>

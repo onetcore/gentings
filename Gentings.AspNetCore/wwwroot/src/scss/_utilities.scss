@@ -1,0 +1,42 @@
+﻿// scrollbar
+%scrollbar {
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-thumb,
+    &::-webkit-scrollbar-thumb:hover {
+        border-radius: 10px;
+        border: solid 2px transparent;
+        background-clip: content-box;
+        background-color: rgba(200, 200, 200, 0.25);
+    }
+
+    &:hover {
+        overflow: scroll;
+        overflow: overlay;
+    }
+}
+
+@keyframes twinkling {
+    0% {
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        filter: alpha(opacity=100);
+        transform: scale(1.12);
+    }
+
+    100% {
+        opacity: 0.2;
+        filter: alpha(opacity=20);
+        transform: scale(1);
+    }
+}

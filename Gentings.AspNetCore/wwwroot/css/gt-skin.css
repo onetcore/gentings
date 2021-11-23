@@ -7798,6 +7798,34 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important; } }
 
+.scrollbar {
+  overflow: hidden; }
+  .scrollbar::-webkit-scrollbar {
+    height: 10px;
+    width: 10px; }
+  .scrollbar::-webkit-scrollbar-thumb, .scrollbar::-webkit-scrollbar-thumb:hover {
+    border-radius: 10px;
+    border: solid 2px transparent;
+    background-clip: content-box;
+    background-color: rgba(200, 200, 200, 0.25); }
+  .scrollbar:hover {
+    overflow: scroll;
+    overflow: overlay; }
+
+@keyframes twinkling {
+  0% {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    transform: scale(1); }
+  50% {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    transform: scale(1.12); }
+  100% {
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+    transform: scale(1); } }
+
 ul, ol, li {
   list-style: none;
   padding: 0;
@@ -8014,9 +8042,10 @@ input:disabled + label {
   text-align: center; }
   .action-dropdown:after {
     display: none !important; }
-  .action-dropdown ~ .dropdown-menu .dropdown-item [class^="bi-"],
-  .action-dropdown ~ .dropdown-menu .dropdown-item [class*=" bi-"] {
-    margin-right: 0.75rem; }
+
+.dropdown-menu .dropdown-item [class^="bi-"],
+.dropdown-menu .dropdown-item [class*=" bi-"] {
+  margin-right: 0.75rem; }
 
 .btn-primary, .btn-white.active, .btn-primary:hover, .btn-white.active:hover, .btn-primary:focus, .btn-white.active:focus {
   color: #fff; }
@@ -8115,6 +8144,7 @@ input:disabled + label {
       transition: .2s ease; }
     .nav-tabs li.nav-item .nav-link.active {
       color: #6e84a3;
+      background-color: transparent;
       border-bottom-color: #2c7be5; }
 
 .card {
@@ -8174,20 +8204,8 @@ th.sorting-asc:before,
 th.sorting-desc:after {
   opacity: 1; }
 
-.scrollbar {
-  overflow: hidden; }
-  .scrollbar::-webkit-scrollbar {
-    height: 10px;
-    width: 10px; }
-  .scrollbar::-webkit-scrollbar-thumb, .scrollbar::-webkit-scrollbar-thumb:hover {
-    border-radius: 10px;
-    border: solid 2px transparent;
-    background-clip: content-box;
-    background-color: rgba(200, 200, 200, 0.25); }
-  .scrollbar:hover {
-    overflow: scroll;
-    overflow: overlay; }
-  .scrollbar.scrollbar-vertical:hover {
-    overflow-x: hidden; }
-  .scrollbar.scrollbar-horizontal:hover {
-    overflow-y: hidden; }
+.scrollbar.scrollbar-vertical:hover {
+  overflow-x: hidden; }
+
+.scrollbar.scrollbar-horizontal:hover {
+  overflow-y: hidden; }

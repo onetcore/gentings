@@ -1,5 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Gentings.Data;
+using Gentings.Extensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings.Security.Settings
@@ -9,6 +11,14 @@ namespace Gentings.Security.Settings
     /// </summary>
     public class SettingsManager : ISettingsManager
     {
+        private readonly Extensions.Settings.ISettingsManager _settingsManager;
+        private readonly IHttpContextAccessor _contextAccessor;
+
+        /// <summary>
+        /// 获取当前登录用户ID。
+        /// </summary>
+        protected int CurrentId => _contextAccessor.HttpContext.User.GetUserId();
+
         /// <summary>
         /// 数据库操作接口。
         /// </summary>
@@ -24,10 +34,77 @@ namespace Gentings.Security.Settings
         /// </summary>
         /// <param name="context">数据库操作接口。</param>
         /// <param name="cache">缓存接口。</param>
-        public SettingsManager(IDbContext<SettingsAdapter> context, IMemoryCache cache)
+        /// <param name="settingsManager">系统配置管理接口实例。</param>
+        /// <param name="contextAccessor">HTTP上下文访问实例。</param>
+        public SettingsManager(IDbContext<SettingsAdapter> context, IMemoryCache cache, Extensions.Settings.ISettingsManager settingsManager, IHttpContextAccessor contextAccessor)
         {
             Context = context;
             Cache = cache;
+            _settingsManager = settingsManager;
+            _contextAccessor = contextAccessor;
+        }
+
+        /// <summary>
+        /// 获取配置字符串。
+        /// </summary>
+        /// <param name="key">配置唯一键。</param>
+        /// <returns>返回当前配置字符串实例。</returns>
+        public virtual string GetSettings(string key)
+        {
+            return GetSettings(CurrentId, key);
+        }
+
+        /// <summary>
+        /// 获取网站配置实例。
+        /// </summary>
+        /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
+        /// <param name="key">配置唯一键。</param>
+        /// <returns>返回网站配置实例。</returns>
+        public virtual TSiteSettings GetSettings<TSiteSettings>(string key) where TSiteSettings : class, new()
+        {
+            return GetSettings<TSiteSettings>(CurrentId, key);
+        }
+
+        /// <summary>
+        /// 获取网站配置实例。
+        /// </summary>
+        /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
+        /// <returns>返回网站配置实例。</returns>
+        public virtual TSiteSettings GetSettings<TSiteSettings>() where TSiteSettings : class, new()
+        {
+            return GetSettings<TSiteSettings>(CurrentId);
+        }
+
+        /// <summary>
+        /// 获取配置字符串。
+        /// </summary>
+        /// <param name="key">配置唯一键。</param>
+        /// <returns>返回当前配置字符串实例。</returns>
+        public virtual Task<string> GetSettingsAsync(string key)
+        {
+            return GetSettingsAsync(CurrentId, key);
+        }
+
+        /// <summary>
+        /// 获取网站配置实例。
+        /// </summary>
+        /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
+        /// <param name="key">配置唯一键。</param>
+        /// <returns>返回网站配置实例。</returns>
+        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(string key)
+            where TSiteSettings : class, new()
+        {
+            return GetSettingsAsync<TSiteSettings>(CurrentId, key);
+        }
+
+        /// <summary>
+        /// 获取网站配置实例。
+        /// </summary>
+        /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
+        /// <returns>返回网站配置实例。</returns>
+        public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>() where TSiteSettings : class, new()
+        {
+            return GetSettingsAsync<TSiteSettings>(CurrentId);
         }
 
         /// <summary>
@@ -41,7 +118,11 @@ namespace Gentings.Security.Settings
             return Cache.GetOrCreate(GetCacheKey(userId, key), entry =>
             {
                 entry.SetDefaultAbsoluteExpiration();
-                return Context.Find(x => x.UserId == userId && x.SettingKey == key)?.SettingValue;
+                var settings = Context.Find(x => x.UserId == userId && x.SettingKey == key)?.SettingValue;
+                if (settings == null)//用户配置未获取实例，则返回系统设定的配置
+                    settings = _settingsManager.GetSettings(key);
+
+                return settings;
             });
         }
 
@@ -58,10 +139,8 @@ namespace Gentings.Security.Settings
             {
                 entry.SetDefaultAbsoluteExpiration();
                 var settings = Context.Find(x => x.UserId == userId && x.SettingKey == key)?.SettingValue;
-                if (settings == null)
-                {
-                    return new TSiteSettings();
-                }
+                if (settings == null)//用户配置未获取实例，则返回系统设定的配置
+                    return _settingsManager.GetSettings<TSiteSettings>(key);
 
                 return Cores.FromJsonString<TSiteSettings>(settings);
             });
@@ -90,6 +169,9 @@ namespace Gentings.Security.Settings
             {
                 entry.SetDefaultAbsoluteExpiration();
                 var settings = await Context.FindAsync(x => x.UserId == userId && x.SettingKey == key);
+                if (settings == null)//用户配置未获取实例，则返回系统设定的配置
+                    return await _settingsManager.GetSettingsAsync(key);
+
                 return settings?.SettingValue;
             });
         }
@@ -108,10 +190,8 @@ namespace Gentings.Security.Settings
             {
                 entry.SetDefaultAbsoluteExpiration();
                 var settings = await Context.FindAsync(x => x.UserId == userId && x.SettingKey == key);
-                if (settings?.SettingValue == null)
-                {
-                    return new TSiteSettings();
-                }
+                if (settings == null)//用户配置未获取实例，则返回系统设定的配置
+                    return await _settingsManager.GetSettingsAsync<TSiteSettings>(key);
 
                 return Cores.FromJsonString<TSiteSettings>(settings.SettingValue);
             });
@@ -261,7 +341,7 @@ namespace Gentings.Security.Settings
         /// <param name="key">配置唯一键。</param>
         public virtual bool DeleteSettings(int userId, string key)
         {
-            if (Context.Delete(x=>x.UserId == userId && x.SettingKey == key))
+            if (Context.Delete(x => x.UserId == userId && x.SettingKey == key))
             {
                 Refresh(userId, key);
                 return true;

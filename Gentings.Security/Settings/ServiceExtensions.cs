@@ -23,7 +23,6 @@ namespace Gentings.Security.Settings
         {
             builder.AddSettings(namedString)
                 .AddScoped<ISettingsManager, SettingsManager>()
-                .AddScoped<IUserSettingsManager, UserSettingsManager>()
                 .AddTransients<IDataMigration, DefaultSettingsDataMigration>();
             return builder;
         }

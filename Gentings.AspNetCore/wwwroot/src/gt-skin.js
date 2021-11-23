@@ -1,6 +1,4 @@
-﻿"use strict";
-
-var resources = {
+﻿const resources = {
     "status": {
         404: "请求出错，网页地址不存在！", //not found
         401: "很抱歉，你没有权限，如果没有登入可<a class=\"text-danger\" href=\"/login?returnUrl=" + location.href + "\">点击登入...</a>" //没权限
@@ -32,20 +30,22 @@ var resources = {
          * @param {object} value 属性值。
          * @returns 返回当前属性值或者当前对象。
          */
-        dataAttr: function dataAttr(attributeName, value) {
-            if (typeof value == 'undefined') return this.attr('data-' + attributeName);
+        dataAttr: function (attributeName, value) {
+            if (typeof value == 'undefined')
+                return this.attr('data-' + attributeName);
             return this.attr('data-' + attributeName, value);
         },
         /**
          * 获取当前元素所有以“data-”开头的所有属性值对象。
          * @returns 返回当前元素所有以“data-”开头的所有属性值对象。
          */
-        dataAttrs: function dataAttrs() {
+        dataAttrs: function () {
             if (this.length != 1) throw new Error(resources.elementError);
-            var attrs = {};
-            for (var i = 0; i < this[0].attributes.length; i++) {
-                var attr = this[0].attributes[i];
-                if (attr.name.startsWith('data-')) attrs[attr.name.substr(5)] = attr.value.trim();
+            let attrs = {};
+            for (let i = 0; i < this[0].attributes.length; i++) {
+                const attr = this[0].attributes[i];
+                if (attr.name.startsWith('data-'))
+                    attrs[attr.name.substr(5)] = attr.value.trim();
             }
             return attrs;
         },
@@ -53,10 +53,11 @@ var resources = {
          * 事件指向的对象。
          * @returns 返回事件指向的对象。
          */
-        targetElement: function targetElement() {
-            var target = this.attr('_target');
+        targetElement: function () {
+            const target = this.attr('_target');
             if (target) {
-                if (target.startsWith('>')) return target.find(target.substr(1).trim());
+                if (target.startsWith('>'))
+                    return target.find(target.substr(1).trim());
                 return $(target);
             }
             return this;
@@ -67,8 +68,8 @@ var resources = {
          * @param {Function} func 如果不存在获取对象的方法。
          * @returns 返回对象实例。
          */
-        dset: function dset(key, func) {
-            var data = this.data(key);
+        dset: function (key, func) {
+            let data = this.data(key);
             if (!data) {
                 data = func();
                 this.data(key, data);
@@ -78,13 +79,13 @@ var resources = {
         /**
          * 禁用元素。
          * */
-        disabled: function disabled() {
+        disabled: function () {
             return this.attr('disabled', 'disabled').addClass('disabled');
         },
         /**
          * 激活元素。
          * */
-        enabled: function enabled() {
+        enabled: function () {
             return this.removeAttr('disabled').removeClass('disabled');
         },
         /**
@@ -92,11 +93,11 @@ var resources = {
          * @param {Function|undefined} success 成功后执行的方法。
          * @param {Function|undefined} error 错误后执行的方法。
          */
-        ajaxSubmit: function ajaxSubmit(_success, _error) {
+        ajaxSubmit: function (success, error) {
             if (!this.is('form')) throw Error(resources.ajax.mustFormElement);
-            var form = this;
-            var data = new FormData(this[0]);
-            var submit = form.find('[type=submit]').disabled();
+            const form = this;
+            const data = new FormData(this[0]);
+            const submit = form.find('[type=submit]').disabled();
             $.ajax({
                 type: "POST",
                 url: form.attr('action') || location.href,
@@ -104,18 +105,21 @@ var resources = {
                 processData: false,
                 data: data,
                 headers: ajaxHeaders(),
-                success: function success(d) {
+                success: function (d) {
                     submit.removeAttr('disabled');
-                    if (_success && _success(d, form)) {
-                        return; //如果success返回true结束处理，否则将会展示错误消息
+                    if (success && success(d, form)) {
+                        return;//如果success返回true结束处理，否则将会展示错误消息
                     }
                     showMsg(d, function () {
-                        if (d.data && d.data.url) location.href = d.data.url;else if (!d.code) location.href = location.href;
+                        if (d.data && d.data.url)
+                            location.href = d.data.url;
+                        else if (!d.code)
+                            location.href = location.href;
                     });
                 },
-                error: function error(e) {
+                error: function (e) {
                     submit.enabled();
-                    errorHandler(e, _error);
+                    errorHandler(e, error);
                 }
             });
             return false;
@@ -123,17 +127,17 @@ var resources = {
         /**
          * 加载当前元素指定的模态框。
          * */
-        loadModal: function loadModal() {
-            var current = this.dset('gt-modal', function () {
-                return $('<div class="modal fade" data-bs-backdrop="static"><div>').appendTo(document.body);
-            }).data('target', this.targetElement());
-            var url = this.attr('href') || this.attr('action');
-            var query = this.dataAttrs();
+        loadModal: function () {
+            let current = this.dset('gt-modal', () => $('<div class="modal fade" data-bs-backdrop="static"><div>')
+                .appendTo(document.body))
+                .data('target', this.targetElement());
+            let url = this.attr('href') || this.attr('action');
+            const query = this.dataAttrs();
             url = URL.appendQuery(url, query);
             current.load(url, function (_, status, xhr) {
                 switch (status) {
                     case 'error':
-                        var errorMsg = resources.status[xhr.status];
+                        let errorMsg = resources.status[xhr.status];
                         if (!errorMsg) errorMsg = resources.unknownError;
                         showMsg(errorMsg);
                         return;
@@ -141,10 +145,12 @@ var resources = {
                         showMsg(resources.modal.timeout);
                         return;
                 }
-                var form = current.find('form');
+                const form = current.find('form');
                 if (form.length) {
-                    if (!form.attr('action')) form.attr('action', url);
-                    if (form.find('input[type=file]').length > 0) form.attr('enctype', 'multipart/form-data');
+                    if (!form.attr('action'))
+                        form.attr('action', url);
+                    if (form.find('input[type=file]').length > 0)
+                        form.attr('enctype', 'multipart/form-data');
                     current.find('[type=submit]').click(function () {
                         form.find('.field-validation-valid').hide();
                         form.find('.modal-validation-summary').remove();
@@ -152,28 +158,30 @@ var resources = {
                             if (d.code) {
                                 if (d.data) {
                                     //表单验证
-                                    for (var key in d.data) {
-                                        var element = form.find("[data-valmsg-for=\"" + key + "\"]");
+                                    for (const key in d.data) {
+                                        let element = form.find(`[data-valmsg-for="${key}"]`);
                                         if (element.length == 0) {
-                                            var char = key.charAt(0);
+                                            const char = key.charAt(0);
                                             if (char >= 'a' && char <= 'z') {
-                                                var id = char.toUpperCase() + key.substr(1);
-                                                element = form.find("[data-valmsg-for=\"" + id + "\"]");
+                                                const id = char.toUpperCase() + key.substr(1);
+                                                element = form.find(`[data-valmsg-for="${id}"]`);
                                             }
                                         }
-                                        if (element.length) element.html(d.data[key]).show();
+                                        if (element.length)
+                                            element.html(d.data[key]).show();
                                     }
                                 }
                                 if (d.message) {
-                                    form.prepend("<div class=\"alert alert-danger modal-validation-summary\"><span class=\"bi-exclamation-circle\"></span><span class=\"summary\">" + d.message + "</span></div>");
+                                    form.prepend(`<div class="alert alert-danger modal-validation-summary"><span class="bi-exclamation-circle"></span><span class="summary">${d.message}</span></div>`);
                                 }
-                            } else {
+                            }
+                            else {
                                 showAlert(d, function () {
                                     location.href = location.href;
                                 });
                                 current.modal('hide');
                             }
-                            return true; //结束这次处理，无需再显示状态信息
+                            return true;//结束这次处理，无需再显示状态信息
                         });
                     });
                 }
@@ -192,9 +200,9 @@ var resources = {
     function render(context) {
         // 点击事件
         $('[_click]', context).each(function () {
-            var current = $(this);
-            var eventType = current.attr('_click');
-            var target = current.targetElement();
+            const current = $(this);
+            let eventType = current.attr('_click');
+            const target = current.targetElement();
             // 展示对象元素，点击元素外的对象隐藏对象元素
             if (eventType == 'show') {
                 current.on('click', function (event) {
@@ -214,107 +222,110 @@ var resources = {
             }
             // 点击拷贝对象内容
             else if (eventType == 'copy') {
-                    current.on('click', function (event) {
-                        event.preventDefault();
-                        $(document).on('copy', function (e) {
-                            // 设置信息，实现复制
-                            e.clipboardData.setData('text/plain', target.text().trim());
-                            e.preventDefault();
-                        });
-                        document.execCommand('copy');
-                        return false;
+                current.on('click', function (event) {
+                    event.preventDefault();
+                    $(document).on('copy', function (e) {
+                        // 设置信息，实现复制
+                        e.clipboardData.setData('text/plain', target.text().trim());
+                        e.preventDefault();
                     });
-                }
-                // 点击上传文件
-                else if (eventType == 'upload') {
-                        current.off('click').on('click', function () {
-                            $('<input type="file" class="hide"/>').appendTo(document.body).on('change', function () {
-                                var file = $(this);
-                                if (this.files.length == 0) {
-                                    file.remove();
-                                    return false;
-                                }
-                                var inner = current.html();
-                                current.disabled().html('<span class="spinner-border spinner-border-sm"></span> ' + resources.ajax.uploading);
-                                var data = new FormData();
-                                data.append("file", this.files[0]);
-                                var elements = current.dataAttrs();
-                                for (var key in elements) {
-                                    data.append(key, elements[key]);
-                                }
-                                var url = current.attr('href') || current.attr('action');
-                                $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    contentType: false,
-                                    processData: false,
-                                    data: data,
-                                    headers: ajaxHeaders(),
-                                    success: function success(d) {
-                                        showMsg(d);
-                                        if (d.url) {
-                                            current.trigger('uploaded', d.url);
-                                            current.parent().find('.uploaded').each(function () {
-                                                var that = $(this);
-                                                if (that.is('input')) that.val(d.url);else if (that.is('img')) that.attr('src', d.url);
-                                            });
-                                        }
-                                        file.remove();
-                                        current.enabled().html(inner);
-                                    },
-                                    error: function error(e) {
-                                        errorHandler(e);
-                                        file.remove();
-                                        current.enabled().html(inner);
-                                    }
-                                });
-                            }).click();
+                    document.execCommand('copy');
+                    return false;
+                });
+            }
+            // 点击上传文件
+            else if (eventType == 'upload') {
+                current.off('click').on('click', function () {
+                    $('<input type="file" class="hide"/>').appendTo(document.body).on('change', function () {
+                        var file = $(this);
+                        if (this.files.length == 0) {
+                            file.remove();
                             return false;
-                        });
-                    } else {
-                        current.on('click', function (event) {
-                            var index = eventType.indexOf(':stop');
-                            if (index != -1) {
-                                event.stopPropagation();
-                                eventType = eventType.replace(':stop', '');
-                            }
-                            index = eventType.indexOf(':prevent');
-                            if (index != -1) {
-                                event.preventDefault();
-                                eventType = eventType.replace(':prevent', '');
-                            }
-                            var confirm = current.attr('_confirm');
-                            if (confirm && !window.confirm(confirm)) return false;
-                            switch (eventType) {
-                                case 'modal':
-                                    {
-                                        current.loadModal();
-                                    }
-                                    return false;
-                                case 'action':
-                                    {
-                                        var data = current.dataAttrs();
-                                        var url = current.attr('href') || current.attr('action');
-                                        $ajax(url, data);
-                                    }
-                                    return false;
-                                case 'checked':
-                                    {
-                                        (function () {
-                                            var data = current.dataAttrs();
-                                            var items = [];
-                                            $('.data-item', context).find('input[type=checkbox]').each(function () {
-                                                if (this.checked) items.push(this.value);
-                                            });
-                                            if (items.length > 0) data.id = items;
-                                            var url = current.attr('href') || current.attr('action');
-                                            $ajax(url, data);
-                                        })();
-                                    }
-                                    return false;
+                        }
+                        const inner = current.html();
+                        current.disabled().html('<span class="spinner-border spinner-border-sm"></span> ' + resources.ajax.uploading);
+                        var data = new FormData();
+                        data.append("file", this.files[0]);
+                        const elements = current.dataAttrs();
+                        for (const key in elements) {
+                            data.append(key, elements[key]);
+                        }
+                        const url = current.attr('href') || current.attr('action');
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            contentType: false,
+                            processData: false,
+                            data: data,
+                            headers: ajaxHeaders(),
+                            success: function (d) {
+                                showMsg(d);
+                                if (d.url) {
+                                    current.trigger('uploaded', d.url);
+                                    current.parent().find('.uploaded').each(function () {
+                                        var that = $(this);
+                                        if (that.is('input'))
+                                            that.val(d.url);
+                                        else if (that.is('img'))
+                                            that.attr('src', d.url);
+                                    });
+                                }
+                                file.remove();
+                                current.enabled().html(inner);
+                            },
+                            error: function (e) {
+                                errorHandler(e);
+                                file.remove();
+                                current.enabled().html(inner);
                             }
                         });
+                    }).click();
+                    return false;
+                });
+            }
+            else {
+                current.on('click', function (event) {
+                    let index = eventType.indexOf(':stop');
+                    if (index != -1) {
+                        event.stopPropagation();
+                        eventType = eventType.replace(':stop', '');
                     }
+                    index = eventType.indexOf(':prevent');
+                    if (index != -1) {
+                        event.preventDefault();
+                        eventType = eventType.replace(':prevent', '');
+                    }
+                    const confirm = current.attr('_confirm');
+                    if (confirm && !window.confirm(confirm))
+                        return false;
+                    switch (eventType) {
+                        case 'modal':
+                            {
+                                current.loadModal();
+                            }
+                            return false;
+                        case 'action':
+                            {
+                                const data = current.dataAttrs();
+                                const url = current.attr('href') || current.attr('action');
+                                $ajax(url, data);
+                            }
+                            return false;
+                        case 'checked':
+                            {
+                                const data = current.dataAttrs();
+                                let items = [];
+                                $('.data-item', context).find('input[type=checkbox]').each(function () {
+                                    if (this.checked) items.push(this.value);
+                                });
+                                if (items.length > 0) data.id = items;
+                                const url = current.attr('href') || current.attr('action');
+                                $ajax(url, data);
+                            }
+                            return false;
+                    }
+                });
+            }
         });
         // 高亮显示
         if (window.hljs) $('pre code', context).each(function () {
@@ -322,18 +333,19 @@ var resources = {
         });
         // 图片
         $('img[_error]', context).each(function () {
-            var src = this._error;
+            const src = this._error;
             if (src) {
                 $(this).on('error', function () {
-                    if (this.src != src) this.src = src;
+                    if (this.src != src)
+                        this.src = src;
                 });
             }
         });
         // 表格排序
         $('table thead .sorting', context).on('click', function () {
             // sort
-            var current = $(this);
-            var order = 'sorting-asc';
+            const current = $(this);
+            let order = 'sorting-asc';
             if (current.hasClass('sorting-asc')) {
                 current.dataAttr('desc', 'true');
                 order = 'sorting-desc';
@@ -341,9 +353,9 @@ var resources = {
                 current.dataAttr('desc', 'false');
             }
             current.parent().find('.sorting').removeClass('sorting-asc').removeClass('sorting-desc');
-            var query = current.addClass(order).dataAttrs();
+            const query = current.addClass(order).dataAttrs();
             // form[method=get]
-            var search = {};
+            let search = {};
             $('.toolbar form[method=get]', context).find('input,select,textarea').each(function () {
                 if (this.value) search[this.name] = this.value.trim();
             });
@@ -354,7 +366,8 @@ var resources = {
             $(this).find('input,select,textarea').each(function () {
                 var name = this.name.toLowerCase();
                 var index = name.indexOf('.');
-                if (index > 0) name = name.substr(index + 1);
+                if (index > 0)
+                    name = name.substr(index + 1);
                 this.name = name;
             });
         });
@@ -372,21 +385,22 @@ var resources = {
      * @param {Function|undefined} success 成功后执行的方法。
      * @param {Function|undefined} error 发生错误时候执行的方法。
      */
-    window.$ajax = function (url, data, _success2, _error2) {
+    window.$ajax = function (url, data, success, error) {
         $.ajax({
             url: url,
             data: data,
             dataType: 'JSON',
             type: 'POST',
             headers: ajaxHeaders(),
-            success: function success(d) {
-                if (_success2 && _success2(d.data)) return;
+            success: function (d) {
+                if (success && success(d.data)) return;
                 showMsg(d, function () {
                     location.href = d.data && d.data.url ? d.data.url : location.href;
                 });
             },
-            error: function error(e) {
-                if (_error2) _error2(e);else errorHandler(e);
+            error: function (e) {
+                if (error) error(e);
+                else errorHandler(e);
             }
         });
     };
@@ -402,11 +416,11 @@ var resources = {
             query = url;
             url = '?';
         }
-        var index = url.indexOf('?');
+        const index = url.indexOf('?');
         if (index != -1) {
-            var search = url.substr(index + 1);
+            let search = url.substr(index + 1);
             url = url.substr(0, index);
-            query = URL.toSearch(search, query);
+            query = URL.toSearch(search, query)
         } else {
             query = URL.toSearch(query);
         }
@@ -419,16 +433,17 @@ var resources = {
      * @returns {string} 以"?"开头的字符串。
      */
     URL.toSearch = function (search, query) {
-        if (typeof search === 'string') search = URL.parseQuery(search);
+        if (typeof search === 'string')
+            search = URL.parseQuery(search);
         if (!search) search = {};
         if (query) {
-            for (var key in query) {
+            for (const key in query) {
                 search[key] = query[key];
             }
         }
         query = '';
-        for (var key in search) {
-            var value = search[key];
+        for (const key in search) {
+            const value = search[key];
             if (value == '') continue;
             if (query.length > 0) query += '&';
             query += key;
@@ -445,18 +460,14 @@ var resources = {
     URL.parseQuery = function (search) {
         var query = {},
             seg = search.replace(/^\?/, '').split('&'),
-            len = seg.length,
-            i = 0,
-            s;
+            len = seg.length, i = 0, s;
         for (; i < len; i++) {
-            if (!seg[i]) {
-                continue;
-            }
+            if (!seg[i]) { continue; }
             s = seg[i].split('=');
             query[s[0]] = s[1];
         }
         return query;
-    };
+    }
     /**
      * 匹配URL地址。
      * @param {string} url URL地址。
@@ -489,29 +500,25 @@ var resources = {
         if (typeof code === 'function') {
             func = code;
             code = -1;
-        } else if (typeof code === 'undefined') {
-            code = -1;
         }
+        else if (typeof code === 'undefined') { code = -1; }
         if (typeof msg === 'object') {
             code = msg.code;
             msg = msg.message;
         }
         // 没有提示信息直接返回
         if (!msg) return;
-        var current = $(document.body).dset('gt-toast', function () {
-            return $("<div style=\"z-index:100000;\" class=\"toast text-white position-fixed top-0 start-50 translate-middle-x\"><div class=\"d-flex\"><div class=\"toast-body\"></div><button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button></div></div>").appendTo(document.body);
-        });
+        const current = $(document.body).dset('gt-toast', () => $(`<div style="z-index:100000;" class="toast text-white position-fixed top-0 start-50 translate-middle-x"><div class="d-flex"><div class="toast-body"></div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div></div>`).appendTo(document.body));
         if (code) {
             msg = '<span class="bi-exclamation-circle"></span> ' + msg;
             current.removeClass('bg-success').addClass('bg-danger');
-        } else {
+        }
+        else {
             msg = '<span class="bi-check-circle"></span> ' + msg;
             current.removeClass('bg-danger').addClass('bg-success');
         }
         current.off('hide.bs.toast').find('.toast-body').html(msg);
-        if (!code && func) current.on('hide.bs.toast', function () {
-            func();
-        });
+        if (!code && func) current.on('hide.bs.toast', function () { func(); });
         current.toast('show', { delay: 500 });
     };
     /**
@@ -524,25 +531,22 @@ var resources = {
         if (typeof code === "function") {
             func = code;
             code = -1;
-        } else if (typeof code === 'undefined') {
-            code = -1;
         }
+        else if (typeof code === 'undefined') { code = -1; }
         if (typeof msg === "object") {
             code = msg.code;
             msg = msg.message;
         }
         if (!msg) return;
-        var current = $(document.body).dset('gt-alert', function () {
-            return $('<div class="modal fade" data-bs-backdrop="static"><div class="modal-dialog alert-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body"><div class="icon"><i></i></div> <div class="msg"></div></div><div class="modal-footer"><button type="button" class="btn btn-primary"> ' + resources.alert.confirm + ' </button></div></div></div></div>').appendTo(document.body);
-        });
+        const current = $(document.body).dset('gt-alert', () => $('<div class="modal fade" data-bs-backdrop="static"><div class="modal-dialog alert-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-body"><div class="icon"><i></i></div> <div class="msg"></div></div><div class="modal-footer"><button type="button" class="btn btn-primary"> ' + resources.alert.confirm + ' </button></div></div></div></div>').appendTo(document.body));
         var body = current.find('.modal-body');
-        var type = !code ? 'success' : 'danger';
+        const type = !code ? 'success' : 'danger';
         var icon = !code ? "bi-check-circle" : "bi-exclamation-circle";
         body.attr('class', 'modal-body text-' + type).find('i').attr('class', icon);
         body.find('div.msg').html(msg);
         var button = current.find('button').attr('class', 'btn btn-' + type);
         if (!code && func) {
-            button.removeAttr('data-bs-dismiss').on('click', function () {
+            button.removeAttr('data-bs-dismiss').on('click', () => {
                 if (typeof func === 'function') {
                     func(current);
                     current.modal('hide');
@@ -552,7 +556,8 @@ var resources = {
                     location.href = location.href;
                 }
             });
-        } else button.attr('data-bs-dismiss', 'modal').off('click');
+        } else
+            button.attr('data-bs-dismiss', 'modal').off('click');
         current.modal('show');
     };
     /**
@@ -573,8 +578,9 @@ var resources = {
      * @param {Function|undefined} error 错误发生后执行的方法。
      */
     function errorHandler(e, error) {
-        if (error && error(e)) return;
-        var status = resources.status[e.status];
+        if (error && error(e))
+            return;
+        var status = resources.status[e.status]
         if (status) {
             showMsg(status);
             return;
@@ -583,8 +589,5 @@ var resources = {
             showMsg(resources.unknownError);
         }
     };
-    $(function () {
-        render();
-    });
+    $(function () { render(); });
 })(jQuery);
-

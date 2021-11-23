@@ -32,6 +32,19 @@ namespace Gentings.Storages
         IStorageFile GetFile(string path);
 
         /// <summary>
+        /// 刪除文件。
+        /// </summary>
+        /// <param name="path">文件路径。</param>
+        void DeleteFile(string path);
+
+        /// <summary>
+        /// 刪除文件夹。
+        /// </summary>
+        /// <param name="path">文件夹路径。</param>
+        /// <param name="recursive">是否刪除文件夹以及子文件夹的所有文件。</param>
+        void DeleteDirectory(string path, bool recursive = false);
+
+        /// <summary>
         /// 将表单文件实例保存到临时文件夹中。
         /// </summary>
         /// <param name="file">表单文件实例。</param>
