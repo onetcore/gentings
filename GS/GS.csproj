@@ -5,8 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gentings.AspNetCore.Emails\Gentings.AspNetCore.Emails.csproj" />
+    <ProjectReference Include="..\Gentings.AspNetCore.Tasks\Gentings.AspNetCore.Tasks.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore\Gentings.AspNetCore.csproj" />
     <ProjectReference Include="..\Gentings.Data.SqlServer\Gentings.Data.SqlServer.csproj" />
+    <ProjectReference Include="..\Gentings.Extensions\Gentings.Extensions.csproj" />
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 
@@ -23,6 +34,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\src\" />
   </ItemGroup>
 
 </Project>

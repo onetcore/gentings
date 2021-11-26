@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Security.Roles
+﻿namespace Gentings.Security.Roles
 {
     /// <summary>
     /// 分页查询基类。

@@ -5,24 +5,21 @@
     ViewBag.Current = "users.index";
 }
 
-<div class="toolbar">
-    <form method="get">
-        <div class="input-group-append">
-            <input asp-for="Query.Name" placeholder="请输入名称" type="text" class="form-control" />
-            <button type="submit"><span class="bi-search"></span></button>
-        </div>
-    </form>
-    <div>
-        <div class="btn-group">
-            <a _click="modal" asp-page="./Create" class="btn-primary btn"><span class="bi-plus"></span> 添加新用户</a>
+<div class="card data-list">
+    <div class="card-header toolbar">
+        <form method="get">
+            <gt:search asp-for="Query.Name" placeholder="请输入名称"></gt:search>
+        </form>
+        <div class="actions">
+            <gt:action-group>
+                <gt:action type="ActionType.Add" asp-page="./Create" mode="Primary">添加新用户</gt:action>
+                <gt:action disabled type="ActionType.Delete" asp-page-handler="Delete" mode="Danger"></gt:action>
+            </gt:action-group>
         </div>
     </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
+    <div class="card-body pt-0">
         <div class="table-responsive">
-            <table class="table table-hover data-list">
+            <table class="table table-hover">
                 <thead>
                     <tr>
                         <th class="checkbox"><gt:checkall /></th>
@@ -34,7 +31,7 @@
                         <th class="text-center">操作</th>
                     </tr>
                 </thead>
-                <tbody class="align-middle">
+                <tbody class="align-middle" .warning="Model.Items" .warning-text="未找到相关用户信息！">
                     @foreach (var item in Model.Items)
                     {
                         <tr class="data-item">
@@ -48,15 +45,14 @@
                             <td>@item.LastLoginDate?.ToString("f")</td>
                             <td>
                                 <gt:action-dropdownmenu>
-                                    <a _click="modal" asp-page="./Edit" asp-route-id="@item.Id"><span class="bi-pencil"></span>编辑</a>
-                                    <a _click="modal" asp-page="./Password" asp-route-id="@item.Id"><span class="bi-key"></span>设置密码</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a _click="action" _confirm="你确定要删除“@(item.NickName)”吗？" asp-page-handler="Delete" asp-route-id="@item.Id"><span class="bi-trash"></span>删除</a>
+                                    <gt:action type="ActionType.Edit" asp-page="./Edit" asp-route-id="@item.Id"></gt:action>
+                                    <gt:action type="ActionType.Modal" icon="IconType.Key" asp-page="./Password" asp-route-id="@item.Id">设置密码</gt:action>
+                                    <gt:action type="ActionType.Divider"></gt:action>
+                                    <gt:action type="ActionType.Delete" confirm="你确定要删除“@(item.NickName)”吗？" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
                                 </gt:action-dropdownmenu>
                             </td>
                         </tr>
                     }
-                    <gt:warning colspan="7" data="Model.Items">还没找到相关用户信息！</gt:warning>
                 </tbody>
             </table>
         </div>

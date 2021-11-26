@@ -32,7 +32,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 本地化接口。
         /// </summary>
-        public ILocalizer Localizer => _localizer ??= GetRequiredService<ILocalizer>();
+        public ILocalizer Localizer => _localizer ??= GetRequiredService<ILocalizerFactory>().CreateLocalizer(GetType());
 
         private ILogger _logger;
         /// <summary>

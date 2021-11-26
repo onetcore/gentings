@@ -1,5 +1,4 @@
-﻿using Gentings;
-using Gentings.Data;
+﻿using Gentings.Data;
 using Gentings.Data.Initializers;
 using Gentings.Localization;
 using System.Threading.Tasks;

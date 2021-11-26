@@ -8,221 +8,262 @@
 
 @section navigator{
 <ul class="nav nav-tabs">
-    <li class="active nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#basic">基础</a></li>
+    <li class="active nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#editor">编辑器</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#basic">基础</a></li>
     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#buttons">按钮</a></li>
     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#checkradio">复选框</a></li>
 </ul>
 }
 
 <div class="tab-content">
-    <div class="tab-pane fade active show" id="basic">
-        <div class="toolbar">
-            <form method="get">
-                <div class="input-group-append">
-                    <input type="text" class="form-control" />
-                    <button type="submit"><span class="bi-search"></span></button>
-                </div>
-            </form>
-            <div>
-                <div class="btn-group">
-                    <a class="btn-white btn active" .icon="bi-list-ul"></a>
-                    <a class="btn-white btn" .icon="bi-grid"></a>
-                </div>
-                <div class="btn-group">
-                    <a class="btn-outline-primary btn" data-bs-toggle="offcanvas" data-bs-target="#page-options"> 抽屉式内容</a>
-                    <a class="btn-danger btn"><span class="bi-plus"></span> 添加新内容</a>
+    <div class="tab-pane fade" id="basic">
+        <div class="card">
+            <div class="card-header toolbar">
+                <form method="get">
+                    <input type="hidden" data-val="true" data-val-required="The Sid field is required." id="Query_Sid" name="sid" value="0">
+                    <div class="me-2">
+                        <label>状态：</label>
+                        <select class="form-select" id="Query_Status" name="status">
+                            <option value="">请选择</option>
+                            <option value="Pending">等待发送</option>
+                            <option value="Completed">成功发送</option>
+                            <option value="Failured">发送失败</option>
+                        </select>
+                    </div>
+                    <div class="me-2">
+                        <label>邮件地址：</label>
+                        <input class="form-control" type="text" id="Query_To" name="to" value="">
+                    </div>
+                    <div class="me-2">
+                        <label>标题：</label>
+                        <gt:search placeholder="请输入标题" name="text"></gt:search>
+                    </div>
+                </form>
+                <div>
+                    <div class="btn-group">
+                        <a _click="modal" class="btn btn-primary" href="/Emails/Backend/Send"><span class="bi-send"></span> 发送邮件</a>
+                    </div>
+                    <div class="btn-group">
+                        <a _click="modal" class="btn btn-outline-secondary" href="/Emails/Backend/Send"><span class="bi-send"></span> 发送</a>
+                        <a _click="modal" class="btn btn-danger" href="/Emails/Backend/Send"><span class="bi-send"></span> 发送</a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped table-hover data-list">
-                <thead>
-                    <tr>
-                        <th class="checkbox"><gt:checkall /></th>
-                        <th>序号</th>
-                        <th class="sorting">时间</th>
-                        <th>结果</th>
-                        <th class="sorting">登录</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody class="align-middle">
-                    @foreach (var item in types)
-                    {
-                        <tr class="data-item">
-                            <td class="checkbox"><input type="checkbox" value="@item" class="form-check-input" /></td>
-                            <td>
-                                item
-                            </td>
-                            <td>item</td>
-                            <td>item</td>
-                            <td><a _click="modal" asp-page="/Play" asp-route-id="@item"><span class="bi-camera-video-fill"></span></a></td>
-                            <td><a _click="modal" asp-page="./Edit" asp-route-id="@item">编辑</a></td>
-                        </tr>
-                    }
-                    <gt:warning colspan="6">还没找到相关信息！</gt:warning>
-                </tbody>
-            </table>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover data-list">
+                        <thead>
+                            <tr>
+                                <th class="checkbox"><gt:checkall /></th>
+                                <th>序号</th>
+                                <th class="sorting">时间</th>
+                                <th>结果</th>
+                                <th class="sorting">登录</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle">
+                            @foreach (var item in types)
+                            {
+                                <tr class="data-item">
+                                    <td class="checkbox"><input type="checkbox" value="@item" class="form-check-input" /></td>
+                                    <td>
+                                        item
+                                    </td>
+                                    <td>item</td>
+                                    <td>item</td>
+                                    <td><a _click="modal" asp-page="/Play" asp-route-id="@item"><span class="bi-camera-video-fill"></span></a></td>
+                                    <td><a _click="modal" asp-page="./Edit" asp-route-id="@item">编辑</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div class="tab-pane fade" id="buttons">
-        <div class="text-center mb-4">
-            @foreach (var type in types)
-            {
-                <button class="btn btn-@(type)">@type</button>
-            }
-        </div>
-
-        <div class="text-center mb-4">
-            @foreach (var type in types)
-            {
-                <button class="btn btn-outline-@(type)">@type</button>
-            }
-        </div>
-
-        <div class="text-center mb-4">
-            <div class="input-group-append mb-3">
-                <input type="text" class="form-control" />
-                <button><span class="bi-upload"></span></button>
+        <div class="card">
+            <div class="card-header border-bottom-0">
+                <h2>按钮</h2>
+                <gt:action-dropdownmenu type="Vertical">
+                    <gt:action type="ActionType.Edit"></gt:action>
+                    <gt:action type="ActionType.Delete"></gt:action>
+                </gt:action-dropdownmenu>
             </div>
-            <div class="input-group-prepend mb-3">
-                <button><span class="bi-upload"></span></button>
-                <input type="text" class="form-control" />
-            </div>
+            <div class="card-body">
+                <div class="text-center mb-4">
+                    @foreach (var type in types)
+                    {
+                        <button class="btn btn-@(type)">@type</button>
+                    }
+                </div>
 
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-                <label for="floatingPassword">Password</label>
-            </div>
+                <div class="text-center mb-4">
+                    @foreach (var type in types)
+                    {
+                        <button class="btn btn-outline-@(type)">@type</button>
+                    }
+                </div>
 
-            <select class="form-select mb-3">
-                <option>第1个选项</option>
-                <option>第2个选项</option>
-                <option>第3个选项</option>
-                <option>第4个选项</option>
-            </select>
+                <div class="text-center mb-4">
+                    <div class="input-group-append mb-3">
+                        <input type="text" class="form-control" />
+                        <button><span class="bi-upload"></span></button>
+                    </div>
+                    <div class="input-group-prepend mb-3">
+                        <button><span class="bi-upload"></span></button>
+                        <input type="text" class="form-control" />
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+
+                    <select class="form-select mb-3">
+                        <option>第1个选项</option>
+                        <option>第2个选项</option>
+                        <option>第3个选项</option>
+                        <option>第4个选项</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
     <div class="tab-pane fade" id="checkradio">
+        <div class="card">
+            <div class="card-header">
+                <h2>按钮</h2>
+                <ul class="nav nav-tabs">
+                    <li class="active nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#radio">单选框</a></li>
+                    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#checkbox">复选框</a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane fade active show" id="radio">
+                        <gt:checkbox switch="true"></gt:checkbox>
+                        <gt:checkbox switch="true">表单</gt:checkbox>
+                        <gt:checkbox checked="true"></gt:checkbox>
+                        <gt:checkbox>表单选项</gt:checkbox>
 
-        <div class="mb-4">
-            <gt:checkbox switch="true"></gt:checkbox>
-            <gt:checkbox switch="true">表单</gt:checkbox>
-            <gt:checkbox checked="true"></gt:checkbox>
-            <gt:checkbox>表单选项</gt:checkbox>
+                        <!-- Without label-->
+                        <gt:switch></gt:switch>
+                        <input type="checkbox" id="switch0" data-switch="none" />
+                        <label for="switch0" data-on-label="" data-off-label=""></label>
 
-            <!-- Without label-->
-            <gt:switch></gt:switch>
-            <input type="checkbox" id="switch0" data-switch="none" />
-            <label for="switch0" data-on-label="" data-off-label=""></label>
+                        <!-- Bool Switch-->
+                        <gt:switch type="Bool" checked on="On" off="Off"></gt:switch>
+                        <input type="checkbox" id="switch1" checked data-switch="bool" />
+                        <label for="switch1" data-on-label="On" data-off-label="Off"></label>
 
-            <!-- Bool Switch-->
-            <gt:switch type="Bool" checked on="On" off="Off"></gt:switch>
-            <input type="checkbox" id="switch1" checked data-switch="bool" />
-            <label for="switch1" data-on-label="On" data-off-label="Off"></label>
+                        <!-- Primary Switch-->
+                        <input type="checkbox" id="switch2" checked data-switch="primary" />
+                        <label for="switch2" data-on-label="On" data-off-label="Off"></label>
 
-            <!-- Primary Switch-->
-            <input type="checkbox" id="switch2" checked data-switch="primary" />
-            <label for="switch2" data-on-label="On" data-off-label="Off"></label>
+                        <!-- Success Switch-->
+                        <input type="checkbox" id="switch3" checked data-switch="success" />
+                        <label for="switch3" data-on-label="Yes" data-off-label="No"></label>
 
-            <!-- Success Switch-->
-            <input type="checkbox" id="switch3" checked data-switch="success" />
-            <label for="switch3" data-on-label="Yes" data-off-label="No"></label>
+                        <!-- Info Switch-->
+                        <input type="checkbox" id="switch4" checked data-switch="info" />
+                        <label for="switch4" data-on-label="On" data-off-label="Off"></label>
 
-            <!-- Info Switch-->
-            <input type="checkbox" id="switch4" checked data-switch="info" />
-            <label for="switch4" data-on-label="On" data-off-label="Off"></label>
+                        <!-- Warning Switch-->
+                        <input type="checkbox" id="switch5" checked data-switch="warning" />
+                        <label for="switch5" data-on-label="Yes" data-off-label="No"></label>
 
-            <!-- Warning Switch-->
-            <input type="checkbox" id="switch5" checked data-switch="warning" />
-            <label for="switch5" data-on-label="Yes" data-off-label="No"></label>
+                        <!-- Danger Switch-->
+                        <input type="checkbox" id="switch6" checked data-switch="danger" />
+                        <label for="switch6" data-on-label="On" data-off-label="Off"></label>
 
-            <!-- Danger Switch-->
-            <input type="checkbox" id="switch6" checked data-switch="danger" />
-            <label for="switch6" data-on-label="On" data-off-label="Off"></label>
+                        <!-- Dark Switch-->
+                        <input type="checkbox" id="switch7" checked data-switch="secondary" />
+                        <label for="switch7" data-on-label="Yes" data-off-label="No"></label>
 
-            <!-- Dark Switch-->
-            <input type="checkbox" id="switch7" checked data-switch="secondary" />
-            <label for="switch7" data-on-label="Yes" data-off-label="No"></label>
-
-            <!-- Disbled Switch-->
-            <input type="checkbox" id="switchdis" data-switch="primary" checked disabled />
-            <label for="switchdis" data-on-label="On" data-off-label="Off"></label>
-        </div>
-
-        <div class="flex-row d-flex">
-            <div class="mb-4">
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input type="radio" checked="checked" id="customRadio1" name="customRadio" class="form-check-input">
-                        <label class="form-check-label" for="customRadio1">Toggle this custom radio</label>
+                        <!-- Disbled Switch-->
+                        <input type="checkbox" id="switchdis" data-switch="primary" checked disabled />
+                        <label for="switchdis" data-on-label="On" data-off-label="Off"></label>
                     </div>
-                    <div class="form-check">
-                        <input type="radio" id="customRadio2" name="customRadio" class="form-check-input">
-                        <label class="form-check-label" for="customRadio2">Or toggle this other custom radio</label>
+                    <div class="flex-row d-flex tab-pane fade" id="checkbox">
+                        <div class="mb-4">
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input type="radio" checked="checked" id="customRadio1" name="customRadio" class="form-check-input">
+                                    <label class="form-check-label" for="customRadio1">Toggle this custom radio</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" id="customRadio2" name="customRadio" class="form-check-input">
+                                    <label class="form-check-label" for="customRadio2">Or toggle this other custom radio</label>
+                                </div>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input type="radio" id="customRadiocolor1" name="customRadiocolor1" class="form-check-input" checked>
+                                <label class="form-check-label" for="customRadiocolor1">Default Radio</label>
+                            </div>
+                            <div class="form-check form-radio-success mb-2">
+                                <input type="radio" id="customRadiocolor2" name="customRadiocolor2" class="form-check-input" checked>
+                                <label class="form-check-label" for="customRadiocolor2">Success Radio</label>
+                            </div>
+                            <div class="form-check form-radio-info mb-2">
+                                <input type="radio" id="customRadiocolor3" name="customRadiocolor3" class="form-check-input" checked>
+                                <label class="form-check-label" for="customRadiocolor3">Info Radio</label>
+                            </div>
+                            <div class="form-check form-radio-secondary mb-2">
+                                <input type="radio" id="customRadiocolor6" name="customRadiocolor6" class="form-check-input" checked>
+                                <label class="form-check-label" for="customRadiocolor6">Secondary Radio</label>
+                            </div>
+                            <div class="form-check form-radio-warning mb-2">
+                                <input type="radio" id="customRadiocolor4" name="customRadiocolor4" class="form-check-input" checked>
+                                <label class="form-check-label" for="customRadiocolor4">Warning Radio</label>
+                            </div>
+                            <div class="form-check form-radio-danger mb-2">
+                                <input type="radio" id="customRadiocolor5" name="customRadiocolor5" class="form-check-input" checked>
+                                <label class="form-check-label" for="customRadiocolor5">Danger Radio</label>
+                            </div>
+                            <div class="form-check form-radio-dark">
+                                <input type="radio" id="customRadiocolor7" name="customRadiocolor7" class="form-check-input" checked>
+                                <label class="form-check-label" for="customRadiocolor7">Dark Radio</label>
+                            </div>
+                        </div>
+
+                        <div id="tt" class="mb-4">
+                            <div class="form-check mb-2">
+                                <input type="checkbox" class="form-check-input" id="customCheckcolor1" checked>
+                                <label class="form-check-label" for="customCheckcolor1">Default Checkbox</label>
+                            </div>
+                            <div class="form-check form-checkbox-success mb-2">
+                                <input type="checkbox" class="form-check-input" id="customCheckcolor2" checked>
+                                <label class="form-check-label" for="customCheckcolor2">Success Checkbox</label>
+                            </div>
+                            <div class="form-check form-checkbox-info mb-2">
+                                <input type="checkbox" class="form-check-input" id="customCheckcolor3" checked>
+                                <label class="form-check-label" for="customCheckcolor3">Info Checkbox</label>
+                            </div>
+                            <div class="form-check form-checkbox-secondary mb-2">
+                                <input type="checkbox" class="form-check-input" id="customCheckcolor6" checked>
+                                <label class="form-check-label" for="customCheckcolor6">Secondary Checkbox</label>
+                            </div>
+                            <div class="form-check form-checkbox-warning mb-2">
+                                <input type="checkbox" class="form-check-input" id="customCheckcolor4" checked>
+                                <label class="form-check-label" for="customCheckcolor4">Warning Checkbox</label>
+                            </div>
+                            <div class="form-check form-checkbox-danger mb-2">
+                                <input type="checkbox" class="form-check-input" id="customCheckcolor5" checked>
+                                <label class="form-check-label" for="customCheckcolor5">Danger Checkbox</label>
+                            </div>
+                            <div class="form-check form-checkbox-dark">
+                                <input type="checkbox" class="form-check-input" id="customCheckcolor7" checked>
+                                <label class="form-check-label" for="customCheckcolor7">Dark Checkbox</label>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-check mb-2">
-                    <input type="radio" id="customRadiocolor1" name="customRadiocolor1" class="form-check-input" checked>
-                    <label class="form-check-label" for="customRadiocolor1">Default Radio</label>
-                </div>
-                <div class="form-check form-radio-success mb-2">
-                    <input type="radio" id="customRadiocolor2" name="customRadiocolor2" class="form-check-input" checked>
-                    <label class="form-check-label" for="customRadiocolor2">Success Radio</label>
-                </div>
-                <div class="form-check form-radio-info mb-2">
-                    <input type="radio" id="customRadiocolor3" name="customRadiocolor3" class="form-check-input" checked>
-                    <label class="form-check-label" for="customRadiocolor3">Info Radio</label>
-                </div>
-                <div class="form-check form-radio-secondary mb-2">
-                    <input type="radio" id="customRadiocolor6" name="customRadiocolor6" class="form-check-input" checked>
-                    <label class="form-check-label" for="customRadiocolor6">Secondary Radio</label>
-                </div>
-                <div class="form-check form-radio-warning mb-2">
-                    <input type="radio" id="customRadiocolor4" name="customRadiocolor4" class="form-check-input" checked>
-                    <label class="form-check-label" for="customRadiocolor4">Warning Radio</label>
-                </div>
-                <div class="form-check form-radio-danger mb-2">
-                    <input type="radio" id="customRadiocolor5" name="customRadiocolor5" class="form-check-input" checked>
-                    <label class="form-check-label" for="customRadiocolor5">Danger Radio</label>
-                </div>
-                <div class="form-check form-radio-dark">
-                    <input type="radio" id="customRadiocolor7" name="customRadiocolor7" class="form-check-input" checked>
-                    <label class="form-check-label" for="customRadiocolor7">Dark Radio</label>
                 </div>
             </div>
-
-            <div id="tt" class="mb-4">
-                <div class="form-check mb-2">
-                    <input type="checkbox" class="form-check-input" id="customCheckcolor1" checked>
-                    <label class="form-check-label" for="customCheckcolor1">Default Checkbox</label>
-                </div>
-                <div class="form-check form-checkbox-success mb-2">
-                    <input type="checkbox" class="form-check-input" id="customCheckcolor2" checked>
-                    <label class="form-check-label" for="customCheckcolor2">Success Checkbox</label>
-                </div>
-                <div class="form-check form-checkbox-info mb-2">
-                    <input type="checkbox" class="form-check-input" id="customCheckcolor3" checked>
-                    <label class="form-check-label" for="customCheckcolor3">Info Checkbox</label>
-                </div>
-                <div class="form-check form-checkbox-secondary mb-2">
-                    <input type="checkbox" class="form-check-input" id="customCheckcolor6" checked>
-                    <label class="form-check-label" for="customCheckcolor6">Secondary Checkbox</label>
-                </div>
-                <div class="form-check form-checkbox-warning mb-2">
-                    <input type="checkbox" class="form-check-input" id="customCheckcolor4" checked>
-                    <label class="form-check-label" for="customCheckcolor4">Warning Checkbox</label>
-                </div>
-                <div class="form-check form-checkbox-danger mb-2">
-                    <input type="checkbox" class="form-check-input" id="customCheckcolor5" checked>
-                    <label class="form-check-label" for="customCheckcolor5">Danger Checkbox</label>
-                </div>
-                <div class="form-check form-checkbox-dark">
-                    <input type="checkbox" class="form-check-input" id="customCheckcolor7" checked>
-                    <label class="form-check-label" for="customCheckcolor7">Dark Checkbox</label>
-                </div>
-            </div>
         </div>
+    </div>
+    <div class="tab-pane fade active show" id="editor">
+        <gt:markdown upload="/Backend/Profile?handler=Upload" md-name="code" html-name="html" style="height:500px"></gt:markdown>
     </div>
 </div>

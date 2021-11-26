@@ -139,7 +139,7 @@ main {
       margin-right: 0.55rem; }
   .navbar.navbar-fixed {
     position: fixed;
-    z-index: 1030; }
+    z-index: 1031; }
     .navbar.navbar-fixed ~ .main-container > .main-header {
       position: inherit;
       position: sticky;
@@ -306,9 +306,8 @@ main:not(.navbar-vertical) .navbar-pills.navbar-dark {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0.5rem 1rem;
-    background-color: #fff;
-    margin-top: 4px;
+    padding: 1rem 1rem;
+    background-color: rgba(var(--bs-white-rgb), 0.5);
     justify-content: space-between;
     border-bottom: 1px solid #edf2f9; }
     .main-container .main-navigator > h1 {
@@ -322,23 +321,10 @@ main:not(.navbar-vertical) .navbar-pills.navbar-dark {
       .main-container .main-navigator .breadcrumb a {
         color: #95aac9; }
     .main-container .main-navigator .nav-tabs {
-      margin-bottom: -0.5rem; }
+      margin-bottom: -1rem; }
   .main-container .main-body {
     height: 100%;
     padding: 1rem; }
-    .main-container .main-body .toolbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.75rem; }
-      .main-container .main-body .toolbar > div:last-child {
-        flex: 1 1 auto;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding-left: 1rem; }
-      .main-container .main-body .toolbar .btn-group {
-        margin-left: .5rem; }
 
 .offcanvas-header {
   background-color: #12263f;

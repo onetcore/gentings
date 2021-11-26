@@ -1,7 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+﻿using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
@@ -20,6 +17,29 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="value">枚举值。</param>
         /// <returns>返回枚举值的小写字符串。</returns>
         public static string ToLowerString(this Enum value) => value.ToString().ToLower();
+
+        /// <summary>
+        /// 获取状态图标。
+        /// </summary>
+        /// <param name="status">状态类型。</param>
+        /// <returns>返回图标样式名称。</returns>
+        public static string GetIconClassName(this ActionType status)
+        {
+            switch (status)
+            {
+                case ActionType.Edit:
+                    return "bi-pencil";
+                case ActionType.Delete:
+                    return "bi-trash";
+                case ActionType.MoveUp:
+                    return "bi-arrow-up";
+                case ActionType.MoveDown:
+                    return "bi-arrow-down";
+                case ActionType.Add:
+                    return "bi-plus";
+            }
+            return null;
+        }
 
         /// <summary>
         /// 获取状态图标。
@@ -186,7 +206,7 @@ namespace Gentings.AspNetCore.TagHelpers
             {
                 a.AppendTag("i", x => x.AddCssClass(icon));
                 a.MergeAttribute("title", title);
-                a.AddCssClass($"md-syntax-{key}");
+                a.AddCssClass($"mozmd-syntax-{key}");
             });
         }
 

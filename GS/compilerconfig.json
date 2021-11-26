@@ -1,6 +1,6 @@
 ﻿[
   {
-    "outputFile": "wwwroot/css/gt-admin.css",
-    "inputFile": "wwwroot/css/gt-admin.scss"
+    "outputFile": "wwwroot/css/backend.css",
+    "inputFile": "wwwroot/css/backend.scss"
   }
 ]

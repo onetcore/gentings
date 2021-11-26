@@ -1,0 +1,44 @@
+﻿@page
+@model EditModel
+@{
+    ViewBag.Title = "邮件配置";
+    Layout = "_Modal";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Input.Id" />
+    <div class="form-group">
+        <gt:checkbox switch="true" asp-for="Input.Enabled">启用</gt:checkbox>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label>SMTP服务器</label>
+            <input asp-for="Input.SmtpServer" class="form-control" />
+            <span class="text-danger" asp-validation-for="Input.SmtpServer"></span>
+        </div>
+        <div class="form-group col-6 pl-0">
+            <label>SMTP端口</label>
+            <div class="input-group-prepend">
+                <gt:checkbox asp-for="Input.UseSsl">SSL</gt:checkbox>
+                <input asp-for="Input.SmtpPort" style="padding-left:4rem;" class="form-control" />
+            </div>
+            <span class="text-danger" asp-validation-for="Input.SmtpPort"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-6">
+            <label>SMTP用户名</label>
+            <input asp-for="Input.SmtpUserName" class="form-control" />
+            <span class="text-danger" asp-validation-for="Input.SmtpUserName"></span>
+        </div>
+        <div class="form-group col-6 pl-0">
+            <label>SMTP密码</label>
+            <input value="@Model.Input?.SmtpPassword" asp-for="Input.SmtpPassword" type="password" class="form-control" />
+            <span class="text-danger" asp-validation-for="Input.SmtpPassword"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>备注</label>
+        <textarea asp-for="Input.Summary" class="form-control" rows="3"></textarea>
+    </div>
+</form>

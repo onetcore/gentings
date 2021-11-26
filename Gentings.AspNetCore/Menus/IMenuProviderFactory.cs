@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Gentings.AspNetCore.Menus
+﻿namespace Gentings.AspNetCore.Menus
 {
     /// <summary>
     /// 菜单提供者工厂接口。

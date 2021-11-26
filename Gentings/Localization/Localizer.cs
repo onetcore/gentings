@@ -66,19 +66,13 @@ namespace Gentings.Localization
         public virtual string GetString(Type type, string key) => ResourceManager.GetString(type, key);
 
         /// <summary>
-        /// 获取当前键的本地化字符串实例（网站程序集）。
+        /// 获取当前键的本地化字符串实例。
         /// </summary>
-        /// <param name="key">资源键。</param>
-        /// <returns>返回当前本地化字符串。</returns>
-        public virtual string GetString(string key) => ResourceManager.GetString(key);
-
-        /// <summary>
-        /// 获取当前键的本地化字符串实例（网站程序集）。
-        /// </summary>
+        /// <param name="type">资源所在程序集的类型。</param>
         /// <param name="key">资源键。</param>
         /// <param name="args">格式化参数。</param>
         /// <returns>返回当前本地化字符串。</returns>
-        public virtual string GetString(string key, params object[] args) => ResourceManager.GetString(key, args);
+        public virtual string GetString(Type type, string key, params object[] args) => ResourceManager.GetString(type, key, args);
 
         /// <summary>
         /// 获取当前键的本地化字符串实例。
@@ -94,6 +88,21 @@ namespace Gentings.Localization
         /// <param name="args">格式化参数。</param>
         /// <returns>返回当前本地化字符串。</returns>
         public virtual string this[Enum key, params object[] args] => GetString(key, args);
+
+        /// <summary>
+        /// 获取当前键的本地化字符串实例（网站程序集）。
+        /// </summary>
+        /// <param name="key">资源键。</param>
+        /// <returns>返回当前本地化字符串。</returns>
+        public virtual string GetString(string key) => ResourceManager.GetString(key);
+
+        /// <summary>
+        /// 获取当前键的本地化字符串实例（网站程序集）。
+        /// </summary>
+        /// <param name="key">资源键。</param>
+        /// <param name="args">格式化参数。</param>
+        /// <returns>返回当前本地化字符串。</returns>
+        public virtual string GetString(string key, params object[] args) => ResourceManager.GetString(key, args);
 
         /// <summary>
         /// 获取当前键的本地化字符串实例（网站程序集）。

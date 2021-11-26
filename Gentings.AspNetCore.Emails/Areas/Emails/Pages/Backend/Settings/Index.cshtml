@@ -1,0 +1,55 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = Model.Localizer["Settings_Title"];
+    ViewData["Current"] = "emails.settings";
+}
+
+<div class="card data-list">
+    <div class="card-header toolbar">
+        <div class="actions">
+            <gt:action-group>
+                <gt:action type="ActionType.Add" asp-page="./Edit">添加配置</gt:action>
+            </gt:action-group>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>服务器名称(端口)</th>
+                    <th>用户名</th>
+                    <th>发送次数</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody .warning="Model.Items" .warning-text="还没有添加任何邮件配置信息！" colspan="4">
+                @foreach (var item in Model.Items)
+                {
+                    <tr class="data-item">
+                        <td>
+                            @item.SmtpServer (@item.SmtpPort)
+                            <span class="label alert alert-info" .visible="@item.UseSsl">SSL</span>
+                            @if (item.Enabled)
+                            {
+                                <label class="alert alert-success">启用</label>
+                            }
+                            else
+                            {
+                                <label class="alert alert-danger">禁用</label>
+                            }
+                        </td>
+                        <td>@item.SmtpUserName</td>
+                        <td>@item.Count</td>
+                        <td>
+                            <gt:action-dropdownmenu>
+                                <gt:action type="ActionType.Edit" asp-route-id="@item.Id" asp-page="./Edit"></gt:action>
+                                <gt:action type="ActionType.Delete" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
+                            </gt:action-dropdownmenu>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Saas.Sites
+﻿namespace Gentings.Saas.Sites
 {
     /// <summary>
     /// 网站查询实例。

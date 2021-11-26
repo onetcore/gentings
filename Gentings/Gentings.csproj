@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <LangVersion>8</LangVersion>
     <Version>2.0.1</Version>
     <Company>xmydcl.com</Company>
     <Copyright></Copyright>

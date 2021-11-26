@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Extensions.SMS
+﻿namespace Gentings.Extensions.SMS
 {
     /// <summary>
     /// 短信查询。

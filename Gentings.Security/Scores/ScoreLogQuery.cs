@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Security.Scores
+﻿namespace Gentings.Security.Scores
 {
     /// <summary>
     /// 用户积分查询。

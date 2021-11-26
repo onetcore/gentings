@@ -369,5 +369,15 @@ namespace Gentings.Extensions.Emails
         /// <param name="id">电子邮件id。</param>
         /// <returns>返回电子邮件实例。</returns>
         public virtual Task<Email> FindAsync(int id) => Context.FindAsync(id);
+
+        /// <summary>
+        /// 删除邮件。
+        /// </summary>
+        /// <param name="ids">邮件Id列表。</param>
+        /// <returns>返回删除结果。</returns>
+        public Task<bool> DeleteAsync(int[] ids)
+        {
+            return Context.DeleteAsync(x => x.Id.Included(ids));
+        }
     }
 }

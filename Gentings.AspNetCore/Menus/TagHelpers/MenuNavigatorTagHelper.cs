@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Gentings.AspNetCore.TagHelpers;
+﻿using Gentings.AspNetCore.TagHelpers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -47,9 +44,10 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
             var links = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
             foreach (var navigator in navigators)
             {
-                if (navigator.LinkUrl(urlHelper, null) == null || current?.Name == navigator.Name && navigator.Text == Title)
+                var text = navigator.LocalizedText;
+                if (navigator.LinkUrl(urlHelper, null) == null || current?.Name == navigator.Name && text == Title)
                     continue;
-                links[navigator.Text!] = navigator.LinkUrl(urlHelper, null);
+                links[text] = navigator.LinkUrl(urlHelper, null);
             }
             if(!string.IsNullOrEmpty(Title))
                 links[Title] = null;

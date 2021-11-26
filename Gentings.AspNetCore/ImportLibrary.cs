@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.AspNetCore
+﻿namespace Gentings.AspNetCore
 {
     /// <summary>
     /// 引入的库。
@@ -40,5 +38,9 @@ namespace Gentings.AspNetCore
         /// 代码编辑器。
         /// </summary>
         CodeMirror = 0x40,
+        /// <summary>
+        /// MD简易编辑器。
+        /// </summary>
+        GtEditor = 0x80,
     }
 }

@@ -2,7 +2,6 @@
 // ReSharper disable InconsistentNaming
 namespace Gentings.RabbitMQ.Properties
 {
-    using System;
     using Gentings.Localization;
 
     /// <summary>

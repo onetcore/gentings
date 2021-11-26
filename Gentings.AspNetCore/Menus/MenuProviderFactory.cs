@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Gentings.Localization;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings.AspNetCore.Menus
@@ -18,7 +16,8 @@ namespace Gentings.AspNetCore.Menus
         /// </summary>
         /// <param name="providers">菜单提供者接口。</param>
         /// <param name="cache">缓存接口。</param>
-        public MenuProviderFactory(IEnumerable<IMenuProvider> providers, IMemoryCache cache)
+        /// <param name="localizer">本地资源访问接口。</param>
+        public MenuProviderFactory(IEnumerable<IMenuProvider> providers, IMemoryCache cache, ILocalizer localizer)
         {
             _providers = providers;
             _cache = cache;
@@ -65,6 +64,7 @@ namespace Gentings.AspNetCore.Menus
         private void AddProvider(IDictionary<string, MenuItem> dic, IMenuProvider provider)
         {
             var root = new MenuItem();
+            root.ProviderType = provider.GetType();
             provider.Init(root);
             foreach (var menu in root)
             {

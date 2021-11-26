@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Internal;
-using Gentings.Extensions;
 using Gentings.Security.Roles;
 
 namespace Gentings.Security

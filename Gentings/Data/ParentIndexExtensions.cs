@@ -4,8 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Gentings.Data.Internal;
 using Gentings.Data.Migrations;
+using Gentings.Extensions;
 
-namespace Gentings.Extensions
+namespace Gentings.Data
 {
     /// <summary>
     /// 父级索引扩展类。

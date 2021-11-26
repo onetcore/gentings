@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
+﻿using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.Extensions.Hosting;
@@ -103,16 +101,18 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             var isDevelopment = _environment.IsDevelopment();
             var libraries = ViewContext.GetLibraries();
             output.AppendScript("/lib/jquery/jquery", isDevelopment);
-            if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap ||
-                (libraries & ImportLibrary.GtSkin) == ImportLibrary.GtSkin)
+            output.AppendScript("/lib/bootstrap/js/bootstrap.bundle", isDevelopment);
+            output.AppendScript("/js/gt-skin", isDevelopment);
+            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight ||
+                (libraries & ImportLibrary.GtEditor) == ImportLibrary.GtEditor)
             {
-                output.AppendScript("/lib/bootstrap/js/bootstrap.bundle", isDevelopment);
-                output.AppendScript("/js/gt-skin", isDevelopment);
+                output.AppendScript("/lib/highlight.js/highlight", false);
+                output.AppendHtml("<script>if (window.hljs) onrender(function(context){$('pre code', context).each(function () {hljs.highlightBlock(this);});});</script>");
             }
-            if ((libraries & ImportLibrary.Highlight) == ImportLibrary.Highlight)
+            if ((libraries & ImportLibrary.GtEditor) == ImportLibrary.GtEditor)
             {
-                output.AppendScript("/lib/highlight.js/highlight", isDevelopment);
-                output.AppendHtml("<script>$(function(){hljs.highlightAll();});</script>");
+                output.AppendScript("/lib/marked/marked", false);
+                output.AppendScript("/js/gt-editor", isDevelopment);
             }
             if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
                 output.AppendScript("/lib/prettify/prettify", isDevelopment);

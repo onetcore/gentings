@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Extensions.Events
+﻿namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 对象修改查询实例。

@@ -11,11 +11,6 @@ namespace Gentings.Localization
     /// </summary>
     public class ResourceManager
     {
-        private class NullLocalizer
-        {
-            public static readonly Type InstanceType = typeof(NullLocalizer);
-        }
-
         private static readonly ConcurrentDictionary<Type, System.Resources.ResourceManager> _localizers = new ConcurrentDictionary<Type, System.Resources.ResourceManager>();
 
         /// <summary>
@@ -26,19 +21,19 @@ namespace Gentings.Localization
         /// <returns>返回当前本地化字符串。</returns>
         public static string GetString(Type type, string key)
         {
-            var resourceManager = _localizers.GetOrAdd(type, t =>
-            {
-                var assembly = t == NullLocalizer.InstanceType ? Assembly.GetEntryAssembly() : t.Assembly;
-                var baseName = assembly.GetManifestResourceNames()
-                    .SingleOrDefault(x => x.EndsWith(".Resources.resources"));
-                if (baseName == null)
-                {
-                    return null;
-                }
+            var resourceManager = _localizers.GetOrAdd(type ?? typeof(ResourceManager), t =>
+              {
+                  var assembly = type == null ? Assembly.GetEntryAssembly() : t.Assembly;
+                  var baseName = assembly.GetManifestResourceNames()
+                      .SingleOrDefault(x => x.EndsWith(".Resources.resources"));
+                  if (baseName == null)
+                  {
+                      return null;
+                  }
 
-                baseName = baseName[0..^10];
-                return new System.Resources.ResourceManager(baseName, assembly);
-            });
+                  baseName = baseName[0..^10];
+                  return new System.Resources.ResourceManager(baseName, assembly);
+              });
             return resourceManager?.GetString(key) ?? key;
         }
 
@@ -47,7 +42,7 @@ namespace Gentings.Localization
         /// </summary>
         /// <param name="key">资源键。</param>
         /// <returns>返回当前本地化字符串。</returns>
-        public static string GetString(string key) => GetString(NullLocalizer.InstanceType, key);
+        public static string GetString(string key) => GetString(null, key);
 
         /// <summary>
         /// 获取当前键的本地化字符串实例（网站程序集）。
@@ -87,6 +82,24 @@ namespace Gentings.Localization
         public static string GetString<TResource>(string key, params object[] args)
         {
             var resource = GetString(typeof(TResource), key);
+            if (resource == null)
+            {
+                return key;
+            }
+
+            return string.Format(resource, args);
+        }
+
+        /// <summary>
+        /// 获取当前键的本地化字符串实例。
+        /// </summary>
+        /// <param name="type">资源所在程序集的类型。</param>
+        /// <param name="key">资源键。</param>
+        /// <param name="args">格式化参数。</param>
+        /// <returns>返回当前本地化字符串。</returns>
+        public static string GetString(Type type, string key, params object[] args)
+        {
+            var resource = GetString(type, key);
             if (resource == null)
             {
                 return key;
@@ -153,11 +166,7 @@ namespace Gentings.Localization
         /// <returns>返回当前本地化字符串。</returns>
         public static string GetString(Enum key, params object[] args)
         {
-            var type = key.GetType();
-            var name = $"{type.Name}_{key}";
-            var resource = GetString(type, name);
-            if (resource == name)
-                resource = key.ToDescriptionString();
+            var resource = GetString(key);
             return string.Format(resource, args);
         }
     }

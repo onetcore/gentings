@@ -1,0 +1,70 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = Model.Localizer["Email_Title"];
+    ViewData["Current"] = "emails.index";
+    ViewContext.AddLibraries(ImportLibrary.GtEditor);
+}
+
+<div class="card data-list">
+    <div class="card-header toolbar">
+        <form method="get">
+            <input asp-for="Query.Sid" type="hidden" />
+            <div class="me-2">
+                <label>状态：</label>
+                <gt:enum-dropdownlist asp-for="Query.Status"></gt:enum-dropdownlist>
+            </div>
+            <div class="me-2">
+                <label>邮件地址：</label>
+                <input class="form-control" asp-for="Query.To" />
+            </div>
+            <div class="me-2">
+                <label>标题：</label>
+                <gt:search asp-for="Query.Title"></gt:search>
+            </div>
+        </form>
+        <div>
+            <gt:action-group>
+                <gt:action type="ActionType.Modal" asp-page="./Send" icon-name="bi-send">发送邮件</gt:action>
+                <gt:action type="ActionType.Delete" asp-page-handler="Delete" mode="Danger" disabled></gt:action>
+            </gt:action-group>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" .warning="Model.Emails" .warning-text="没有找到相关邮件！">
+            <thead>
+                <tr>
+                    <th class="checkbox"><gt:checkall /></th>
+                    <th>标题</th>
+                    <th>电子邮件</th>
+                    <th>状态</th>
+                    <th>添加时间</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var email in Model.Emails)
+                {
+                    <tr class="data-item">
+                        <td class="checkbox">
+                            <gt:checkbox value="@email.Id"></gt:checkbox>
+                        </td>
+                        <td>
+                            @email.Title
+                        </td>
+                        <td>@email.To</td>
+                        <td>@Model.Localizer[email.Status]</td>
+                        <td>@email.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
+                        <td>
+                            <gt:action-dropdownmenu>
+                                <gt:action type="ActionType.Modal" icon-name="bi-send" asp-page="./send" asp-route-id="@email.Id">重发</gt:action>
+                                <gt:action type="ActionType.Delete" asp-page-handler="Delete" asp-route-id="@email.Id"></gt:action>
+                            </gt:action-dropdownmenu>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <gt:page data="@Model.Emails" asp-route-sid="@Model.Query.Sid" asp-route-status="@Model.Query.Status" asp-route-title="@Model.Query.Title" asp-route-to="@Model.Query.To"></gt:page>
+    </div>
+</div>

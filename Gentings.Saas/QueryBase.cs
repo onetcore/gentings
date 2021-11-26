@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Saas
+﻿namespace Gentings.Saas
 {
     /// <summary>
     /// 查询基类。

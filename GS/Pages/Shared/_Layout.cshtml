@@ -1,6 +1,9 @@
 ﻿@{
     Layout = "_Global";
+    ViewData["SiteName"] = SiteSettings.SiteName;
 }
+@inject SiteSettings SiteSettings
+@inject GS.Extensions.Security.User CurrentUser
 
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -35,7 +38,7 @@
     </div>
 </footer>
 
-@section scripts{
-<script src="~/js/site.js" asp-append-version="true"></script>
+<gt:footer antiforgery="true" status="false">
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("scripts", required: false)
-}
+</gt:footer>

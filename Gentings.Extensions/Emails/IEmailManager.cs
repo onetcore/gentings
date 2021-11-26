@@ -35,6 +35,13 @@ namespace Gentings.Extensions.Emails
         Task<bool> UpdateAsync(int id, object fields);
 
         /// <summary>
+        /// 删除邮件。
+        /// </summary>
+        /// <param name="ids">邮件Id列表。</param>
+        /// <returns>返回删除结果。</returns>
+        Task<bool> DeleteAsync(int[] ids);
+
+        /// <summary>
         /// 添加电子邮件接口。
         /// </summary>
         /// <param name="message">电子邮件实例对象。</param>

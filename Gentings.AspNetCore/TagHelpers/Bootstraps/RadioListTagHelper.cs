@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
 
 namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {

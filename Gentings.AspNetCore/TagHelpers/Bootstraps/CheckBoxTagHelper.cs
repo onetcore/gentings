@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
-using System.Threading.Tasks;
 
 namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {
@@ -15,7 +13,6 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <summary>
         /// 名称。
         /// </summary>
-        [HtmlAttributeName("name")]
         public string Name { get; set; }
 
         /// <summary>

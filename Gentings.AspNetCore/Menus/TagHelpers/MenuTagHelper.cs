@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Gentings.AspNetCore.TagHelpers;
+﻿using Gentings.AspNetCore.TagHelpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -91,14 +89,14 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
             if (item.IsTitle)
             {//分组标题
                 li.AddCssClass("nav-heading");
-                li.InnerHtml.AppendHtml(item.Text);
+                li.InnerHtml.AppendHtml(item.LocalizedText);
                 return li;
             }
             var isCurrent = current.IsCurrent(item);
             var anchor = new TagBuilder("a");
             if (isCurrent)
                 anchor.AddCssClass("active");
-            anchor.MergeAttribute("title", item.Text);
+            anchor.MergeAttribute("title", item.LocalizedText);
             anchor.AddCssClass($"nav-link");
             //图标
             if (!string.IsNullOrWhiteSpace(item.IconName))
@@ -107,7 +105,7 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
             }
             //文本
             var span = new TagBuilder("span");
-            span.InnerHtml.Append(item.Text);
+            span.InnerHtml.Append(item.LocalizedText);
             anchor.InnerHtml.AppendHtml(span);
             if (!string.IsNullOrWhiteSpace(item.BadgeText))
             //badge

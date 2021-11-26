@@ -20,7 +20,19 @@ var resources = {
     "alert": {
         "confirm": "确认"
     },
-    "elementError": "元素不存在或者操作一个元素实例，不能获取data-*相关数据！"
+    "elementError": "元素不存在或者操作一个元素实例，不能获取data-*相关数据！",
+    markdown: {
+        fullscreen: {
+            show: '全屏显示',
+            quit: '退出全屏'
+        },
+        preview: '预览',
+        source: '源码',
+        link: '请输入链接地址',
+        image: '请输入图片地址',
+        upload: '上传图片',
+        title: '标题'
+    }
 };
 
 (function ($) {
@@ -76,6 +88,18 @@ var resources = {
             return data;
         },
         /**
+         * 回调不包含no-js得所有元素。
+         * @param {Function} callback 回调函数。
+         */
+        exec: function exec(callback) {
+            return this.each(function () {
+                var current = $(this);
+                if (!current.hasClass('no-js')) {
+                    callback(current);
+                }
+            });
+        },
+        /**
          * 禁用元素。
          * */
         disabled: function disabled() {
@@ -91,51 +115,42 @@ var resources = {
          * Ajax提交表单元素。
          * @param {Function|undefined} success 成功后执行的方法。
          * @param {Function|undefined} error 错误后执行的方法。
+         * @param {string|undefined} dataType 发送数据类型：'JSON'，不设置表示表单提交。
          */
-        ajaxSubmit: function ajaxSubmit(_success, _error) {
+        ajaxSubmit: function ajaxSubmit(success, error, dataType) {
+            var _this = this;
+
             if (!this.is('form')) throw Error(resources.ajax.mustFormElement);
-            var form = this;
             var data = new FormData(this[0]);
-            var submit = form.find('[type=submit]').disabled();
-            $.ajax({
-                type: "POST",
-                url: form.attr('action') || location.href,
-                contentType: false,
-                processData: false,
-                data: data,
-                headers: ajaxHeaders(),
-                success: function success(d) {
-                    submit.removeAttr('disabled');
-                    if (_success && _success(d, form)) {
-                        return; //如果success返回true结束处理，否则将会展示错误消息
-                    }
-                    showMsg(d, function () {
-                        if (d.data && d.data.url) location.href = d.data.url;else if (!d.code) location.href = location.href;
-                    });
-                },
-                error: function error(e) {
-                    submit.enabled();
-                    errorHandler(e, _error);
-                }
-            });
-            return false;
+            var submit = this.find('[type=submit]').disabled();
+            return $ajax(this.attr('action') || location.href, data, function (d) {
+                submit.enabled();
+                if (success) success.call(_this, d);
+            }, function (e) {
+                submit.enabled();
+                if (error) error(e);
+            }, dataType);
         },
         /**
          * 加载当前元素指定的模态框。
+         * @param {object} query 查询字符串对象。
          * */
-        loadModal: function loadModal() {
+        loadModal: function loadModal(query) {
             var current = this.dset('gt-modal', function () {
                 return $('<div class="modal fade" data-bs-backdrop="static"><div>').appendTo(document.body);
             }).data('target', this.targetElement());
             var url = this.attr('href') || this.attr('action');
-            var query = this.dataAttrs();
-            url = URL.appendQuery(url, query);
+            var data = this.dataAttrs();
+            $.extend(data, query);
+            url = URL.appendQuery(url, data);
             current.load(url, function (_, status, xhr) {
                 switch (status) {
                     case 'error':
-                        var errorMsg = resources.status[xhr.status];
-                        if (!errorMsg) errorMsg = resources.unknownError;
-                        showMsg(errorMsg);
+                        {
+                            var errorMsg = resources.status[xhr.status];
+                            if (!errorMsg) errorMsg = resources.unknownError;
+                            showMsg(errorMsg);
+                        }
                         return;
                     case 'timeout':
                         showMsg(resources.modal.timeout);
@@ -177,7 +192,7 @@ var resources = {
                         });
                     });
                 }
-                render(current);
+                onrender(current);
                 current.on('hidden.bs.modal', function () {
                     current.remove();
                 }).on('shown.bs.modal', function () {
@@ -186,17 +201,25 @@ var resources = {
             });
         }
     });
+    if (!window.__renders) window.__renders = [];
     /**
-     * 呈现后执行的方法。
-     * */
-    function render(context) {
+     * 当呈现后执行的方法。
+     * @param {Function|JQuery|undefined} render 执行的方法或者当前对象，如果为当前对象则执行所有需要执行的方法。
+     */
+    window.onrender = function (render) {
+        if (typeof render === 'function') window.__renders.push(render);else window.__renders.forEach(function (callback) {
+            return callback(render);
+        });
+    };
+    // 默认需要执行的方法
+    onrender(function (context) {
         // 点击事件
         $('[_click]', context).each(function () {
             var current = $(this);
-            var eventType = current.attr('_click');
+            var eventType = current.attr('_click').toLowerCase();
             var target = current.targetElement();
             // 展示对象元素，点击元素外的对象隐藏对象元素
-            if (eventType == 'show') {
+            if (eventType === 'show') {
                 current.on('click', function (event) {
                     event.stopPropagation();
                     target.addClass('d-block');
@@ -213,7 +236,7 @@ var resources = {
                 });
             }
             // 点击拷贝对象内容
-            else if (eventType == 'copy') {
+            else if (eventType === 'copy') {
                     current.on('click', function (event) {
                         event.preventDefault();
                         $(document).on('copy', function (e) {
@@ -226,7 +249,7 @@ var resources = {
                     });
                 }
                 // 点击上传文件
-                else if (eventType == 'upload') {
+                else if (eventType === 'upload') {
                         current.off('click').on('click', function () {
                             $('<input type="file" class="hide"/>').appendTo(document.body).on('change', function () {
                                 var file = $(this);
@@ -274,12 +297,12 @@ var resources = {
                     } else {
                         current.on('click', function (event) {
                             var index = eventType.indexOf(':stop');
-                            if (index != -1) {
+                            if (index !== -1) {
                                 event.stopPropagation();
                                 eventType = eventType.replace(':stop', '');
                             }
                             index = eventType.indexOf(':prevent');
-                            if (index != -1) {
+                            if (index !== -1) {
                                 event.preventDefault();
                                 eventType = eventType.replace(':prevent', '');
                             }
@@ -295,7 +318,7 @@ var resources = {
                                     {
                                         var data = current.dataAttrs();
                                         var url = current.attr('href') || current.attr('action');
-                                        $ajax(url, data);
+                                        $ajax(url, data, 'JSON');
                                     }
                                     return false;
                                 case 'checked':
@@ -303,22 +326,32 @@ var resources = {
                                         (function () {
                                             var data = current.dataAttrs();
                                             var items = [];
-                                            $('.data-item', context).find('input[type=checkbox]').each(function () {
+                                            current.parents('.data-list').find('.data-item input[type=checkbox]').each(function () {
                                                 if (this.checked) items.push(this.value);
                                             });
                                             if (items.length > 0) data.id = items;
                                             var url = current.attr('href') || current.attr('action');
-                                            $ajax(url, data);
+                                            $ajax(url, data, 'JSON');
+                                        })();
+                                    }
+                                    return false;
+                                case 'checked:modal':
+                                case 'modal:checked':
+                                    {
+                                        (function () {
+                                            var query = {};
+                                            var items = [];
+                                            current.parents('.data-list').find('.data-item input[type=checkbox]').each(function () {
+                                                if (this.checked) items.push(this.value);
+                                            });
+                                            if (items.length > 0) query.id = items.join(',');
+                                            current.loadModal(query);
                                         })();
                                     }
                                     return false;
                             }
                         });
                     }
-        });
-        // 高亮显示
-        if (window.hljs) $('pre code', context).each(function () {
-            hljs.highlightBlock(this);
         });
         // 图片
         $('img[_error]', context).each(function () {
@@ -364,31 +397,65 @@ var resources = {
             $(this).find('a[data-bs-toggle="collapse"]').addClass('collapsed').removeAttr('aria-expanded');
             $(this).find('div').removeClass('show');
         });
-    };
+        // 选中显示toolbar
+        $('.data-list', context).exec(function (current) {
+            var actions = current.find('.checked-enabled');
+            if (!actions.length) return;
+            var items = current.find('.data-item input[type=checkbox]');
+            current.find('input[type=checkbox]').on('click', function () {
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].checked) {
+                        actions.enabled();
+                        return;
+                    }
+                }
+                actions.disabled();
+            });
+        });
+    });
     /**
      * Ajax请求。
      * @param {string} url 请求的URL地址。
      * @param {Object} data 请求的数据对象。
      * @param {Function|undefined} success 成功后执行的方法。
      * @param {Function|undefined} error 发生错误时候执行的方法。
+     * @param {string|undefined} dataType 发送数据类型：'JSON'，不设置表示表单提交。
      */
-    window.$ajax = function (url, data, _success2, _error2) {
-        $.ajax({
+    window.$ajax = function (url, data, _success, _error, dataType) {
+        if (typeof data === 'undefined') {
+            data = {};
+        }
+        if (typeof _success === 'string') {
+            dataType = _success;
+            _success = undefined;
+        }
+        if (typeof _error === 'string') {
+            dataType = _error;
+            _error = undefined;
+        }
+        var options = {
             url: url,
             data: data,
-            dataType: 'JSON',
             type: 'POST',
             headers: ajaxHeaders(),
             success: function success(d) {
-                if (_success2 && _success2(d.data)) return;
+                if (_success && _success(d)) return;
                 showMsg(d, function () {
                     location.href = d.data && d.data.url ? d.data.url : location.href;
                 });
             },
             error: function error(e) {
-                if (_error2) _error2(e);else errorHandler(e);
+                errorHandler(e, _error);
             }
-        });
+        };
+        if (dataType) {
+            options.dataType = dataType;
+        } else {
+            options.contentType = false;
+            options.processData = false;
+        }
+        $.ajax(options);
+        return false;
     };
     //URL辅助方法
     if (!window.URL) window.URL = {};
@@ -403,7 +470,7 @@ var resources = {
             url = '?';
         }
         var index = url.indexOf('?');
-        if (index != -1) {
+        if (index !== -1) {
             var search = url.substr(index + 1);
             url = url.substr(0, index);
             query = URL.toSearch(search, query);
@@ -421,15 +488,11 @@ var resources = {
     URL.toSearch = function (search, query) {
         if (typeof search === 'string') search = URL.parseQuery(search);
         if (!search) search = {};
-        if (query) {
-            for (var key in query) {
-                search[key] = query[key];
-            }
-        }
+        if (query) $.extend(search, query);
         query = '';
         for (var key in search) {
             var value = search[key];
-            if (value == '') continue;
+            if (value === '') continue;
             if (query.length > 0) query += '&';
             query += key;
             query += '=';
@@ -499,7 +562,7 @@ var resources = {
         // 没有提示信息直接返回
         if (!msg) return;
         var current = $(document.body).dset('gt-toast', function () {
-            return $("<div style=\"z-index:100000;\" class=\"toast text-white position-fixed top-0 start-50 translate-middle-x\"><div class=\"d-flex\"><div class=\"toast-body\"></div><button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button></div></div>").appendTo(document.body);
+            return $("<div style=\"z-index:100000;\" data-bs-delay=\"1000\" class=\"toast text-white position-fixed top-0 start-50 translate-middle-x\"><div class=\"d-flex\"><div class=\"toast-body\"></div><button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button></div></div>").appendTo(document.body);
         });
         if (code) {
             msg = '<span class="bi-exclamation-circle"></span> ' + msg;
@@ -512,7 +575,7 @@ var resources = {
         if (!code && func) current.on('hide.bs.toast', function () {
             func();
         });
-        current.toast('show', { delay: 500 });
+        current.toast('show');
     };
     /**
      * 显示模态对话框。
@@ -584,7 +647,7 @@ var resources = {
         }
     };
     $(function () {
-        render();
+        onrender();
     });
 })(jQuery);
 

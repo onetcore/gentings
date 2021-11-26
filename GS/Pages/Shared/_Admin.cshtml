@@ -1,20 +1,19 @@
 ﻿@{
     Layout = "_Global";
+    ViewData["SiteName"] = SiteSettings.SiteName;
     ViewContext.AddLibraries(ImportLibrary.GtSkin);
 }
 @inject SkinSettings SkinSettings
+@inject SiteSettings SiteSettings
+@inject GS.Extensions.Security.User CurrentUser
 @section header{
-<link rel="stylesheet" href="~/css/gt-admin.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/backend.css" />
 	@await RenderSectionAsync("header", required: false)
-}
-
-@section scripts{
-	@await RenderSectionAsync("scripts", required: false)
 }
 
 <main class="@SkinSettings.MainClass">
     <div class="@SkinSettings.NavbarClass">
-        <a title="@Model.Settings.SiteName" class="navbar-brand" asp-page="/index" asp-area="@AdminMenu.AreaName">
+        <a title="@SiteSettings.SiteName" class="navbar-brand" asp-page="/index" asp-area="Backend">
             <svg class="icon" viewBox="0 0 430 430" xmlns="http://www.w3.org/2000/svg">
                 <path fill="currentColor"
                       d="m214.18,1.71c-117.79,0 -213.28,95.49 -213.28,213.29a213.62,213.62 0 0 0 5.5,48l203.6,-214.29l14.6,15.75l109.91,116.79l-62.26,-5l-60.36,-63.08l-149.73,154.43a430.19,430.19 0 0 1 65.32,-31.9c112.44,-43.65 227.14,-35.51 297.26,13.24a214.63,214.63 0 0 0 2.72,-33.94c0,-117.8 -95.46,-213.29 -213.28,-213.29z" />
@@ -29,11 +28,11 @@
                 <text transform="matrix(5.145610769995451,0,0,4.913394523345013,-2026.0961853825281,24.870658606076724) "
                       font-weight="bold" xml:space="preserve" text-anchor="start"
                       font-family="'League Gothic', sans-serif" font-size="72" y="63.213008" x="503.657946"
-                      stroke-width="0" fill="currentColor">@Model.Settings.SiteName</text>
+                      stroke-width="0" fill="currentColor">@SiteSettings.SiteName</text>
             </svg>
 
-            @*<img src="/images/logo.svg" alt="@Model.Settings.SiteName" />
-                <h1>@(Model.Settings.SiteName)</h1>*@
+            @*<img src="/images/logo.svg" alt="@SiteSettings.SiteName" />
+                <h1>@(SiteSettings.SiteName)</h1>*@
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -50,16 +49,16 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="avatar" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="@Model.CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img src="@CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
                         <div>
-                            <strong>@Model.CurrentUser.NickName</strong>
+                            <strong>@CurrentUser.NickName</strong>
                             <small>管理员</small>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                        <li><div class="dropdown-header">Welcome @(Model.CurrentUser.NickName)!</div></li>
-                        <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="@AdminMenu.AreaName"><span class="bi-person-circle"></span>修改资料</a></li>
-                        <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="@AdminMenu.AreaName"><span class="bi-key"></span>修改密码</a></li>
+                        <li><div class="dropdown-header">Welcome @(CurrentUser.NickName)!</div></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="Backend"><span class="bi-person-circle"></span>修改资料</a></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="Backend"><span class="bi-key"></span>修改密码</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/logout"><span class="bi-box-arrow-right"></span>退出登录</a></li>
                     </ul>
@@ -80,16 +79,16 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="avatar" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="@Model.CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                        <img src="@CurrentUser.Avatar" _error="/images/avatar.png" alt="" width="32" height="32" class="rounded-circle me-2">
                         <div>
-                            <strong>@Model.CurrentUser.NickName</strong>
+                            <strong>@CurrentUser.NickName</strong>
                             <small>管理员</small>
                         </div>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-                        <li><div class="dropdown-header">Welcome @(Model.CurrentUser.NickName)!</div></li>
-                        <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="@AdminMenu.AreaName"><span class="bi-person-circle"></span>修改资料</a></li>
-                        <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="@AdminMenu.AreaName"><span class="bi-key"></span>修改密码</a></li>
+                        <li><div class="dropdown-header">Welcome @(CurrentUser.NickName)!</div></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Index" asp-area="Backend"><span class="bi-person-circle"></span>修改资料</a></li>
+                        <li><a class="dropdown-item" asp-page="/Profile/Password" asp-area="Backend"><span class="bi-key"></span>修改密码</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="/logout"><span class="bi-box-arrow-right"></span>退出登录</a></li>
                     </ul>
@@ -139,3 +138,7 @@
         </form>
     </div>
 </div>
+
+<gt:footer antiforgery="true" status="true">
+    @await RenderSectionAsync("scripts", required: false)
+</gt:footer>

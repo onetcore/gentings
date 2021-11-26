@@ -1,0 +1,53 @@
+﻿@page
+@model BackgroundServiceModel
+@{
+    ViewData["Current"] = "tasks.bgservice";
+    ViewData["Title"] = Model.Localizer["BackgroundService_Title"];
+}
+
+<div class="card data-list">
+    <div class="card-body">
+        <table class="table" .warning="Model.HostedServices" .warning-text="还没有添加任何后台服务！">
+            <thead>
+                <tr>
+                    <th>@Model.Localizer["BackgroundService_Name"]</th>
+                    <th .sort="@BackgroundServiceOrder.StartDate">@Model.Localizer["BackgroundService_Time"]</th>
+                    <th .sort="@BackgroundServiceOrder.RunningTime">@Model.Localizer["BackgroundService_Distance"]</th>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+                @foreach (var item in Model.HostedServices)
+                {
+                    <tr class="data-item">
+                        <td>
+                            <div class="text-dark">
+                                <b>@item.Name</b>
+                                @if (item.IsRunning)
+                                {
+                                    <span class="alert alert-success">@Model.Localizer["BackgroundService_Running"]</span>
+                                }
+                                else
+                                {
+                                    <span class="alert alert-danger">@Model.Localizer["BackgroundService_Completed"]</span>
+                                }
+                            </div>
+                            <div class="text-secondary">
+                                @item.Description
+                            </div>
+                        </td>
+                        <td>
+                            <div .visible="@(item.StartDate!=null)">
+                                @Model.Localizer["BackgroundService_Start"]：@item.StartDate.ToNormalString()
+                            </div>
+                            <div .visible="@(item.CompletedDate!=null)">
+                                @Model.Localizer["BackgroundService_End"]：@item.CompletedDate.ToNormalString()
+                            </div>
+                        </td>
+                        <td>@item.RunningTime</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

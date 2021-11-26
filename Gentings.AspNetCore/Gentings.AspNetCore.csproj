@@ -1,17 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Include="wwwroot\css\**" />
 		<EmbeddedResource Include="wwwroot\js\**" />
-		<None Remove="wwwroot\src\scss\gt-admin.scss" />
-		<Content Include="wwwroot\src\scss\gt-admin.scss">
-		  <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</Content>
 		<EmbeddedResource Include="wwwroot\lib\jquery\jquery.js" />
 		<EmbeddedResource Include="wwwroot\lib\jquery\jquery.min.js" />
 		<EmbeddedResource Include="wwwroot\lib\bootstrap\js\bootstrap.bundle.js" />

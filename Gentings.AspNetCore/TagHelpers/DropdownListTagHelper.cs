@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Gentings.Extensions;
+﻿using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -45,9 +41,12 @@ namespace Gentings.AspNetCore.TagHelpers
         [HtmlAttributeName("default")]
         public bool Default { get; set; }
 
+        /// <summary>
+        /// 初始化当前标签上下文。
+        /// </summary>
+        /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
         public override void Init(TagHelperContext context)
         {
-            base.Init(context);
             if (Default && string.IsNullOrEmpty(DefaultText))
                 DefaultText = Localizer["DropdownListTagHelper-DefaultText"];
         }
@@ -60,6 +59,7 @@ namespace Gentings.AspNetCore.TagHelpers
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "select";
+            output.AddClass("form-select");
             var items = Init() ?? await InitAsync() ?? Enumerable.Empty<SelectListItem>();
             items = items.ToList();
             if (!string.IsNullOrEmpty(DefaultText))//添加默认选项

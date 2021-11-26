@@ -4,14 +4,31 @@ ul, ol, li {
     margin: 0;
 }
 
-//input
+.hide {
+    display: none !important;
+}
+
+//form
 .input-group-prepend,
 .input-group-append {
     position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    width: 100%;
+
+    > button {
+        &:focus, &:hover, &:active {
+            box-shadow: none !important;
+        }
+    }
+}
+
+.input-group-append > .form-check {
+    padding-right: 0.35rem;
+}
+
+.input-group-prepend > .form-check {
+    margin-left: 1.35rem;
 }
 
 .input-group-prepend a:first-child,
@@ -22,7 +39,7 @@ ul, ol, li {
 .input-group-append button:last-child,
 .input-group-append label:last-child,
 .input-group-append img:last-child {
-    color: #6c757d;
+    color: currentColor;
     position: absolute;
     right: 0;
     top: 0;
@@ -69,6 +86,10 @@ ul, ol, li {
 
 .input-group-append img:last-child {
     right: 2px;
+}
+
+form > div {
+    margin-bottom: 0.5rem;
 }
 
 //checkbox and radio
@@ -218,7 +239,7 @@ input:disabled + label {
 //btn
 @each $color, $value in $theme-colors {
     @if $color != 'light' {
-        .btn-#{$color}, .btn-#{$color}:hover, .btn-#{$color}:focus {
+        .btn-#{$color}, .btn-#{$color}:hover, .btn-#{$color}:focus, .btn-#{$color}.disabled, .btn-#{$color}:disabled {
             color: $white;
         }
     }
@@ -242,6 +263,7 @@ input:disabled + label {
     @if $color != 'light' {
         .btn-outline-#{$color}:hover, .btn-outline-#{$color}:focus {
             color: $white;
+            background-color: $value;
         }
     }
 }
@@ -254,6 +276,11 @@ input:disabled + label {
         background-color: $gray-400;
         border-color: $gray-400;
     }
+}
+
+.btn > i[class^="bi-"] ~ span,
+.btn > i[class*=" bi-"] ~ span {
+    margin-left: 0.35rem;
 }
 
 //breadcrumb
@@ -297,16 +324,18 @@ input:disabled + label {
 
     li.nav-item {
         margin-bottom: 0;
+        margin-right: 0.5rem;
 
         .nav-link {
             color: $gray-600;
             border: none;
+            padding: 0.5rem;
             border-bottom: 2px solid transparent;
         }
 
         .nav-link.active,
         .nav-link:focus {
-            border-bottom: 2px solid transparent;
+            border-bottom-color: transparent;
         }
 
         .nav-link:hover, .nav-link:focus {
@@ -317,15 +346,10 @@ input:disabled + label {
 
         .nav-link.active {
             color: $gray-700;
-            background-color:transparent;
+            background-color: transparent;
             border-bottom-color: $primary;
         }
     }
-}
-
-//card
-.card {
-    border-width: 0;
 }
 
 //page
@@ -391,15 +415,121 @@ th.sorting-desc:after {
     opacity: 1;
 }
 
-//scrollbar
-.scrollbar {
+.table > :not(:first-child) {
+    border-top: 1px solid $table-border-color;
+}
+
+//warning
+.null-warning {
+    height: 50vh;
+    padding: 5rem 5rem !important;
+    text-align: center;
+    width: 100%;
+    border: 0;
+
+    i {
+        display: block;
+        font-size: 100px;
+    }
+}
+
+//alert
+span.alert, label.alert {
+    padding: 2px 5px;
+    font-size: 12px;
+    margin: 0;
+}
+
+//editor
+body.fullscreen {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+}
+
+.fullscreen-container {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: $zindex-fixed + 1;
+    border: 0 !important;
+}
+
+.mozmd-editor {
+    display: flex;
+    flex-direction: column;
+    background: #f5f5f5;
+    height: 100%;
+    min-height: 100px;
+    width: 100%;
+    border-radius: $input-border-radius;
+    border: 1px solid $input-border-color;
+}
+
+.mozmd-toolbar {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: row;
+    border-bottom: 1px dashed #ddd;
+    padding: 6px 6px;
+    position: sticky;
+    line-height: 26px;
+    top: 0;
+}
+
+.mozmd-toolbar a {
+    padding: .25rem .5rem;
+    line-height: 1.5;
+    border-radius: .2rem;
+    cursor: pointer;
+}
+
+.mozmd-toolbar a:hover,
+.mozmd-toolbar a:focus {
+    background-color: #e2e2e2;
+    border-radius: 4px;
+}
+
+.mozmd-toolbar a i {
+    color: #969595;
+}
+
+.mozmd-left {
+    flex: 1 1 auto;
+}
+
+.mozmd-right {
+    flex: 1 1 auto;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.mozmd-source {
+    display: block;
+    flex: 1 1 auto;
+    line-height: 1.5rem;
+    background: #eee;
+
     @extend %scrollbar;
 
-    &.scrollbar-vertical:hover {
-        overflow-x: hidden;
+    &:focus {
+        box-shadow: none;
+        background: #fff;
+        outline: 0;
     }
+}
 
-    &.scrollbar-horizontal:hover {
-        overflow-y: hidden;
-    }
+.mozmd-preview {
+    display: none;
+    flex: 1 1 auto;
+    background: #fff;
+
+    @extend %scrollbar;
+}
+
+.mozmd-source-value,
+.mozmd-html-value {
+    display: none;
 }

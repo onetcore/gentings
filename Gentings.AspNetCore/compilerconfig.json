@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/js/gt-skin.js",
     "inputFile": "wwwroot/src/gt-skin.js"
+  },
+  {
+    "outputFile": "wwwroot/js/gt-editor.js",
+    "inputFile": "wwwroot/src/gt-editor.js"
   }
 ]

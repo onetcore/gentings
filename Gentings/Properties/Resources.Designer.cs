@@ -853,6 +853,24 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 定期清理存储文件夹和临时文件夹中得空文件夹或无效文件等 的本地化字符串。
+        /// </summary>
+        internal static string StorageClearTaskExecutor_Description {
+            get {
+                return ResourceManager.GetString("StorageClearTaskExecutor_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 存储文件夹清理服务 的本地化字符串。
+        /// </summary>
+        internal static string StorageClearTaskExecutor_Name {
+            get {
+                return ResourceManager.GetString("StorageClearTaskExecutor_Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 未能获取表单文件实例或者文件长度为0！ 的本地化字符串。
         /// </summary>
         internal static string StorageDirectory_FormFileInvalid {

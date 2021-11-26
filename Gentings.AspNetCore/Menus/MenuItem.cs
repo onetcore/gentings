@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
+using Gentings.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
@@ -15,6 +13,11 @@ namespace Gentings.AspNetCore.Menus
         internal MenuItem()
         {
         }
+
+        /// <summary>
+        /// 提供者类型。
+        /// </summary>
+        public Type ProviderType { get; internal set; }
 
         /// <summary>
         /// 初始化类<see cref="MenuItem"/>。
@@ -95,6 +98,7 @@ namespace Gentings.AspNetCore.Menus
         {
             return AddMenu(name, item =>
             {
+                item.ProviderType = ProviderType;
                 item.Texted(title, priority: priority);
                 item.IsTitle = true;
             });
@@ -114,6 +118,7 @@ namespace Gentings.AspNetCore.Menus
         public MenuItem AddMenu(string name, Action<MenuItem> action)
         {
             var menu = new MenuItem(name, this);
+            menu.ProviderType = ProviderType;
             action(menu);
             _children.Add(menu.Name!, menu);
             return this;
@@ -127,6 +132,7 @@ namespace Gentings.AspNetCore.Menus
         public MenuItem AddMenu(Action<MenuItem> action)
         {
             var menu = new MenuItem();
+            menu.ProviderType = ProviderType;
             menu.Parent = this;
             menu.Level = Level + 1;
             action(menu);
@@ -266,6 +272,19 @@ namespace Gentings.AspNetCore.Menus
         /// 显示文本字符串。
         /// </summary>
         public string? Text { get; private set; }
+
+        /// <summary>
+        /// 本地化后的字符串。
+        /// </summary>
+        public string? LocalizedText
+        {
+            get
+            {
+                if (Text != null)
+                    return ResourceManager.GetString(ProviderType, Text);
+                return Text;
+            }
+        }
 
         internal void Merge(MenuItem item)
         {

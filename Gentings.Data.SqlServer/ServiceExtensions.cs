@@ -1,5 +1,4 @@
 ﻿using System;
-using Gentings.AspNetCore;
 using Microsoft.Extensions.DependencyInjection;
 using Gentings.Data.Internal;
 using Gentings.Data.Migrations;

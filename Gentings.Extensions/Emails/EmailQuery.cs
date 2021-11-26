@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Extensions.Emails
+﻿namespace Gentings.Extensions.Emails
 {
     /// <summary>
     /// 邮件查询基类。

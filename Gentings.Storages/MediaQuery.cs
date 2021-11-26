@@ -1,5 +1,4 @@
 ﻿using System;
-using Gentings.Data;
 
 namespace Gentings.Storages
 {

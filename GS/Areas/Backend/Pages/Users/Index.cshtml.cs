@@ -1,6 +1,7 @@
 ﻿using Gentings.Extensions;
 using GS.Extensions.Security;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace GS.Areas.Backend.Pages.Users
@@ -33,15 +34,14 @@ namespace GS.Areas.Backend.Pages.Users
             Items = _userManager.Load(Query);
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        public async Task<IActionResult> OnPostDeleteAsync(int[] id)
         {
-            var user = await _userManager.FindAsync(id);
-            if (user == null)
-                return Error("用户不存在！");
-            if (user?.UserName == UserName)
+            if (id == null || id.Length == 0)
+                return Error("请先选择用户后再进行删除操作！");
+            if (id.Any(x => x == UserId))
                 return Error("不能删除自己的账户！");
             var result = await _userManager.DeleteAsync(id);
-            return Json(result, user.NickName);
+            return Json(result, "用户");
         }
     }
 }

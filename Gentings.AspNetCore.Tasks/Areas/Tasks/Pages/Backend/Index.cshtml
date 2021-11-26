@@ -1,0 +1,73 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Current"] = "tasks.index";
+    ViewData["Title"] = Model.Localizer["Task_Title"];
+}
+
+<div class="card data-list">
+    <div class="card-body">
+        <table class="table" .warning="Model.Tasks" .warning-text="还没有添加任何后台任务！">
+            <thead>
+                <tr>
+                    <th>服务名称</th>
+                    <th>运行时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.Tasks)
+                {
+                    <tr class="data-item">
+                        <td>
+                            <a class="text-dark" _click="modal" asp-page="./Detail" asp-route-id="@task.Id">
+                                <b>@task.Name</b>
+                                @if (task.TaskArgument.ErrorDate != null)
+                                {
+                                    <i title="发生错误：@task.TaskArgument.ErrorDate" class="bi-exclamation-triangle text-danger"></i>
+                                }
+                            </a>
+                            <div class="text-secondary">
+                                @Html.Raw(task.Description)<span>(@Html.Raw(task.ToIntervalDisplayString())执行<a asp-page="./Interval" asp-route-id="@task.Id" _click="modal" title="配置执行模式"><i class="bi-clock-history"></i></a>)</span>
+                            </div>
+                        </td>
+                        <td>
+                            上一次执行：<span class="last-@task.Id">@task.LastExecuted.ToNormalString()</span><br />
+                            下一次执行：
+                            @if (task.NextExecuting < DateTime.Now)
+                            {
+                                <span class="current-@task.Id text-success"><i class="spinner-grow spinner-grow-sm"></i> 运行中...</span>
+                            }
+                            else
+                            {
+                                <span class="current-@task.Id">@task.NextExecuting.ToNormalString()</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts{
+<script type="text/javascript">
+    $(function render() {
+        $ajax('@Url.Page("./Index")', {},
+            c => {
+                c.data.forEach(d => {
+                    $('.last-' + d.id).html(d.lastExecuted);
+                    if (d.nextExecuting) {
+                        $('.current-' + d.id).removeClass('text-success').html(d.nextExecuting);
+                    } else {
+                        $('.current-' + d.id).addClass('text-success')
+                            .html('<i class="spinner-grow spinner-grow-sm"></i> 运行中...');
+                    }
+                });
+                setTimeout(render, 2 * 1000);
+                return true;
+            }, e => {
+                setTimeout(render, 2 * 1000);
+            });
+    });
+</script>
+}

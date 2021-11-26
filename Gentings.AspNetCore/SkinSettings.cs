@@ -1,5 +1,4 @@
 ﻿using Gentings.AspNetCore.TagHelpers;
-using System.Collections.Generic;
 
 namespace Gentings.AspNetCore
 {

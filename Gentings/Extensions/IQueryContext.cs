@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace Gentings.Data
+namespace Gentings.Extensions
 {
     /// <summary>
     /// 查询上下文接口。

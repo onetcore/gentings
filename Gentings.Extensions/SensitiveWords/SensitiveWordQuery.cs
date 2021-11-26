@@ -1,6 +1,4 @@
-﻿using Gentings.Data;
-
-namespace Gentings.Extensions.SensitiveWords
+﻿namespace Gentings.Extensions.SensitiveWords
 {
     /// <summary>
     /// 敏感词汇查询。
