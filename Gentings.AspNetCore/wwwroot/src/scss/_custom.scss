@@ -283,6 +283,10 @@ input:disabled + label {
     margin-left: 0.35rem;
 }
 
+.btn-group > .btn:not(:first-child) {
+    border-left: 0;
+}
+
 //breadcrumb
 .breadcrumb-item + .breadcrumb-item::before {
     font-family: bootstrap-icons !important;

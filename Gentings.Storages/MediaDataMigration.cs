@@ -21,6 +21,7 @@ namespace Gentings.Storages
 
             builder.CreateTable<MediaFile>(table => table
                 .Column(x => x.Id)
+                .Column(x => x.UserId)
                 .Column(x => x.CreatedDate)
                 .Column(x => x.Name)
                 .Column(x => x.Extension)

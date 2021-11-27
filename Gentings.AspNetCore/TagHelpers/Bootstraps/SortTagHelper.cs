@@ -23,10 +23,10 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.AddClass("sorting");
-            var name = OrderBy.ToString();
-            output.SetAttribute("data-order", name);
+            var current = (int)(object)OrderBy;
+            output.SetAttribute("data-order", current.ToString());
             if (HttpContext.Request.Query.TryGetValue("order", out var order) &&
-                name.Equals(order, StringComparison.OrdinalIgnoreCase))
+                int.TryParse(order, out var number) && current == number)
             {
                 if (HttpContext.Request.Query.TryGetValue("desc", out var value) && bool.TryParse(value, out var desc) && desc)
                     output.AddClass("sorting-desc");

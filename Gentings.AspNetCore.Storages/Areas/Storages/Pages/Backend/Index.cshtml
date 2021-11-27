@@ -1,0 +1,64 @@
+﻿@page
+@model IndexModel
+@{
+    ViewBag.Title = "媒体文件管理";
+    ViewBag.Current = "storages.index";
+}
+
+<div class="card data-list">
+    <div class="card-header toolbar">
+        <form method="get">
+            <input type="hidden" asp-for="Query.UserId" />
+            <div>
+                <gt:extension-dropdownlist default-text="请选择类型" asp-for="Query.ExtensionName"></gt:extension-dropdownlist>
+            </div>
+            <gt:search asp-for="Query.Name" placeholder="文件名称"></gt:search>
+        </form>
+        <div class="actions">
+            <gt:action-group>
+                <gt:action type="ActionType.Upload" asp-action="Upload" asp-route-extension="core" asp-controller="Upload" asp-area=""></gt:action>
+                <gt:action type="ActionType.Delete" mode="Danger" confirm="你确定要删除所选择的文件吗？" asp-page-handler="Delete" disabled></gt:action>
+            </gt:action-group>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" .warning="Model.Items" .warning-text="还没有上传任何文件！">
+            <thead>
+                <tr>
+                    <th class="checkbox"><gt:checkall /></th>
+                    <th .sort="StorageOrder.Name">名称</th>
+                    <th>类型</th>
+                    <th .sort="StorageOrder.UserId">用户</th>
+                    <th .sort="StorageOrder.CreatedDate">添加时间</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody class="align-middle">
+                @foreach (var file in Model.Items)
+                {
+                    <tr class="data-item">
+                        <td class="checkbox"><gt:checkbox value="@file.Id"></gt:checkbox></td>
+                        <td>
+                            <img height="18" src="~/storages/images/@(file.Extension.Trim('.')).png" onerror="this.src='/storages/images/unknown.png'" />
+                            @(file.Name)@(file.Extension)
+                        </td>
+                        <td>@Model.GetOrAddNamedString($"extensionname.{file.ExtensionName}")</td>
+                        <td>
+                            @Model.GetUser(file.UserId)?.NickName
+                        </td>
+                        <td>
+                            @file.CreatedDate.ToNormalString()
+                        </td>
+                        <td>
+                            <gt:action-dropdownmenu>
+                                <gt:action type="ActionType.Edit" asp-page="./Edit" asp-route-id="@file.Id">重命名</gt:action>
+                                <gt:action type="ActionType.Delete" confirm="你确定要删除“@(file.Name)@(file.Extension)”吗？" asp-page-handler="Delete" asp-route-id="@file.Id"></gt:action>
+                            </gt:action-dropdownmenu>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <gt:page data="@Model.Items" orderby="@Model.Query" asp-route-userid="@Model.Query.UserId" asp-route-name="@Model.Query.Name"></gt:page>
+    </div>
+</div>

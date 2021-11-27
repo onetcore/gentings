@@ -14,7 +14,6 @@ namespace Gentings.Storages
         {
             Url = url;
             Message = message;
-            Succeeded = message == null;
         }
 
         /// <summary>
@@ -28,9 +27,14 @@ namespace Gentings.Storages
         public string Message { get; }
 
         /// <summary>
-        /// 是否成功。
+        /// 隐式转换为布尔类型。
         /// </summary>
-        public bool Succeeded { get; }
+        /// <param name="result">媒体结果实例。</param>
+        public static implicit operator bool(MediaResult result)
+        {
+            if (result == null) return false;
+            return result.Message == null;
+        }
 
         /// <summary>
         /// 隐式将字符串转换为上传/下载结果实例。

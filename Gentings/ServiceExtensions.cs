@@ -194,5 +194,19 @@ namespace Gentings
                 return defaultValue;
             return result;
         }
+
+        /// <summary>
+        /// 获取<see cref="IServiceProvider"/>实例，此方法只能用于单元测试。
+        /// </summary>
+        /// <param name="configuration">配置接口。</param>
+        /// <param name="action">实例化容器。</param>
+        /// <returns>返回服务提供者接口实例。</returns>
+        public static IServiceProvider BuildServiceProvider(this IConfiguration configuration, Action<IServiceBuilder> action = null)
+        {
+            var services = new ServiceCollection();
+            var builder = services.AddGentings(configuration);
+            action?.Invoke(builder);
+            return services.BuildServiceProvider();
+        }
     }
 }

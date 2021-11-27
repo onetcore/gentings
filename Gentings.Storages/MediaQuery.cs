@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Gentings.Extensions;
+using System;
 
 namespace Gentings.Storages
 {
     /// <summary>
     /// 媒体查询实例。
     /// </summary>
-    public class MediaQuery : QueryBase<MediaFile>
+    public class MediaQuery : OrderableQueryBase<MediaFile, StorageOrder>
     {
         /// <summary>
         /// 目标Id。
@@ -38,12 +39,22 @@ namespace Gentings.Storages
         public string ExtensionName { get; set; }
 
         /// <summary>
+        /// 用户Id。
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// 初始化查询上下文。
         /// </summary>
         /// <param name="context">查询上下文。</param>
         protected override void Init(IQueryContext<MediaFile> context)
         {
-            context.WithNolock();
+            base.Init(context);
+            if (UserId > 0)
+            {
+                context.Where(x => x.UserId == UserId);
+            }
+
             if (Id != null)
             {
                 context.Where(x => x.TargetId == Id);

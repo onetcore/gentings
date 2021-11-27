@@ -12,54 +12,6 @@ namespace Gentings.AspNetCore.TagHelpers
     public static class TagHelperExtensions
     {
         /// <summary>
-        /// 获取小写字符串。
-        /// </summary>
-        /// <param name="value">枚举值。</param>
-        /// <returns>返回枚举值的小写字符串。</returns>
-        public static string ToLowerString(this Enum value) => value.ToString().ToLower();
-
-        /// <summary>
-        /// 获取状态图标。
-        /// </summary>
-        /// <param name="status">状态类型。</param>
-        /// <returns>返回图标样式名称。</returns>
-        public static string GetIconClassName(this ActionType status)
-        {
-            switch (status)
-            {
-                case ActionType.Edit:
-                    return "bi-pencil";
-                case ActionType.Delete:
-                    return "bi-trash";
-                case ActionType.MoveUp:
-                    return "bi-arrow-up";
-                case ActionType.MoveDown:
-                    return "bi-arrow-down";
-                case ActionType.Add:
-                    return "bi-plus";
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// 获取状态图标。
-        /// </summary>
-        /// <param name="status">状态类型。</param>
-        /// <returns>返回图标样式名称。</returns>
-        public static string GetIconClassName(this StatusType status)
-        {
-            switch (status)
-            {
-                case StatusType.Success:
-                    return "bi-check-circle";
-                case StatusType.Info:
-                    return "bi-info-circle";
-                default:
-                    return "bi-exclamation-circle";
-            }
-        }
-
-        /// <summary>
         /// 添加子元素。
         /// </summary>
         /// <param name="builder">当前标签构建实例。</param>

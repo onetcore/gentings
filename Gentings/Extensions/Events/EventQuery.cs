@@ -5,7 +5,7 @@ namespace Gentings.Extensions.Events
     /// <summary>
     /// 事件查询实例。
     /// </summary>
-    public class EventQuery : QueryBase<Event>, IOrderBy
+    public class EventQuery : OrderableQueryBase<Event, EventOrderBy>
     {
         /// <summary>
         /// 事件类型Id。
@@ -26,21 +26,6 @@ namespace Gentings.Extensions.Events
         /// 来源。
         /// </summary>
         public string Source { get; set; }
-
-        /// <summary>
-        /// 是否降序。
-        /// </summary>
-        public bool Desc { get; set; } = true;
-
-        /// <summary>
-        /// 排序列枚举。
-        /// </summary>
-        Enum IOrderBy.Order => Order;
-
-        /// <summary>
-        /// 排序。
-        /// </summary>
-        public EventOrderBy Order { get; set; }
 
         /// <summary>
         /// 起始时间。

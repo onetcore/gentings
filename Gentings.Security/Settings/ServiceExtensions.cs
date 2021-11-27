@@ -17,11 +17,10 @@ namespace Gentings.Security.Settings
         /// 添加配置组件。
         /// </summary>
         /// <param name="builder">服务构建实例对象。</param>
-        /// <param name="namedString">是否添加名称值组件。</param>
         /// <returns>返回服务构建实例对象。</returns>
-        public static IServiceBuilder AddUserSettings(this IServiceBuilder builder, bool namedString = false)
+        public static IServiceBuilder AddUserSettings(this IServiceBuilder builder)
         {
-            builder.AddSettings(namedString)
+            builder.AddSettings()
                 .AddScoped<ISettingsManager, SettingsManager>()
                 .AddTransients<IDataMigration, DefaultSettingsDataMigration>();
             return builder;

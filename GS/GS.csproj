@@ -14,10 +14,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gentings.AspNetCore.Emails\Gentings.AspNetCore.Emails.csproj" />
+    <ProjectReference Include="..\Gentings.AspNetCore.Storages\Gentings.AspNetCore.Storages.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.Tasks\Gentings.AspNetCore.Tasks.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore\Gentings.AspNetCore.csproj" />
     <ProjectReference Include="..\Gentings.Data.SqlServer\Gentings.Data.SqlServer.csproj" />
     <ProjectReference Include="..\Gentings.Extensions\Gentings.Extensions.csproj" />
+    <ProjectReference Include="..\Gentings.Storages\Gentings.Storages.csproj" />
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 

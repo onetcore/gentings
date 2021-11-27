@@ -34,6 +34,10 @@
         /// </summary>
         Divider,
         /// <summary>
+        /// 上传文件。
+        /// </summary>
+        Upload,
+        /// <summary>
         /// 模态框显示。
         /// </summary>
         Modal,

@@ -260,7 +260,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 
             var builder = new TagBuilder("ul");
             builder.AddCssClass("pagination");
-            var startIndex = Cores.GetRange(Data.PageIndex, Data.Pages, Factor, out var endIndex);
+            var startIndex = GetRange(Data.PageIndex, Data.Pages, Factor, out var endIndex);
             if (Data.PageIndex > 1)
                 builder.InnerHtml.AppendHtml(CreateLink(Data.PageIndex - 1, Resources.PageTagHelper_LastPage, Resources.PageTagHelper_LastPage));
             if (startIndex > 1)
@@ -307,6 +307,44 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 li.InnerHtml.AppendHtml(anchor);
             }
             return li;
+        }
+
+        /// <summary>
+        /// 获取页面区间。
+        /// </summary>
+        /// <param name="pageIndex">页码。</param>
+        /// <param name="pages">总页数。</param>
+        /// <param name="factor">显示项数。</param>
+        /// <param name="end">返回结束索引。</param>
+        /// <returns>返回开始索引。</returns>
+        protected int GetRange(int pageIndex, int pages, int factor, out int end)
+        {
+            var item = factor / 2;
+            var start = pageIndex - item;
+            end = pageIndex + item;
+            if (start < 1)
+            {
+                end += 1 - start;
+                start = 1;
+            }
+
+            if (end > pages)
+            {
+                start -= (end - pages);
+                end = pages;
+            }
+
+            if (end < 1)
+            {
+                end = 1;
+            }
+
+            if (start < 1)
+            {
+                return 1;
+            }
+
+            return start;
         }
     }
 }

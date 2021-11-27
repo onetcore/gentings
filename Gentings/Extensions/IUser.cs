@@ -19,5 +19,10 @@
         /// 电子邮件。
         /// </summary>
         string Email { get; set; }
+
+        /// <summary>
+        /// 头像。
+        /// </summary>
+        string Avatar { get; set; }
     }
 }

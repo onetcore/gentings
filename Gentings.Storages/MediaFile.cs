@@ -24,6 +24,11 @@ namespace Gentings.Storages
         public string FileId { get; set; }
 
         /// <summary>
+        /// 用户Id。
+        /// </summary>
+        public int UserId { get; set; }
+
+        /// <summary>
         /// 名称。
         /// </summary>
         [Size(256)]

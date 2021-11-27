@@ -61,6 +61,15 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
+        ///   查找类似 发送请求 的本地化字符串。
+        /// </summary>
+        internal static string ActionType_Action {
+            get {
+                return ResourceManager.GetString("ActionType_Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 添加 的本地化字符串。
         /// </summary>
         internal static string ActionType_Add {
@@ -79,11 +88,29 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
+        ///   查找类似 分隔符 的本地化字符串。
+        /// </summary>
+        internal static string ActionType_Divider {
+            get {
+                return ResourceManager.GetString("ActionType_Divider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 编辑 的本地化字符串。
         /// </summary>
         internal static string ActionType_Edit {
             get {
                 return ResourceManager.GetString("ActionType_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 模态框显示 的本地化字符串。
+        /// </summary>
+        internal static string ActionType_Modal {
+            get {
+                return ResourceManager.GetString("ActionType_Modal", resourceCulture);
             }
         }
         
@@ -102,6 +129,51 @@ namespace Gentings.AspNetCore.Properties {
         internal static string ActionType_MoveUp {
             get {
                 return ResourceManager.GetString("ActionType_MoveUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 上传文件 的本地化字符串。
+        /// </summary>
+        internal static string ActionType_Upload {
+            get {
+                return ResourceManager.GetString("ActionType_Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 横向对齐 的本地化字符串。
+        /// </summary>
+        internal static string AlignMode_Horizontal {
+            get {
+                return ResourceManager.GetString("AlignMode_Horizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 纵向对齐 的本地化字符串。
+        /// </summary>
+        internal static string AlignMode_Vertical {
+            get {
+                return ResourceManager.GetString("AlignMode_Vertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 暗色调 的本地化字符串。
+        /// </summary>
+        internal static string ColorMode_Dark {
+            get {
+                return ResourceManager.GetString("ColorMode_Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 亮色调 的本地化字符串。
+        /// </summary>
+        internal static string ColorMode_Light {
+            get {
+                return ResourceManager.GetString("ColorMode_Light", resourceCulture);
             }
         }
         

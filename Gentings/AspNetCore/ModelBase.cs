@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Gentings.Extensions;
 using Gentings.Extensions.Events;
+using Gentings.Extensions.Settings;
 using Gentings.Localization;
 using Gentings.Properties;
 using Gentings.Storages;
@@ -54,46 +55,6 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前服务的实例对象。</returns>
         protected TService GetRequiredService<TService>() => HttpContext.RequestServices.GetRequiredService<TService>();
 
-        private int? _userId;
-        /// <summary>
-        /// 当前登录用户Id。
-        /// </summary>
-        public int UserId => _userId ??= User.GetUserId();
-
-        private string _userName;
-        /// <summary>
-        /// 当前登录用户名称。
-        /// </summary>
-        public string UserName => _userName ??= User.GetUserName();
-
-        /// <summary>
-        /// 是否已经登录。
-        /// </summary>
-        public virtual bool IsAuthenticated => User.Identity.IsAuthenticated;
-
-        /// <summary>
-        /// 写入用户登录。
-        /// </summary>
-        /// <param name="user">当前用户实例对象。</param>
-        /// <param name="authenticationScheme">验证方式。</param>
-        /// <param name="defaultRedirectUri">后台首页默认URL地址。</param>
-        /// <param name="isRemembered">是否持久化登录状态。</param>
-        /// <returns>登录任务。</returns>
-        protected async Task SignInAsync(IUser user, string authenticationScheme, string defaultRedirectUri = "/backend", bool isRemembered = false)
-        {
-            var identity = user.Create(authenticationScheme);
-            string returnUrl = Request.Query["ReturnUrl"];
-            var properties = new AuthenticationProperties
-            {
-                IsPersistent = isRemembered,//是否持久化
-                RedirectUri = string.IsNullOrWhiteSpace(returnUrl) ? defaultRedirectUri : returnUrl,//如果用户点“登录“进来，登录成功后跳转到首页，否则跳转到上一个页面
-                ExpiresUtc = DateTime.UtcNow.AddDays(1) //设置 cookie 过期时间：一天后过期
-            };
-
-            //生成一个加密的 cookie 并输出到浏览器。
-            await HttpContext.SignInAsync(authenticationScheme, new ClaimsPrincipal(identity), properties);
-        }
-
         /// <summary>
         /// 获取对象对比实例。
         /// </summary>
@@ -106,18 +67,17 @@ namespace Gentings.AspNetCore
             return differ;
         }
 
+        private INamedStringManager _namedStringManager;
         /// <summary>
-        /// 判断验证码。
+        /// 获取或者添加名称字符串。
         /// </summary>
-        /// <param name="key">当前唯一键。</param>
-        /// <param name="code">验证码。</param>
-        /// <returns>返回判断结果。</returns>
-        public bool IsCodeValid(string key, string code)
+        /// <param name="key">唯一键。</param>
+        /// <returns>返回当前唯一键的值。</returns>
+        public string GetOrAddNamedString(string key)
         {
-            if (string.IsNullOrEmpty(code) || !Request.Cookies.TryGetValue(key, out var value))
-                return false;
-            code = Cores.Hashed(code);
-            return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
+            if (_namedStringManager == null)
+                _namedStringManager = GetService<INamedStringManager>();
+            return _namedStringManager?.GetOrAddString(key);
         }
         #endregion
 
@@ -244,9 +204,10 @@ namespace Gentings.AspNetCore
         /// 返回数据结果。
         /// </summary>
         /// <returns>返回包含数据的结果。</returns>
-        protected virtual IActionResult Success()
+        protected virtual IActionResult Success(string message = null)
         {
-            return Json(ApiResult.Success);
+            var result = message == null ? ApiResult.Success : new ApiResult { Message = message };
+            return Json(result);
         }
 
         /// <summary>
@@ -464,6 +425,82 @@ namespace Gentings.AspNetCore
         /// 事件类型。
         /// </summary>
         protected virtual string EventType => Resources.EventType;
+        #endregion
+
+        #region users
+        private int? _userId;
+        /// <summary>
+        /// 当前登录用户Id。
+        /// </summary>
+        public int UserId => _userId ??= User.GetUserId();
+
+        private string _userName;
+        /// <summary>
+        /// 当前登录用户名称。
+        /// </summary>
+        public string UserName => _userName ??= User.GetUserName();
+
+        /// <summary>
+        /// 是否已经登录。
+        /// </summary>
+        public virtual bool IsAuthenticated => User.Identity.IsAuthenticated;
+
+        /// <summary>
+        /// 写入用户登录。
+        /// </summary>
+        /// <param name="user">当前用户实例对象。</param>
+        /// <param name="authenticationScheme">验证方式。</param>
+        /// <param name="defaultRedirectUri">后台首页默认URL地址。</param>
+        /// <param name="isRemembered">是否持久化登录状态。</param>
+        /// <returns>登录任务。</returns>
+        protected async Task SignInAsync(IUser user, string authenticationScheme, string defaultRedirectUri = "/backend", bool isRemembered = false)
+        {
+            var identity = user.Create(authenticationScheme);
+            string returnUrl = Request.Query["ReturnUrl"];
+            var properties = new AuthenticationProperties
+            {
+                IsPersistent = isRemembered,//是否持久化
+                RedirectUri = string.IsNullOrWhiteSpace(returnUrl) ? defaultRedirectUri : returnUrl,//如果用户点“登录“进来，登录成功后跳转到首页，否则跳转到上一个页面
+                ExpiresUtc = DateTime.UtcNow.AddDays(1) //设置 cookie 过期时间：一天后过期
+            };
+
+            //生成一个加密的 cookie 并输出到浏览器。
+            await HttpContext.SignInAsync(authenticationScheme, new ClaimsPrincipal(identity), properties);
+        }
+
+        /// <summary>
+        /// 判断验证码。
+        /// </summary>
+        /// <param name="key">当前唯一键。</param>
+        /// <param name="code">验证码。</param>
+        /// <returns>返回判断结果。</returns>
+        public bool IsCodeValid(string key, string code)
+        {
+            if (string.IsNullOrEmpty(code) || !Request.Cookies.TryGetValue(key, out var value))
+                return false;
+            code = Cores.Hashed(code);
+            return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private ICachedUserManager _userManager;
+        /// <summary>
+        /// 用户管理接口实例。
+        /// </summary>
+        private ICachedUserManager UserManager => _userManager ??= GetRequiredService<ICachedUserManager>();
+
+        /// <summary>
+        /// 获取当前缓存用户实例。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <returns>返回用户实例。</returns>
+        public IUser GetUser(int userId) => UserManager.GetCachedUser(userId);
+
+        /// <summary>
+        /// 获取当前缓存用户实例。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <returns>返回用户实例。</returns>
+        public Task<IUser> GetUserAsync(int userId) => UserManager.GetCachedUserAsync(userId);
         #endregion
     }
 }

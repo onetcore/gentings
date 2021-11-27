@@ -54,7 +54,7 @@ namespace Gentings.AspNetCore
                 classNames.Add("navbar");
                 if (MenuMode == ColorMode.Dark || SkinMode == ColorMode.Dark)
                     classNames.Add($"navbar-{MenuMode.ToLowerString()}");
-                if (MenuAlign == AlignMode.Vertical && IsMenuPills)
+                if (IsMenuPills)
                     classNames.Add("navbar-pills");
                 if (IsFixed)
                     classNames.Add("navbar-fixed");

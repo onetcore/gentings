@@ -1,4 +1,6 @@
-﻿namespace Gentings.Security.Roles
+﻿using Gentings.Extensions;
+
+namespace Gentings.Security.Roles
 {
     /// <summary>
     /// 分页查询基类。

@@ -17,6 +17,7 @@ namespace Gentings.Storages
         private readonly IStorageDirectory _directory;
         private readonly IDbContext<MediaFile> _mfdb;
         private readonly IDbContext<StoredFile> _sfdb;
+        private readonly IHttpContextAccessor _contextAccessor;
         private readonly string _media;
         private readonly string _thumbs;
 
@@ -26,11 +27,13 @@ namespace Gentings.Storages
         /// <param name="directory">存储文件夹。</param>
         /// <param name="mfdb">数据库操作接口。</param>
         /// <param name="sfdb">数据库操作接口。</param>
-        public MediaDirectory(IStorageDirectory directory, IDbContext<MediaFile> mfdb, IDbContext<StoredFile> sfdb)
+        /// <param name="contextAccessor">HTTP上下文访问接口。</param>
+        public MediaDirectory(IStorageDirectory directory, IDbContext<MediaFile> mfdb, IDbContext<StoredFile> sfdb, IHttpContextAccessor contextAccessor)
         {
             _directory = directory;
             _mfdb = mfdb;
             _sfdb = sfdb;
+            _contextAccessor = contextAccessor;
             //媒体文件夹。
             _media = directory.GetPhysicalPath("media");
             //缩略图文件夹
@@ -113,6 +116,8 @@ namespace Gentings.Storages
             media.Extension = Path.GetExtension(fileName);
             media.Name = Path.GetFileNameWithoutExtension(fileName);
             init(media);
+            if (media.UserId == 0)
+                media.UserId = _contextAccessor.HttpContext.User.GetUserId();
             return CreateAsync(tempFile, media, media.Extension.GetContentType(), unique);
         }
 
@@ -126,7 +131,7 @@ namespace Gentings.Storages
                 EnsureStoredFile(storage, tempFile);
                 if (unique)//唯一文件存储
                 {
-                    var dbFile = await _mfdb.FindAsync(x => x.ExtensionName == file.ExtensionName && x.TargetId == file.TargetId && x.FileId == fileId);
+                    var dbFile = await _mfdb.FindAsync(x => x.UserId == file.UserId && x.ExtensionName == file.ExtensionName && x.TargetId == file.TargetId && x.FileId == fileId);
                     if (dbFile != null)
                     {
                         return new MediaResult(dbFile.Url);

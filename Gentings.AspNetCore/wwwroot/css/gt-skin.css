@@ -8130,6 +8130,9 @@ input:disabled + label {
 .btn > i[class*=" bi-"] ~ span {
   margin-left: 0.35rem; }
 
+.btn-group > .btn:not(:first-child) {
+  border-left: 0; }
+
 .breadcrumb-item + .breadcrumb-item::before {
   font-family: bootstrap-icons !important;
   content: '\f285';

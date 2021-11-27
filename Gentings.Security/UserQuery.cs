@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gentings.Extensions;
+using System;
 
 namespace Gentings.Security
 {
@@ -60,7 +61,7 @@ namespace Gentings.Security
         /// <param name="context">查询上下文。</param>
         protected override void Init(IQueryContext<TUser> context)
         {
-            context.WithNolock();
+            base.Init(context);
             if (!string.IsNullOrWhiteSpace(Name))
                 context.Where(x => x.NickName.Contains(Name) || x.NormalizedUserName.Contains(Name));
             if (Start != null)

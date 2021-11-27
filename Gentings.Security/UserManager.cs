@@ -16,6 +16,7 @@ using System.Data.Common;
 using Gentings.Extensions.Settings;
 using Gentings.Security.Avatars;
 using Gentings.Security.Data;
+using Gentings.Data;
 
 namespace Gentings.Security
 {
@@ -28,7 +29,7 @@ namespace Gentings.Security
     /// <typeparam name="TUserToken">用户标识类型。</typeparam>
     /// <typeparam name="TIdentitySettings">配置类型。</typeparam>
     public abstract class UserManager<TUser, TUserClaim, TUserLogin, TUserToken, TIdentitySettings>
-        : UserManager<TUser>, IUserManager<TUser>
+        : UserManager<TUser>, IUserManager<TUser>, ICachedUserManager
         where TUser : UserBase, new()
         where TUserClaim : UserClaimBase, new()
         where TUserLogin : UserLoginBase, new()
@@ -722,6 +723,10 @@ namespace Gentings.Security
                 .Where<UserIndex>(x => x.ParentId == parentId)
                 .FirstOrDefaultAsync();
         }
+
+        IUser ICachedUserManager.GetCachedUser(int id) => GetCachedUser(id);
+
+        async Task<IUser> ICachedUserManager.GetCachedUserAsync(int id) => await GetCachedUserAsync(id);
 
         /// <summary>
         /// 初始化类<see cref="UserManager{TUser,TUserClaim,TUserLogin,TUserToken,TIdentitySettings}"/>。

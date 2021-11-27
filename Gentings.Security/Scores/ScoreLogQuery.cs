@@ -1,4 +1,6 @@
-﻿namespace Gentings.Security.Scores
+﻿using Gentings.Extensions;
+
+namespace Gentings.Security.Scores
 {
     /// <summary>
     /// 用户积分查询。
@@ -16,7 +18,8 @@
         /// <param name="context">查询上下文。</param>
         protected override void Init(IQueryContext<ScoreLog> context)
         {
-            context.WithNolock().Where(x => x.UserId == UserId);
+            base.Init(context);
+            context.Where(x => x.UserId == UserId);
             if (ScoreType != null)
                 context.Where(x => x.ScoreType == ScoreType);
             context.OrderByDescending(x => x.Id);

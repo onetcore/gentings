@@ -1,4 +1,6 @@
-﻿namespace Gentings.Security.Notifications
+﻿using Gentings.Extensions;
+
+namespace Gentings.Security.Notifications
 {
     /// <summary>
     /// 通知查询实例。

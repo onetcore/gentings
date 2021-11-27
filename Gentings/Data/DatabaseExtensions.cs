@@ -1,6 +1,7 @@
 ﻿using Gentings.Data.Internal;
 using Gentings.Extensions;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -252,6 +253,26 @@ namespace Gentings.Data
             }
 
             return database.ImportAsync(table);
+        }
+
+        /// <summary>
+        /// 判断当前<paramref name="item"/>是否包含在<paramref name="items"/>中。
+        /// </summary>
+        /// <param name="item">当前项。</param>
+        /// <param name="items">列表实例。</param>
+        /// <returns>返回判断结果。</returns>
+        public static bool Included(this object item, IEnumerable items)
+        {
+            var enumerator = items.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (Equals(enumerator.Current, item))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

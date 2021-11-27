@@ -1,18 +1,11 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Gentings.Properties;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings
 {
@@ -220,44 +213,6 @@ namespace Gentings
             return Md5(Sha1(salt + code.ToUpper()));
         }
 
-        /// <summary>
-        /// 获取页面区间。
-        /// </summary>
-        /// <param name="pageIndex">页码。</param>
-        /// <param name="pages">总页数。</param>
-        /// <param name="factor">显示项数。</param>
-        /// <param name="end">返回结束索引。</param>
-        /// <returns>返回开始索引。</returns>
-        public static int GetRange(int pageIndex, int pages, int factor, out int end)
-        {
-            var item = factor / 2;
-            var start = pageIndex - item;
-            end = pageIndex + item;
-            if (start < 1)
-            {
-                end += 1 - start;
-                start = 1;
-            }
-
-            if (end > pages)
-            {
-                start -= (end - pages);
-                end = pages;
-            }
-
-            if (end < 1)
-            {
-                end = 1;
-            }
-
-            if (start < 1)
-            {
-                return 1;
-            }
-
-            return start;
-        }
-
         private static readonly DateTime _unixDate = new DateTime(1970, 1, 1);
 
         /// <summary>
@@ -384,80 +339,6 @@ namespace Gentings
         }
 
         /// <summary>
-        /// 判断当前<paramref name="item"/>是否包含在<paramref name="items"/>中。
-        /// </summary>
-        /// <param name="item">当前项。</param>
-        /// <param name="items">列表实例。</param>
-        /// <returns>返回判断结果。</returns>
-        public static bool Included(this object item, IEnumerable items)
-        {
-            var enumerator = items.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                if (Equals(enumerator.Current, item))
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 将列表格式化为字符串。
-        /// </summary>
-        /// <param name="items">当前实例列表。</param>
-        /// <param name="separator">分隔符。</param>
-        /// <returns>返回格式化后的字符串。</returns>
-        public static string Join(this IEnumerable items, string separator = ",")
-        {
-            var list = new List<object>();
-            var enumerator = items.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                list.Add(enumerator.Current);
-            }
-
-            return string.Join(separator, list);
-        }
-
-        /// <summary>
-        /// 将字符串分割为数值列表。
-        /// </summary>
-        /// <param name="items">当前数值字符串。</param>
-        /// <param name="separator">分隔符。</param>
-        /// <returns>返回数值列表。</returns>
-        public static int[] ToInt32Array(this string items, string separator = ",")
-        {
-            if (string.IsNullOrEmpty(items))
-                return null;
-            return items.Split(new[] { separator }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(x => Convert.ToInt32(x.Trim()))
-                .Distinct()
-                .ToArray();
-        }
-
-        /// <summary>
-        /// 默认缓存时长。
-        /// </summary>
-        public static readonly TimeSpan DefaultCacheExpiration = TimeSpan.FromMinutes(3);
-
-        /// <summary>
-        /// 获取<see cref="IServiceProvider"/>实例，此方法只能用于单元测试。
-        /// </summary>
-        /// <param name="configuration">配置接口。</param>
-        /// <param name="action">实例化容器。</param>
-        /// <returns>返回服务提供者接口实例。</returns>
-        public static IServiceProvider BuildServiceProvider(IConfiguration configuration,
-            Action<IServiceBuilder> action = null)
-        {
-            var services = new ServiceCollection();
-            var builder = services.AddGentings(configuration);
-            action?.Invoke(builder);
-            return services.BuildServiceProvider();
-        }
-
-        /// <summary>
         /// 当前程序的版本。
         /// </summary>
         public static Version Version => Assembly.GetEntryAssembly()?.GetName().Version;
@@ -505,47 +386,6 @@ namespace Gentings
             {
                 return default;
             }
-        }
-
-        /// <summary>
-        /// 获取枚举描述信息。
-        /// </summary>
-        /// <param name="value">枚举值。</param>
-        /// <returns>返回枚举的描述信息。</returns>
-        public static string ToDescriptionString(this Enum value)
-        {
-            var name = value.ToString();
-            var info = value.GetType().GetField(name);
-            if (info == null)
-                return name;
-            return info.GetCustomAttribute<DescriptionAttribute>()?.Description ?? name;
-        }
-
-        /// <summary>
-        /// 截取数组中的区间并且返回数组实例。
-        /// </summary>
-        /// <typeparam name="TModel">模型类型。</typeparam>
-        /// <param name="array">当前数组实例。</param>
-        /// <param name="index">开始索引。</param>
-        /// <param name="length">长度。</param>
-        /// <returns>返回截取的数组列表。</returns>
-        public static IEnumerable<TModel> Slice<TModel>(this IEnumerable<TModel> array, int index, int length)
-        {
-            length = Math.Min(index + length, array.Count());
-            for (var i = index; i < length; i++)
-            {
-                yield return array.ElementAt(i);
-            }
-        }
-
-        /// <summary>
-        /// 设置默认缓存时间，3分钟。
-        /// </summary>
-        /// <param name="cache">缓存实体接口。</param>
-        /// <returns>返回缓存实体接口。</returns>
-        public static ICacheEntry SetDefaultAbsoluteExpiration(this ICacheEntry cache)
-        {
-            return cache.SetAbsoluteExpiration(DefaultCacheExpiration);
         }
     }
 }

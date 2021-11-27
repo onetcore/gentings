@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gentings.Extensions;
 using Gentings.Extensions.Events;
+using Gentings.Extensions.Settings;
 using Gentings.Localization;
 using Gentings.Properties;
 using Gentings.Storages;
@@ -56,45 +57,6 @@ namespace Gentings.AspNetCore
         /// <returns>返回当前服务的实例对象。</returns>
         protected TService GetRequiredService<TService>() => HttpContext.RequestServices.GetRequiredService<TService>();
 
-        private int? _userId;
-        /// <summary>
-        /// 当前登录用户Id。
-        /// </summary>
-        protected int UserId => _userId ??= User.GetUserId();
-
-        private string _userName;
-        /// <summary>
-        /// 当前登录用户名称。
-        /// </summary>
-        protected string UserName => _userName ??= User.GetUserName();
-
-        /// <summary>
-        /// 是否已经登录。
-        /// </summary>
-        protected virtual bool IsAuthenticated => User.Identity.IsAuthenticated;
-
-        /// <summary>
-        /// 创建JWT访问Token。
-        /// </summary>
-        /// <param name="claims">用户声明列表。</param>
-        /// <returns>返回Token字符串。</returns>
-        protected string CreateJwtSecurityToken(IEnumerable<Claim> claims)
-        {
-            var configuration = GetRequiredService<IConfiguration>();
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"] ?? "This'sJWTSecurityKeyPleaseConfigInFile!"));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["Jwt:Expires"] ?? "1440"));
-
-            var token = new JwtSecurityToken(
-                configuration["Jwt:Issuer"] ?? "https://localhost/",
-                configuration["Jwt:Audience"] ?? "https://localhost/",
-                claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-
         /// <summary>
         /// 获取对象对比实例。
         /// </summary>
@@ -107,18 +69,17 @@ namespace Gentings.AspNetCore
             return differ;
         }
 
+        private INamedStringManager _namedStringManager;
         /// <summary>
-        /// 判断验证码。
+        /// 获取或者添加名称字符串。
         /// </summary>
-        /// <param name="key">当前唯一键。</param>
-        /// <param name="code">验证码。</param>
-        /// <returns>返回判断结果。</returns>
-        protected bool IsCodeValid(string key, string code)
+        /// <param name="key">唯一键。</param>
+        /// <returns>返回当前唯一键的值。</returns>
+        protected string GetOrAddNamedString(string key)
         {
-            if (string.IsNullOrEmpty(code) || !Request.Cookies.TryGetValue(key, out var value))
-                return false;
-            code = Cores.Hashed(code);
-            return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
+            if (_namedStringManager == null)
+                _namedStringManager = GetService<INamedStringManager>();
+            return _namedStringManager?.GetOrAddString(key);
         }
         #endregion
 
@@ -184,9 +145,10 @@ namespace Gentings.AspNetCore
         /// 返回数据结果。
         /// </summary>
         /// <returns>返回包含数据的结果。</returns>
-        protected virtual IActionResult Success()
+        protected virtual IActionResult Success(string message = null)
         {
-            return Json(ApiResult.Success);
+            var result = message == null ? ApiResult.Success : new ApiResult { Message = message };
+            return Json(result);
         }
 
         /// <summary>
@@ -404,6 +366,81 @@ namespace Gentings.AspNetCore
         /// 事件类型。
         /// </summary>
         protected virtual string EventType => Resources.EventType;
+        #endregion
+
+        #region users
+        private int? _userId;
+        /// <summary>
+        /// 当前登录用户Id。
+        /// </summary>
+        protected int UserId => _userId ??= User.GetUserId();
+
+        private string _userName;
+        /// <summary>
+        /// 当前登录用户名称。
+        /// </summary>
+        protected string UserName => _userName ??= User.GetUserName();
+
+        /// <summary>
+        /// 是否已经登录。
+        /// </summary>
+        protected virtual bool IsAuthenticated => User.Identity.IsAuthenticated;
+
+        /// <summary>
+        /// 创建JWT访问Token。
+        /// </summary>
+        /// <param name="claims">用户声明列表。</param>
+        /// <returns>返回Token字符串。</returns>
+        protected string CreateJwtSecurityToken(IEnumerable<Claim> claims)
+        {
+            var configuration = GetRequiredService<IConfiguration>();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:SecurityKey"] ?? "This'sJWTSecurityKeyPleaseConfigInFile!"));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var expires = DateTime.Now.AddMinutes(Convert.ToInt32(configuration["Jwt:Expires"] ?? "1440"));
+
+            var token = new JwtSecurityToken(
+                configuration["Jwt:Issuer"] ?? "https://localhost/",
+                configuration["Jwt:Audience"] ?? "https://localhost/",
+                claims,
+                expires: expires,
+                signingCredentials: creds
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        /// <summary>
+        /// 判断验证码。
+        /// </summary>
+        /// <param name="key">当前唯一键。</param>
+        /// <param name="code">验证码。</param>
+        /// <returns>返回判断结果。</returns>
+        protected bool IsCodeValid(string key, string code)
+        {
+            if (string.IsNullOrEmpty(code) || !Request.Cookies.TryGetValue(key, out var value))
+                return false;
+            code = Cores.Hashed(code);
+            return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
+        }
+
+        private ICachedUserManager _userManager;
+        /// <summary>
+        /// 用户管理接口实例。
+        /// </summary>
+        private ICachedUserManager UserManager => _userManager ??= GetService<ICachedUserManager>();
+
+        /// <summary>
+        /// 获取当前缓存用户实例。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <returns>返回用户实例。</returns>
+        protected IUser GetUser(int userId) => UserManager?.GetCachedUser(userId);
+
+        /// <summary>
+        /// 获取当前缓存用户实例。
+        /// </summary>
+        /// <param name="userId">用户Id。</param>
+        /// <returns>返回用户实例。</returns>
+        protected Task<IUser> GetUserAsync(int userId) => UserManager?.GetCachedUserAsync(userId);
         #endregion
     }
 }

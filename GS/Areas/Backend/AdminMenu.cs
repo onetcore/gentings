@@ -23,7 +23,9 @@ namespace GS.Areas.Backend
                 .AddMenu("users", item => item.Texted("用户管理", "bi-people").Page("/Users/Index", area: AreaName)
                     .AddMenu("index", it => it.Texted("用户列表").Page("/Users/Index", area: AreaName))
                 )
-                .AddMenu("settings", item => item.Texted("网站配置", "bi-gear").Page("/Settings", area: AreaName));
+                .AddMenu("sys", item => item.Texted("系统配置", "bi-gear").Page("/Settings", area: AreaName)
+                    .AddMenu("settings", item => item.Texted("网站配置").Page("/Settings", area: AreaName))
+                );
         }
     }
 }

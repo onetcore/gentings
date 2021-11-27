@@ -21,15 +21,23 @@ namespace Gentings.Extensions.Settings
         /// 添加配置组件。
         /// </summary>
         /// <param name="builder">服务构建实例对象。</param>
-        /// <param name="namedString">是否添加名称值组件。</param>
         /// <returns>返回服务构建实例对象。</returns>
-        public static IServiceBuilder AddSettings(this IServiceBuilder builder, bool namedString = false)
+        public static IServiceBuilder AddSettings(this IServiceBuilder builder)
         {
             builder.AddTransients<IDataMigration, DefaultSettingsDataMigration>()
-               .AddSingleton<ISettingsManager, SettingsManager>();
-            if (namedString)
-                builder.AddTransients<IDataMigration, DefaultNamedStringDataMigration>()
-                    .AddSingleton<INamedStringManager, NamedStringManager>();
+                   .AddSingleton<ISettingsManager, SettingsManager>();
+            return builder;
+        }
+
+        /// <summary>
+        /// 添加名称值组件。
+        /// </summary>
+        /// <param name="builder">服务构建实例对象。</param>
+        /// <returns>返回服务构建实例对象。</returns>
+        public static IServiceBuilder AddNamedString(this IServiceBuilder builder)
+        {
+            builder.AddTransients<IDataMigration, DefaultNamedStringDataMigration>()
+                   .AddSingleton<INamedStringManager, NamedStringManager>();
             return builder;
         }
     }

@@ -6,27 +6,27 @@
 }
 
 <form method="post">
-    <div class="form-group mb-3">
+    <div class="mb-3">
         <label>用户名称</label>
         <input type="text" asp-for="Input.UserName" class="form-control" />
         <span class="text-danger" asp-validation-for="Input.UserName"></span>
     </div>
-    <div class="form-group mb-3">
+    <div class="mb-3">
         <label>昵称</label>
         <input type="text" asp-for="Input.NickName" class="form-control" />
         <span class="text-danger" asp-validation-for="Input.NickName"></span>
     </div>
-    <div class="form-group mb-3">
+    <div class="mb-3">
         <label>密码</label>
         <input type="password" asp-for="Input.Password" class="form-control" />
         <span class="text-danger" asp-validation-for="Input.Password"></span>
     </div>
-    <div class="form-group mb-3">
+    <div class="mb-3">
         <label>确认密码</label>
         <input type="password" asp-for="Input.ConfirmPassword" class="form-control" />
         <span class="text-danger" asp-validation-for="Input.ConfirmPassword"></span>
     </div>
-    <div class="form-group">
+    <div>
         <label>电子邮件</label>
         <input type="email" asp-for="Input.Email" class="form-control" />
         <span class="text-danger" asp-validation-for="Input.Email"></span>

@@ -1,4 +1,5 @@
-﻿using Gentings.Extensions.Events;
+﻿using Gentings.Extensions;
+using Gentings.Extensions.Events;
 
 namespace Gentings.Security
 {

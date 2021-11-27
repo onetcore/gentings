@@ -117,20 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionType_Action" xml:space="preserve">
+    <value>发送请求</value>
+  </data>
   <data name="ActionType_Add" xml:space="preserve">
     <value>添加</value>
   </data>
   <data name="ActionType_Delete" xml:space="preserve">
     <value>删除</value>
   </data>
+  <data name="ActionType_Divider" xml:space="preserve">
+    <value>分隔符</value>
+  </data>
   <data name="ActionType_Edit" xml:space="preserve">
     <value>编辑</value>
+  </data>
+  <data name="ActionType_Modal" xml:space="preserve">
+    <value>模态框显示</value>
   </data>
   <data name="ActionType_MoveDown" xml:space="preserve">
     <value>下移</value>
   </data>
   <data name="ActionType_MoveUp" xml:space="preserve">
     <value>上移</value>
+  </data>
+  <data name="ActionType_Upload" xml:space="preserve">
+    <value>上传文件</value>
+  </data>
+  <data name="AlignMode_Horizontal" xml:space="preserve">
+    <value>横向对齐</value>
+  </data>
+  <data name="AlignMode_Vertical" xml:space="preserve">
+    <value>纵向对齐</value>
+  </data>
+  <data name="ColorMode_Dark" xml:space="preserve">
+    <value>暗色调</value>
+  </data>
+  <data name="ColorMode_Light" xml:space="preserve">
+    <value>亮色调</value>
   </data>
   <data name="DateFormat" xml:space="preserve">
     <value>MM月dd日</value>

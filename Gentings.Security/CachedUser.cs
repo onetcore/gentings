@@ -1,11 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using Gentings.Extensions;
+using System.Text.Json.Serialization;
 
 namespace Gentings.Security
 {
     /// <summary>
     /// 缓存用户实例。
     /// </summary>
-    public class CachedUser
+    public class CachedUser : IUser
     {
         /// <summary>
         /// 用户Id。

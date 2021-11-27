@@ -163,7 +163,7 @@ var resources = {
                     current.find('[type=submit]').click(function () {
                         form.find('.field-validation-valid').hide();
                         form.find('.modal-validation-summary').remove();
-                        form.ajaxSubmit(function (d, form) {
+                        form.ajaxSubmit(function (d) {
                             if (d.code) {
                                 if (d.data) {
                                     //表单验证
@@ -253,7 +253,7 @@ var resources = {
                         current.off('click').on('click', function () {
                             $('<input type="file" class="hide"/>').appendTo(document.body).on('change', function () {
                                 var file = $(this);
-                                if (this.files.length == 0) {
+                                if (!this.files.length) {
                                     file.remove();
                                     return false;
                                 }
@@ -274,7 +274,10 @@ var resources = {
                                     data: data,
                                     headers: ajaxHeaders(),
                                     success: function success(d) {
-                                        showMsg(d);
+                                        showMsg(d, function () {
+                                            //没有传回网址时候刷新页面
+                                            if (!d.code && !d.url) location.href = location.href;
+                                        });
                                         if (d.url) {
                                             current.trigger('uploaded', d.url);
                                             current.parent().find('.uploaded').each(function () {
@@ -355,12 +358,10 @@ var resources = {
         });
         // 图片
         $('img[_error]', context).each(function () {
-            var src = this._error;
-            if (src) {
-                $(this).on('error', function () {
-                    if (this.src != src) this.src = src;
-                });
-            }
+            var src = $(this).attr('_error');
+            if (src) $(this).on('error', function () {
+                if (this.src !== src) this.src = src;
+            });
         });
         // 表格排序
         $('table thead .sorting', context).on('click', function () {
