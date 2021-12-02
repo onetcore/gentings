@@ -1,0 +1,52 @@
+﻿@page
+@model IndexModel
+@{
+    ViewBag.Title = "事件日志管理";
+    ViewBag.Current = "events.index";
+}
+
+<div class="card data-list">
+    <div class="card-header toolbar">
+        <form method="get">
+            <div>
+                <label>分类：</label>
+                <gt:event-dropdownlist default-text="全部" default-value="0" asp-for="Query.EventId"></gt:event-dropdownlist>
+            </div>
+            <div>
+                <label>日期：</label>
+                <div class="input-group input-group-range">
+                    <input type="date" _min-val1="#Query_End" class="form-control" asp-for="Query.Start" />
+                    <label class="divider">-</label>
+                    <input type="date" asp-for="Query.End" class="form-control" _max-val="#Query_Start" />
+                    <button type="submit"><i class="bi-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" .warning="Model.Items" .warning-text="没有查询到相关日志！">
+            <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>等级</th>
+                    <th>类型</th>
+                    <th>用户</th>
+                    <th>日志信息</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var message in Model.Items)
+                {
+                    <tr class="data-item">
+                        <td>@message.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@Model.Localizer[message.Level]</td>
+                        <td><gt:event-icon text="true" id="@message.EventId"></gt:event-icon></td>
+                        <td><a class="text-dark" asp-route-userid="@message.UserId">@Model.GetUser(message.UserId)?.NickName</a></td>
+                        <td>@Html.Raw(message.Message)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <gt:page data="Model.Items" asp-route-eventid="@Model.Query.EventId" asp-route-end="@Model.Query.End" asp-route-start="@Model.Query.Start"></gt:page>
+    </div>
+</div>

@@ -11,7 +11,7 @@ namespace Gentings.Extensions.Emails
     /// <summary>
     /// 邮件发送服务。
     /// </summary>
-    public class EmailTaskService : TaskService
+    public abstract class EmailTaskService : TaskService
     {
         private readonly IEmailSettingsManager _settingsManager;
         private readonly IEmailManager _emailManager;
@@ -22,7 +22,7 @@ namespace Gentings.Extensions.Emails
         /// <param name="settingsManager">配置管理接口。</param>
         /// <param name="emailManager">电子邮件管理接口。</param>
         /// <param name="logger">日志接口。</param>
-        public EmailTaskService(IEmailSettingsManager settingsManager, IEmailManager emailManager, ILogger<EmailTaskService> logger)
+        protected EmailTaskService(IEmailSettingsManager settingsManager, IEmailManager emailManager, ILogger<EmailTaskService> logger)
         {
             _settingsManager = settingsManager;
             _emailManager = emailManager;

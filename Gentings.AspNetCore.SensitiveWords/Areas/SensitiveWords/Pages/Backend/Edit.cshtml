@@ -1,0 +1,15 @@
+﻿@page
+@model EditModel
+@{
+    ViewBag.Title = "敏感词";
+    Layout = "_Modal";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Input.Id" />
+    <div class="form-group">
+        <label>敏感词</label>
+        <input class="form-control" asp-for="Input.Word" />
+        <span asp-validation-for="Input.Word" class="text-danger"></span>
+    </div>
+</form>

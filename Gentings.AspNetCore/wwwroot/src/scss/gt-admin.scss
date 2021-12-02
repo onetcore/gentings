@@ -584,11 +584,11 @@ main:not(.navbar-vertical) {
     }
 }
 
-a.action-only > i {
+a.action-link > i {
     margin-right: 0.25rem;
 }
 
-a.action-only + a.action-only {
+a.action-link + a.action-link {
     margin-left: 0.5rem;
 }
 

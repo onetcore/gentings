@@ -1,4 +1,5 @@
 ﻿using Gentings.Data.Migrations;
+using Gentings.Security;
 
 namespace Gentings.Extensions.OpenServices
 {

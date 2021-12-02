@@ -1,0 +1,29 @@
+﻿@page
+@model EditModel
+@{
+    ViewBag.Title = "事件类型";
+    Layout = "_Modal";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Input.Id" />
+    <div>
+        <label>名称</label>
+        <input asp-for="Input.Name" class="form-control" />
+        <span class="text-danger" asp-validation-for="Input.Name"></span>
+    </div>
+    <div>
+        <label>前景色</label>
+        <gt:color asp-for="Input.Color"></gt:color>
+        <span class="text-danger" asp-validation-for="Input.Color"></span>
+    </div>
+    <div>
+        <label>背景色</label>
+        <gt:color asp-for="Input.BgColor"></gt:color>
+        <span class="text-danger" asp-validation-for="Input.BgColor"></span>
+    </div>
+    <div>
+        <label>图标样式名称</label>
+        <input asp-for="Input.IconName" class="form-control" />
+    </div>
+</form>

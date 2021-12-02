@@ -48,7 +48,7 @@ namespace Gentings.AspNetCore.TagHelpers
         public override void Init(TagHelperContext context)
         {
             if (Default && string.IsNullOrEmpty(DefaultText))
-                DefaultText = Localizer["DropdownListTagHelper-DefaultText"];
+                DefaultText = Localizer["DropdownListTagHelper_DefaultText"];
         }
 
         /// <summary>

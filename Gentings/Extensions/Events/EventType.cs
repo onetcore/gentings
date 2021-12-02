@@ -17,15 +17,15 @@ namespace Gentings.Extensions.Events
         /// <summary>
         /// 名称。
         /// </summary>
-        [NotUpdated]
         [Size(12)]
+        [NotUpdated]
         public string Name { get; set; }
 
         /// <summary>
-        /// 图标地址。
+        /// 图标样式名称。
         /// </summary>
-        [Size(256)]
-        public string IconUrl { get; set; }
+        [Size(64)]
+        public string IconName { get; set; }
 
         /// <summary>
         /// 背景颜色。

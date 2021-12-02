@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gentings.Security;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +8,7 @@ namespace Gentings.Extensions.Emails
     /// <summary>
     /// 电子邮件管理接口。
     /// </summary>
-    public interface IEmailManager : ISingletonService
+    public interface IEmailManager
     {
         /// <summary>
         /// 获取资源，一般为内容。

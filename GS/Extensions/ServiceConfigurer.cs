@@ -2,6 +2,7 @@
 using Gentings.AspNetCore;
 using Gentings.Data.SqlServer;
 using Gentings.Extensions.Settings;
+using Gentings.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +27,7 @@ namespace GS.Extensions
                 .AddServices(services =>
                 {
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddPermission()//添加权限验证
                     .AddCookie(options =>
                     {
                         options.LoginPath = new PathString("/login");

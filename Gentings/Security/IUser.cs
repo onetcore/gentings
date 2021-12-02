@@ -1,4 +1,6 @@
-﻿namespace Gentings.Extensions
+﻿using Gentings.Extensions;
+
+namespace Gentings.Security
 {
     /// <summary>
     /// 用户接口。

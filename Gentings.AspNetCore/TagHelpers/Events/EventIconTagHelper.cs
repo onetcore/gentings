@@ -1,6 +1,4 @@
 ﻿using Gentings.Extensions.Events;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.TagHelpers.Events
@@ -21,8 +19,16 @@ namespace Gentings.AspNetCore.TagHelpers.Events
             _eventManager = eventManager;
         }
 
+        /// <summary>
+        /// 事件Id。
+        /// </summary>
         [HtmlAttributeName("id")]
         public int EventId { get; set; }
+
+        /// <summary>
+        /// 是否显示名称。
+        /// </summary>
+        public bool Text { get; set; }
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -37,33 +43,36 @@ namespace Gentings.AspNetCore.TagHelpers.Events
                 output.SuppressOutput();
                 return;
             }
-            var builder = new TagBuilder("div");
-            if (!string.IsNullOrEmpty(type.IconUrl))
+            output.Render("span", builder =>
             {
-                if (type.IconUrl.IndexOf('.') == -1)
+                if (string.IsNullOrEmpty(type.IconName))
                 {
-                    output.TagName = "i";
-                    builder.AddCssClass(type.IconUrl);
+                    builder.AddCssClass("alert");
+                    builder.InnerHtml.AppendHtml(type.Name);
+                }
+                else if (Text)
+                {
+                    builder.AppendTag("i", i => i.AddCssClass(type.IconName));
+                    builder.InnerHtml.AppendHtml(" ");
+                    builder.InnerHtml.AppendHtml(type.Name);
                 }
                 else
                 {
-                    output.TagName = "img";
-                    builder.MergeAttribute("src", type.IconUrl);
-                }
-            }
-            else
-            {
-                builder.InnerHtml.AppendHtml(type.Name);
-            }
 
-            string style = null;
-            if (!string.IsNullOrEmpty(type.BgColor))
-                style += $"background-color:{type.BgColor};";
-            if (!string.IsNullOrEmpty(type.Color))
-                style += $"color:{type.Color};";
-            if (style != null)
-                builder.MergeAttribute("style", style);
-            output.MergeAttributes(builder);
+                    builder.MergeAttribute("title", type.Name);
+                    builder.AddCssClass(type.IconName);
+                }
+                string? css = null;
+                if (context.AllAttributes.TryGetAttribute("style", out var style))
+                    css = style.Value?.ToString().Trim();
+                if (css?.EndsWith(";") == false) css += ";";
+                if (!string.IsNullOrEmpty(type.BgColor))
+                    css += $"background-color:{type.BgColor};";
+                if (!string.IsNullOrEmpty(type.Color))
+                    css += $"color:{type.Color};";
+                if (css != null)
+                    builder.MergeAttribute("style", css, true);
+            });
         }
     }
 }

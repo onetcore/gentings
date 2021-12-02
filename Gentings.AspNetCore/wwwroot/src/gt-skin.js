@@ -416,6 +416,26 @@
                 actions.disabled();
             });
         });
+        // 将当前值设为目标属性值。
+        (function (names, context) {
+            names.split(',').forEach(name => $('[_' + name + '-val]', context).exec(current => {
+                const target = $(current.attr('_' + name + '-val'), context);
+                if (target.length) {
+                    current.on('change', function () {
+                        target.attr(name, this.value);
+                    });
+                }
+            }));
+        })("min,max", context);
+        // 修正日期值
+        $('input[type=date]', context).each(function () {
+            const result = /(\d{4}[-/]\d{1,2}[-/]\d{1,2})/g.exec(this.value || this.defaultValue);
+            if (result) this.value = result[0];
+        });
+        $('input[type=datetime-local]', context).each(function () {
+            const result = /((\d{4}[-/]\d{1,2}[-/]\d{1,2}) (\d{1,2}:\d{1,2}:\d{1,2}))/g.exec(this.value || this.defaultValue);
+            if (result) this.value = result[2] + 'T' + result[3];
+        });
     });
     /**
      * Ajax请求。

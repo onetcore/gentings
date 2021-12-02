@@ -5,7 +5,7 @@
     /// <summary>
     /// 数据库迁移类。
     /// </summary>
-    public class SensitiveWordDataMigration : DataMigration
+    public abstract class SensitiveWordDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。

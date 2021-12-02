@@ -1,5 +1,4 @@
-﻿using Gentings.Extensions;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Gentings.Security
 {

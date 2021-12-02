@@ -8,7 +8,7 @@ namespace Gentings.Security.Permissions
     /// <summary>
     /// 权限管理接口。
     /// </summary>
-    public interface IPermissionManager 
+    public interface IPermissionManager : IPermissionAuthorizationService
     {
         /// <summary>
         /// 获取权限值。
@@ -41,20 +41,6 @@ namespace Gentings.Security.Permissions
         /// <param name="permissionName">权限名称。</param>
         /// <returns>返回权限结果。</returns>
         Task<PermissionValue> GetUserPermissionValueAsync(int userId, string permissionName);
-
-        /// <summary>
-        /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
-        /// </summary>
-        /// <param name="permissionName">权限名称。</param>
-        /// <returns>返回判断结果。</returns>
-        Task<bool> IsAuthorizedAsync(string permissionName);
-
-        /// <summary>
-        /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
-        /// </summary>
-        /// <param name="permissionName">权限名称。</param>
-        /// <returns>返回判断结果。</returns>
-        bool IsAuthorized(string permissionName);
 
         /// <summary>
         /// 获取或添加权限。

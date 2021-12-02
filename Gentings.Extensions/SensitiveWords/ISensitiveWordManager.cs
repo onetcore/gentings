@@ -7,7 +7,7 @@ namespace Gentings.Extensions.SensitiveWords
     /// <summary>
     /// 敏感词汇管理接口。
     /// </summary>
-    public interface ISensitiveWordManager : IObjectManager<SensitiveWord>, ISingletonService
+    public interface ISensitiveWordManager : IObjectManager<SensitiveWord>
     {
         /// <summary>
         /// 导入敏感词汇。

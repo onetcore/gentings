@@ -2,25 +2,29 @@
   0% {
     opacity: 0.2;
     filter: alpha(opacity=20);
-    transform: scale(1); }
+    transform: scale(1);
+  }
   50% {
     opacity: 1;
     filter: alpha(opacity=100);
-    transform: scale(1.12); }
+    transform: scale(1.12);
+  }
   100% {
     opacity: 0.2;
     filter: alpha(opacity=20);
-    transform: scale(1); } }
-
+    transform: scale(1);
+  }
+}
 .txt blockquote {
   padding: 10px 15px 1px 15px;
-  border-left: 3px solid #ccc; }
-
+  border-left: 3px solid #ccc;
+}
 .txt img {
   display: block;
-  margin: 0 auto; }
-
+  margin: 0 auto;
+}
 .txt pre {
   padding: 10px 20px;
   border: 1px solid #efeeee;
-  border-radius: 4px; }
+  border-radius: 4px;
+}

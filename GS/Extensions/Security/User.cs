@@ -1,5 +1,6 @@
 ﻿using Gentings;
 using Gentings.Extensions;
+using Gentings.Security;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 

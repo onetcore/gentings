@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Gentings.Data;
 using Gentings.Data.Internal;
 using Gentings.Security.Roles;
 

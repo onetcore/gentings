@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-namespace Gentings.Extensions
+namespace Gentings.Security
 {
     /// <summary>
-    /// 缓存用户接口。
+    /// 获取缓存用户接口。
     /// </summary>
-    public interface ICachedUserManager : IScopedService
+    public interface IUserService : IScopedService
     {
         /// <summary>
         /// 获取缓存用户实例。

@@ -10,7 +10,7 @@ namespace Gentings.Security.Permissions
         /// <summary>
         /// 后台管理员，可以登录到后台。
         /// </summary>
-        public const string Administrator = "core.admin";
+        public const string Administrator = "core.administrator";
 
         /// <summary>
         /// 拥有者权限，配置网站信息。
@@ -27,7 +27,7 @@ namespace Gentings.Security.Permissions
         /// </summary>
         protected override void Init()
         {
-            Add("admin", Resources.DefaultPermissions_Administrator_Name, Resources.DefaultPermissions_Administrator_Description);
+            Add("administrator", Resources.DefaultPermissions_Administrator_Name, Resources.DefaultPermissions_Administrator_Description);
             Add("owner", Resources.DefaultPermissions_Owner_Name, Resources.DefaultPermissions_Owner_Description);
             Add("developer", Resources.DefaultPermissions_Developer_Name, Resources.DefaultPermissions_Developer_Description);
         }

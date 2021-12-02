@@ -2,22 +2,24 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Gentings.Security.Permissions
+namespace Gentings.Security
 {
     /// <summary>
     /// 权限验证处理方法类。
     /// </summary>
     public class PermissionAuthorizationHandler : AuthorizationHandler<OperationAuthorizationRequirement>
     {
-        private readonly IPermissionManager _permissionManager;
+        private readonly IPermissionAuthorizationService _authorizationService;
+
         /// <summary>
         /// 初始化类<see cref="PermissionAuthorizationHandler"/>。
         /// </summary>
-        /// <param name="permissionManager">权限管理接口实例对象。</param>
-        public PermissionAuthorizationHandler(IPermissionManager permissionManager)
+        /// <param name="permissionManager">权限验证接口实例对象。</param>
+        public PermissionAuthorizationHandler(IPermissionAuthorizationService authorizationService)
         {
-            _permissionManager = permissionManager;
+            _authorizationService = authorizationService;
         }
 
         /// <summary>
@@ -28,21 +30,26 @@ namespace Gentings.Security.Permissions
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, OperationAuthorizationRequirement requirement)
         {
             var permissionName = requirement?.Name;
-            if (permissionName == null && context.Resource is ControllerActionDescriptor resource)
+            if (permissionName == null)
             {
-                if (resource.RouteValues.TryGetValue("area", out var area))
+                if (context.Resource is ControllerActionDescriptor resource)
                 {
-                    permissionName = area + ".";
-                }
+                    if (resource.RouteValues.TryGetValue("area", out var area))
+                        permissionName = area + ".";
 
-                permissionName += $"{resource.ControllerName}.{resource.ActionName}";
+                    permissionName += $"{resource.ControllerName}.{resource.ActionName}";
+                }
+                else if (context.Resource is CompiledPageActionDescriptor page)
+                {
+                    permissionName = $"{page.AreaName}.{page.DeclaredModelTypeInfo.Name}";
+                }
             }
             if (permissionName == null)
             {
                 context.Fail();
                 return;
             }
-            if (await _permissionManager.IsAuthorizedAsync(permissionName))
+            if (await _authorizationService.IsAuthorizedAsync(permissionName))
             {
                 context.Succeed(requirement);
             }

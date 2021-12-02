@@ -5,7 +5,7 @@ namespace Gentings.Extensions.Emails
     /// <summary>
     /// 电子邮件配置管理接口。
     /// </summary>
-    public interface IEmailSettingsManager : ICachableObjectManager<EmailSettings>, ISingletonService
+    public interface IEmailSettingsManager : ICachableObjectManager<EmailSettings>
     {
         /// <summary>
         /// 是否开启电子邮件系统，主要检查看是否有激活的配置。

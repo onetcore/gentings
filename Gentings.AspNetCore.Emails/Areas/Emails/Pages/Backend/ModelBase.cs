@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Gentings.Security;
 
 namespace Gentings.AspNetCore.Emails.Areas.Emails.Pages.Backend
 {
-    [Authorize]
+    [PermissionAuthorize]
     public abstract class ModelBase : AspNetCore.ModelBase
     {
     }

@@ -156,16 +156,19 @@
   <data name="ColorMode_Light" xml:space="preserve">
     <value>亮色调</value>
   </data>
+  <data name="ColorTagHelper_Clear" xml:space="preserve">
+    <value>清除</value>
+  </data>
   <data name="DateFormat" xml:space="preserve">
     <value>MM月dd日</value>
   </data>
   <data name="DaysBefore" xml:space="preserve">
     <value>{0} 天前</value>
   </data>
-  <data name="DropdownListTagHelper-DefaultText" xml:space="preserve">
+  <data name="DropdownListTagHelper_DefaultText" xml:space="preserve">
     <value>请选择</value>
   </data>
-  <data name="EnumDropdownListTagHelper-TypeNotFound" xml:space="preserve">
+  <data name="EnumDropdownListTagHelper_TypeNotFound" xml:space="preserve">
     <value>未找到枚举类型</value>
   </data>
   <data name="FileProviderNotFound" xml:space="preserve">

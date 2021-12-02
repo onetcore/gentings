@@ -26,6 +26,11 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         public string Placeholder { get; set; }
 
         /// <summary>
+        /// 类型。
+        /// </summary>
+        public string Type { get; set; } = "text";
+
+        /// <summary>
         /// 是否为小号输入框。
         /// </summary>
         public bool Small { get; set; }
@@ -58,7 +63,6 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         {
             output.Render("div", builder =>
             {
-                builder.AddCssClass("input-group-append");
                 builder.AppendTag("input", input =>
                 {
                     input.AddCssClass("form-control");
@@ -67,6 +71,12 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                     if (!string.IsNullOrEmpty(Placeholder))
                         input.MergeAttribute("placeholder", Placeholder);
                     input.MergeAttribute("name", Name);
+                    input.GenerateId(Name, "_");
+                    foreach (var attr in output.Attributes)
+                    {
+                        input.MergeAttribute(attr.Name, attr.Value?.ToString(), true);
+                    }
+                    input.MergeAttribute("type", Type);
                     if (Value != null)
                         input.MergeAttribute("value", Value?.ToString());
                     input.TagRenderMode = TagRenderMode.SelfClosing;
@@ -76,6 +86,8 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                     button.MergeAttribute("type", "submit");
                     button.AppendTag("span", span => span.AddCssClass("bi-search"));
                 });
+                output.Attributes.Clear();
+                builder.AddCssClass("input-group-append");
             });
         }
     }

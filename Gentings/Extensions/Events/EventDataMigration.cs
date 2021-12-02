@@ -19,7 +19,7 @@ namespace Gentings.Extensions.Events
                 .Column(x => x.Name)
                 .Column(x => x.BgColor)
                 .Column(x => x.Color)
-                .Column(x => x.IconUrl));
+                .Column(x => x.IconName));
             // 事件实例
             builder.CreateTable<Event>(table => table
                 .Column(x => x.Id)

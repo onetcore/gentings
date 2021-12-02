@@ -5,7 +5,7 @@ namespace Gentings.Extensions.Emails
     /// <summary>
     /// 数据库迁移类。
     /// </summary>
-    public class EmailDataMigration : DataMigration
+    public abstract class EmailDataMigration : DataMigration
     {
         /// <summary>
         /// 当模型建立时候构建的表格实例。

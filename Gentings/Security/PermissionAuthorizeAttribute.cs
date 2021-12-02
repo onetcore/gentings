@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace Gentings.Security.Permissions
+namespace Gentings.Security
 {
     /// <summary>
     /// 权限验证特性。
@@ -24,7 +24,7 @@ namespace Gentings.Security.Permissions
         /// <summary>
         /// 初始化类<see cref="PermissionAuthorizeAttribute"/>。
         /// </summary>
-        public PermissionAuthorizeAttribute() : this(DefaultPermissions.Administrator)
+        public PermissionAuthorizeAttribute() : this("core.administrator")
         {
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gentings.Security;
+using System;
 
 namespace Gentings.Extensions.OpenServices
 {

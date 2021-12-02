@@ -64,7 +64,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
                 var content = await output.GetChildContentAsync();
                 builder.AppendTag("span", span =>
                 {
-                    if (content.IsEmptyOrWhiteSpace)
+                    if (content.IsEmptyOrWhiteSpace && Type != null)
                         span.InnerHtml.AppendHtml(_localizer[Type]);
                     else
                         span.InnerHtml.AppendHtml(content);

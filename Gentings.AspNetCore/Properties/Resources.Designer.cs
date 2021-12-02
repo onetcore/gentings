@@ -178,6 +178,15 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
+        ///   查找类似 清除 的本地化字符串。
+        /// </summary>
+        internal static string ColorTagHelper_Clear {
+            get {
+                return ResourceManager.GetString("ColorTagHelper_Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 MM月dd日 的本地化字符串。
         /// </summary>
         internal static string DateFormat {
@@ -200,7 +209,7 @@ namespace Gentings.AspNetCore.Properties {
         /// </summary>
         internal static string DropdownListTagHelper_DefaultText {
             get {
-                return ResourceManager.GetString("DropdownListTagHelper-DefaultText", resourceCulture);
+                return ResourceManager.GetString("DropdownListTagHelper_DefaultText", resourceCulture);
             }
         }
         
@@ -209,7 +218,7 @@ namespace Gentings.AspNetCore.Properties {
         /// </summary>
         internal static string EnumDropdownListTagHelper_TypeNotFound {
             get {
-                return ResourceManager.GetString("EnumDropdownListTagHelper-TypeNotFound", resourceCulture);
+                return ResourceManager.GetString("EnumDropdownListTagHelper_TypeNotFound", resourceCulture);
             }
         }
         

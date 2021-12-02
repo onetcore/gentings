@@ -1,0 +1,63 @@
+﻿@page
+@model IndexModel
+@{
+    ViewBag.Title = Model.Current.Value ?? "字典管理";
+    ViewBag.Current = "sys.namedstrings";
+}
+
+<div class="card data-list">
+    <div class="card-header toolbar" .permission="@Permissions.EditNamedStrings">
+        <div class="actions">
+            <gt:action-group>
+                <gt:action type="ActionType.Add" asp-page="./Edit" asp-route-pid="@Model.Current.Id"></gt:action>
+                <gt:action type="ActionType.Delete" mode="Danger" asp-page-handler="Delete" data-pid="@Model.Current.Id" confirm="你确定要删除所选择的字典实例吗？" disabled></gt:action>
+            </gt:action-group>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-hover" .warning="Model.Current.Children" .warning-text="还没有添加任何字典实例！">
+            <thead>
+                <tr>
+                    <th class="checkbox"><gt:checkall></gt:checkall></th>
+                    <th>标识</th>
+                    <th>值</th>
+                    <th class="text-center" .permission="@Permissions.EditNamedStrings">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Current.Id > 0)
+                {
+                    <tr>
+                        <td></td>
+                        <td colspan="3">
+                            <i class="bi-plus-circle-dotted"></i> <a title="点击查看父级项目" class="text-dark" title="@Model.Current.Value" asp-route-id="@Model.Current.ParentId">@Model.Current.Path</a>
+                        </td>
+                    </tr>
+                }
+                @foreach (var setting in Model.Current.Children)
+                {
+                    <tr class="data-item">
+                        <td class="checkbox"><gt:checkbox value="@setting.Id"></gt:checkbox></td>
+                        <td>
+                            @if (setting.Count > 0)
+                            {
+                                <i class="bi-plus-circle"></i> <a title="点击查看子项目" class="text-dark" asp-route-id="@setting.Id">@(setting.Path)</a>
+                            }
+                            else
+                            {
+                                <i class="bi-dash-circle-dotted"></i> @(setting.Path)
+                            }
+                        </td>
+                        <td>@setting.Value</td>
+                        <td .permission="@Permissions.EditNamedStrings">
+                            <gt:action-dropdownmenu>
+                                <gt:action type="ActionType.Edit" asp-page="./Edit" asp-route-id="@setting.Id"></gt:action>
+                                <gt:action type="ActionType.Delete" asp-page-handler="Delete" data-pid="@Model.Current.Id" confirm="你确定要删除“@setting.Name”吗？" asp-route-id="@setting.Id"></gt:action>
+                            </gt:action-dropdownmenu>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

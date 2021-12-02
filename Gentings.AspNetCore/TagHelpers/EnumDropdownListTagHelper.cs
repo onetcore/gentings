@@ -31,7 +31,7 @@ namespace Gentings.AspNetCore.TagHelpers
                 return GetEnumItems(For.ModelExplorer.ModelType);
             if (Value is Enum value)
                 return GetEnumItems(value.GetType());
-            throw new Exception(Localizer["EnumDropdownListTagHelper-TypeNotFound"]);
+            throw new Exception(Localizer["EnumDropdownListTagHelper_TypeNotFound"]);
         }
 
         private bool IsIgnore(Enum value)
@@ -48,7 +48,7 @@ namespace Gentings.AspNetCore.TagHelpers
             if (type.IsNullableType())
             {
                 if (DefaultText == null)
-                    DefaultText = Localizer["DropdownListTagHelper-DefaultText"];
+                    DefaultText = Localizer["DropdownListTagHelper_DefaultText"];
                 type = Nullable.GetUnderlyingType(type)!;
             }
             foreach (Enum value in Enum.GetValues(type!))

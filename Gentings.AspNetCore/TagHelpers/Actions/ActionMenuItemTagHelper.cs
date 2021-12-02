@@ -56,9 +56,10 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
         }
 
         /// <summary>
-        /// 判断是否只是普通按钮。
+        /// 是否只为链接。
         /// </summary>
-        public bool ActionOnly { get; set; }
+        [HtmlAttributeName("link")]
+        public bool IsLink { get; set; }
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -76,8 +77,8 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
             base.Process(context, output);
             await output.RenderAsync("a", async builder =>
             {
-                if (ActionOnly)
-                    builder.AddCssClass("action-only");
+                if (IsLink)
+                    builder.AddCssClass("action-link");
                 else
                     builder.AddCssClass("dropdown-item");
                 if (IconName != null)
@@ -92,7 +93,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
 
                 ClickHandler(builder);
 
-                if (content.IsEmptyOrWhiteSpace)
+                if (content.IsEmptyOrWhiteSpace && Type != null)
                     builder.InnerHtml.AppendHtml(_localizer[Type]);
             });
         }

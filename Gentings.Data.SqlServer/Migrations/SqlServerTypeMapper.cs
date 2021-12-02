@@ -30,6 +30,8 @@ namespace Gentings.Data.SqlServer.Migrations
                 {typeof(float), "real"},
                 //{typeof(decimal), "decimal"},
                 {typeof(TimeSpan), "time"},
+                {typeof(TimeOnly), "time"},
+                {typeof(DateOnly), "date"},
                 {typeof(byte[]), "varbinary"}
             };
 

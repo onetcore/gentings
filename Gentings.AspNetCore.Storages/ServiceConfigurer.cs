@@ -1,8 +1,7 @@
-﻿using Gentings;
-using Gentings.AspNetCore.Options;
+﻿using Gentings.AspNetCore.Options;
 using Gentings.Extensions.Settings;
 
-namespace Yd.AspNetCore.Storages
+namespace Gentings.AspNetCore.Storages
 {
     /// <summary>
     /// 服务配置。

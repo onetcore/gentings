@@ -1,6 +1,7 @@
 ﻿using Gentings;
 using Gentings.Data;
 using Gentings.Extensions;
+using Gentings.Security;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using System.Threading;
@@ -11,7 +12,7 @@ namespace GS.Extensions.Security
     /// <summary>
     /// 管理员管理接口。
     /// </summary>
-    public interface IUserManager : IObjectManager<User>, ISingletonService
+    public interface IUserManager : IObjectManager<User>, IUserService
     {
         /// <summary>
         /// 获取当前登录用户。
@@ -29,7 +30,7 @@ namespace GS.Extensions.Security
     /// <summary>
     /// 管理员管理实现类。
     /// </summary>
-    public class UserManager : ObjectManager<User>, IUserManager, ICachedUserManager
+    public class UserManager : ObjectManager<User>, IUserManager
     {
         private readonly IHttpContextAccessor _contextAccessor;
         private readonly IMemoryCache _cache;

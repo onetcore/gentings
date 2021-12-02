@@ -1,4 +1,5 @@
 ﻿using Gentings.AspNetCore.TagHelpers;
+using Gentings.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Routing;
@@ -15,6 +16,7 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
         private readonly IMenuProviderFactory _factory;
         private readonly IUrlHelperFactory _urlHelperFactory;
         private IUrlHelper? _urlHelper;
+        private readonly IPermissionAuthorizationService _authorizationService;
         private const string AttributeName = "provider";
 
         /// <summary>
@@ -33,10 +35,12 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
         /// </summary>
         /// <param name="factory">菜单提供者工厂接口。</param>
         /// <param name="urlHelperFactory">URL辅助类工厂接口。</param>
-        public MenuTagHelper(IMenuProviderFactory factory, IUrlHelperFactory urlHelperFactory)
+        /// <param name="authorizationService">权限验证服务。</param>
+        public MenuTagHelper(IMenuProviderFactory factory, IUrlHelperFactory urlHelperFactory, IPermissionAuthorizationService authorizationService)
         {
             _factory = factory;
             _urlHelperFactory = urlHelperFactory;
+            _authorizationService = authorizationService;
         }
 
         /// <summary>
@@ -176,7 +180,9 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
         /// <returns>返回验证结果。</returns>
         public virtual bool IsAuthorized(MenuItem item)
         {
-            return true;
+            if (item.PermissionName == null)
+                return true;
+            return _authorizationService.IsAuthorized(item.PermissionName);
         }
     }
 }

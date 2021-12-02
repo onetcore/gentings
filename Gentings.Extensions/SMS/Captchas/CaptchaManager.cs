@@ -63,7 +63,7 @@ namespace Gentings.Extensions.SMS.Captchas
             if (await _context.AnyAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type && x.Id == captcha.Id))
             {
                 return await _context.UpdateAsync(x => x.PhoneNumber == captcha.PhoneNumber && x.Type == captcha.Type && x.Id == captcha.Id,
-                    new { captcha.Code, CaptchaExpiredDate = captcha.ExpiredDate });
+                    new { captcha.Code, captcha.ExpiredDate });
             }
 
             return await _context.CreateAsync(captcha);

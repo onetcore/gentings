@@ -8,6 +8,7 @@ using Gentings.Extensions.Events;
 using Gentings.Extensions.Settings;
 using Gentings.Localization;
 using Gentings.Properties;
+using Gentings.Security;
 using Gentings.Storages;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -482,11 +483,11 @@ namespace Gentings.AspNetCore
             return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
         }
 
-        private ICachedUserManager _userManager;
+        private IUserService _userManager;
         /// <summary>
         /// 用户管理接口实例。
         /// </summary>
-        private ICachedUserManager UserManager => _userManager ??= GetRequiredService<ICachedUserManager>();
+        private IUserService UserManager => _userManager ??= GetRequiredService<IUserService>();
 
         /// <summary>
         /// 获取当前缓存用户实例。
