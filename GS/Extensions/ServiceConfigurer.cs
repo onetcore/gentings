@@ -1,11 +1,14 @@
 ﻿using Gentings;
 using Gentings.AspNetCore;
 using Gentings.Data.SqlServer;
+using Gentings.Extensions.OpenServices;
 using Gentings.Extensions.Settings;
 using Gentings.Security;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using GS.Extensions.Security;
+using Gentings.AspNetCore.Options;
 
 namespace GS.Extensions
 {
@@ -24,6 +27,8 @@ namespace GS.Extensions
                 .AddScoped(services => services.GetRequiredService<ISettingsManager>().GetSettings<SkinSettings>())
                 .AddScoped(services => services.GetRequiredService<ISettingsManager>().GetSettings<SiteSettings>());
             builder.AddSqlServer()
+                .AddModelUI<User>()//添加用户模型应用
+                .AddOpenServices<User>()
                 .AddServices(services =>
                 {
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

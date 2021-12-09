@@ -1,0 +1,84 @@
+﻿@page
+@model ApisModel
+@{
+    ViewContext.AddLibraries(ImportLibrary.Prettify);
+    ViewBag.Title = Model.Application.Name + "的API列表";
+    ViewBag.Current = "open.apps";
+    var tab = true;
+    var pane = true;
+}
+
+<form method="post" class="data-view">
+    <div class="tab-content data-content">
+        @foreach (var doc in Model.Document)
+        {
+            var count = doc.Value.Count();
+            var index = 0;
+            <div .class-show="pane" .class-active="pane" class="tab-pane fade show active" id="@doc.Key">
+                @foreach (var api in doc.Value)
+                {
+                    index++;
+                    var service = Model.ServiceManager.GetOrCreate(api.HttpMethod, api.RouteTemplate, () => new OpenService
+                    {
+                        Category = api.GroupName,
+                        Description = api.Summary?.Summary,
+                        HttpMethod = api.HttpMethod,
+                        Route = api.RouteTemplate
+                    });
+                    <div class="media text-muted pt-3">
+                        <div class="mr-2 text-white rounded position-relative" style="background-color: @(api.HttpMethod.GetColor()); font-size: 12px; width: 32px; height: 32px; overflow: hidden;">
+                            <span class="b-span">@api.HttpMethod</span>
+                        </div>
+                        <div .class-border-bottom="@(index<count)" class="media-body pb-3 mb-0 small lh-125 d-flex flex-row">
+                            <div class="flex-auto">
+                                <div class="d-flex">
+                                    <a js-modal="click" asp-page="./Services/Test" asp-route-method="@api.HttpMethod" asp-route-id="@api.RouteTemplate"><strong class="d-block">@@@api.RouteTemplate</strong></a>
+                                    <a .visible="@(!api.IsAnonymous)" class="text-success ml-1" title="需要登录验证" .icon="fa-lock"></a>
+                                </div>
+                                @api.Summary?.Summary
+                                @foreach (var parameter in api.Parameters)
+                                {
+                                    <div class="mt-2">
+                                        @parameter.Name<span class="text-danger" .visible="@parameter.IsRequired">*</span>: {
+                                        @if (parameter.Type.IsLinkable())
+                                        {
+                                            <a asp-page="./Services/Type" asp-route-type="@parameter.Type.FullName">@parameter.Type.GetRealTypeName()</a>
+                                        }
+                                        else
+                                        {
+                                            <span>@parameter.Type.GetRealTypeName()</span>
+                                        }
+                                        } @api.GetParameterDescriptor(parameter.Name)?.Summary
+                                    </div>
+                                }
+                                <div class="mt-2">@api.Summary?.Returns?.Summary</div>
+                            </div>
+                            <div>
+                                <gt:checkbox checked="Model.Services.Contains(service.Id)" value="@service.Id"></gt:checkbox>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            pane = false;
+        }
+    </div>
+</form>
+
+@section summary
+{
+    <div class="d-flex gt-toolbar">
+        <div class="flex-auto">
+            <ul class="nav nav-tabs" role="tablist">
+                @foreach (var groupName in Model.Document.Keys)
+                {
+                    <li .class-active="tab" class="nav-item">
+                        <a .class-active="tab" class="nav-link" data-toggle="tab" href="#@(groupName)" role="tab">@Model.GetOrAddNamedString("api." + groupName)</a>
+                    </li>
+                    tab = false;
+                }
+            </ul>
+        </div>
+        <div><a type="button" asp-route-appid="@Model.Application.Id" asp-page-handler="Add" js-checked="post" class="btn btn-success btn-sm"><i class="fa fa-link"></i> 关联</a></div>
+    </div>
+}

@@ -118,5 +118,20 @@ namespace Gentings
         IServiceBuilder AddTransients<TService, TImplementation>()
             where TService : class
             where TImplementation : class, TService;
+
+        /// <summary>
+        /// 配置选项。
+        /// </summary>
+        /// <param name="instance">选项实例对象。</param>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder ConfigureOptions(object instance);
+
+        /// <summary>
+        /// 配置选项。
+        /// </summary>
+        /// <typeparam name="TOptions">配置选项类型。</typeparam>
+        /// <param name="action">选项配置实例。</param>
+        /// <returns>返回构建实例。</returns>
+        IServiceBuilder ConfigureOptions<TOptions>(Action<TOptions> action);
     }
 }

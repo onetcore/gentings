@@ -15,7 +15,7 @@ namespace Gentings.Extensions.OpenServices
         /// <param name="builder">服务构建实例。</param>
         /// <returns>服务构建实例。</returns>
         public static IServiceBuilder AddOpenServices<TUser>(this IServiceBuilder builder)
-            where TUser : IUser
+            where TUser : class, IUser
         {
             return builder.AddTransients<IDataMigration, ApplicationDataMigration>()
                 .AddSingleton<IApplicationManager, ApplicationManager<TUser>>()

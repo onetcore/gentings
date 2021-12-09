@@ -116,9 +116,8 @@
          * Ajax提交表单元素。
          * @param {Function|undefined} success 成功后执行的方法。
          * @param {Function|undefined} error 错误后执行的方法。
-         * @param {string|undefined} dataType 发送数据类型：'JSON'，不设置表示表单提交。
          */
-        ajaxSubmit: function (success, error, dataType) {
+        ajaxSubmit: function (success, error) {
             if (!this.is('form')) throw Error(resources.ajax.mustFormElement);
             const data = new FormData(this[0]);
             const submit = this.find('[type=submit]').disabled();
@@ -128,7 +127,7 @@
             }, function (e) {
                 submit.enabled();
                 if (error) error(e);
-            }, dataType);
+            }, this.attr('_data-type'));
         },
         /**
          * 加载当前元素指定的模态框。
@@ -327,7 +326,7 @@
                             {
                                 const data = current.dataAttrs();
                                 const url = current.attr('href') || current.attr('action');
-                                $ajax(url, data, 'JSON');
+                                $ajax(url, data, current.attr('_data-type') || 'JSON');
                             }
                             return false;
                         case 'checked':
@@ -339,7 +338,7 @@
                                 });
                                 if (items.length > 0) data.id = items;
                                 const url = current.attr('href') || current.attr('action');
-                                $ajax(url, data, 'JSON');
+                                $ajax(url, data, current.attr('_data-type') || 'JSON');
                             }
                             return false;
                         case 'checked:modal':

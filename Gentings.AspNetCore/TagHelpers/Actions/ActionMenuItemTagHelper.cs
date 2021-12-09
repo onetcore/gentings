@@ -33,7 +33,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
         /// <summary>
         /// 操作类型。
         /// </summary>
-        public ActionType? Type { get; set; }
+        public ActionType Type { get; set; }
 
         /// <summary>
         /// 图标。
@@ -52,7 +52,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
         public override void Init(TagHelperContext context)
         {
             base.Init(context);
-            IconName = IconName ?? Icon?.ToDescriptionString() ?? Type?.GetIconClassName();
+            IconName = IconName ?? Icon?.ToDescriptionString() ?? Type.GetIconClassName();
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
 
                 ClickHandler(builder);
 
-                if (content.IsEmptyOrWhiteSpace && Type != null)
+                if (content.IsEmptyOrWhiteSpace)
                     builder.InnerHtml.AppendHtml(_localizer[Type]);
             });
         }
@@ -108,7 +108,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
                 builder.MergeAttribute("_click", "modal");
             else if (Type == ActionType.Upload)
                 builder.MergeAttribute("_click", "upload");
-            else if (Type != null)
+            else
                 builder.MergeAttribute("_click", "action");
         }
     }

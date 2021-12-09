@@ -1,0 +1,67 @@
+﻿@page
+@model IndexModel
+@{
+    ViewBag.Title = "应用程序列表";
+    ViewBag.Current = "open.apps";
+}
+
+<div class="card data-list">
+    <div class="toolbar card-header">
+        <form method="get">
+            <div>
+                <gt:enum-dropdownlist asp-for="Query.Status" default-text="请选择状态"></gt:enum-dropdownlist>
+            </div>
+            <div>
+                <input class="form-control" placeholder="应用程序Id" asp-for="Query.AppId" />
+            </div>
+            <div class="input-group-append">
+                <input class="form-control" placeholder="应用名称" asp-for="Query.Name" />
+                <button type="submit"><i class="bi-search"></i></button>
+            </div>
+        </form>
+        <div class="actions">
+            <gt:action-group>
+                <gt:action .permission="@Permissions.Create" type="Add" asp-page="./Edit">添加应用</gt:action>
+                <gt:action .permission="@Permissions.Delete" type="Delete" confirm="你确定要删除所选择的应用吗？" asp-page-handler="Delete"></gt:action>
+            </gt:action-group>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table table-hover" .warning="Model.Items" .warning-text="还没有找到任何应用程序！">
+            <thead>
+                <tr>
+                    <th class="checkbox"><gt:checkall /></th>
+                    <th>应用名称</th>
+                    <th width="100px">所属用户</th>
+                    <th width="150px">添加时间/过期时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var app in Model.Items)
+                {
+                    <tr class="data-item">
+                        <td class="checkbox"><gt:checkbox value="@app.Id"></gt:checkbox></td>
+                        <td>
+                            <div>
+                                <span .class-alert-success="@(app.Status == ApplicationStatus.Normal)" .class-alert-danger="@(app.Status != ApplicationStatus.Normal)" class="label alert">@Model.Localizer.GetString(app.Status)</span>
+                                <b>@app.Name</b>
+                                <div class="data-action">
+                                    <a .permission="@Permissions.Setting" title="API列表" asp-page="./Apis" asp-route-id="@app.Id"><i class="fa fa-link"></i> API列表</a>
+                                    <a .permission="@Permissions.Update" js-modal="click" asp-page="./Edit" asp-route-id="@app.Id"><i class="fa fa-pencil"></i> 编辑</a>
+                                    <a .permission="@Permissions.Delete" js-confirm="你确定要删除“@app.Name”吗？" js-action="post" asp-page-handler="Delete" asp-route-ids="@app.Id"><i class="fa fa-trash-o"></i> 删除</a>
+                                </div>
+                            </div>
+                            <div class="text-secondary">@Html.Raw(app.Summary)</div>
+                            <div><i>AppId：</i><input type="text" readonly="readonly" value="@app.Id" class="label alert alert-info focus-none" style="width: 250px" /></div>
+                            <div><i>AppSecret：</i><input type="text" readonly="readonly" class="label alert alert-info focus-none" value="@app.AppSecret" style="width: 250px" /></div>
+                        </td>
+                        <td>@(app["NickName"])</td>
+                        <td>添加：@app.CreatedDate.ToString("yyyy-MM-dd")<br />过期：@app.ExpiredDate.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <gt:page asp-route-userid="@Model.Query.UserId" asp-route-status="@Model.Query.Status" asp-route-user-name="@Model.Query.UserName" asp-route-appid="@Model.Query.AppId" asp-route-name="@Model.Query.Name" data="Model.Items"></gt:page>
+    </div>
+</div>

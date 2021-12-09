@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Gentings.Security;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gentings.AspNetCore.Options
 {
@@ -7,6 +10,48 @@ namespace Gentings.AspNetCore.Options
     /// </summary>
     public static class ServiceExtensions
     {
+        /// <summary>
+        /// 附加上用户模型特性实例。
+        /// </summary>
+        /// <typeparam name="TUser">模型类型。</typeparam>
+        /// <param name="builder">服务构建实例对象。</param>
+        /// <returns>返回服务构建实例对象。</returns>
+        public static IServiceBuilder AddModelUI<TUser>(this IServiceBuilder builder)
+            where TUser : class, IUser
+        {
+            return builder.AddModelUI<TUserModelUIAttribute, TUser>((pcc, c) => pcc.Add(c));
+        }
+
+        /// <summary>
+        /// 附加上模型特性实例。
+        /// </summary>
+        /// <typeparam name="TModelUIAttribute">模型特性类型。</typeparam>
+        /// <typeparam name="TModel">模型类型。</typeparam>
+        /// <param name="builder">服务构建实例对象。</param>
+        /// <returns>返回服务构建实例对象。</returns>
+        public static IServiceBuilder AddModelUI<TModelUIAttribute, TModel>(this IServiceBuilder builder)
+            where TModel : class
+            where TModelUIAttribute : ModelUIAttribute
+        {
+            return builder.AddModelUI<TModelUIAttribute, TModel>((pcc, c) => pcc.Add(c));
+        }
+
+        /// <summary>
+        /// 附加上模型特性实例。
+        /// </summary>
+        /// <typeparam name="TModelUIAttribute">模型特性类型。</typeparam>
+        /// <typeparam name="TModel">模型类型。</typeparam>
+        /// <param name="builder">服务构建实例对象。</param>
+        /// <param name="action">Razor页面转换操作方法。</param>
+        /// <returns>返回服务构建实例对象。</returns>
+        public static IServiceBuilder AddModelUI<TModelUIAttribute, TModel>(this IServiceBuilder builder, Action<PageConventionCollection, IPageApplicationModelConvention> action)
+            where TModel : class
+            where TModelUIAttribute : ModelUIAttribute
+        {
+            var convention = new ModelUIConvention<TModelUIAttribute, TModel>();
+            return builder.AddServices(services => services.PostConfigureAll<RazorPagesOptions>(options => action(options.Conventions, convention)));
+        }
+
         /// <summary>
         /// 添加静态资源目录。
         /// 
@@ -29,7 +74,9 @@ namespace Gentings.AspNetCore.Options
         /// </code>
         /// 2.实现接口<see cref="IServiceConfigurer"/>，调用本方法注册。
         /// </remarks>
-        public static IServiceBuilder AddResources<TAssemblyResourceType>(this IServiceBuilder builder) =>
-            builder.AddServices(services => services.ConfigureOptions(typeof(ResourceOptions<TAssemblyResourceType>)));
+        public static IServiceBuilder AddResources<TAssemblyResourceType>(this IServiceBuilder builder)
+        {
+            return builder.AddServices(services => services.ConfigureOptions(typeof(ResourceOptions<TAssemblyResourceType>)));
+        }
     }
 }

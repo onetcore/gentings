@@ -16,6 +16,7 @@
     <ProjectReference Include="..\Gentings.AspNetCore.Emails\Gentings.AspNetCore.Emails.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.Events\Gentings.AspNetCore.Events.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.NamedStrings\Gentings.AspNetCore.NamedStrings.csproj" />
+    <ProjectReference Include="..\Gentings.AspNetCore.OpenServices\Gentings.AspNetCore.OpenServices.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.SensitiveWords\Gentings.AspNetCore.SensitiveWords.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.Storages\Gentings.AspNetCore.Storages.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.Tasks\Gentings.AspNetCore.Tasks.csproj" />

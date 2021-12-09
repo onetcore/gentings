@@ -115,9 +115,8 @@ var resources = {
          * Ajax提交表单元素。
          * @param {Function|undefined} success 成功后执行的方法。
          * @param {Function|undefined} error 错误后执行的方法。
-         * @param {string|undefined} dataType 发送数据类型：'JSON'，不设置表示表单提交。
          */
-        ajaxSubmit: function ajaxSubmit(success, error, dataType) {
+        ajaxSubmit: function ajaxSubmit(success, error) {
             var _this = this;
 
             if (!this.is('form')) throw Error(resources.ajax.mustFormElement);
@@ -129,7 +128,7 @@ var resources = {
             }, function (e) {
                 submit.enabled();
                 if (error) error(e);
-            }, dataType);
+            }, this.attr('_data-type'));
         },
         /**
          * 加载当前元素指定的模态框。
@@ -321,7 +320,7 @@ var resources = {
                                     {
                                         var data = current.dataAttrs();
                                         var url = current.attr('href') || current.attr('action');
-                                        $ajax(url, data, 'JSON');
+                                        $ajax(url, data, current.attr('_data-type') || 'JSON');
                                     }
                                     return false;
                                 case 'checked':
@@ -334,7 +333,7 @@ var resources = {
                                             });
                                             if (items.length > 0) data.id = items;
                                             var url = current.attr('href') || current.attr('action');
-                                            $ajax(url, data, 'JSON');
+                                            $ajax(url, data, current.attr('_data-type') || 'JSON');
                                         })();
                                     }
                                     return false;

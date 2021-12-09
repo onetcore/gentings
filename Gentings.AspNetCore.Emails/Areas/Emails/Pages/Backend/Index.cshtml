@@ -25,8 +25,8 @@
         </form>
         <div>
             <gt:action-group>
-                <gt:action type="ActionType.Modal" asp-page="./Send" icon-name="bi-send">发送邮件</gt:action>
-                <gt:action type="ActionType.Delete" asp-page-handler="Delete" mode="Danger" disabled></gt:action>
+                <gt:action type="Modal" asp-page="./Send" icon-name="bi-send">发送邮件</gt:action>
+                <gt:action type="Delete" asp-page-handler="Delete" mode="Danger" disabled></gt:action>
             </gt:action-group>
         </div>
     </div>
@@ -57,8 +57,8 @@
                         <td>@email.CreatedDate.ToString("yyyy-MM-dd HH:mm")</td>
                         <td>
                             <gt:action-dropdownmenu>
-                                <gt:action type="ActionType.Modal" icon-name="bi-send" asp-page="./send" asp-route-id="@email.Id">重发</gt:action>
-                                <gt:action type="ActionType.Delete" asp-page-handler="Delete" asp-route-id="@email.Id"></gt:action>
+                                <gt:action type="Modal" icon-name="bi-send" asp-page="./send" asp-route-id="@email.Id">重发</gt:action>
+                                <gt:action type="Delete" asp-page-handler="Delete" asp-route-id="@email.Id"></gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>

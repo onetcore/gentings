@@ -23,7 +23,6 @@ namespace Gentings
         /// <returns>返回服务集合实例对象。</returns>
         public static IServiceBuilder AddGentings(this IServiceCollection services, IConfiguration configuration)
         {
-            services.TryAddSingleton(typeof(IServiceAccessor<>), typeof(ServiceAccessor<>));
             var exportedTypes = GetExportedTypes(configuration);
             var builder = new ServiceBuilder(services, configuration);
             BuildServices(builder, exportedTypes);

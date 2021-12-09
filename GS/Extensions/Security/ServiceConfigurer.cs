@@ -15,10 +15,7 @@ namespace GS.Extensions.Security
         /// <param name="builder">服务构建实例。</param>
         public void ConfigureServices(IServiceBuilder builder)
         {
-            builder.AddServices(services =>
-            {
-                services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            });
+            builder.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             builder.AddScoped(services => services.GetRequiredService<IUserManager>().GetUser());
         }
     }

@@ -12,9 +12,9 @@
         </form>
         <div class="actions" .permission="@Permissions.EditSensitive">
             <gt:action-group>
-                <gt:action type="ActionType.Add" asp-page="./Edit"></gt:action>
-                <gt:action type="ActionType.Delete" confirm="你确定要删除所选择的敏感词吗？" asp-page-handler="Delete" mode="Danger" disabled></gt:action>
-                <gt:action type="ActionType.Upload" asp-page-handler="Upload" mode="Light">导入</gt:action>
+                <gt:action type="Add" asp-page="./Edit"></gt:action>
+                <gt:action type="Delete" confirm="你确定要删除所选择的敏感词吗？" asp-page-handler="Delete"></gt:action>
+                <gt:action type="Upload" asp-page-handler="Upload">导入</gt:action>
             </gt:action-group>
         </div>
     </div>
@@ -40,8 +40,8 @@
                         <td>@word.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
                         <td .permission="@Permissions.EditSensitive">
                             <gt:action-dropdownmenu>
-                                <gt:action type="ActionType.Edit" asp-page="./Edit" asp-route-id="@word.Id"></gt:action>
-                                <gt:action type="ActionType.Delete" asp-route-id="@word.Id" confirm="你确定要删除“@word.Word”吗？" asp-page-handler="Delete"></gt:action>
+                                <gt:action type="Edit" asp-page="./Edit" asp-route-id="@word.Id"></gt:action>
+                                <gt:action type="Delete" asp-route-id="@word.Id" confirm="你确定要删除“@word.Word”吗？" asp-page-handler="Delete"></gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>

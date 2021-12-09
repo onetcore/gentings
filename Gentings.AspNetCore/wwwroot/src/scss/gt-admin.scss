@@ -986,6 +986,10 @@ a.action-link + a.action-link {
 
         .main-container {
             margin-left: 0 !important;
+
+            .navbar-toggler {
+                display: none !important;
+            }
         }
     }
 

@@ -106,6 +106,24 @@ namespace Gentings.Extensions.Properties {
         }
         
         /// <summary>
+        ///   查找类似 验证码清理服务 的本地化字符串。
+        /// </summary>
+        internal static string CaptchaTaskService {
+            get {
+                return ResourceManager.GetString("CaptchaTaskService", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 清理长时间未用的电话号码 的本地化字符串。
+        /// </summary>
+        internal static string CaptchaTaskService_Description {
+            get {
+                return ResourceManager.GetString("CaptchaTaskService_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 成功发送 的本地化字符串。
         /// </summary>
         internal static string EmailStatus_Completed {

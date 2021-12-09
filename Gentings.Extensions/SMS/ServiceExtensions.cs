@@ -1,5 +1,5 @@
 ﻿using Gentings.Data.Migrations;
-using Gentings.Extensions.SMS.Captchas;
+using Gentings.Extensions.Captchas;
 using Gentings.Tasks;
 
 namespace Gentings.Extensions.SMS
@@ -13,15 +13,9 @@ namespace Gentings.Extensions.SMS
         /// 添加SMS服务。
         /// </summary>
         /// <param name="builder">服务构建实例。</param>
-        /// <param name="captcha">短信验证码。</param>
         /// <returns>服务构建实例。</returns>
-        public static IServiceBuilder AddSMS(this IServiceBuilder builder, bool captcha = true)
+        public static IServiceBuilder AddSMS(this IServiceBuilder builder)
         {
-            if (captcha)
-            {
-                builder.AddTransients<IDataMigration, DefaultCaptchaDataMigration>()
-                .AddSingleton<ICaptchaManager, CaptchaManager>();
-            }
             return builder.AddTransients<IDataMigration, DefaultSmsDataMigration>()
                 .AddSingletons<ITaskService, DefaultSmsTaskService>()
                 .AddSingleton<ISmsManager, SmsManager>()

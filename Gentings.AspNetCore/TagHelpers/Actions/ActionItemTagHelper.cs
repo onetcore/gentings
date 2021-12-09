@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Razor.TagHelpers;
 namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
 {
     /// <summary>
-    /// 操作下拉列表框。
+    /// 工具栏操作下拉列表框。
     /// </summary>
     [HtmlTargetElement("gt:action", ParentTag = "gt:action-group")]
     public class ActionItemTagHelper : ActionMenuItemTagHelper
@@ -26,17 +26,34 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
         /// <summary>
         /// 按钮类型。
         /// </summary>
-        public ButtonType Mode { get; set; }
+        public ButtonType Mode { get; set; } = ButtonType.Secondary;
 
         /// <summary>
         /// 按钮类型。
         /// </summary>
-        public bool Outline { get; set; }
+        public bool Outline { get; set; } = true;
 
         /// <summary>
         /// 选中了才显示按钮。
         /// </summary>
         public bool Disabled { get; set; }
+
+        /// <summary>
+        /// 初始化当前标签上下文。
+        /// </summary>
+        /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
+        public override void Init(TagHelperContext context)
+        {
+            base.Init(context);
+            if (Mode == ButtonType.Secondary)
+            {
+                if (Type == ActionType.Add || Type == ActionType.Edit)
+                    Mode = ButtonType.Primary;
+                else if (Type == ActionType.Delete)
+                    Mode = ButtonType.Danger;
+            }
+            if (Type == ActionType.Delete) Disabled = true;
+        }
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -48,9 +65,9 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
             base.Process(context, output);
             await output.RenderAsync("a", async builder =>
             {
-                if (Disabled) builder.AddCssClass("checked-enabled disabled");
+                if (Disabled == true) builder.AddCssClass("checked-enabled disabled");
                 builder.AddCssClass("btn");
-                if (Outline) builder.AddCssClass("btn-outline-" + Mode.ToLowerString());
+                if (Outline == true) builder.AddCssClass("btn-outline-" + Mode.ToLowerString());
                 else builder.AddCssClass("btn-" + Mode.ToLowerString());
 
                 if (IconName != null)
@@ -64,7 +81,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
                 var content = await output.GetChildContentAsync();
                 builder.AppendTag("span", span =>
                 {
-                    if (content.IsEmptyOrWhiteSpace && Type != null)
+                    if (content.IsEmptyOrWhiteSpace)
                         span.InnerHtml.AppendHtml(_localizer[Type]);
                     else
                         span.InnerHtml.AppendHtml(content);
@@ -84,7 +101,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
                 builder.MergeAttribute("_click", "upload");
             else if (Type == ActionType.Edit)
                 builder.MergeAttribute("_click", "checked:modal");
-            else if (Type != null)
+            else
                 builder.MergeAttribute("_click", "checked");
         }
     }

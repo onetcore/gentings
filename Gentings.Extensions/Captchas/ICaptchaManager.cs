@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Gentings.Extensions.SMS.Captchas
+namespace Gentings.Extensions.Captchas
 {
     /// <summary>
     /// 验证码管理接口。

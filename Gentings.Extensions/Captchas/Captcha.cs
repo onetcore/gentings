@@ -2,12 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Gentings.Extensions.SMS.Captchas
+namespace Gentings.Extensions.Captchas
 {
     /// <summary>
     /// 短信验证码。
     /// </summary>
-    [Table("core_SMS_Captchas")]
+    [Table("core_Captchas")]
     public class Captcha
     {
         /// <summary>

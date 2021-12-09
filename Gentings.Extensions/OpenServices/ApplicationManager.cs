@@ -11,10 +11,8 @@ namespace Gentings.Extensions.OpenServices
     /// <summary>
     /// 应用管理实现类。
     /// </summary>
-    /// <typeparam name="TUser">用户类型。</typeparam>
-    public class ApplicationManager<TUser> : IApplicationManager where TUser : IUser
+    public class ApplicationManager<TUser> : ObjectManager<Application, Guid>, IApplicationManager where TUser : class, IUser
     {
-        private readonly IDbContext<Application> _context;
         private readonly IDbContext<ApplicationService> _asdb;
         private readonly IMemoryCache _cache;
 
@@ -25,30 +23,10 @@ namespace Gentings.Extensions.OpenServices
         /// <param name="asdb">应用程序服务数据库接口。</param>
         /// <param name="cache">缓存接口。</param>
         public ApplicationManager(IDbContext<Application> context, IDbContext<ApplicationService> asdb, IMemoryCache cache)
+            : base(context)
         {
-            _context = context;
             _asdb = asdb;
             _cache = cache;
-        }
-
-        /// <summary>
-        /// 通过应用Id获取应用程序实例。
-        /// </summary>
-        /// <param name="appId">应用Id。</param>
-        /// <returns>返回当前应用实例。</returns>
-        public virtual Application Find(Guid appId)
-        {
-            return _context.Find(appId);
-        }
-
-        /// <summary>
-        /// 通过应用Id获取应用程序实例。
-        /// </summary>
-        /// <param name="appId">应用Id。</param>
-        /// <returns>返回当前应用实例。</returns>
-        public virtual Task<Application> FindAsync(Guid appId)
-        {
-            return _context.FindAsync(appId);
         }
 
         /// <summary>
@@ -58,10 +36,7 @@ namespace Gentings.Extensions.OpenServices
         /// <returns>返回包含用户实例的应用类型实例。</returns>
         public virtual Task<Application> FindUserApplicationAsync(Guid appId)
         {
-            return _context.AsQueryable().WithNolock()
-                .InnerJoin<TUser>((a, u) => a.UserId == u.Id)
-                .Select()//备注，这个需要放在用户之前，否正可能会被覆盖
-                .Select<TUser>(x => x.UserName)
+            return Context.JoinSelect<Application, TUser>((a, u) => a.UserId == u.Id, x => x.UserName)
                 .Where(x => x.Id == appId)
                 .FirstOrDefaultAsync();
         }
@@ -115,70 +90,6 @@ namespace Gentings.Extensions.OpenServices
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// 分页获取应用。
-        /// </summary>
-        /// <param name="query">查询实例。</param>
-        /// <returns>应用列表。</returns>
-        public virtual IPageEnumerable<Application> Load(QueryBase<Application> query)
-        {
-            return _context.Load(query);
-        }
-
-        /// <summary>
-        /// 分页获取应用。
-        /// </summary>
-        /// <param name="query">查询实例。</param>
-        /// <returns>应用列表。</returns>
-        public virtual Task<IPageEnumerable<Application>> LoadAsync(QueryBase<Application> query)
-        {
-            return _context.LoadAsync(query);
-        }
-
-        /// <summary>
-        /// 添加应用。
-        /// </summary>
-        /// <param name="application">应用实例。</param>
-        /// <returns>返回添加结果。</returns>
-        public virtual DataResult Save(Application application)
-        {
-            if (_context.Any(x => x.Id == application.Id))
-                return DataResult.FromResult(_context.Update(application), DataAction.Updated);
-            return DataResult.FromResult(_context.Create(application), DataAction.Created);
-        }
-
-        /// <summary>
-        /// 添加应用。
-        /// </summary>
-        /// <param name="application">应用实例。</param>
-        /// <returns>返回添加结果。</returns>
-        public virtual async Task<DataResult> SaveAsync(Application application)
-        {
-            if (await _context.AnyAsync(x => x.Id == application.Id))
-                return DataResult.FromResult(await _context.UpdateAsync(application), DataAction.Updated);
-            return DataResult.FromResult(await _context.CreateAsync(application), DataAction.Created);
-        }
-
-        /// <summary>
-        /// 删除应用。
-        /// </summary>
-        /// <param name="ids">应用ID列表。</param>
-        /// <returns>返回删除结果。</returns>
-        public virtual DataResult Delete(Guid[] ids)
-        {
-            return DataResult.FromResult(_context.Delete(x => x.Id.Included(ids)), DataAction.Deleted);
-        }
-
-        /// <summary>
-        /// 删除应用。
-        /// </summary>
-        /// <param name="ids">应用ID列表。</param>
-        /// <returns>返回删除结果。</returns>
-        public virtual async Task<DataResult> DeleteAsync(Guid[] ids)
-        {
-            return DataResult.FromResult(await _context.DeleteAsync(x => x.Id.Included(ids)), DataAction.Deleted);
         }
     }
 }

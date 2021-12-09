@@ -132,6 +132,12 @@
   <data name="ApplicationStatus_Unapproved" xml:space="preserve">
     <value>验证失败</value>
   </data>
+  <data name="CaptchaTaskService" xml:space="preserve">
+    <value>验证码清理服务</value>
+  </data>
+  <data name="CaptchaTaskService_Description" xml:space="preserve">
+    <value>清理长时间未用的电话号码</value>
+  </data>
   <data name="EmailStatus_Completed" xml:space="preserve">
     <value>成功发送</value>
   </data>

@@ -1,6 +1,6 @@
 ﻿using Gentings.Data.Migrations;
 
-namespace Gentings.Extensions.SMS.Captchas
+namespace Gentings.Extensions.Captchas
 {
     /// <summary>
     /// 数据库迁移类。

@@ -782,6 +782,9 @@ a.action-link + a.action-link {
   main .main-container {
     margin-left: 0 !important;
   }
+  main .main-container .navbar-toggler {
+    display: none !important;
+  }
 
   .toolbar, .card .card-header.toolbar {
     flex-direction: column !important;
