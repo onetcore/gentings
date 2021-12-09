@@ -326,7 +326,9 @@
                             {
                                 const data = current.dataAttrs();
                                 const url = current.attr('href') || current.attr('action');
-                                $ajax(url, data, current.attr('_data-type') || 'JSON');
+                                $ajax(url, data, function (d) {
+                                    current.trigger('success', d.data);
+                                }, current.attr('_data-type') || 'JSON');
                             }
                             return false;
                         case 'checked':
@@ -338,7 +340,9 @@
                                 });
                                 if (items.length > 0) data.id = items;
                                 const url = current.attr('href') || current.attr('action');
-                                $ajax(url, data, current.attr('_data-type') || 'JSON');
+                                $ajax(url, data, function (d) {
+                                    current.trigger('success', d.data);
+                                }, current.attr('_data-type') || 'JSON');
                             }
                             return false;
                         case 'checked:modal':

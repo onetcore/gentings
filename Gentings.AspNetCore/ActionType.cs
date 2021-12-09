@@ -41,5 +41,9 @@
         /// 模态框显示。
         /// </summary>
         Modal,
+        /// <summary>
+        /// 链接。
+        /// </summary>
+        Link,
     }
 }

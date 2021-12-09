@@ -10,6 +10,12 @@ namespace Gentings.Extensions.OpenServices
     public interface IApplicationManager : IObjectManager<Application, Guid>
     {
         /// <summary>
+        /// 获取用户列表。
+        /// </summary>
+        /// <returns>返回用户列表实例。</returns>
+        Task<IDictionary<int, string>> LoadUsersAsync();
+
+        /// <summary>
         /// 获取用户应用，包含用户实例。
         /// </summary>
         /// <param name="appId">应用Id。</param>

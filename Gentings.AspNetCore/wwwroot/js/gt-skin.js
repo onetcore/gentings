@@ -320,7 +320,9 @@ var resources = {
                                     {
                                         var data = current.dataAttrs();
                                         var url = current.attr('href') || current.attr('action');
-                                        $ajax(url, data, current.attr('_data-type') || 'JSON');
+                                        $ajax(url, data, function (d) {
+                                            current.trigger('success', d.data);
+                                        }, current.attr('_data-type') || 'JSON');
                                     }
                                     return false;
                                 case 'checked':
@@ -333,7 +335,9 @@ var resources = {
                                             });
                                             if (items.length > 0) data.id = items;
                                             var url = current.attr('href') || current.attr('action');
-                                            $ajax(url, data, current.attr('_data-type') || 'JSON');
+                                            $ajax(url, data, function (d) {
+                                                current.trigger('success', d.data);
+                                            }, current.attr('_data-type') || 'JSON');
                                         })();
                                     }
                                     return false;

@@ -108,7 +108,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
                 builder.MergeAttribute("_click", "modal");
             else if (Type == ActionType.Upload)
                 builder.MergeAttribute("_click", "upload");
-            else
+            else if (Type != ActionType.Link)
                 builder.MergeAttribute("_click", "action");
         }
     }

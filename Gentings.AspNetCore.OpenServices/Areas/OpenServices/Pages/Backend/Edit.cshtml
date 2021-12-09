@@ -12,11 +12,9 @@
     </div>
     <div class="form-group">
         <label>密钥</label>
-        <div class="input-group">
+        <div class="input-group-append">
             <input class="form-control" asp-for="Input.AppSecret" readonly="readonly" />
-            <div class="input-group-append">
-                <a id="refresher" class="btn btn-secondary" asp-page-handler="General" js-action="post" title="重新生成密钥！"><i class="fa fa-refresh"></i></a>
-            </div>
+            <a id="refresher" asp-page-handler="General" _click="action" title="重新生成密钥！"><i class="bi-disc"></i></a>
         </div>
     </div>
     <div class="form-group">
@@ -36,11 +34,11 @@
 </form>
 
 <script type="text/javascript">
-    GtCore.queue(context => {
+    onrender(context => {
         $('#refresher', context).exec(current => {
             current.on('success',
                 (c, d) => {
-                    $('#Input_AppSecret', context).val(d.data.appSecret);
+                    $('#Input_AppSecret', context).val(d.appSecret);
                 });
         });
     });

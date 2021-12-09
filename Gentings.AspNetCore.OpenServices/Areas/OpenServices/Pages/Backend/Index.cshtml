@@ -33,31 +33,34 @@
                 <tr>
                     <th class="checkbox"><gt:checkall /></th>
                     <th>应用名称</th>
-                    <th width="100px">所属用户</th>
-                    <th width="150px">添加时间/过期时间</th>
+                    <th>所属用户</th>
+                    <th>添加时间/过期时间</th>
+                    <th class="text-center">操作</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="align-middle">
                 @foreach (var app in Model.Items)
                 {
                     <tr class="data-item">
                         <td class="checkbox"><gt:checkbox value="@app.Id"></gt:checkbox></td>
                         <td>
-                            <div>
+                            <div class="mb-2">
                                 <span .class-alert-success="@(app.Status == ApplicationStatus.Normal)" .class-alert-danger="@(app.Status != ApplicationStatus.Normal)" class="label alert">@Model.Localizer.GetString(app.Status)</span>
                                 <b>@app.Name</b>
-                                <div class="data-action">
-                                    <a .permission="@Permissions.Setting" title="API列表" asp-page="./Apis" asp-route-id="@app.Id"><i class="fa fa-link"></i> API列表</a>
-                                    <a .permission="@Permissions.Update" js-modal="click" asp-page="./Edit" asp-route-id="@app.Id"><i class="fa fa-pencil"></i> 编辑</a>
-                                    <a .permission="@Permissions.Delete" js-confirm="你确定要删除“@app.Name”吗？" js-action="post" asp-page-handler="Delete" asp-route-ids="@app.Id"><i class="fa fa-trash-o"></i> 删除</a>
-                                </div>
                             </div>
-                            <div class="text-secondary">@Html.Raw(app.Summary)</div>
-                            <div><i>AppId：</i><input type="text" readonly="readonly" value="@app.Id" class="label alert alert-info focus-none" style="width: 250px" /></div>
-                            <div><i>AppSecret：</i><input type="text" readonly="readonly" class="label alert alert-info focus-none" value="@app.AppSecret" style="width: 250px" /></div>
+                            <div><i>AppId：</i><span class="alert alert-info">@app.Id</span></div>
+                            <div><i>AppSecret：</i><span class="alert alert-info">@app.AppSecret</span></div>
+                            <div class="text-muted">@Html.Raw(app.Summary)</div>
                         </td>
                         <td>@(app["NickName"])</td>
                         <td>添加：@app.CreatedDate.ToString("yyyy-MM-dd")<br />过期：@app.ExpiredDate.ToString("yyyy-MM-dd")</td>
+                        <td>
+                            <gt:action-dropdownmenu>
+                                <gt:action type="Link" .permission="@Permissions.Setting" title="API列表" asp-page="./Apis" asp-route-id="@app.Id"><i class="bi-list"></i> API列表</gt:action>
+                                <gt:action type="Edit" .permission="@Permissions.Update" _modal="click" asp-page="./Edit" asp-route-id="@app.Id"></gt:action>
+                                <gt:action type="Delete" .permission="@Permissions.Delete" confirm="你确定要删除“@app.Name”吗？" asp-page-handler="Delete" asp-route-ids="@app.Id"></gt:action>
+                            </gt:action-dropdownmenu>
+                        </td>
                     </tr>
                 }
             </tbody>

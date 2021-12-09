@@ -15,6 +15,7 @@ namespace Gentings.Extensions.OpenServices
     {
         private readonly IDbContext<ApplicationService> _asdb;
         private readonly IMemoryCache _cache;
+        private readonly IDbContext<TUser> _userdb;
 
         /// <summary>
         /// 初始化类<see cref="ApplicationManager{TUser}"/>。
@@ -22,11 +23,13 @@ namespace Gentings.Extensions.OpenServices
         /// <param name="context">数据库操作实例。</param>
         /// <param name="asdb">应用程序服务数据库接口。</param>
         /// <param name="cache">缓存接口。</param>
-        public ApplicationManager(IDbContext<Application> context, IDbContext<ApplicationService> asdb, IMemoryCache cache)
+        /// <param name="userdb">用户数据库操作接口实例。</param>
+        public ApplicationManager(IDbContext<Application> context, IDbContext<ApplicationService> asdb, IMemoryCache cache, IDbContext<TUser> userdb)
             : base(context)
         {
             _asdb = asdb;
             _cache = cache;
+            _userdb = userdb;
         }
 
         /// <summary>
@@ -90,6 +93,19 @@ namespace Gentings.Extensions.OpenServices
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// 获取用户列表。
+        /// </summary>
+        /// <returns>返回用户列表实例。</returns>
+        public async Task<IDictionary<int, string>> LoadUsersAsync()
+        {
+            var users = await _userdb.AsQueryable().WithNolock()
+                .Select(x => new { x.Id, x.NickName })
+                .OrderBy(x => x.NickName)
+                .AsEnumerableAsync(x => KeyValuePair.Create(x.GetInt32(0), x.GetString(1)));
+            return users.ToDictionary(x => x.Key, x => x.Value);
         }
     }
 }
