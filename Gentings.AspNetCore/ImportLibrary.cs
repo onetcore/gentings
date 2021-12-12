@@ -31,16 +31,12 @@
         /// </summary>
         Highlight = 0x10,
         /// <summary>
-        /// 脚本高亮渲染。
-        /// </summary>
-        Prettify = 0x20,
-        /// <summary>
         /// 代码编辑器。
         /// </summary>
-        CodeMirror = 0x40,
+        CodeMirror = 0x20,
         /// <summary>
         /// MD简易编辑器。
         /// </summary>
-        GtEditor = 0x80,
+        GtEditor = 0x40,
     }
 }

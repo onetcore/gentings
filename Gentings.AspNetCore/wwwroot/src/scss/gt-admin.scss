@@ -592,59 +592,13 @@ a.action-link + a.action-link {
     margin-left: 0.5rem;
 }
 
-.card {
-    box-shadow: $card-box-shadow;
+//card
+.card > .card-header.toolbar {
+    @extend .toolbar;
+    border-bottom-color: transparent;
 
-    .card-header {
-        display: flex;
-        align-items: center;
-        padding: 1rem 1rem;
-        background-color: transparent;
-        justify-content: space-between;
-
-        h2, h3, h4, h5 {
-            margin-bottom: 0;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: .02em;
-            font-size: .9rem;
-        }
-
-        .nav-tabs > .nav-item {
-            margin-left: 0.5rem;
-            margin-right: 0;
-
-            > .nav-link {
-                padding-left: 0;
-                padding-right: 0;
-                padding-top: 0;
-                padding-bottom: 0.6rem;
-                margin-bottom: -1rem;
-                border-bottom-width: 1px;
-            }
-        }
-
-        &.toolbar {
-            @extend .toolbar;
-            border-bottom-color: transparent;
-
-            ~ .card-body {
-                padding-top: 0;
-            }
-        }
-    }
-
-    .card-body {
-        table {
-            th {
-                background-color: $gray-200;
-                padding: 0.95rem 0.95rem;
-            }
-
-            td {
-                padding: 0.95rem 0.95rem;
-            }
-        }
+    ~ .card-body {
+        padding-top: 0;
     }
 }
 

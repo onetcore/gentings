@@ -1,0 +1,17 @@
+﻿@page
+@model ResultModel
+@{
+    ViewBag.Title = "查看默认结果";
+    ViewBag.HideFooter = true;
+    Layout = "_Modal";
+}
+<div class="alert alert-info p-1">
+    <strong>[@(Model.ApiDescriptor.HttpMethod)] @(Model.ApiDescriptor.RouteTemplate) </strong>
+    @Model.ApiDescriptor.Summary?.Summary
+</div>
+<div class="rounded shadow-sm test-result scrollbar">
+    @foreach (var responseType in Model.ApiDescriptor.ResponseTypes)
+    {
+        <pre><code>@responseType.Type.ToJsonString("null")</code></pre>
+    }
+</div>

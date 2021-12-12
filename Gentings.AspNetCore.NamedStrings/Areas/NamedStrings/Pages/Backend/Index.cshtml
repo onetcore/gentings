@@ -30,7 +30,7 @@
                     <tr>
                         <td></td>
                         <td colspan="3">
-                            <i class="bi-plus-circle-dotted"></i> <a title="点击查看父级项目" class="text-dark" title="@Model.Current.Value" asp-route-id="@Model.Current.ParentId">@Model.Current.Path</a>
+                            <i class="bi-dash-circle-dotted"></i> <a title="点击查看父级项目" class="text-dark" title="@Model.Current.Value" asp-route-id="@Model.Current.ParentId">@Model.Current.Path</a>
                         </td>
                     </tr>
                 }
@@ -45,7 +45,7 @@
                             }
                             else
                             {
-                                <i class="bi-dash-circle-dotted"></i> @(setting.Path)
+                                <i class="bi-align-start v-hidden"></i> @(setting.Path)
                             }
                         </td>
                         <td>@setting.Value</td>

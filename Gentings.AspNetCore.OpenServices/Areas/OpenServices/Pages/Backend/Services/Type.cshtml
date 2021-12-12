@@ -1,0 +1,71 @@
+﻿@page "{type}"
+@model TypeModel
+@{
+    ViewContext.AddLibraries(ImportLibrary.Highlight);
+    ViewData["Title"] = Model.Type.GetRealTypeName();
+    ViewBag.Current = "open.services";
+}
+
+<div class="d-flex align-items-center p-3 mb-3 text-white-50 bg-primary rounded shadow-sm">
+    <div class="icon-48 text-uppercase">@Model.TagName</div>
+    <div class="px-3" style="flex:auto;">
+        <h2 class="mb-0 text-white">@ViewBag.Title</h2>
+        <small>@Model.TypeDescriptor.Summary</small>
+    </div>
+    <a href="#" onclick="history.go(-1);return false;" title="返回" style="font-size:2rem;color:var(--bs-light);" .icon="bi-reply"></a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>属性名称</th>
+                    <th>类型</th>
+                    <th>描述</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var property in Model.Type.GetProperties())
+                {
+                    if (!property.CanRead || !property.CanWrite)
+                    {
+                        continue;
+                    }
+                    <tr>
+                        <td>@property.Name</td>
+                        <td>
+                            @if (property.PropertyType.IsLinkable())
+                            {
+                                <a asp-route-type="@property.PropertyType.FullName">@property.PropertyType.GetRealTypeName()</a>
+                            }
+                            else
+                            {
+                                <span>@property.PropertyType.GetRealTypeName()</span>
+                            }
+                        </td>
+                        <td>
+                            @Model.TypeDescriptor.GetPropertyDescriptor(property)?.Summary
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <ul class="nav nav-tabs bordered" role="tablist">
+            <li class="nav-item active">
+                <a class="nav-link active" id="cs-tab" data-bs-toggle="tab" href="#cs" role="tab">C#</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="ts-tab" data-bs-toggle="tab" href="#ts" role="tab">TypeScript</a>
+            </li>
+        </ul>
+        <div class="tab-content pb-2">
+            <div id="cs" class="media text-muted pt-3 tab-pane fade show active">
+                <pre><code class="language-csharp p-0">@Model.Type.GetClass()</code></pre>
+            </div>
+            <div id="ts" class="media text-muted pt-3 tab-pane fade">
+                <pre><code class="language-typescript p-0">@Model.Type.GetTypeScriptInterface()</code></pre>
+            </div>
+        </div>
+    </div>
+</div>

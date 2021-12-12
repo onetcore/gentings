@@ -1,0 +1,2949 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Gentings.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:Gentings.Extensions.Captchas.Captcha">
+            <summary>
+            短信验证码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.Captcha.Id">
+            <summary>
+            预留Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.Captcha.PhoneNumber">
+            <summary>
+            用户手机号码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.Captcha.Type">
+            <summary>
+            验证码类型。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.Captcha.Code">
+            <summary>
+            验证码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.Captcha.ExpiredDate">
+            <summary>
+            验证码过期时间。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.Captchas.CaptchaDataMigration">
+            <summary>
+            数据库迁移类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.CaptchaDataMigration.Create(Gentings.Data.Migrations.MigrationBuilder)">
+            <summary>
+            当模型建立时候构建的表格实例。
+            </summary>
+            <param name="builder">迁移实例对象。</param>
+        </member>
+        <member name="T:Gentings.Extensions.Captchas.CaptchaManager">
+            <summary>
+            验证码管理类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.CaptchaManager.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.Captchas.Captcha})">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.Captchas.CaptchaManager"/>。
+            </summary>
+            <param name="context">数据库操作上下文实例。</param>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.CaptchaManager.GetCaptchaAsync(System.String,System.String,System.Int32)">
+            <summary>
+            获取验证码。
+            </summary>
+            <param name="phoneNumber">电话号码。</param>
+            <param name="type">类型。</param>
+            <param name="id">预留Id。</param>
+            <returns>返回验证码实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.CaptchaManager.SaveCaptchAsync(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            更新验证码实例。
+            </summary>
+            <param name="phoneNumber">电话号码。</param>
+            <param name="type">类型。</param>
+            <param name="code">验证码。</param>
+            <param name="minutes">过期分钟数。</param>
+            <param name="id">预留Id。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.CaptchaManager.SaveCaptchAsync(Gentings.Extensions.Captchas.Captcha)">
+            <summary>
+            更新验证码实例。
+            </summary>
+            <param name="captcha">验证码实例。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.CaptchaManager.ClearAsync">
+            <summary>
+            移除长期未使用的电话号码。
+            </summary>
+            <returns>返回移除结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Captchas.ClearTaskService">
+            <summary>
+            短信发送后台服务。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.ClearTaskService.#ctor(Gentings.Extensions.Captchas.ICaptchaManager)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.Captchas.ClearTaskService"/>。
+            </summary>
+            <param name="captchaManager">短信验证管理接口。</param>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.ClearTaskService.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.ClearTaskService.Description">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Captchas.ClearTaskService.Interval">
+            <summary>
+            执行间隔时间。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.ClearTaskService.ExecuteAsync(Gentings.Tasks.Argument)">
+            <summary>
+            执行方法。
+            </summary>
+            <param name="argument">参数。</param>
+        </member>
+        <member name="T:Gentings.Extensions.Captchas.ICaptchaManager">
+            <summary>
+            验证码管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.ICaptchaManager.GetCaptchaAsync(System.String,System.String,System.Int32)">
+            <summary>
+            获取验证码。
+            </summary>
+            <param name="phoneNumber">电话号码。</param>
+            <param name="type">类型。</param>
+            <param name="id">预留Id。</param>
+            <returns>返回验证码实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.ICaptchaManager.SaveCaptchAsync(System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            更新验证码实例。
+            </summary>
+            <param name="phoneNumber">电话号码。</param>
+            <param name="type">类型。</param>
+            <param name="code">验证码。</param>
+            <param name="minutes">过期分钟数。</param>
+            <param name="id">预留Id。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.ICaptchaManager.SaveCaptchAsync(Gentings.Extensions.Captchas.Captcha)">
+            <summary>
+            更新验证码实例。
+            </summary>
+            <param name="captcha">验证码实例。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.ICaptchaManager.ClearAsync">
+            <summary>
+            移除长期未使用的电话号码。
+            </summary>
+            <returns>返回移除结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Captchas.ServiceExtensions">
+            <summary>
+            服务扩展类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Captchas.ServiceExtensions.AddCaptchas(Gentings.IServiceBuilder)">
+            <summary>
+            添加短信验证服务。
+            </summary>
+            <param name="builder">服务构建实例。</param>
+            <returns>服务构建实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.Email">
+            <summary>
+            信息实体类。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.Id">
+            <summary>
+            信息Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.Title">
+            <summary>
+            标题，如果是短信则表示内容。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.Content">
+            <summary>
+            内容。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.To">
+            <summary>
+            电子邮件地址或者电话号码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.UserId">
+            <summary>
+            用户Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.TryTimes">
+            <summary>
+            尝试发送次数。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.CreatedDate">
+            <summary>
+            添加日期。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.ConfirmDate">
+            <summary>
+            发送/失败日期，或者已读日期。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.Result">
+            <summary>
+            操作结果。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.HashKey">
+            <summary>
+            唯一键验证。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.Source">
+            <summary>
+            源代码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.Email.SettingsId">
+            <summary>
+            发送成功的邮件配置Id。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.Email.GetHashString">
+            <summary>
+            获取用于计算唯一键的哈希组合字符串的哈希值。
+            </summary>
+            <returns>返回组合字符串的哈希值。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailDataMigration">
+            <summary>
+            数据库迁移类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailDataMigration.Create(Gentings.Data.Migrations.MigrationBuilder)">
+            <summary>
+            当模型建立时候构建的表格实例。
+            </summary>
+            <param name="builder">迁移实例对象。</param>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailExtensions">
+            <summary>
+            扩展类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailExtensions.ReplaceBy(System.String,System.Action{System.Collections.Generic.IDictionary{System.String,System.String}})">
+            <summary>
+            替换关键词。
+            </summary>
+            <param name="message">当前电子邮件。</param>
+            <param name="action">添加关键词。</param>
+            <returns>返回替换后的字符串。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailManager">
+            <summary>
+            电子邮件管理实现类。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailManager.Context">
+            <summary>
+            数据库操作接口实例。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.Emails.Email},Gentings.Localization.ILocalizer,Gentings.Extensions.Emails.IEmailSettingsManager)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.Emails.EmailManager"/>。
+            </summary>
+            <param name="context">数据库操作接口。</param>
+            <param name="localizer">本地化接口。</param>
+            <param name="settingsManager">配置管理接口。</param>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.GetTemplate(System.String,System.Object,System.Type)">
+            <summary>
+            获取资源，一般为内容。
+            </summary>
+            <param name="resourceKey">资源键。</param>
+            <param name="replacement">替换对象，使用匿名类型实例。</param>
+            <param name="resourceType">资源所在程序集的类型。</param>
+            <returns>返回模板文本字符串。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.Update(System.Int32,System.Object)">
+            <summary>
+            更新列。
+            </summary>
+            <param name="id">当前Id。</param>
+            <param name="fields">更新匿名对象。</param>
+            <returns>返回更新结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.UpdateAsync(System.Int32,System.Object)">
+            <summary>
+            更新列。
+            </summary>
+            <param name="id">当前Id。</param>
+            <param name="fields">更新匿名对象。</param>
+            <returns>返回更新结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.Save(Gentings.Extensions.Emails.Email)">
+            <summary>
+            添加电子邮件接口。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SaveAsync(Gentings.Extensions.Emails.Email)">
+            <summary>
+            添加电子邮件接口。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.IsExisted(Gentings.Extensions.Emails.Email,System.Int32)">
+            <summary>
+            判断电子邮件是否已经存在，用<see cref="P:Gentings.Extensions.Emails.Email.HashKey"/>判断。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <param name="expiredSeconds">过期时间（秒）。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.IsExistedAsync(Gentings.Extensions.Emails.Email,System.Int32)">
+            <summary>
+            判断电子邮件是否已经存在，用<see cref="P:Gentings.Extensions.Emails.Email.HashKey"/>判断。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <param name="expiredSeconds">过期时间（秒）。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SendEmail(System.Int32,System.String,System.String,System.String,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="userId">用户Id。</param>
+            <param name="emailAddress">电子邮件地址。</param>
+            <param name="title">标题。</param>
+            <param name="content">内容。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SendEmailAsync(System.Int32,System.String,System.String,System.String,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="userId">用户Id。</param>
+            <param name="emailAddress">电子邮件地址。</param>
+            <param name="title">标题。</param>
+            <param name="content">内容。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SendEmail(Gentings.Security.IUser,System.String,System.Object,System.Type,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="user">用户实例。</param>
+            <param name="resourceKey">资源键：<paramref name="resourceKey"/>_{Title}，<paramref name="resourceKey"/>_{Content}。</param>
+            <param name="replacement">替换对象，使用匿名类型实例。</param>
+            <param name="resourceType">资源所在程序集的类型。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SendEmailAsync(Gentings.Security.IUser,System.String,System.Object,System.Type,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="user">用户实例。</param>
+            <param name="resourceKey">资源键：<paramref name="resourceKey"/>_{Title}，<paramref name="resourceKey"/>_{Content}。</param>
+            <param name="replacement">替换对象，使用匿名类型实例。</param>
+            <param name="resourceType">资源所在程序集的类型。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.Load(System.Nullable{Gentings.Extensions.Emails.EmailStatus})">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="status">状态。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.LoadAsync(System.Nullable{Gentings.Extensions.Emails.EmailStatus})">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="status">状态。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.Load``1(``0)">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="query">电子邮件查询类型。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.LoadAsync``1(``0)">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="query">电子邮件查询类型。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SetFailured(System.Int32,System.Int32)">
+            <summary>
+            设置失败状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="maxTryTimes">最大失败次数。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SetFailuredAsync(System.Int32,System.Int32)">
+            <summary>
+            设置失败状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="maxTryTimes">最大失败次数。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SetSuccess(System.Int32,System.Int32)">
+            <summary>
+            设置成功状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="settingsId">配置ID。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.SetSuccessAsync(System.Int32,System.Int32)">
+            <summary>
+            设置成功状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="settingsId">配置ID。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.Find(System.Int32)">
+            <summary>
+            通过Id查询电子邮件。
+            </summary>
+            <param name="id">电子邮件id。</param>
+            <returns>返回电子邮件实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.FindAsync(System.Int32)">
+            <summary>
+            通过Id查询电子邮件。
+            </summary>
+            <param name="id">电子邮件id。</param>
+            <returns>返回电子邮件实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailManager.DeleteAsync(System.Int32[])">
+            <summary>
+            删除邮件。
+            </summary>
+            <param name="ids">邮件Id列表。</param>
+            <returns>返回删除结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailQuery">
+            <summary>
+            邮件查询基类。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailQuery.Title">
+            <summary>
+            标题。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailQuery.To">
+            <summary>
+            接受对象。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailQuery.UserId">
+            <summary>
+            用户Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailQuery.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailQuery.Result">
+            <summary>
+            返回结果状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailQuery.Sid">
+            <summary>
+            配置Id。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailQuery.Init(Gentings.Extensions.IQueryContext{Gentings.Extensions.Emails.Email})">
+            <summary>
+            初始化查询上下文。
+            </summary>
+            <param name="context">查询上下文。</param>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailSettings">
+            <summary>
+            电子邮件配置。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.Emails.EmailSettings.ExtensionName">
+            <summary>
+            扩展名称。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.Emails.EmailSettings.MaxTryTimes">
+            <summary>
+            最大发送次数。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.Enabled">
+            <summary>
+            启用。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.SmtpServer">
+            <summary>
+            SMTP地址。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.SmtpUserName">
+            <summary>
+            SMTP地址。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.SmtpPort">
+            <summary>
+            端口。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.UseSsl">
+            <summary>
+            使用SSL。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.SmtpPassword">
+            <summary>
+            密码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.Count">
+            <summary>
+            发送个数。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.Id">
+            <summary>
+            获取或设置唯一Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailSettings.Summary">
+            <summary>
+            备注。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailSettingsManager">
+            <summary>
+            电子邮件配置管理类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailSettingsManager.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.Emails.EmailSettings},Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.Emails.EmailSettingsManager"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+            <param name="cache">缓存接口。</param>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailSettingsManager.GetSettings">
+            <summary>
+            获取当前可用的配置。
+            </summary>
+            <returns>返回当前可用的配置。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailSettingsManager.GetSettingsAsync">
+            <summary>
+            获取当前可用的配置。
+            </summary>
+            <returns>返回当前可用的配置。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailSettingsManager.IsEnabled">
+            <summary>
+            是否开启电子邮件系统，主要检查看是否有激活的配置。
+            </summary>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailSettingsManager.IsEnabledAsync">
+            <summary>
+            是否开启电子邮件系统，主要检查看是否有激活的配置。
+            </summary>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailStatus">
+            <summary>
+            电子邮件状态。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.Emails.EmailStatus.Pending">
+            <summary>
+            等待发送。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.Emails.EmailStatus.Completed">
+            <summary>
+            发送成功。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.Emails.EmailStatus.Failured">
+            <summary>
+            发送失败。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.EmailTaskService">
+            <summary>
+            邮件发送服务。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailTaskService.#ctor(Gentings.Extensions.Emails.IEmailSettingsManager,Gentings.Extensions.Emails.IEmailManager,Microsoft.Extensions.Logging.ILogger{Gentings.Extensions.Emails.EmailTaskService})">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.Emails.EmailTaskService"/>。
+            </summary>
+            <param name="settingsManager">配置管理接口。</param>
+            <param name="emailManager">电子邮件管理接口。</param>
+            <param name="logger">日志接口。</param>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailTaskService.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailTaskService.Description">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Emails.EmailTaskService.Interval">
+            <summary>
+            执行间隔时间。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailTaskService.ExecuteAsync(Gentings.Tasks.Argument)">
+            <summary>
+            执行方法。
+            </summary>
+            <param name="argument">参数。</param>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailTaskService.SendAsync(Gentings.Extensions.Emails.EmailSettings,Gentings.Extensions.Emails.Email)">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="settings">网站配置。</param>
+            <param name="message">电子邮件实例。</param>
+            <returns>返回发送任务。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.EmailTaskService.InitAsync(MimeKit.MimeMessage,Gentings.Extensions.Emails.Email)">
+            <summary>
+            实例化一个电子邮件。
+            </summary>
+            <param name="mail">邮件实例。</param>
+            <param name="message">电子邮件实例。</param>
+            <returns>返回邮件实体对象。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.IEmailManager">
+            <summary>
+            电子邮件管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.GetTemplate(System.String,System.Object,System.Type)">
+            <summary>
+            获取资源，一般为内容。
+            </summary>
+            <param name="resourceKey">资源键。</param>
+            <param name="replacement">替换对象，使用匿名类型实例。</param>
+            <param name="resourceType">资源所在程序集的类型。</param>
+            <returns>返回模板文本字符串。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.Update(System.Int32,System.Object)">
+            <summary>
+            更新列。
+            </summary>
+            <param name="id">当前Id。</param>
+            <param name="fields">更新匿名对象。</param>
+            <returns>返回更新结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.UpdateAsync(System.Int32,System.Object)">
+            <summary>
+            更新列。
+            </summary>
+            <param name="id">当前Id。</param>
+            <param name="fields">更新匿名对象。</param>
+            <returns>返回更新结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.DeleteAsync(System.Int32[])">
+            <summary>
+            删除邮件。
+            </summary>
+            <param name="ids">邮件Id列表。</param>
+            <returns>返回删除结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.Save(Gentings.Extensions.Emails.Email)">
+            <summary>
+            添加电子邮件接口。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SaveAsync(Gentings.Extensions.Emails.Email)">
+            <summary>
+            添加电子邮件接口。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.IsExisted(Gentings.Extensions.Emails.Email,System.Int32)">
+            <summary>
+            判断电子邮件是否已经存在，用<see cref="P:Gentings.Extensions.Emails.Email.HashKey"/>判断。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <param name="expiredSeconds">过期时间（秒）。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.IsExistedAsync(Gentings.Extensions.Emails.Email,System.Int32)">
+            <summary>
+            判断电子邮件是否已经存在，用<see cref="P:Gentings.Extensions.Emails.Email.HashKey"/>判断。
+            </summary>
+            <param name="message">电子邮件实例对象。</param>
+            <param name="expiredSeconds">过期时间（秒）。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SendEmail(System.Int32,System.String,System.String,System.String,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="userId">用户Id。</param>
+            <param name="emailAddress">电子邮件地址。</param>
+            <param name="title">标题。</param>
+            <param name="content">内容。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SendEmailAsync(System.Int32,System.String,System.String,System.String,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="userId">用户Id。</param>
+            <param name="emailAddress">电子邮件地址。</param>
+            <param name="title">标题。</param>
+            <param name="content">内容。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SendEmail(Gentings.Security.IUser,System.String,System.Object,System.Type,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="user">用户实例。</param>
+            <param name="resourceKey">资源键：<paramref name="resourceKey"/>_{Title}，<paramref name="resourceKey"/>_{Content}。</param>
+            <param name="replacement">替换对象，使用匿名类型实例。</param>
+            <param name="resourceType">资源所在程序集的类型。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SendEmailAsync(Gentings.Security.IUser,System.String,System.Object,System.Type,System.Action{Gentings.Extensions.Emails.Email})">
+            <summary>
+            发送电子邮件。
+            </summary>
+            <param name="user">用户实例。</param>
+            <param name="resourceKey">资源键：<paramref name="resourceKey"/>_{Title}，<paramref name="resourceKey"/>_{Content}。</param>
+            <param name="replacement">替换对象，使用匿名类型实例。</param>
+            <param name="resourceType">资源所在程序集的类型。</param>
+            <param name="action">实例化方法。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.Load(System.Nullable{Gentings.Extensions.Emails.EmailStatus})">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="status">状态。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.LoadAsync(System.Nullable{Gentings.Extensions.Emails.EmailStatus})">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="status">状态。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.Load``1(``0)">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="query">电子邮件查询类型。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.LoadAsync``1(``0)">
+            <summary>
+            加载电子邮件列表。
+            </summary>
+            <param name="query">电子邮件查询类型。</param>
+            <returns>返回电子邮件列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SetFailured(System.Int32,System.Int32)">
+            <summary>
+            设置失败状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="maxTryTimes">最大失败次数。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SetFailuredAsync(System.Int32,System.Int32)">
+            <summary>
+            设置失败状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="maxTryTimes">最大失败次数。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SetSuccess(System.Int32,System.Int32)">
+            <summary>
+            设置成功状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="settingsId">配置ID。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.SetSuccessAsync(System.Int32,System.Int32)">
+            <summary>
+            设置成功状态。
+            </summary>
+            <param name="id">当前电子邮件Id。</param>
+            <param name="settingsId">配置ID。</param>
+            <returns>返回设置结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.Find(System.Int32)">
+            <summary>
+            通过Id查询电子邮件。
+            </summary>
+            <param name="id">电子邮件id。</param>
+            <returns>返回电子邮件实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailManager.FindAsync(System.Int32)">
+            <summary>
+            通过Id查询电子邮件。
+            </summary>
+            <param name="id">电子邮件id。</param>
+            <returns>返回电子邮件实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.IEmailSettingsManager">
+            <summary>
+            电子邮件配置管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailSettingsManager.IsEnabled">
+            <summary>
+            是否开启电子邮件系统，主要检查看是否有激活的配置。
+            </summary>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailSettingsManager.IsEnabledAsync">
+            <summary>
+            是否开启电子邮件系统，主要检查看是否有激活的配置。
+            </summary>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailSettingsManager.GetSettings">
+            <summary>
+            获取当前可用的配置。
+            </summary>
+            <returns>返回当前可用的配置。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.IEmailSettingsManager.GetSettingsAsync">
+            <summary>
+            获取当前可用的配置。
+            </summary>
+            <returns>返回当前可用的配置。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Emails.ServiceExtensions">
+            <summary>
+            服务扩展类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.Emails.ServiceExtensions.AddEmails(Gentings.IServiceBuilder)">
+            <summary>
+            添加邮件组件。
+            </summary>
+            <param name="builder">服务构建实例。</param>
+            <returns>服务构建实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor">
+            <summary>
+            API实体。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.Summary">
+            <summary>
+            注释信息。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.Assembly">
+            <summary>
+            程序集名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.ControllerName">
+            <summary>
+            Controller名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.ActionName">
+            <summary>
+            Action名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.DisplayName">
+            <summary>
+            显示名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.GroupName">
+            <summary>
+            分组名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.RouteTemplate">
+            <summary>
+            路由模板。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.HttpMethod">
+            <summary>
+            HTTP方法。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.IsAnonymous">
+            <summary>
+            是否需要登录验证。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.RouteValues">
+            <summary>
+            路由参数列表。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.Parameters">
+            <summary>
+            参数描述实例。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.GetParameterDescriptor(System.String)">
+            <summary>
+            获取参数描述信息。
+            </summary>
+            <param name="parameterName">参数名称。</param>
+            <returns>返回参数描述信息实例。</returns>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.ResponseTypes">
+            <summary>
+            返回类型实例。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.Equals(Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor,Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor)">
+            <summary>
+            实现对比接口。
+            </summary>
+            <param name="x">API实体对象。</param>
+            <param name="y">API实体对象。</param>
+            <returns>返回对比结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.GetHashCode(Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor)">
+            <summary>
+            哈希值。
+            </summary>
+            <param name="obj">API实体对象。</param>
+            <returns>返回当前程序集信息的哈希值。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.CompareTo(Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor)">
+            <summary>
+            实现对比方法。
+            </summary>
+            <param name="other">API实体对象。</param>
+            <returns>返回对比结果。</returns>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApiDocuments.ApiDescriptor.JwtToken">
+            <summary>
+            JwtToken键。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.ApiDocumentManager">
+            <summary>
+            API文档管理类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiDocumentManager.#ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache,Microsoft.AspNetCore.Mvc.ApiExplorer.IApiDescriptionGroupCollectionProvider)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ApiDocuments.ApiDocumentManager"/>。
+            </summary>
+            <param name="cache">缓存接口。</param>
+            <param name="provider">Action描述实例提供者。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiDocumentManager.IsValidated(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)">
+            <summary>
+            判断是否符合当前文档实例。
+            </summary>
+            <param name="descriptor">控制器操作实例。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.ApiExtensions">
+            <summary>
+            API扩展类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiExtensions.IsAnonymous(Microsoft.AspNetCore.Mvc.Abstractions.ActionDescriptor)">
+            <summary>
+            是否匿名可访问。
+            </summary>
+            <param name="descriptor">操作描述实例。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiExtensions.ToJsonString(System.Type,System.String)">
+            <summary>
+            获取当前类型实例的JSON字符串。
+            </summary>
+            <param name="type">类型实例。</param>
+            <param name="defaultValue">默认字符串。</param>
+            <returns>返回JSON字符串。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.ApiServiceAttribute">
+            <summary>
+            API服务特性。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.ApiServiceAttribute.#ctor(System.String,System.Boolean)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ApiDocuments.ApiServiceAttribute"/>。
+            </summary>
+            <param name="groupName">分组名称。</param>
+            <param name="ignoreApi">是否忽略当前API。</param>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument">
+            <summary>
+            XML注释文档实例。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument.#ctor(System.String)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument"/>。
+            </summary>
+            <param name="path">注释文件路径。</param>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument.AssemblyName">
+            <summary>
+            程序集名称。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument._members">
+            <summary>
+            类型成员。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument.TryGetDocument(System.String,Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument@)">
+            <summary>
+            尝试获取当前注释实例。
+            </summary>
+            <param name="assemblyName">程序集。</param>
+            <param name="document">返回注释实例对象。</param>
+            <returns>返回获取结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument.GetDocument(System.String)">
+            <summary>
+            获取当前注释实例。
+            </summary>
+            <param name="assemblyName">程序集。</param>
+            <returns>返回获取结果。</returns>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument.Assemblies">
+            <summary>
+            包含的程序集列表。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument.GetTypeDescriptor(System.Type)">
+            <summary>
+            获取类型注释描述。
+            </summary>
+            <param name="type">当前类型。</param>
+            <returns>返回注释描述实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyDocument.GetTypeDescriptor(System.String)">
+            <summary>
+            获取类型注释描述。
+            </summary>
+            <param name="typeFullName">当前类型。</param>
+            <returns>返回注释描述实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo">
+            <summary>
+            程序集信息。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo.AssemblyName">
+            <summary>
+            程序集名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo.Version">
+            <summary>
+            版本。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo.Equals(Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo,Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo)">
+            <summary>
+            实现对比接口。
+            </summary>
+            <param name="x">程序集信息实例。</param>
+            <param name="y">程序集信息实例。</param>
+            <returns>返回对比结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo.GetHashCode(Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo)">
+            <summary>
+            哈希值。
+            </summary>
+            <param name="obj">程序集信息实例。</param>
+            <returns>返回当前程序集信息的哈希值。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo.CompareTo(Gentings.Extensions.OpenServices.ApiDocuments.AssemblyInfo)">
+            <summary>
+            实现对比方法。
+            </summary>
+            <param name="other">程序集信息实例。</param>
+            <returns>返回对比结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.DocumentExtensions">
+            <summary>
+            扩展方法类型。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentExtensions.GetSummary(System.Reflection.MemberInfo)">
+            <summary>
+            获取方法注释。
+            </summary>
+            <param name="info">当前方法实例。</param>
+            <returns>返回方法注释实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentExtensions.GetColor(System.String)">
+            <summary>
+            获取HTTP请求方法颜色。
+            </summary>
+            <param name="method">HTTP请求方法。</param>
+            <returns>返回HTTP请求方法颜色。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentExtensions.IsLinkable(System.Type)">
+            <summary>
+            是否可以链接。
+            </summary>
+            <param name="type">类型实例。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.DocumentManagerBase">
+            <summary>
+            接口管理实现基类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentManagerBase.#ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache,Microsoft.AspNetCore.Mvc.ApiExplorer.IApiDescriptionGroupCollectionProvider)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ApiDocuments.DocumentManagerBase"/>。
+            </summary>
+            <param name="cache">缓存接口。</param>
+            <param name="provider">Action描述实例提供者。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentManagerBase.GetApiDescriptors">
+            <summary>
+            获取所有API描述。
+            </summary>
+            <returns>返回API描述列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentManagerBase.IsValidated(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)">
+            <summary>
+            判断是否符合当前文档实例。
+            </summary>
+            <param name="descriptor">控制器操作实例。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentManagerBase.GetAssemblies">
+            <summary>
+            获取程序集名称。
+            </summary>
+            <returns>程序集名称列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.DocumentManagerBase.GetGroupApiDescriptors">
+            <summary>
+            分组获取API描述实例。
+            </summary>
+            <returns>返回API描述实例字典列表。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.IApiDocumentManager">
+            <summary>
+            接口管理实例。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.IDocumentManagerBase">
+            <summary>
+            接口管理实例。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.IDocumentManagerBase.GetApiDescriptors">
+            <summary>
+            获取所有API描述。
+            </summary>
+            <returns>返回API描述列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.IDocumentManagerBase.GetAssemblies">
+            <summary>
+            获取程序集名称。
+            </summary>
+            <returns>程序集名称列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.IDocumentManagerBase.GetGroupApiDescriptors">
+            <summary>
+            分组获取API描述实例。
+            </summary>
+            <returns>返回API描述实例字典列表。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor">
+            <summary>
+            方法实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor.FullName">
+            <summary>
+            全名。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor.Type">
+            <summary>
+            类型实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor.IsConstructor">
+            <summary>
+            是否为构造函数。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor.Summary">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor.Returns">
+            <summary>
+            返回描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.MethodDescriptor.Parameters">
+            <summary>
+            参数。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.ParameterDescriptor">
+            <summary>
+            参数实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ParameterDescriptor.Name">
+            <summary>
+            参数名称。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.PropertyDescriptor">
+            <summary>
+            属性。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.PropertyDescriptor.FullName">
+            <summary>
+            全名。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.PropertyDescriptor.Type">
+            <summary>
+            类型实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.PropertyDescriptor.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.PropertyDescriptor.Summary">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.ReturnDescriptor">
+            <summary>
+            返回描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ReturnDescriptor.Method">
+            <summary>
+            当前方法。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ReturnDescriptor.TypeName">
+            <summary>
+            类型名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.ReturnDescriptor.Summary">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor">
+            <summary>
+            类型描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.Assembly">
+            <summary>
+            程序集实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.IsEnum">
+            <summary>
+            是否为枚举。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.Namespace">
+            <summary>
+            命名空间。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.FullName">
+            <summary>
+            全名。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.Summary">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor._properties">
+            <summary>
+            属性列表。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor._methods">
+            <summary>
+            方法列表。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.GetPropertyDescriptor(System.Reflection.PropertyInfo)">
+            <summary>
+            通过成员信息获取属性注释实例。
+            </summary>
+            <param name="info">成员信息。</param>
+            <returns>返回属性注释实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeDescriptor.GetMethodDescriptor(System.Reflection.MemberInfo)">
+            <summary>
+            通过成员信息获取方法注释实例。
+            </summary>
+            <param name="info">成员信息。</param>
+            <returns>返回方法注释实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.TypeExtensions">
+            <summary>
+            扩展方法。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeExtensions.GetRealType(System.Type)">
+            <summary>
+            获取真实类型，如果可空将获取真实类型。
+            </summary>
+            <param name="type">类型实例。</param>
+            <returns>返回真实类型。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeExtensions.GetRealTypeName(System.Type)">
+            <summary>
+            获取真实类型名称，如果可空将获取真实类型名称。
+            </summary>
+            <param name="type">类型实例。</param>
+            <returns>返回真实类型名称。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeExtensions.GetTypeScriptType(System.Type)">
+            <summary>
+            获取TypeScript类型。
+            </summary>
+            <param name="type">当前类型实例。</param>
+            <returns>返回TypeScript类型。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeExtensions.GetClass(System.Type)">
+            <summary>
+            获取类型定义。
+            </summary>
+            <param name="type">当前类型。</param>
+            <returns>返回接口定义。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeExtensions.GetTypeScriptInterface(System.Type)">
+            <summary>
+            获取TypeScript接口定义。
+            </summary>
+            <param name="type">当前类型。</param>
+            <returns>返回接口定义。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.TypeExtensions.ToLowerCamelCase(System.String)">
+            <summary>
+            将名称转换为Camel格式名称。
+            </summary>
+            <param name="name">名称。</param>
+            <returns>返回驼峰格式字符串。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApiDocuments.XmlExtensions">
+            <summary>
+            XML辅助类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApiDocuments.XmlExtensions.GetInnerXml(System.Xml.XmlNode,System.String)">
+            <summary>
+            获取子节点文本字符串。
+            </summary>
+            <param name="node">节点实例。</param>
+            <param name="xpath">路径。</param>
+            <returns>返回子节点文本字符串。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.Application">
+            <summary>
+            应用实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.Id">
+            <summary>
+            获取或设置唯一Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.AppSecret">
+            <summary>
+            密钥。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.Summary">
+            <summary>
+            备注。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.CreatedDate">
+            <summary>
+            添加时间。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.ExpiredDate">
+            <summary>
+            到期时间。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Application.UserId">
+            <summary>
+            所属用户Id。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApplicationDataMigration">
+            <summary>
+            数据库迁移类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationDataMigration.Create(Gentings.Data.Migrations.MigrationBuilder)">
+            <summary>
+            当模型建立时候构建的表格实例。
+            </summary>
+            <param name="builder">迁移实例对象。</param>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApplicationManager`1">
+            <summary>
+            应用管理实现类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationManager`1.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.OpenServices.Application},Gentings.Data.IDbContext{Gentings.Extensions.OpenServices.ApplicationService},Microsoft.Extensions.Caching.Memory.IMemoryCache,Gentings.Data.IDbContext{`0})">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ApplicationManager`1"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+            <param name="asdb">应用程序服务数据库接口。</param>
+            <param name="cache">缓存接口。</param>
+            <param name="userdb">用户数据库操作接口实例。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationManager`1.FindUserApplicationAsync(System.Guid)">
+            <summary>
+            获取用户应用，包含用户实例。
+            </summary>
+            <param name="appId">应用Id。</param>
+            <returns>返回包含用户实例的应用类型实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationManager`1.GetCacheKey(System.Guid)">
+            <summary>
+            获取缓存键。
+            </summary>
+            <param name="appid">AppId。</param>
+            <returns>返回缓存键字符串。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationManager`1.LoadApplicationServicesAsync(System.Guid)">
+            <summary>
+            获取应用程序所包含的服务Id列表。
+            </summary>
+            <param name="appid">应用程序Id。</param>
+            <returns>返回服务Id列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationManager`1.AddApplicationServicesAsync(System.Guid,System.Int32[])">
+            <summary>
+            将服务添加到应用程序中。
+            </summary>
+            <param name="appid">应用程序Id。</param>
+            <param name="ids">服务Id列表。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationManager`1.LoadUsersAsync">
+            <summary>
+            获取用户列表。
+            </summary>
+            <returns>返回用户列表实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApplicationQuery">
+            <summary>
+            应用查询实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApplicationQuery.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApplicationQuery.AppId">
+            <summary>
+            应用Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApplicationQuery.UserId">
+            <summary>
+            用户Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApplicationQuery.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationQuery.Init(Gentings.Extensions.IQueryContext{Gentings.Extensions.OpenServices.Application})">
+            <summary>
+            初始化查询上下文。
+            </summary>
+            <param name="context">查询上下文。</param>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApplicationQuery.UserName">
+            <summary>
+            用户名称。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApplicationQuery`1">
+            <summary>
+            应用查询实例。
+            </summary>
+            <typeparam name="TUser">用户类型。</typeparam>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationQuery`1.#ctor">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ApplicationQuery`1"/>。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationQuery`1.#ctor(Gentings.Extensions.OpenServices.ApplicationQuery)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ApplicationQuery`1"/>。
+            </summary>
+            <param name="query">应用程序查询实例对象。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ApplicationQuery`1.Init(Gentings.Extensions.IQueryContext{Gentings.Extensions.OpenServices.Application})">
+            <summary>
+            初始化查询上下文。
+            </summary>
+            <param name="context">查询上下文。</param>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApplicationService">
+            <summary>
+            应用服务。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApplicationService.AppId">
+            <summary>
+            应用Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.ApplicationService.ServiceId">
+            <summary>
+            服务Id。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ApplicationStatus">
+            <summary>
+            应用状态。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApplicationStatus.Normal">
+            <summary>
+            正常。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApplicationStatus.Expired">
+            <summary>
+            过期。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApplicationStatus.Disabled">
+            <summary>
+            禁用。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApplicationStatus.Pending">
+            <summary>
+            等待验证。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ApplicationStatus.Unapproved">
+            <summary>
+            验证失败。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.Controllers.ControllerBase">
+            <summary>
+            开发服务基类。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Controllers.ControllerBase.AppId">
+            <summary>
+            当前请求的AppId。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Controllers.ControllerBase.Application">
+            <summary>
+            当前请求的应用实例。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.Controllers.TokenController">
+            <summary>
+            Token服务。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.Controllers.TokenController.#ctor(Gentings.Extensions.OpenServices.IApplicationManager)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.Controllers.TokenController"/>。
+            </summary>
+            <param name="applicationManager">应用管理实例。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.Controllers.TokenController.Index(Gentings.Extensions.OpenServices.Controllers.TokenModel)">
+            <summary>
+            获取验证Token。
+            </summary>
+            <param name="input">验证模型实例。</param>
+            <returns>返回Token实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.Controllers.TokenModel">
+            <summary>
+            Token模型。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Controllers.TokenModel.AppId">
+            <summary>
+            AppId。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.Controllers.TokenModel.AppSecret">
+            <summary>
+            密钥。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.Controllers.TokenResult">
+            <summary>
+            输出模型。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.Controllers.TokenResult.#ctor(System.String)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.Controllers.TokenResult"/>。
+            </summary>
+            <param name="data">数据实例。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.Controllers.TokenResult.#ctor">
+            <summary>
+            用于返回特性使用。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ErrorCode">
+            <summary>
+            错误代码。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ErrorCode.ApplicationNotFound">
+            <summary>
+            应用不存在。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.ErrorCode.AppSecretInvalid">
+            <summary>
+            密钥不正确。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.IApplicationManager">
+            <summary>
+            应用管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.IApplicationManager.LoadUsersAsync">
+            <summary>
+            获取用户列表。
+            </summary>
+            <returns>返回用户列表实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.IApplicationManager.FindUserApplicationAsync(System.Guid)">
+            <summary>
+            获取用户应用，包含用户实例。
+            </summary>
+            <param name="appId">应用Id。</param>
+            <returns>返回包含用户实例的应用类型实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.IApplicationManager.LoadApplicationServicesAsync(System.Guid)">
+            <summary>
+            获取应用程序所包含的服务Id列表。
+            </summary>
+            <param name="appid">应用程序Id。</param>
+            <returns>返回服务Id列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.IApplicationManager.AddApplicationServicesAsync(System.Guid,System.Int32[])">
+            <summary>
+            将服务添加到应用程序中。
+            </summary>
+            <param name="appid">应用程序Id。</param>
+            <param name="ids">服务Id列表。</param>
+            <returns>返回添加结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.IOpenServiceManager">
+            <summary>
+            开发服务管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.IOpenServiceManager.GetOrCreate(System.String,System.String,System.Func{Gentings.Extensions.OpenServices.OpenService})">
+            <summary>
+            获取或者添加开放服务实例。
+            </summary>
+            <param name="method">请求方法。</param>
+            <param name="route">路由模板。</param>
+            <param name="getService">获取服务实例。</param>
+            <returns>返回当前获取的服务实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.IOpenServiceManager.GetOrCreateAsync(System.String,System.String,System.Func{Gentings.Extensions.OpenServices.OpenService})">
+            <summary>
+            获取或者添加开放服务实例。
+            </summary>
+            <param name="method">请求方法。</param>
+            <param name="route">路由模板。</param>
+            <param name="getService">获取服务实例。</param>
+            <returns>返回当前获取的服务实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.IServiceDocumentManager">
+            <summary>
+            开放服务文档管理接口。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.OpenService">
+            <summary>
+            公开的API服务。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.OpenService.Id">
+            <summary>
+            获取或设置唯一Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.OpenService.Route">
+            <summary>
+            路由路径。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.OpenService.HttpMethod">
+            <summary>
+            方法。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.OpenService.Category">
+            <summary>
+            分类。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.OpenService.Description">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.OpenService.Disabled">
+            <summary>
+            是否禁用。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.OpenServiceAttribute">
+            <summary>
+            开放服务特性。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.OpenServiceAttribute.OnAuthorization(Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext)">
+            <summary>
+            在管道中确认当前请求是否已经通过验证。
+            </summary>
+            <param name="context">验证过滤器上下文<see cref="T:Microsoft.AspNetCore.Mvc.Filters.AuthorizationFilterContext" />实例。</param>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.OpenServiceManager">
+            <summary>
+            开发服务管理。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.OpenServices.OpenServiceManager.Context">
+            <summary>
+            数据库操作上下文。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.OpenServiceManager.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.OpenServices.OpenService})">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.OpenServiceManager"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.OpenServiceManager.GetOrCreate(System.String,System.String,System.Func{Gentings.Extensions.OpenServices.OpenService})">
+            <summary>
+            获取或者添加开放服务实例。
+            </summary>
+            <param name="method">请求方法。</param>
+            <param name="route">路由模板。</param>
+            <param name="getService">获取服务实例。</param>
+            <returns>返回当前获取的服务实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.OpenServiceManager.GetOrCreateAsync(System.String,System.String,System.Func{Gentings.Extensions.OpenServices.OpenService})">
+            <summary>
+            获取或者添加开放服务实例。
+            </summary>
+            <param name="method">请求方法。</param>
+            <param name="route">路由模板。</param>
+            <param name="getService">获取服务实例。</param>
+            <returns>返回当前获取的服务实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.OpenServiceSettings">
+            <summary>
+            开发服务配置。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.OpenServices.OpenServiceSettings.ExtensionName">
+            <summary>
+            扩展名称。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ServiceDocumentManager">
+            <summary>
+            开放服务文档管理实现类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ServiceDocumentManager.#ctor(Microsoft.Extensions.Caching.Memory.IMemoryCache,Microsoft.AspNetCore.Mvc.ApiExplorer.IApiDescriptionGroupCollectionProvider)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.ServiceDocumentManager"/>。
+            </summary>
+            <param name="cache">缓存接口。</param>
+            <param name="provider">Action描述实例提供者。</param>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ServiceDocumentManager.IsValidated(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)">
+            <summary>
+            判断是否符合当前文档实例。
+            </summary>
+            <param name="descriptor">控制器操作实例。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.OpenServices.ServiceExtensions">
+            <summary>
+            服务扩展类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.OpenServices.ServiceExtensions.AddOpenServices``1(Gentings.IServiceBuilder)">
+            <summary>
+            添加开放平台组件。
+            </summary>
+            <typeparam name="TUser">用户类型。</typeparam>
+            <param name="builder">服务构建实例。</param>
+            <returns>服务构建实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.Properties.Resources">
+            <summary>
+              一个强类型的资源类，用于查找本地化的字符串等。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ResourceManager">
+            <summary>
+              返回此类使用的缓存的 ResourceManager 实例。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.Culture">
+            <summary>
+              重写当前线程的 CurrentUICulture 属性，对
+              使用此强类型资源类的所有资源查找执行重写。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ApplicationStatus_Disabled">
+            <summary>
+              查找类似 禁用 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ApplicationStatus_Expired">
+            <summary>
+              查找类似 过期 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ApplicationStatus_Normal">
+            <summary>
+              查找类似 正常 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ApplicationStatus_Pending">
+            <summary>
+              查找类似 等待验证 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ApplicationStatus_Unapproved">
+            <summary>
+              查找类似 验证失败 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.CaptchaTaskService">
+            <summary>
+              查找类似 验证码清理服务 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.CaptchaTaskService_Description">
+            <summary>
+              查找类似 清理长时间未用的电话号码 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.EmailStatus_Completed">
+            <summary>
+              查找类似 成功发送 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.EmailStatus_Failured">
+            <summary>
+              查找类似 发送失败 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.EmailStatus_Pending">
+            <summary>
+              查找类似 等待发送 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.EmailTaskService">
+            <summary>
+              查找类似 电子邮件发送服务 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.EmailTaskService_Description">
+            <summary>
+              查找类似 发送队列在数据库中的电子邮件 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ServiceType_All">
+            <summary>
+              查找类似 三网通 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ServiceType_Mobile">
+            <summary>
+              查找类似 移动 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ServiceType_None">
+            <summary>
+              查找类似 未知 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ServiceType_Telecom">
+            <summary>
+              查找类似 电信 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.ServiceType_Unicom">
+            <summary>
+              查找类似 联通 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.SMSClientNotFound">
+            <summary>
+              查找类似 短信发送客户端不存在！ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.SmsStatus_Completed">
+            <summary>
+              查找类似 成功发送 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.SmsStatus_Failured">
+            <summary>
+              查找类似 发送失败 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.SmsStatus_Pending">
+            <summary>
+              查找类似 等待发送 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.SmsStatus_Sending">
+            <summary>
+              查找类似 发送中 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.SMSTaskService">
+            <summary>
+              查找类似 短信发送服务 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.SMSTaskService_Description">
+            <summary>
+              查找类似 发送短信相关服务 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.TokenModel_AppIdNull">
+            <summary>
+              查找类似 AppId不能为空！ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.Properties.Resources.TokenModel_AppSecretNull">
+            <summary>
+              查找类似 密钥不能为空！ 的本地化字符串。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.ISensitiveWordManager">
+            <summary>
+            敏感词汇管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.ImportAsync(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            导入敏感词汇。
+            </summary>
+            <param name="words">敏感词汇列表。</param>
+            <returns>返回导入结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.ImportAsync(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            通过文件导入敏感词汇。
+            </summary>
+            <param name="file">上传文件实例。</param>
+            <returns>返回导入词汇数量。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.Contains(System.String)">
+            <summary>
+            是否包含敏感词。
+            </summary>
+            <param name="text">判断的字符串。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.ContainsAsync(System.String)">
+            <summary>
+            是否包含敏感词。
+            </summary>
+            <param name="text">判断的字符串。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.Replace(System.String,System.Char)">
+            <summary>
+            在文本中替换所有的关键字。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <param name="replaceChar">替换字符。</param>
+            <returns>返回替换结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.ReplaceAsync(System.String,System.Char)">
+            <summary>
+            在文本中替换所有的关键字。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <param name="replaceChar">替换字符。</param>
+            <returns>返回替换结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.FindFirst(System.String)">
+            <summary>
+            在文本中查找第一个关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回第一个关键词。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.FindFirstAsync(System.String)">
+            <summary>
+            在文本中查找第一个关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回第一个关键词。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.FindAll(System.String)">
+            <summary>
+            在文本中查找所有的关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回所有关键词列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.FindAllAsync(System.String)">
+            <summary>
+            在文本中查找所有的关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回所有关键词列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.IsSensitivity(System.String)">
+            <summary>
+            是否为敏感词。
+            </summary>
+            <param name="word">敏感词。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ISensitiveWordManager.IsSensitivityAsync(System.String)">
+            <summary>
+            是否为敏感词。
+            </summary>
+            <param name="word">敏感词。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.SensitiveWord">
+            <summary>
+            敏感词汇。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SensitiveWords.SensitiveWord.Id">
+            <summary>
+            自增长ID。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SensitiveWords.SensitiveWord.Word">
+            <summary>
+            敏感词汇。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SensitiveWords.SensitiveWord.CreatedDate">
+            <summary>
+            添加时间。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.SensitiveWordDataMigration">
+            <summary>
+            数据库迁移类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordDataMigration.Create(Gentings.Data.Migrations.MigrationBuilder)">
+            <summary>
+            当模型建立时候构建的表格实例。
+            </summary>
+            <param name="builder">迁移实例对象。</param>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.SensitiveWordManager">
+            <summary>
+            敏感词汇管理实现类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.SensitiveWords.SensitiveWord},Gentings.Storages.IStorageDirectory,Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.SensitiveWords.SensitiveWordManager"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+            <param name="storageDirectory">存储文件夹接口实例。</param>
+            <param name="cache">缓存接口。</param>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.ImportAsync(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            导入敏感词汇。
+            </summary>
+            <param name="words">敏感词汇列表。</param>
+            <returns>返回导入结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.ImportAsync(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            通过文件导入敏感词汇。
+            </summary>
+            <param name="file">上传文件实例。</param>
+            <returns>返回导入词汇数量。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.GetSearchInstance">
+            <summary>
+            获取字符串检索实例对象。
+            </summary>
+            <returns>返回字符串检索实例对象。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.GetSearchInstanceAsync">
+            <summary>
+            获取字符串检索实例对象。
+            </summary>
+            <returns>返回字符串检索实例对象。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.Contains(System.String)">
+            <summary>
+            是否包含敏感词。
+            </summary>
+            <param name="text">判断的字符串。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.ContainsAsync(System.String)">
+            <summary>
+            是否包含敏感词。
+            </summary>
+            <param name="text">判断的字符串。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.Replace(System.String,System.Char)">
+            <summary>
+            在文本中替换所有的关键字。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <param name="replaceChar">替换字符。</param>
+            <returns>返回替换结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.ReplaceAsync(System.String,System.Char)">
+            <summary>
+            在文本中替换所有的关键字。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <param name="replaceChar">替换字符。</param>
+            <returns>返回替换结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.FindFirst(System.String)">
+            <summary>
+            在文本中查找第一个关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回第一个关键词。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.FindFirstAsync(System.String)">
+            <summary>
+            在文本中查找第一个关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回第一个关键词。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.FindAll(System.String)">
+            <summary>
+            在文本中查找所有的关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回所有关键词列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.FindAllAsync(System.String)">
+            <summary>
+            在文本中查找所有的关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回所有关键词列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.IsSensitivity(System.String)">
+            <summary>
+            是否为敏感词。
+            </summary>
+            <param name="word">敏感词。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordManager.IsSensitivityAsync(System.String)">
+            <summary>
+            是否为敏感词。
+            </summary>
+            <param name="word">敏感词。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.SensitiveWordQuery">
+            <summary>
+            敏感词汇查询。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SensitiveWords.SensitiveWordQuery.Word">
+            <summary>
+            敏感词。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.SensitiveWordQuery.Init(Gentings.Extensions.IQueryContext{Gentings.Extensions.SensitiveWords.SensitiveWord})">
+            <summary>
+            初始化查询上下文。
+            </summary>
+            <param name="context">查询上下文。</param>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.ServiceExtensions">
+            <summary>
+            服务扩展类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.ServiceExtensions.AddSensitiveWords(Gentings.IServiceBuilder)">
+            <summary>
+            添加敏感词汇组件。
+            </summary>
+            <param name="builder">服务构建实例。</param>
+            <returns>服务构建实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.StringSearch">
+            <summary>
+            文本搜索
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.StringSearch.SetKeywords(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            设置关键字
+            </summary>
+            <param name="keywords">关键字列表</param>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.StringSearch.FindFirst(System.String)">
+            <summary>
+            在文本中查找第一个关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回第一个关键词。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.StringSearch.FindAll(System.String)">
+            <summary>
+            在文本中查找所有的关键词。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回所有关键词列表。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.StringSearch.Contains(System.String)">
+            <summary>
+            判断文本是否包含关键字。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.StringSearch.Replace(System.String,System.Char)">
+            <summary>
+            在文本中替换所有的关键字。
+            </summary>
+            <param name="text">文本字符串。</param>
+            <param name="replaceChar">替换字符。</param>
+            <returns>返回替换结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SensitiveWords.TrieNode">
+            <summary>
+            字典树。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SensitiveWords.TrieNode.End">
+            <summary>
+            设置是否已经到达尾部。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SensitiveWords.TrieNode.Results">
+            <summary>
+            处理后的字符串存储列表。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SensitiveWords.TrieNode.Nodes">
+            <summary>
+            节点列表。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.TrieNode.TryGetValue(System.Char,Gentings.Extensions.SensitiveWords.TrieNode@)">
+            <summary>
+            通过字符查询当前节点后的字典树。
+            </summary>
+            <param name="c">当前字符。</param>
+            <param name="node">返回字典树。</param>
+            <returns>返回获取结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.TrieNode.Add(System.Char)">
+            <summary>
+            获取已经存在的字典树或者新添加一个字典树。
+            </summary>
+            <param name="c">当前字符。</param>
+            <returns>返回当前字符对应的字典树。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.TrieNode.SetResults(System.String)">
+            <summary>
+            设置结果字符串。
+            </summary>
+            <param name="text">当前字符串。</param>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.TrieNode.Merge(Gentings.Extensions.SensitiveWords.TrieNode,System.Collections.Generic.Dictionary{Gentings.Extensions.SensitiveWords.TrieNode,Gentings.Extensions.SensitiveWords.TrieNode})">
+            <summary>
+            拼接字典树实例。
+            </summary>
+            <param name="node">字典树实例。</param>
+            <param name="links">关联的字典树列表。</param>
+        </member>
+        <member name="M:Gentings.Extensions.SensitiveWords.TrieNode.ToArray">
+            <summary>
+            将当前节点列表转换为字典树列表。
+            </summary>
+            <returns>字典树列表。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.ISmsClient">
+            <summary>
+            客户端发送器接口。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.ISmsClient.Name">
+            <summary>
+            发送名称。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsClient.SendAsync(Gentings.Extensions.SMS.SmsMessage)">
+            <summary>
+            发送短信。
+            </summary>
+            <param name="message">短信实例。</param>
+            <returns>发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsClient.IsDuplicated(Gentings.Extensions.SMS.SmsMessage,Gentings.Extensions.SMS.SmsMessage)">
+            <summary>
+            判断是否重复发送短信。
+            </summary>
+            <param name="current">当前短信实例。</param>
+            <param name="prev">上一次短信实例。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.ISmsManager">
+            <summary>
+            短信管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsManager.Save(System.String,System.String,System.String)">
+            <summary>
+            保存短信。
+            </summary>
+            <param name="client">客户端发送器名称<see cref="P:Gentings.Extensions.SMS.ISmsClient.Name"/>。</param>
+            <param name="phoneNumbers">电话号码，多个电话号码使用“,”分开。</param>
+            <param name="message">电子邮件字符串。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsManager.SaveAsync(System.String,System.String,System.String)">
+            <summary>
+            保存短信。
+            </summary>
+            <param name="client">客户端发送器名称<see cref="P:Gentings.Extensions.SMS.ISmsClient.Name"/>。</param>
+            <param name="phoneNumbers">电话号码，多个电话号码使用“,”分开。</param>
+            <param name="message">电子邮件字符串。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsManager.SendAsync(Gentings.Extensions.SMS.SmsMessage)">
+            <summary>
+            发送并保存短信。
+            </summary>
+            <param name="message">短信实例对象。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsManager.SendAsync(System.String,System.String,System.String)">
+            <summary>
+            发送并保存短信。
+            </summary>
+            <param name="client">客户端发送器名称<see cref="P:Gentings.Extensions.SMS.ISmsClient.Name"/>。</param>
+            <param name="phoneNumber">电话号码。</param>
+            <param name="message">电子邮件字符串。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsManager.LoadAsync(System.Int32)">
+            <summary>
+            加载未发送的短信列表。
+            </summary>
+            <param name="size">加载数量。</param>
+            <returns>未发送的短信列表。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.ISmsSettingManager">
+            <summary>
+            短信配置管理接口。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsSettingManager.Find(System.String)">
+            <summary>
+            通过名称查询配置。
+            </summary>
+            <param name="name">客户端名称。</param>
+            <returns>返回配置实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ISmsSettingManager.FindAsync(System.String)">
+            <summary>
+            通过名称查询配置。
+            </summary>
+            <param name="name">客户端名称。</param>
+            <returns>返回配置实例。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.ServiceExtensions">
+            <summary>
+            服务扩展类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ServiceExtensions.AddSMS(Gentings.IServiceBuilder)">
+            <summary>
+            添加SMS服务。
+            </summary>
+            <param name="builder">服务构建实例。</param>
+            <returns>服务构建实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.ServiceExtensions.DefaultSmsTaskService.#ctor(Gentings.Extensions.SMS.ISmsManager)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.SMS.ServiceExtensions.DefaultSmsTaskService"/>。
+            </summary>
+            <param name="smsManager">短信管理接口。</param>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.ServiceType">
+            <summary>
+            运营商。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.ServiceType.None">
+            <summary>
+            未知
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.ServiceType.Mobile">
+            <summary>
+            移动网关
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.ServiceType.Telecom">
+            <summary>
+            电信网关
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.ServiceType.Unicom">
+            <summary>
+            联通网关
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.ServiceType.All">
+            <summary>
+            三网通。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsDataMigration">
+            <summary>
+            短信数据库迁移类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsDataMigration.Create(Gentings.Data.Migrations.MigrationBuilder)">
+            <summary>
+            当模型建立时候构建的表格实例。
+            </summary>
+            <param name="builder">迁移实例对象。</param>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsExtensions">
+            <summary>
+            扩展方法类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsExtensions.GetServiceType(System.String)">
+            <summary>
+            获取当前电话号码的运营商，如果不匹配默认返回<see cref="F:Gentings.Extensions.SMS.ServiceType.Mobile"/>。
+            </summary>
+            <param name="phoneNumber">电话号码。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsExtensions.GetSmsCount(System.String)">
+            <summary>
+            获取短信数量，一条短信按照70个字符计算，多余一条按照65个字符进行计算。
+            </summary>
+            <param name="msg">短信内容。</param>
+            <returns>返回短信数量。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsManager">
+            <summary>
+            短信管理类型。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsManager.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.SMS.SmsMessage},System.Collections.Generic.IEnumerable{Gentings.Extensions.SMS.ISmsClient})">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.SMS.SmsManager"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+            <param name="clients">客户端列表。</param>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsManager.Save(System.String,System.String,System.String)">
+            <summary>
+            保存短信。
+            </summary>
+            <param name="client">客户端发送器名称<see cref="P:Gentings.Extensions.SMS.ISmsClient.Name"/>。</param>
+            <param name="phoneNumbers">电话号码，多个电话号码使用“,”分开。</param>
+            <param name="message">电子邮件字符串。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsManager.SaveAsync(System.String,System.String,System.String)">
+            <summary>
+            保存短信。
+            </summary>
+            <param name="client">客户端发送器名称<see cref="P:Gentings.Extensions.SMS.ISmsClient.Name"/>。</param>
+            <param name="phoneNumbers">电话号码，多个电话号码使用“,”分开。</param>
+            <param name="message">电子邮件字符串。</param>
+            <returns>返回保存结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsManager.SendAsync(Gentings.Extensions.SMS.SmsMessage)">
+            <summary>
+            发送并保存短信。
+            </summary>
+            <param name="message">短信实例对象。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsManager.SendAsync(System.String,System.String,System.String)">
+            <summary>
+            发送并保存短信。
+            </summary>
+            <param name="client">客户端发送器名称<see cref="P:Gentings.Extensions.SMS.ISmsClient.Name"/>。</param>
+            <param name="phoneNumber">电话号码。</param>
+            <param name="message">电子邮件字符串。</param>
+            <returns>返回发送结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsManager.LoadAsync(System.Int32)">
+            <summary>
+            加载未发送的短信列表。
+            </summary>
+            <param name="size">加载数量。</param>
+            <returns>未发送的短信列表。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsMessage">
+            <summary>
+            短信。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.Id">
+            <summary>
+            获取或设置唯一Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.Message">
+            <summary>
+            获取或设置短信内容。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.PhoneNumber">
+            <summary>
+            电话号码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.ServiceType">
+            <summary>
+            服务类型。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.Count">
+            <summary>
+            短信计量。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.TryTimes">
+            <summary>
+            尝试发送次数。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.MsgId">
+            <summary>
+            发送返回的短信Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.CreatedDate">
+            <summary>
+            添加时间。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.SentDate">
+            <summary>
+            发送时间。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.Client">
+            <summary>
+            发送器名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.DeliveredDate">
+            <summary>
+            下发短信时间。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.DeliveredStatus">
+            <summary>
+            下发短信状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.TemplateId">
+            <summary>
+            模板Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.TemplateParameters">
+            <summary>
+            模板参数。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.Parameters">
+            <summary>
+            参数列表。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessage.HashKey">
+            <summary>
+            唯一键验证。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsMessageQuery">
+            <summary>
+            短信查询。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessageQuery.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsMessageQuery.No">
+            <summary>
+            电话号码。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsMessageQuery.Init(Gentings.Extensions.IQueryContext{Gentings.Extensions.SMS.SmsMessage})">
+            <summary>
+            初始化查询上下文。
+            </summary>
+            <param name="context">查询上下文。</param>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsResult">
+            <summary>
+            SMS发送返回的结果。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsResult.Failured">
+            <summary>
+            失败。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsResult.Succeed">
+            <summary>
+            成功。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsResult.Code">
+            <summary>
+            编码。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsResult.MsgId">
+            <summary>
+            返回短信Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsResult.Status">
+            <summary>
+            状态。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsResult.op_Implicit(Gentings.Extensions.SMS.SmsResult)~System.Boolean">
+            <summary>
+            隐士转换为布尔类型。
+            </summary>
+            <param name="result">当前值。</param>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsResult.op_Implicit(System.Boolean)~Gentings.Extensions.SMS.SmsResult">
+            <summary>
+            隐士转换为布尔类型。
+            </summary>
+            <param name="result">当前值。</param>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsSettingManager">
+            <summary>
+            短信配置管理实现类。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsSettingManager.#ctor(Gentings.Data.IDbContext{Gentings.Extensions.SMS.SmsSettings},Microsoft.Extensions.Caching.Memory.IMemoryCache)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.SMS.SmsSettingManager"/>。
+            </summary>
+            <param name="context">数据库操作实例。</param>
+            <param name="cache">缓存接口。</param>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsSettingManager.Find(System.String)">
+            <summary>
+            通过名称查询配置。
+            </summary>
+            <param name="name">客户端名称。</param>
+            <returns>返回配置实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsSettingManager.FindAsync(System.String)">
+            <summary>
+            通过名称查询配置。
+            </summary>
+            <param name="name">客户端名称。</param>
+            <returns>返回配置实例。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsSettingManager.IsDuplicated(Gentings.Extensions.SMS.SmsSettings)">
+            <summary>
+            判断是否重复。
+            </summary>
+            <param name="model">模型实例对象。</param>
+            <returns>返回判断结果。</returns>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsSettingManager.IsDuplicatedAsync(Gentings.Extensions.SMS.SmsSettings,System.Threading.CancellationToken)">
+            <summary>
+            判断是否重复。
+            </summary>
+            <param name="model">模型实例对象。</param>
+            <returns>返回判断结果。</returns>
+            <param name="cancellationToken">取消标识。</param>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsSettings">
+            <summary>
+            短信配置。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsSettings.Enabled">
+            <summary>
+            是否启用。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsSettings.MaxTimes">
+            <summary>
+            最多发送次数。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsSettings.BatchSize">
+            <summary>
+            每批获取未发送短信的数量。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsSettings.MultiSize">
+            <summary>
+            长短信每条最大字符数。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsSettings.Id">
+            <summary>
+            获取或设置唯一Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsSettings.Client">
+            <summary>
+            发送器名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsSettings.AppId">
+            <summary>
+            应用程序Id。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsSettings.AppSecret">
+            <summary>
+            应用程序密钥。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsSettings.As``1">
+            <summary>
+            转换为子对象（拷贝对象实例）。
+            </summary>
+            <typeparam name="TSettings">配置类型。</typeparam>
+            <returns>返回转换后的对象。</returns>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsStatus">
+            <summary>
+            短信状态。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsStatus.Pending">
+            <summary>
+            等待发送。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsStatus.Sending">
+            <summary>
+            发送中，等待下发状态。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsStatus.Completed">
+            <summary>
+            发送成功。
+            </summary>
+        </member>
+        <member name="F:Gentings.Extensions.SMS.SmsStatus.Failured">
+            <summary>
+            发送失败。
+            </summary>
+        </member>
+        <member name="T:Gentings.Extensions.SMS.SmsTaskService">
+            <summary>
+            短信发送后台服务。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsTaskService.#ctor(Gentings.Extensions.SMS.ISmsManager)">
+            <summary>
+            初始化类<see cref="T:Gentings.Extensions.SMS.SmsTaskService"/>。
+            </summary>
+            <param name="smsManager">短信管理接口。</param>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsTaskService.Name">
+            <summary>
+            名称。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsTaskService.Description">
+            <summary>
+            描述。
+            </summary>
+        </member>
+        <member name="P:Gentings.Extensions.SMS.SmsTaskService.Interval">
+            <summary>
+            执行间隔时间。
+            </summary>
+        </member>
+        <member name="M:Gentings.Extensions.SMS.SmsTaskService.ExecuteAsync(Gentings.Tasks.Argument)">
+            <summary>
+            执行方法。
+            </summary>
+            <param name="argument">参数。</param>
+        </member>
+    </members>
+</doc>

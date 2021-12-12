@@ -15,9 +15,9 @@
             <div>
                 <label>日期：</label>
                 <div class="input-group input-group-range">
-                    <input type="date" _min-val1="#Query_End" class="form-control" asp-for="Query.Start" />
+                    <input type="date" asp-format="{0:d}" _vmin="#Query_End" class="form-control" asp-for="Query.Start" />
                     <label class="divider">-</label>
-                    <input type="date" asp-for="Query.End" class="form-control" _max-val="#Query_Start" />
+                    <input type="date" asp-format="{0:d}" asp-for="Query.End" class="form-control" _vmax="#Query_Start" />
                     <button type="submit"><i class="bi-search"></i></button>
                 </div>
             </div>

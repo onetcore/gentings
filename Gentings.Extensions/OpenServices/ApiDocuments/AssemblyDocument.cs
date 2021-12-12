@@ -84,9 +84,16 @@ namespace Gentings.Extensions.OpenServices.ApiDocuments
                 {
                     case 'T':
                         {
-                            var type = new TypeDescriptor(fullName, summary);
+                            if (!_members.TryGetValue(typeName, out var type))
+                            {
+                                type = new TypeDescriptor(fullName, summary);
+                                _members[type.FullName] = type;
+                            }
+                            else
+                            {
+                                type.Summary ??= summary;
+                            }
                             type.Assembly = this;
-                            _members[type.FullName] = type;
                         }
                         break;
                     case 'P':
@@ -110,7 +117,10 @@ namespace Gentings.Extensions.OpenServices.ApiDocuments
                             name = typeName.Substring(index + 1);
                             typeName = typeName.Substring(0, index);
                             if (!_members.TryGetValue(typeName, out var mtype))
-                                throw new NullReferenceException($"类型{typeName}不能为空！");
+                            {
+                                mtype = new TypeDescriptor(typeName, null);
+                                _members[mtype.FullName] = mtype;
+                            }
                             var method = new MethodDescriptor(mtype, name, summary, fullName);
                             mtype.Add(method);
                             var @params = xmlNode.SelectNodes("param");

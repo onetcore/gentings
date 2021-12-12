@@ -21,6 +21,7 @@ var resources = {
         "confirm": "确认"
     },
     "elementError": "元素不存在或者操作一个元素实例，不能获取data-*相关数据！",
+    copied: "已拷贝，请使用“ctrl+v”或者“粘贴”操作！",
     markdown: {
         fullscreen: {
             show: '全屏显示',
@@ -39,33 +40,29 @@ var resources = {
     // jQuery方法扩展。
     $.fn.extend({
         /**
-         * 获取或设置当前“data-”开头的属性值。
-         * @param {string} attributeName 属性名称，不包含“data-”。
+         * 获取或设置当前元素所有以“_json.”开头的所有属性值对象。
+         * @param {string} name 属性名称，不包含“_json.”。
          * @param {object} value 属性值。
-         * @returns 返回当前属性值或者当前对象。
+         * @returns 返回当前元素所有以“_json.”开头的所有属性值对象。
          */
-        dataAttr: function dataAttr(attributeName, value) {
-            if (typeof value == 'undefined') return this.attr('data-' + attributeName);
-            return this.attr('data-' + attributeName, value);
-        },
-        /**
-         * 获取当前元素所有以“data-”开头的所有属性值对象。
-         * @returns 返回当前元素所有以“data-”开头的所有属性值对象。
-         */
-        dataAttrs: function dataAttrs() {
-            if (this.length != 1) throw new Error(resources.elementError);
-            var attrs = {};
-            for (var i = 0; i < this[0].attributes.length; i++) {
-                var attr = this[0].attributes[i];
-                if (attr.name.startsWith('data-')) attrs[attr.name.substr(5)] = attr.value.trim();
+        json: function json(name, value) {
+            if (typeof name === 'undefined') {
+                if (this.length !== 1) throw new Error(resources.elementError);
+                var json = {};
+                for (var i = 0; i < this[0].attributes.length; i++) {
+                    var attr = this[0].attributes[i];
+                    if (attr.name.startsWith('_json.')) json[attr.name.substr(6)] = attr.value.trim();
+                }
+                return json;
             }
-            return attrs;
+            if (typeof value === 'undefined') return this.attr('_json.' + name);
+            return this.attr('_json.' + name, value);
         },
         /**
          * 事件指向的对象。
          * @returns 返回事件指向的对象。
          */
-        targetElement: function targetElement() {
+        target: function target() {
             var target = this.attr('_target');
             if (target) {
                 if (target.startsWith('>')) return target.find(target.substr(1).trim());
@@ -128,7 +125,7 @@ var resources = {
             }, function (e) {
                 submit.enabled();
                 if (error) error(e);
-            }, this.attr('_data-type'));
+            });
         },
         /**
          * 加载当前元素指定的模态框。
@@ -137,9 +134,9 @@ var resources = {
         loadModal: function loadModal(query) {
             var current = this.dset('gt-modal', function () {
                 return $('<div class="modal fade" data-bs-backdrop="static"><div>').appendTo(document.body);
-            }).data('target', this.targetElement());
+            }).data('target', this.target());
             var url = this.attr('href') || this.attr('action');
-            var data = this.dataAttrs();
+            var data = this.json();
             $.extend(data, query);
             url = URL.appendQuery(url, data);
             current.load(url, function (_, status, xhr) {
@@ -216,7 +213,7 @@ var resources = {
         $('[_click]', context).each(function () {
             var current = $(this);
             var eventType = current.attr('_click').toLowerCase();
-            var target = current.targetElement();
+            var target = current.target();
             // 展示对象元素，点击元素外的对象隐藏对象元素
             if (eventType === 'show') {
                 current.on('click', function (event) {
@@ -234,14 +231,16 @@ var resources = {
                     event.stopPropagation();
                 });
             }
-            // 点击拷贝对象内容
-            else if (eventType === 'copy') {
+            // 点击拷贝对象内容copy,copy:text,copy:html
+            else if (eventType === 'copy' || eventType.startsWith('copy:')) {
                     current.on('click', function (event) {
                         event.preventDefault();
                         $(document).on('copy', function (e) {
                             // 设置信息，实现复制
-                            e.clipboardData.setData('text/plain', target.text().trim());
+                            var value = eventType === 'copy:html' ? target.html() : target.text();
+                            e.originalEvent.clipboardData.setData('text/plain', value.trim());
                             e.preventDefault();
+                            showMsg(resources.copied, 0);
                         });
                         document.execCommand('copy');
                         return false;
@@ -260,7 +259,7 @@ var resources = {
                                 current.disabled().html('<span class="spinner-border spinner-border-sm"></span> ' + resources.ajax.uploading);
                                 var data = new FormData();
                                 data.append("file", this.files[0]);
-                                var elements = current.dataAttrs();
+                                var elements = current.json();
                                 for (var key in elements) {
                                     data.append(key, elements[key]);
                                 }
@@ -318,17 +317,17 @@ var resources = {
                                     return false;
                                 case 'action':
                                     {
-                                        var data = current.dataAttrs();
+                                        var data = current.json();
                                         var url = current.attr('href') || current.attr('action');
                                         $ajax(url, data, function (d) {
                                             current.trigger('success', d.data);
-                                        }, current.attr('_data-type') || 'JSON');
+                                        }, current.attr('_json') === 'false' ? undefined : 'JSON');
                                     }
                                     return false;
                                 case 'checked':
                                     {
                                         (function () {
-                                            var data = current.dataAttrs();
+                                            var data = current.json();
                                             var items = [];
                                             current.parents('.data-list').find('.data-item input[type=checkbox]').each(function () {
                                                 if (this.checked) items.push(this.value);
@@ -337,7 +336,7 @@ var resources = {
                                             var url = current.attr('href') || current.attr('action');
                                             $ajax(url, data, function (d) {
                                                 current.trigger('success', d.data);
-                                            }, current.attr('_data-type') || 'JSON');
+                                            }, current.attr('_json') === 'false' ? undefined : 'JSON');
                                         })();
                                     }
                                     return false;
@@ -372,13 +371,13 @@ var resources = {
             var current = $(this);
             var order = 'sorting-asc';
             if (current.hasClass('sorting-asc')) {
-                current.dataAttr('desc', 'true');
+                current.json('desc', 'true');
                 order = 'sorting-desc';
             } else {
-                current.dataAttr('desc', 'false');
+                current.json('desc', 'false');
             }
             current.parent().find('.sorting').removeClass('sorting-asc').removeClass('sorting-desc');
-            var query = current.addClass(order).dataAttrs();
+            var query = current.addClass(order).json();
             // form[method=get]
             var search = {};
             $('.toolbar form[method=get]', context).find('input,select,textarea').each(function () {
@@ -415,13 +414,20 @@ var resources = {
                 }
                 actions.disabled();
             });
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].checked) {
+                    actions.enabled();
+                    return;
+                }
+            }
         });
         // 将当前值设为目标属性值。
         (function (names, context) {
             names.split(',').forEach(function (name) {
-                return $('[_' + name + '-val]', context).exec(function (current) {
-                    var target = $(current.attr('_' + name + '-val'), context);
+                return $('[_v' + name + ']', context).exec(function (current) {
+                    var target = $(current.attr('_v' + name + ''), context);
                     if (target.length) {
+                        target.attr(name, current.val());
                         current.on('change', function () {
                             target.attr(name, this.value);
                         });
@@ -429,14 +435,12 @@ var resources = {
                 });
             });
         })("min,max", context);
-        // 修正日期值
-        $('input[type=date]', context).each(function () {
-            var result = /(\d{4}[-/]\d{1,2}[-/]\d{1,2})/g.exec(this.value || this.defaultValue);
-            if (result) this.value = result[0];
-        });
-        $('input[type=datetime-local]', context).each(function () {
-            var result = /((\d{4}[-/]\d{1,2}[-/]\d{1,2}) (\d{1,2}:\d{1,2}:\d{1,2}))/g.exec(this.value || this.defaultValue);
-            if (result) this.value = result[2] + 'T' + result[3];
+        // ajax
+        $('form[_ajax=true] [type=submit]', context).exec(function (current) {
+            current.on('click', function () {
+                current.parents('form').ajaxSubmit();
+                return false;
+            });
         });
     });
     /**
@@ -588,7 +592,7 @@ var resources = {
         // 没有提示信息直接返回
         if (!msg) return;
         var current = $(document.body).dset('gt-toast', function () {
-            return $("<div style=\"z-index:100000;\" data-bs-delay=\"1000\" class=\"toast text-white position-fixed top-0 start-50 translate-middle-x\"><div class=\"d-flex\"><div class=\"toast-body\"></div><button type=\"button\" class=\"btn-close btn-close-white me-2 m-auto\" data-bs-dismiss=\"toast\" aria-label=\"Close\"></button></div></div>").appendTo(document.body);
+            return $("<div style=\"z-index:100000;\" data-bs-delay=\"1000\" class=\"toast text-white position-fixed top-0 start-50 translate-middle-x\"><div class=\"d-flex\"><div class=\"toast-body\"></div></div></div>").appendTo(document.body);
         });
         if (code) {
             msg = '<span class="bi-exclamation-circle"></span> ' + msg;

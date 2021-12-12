@@ -46,7 +46,7 @@ namespace Gentings.Extensions.OpenServices.ApiDocuments
         /// <summary>
         /// 描述。
         /// </summary>
-        public string Summary { get; }
+        public string Summary { get; internal set; }
 
         /// <summary>
         /// 属性列表。

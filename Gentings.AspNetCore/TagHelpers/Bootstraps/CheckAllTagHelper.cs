@@ -21,7 +21,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 builder.TagRenderMode = TagRenderMode.SelfClosing;
                 builder.AddCssClass("form-check-input");
                 builder.MergeAttribute("type", "checkbox");
-                builder.MergeAttribute("onclick", "$(this).parents('.data-list').find('.data-item input[type=checkbox]').prop('checked', this.checked);");
+                builder.MergeAttribute("onclick", "var _dl=$(this).parents('.data-all');if(!_dl.length)_dl=$(this).parents('.data-list'); _dl.find('.data-item input[type=checkbox]').prop('checked', this.checked);");
             });
         }
     }

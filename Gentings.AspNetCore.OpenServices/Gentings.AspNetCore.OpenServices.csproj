@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,6 +17,15 @@
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	  <EmbeddedResource Include="wwwroot\js\**" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="bundleconfig.json" />
+  </ItemGroup>
 
+  <ItemGroup>
+    <None Include="bundleconfig.json" />
+  </ItemGroup>
 </Project>

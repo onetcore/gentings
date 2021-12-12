@@ -1,0 +1,52 @@
+﻿@page
+@model TestModel
+@{
+    ViewBag.Title = "调试API";
+    Layout = "_Modal";
+    ViewBag.ClassName = "modal-lg";
+}
+
+<form method="@Model.Api.HttpMethod" action="/@Model.Api.RouteTemplate">
+    <div class="alert alert-info">
+        <strong>[@(Model.Api.HttpMethod)] @(Model.Api.RouteTemplate) </strong>
+        @Model.Api.Summary?.Summary
+    </div>
+    @foreach (var parameter in Model.Api.Parameters)
+    {
+        var typeDescriptor = AssemblyDocument.GetTypeDescriptor(parameter.Type);
+        if (typeDescriptor == null)
+        {
+            <div class="row">
+                <label class="col-3">@(parameter.Name)：</label>
+                <input type="text" name="@parameter.Name.ToLowerCamelCase()" class="form-control form-control-sm col-5" />
+                <small class="text-secondary col-4"><span class="text-danger" .visible="@parameter.IsRequired">*</span> @Model.Api.GetParameterDescriptor(parameter.Name)?.Summary</small>
+            </div>
+        }
+        else if (Model.Api.Parameters.Count == 1)
+        {
+            foreach (var property in parameter.Type.GetProperties())
+            {
+                if (!property.CanRead || !property.CanWrite)
+                {
+                    continue;
+                }
+                <div class="row align-items-center">
+                    <label class="col-3">@(property.Name)：</label>
+                    <div class="col-5"><input type="text" name="@property.Name" class="form-control form-control-sm" /></div>
+                    <small class="text-muted col-4">@typeDescriptor.GetPropertyDescriptor(property)?.Summary</small>
+                </div>
+            }
+        }
+    }
+    <div class="card" style="display:none;">
+        <div class="card-body test-result scrollbar">
+        </div>
+    </div>
+</form>
+
+@section footer
+{
+<button type="button" onclick="$Tester.token(this)" class="btn btn-success token-action hide" title="设置验证Token标识" .icon="bi-lock">Token</button>
+<button type="button" onclick="$Tester.submit(this)" class="btn btn-primary"><i class="fa fa-check"></i> 提交</button>
+<button type="button" onclick="$Tester.reset(this)" class="btn btn-danger"><i class="fa fa-check"></i> 重置</button>
+}

@@ -4,10 +4,21 @@ ul, ol, li {
     margin: 0;
 }
 
-.hide {
+.hide, .hidden {
     display: none !important;
 }
 
+.v-hide, .v-hidden {
+    visibility: hidden !important;
+}
+
+.scrollbar {
+    @extend %scrollbar;
+}
+
+.flex-auto {
+    flex: auto;
+}
 //form
 .input-group-prepend,
 .input-group-append {
@@ -414,7 +425,9 @@ input:disabled + label {
 
 //tabs
 .nav-tabs {
-    border: none;
+    &:not(.bordered) {
+        border: none;
+    }
 
     li.nav-item {
         margin-bottom: 0;
@@ -626,4 +639,56 @@ body.fullscreen {
 .mozmd-source-value,
 .mozmd-html-value {
     display: none;
+}
+
+//copy
+[_click^="copy"] {
+    cursor: pointer;
+}
+
+.card {
+    box-shadow: $card-box-shadow;
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1rem;
+        background-color: transparent;
+        justify-content: space-between;
+
+        h2, h3, h4, h5 {
+            margin-bottom: 0;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .02em;
+            font-size: .9rem;
+        }
+
+        .nav-tabs > .nav-item {
+            margin-left: 0.5rem;
+            margin-right: 0;
+
+            > .nav-link {
+                padding-left: 0;
+                padding-right: 0;
+                padding-top: 0;
+                padding-bottom: 0.6rem;
+                margin-bottom: -1rem;
+                border-bottom-width: 1px;
+            }
+        }
+    }
+
+    .card-body {
+        .table {
+            th {
+                background-color: $gray-200;
+                padding: 0.95rem 0.95rem;
+            }
+
+            td {
+                padding: 0.95rem 0.95rem;
+            }
+        }
+    }
 }

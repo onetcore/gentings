@@ -48,17 +48,18 @@
                                 <span .class-alert-success="@(app.Status == ApplicationStatus.Normal)" .class-alert-danger="@(app.Status != ApplicationStatus.Normal)" class="label alert">@Model.Localizer.GetString(app.Status)</span>
                                 <b>@app.Name</b>
                             </div>
-                            <div><i>AppId：</i><span class="alert alert-info">@app.Id</span></div>
-                            <div><i>AppSecret：</i><span class="alert alert-info">@app.AppSecret</span></div>
+                            <small><i>AppId：</i><span title="点击进行拷贝" _click="copy" class="alert alert-info text-uppercase">@app.Id</span></small>
+                            <small><i>AppSecret：</i><span title="点击进行拷贝" _click="copy" class="alert alert-info text-uppercase">@app.AppSecret</span></small>
                             <div class="text-muted">@Html.Raw(app.Summary)</div>
                         </td>
                         <td>@(app["NickName"])</td>
                         <td>添加：@app.CreatedDate.ToString("yyyy-MM-dd")<br />过期：@app.ExpiredDate.ToString("yyyy-MM-dd")</td>
                         <td>
                             <gt:action-dropdownmenu>
-                                <gt:action type="Link" .permission="@Permissions.Setting" title="API列表" asp-page="./Apis" asp-route-id="@app.Id"><i class="bi-list"></i> API列表</gt:action>
-                                <gt:action type="Edit" .permission="@Permissions.Update" _modal="click" asp-page="./Edit" asp-route-id="@app.Id"></gt:action>
-                                <gt:action type="Delete" .permission="@Permissions.Delete" confirm="你确定要删除“@app.Name”吗？" asp-page-handler="Delete" asp-route-ids="@app.Id"></gt:action>
+                                <gt:action type="Edit" .permission="@Permissions.Update" asp-page="./Edit" asp-route-id="@app.Id"></gt:action>
+                                <gt:action type="Delete" .permission="@Permissions.Delete" confirm="你确定要删除“@app.Name”吗？" asp-page-handler="Delete" asp-route-id="@app.Id"></gt:action>
+                                <gt:action type="Divider"></gt:action>
+                                <gt:action type="Link" .permission="@Permissions.Setting" title="API列表" asp-page="./Apis" asp-route-appid="@app.Id"><i class="bi-list"></i> API列表</gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>

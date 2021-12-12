@@ -19,7 +19,7 @@ namespace GS.Areas.Backend
         public override void Init(MenuItem root)
         {
             root.AddMenu("nav", "导航")
-                .AddMenu("home", item => item.Texted("后台管理", "bi-house-door").Page("/Index", area: AreaName))
+                .AddMenu("home", item => item.Texted("后台管理", "bi-house").Page("/Index", area: AreaName))
                 .AddMenu("users", item => item.Texted("用户管理", "bi-people").Page("/Users/Index", area: AreaName)
                     .AddMenu("index", it => it.Texted("用户列表").Page("/Users/Index", area: AreaName))
                 )

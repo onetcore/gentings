@@ -107,15 +107,14 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 (libraries & ImportLibrary.GtEditor) == ImportLibrary.GtEditor)
             {
                 output.AppendScript("/lib/highlight.js/highlight", false);
-                output.AppendHtml("<script>if (window.hljs) onrender(function(context){$('pre code', context).each(function () {hljs.highlightBlock(this);});});</script>");
+                output.AppendScript("/lib/highlightjs-line-numbers.js/highlightjs-line-numbers", isDevelopment);
+                output.AppendHtml("<script>if (window.hljs) {$.fn.highlight = function(){return this.each(function () {hljs.highlightBlock(this);hljs.lineNumbersBlock(this);});};onrender(function(context){$('pre code', context).highlight();});}</script>");
             }
             if ((libraries & ImportLibrary.GtEditor) == ImportLibrary.GtEditor)
             {
-                output.AppendScript("/lib/marked/marked", false);
+                output.AppendScript("/lib/marked/marked", isDevelopment);
                 output.AppendScript("/js/gt-editor", isDevelopment);
             }
-            if ((libraries & ImportLibrary.Prettify) == ImportLibrary.Prettify)
-                output.AppendScript("/lib/prettify/prettify", isDevelopment);
             if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
             {
                 output.AppendScript("/lib/codemirror/codemirror", isDevelopment);

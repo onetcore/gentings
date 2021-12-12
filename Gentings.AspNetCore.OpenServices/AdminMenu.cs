@@ -16,7 +16,7 @@ namespace Gentings.AspNetCore.OpenServices
         {
             root.AddMenu("open", item => item.Texted("开放平台", "bi-app-indicator").Page("/Backend/Index", area: OpenServiceSettings.ExtensionName).Allow(Permissions.View)
                 .AddMenu("apps", it => it.Texted("应用程序列表").Page("/Backend/Index", area: OpenServiceSettings.ExtensionName))
-                .AddMenu("services", it => it.Texted("开放服务列表").Page("/Admin/Services/Index", area: OpenServiceSettings.ExtensionName))
+                .AddMenu("services", it => it.Texted("开放服务列表").Page("/Backend/Services/Index", area: OpenServiceSettings.ExtensionName))
             );
         }
     }

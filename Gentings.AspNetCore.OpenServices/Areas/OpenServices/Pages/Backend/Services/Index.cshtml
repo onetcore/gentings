@@ -1,0 +1,74 @@
+﻿@page
+@model IndexModel
+@{
+    ViewContext.AddLibraries(ImportLibrary.Highlight);
+    ViewBag.Title = "开放服务列表";
+    ViewBag.Current = "open.services";
+    var tab = true;
+    var pane = true;
+}
+
+@foreach (var doc in Model.Document)
+{
+    <div class="card">
+        <div class="card-header">
+            <h2>@Model.GetOrAddNamedString("api." + doc.Key)</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>方法</th>
+                        <th>参数</th>
+                        <th>返回结果</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var api in doc.Value)
+                    {
+                        <tr>
+                            <td>
+                                <a _click="modal" asp-page="./Test" asp-route-method="@api.HttpMethod" asp-route-id="@api.RouteTemplate" class="d-block service-route">
+                                    <i title="登录后才能够测试" .visible="@(!api.IsAnonymous)" class="bi-lock text-danger"></i>
+                                    <i title="已经登录" .visible="@(!api.IsAnonymous)" class="bi-unlock text-success hide"></i>
+                                    <strong>@api.RouteTemplate</strong>
+                                </a>
+                                <small class="text-muted">@api.Summary?.Summary</small>
+                            </td>
+                            <td style="color:@api.HttpMethod.GetColor()">@api.HttpMethod</td>
+                            <td>
+                                <ul>
+                                    @foreach (var parameter in api.Parameters)
+                                    {
+                                        <li>
+                                            @parameter.Name <span class="text-danger" .visible="@parameter.IsRequired">*</span>: {
+                                            @if (parameter.Type.IsLinkable())
+                                            {
+                                                <a asp-page="./Type" asp-route-type="@parameter.Type.FullName">@parameter.Type.GetRealTypeName()</a>
+                                            }
+                                            else
+                                            {
+                                                <span>@parameter.Type.GetRealTypeName()</span>
+                                            }
+                                            } @api.GetParameterDescriptor(parameter.Name)?.Summary
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+                            <td>
+                                @api.Summary?.Returns?.Summary
+                                <a class="text-secondary" _click="modal" asp-page="./Result" asp-route-method="@api.HttpMethod" asp-route-route="@api.RouteTemplate" title="查看默认结果" .icon="bi-reply-all"></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+<script src="~/js/openservice.min.js" .dev-src="~/js/openservice.js"></script>
+}

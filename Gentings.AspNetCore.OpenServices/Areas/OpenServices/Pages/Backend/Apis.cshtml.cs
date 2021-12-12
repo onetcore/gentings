@@ -44,13 +44,13 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend
         /// <summary>
         /// 获取文档列表。
         /// </summary>
-        /// <param name="id">应用程序Id。</param>
-        public async Task<IActionResult> OnGet(Guid id)
+        /// <param name="appid">应用程序Id。</param>
+        public async Task<IActionResult> OnGet(Guid appid)
         {
-            Application = await _applicationManager.FindAsync(id);
+            Application = await _applicationManager.FindAsync(appid);
             if (Application == null)
                 return NotFound();
-            Services = await _applicationManager.LoadApplicationServicesAsync(id);
+            Services = await _applicationManager.LoadApplicationServicesAsync(appid);
             Document = _serviceManager.GetGroupApiDescriptors();
             return Page();
         }
@@ -59,11 +59,11 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend
         /// 关联API。
         /// </summary>
         /// <param name="appid">应用程序Id。</param>
-        /// <param name="ids">服务ID列表。</param>
+        /// <param name="id">服务ID列表。</param>
         /// <returns>返回关联结果。</returns>
-        public async Task<IActionResult> OnPostAddAsync(Guid appid, int[] ids)
+        public async Task<IActionResult> OnPostAddAsync(Guid appid, int[] id)
         {
-            var result = await _applicationManager.AddApplicationServicesAsync(appid, ids);
+            var result = await _applicationManager.AddApplicationServicesAsync(appid, id);
             if (result)
                 return Success("你已经成功关联所选择的API到当前应用程序中！");
             return Error("关联失败，请重试！");
