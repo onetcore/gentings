@@ -28,4 +28,8 @@
   <ItemGroup>
     <None Include="bundleconfig.json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\OpenServices\Pages\Account\" />
+  </ItemGroup>
 </Project>
