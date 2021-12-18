@@ -199,7 +199,7 @@ namespace Gentings.Security.Data
             {
                 if (!await urdb.CreateAsync(new TUserRole { RoleId = role.Id, UserId = user.Id }))
                 {
-                    Logger.LogCritical("添加用户角色失败：{0}（{2}），角色：{1}（3）", userName, role.Name, user.Id, role.Id);
+                    Logger.LogCritical("添加用户角色失败：{0}（{2}），角色：{1}（{3}）", userName, role.Name, user.Id, role.Id);
                     return 0;
                 }
             }

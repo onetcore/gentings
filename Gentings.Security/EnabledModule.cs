@@ -13,16 +13,12 @@ namespace Gentings.Security
         /// </summary>
         None = 0,
         /// <summary>
-        /// 权限验证。
-        /// </summary>
-        PermissionAuthorization = 1,
-        /// <summary>
         /// 用户通知。
         /// </summary>
-        Notification = 2,
+        Notification = 1,
         /// <summary>
         /// Cookie验证。
         /// </summary>
-        Cookies = 4,
+        Cookies = 2,
     }
 }

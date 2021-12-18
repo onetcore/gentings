@@ -4,12 +4,13 @@ using Gentings.Security.Notifications;
 using Gentings.Security.Permissions;
 using Gentings.Security.Properties;
 using Gentings.Security.Roles;
-
+using Gentings.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Gentings.Security
 {
@@ -68,8 +69,6 @@ namespace Gentings.Security
             });
             if ((EnabledModule & EnabledModule.Notification) == EnabledModule.Notification)
                 builder.AddNotification();
-            if ((EnabledModule & EnabledModule.PermissionAuthorization) == EnabledModule.PermissionAuthorization)
-                builder.AddPermissions<TRole, TUserRole>();
         }
 
         /// <summary>
@@ -79,14 +78,16 @@ namespace Gentings.Security
         /// <param name="section">Cookies配置节点。</param>
         protected virtual void ConfigureCookieServices(IServiceCollection services, IConfigurationSection section)
         {
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = new PathString(section["Login"] ?? "/login");
-                options.LogoutPath = new PathString(section["Logout"] ?? "/logout");
-                options.AccessDeniedPath = new PathString(section["Denied"] ?? "/denied");
-                options.ReturnUrlParameter = section["ReturnUrl"] ?? "returnUrl";
-            })
-            .Configure<CookiePolicyOptions>(options =>
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddPermission()
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString(section["Login"] ?? "/login");
+                    options.LogoutPath = new PathString(section["Logout"] ?? "/logout");
+                    options.AccessDeniedPath = new PathString(section["Denied"] ?? "/denied");
+                    options.ReturnUrlParameter = section["ReturnUrl"] ?? "returnUrl";
+                });
+            services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => false; //是否开启GDPR
                 options.MinimumSameSitePolicy = SameSiteMode.None;

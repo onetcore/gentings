@@ -33,7 +33,7 @@ namespace Gentings.AspNetCore.Verifiers
         /// 验证唯一键。
         /// </summary>
         [HtmlAttributeName(AttributeName)]
-        public string Key { get; set; }
+        public string Key { get; set; } = "login";
 
         /// <summary>
         /// 访问并呈现当前标签实例。
