@@ -8,21 +8,6 @@ namespace Gentings.Security.Permissions
     public class DefaultPermissions : PermissionProvider
     {
         /// <summary>
-        /// 后台管理员，可以登录到后台。
-        /// </summary>
-        public const string Administrator = "core.administrator";
-
-        /// <summary>
-        /// 拥有者权限，配置网站信息。
-        /// </summary>
-        public const string Owner = "core.owner";
-
-        /// <summary>
-        /// 开发者权限，建站时候初始化的信息。
-        /// </summary>
-        public const string Developer = "core.developer";
-
-        /// <summary>
         /// 初始化权限实例。
         /// </summary>
         protected override void Init()

@@ -8,7 +8,7 @@ namespace Gentings.Security.Permissions
     /// <summary>
     /// 权限管理接口。
     /// </summary>
-    public interface IPermissionManager : IPermissionAuthorizationService
+    public interface IPermissionManager
     {
         /// <summary>
         /// 获取权限值。

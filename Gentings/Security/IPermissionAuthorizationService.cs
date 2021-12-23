@@ -20,5 +20,17 @@ namespace Gentings.Security
         /// <param name="permissionName">权限名称。</param>
         /// <returns>返回判断结果。</returns>
         bool IsAuthorized(string permissionName);
+
+        /// <summary>
+        /// 判断当前用户是否拥有管理员权限。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        Task<bool> IsAdministratorAsync();
+
+        /// <summary>
+        /// 判断当前用户是否拥有管理员权限。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        bool IsAdministrator();
     }
 }

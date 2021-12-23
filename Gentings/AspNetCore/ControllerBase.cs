@@ -442,6 +442,35 @@ namespace Gentings.AspNetCore
         /// <param name="userId">用户Id。</param>
         /// <returns>返回用户实例。</returns>
         protected Task<IUser> GetUserAsync(int userId) => UserManager?.GetCachedUserAsync(userId);
+
+        private IPermissionAuthorizationService _permissionAuthorizationService;
+        private IPermissionAuthorizationService PermissionAuthorizationService => _permissionAuthorizationService ??= GetRequiredService<IPermissionAuthorizationService>();
+
+        /// <summary>
+        /// 判断当前用户是否是管理员。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        protected bool IsAdministrator() => PermissionAuthorizationService.IsAdministrator();
+
+        /// <summary>
+        /// 判断当前用户是否是管理员。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        protected Task<bool> IsAdministratorAsync() => PermissionAuthorizationService.IsAdministratorAsync();
+
+        /// <summary>
+        /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
+        /// </summary>
+        /// <param name="permissionName">权限名称。</param>
+        /// <returns>返回判断结果。</returns>
+        protected Task<bool> IsAuthorizedAsync(string permissionName) => PermissionAuthorizationService.IsAuthorizedAsync(permissionName);
+
+        /// <summary>
+        /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
+        /// </summary>
+        /// <param name="permissionName">权限名称。</param>
+        /// <returns>返回判断结果。</returns>
+        protected bool IsAuthorized(string permissionName) => PermissionAuthorizationService.IsAuthorized(permissionName);
         #endregion
     }
 }

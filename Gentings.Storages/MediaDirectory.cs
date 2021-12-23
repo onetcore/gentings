@@ -335,7 +335,9 @@ namespace Gentings.Storages
             var files = await _sfdb.AsQueryable()
                 .WithNolock()
                 .LeftJoin<MediaFile>((s, m) => s.FileId == m.FileId)
+#pragma warning disable CS8073 // 由于此类型的值永不等于 "null"，该表达式的结果始终相同
                 .Where<MediaFile>(x => x.Id == null)
+#pragma warning restore CS8073 // 由于此类型的值永不等于 "null"，该表达式的结果始终相同
                 .Select()
                 .AsEnumerableAsync();
             foreach (var file in files)

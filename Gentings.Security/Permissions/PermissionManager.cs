@@ -17,7 +17,7 @@ namespace Gentings.Security.Permissions
     /// </summary>
     /// <typeparam name="TRole">角色类型。</typeparam>
     /// <typeparam name="TUserRole">用户角色关联类型。</typeparam>
-    public abstract class PermissionManager<TRole, TUserRole> : IPermissionManager
+    public class PermissionManager<TRole, TUserRole> : IPermissionManager
         where TRole : RoleBase
         where TUserRole : IUserRole
     {
@@ -27,7 +27,6 @@ namespace Gentings.Security.Permissions
         protected IDbContext<Permission> DbContext { get; }
         private readonly IDbContext<PermissionInRole> _prdb;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IMemoryCache _cache;
         private readonly IDbContext<TRole> _rdb;
         private readonly IDbContext<TUserRole> _urdb;
@@ -43,12 +42,11 @@ namespace Gentings.Security.Permissions
         /// <param name="cache">缓存接口。</param>
         /// <param name="rdb">角色数据库操作接口。</param>
         /// <param name="urdb">用户角色数据库操作接口。</param>
-        protected PermissionManager(IDbContext<Permission> db, IDbContext<PermissionInRole> prdb, IServiceProvider serviceProvider, IMemoryCache cache, IDbContext<TRole> rdb, IDbContext<TUserRole> urdb)
+        public PermissionManager(IDbContext<Permission> db, IDbContext<PermissionInRole> prdb, IServiceProvider serviceProvider, IMemoryCache cache, IDbContext<TRole> rdb, IDbContext<TUserRole> urdb)
         {
             DbContext = db;
             _prdb = prdb;
             _serviceProvider = serviceProvider;
-            _httpContextAccessor = serviceProvider.GetRequiredService<IHttpContextAccessor>();
             _cache = cache;
             _rdb = rdb;
             _urdb = urdb;
@@ -212,56 +210,6 @@ namespace Gentings.Security.Permissions
             }
 
             return PermissionValue.NotSet;
-        }
-
-        /// <summary>
-        /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
-        /// </summary>
-        /// <param name="permissionName">权限名称。</param>
-        /// <returns>返回判断结果。</returns>
-        public async Task<bool> IsAuthorizedAsync(string permissionName)
-        {
-            var isAuthorized =
-                _httpContextAccessor.HttpContext.Items[typeof(Permission) + ":" + permissionName] as bool?;
-            if (isAuthorized != null)
-            {
-                return isAuthorized.Value;
-            }
-
-            isAuthorized = false;
-            var id = _httpContextAccessor.HttpContext.User.GetUserId();
-            if (id > 0)
-            {
-                var permission = await GetUserPermissionValueAsync(id, permissionName);
-                isAuthorized = permission == PermissionValue.Allow;
-            }
-            _httpContextAccessor.HttpContext.Items[typeof(Permission) + ":" + permissionName] = isAuthorized;
-            return isAuthorized.Value;
-        }
-
-        /// <summary>
-        /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
-        /// </summary>
-        /// <param name="permissionName">权限名称。</param>
-        /// <returns>返回判断结果。</returns>
-        public bool IsAuthorized(string permissionName)
-        {
-            var isAuthorized =
-                _httpContextAccessor.HttpContext.Items[typeof(Permission) + ":" + permissionName] as bool?;
-            if (isAuthorized != null)
-            {
-                return isAuthorized.Value;
-            }
-
-            isAuthorized = false;
-            var id = _httpContextAccessor.HttpContext.User.GetUserId();
-            if (id > 0)
-            {
-                var permission = GetUserPermissionValue(id, permissionName);
-                isAuthorized = permission == PermissionValue.Allow;
-            }
-            _httpContextAccessor.HttpContext.Items[typeof(Permission) + ":" + permissionName] = isAuthorized;
-            return isAuthorized.Value;
         }
 
         /// <summary>

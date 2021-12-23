@@ -1,4 +1,5 @@
 ﻿using Gentings.AspNetCore.Menus;
+using Gentings.Security;
 
 namespace Gentings.AspNetCore.Tasks
 {
@@ -18,9 +19,9 @@ namespace Gentings.AspNetCore.Tasks
         /// <param name="root">根目录菜单。</param>
         public override void Init(MenuItem root)
         {
-            root.AddMenu("tasks", menu => menu.Texted("TasksManager", IconType.Terminal).Page("/backend/Index", area: AreaName)
-                .AddMenu("index", item => item.Texted("Task_Title").Page("/backend/Index", area: AreaName))
-                .AddMenu("bgservice", item => item.Texted("BackgroundService_Title").Page("/backend/BackgroundService", area: AreaName))
+            root.AddMenu("tasks", menu => menu.Texted("TasksManager", IconType.Terminal).Page("/backend/Index", area: AreaName).Allow(CorePermissions.Developer)
+                .AddMenu("index", item => item.Texted("Task_Title").Page("/backend/Index", area: AreaName).Allow(CorePermissions.Developer))
+                .AddMenu("bgservice", item => item.Texted("BackgroundService_Title").Page("/backend/BackgroundService", area: AreaName).Allow(CorePermissions.Developer))
             );
         }
     }

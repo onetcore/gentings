@@ -6,14 +6,14 @@ namespace Gentings.Security.Permissions
     /// <summary>
     /// 权限初始化类。
     /// </summary>
-    public abstract class PermissionInitializer : IInitializer
+    public class PermissionInitializer : IInitializer
     {
         private readonly IPermissionManager _permissionManager;
         /// <summary>
         /// 初始化类<see cref="PermissionInitializer"/>。
         /// </summary>
         /// <param name="permissionManager">权限管理类。</param>
-        protected PermissionInitializer(IPermissionManager permissionManager)
+        public PermissionInitializer(IPermissionManager permissionManager)
         {
             _permissionManager = permissionManager;
         }

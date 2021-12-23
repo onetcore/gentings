@@ -24,7 +24,7 @@ namespace Gentings.Security
         /// <summary>
         /// 初始化类<see cref="PermissionAuthorizeAttribute"/>。
         /// </summary>
-        public PermissionAuthorizeAttribute() : this("core.administrator")
+        public PermissionAuthorizeAttribute() : this(CorePermissions.Administrator)
         {
         }
 

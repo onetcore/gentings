@@ -12,7 +12,7 @@ namespace Gentings.Security
         /// </summary>
         /// <param name="permissionName">权限名称。</param>
         /// <returns>返回判断结果。</returns>
-        public Task<bool> IsAuthorizedAsync(string permissionName)
+        public virtual Task<bool> IsAuthorizedAsync(string permissionName)
         {
             return Task.FromResult(true);
         }
@@ -22,9 +22,21 @@ namespace Gentings.Security
         /// </summary>
         /// <param name="permissionName">权限名称。</param>
         /// <returns>返回判断结果。</returns>
-        public bool IsAuthorized(string permissionName)
+        public virtual bool IsAuthorized(string permissionName)
         {
             return true;
         }
+
+        /// <summary>
+        /// 判断当前用户是否拥有管理员权限。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        public virtual Task<bool> IsAdministratorAsync() => IsAuthorizedAsync(CorePermissions.Administrator);
+
+        /// <summary>
+        /// 判断当前用户是否拥有管理员权限。
+        /// </summary>
+        /// <returns>返回判断结果。</returns>
+        public virtual bool IsAdministrator() => IsAuthorized(CorePermissions.Administrator);
     }
 }

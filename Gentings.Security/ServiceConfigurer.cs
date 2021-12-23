@@ -1,16 +1,15 @@
-﻿using Gentings.Extensions.Settings;
-using Gentings.Security.Data;
-using Gentings.Security.Notifications;
-using Gentings.Security.Permissions;
-using Gentings.Security.Properties;
+﻿using Gentings.Security.Data;
 using Gentings.Security.Roles;
-using Gentings.Security;
+using Gentings.Data.Migrations;
+using Gentings.Extensions.Settings;
+using Gentings.Security.Properties;
+using Gentings.Security.Permissions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Gentings.Security
 {
@@ -63,12 +62,11 @@ namespace Gentings.Security
                 services.AddIdentity<TUser, TRole>();
                 services.AddScoped(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext.GetUser<TUser>() ?? _anonymous);
                 services.AddScoped(service => service.GetRequiredService<ISettingsManager>().GetSettings<TSettings>());
+                services.AddSingleton<IPermissionManager, PermissionManager<TRole, TUserRole>>();
                 ConfigureServices(new IdentityBuilder(typeof(TUser), typeof(TRole), services));
-                if ((EnabledModule & EnabledModule.Cookies) == EnabledModule.Cookies)
-                    ConfigureCookieServices(services, builder.Configuration.GetSection("Cookies"));
-            });
-            if ((EnabledModule & EnabledModule.Notification) == EnabledModule.Notification)
-                builder.AddNotification();
+                ConfigureCookieServices(services, builder.Configuration.GetSection("Cookies"));
+            })
+            .AddTransients<IDataMigration, DefaultPermissionDataMigration<TRole>>();
         }
 
         /// <summary>
@@ -78,25 +76,19 @@ namespace Gentings.Security
         /// <param name="section">Cookies配置节点。</param>
         protected virtual void ConfigureCookieServices(IServiceCollection services, IConfigurationSection section)
         {
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddPermission()
-                .AddCookie(options =>
-                {
-                    options.LoginPath = new PathString(section["Login"] ?? "/login");
-                    options.LogoutPath = new PathString(section["Logout"] ?? "/logout");
-                    options.AccessDeniedPath = new PathString(section["Denied"] ?? "/denied");
-                    options.ReturnUrlParameter = section["ReturnUrl"] ?? "returnUrl";
-                });
-            services.Configure<CookiePolicyOptions>(options =>
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = new PathString(section["Login"] ?? "/login");
+                options.LogoutPath = new PathString(section["Logout"] ?? "/logout");
+                options.AccessDeniedPath = new PathString(section["Denied"] ?? "/denied");
+                options.ReturnUrlParameter = section["ReturnUrl"] ?? "returnUrl";
+            })
+            .Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => false; //是否开启GDPR
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
+            })
+            .AddSingleton<IAuthorizationHandler, PermissionAuthorizationHandler>(); 
         }
-
-        /// <summary>
-        /// 开启的功能模型。
-        /// </summary>
-        protected virtual EnabledModule EnabledModule => EnabledModule.None;
     }
 }

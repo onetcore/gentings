@@ -4,8 +4,9 @@ using Gentings.Security.Roles;
 namespace Gentings.Security.Permissions
 {
     /// <summary>
-    /// 数据库迁移类。
+    /// 数据库迁移类，设置为抽象类，防止自动注册无法识别<seealso cref="TRole"/>类型。
     /// </summary>
+    /// <typeparam name="TRole">角色类型。</typeparam>
     public abstract class PermissionDataMigration<TRole> : DataMigration
         where TRole : RoleBase
     {
@@ -33,5 +34,13 @@ namespace Gentings.Security.Permissions
                 .ForeignKey<TRole>(x => x.RoleId, x => x.Id, onDelete: ReferentialAction.Cascade));
         }
     }
+
+    /// <summary>
+    /// 数据库迁移类。
+    /// </summary>
+    /// <typeparam name="TRole">角色类型。</typeparam>
+    internal class DefaultPermissionDataMigration<TRole> : PermissionDataMigration<TRole>
+        where TRole : RoleBase
+    { }
 }
 
