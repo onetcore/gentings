@@ -203,6 +203,17 @@ input.form-control.form-color[readonly] {
     }
 }
 
+.radio-list.horizontal, .checkbox-list.horizontal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+
+    label ~ label {
+        margin-left: 1rem;
+    }
+}
+
 //switch
 input[data-switch] {
     display: none;
@@ -320,6 +331,12 @@ input:disabled + label {
     &[aria-expanded="true"]:after {
         transform: translateY(-50%) rotate(225deg);
     }
+}
+
+.dropdown.action-end {
+    display: inline-block;
+    float: right;
+    margin-right: 6px;
 }
 
 .action-dropdown {
@@ -646,6 +663,7 @@ body.fullscreen {
     cursor: pointer;
 }
 
+//card
 .card {
     box-shadow: $card-box-shadow;
 
@@ -691,4 +709,95 @@ body.fullscreen {
             }
         }
     }
+}
+
+
+.bg-none {
+    background-color: transparent !important;
+}
+
+// first or last node hidden
+.fl-display {
+    > :first-child .f-hide {
+        display: none !important;
+    }
+
+    > :last-child .l-hide {
+        display: none !important;
+    }
+}
+
+//time line
+.timeline {
+    .line {
+        position: relative;
+        display: flex;
+        align-items: baseline;
+        padding-left: calc(1rem - 5px) !important; //12px
+
+        &:before {
+            content: '';
+            position: absolute;
+            border: 1px solid currentColor;
+            height: 50%;
+            top: 0;
+            left: 1rem;
+        }
+
+        &:after {
+            content: '';
+            position: absolute;
+            border: 1px solid currentColor;
+            height: 50%;
+            bottom: 0;
+            left: 1rem;
+        }
+
+        > .circle {
+            border: 2px solid currentColor;
+            height: 12px;
+            width: 12px;
+            border-radius: 100%;
+            background-color: currentColor;
+            margin-right: calc(1rem - 5px); //12px
+            z-index: 1;
+        }
+    }
+
+    > :first-child .line:before {
+        display: none;
+    }
+
+    > :last-child .line:after {
+        display: none;
+    }
+}
+
+@each $color, $value in $theme-colors {
+    .timeline-#{$color} .line {
+        &:before {
+            border-color: $value;
+        }
+
+        &:after {
+            border-color: $value;
+        }
+
+        > .circle {
+            border-color: $value;
+            background-color: $value;
+        }
+    }
+}
+
+// icon
+.icon-48 {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.5rem;
+    border: 1px solid $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
 }

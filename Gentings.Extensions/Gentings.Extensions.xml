@@ -1719,7 +1719,7 @@
         </member>
         <member name="M:Gentings.Extensions.OpenServices.Controllers.TokenResult.#ctor">
             <summary>
-            用于返回特性使用。
+            初始化类<see cref="T:Gentings.Extensions.OpenServices.Controllers.TokenResult"/>。
             </summary>
         </member>
         <member name="T:Gentings.Extensions.OpenServices.ErrorCode">

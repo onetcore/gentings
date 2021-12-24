@@ -5,7 +5,7 @@ namespace Gentings.Extensions.OpenServices.Controllers
     /// <summary>
     /// 输出模型。
     /// </summary>
-    public class TokenResult : ApiDataResult<string>
+    public class TokenResult : ApiDataResult
     {
         /// <summary>
         /// 初始化类<see cref="TokenResult"/>。
@@ -16,8 +16,8 @@ namespace Gentings.Extensions.OpenServices.Controllers
         }
 
         /// <summary>
-        /// 用于返回特性使用。
+        /// 初始化类<see cref="TokenResult"/>。
         /// </summary>
-        public TokenResult() : base(Cores.GeneralKey(512)) { }
+        public TokenResult() : base(Cores.GeneralKey(128)) { }
     }
 }
