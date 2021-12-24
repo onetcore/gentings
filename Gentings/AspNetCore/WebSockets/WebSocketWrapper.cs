@@ -97,19 +97,7 @@ namespace Gentings.AspNetCore.WebSockets
         /// <returns>返回发送任务实例。</returns>
         public Task SendDataAsync<TData>(string method, TData data)
         {
-            return SendAsync(method, new ApiDataResult<TData>(data));
-        }
-
-        /// <summary>
-        /// 发送数据。
-        /// </summary>
-        /// <param name="method">操作方法。</param>
-        /// <param name="data">对象实例。</param>
-        /// <returns>返回发送任务实例。</returns>
-        public Task SendPageAsync<TData>(string method, TData data)
-            where TData : IPageEnumerable<TData>
-        {
-            return SendAsync(method, new ApiPageResult<TData>(data));
+            return SendAsync(method, new ApiDataResult(data));
         }
 
         /// <summary>

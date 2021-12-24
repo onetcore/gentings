@@ -78,7 +78,14 @@ namespace Gentings.AspNetCore
         {
             if (_namedStringManager == null)
                 _namedStringManager = GetService<INamedStringManager>();
-            return _namedStringManager?.GetOrAddString(key);
+            var name = _namedStringManager?.GetOrAddString(key);
+            if (name == null)
+            {
+                var index = key.LastIndexOf('.');
+                if (index == -1) return key;
+                name = key.Substring(index + 1);
+            }
+            return name;
         }
         #endregion
 
@@ -161,7 +168,7 @@ namespace Gentings.AspNetCore
         protected virtual IActionResult Error()
         {
             var dic = new Dictionary<string, string>();
-            var result = new ApiDataResult<Dictionary<string, string>>(dic) { Code = (int)ErrorCode.ValidError };
+            var result = new ApiDataResult(dic) { Code = (int)ErrorCode.ValidError };
             foreach (var key in ModelState.Keys)
             {
                 var error = ModelState[key].Errors.FirstOrDefault()?.ErrorMessage;
@@ -207,7 +214,8 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult Success(string message = null)
         {
-            var result = message == null ? ApiResult.Success : new ApiResult { Message = message };
+            var result = new ApiResult();
+            result.Message = message;
             return Json(result);
         }
 
@@ -229,22 +237,9 @@ namespace Gentings.AspNetCore
         /// <returns>返回包含数据的结果。</returns>
         protected virtual IActionResult Success(object data, string message = null)
         {
-            var instance = Activator.CreateInstance(typeof(ApiDataResult<>).MakeGenericType(data.GetType()), data) as ApiResult;
+            var instance = new ApiDataResult(data);
             instance.Message = message;
             return Success(instance);
-        }
-
-        /// <summary>
-        /// 返回分页数据结果。
-        /// </summary>
-        /// <typeparam name="TPageData">查询类型。</typeparam>
-        /// <param name="query">数据列表。</param>
-        /// <param name="message">消息。</param>
-        /// <returns>返回包含数据的结果。</returns>
-        protected virtual IActionResult Success<TPageData>(TPageData query, string message = null)
-            where TPageData : IPageEnumerable
-        {
-            return Success(new ApiPageResult<TPageData>(query) { Message = message });
         }
 
         /// <summary>

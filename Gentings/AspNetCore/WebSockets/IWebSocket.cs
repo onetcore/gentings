@@ -56,15 +56,6 @@ namespace Gentings.AspNetCore.WebSockets
         Task SendDataAsync<TData>(string method, TData data);
 
         /// <summary>
-        /// 发送数据。
-        /// </summary>
-        /// <param name="method">操作方法。</param>
-        /// <param name="data">对象实例。</param>
-        /// <returns>返回发送任务实例。</returns>
-        Task SendPageAsync<TData>(string method, TData data)
-            where TData : IPageEnumerable<TData>;
-
-        /// <summary>
         /// 关闭连接。
         /// </summary>
         /// <returns>关闭连接任务。</returns>
