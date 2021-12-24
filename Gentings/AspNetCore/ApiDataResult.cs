@@ -1,5 +1,4 @@
 ﻿using Gentings.Extensions;
-using System;
 
 namespace Gentings.AspNetCore
 {
@@ -25,29 +24,4 @@ namespace Gentings.AspNetCore
         /// </summary>
         public object Data { get; }
     }
-
-    ///// <summary>
-    ///// 包含数据的结果。
-    ///// </summary>
-    ///// <typeparam name="TData">数据类型。</typeparam>
-    //public class ApiDataResult<TData> : ApiDataResult
-    //{
-    //    /// <summary>
-    //    /// 初始化类<see cref="ApiDataResult{TData}"/>。
-    //    /// </summary>
-    //    /// <param name="data">数据实例。</param>
-    //    public ApiDataResult(object data) : base(data)
-    //    {
-    //    }
-
-    //    /// <summary>
-    //    /// 初始化类<see cref="ApiDataResult{TData}"/>。
-    //    /// </summary>
-    //    public ApiDataResult() : this(Activator.CreateInstance<TData>()) { }
-
-    //    /// <summary>
-    //    /// 数据实例。
-    //    /// </summary>
-    //    public new TData Data => (TData)base.Data;
-    //}
 }
