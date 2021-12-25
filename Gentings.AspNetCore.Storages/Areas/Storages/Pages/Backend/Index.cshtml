@@ -16,8 +16,8 @@
         </form>
         <div class="actions">
             <gt:action-group>
-                <gt:action type="Upload" asp-action="Upload" asp-route-extension="core" asp-controller="Upload" asp-area=""></gt:action>
-                <gt:action type="Delete" mode="Danger" confirm="你确定要删除所选择的文件吗？" asp-page-handler="Delete" disabled></gt:action>
+                <gt:action typeof="Upload" asp-action="Upload" asp-route-extension="core" asp-controller="Upload" asp-area=""></gt:action>
+                <gt:action typeof="Delete" mode="Danger" confirm="你确定要删除所选择的文件吗？" asp-page-handler="Delete" disabled></gt:action>
             </gt:action-group>
         </div>
     </div>
@@ -51,8 +51,8 @@
                         </td>
                         <td>
                             <gt:action-dropdownmenu>
-                                <gt:action type="Edit" asp-page="./Edit" asp-route-id="@file.Id">重命名</gt:action>
-                                <gt:action type="Delete" confirm="你确定要删除“@(file.Name)@(file.Extension)”吗？" asp-page-handler="Delete" asp-route-id="@file.Id"></gt:action>
+                                <gt:action typeof="Edit" asp-page="./Edit" asp-route-id="@file.Id">重命名</gt:action>
+                                <gt:action typeof="Delete" confirm="你确定要删除“@(file.Name)@(file.Extension)”吗？" asp-page-handler="Delete" asp-route-id="@file.Id"></gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>

@@ -9,8 +9,8 @@
     <div class="card-header toolbar" .permission="@Permissions.EditNamedStrings">
         <div class="actions">
             <gt:action-group>
-                <gt:action type="Add" asp-page="./Edit" asp-route-pid="@Model.Current.Id"></gt:action>
-                <gt:action type="Delete" mode="Danger" asp-page-handler="Delete" data-pid="@Model.Current.Id" confirm="你确定要删除所选择的字典实例吗？" disabled></gt:action>
+                <gt:action typeof="Add" asp-page="./Edit" asp-route-pid="@Model.Current.Id"></gt:action>
+                <gt:action typeof="Delete" mode="Danger" asp-page-handler="Delete" data-pid="@Model.Current.Id" confirm="你确定要删除所选择的字典实例吗？" disabled></gt:action>
             </gt:action-group>
         </div>
     </div>
@@ -51,8 +51,8 @@
                         <td>@setting.Value</td>
                         <td .permission="@Permissions.EditNamedStrings">
                             <gt:action-dropdownmenu>
-                                <gt:action type="Edit" asp-page="./Edit" asp-route-id="@setting.Id"></gt:action>
-                                <gt:action type="Delete" asp-page-handler="Delete" data-pid="@Model.Current.Id" confirm="你确定要删除“@setting.Name”吗？" asp-route-id="@setting.Id"></gt:action>
+                                <gt:action typeof="Edit" asp-page="./Edit" asp-route-id="@setting.Id"></gt:action>
+                                <gt:action typeof="Delete" asp-page-handler="Delete" data-pid="@Model.Current.Id" confirm="你确定要删除“@setting.Name”吗？" asp-route-id="@setting.Id"></gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>

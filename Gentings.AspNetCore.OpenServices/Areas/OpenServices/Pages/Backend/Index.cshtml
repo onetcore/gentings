@@ -21,8 +21,8 @@
         </form>
         <div class="actions">
             <gt:action-group>
-                <gt:action .permission="@Permissions.Create" type="Add" asp-page="./Edit">添加应用</gt:action>
-                <gt:action .permission="@Permissions.Delete" type="Delete" confirm="你确定要删除所选择的应用吗？" asp-page-handler="Delete"></gt:action>
+                <gt:action .permission="@Permissions.Create" typeof="Add" asp-page="./Edit">添加应用</gt:action>
+                <gt:action .permission="@Permissions.Delete" typeof="Delete" confirm="你确定要删除所选择的应用吗？" asp-page-handler="Delete"></gt:action>
             </gt:action-group>
         </div>
     </div>
@@ -56,10 +56,10 @@
                         <td>添加：@app.CreatedDate.ToString("yyyy-MM-dd")<br />过期：@app.ExpiredDate.ToString("yyyy-MM-dd")</td>
                         <td>
                             <gt:action-dropdownmenu>
-                                <gt:action type="Edit" .permission="@Permissions.Update" asp-page="./Edit" asp-route-id="@app.Id"></gt:action>
-                                <gt:action type="Delete" .permission="@Permissions.Delete" confirm="你确定要删除“@app.Name”吗？" asp-page-handler="Delete" asp-route-id="@app.Id"></gt:action>
-                                <gt:action type="Divider"></gt:action>
-                                <gt:action type="Link" .permission="@Permissions.Setting" title="API列表" asp-page="./Apis" asp-route-appid="@app.Id"><i class="bi-list"></i> API列表</gt:action>
+                                <gt:action typeof="Edit" .permission="@Permissions.Update" asp-page="./Edit" asp-route-id="@app.Id"></gt:action>
+                                <gt:action typeof="Delete" .permission="@Permissions.Delete" confirm="你确定要删除“@app.Name”吗？" asp-page-handler="Delete" asp-route-id="@app.Id"></gt:action>
+                                <gt:action typeof="Divider"></gt:action>
+                                <gt:action typeof="Link" .permission="@Permissions.Setting" title="API列表" asp-page="./Apis" asp-route-appid="@app.Id"><i class="bi-list"></i> API列表</gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>

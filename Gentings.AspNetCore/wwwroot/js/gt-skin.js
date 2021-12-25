@@ -320,6 +320,9 @@ var resources = {
                                         var data = current.json();
                                         var url = current.attr('href') || current.attr('action');
                                         $ajax(url, data, function (d) {
+                                            if (!d.data && !d.message) {
+                                                location.href = location.href;
+                                            } //如果成功没有返回数据，则刷新页面
                                             current.trigger('success', d.data);
                                         }, current.attr('_json') === 'false' ? undefined : 'JSON');
                                     }
@@ -335,7 +338,10 @@ var resources = {
                                             if (items.length > 0) data.id = items;
                                             var url = current.attr('href') || current.attr('action');
                                             $ajax(url, data, function (d) {
-                                                current.trigger('success', d.data);
+                                                if (!d.data && !d.message) {
+                                                    location.href = location.href;
+                                                } //如果成功没有返回数据，则刷新页面
+                                                else current.trigger('success', d.data);
                                             }, current.attr('_json') === 'false' ? undefined : 'JSON');
                                         })();
                                     }

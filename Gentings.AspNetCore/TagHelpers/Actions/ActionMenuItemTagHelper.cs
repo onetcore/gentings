@@ -33,6 +33,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
         /// <summary>
         /// 操作类型。
         /// </summary>
+        [HtmlAttributeName("typeof")]
         public ActionType Type { get; set; }
 
         /// <summary>

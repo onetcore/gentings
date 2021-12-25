@@ -9,7 +9,7 @@
     <div class="card-header toolbar">
         <div class="actions">
             <gt:action-group>
-                <gt:action type="Add" asp-page="./Edit">添加配置</gt:action>
+                <gt:action typeof="Add" asp-page="./Edit">添加配置</gt:action>
             </gt:action-group>
         </div>
     </div>
@@ -43,8 +43,8 @@
                         <td>@item.Count</td>
                         <td>
                             <gt:action-dropdownmenu>
-                                <gt:action type="Edit" asp-route-id="@item.Id" asp-page="./Edit"></gt:action>
-                                <gt:action type="Delete" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
+                                <gt:action typeof="Edit" asp-route-id="@item.Id" asp-page="./Edit"></gt:action>
+                                <gt:action typeof="Delete" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>
