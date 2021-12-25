@@ -45,7 +45,7 @@
                         <td>
                             <gt:action-dropdownmenu>
                                 <gt:action typeof="Edit" asp-page="./Edit" asp-route-id="@item.Id"></gt:action>
-                                <gt:action typeof="Modal" icon="IconType.Key" asp-page="./Password" asp-route-id="@item.Id">设置密码</gt:action>
+                                <gt:action typeof="Modal" icon="Key" asp-page="./Password" asp-route-id="@item.Id">设置密码</gt:action>
                                 <gt:action typeof="Divider"></gt:action>
                                 <gt:action typeof="Delete" confirm="你确定要删除“@(item.NickName)”吗？" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
                             </gt:action-dropdownmenu>

@@ -1,4 +1,4 @@
-﻿namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
+﻿namespace Gentings.AspNetCore.TagHelpers.Actions
 {
     /// <summary>
     /// 扩展方法类。

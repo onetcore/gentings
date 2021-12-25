@@ -1,4 +1,4 @@
-﻿namespace Gentings.AspNetCore
+﻿namespace Gentings.AspNetCore.TagHelpers.Actions
 {
     /// <summary>
     /// 操作类型。

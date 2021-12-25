@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
+namespace Gentings.AspNetCore.TagHelpers.Actions
 {
     /// <summary>
     /// 操作下拉列表框。
@@ -39,7 +39,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
         /// <summary>
         /// 图标。
         /// </summary>
-        public IconType? Icon { get; set; }
+        public IconType Icon { get; set; } = IconType.None;
 
         /// <summary>
         /// 图标样式名称。
@@ -53,7 +53,13 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
         public override void Init(TagHelperContext context)
         {
             base.Init(context);
-            IconName = IconName ?? Icon?.ToDescriptionString() ?? Type.GetIconClassName();
+            if (IconName == null)
+            {
+                if (Icon != IconType.None)
+                    IconName = Icon.ToDescriptionString();
+                else
+                    IconName = Type.GetIconClassName();
+            }
         }
 
         /// <summary>

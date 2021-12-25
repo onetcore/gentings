@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
+namespace Gentings.AspNetCore.TagHelpers.Actions
 {
     /// <summary>
     /// 操作下拉列表框。

@@ -8,6 +8,10 @@ namespace Gentings.AspNetCore
     public enum IconType
     {
         /// <summary>
+        /// 无。
+        /// </summary>
+        None,
+        /// <summary>
         /// bi-alarm-fill.
         /// </summary>
         [Description("bi-alarm-fill")]

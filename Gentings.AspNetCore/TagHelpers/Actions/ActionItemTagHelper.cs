@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
+namespace Gentings.AspNetCore.TagHelpers.Actions
 {
     /// <summary>
     /// 工具栏操作下拉列表框。
