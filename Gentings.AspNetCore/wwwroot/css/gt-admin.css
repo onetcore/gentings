@@ -82,7 +82,7 @@ main.container {
   text-transform: uppercase;
 }
 .main-container .main-header .main-horizontal-navigator > li > a.avatar ~ ul .dropdown-divider, .navbar .navbar-horizontal-navigator > li > a.avatar ~ ul .dropdown-divider {
-  color: #edf2f9;
+  color: #b1c2d9;
   border-top: none;
 }
 .main-container .main-header .main-horizontal-navigator > li > a > [class^=bi-], .navbar .navbar-horizontal-navigator > li > a > [class^=bi-], .main-container .main-header .main-horizontal-navigator > li > a > [class*=" bi-"], .navbar .navbar-horizontal-navigator > li > a > [class*=" bi-"] {

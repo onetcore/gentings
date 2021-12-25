@@ -349,9 +349,15 @@ input:disabled + label {
     }
 }
 
-.dropdown-menu .dropdown-item [class^="bi-"],
-.dropdown-menu .dropdown-item [class*=" bi-"] {
-    margin-right: 0.75rem;
+.dropdown-menu .dropdown-item {
+    width: auto;
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    margin: auto 0.25rem;
+
+    [class^="bi-"], [class*=" bi-"] {
+        margin-right: 0.75rem;
+    }
 }
 
 //btn
@@ -674,7 +680,7 @@ body.fullscreen {
         background-color: transparent;
         justify-content: space-between;
 
-        h2, h3, h4, h5 {
+        h1, h2, h3, h4, h5 {
             margin-bottom: 0;
             font-weight: 700;
             text-transform: uppercase;
@@ -717,7 +723,7 @@ body.fullscreen {
 }
 
 // first or last node hidden
-.fl-display {
+.fl-hide {
     > :first-child .f-hide {
         display: none !important;
     }

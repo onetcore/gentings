@@ -24,7 +24,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         {
             output.AddClass("sorting");
             var current = (int)(object)OrderBy;
-            output.SetAttribute("_json.order", current.ToString());
+            output.SetAttribute("_ajax.order", current.ToString());
             if (HttpContext.Request.Query.TryGetValue("order", out var order) &&
                 int.TryParse(order, out var number) && current == number)
             {

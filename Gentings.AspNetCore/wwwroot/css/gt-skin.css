@@ -11497,8 +11497,13 @@ input:disabled + label {
   display: none !important;
 }
 
-.dropdown-menu .dropdown-item [class^=bi-],
-.dropdown-menu .dropdown-item [class*=" bi-"] {
+.dropdown-menu .dropdown-item {
+  width: auto;
+  padding: 0.25rem 0.5rem;
+  border-radius: 5px;
+  margin: auto 0.25rem;
+}
+.dropdown-menu .dropdown-item [class^=bi-], .dropdown-menu .dropdown-item [class*=" bi-"] {
   margin-right: 0.75rem;
 }
 
@@ -11835,7 +11840,7 @@ body.fullscreen {
   background-color: transparent;
   justify-content: space-between;
 }
-.card .card-header h2, .card .card-header .h2, .card .card-header h3, .card .card-header .h3, .card .card-header h4, .card .card-header .h4, .card .card-header h5, .card .card-header .h5 {
+.card .card-header h1, .card .card-header .h1, .card .card-header h2, .card .card-header .h2, .card .card-header h3, .card .card-header .h3, .card .card-header h4, .card .card-header .h4, .card .card-header h5, .card .card-header .h5 {
   margin-bottom: 0;
   font-weight: 700;
   text-transform: uppercase;
@@ -11866,10 +11871,10 @@ body.fullscreen {
   background-color: transparent !important;
 }
 
-.fl-display > :first-child .f-hide {
+.fl-hide > :first-child .f-hide {
   display: none !important;
 }
-.fl-display > :last-child .l-hide {
+.fl-hide > :last-child .l-hide {
   display: none !important;
 }
 

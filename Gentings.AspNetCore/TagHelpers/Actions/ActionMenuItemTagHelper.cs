@@ -110,7 +110,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps.Actions
             else if (Type == ActionType.Upload)
                 builder.MergeAttribute("_click", "upload");
             else if (Type != ActionType.Link)
-                builder.MergeAttribute("_click", "action");
+                builder.MergeAttribute("_click", "ajax");
         }
     }
 }

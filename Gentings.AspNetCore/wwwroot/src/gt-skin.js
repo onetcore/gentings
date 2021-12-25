@@ -38,10 +38,10 @@
     // jQuery方法扩展。
     $.fn.extend({
         /**
-         * 获取或设置当前元素所有以“_json.”开头的所有属性值对象。
-         * @param {string} name 属性名称，不包含“_json.”。
+         * 获取或设置当前元素所有以“_ajax.”开头的所有属性值对象。
+         * @param {string} name 属性名称，不包含“_ajax.”。
          * @param {object} value 属性值。
-         * @returns 返回当前元素所有以“_json.”开头的所有属性值对象。
+         * @returns 返回当前元素所有以“_ajax.”开头的所有属性值对象。
          */
         json: function (name, value) {
             if (typeof name === 'undefined') {
@@ -49,14 +49,14 @@
                 let json = {};
                 for (let i = 0; i < this[0].attributes.length; i++) {
                     const attr = this[0].attributes[i];
-                    if (attr.name.startsWith('_json.'))
+                    if (attr.name.startsWith('_ajax.'))
                         json[attr.name.substr(6)] = attr.value.trim();
                 }
                 return json;
             }
             if (typeof value === 'undefined')
-                return this.attr('_json.' + name);
-            return this.attr('_json.' + name, value);
+                return this.attr('_ajax.' + name);
+            return this.attr('_ajax.' + name, value);
         },
         /**
          * 事件指向的对象。
@@ -321,7 +321,7 @@
                                 current.loadModal();
                             }
                             return false;
-                        case 'action':
+                        case 'ajax':
                             {
                                 const data = current.json();
                                 const url = current.attr('href') || current.attr('action');
