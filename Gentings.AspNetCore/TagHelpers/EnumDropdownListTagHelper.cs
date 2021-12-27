@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Gentings.AspNetCore.Properties;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.TagHelpers
@@ -31,7 +32,7 @@ namespace Gentings.AspNetCore.TagHelpers
                 return GetEnumItems(For.ModelExplorer.ModelType);
             if (Value is Enum value)
                 return GetEnumItems(value.GetType());
-            throw new Exception(Localizer["EnumDropdownListTagHelper_TypeNotFound"]);
+            throw new Exception(Resources.EnumDropdownListTagHelper_TypeNotFound);
         }
 
         private bool IsIgnore(Enum value)

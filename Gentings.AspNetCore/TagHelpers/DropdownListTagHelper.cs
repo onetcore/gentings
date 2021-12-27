@@ -1,4 +1,5 @@
-﻿using Gentings.Extensions;
+﻿using Gentings.AspNetCore.Properties;
+using Gentings.Extensions;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -48,7 +49,7 @@ namespace Gentings.AspNetCore.TagHelpers
         public override void Init(TagHelperContext context)
         {
             if (Default && string.IsNullOrEmpty(DefaultText))
-                DefaultText = Localizer["DropdownListTagHelper_DefaultText"];
+                DefaultText = Resources.DropdownListTagHelper_DefaultText;
         }
 
         /// <summary>

@@ -176,6 +176,13 @@ form > div {
     }
 }
 
+.form-floating > img {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    height: 50px;
+}
+
 ::-webkit-calendar-picker-indicator {
     margin: 0;
     padding: 0;

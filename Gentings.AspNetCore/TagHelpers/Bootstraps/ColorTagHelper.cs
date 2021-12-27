@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Gentings.AspNetCore.Properties;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
@@ -81,7 +82,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 });
                 builder.AppendTag("button", button =>
                 {
-                    button.MergeAttribute("title", Localizer["ColorTagHelper_Clear"]);
+                    button.MergeAttribute("title", Resources.ColorTagHelper_Clear);
                     button.MergeAttribute("onclick", "$(this).prev().attr('type','text').val('');");
                     button.MergeAttribute("type", "button");
                     button.AppendTag("span", span => span.AddCssClass("bi-x"));

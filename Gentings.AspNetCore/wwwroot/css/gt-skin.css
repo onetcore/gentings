@@ -11280,6 +11280,13 @@ form > div {
   padding: 0.375rem 0.75rem;
 }
 
+.form-floating > img {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  height: 50px;
+}
+
 ::-webkit-calendar-picker-indicator {
   margin: 0;
   padding: 0;

@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace Gentings.Localization
 {
@@ -11,6 +12,8 @@ namespace Gentings.Localization
     /// </summary>
     public class ResourceManager
     {
+        private static readonly Regex _regex = new Regex(@"\W");
+        private static readonly Regex _single = new Regex("_+");
         private static readonly ConcurrentDictionary<Type, System.Resources.ResourceManager> _localizers = new ConcurrentDictionary<Type, System.Resources.ResourceManager>();
 
         /// <summary>
@@ -22,19 +25,19 @@ namespace Gentings.Localization
         public static string GetString(Type type, string key)
         {
             var resourceManager = _localizers.GetOrAdd(type ?? typeof(ResourceManager), t =>
-              {
-                  var assembly = type == null ? Assembly.GetEntryAssembly() : t.Assembly;
-                  var baseName = assembly.GetManifestResourceNames()
-                      .SingleOrDefault(x => x.EndsWith(".Resources.resources"));
-                  if (baseName == null)
-                  {
-                      return null;
-                  }
+            {
+                var assembly = type == null ? Assembly.GetEntryAssembly() : t.Assembly;
+                var baseName = assembly.GetManifestResourceNames()
+                    .SingleOrDefault(x => x.EndsWith(".Resources.resources"));
+                if (baseName == null)
+                    return null;
 
-                  baseName = baseName[0..^10];
-                  return new System.Resources.ResourceManager(baseName, assembly);
-              });
-            return resourceManager?.GetString(key) ?? key;
+                baseName = baseName[0..^10];
+                return new System.Resources.ResourceManager(baseName, assembly);
+            });
+
+            var safeKey = _single.Replace(_regex.Replace(key, "_"), "_").Trim('_');//移除空格，将空格转换为下划线
+            return resourceManager?.GetString(safeKey) ?? key;
         }
 
         /// <summary>
@@ -118,11 +121,10 @@ namespace Gentings.Localization
         {
             var member = expression.GetPropertyAccess();
             if (member == null)
-            {
                 return null;
-            }
 
-            return GetString(member.DeclaringType, member.Name);
+            var name = $"{member.DeclaringType.Name}_{member.Name}";
+            return GetString(member.DeclaringType, name);
         }
 
         /// <summary>

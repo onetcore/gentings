@@ -1,5 +1,7 @@
 ﻿using Gentings.Localization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -71,6 +73,22 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <summary>
         /// 本地化接口。
         /// </summary>
-        public ILocalizer Localizer => _localizer ??= GetRequiredService<ILocalizerFactory>().CreateLocalizer(GetType());
+        public ILocalizer Localizer
+        {
+            get
+            {
+                if (_localizer == null)
+                {
+                    var factory = GetRequiredService<ILocalizerFactory>();
+                    if (ViewContext.ActionDescriptor is CompiledPageActionDescriptor cpage)
+                        _localizer = factory.CreateLocalizer(cpage.PageTypeInfo);
+                    else if (ViewContext.ActionDescriptor is ControllerActionDescriptor controller)
+                        _localizer = factory.CreateLocalizer(controller.ControllerTypeInfo);
+                    else
+                        _localizer = factory.CreateLocalizer(GetType());
+                }
+                return _localizer;
+            }
+        }
     }
 }
