@@ -46,7 +46,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         private string GetResource(string key)
         {
             if (ViewContext.ActionDescriptor is CompiledPageActionDescriptor cpage)
-                return _resourceManager.GetResource(cpage.PageTypeInfo, key);
+                return _resourceManager.GetResource(cpage.ModelTypeInfo, key);
             if (ViewContext.ActionDescriptor is ControllerActionDescriptor controller)
                 return _resourceManager.GetResource(controller.ControllerTypeInfo, key);
             return key;

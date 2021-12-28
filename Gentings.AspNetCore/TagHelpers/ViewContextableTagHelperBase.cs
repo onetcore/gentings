@@ -81,7 +81,7 @@ namespace Gentings.AspNetCore.TagHelpers
                 {
                     var factory = GetRequiredService<ILocalizerFactory>();
                     if (ViewContext.ActionDescriptor is CompiledPageActionDescriptor cpage)
-                        _localizer = factory.CreateLocalizer(cpage.PageTypeInfo);
+                        _localizer = factory.CreateLocalizer(cpage.ModelTypeInfo);
                     else if (ViewContext.ActionDescriptor is ControllerActionDescriptor controller)
                         _localizer = factory.CreateLocalizer(controller.ControllerTypeInfo);
                     else

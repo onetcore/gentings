@@ -13,10 +13,12 @@ namespace Gentings.AspNetCore.Localization
         private readonly ConcurrentDictionary<string, TypedResource> _resources = new ConcurrentDictionary<string, TypedResource>(StringComparer.OrdinalIgnoreCase);
         private string GetPath(Type type, string culture)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", culture, type.Assembly.GetName().Name, $"{type.Name}.xml");
+            var assemblyName = type.Assembly.GetName().Name;
+            var typeName = type.FullName.Substring(assemblyName.Length + 1);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", culture, assemblyName, $"{typeName}.xml");
             if (File.Exists(path)) return path;
             culture = culture.Split('-')[0];
-            path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", culture, type.Assembly.GetName().Name, $"{type.Name}.xml");
+            path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", culture, assemblyName, $"{typeName}.xml");
             if (File.Exists(path)) return path;
             return null;
         }
@@ -50,9 +52,11 @@ namespace Gentings.AspNetCore.Localization
 #if DEBUG
         private static void WriteResource(Type type, string key, string text)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", "def", type.Assembly.GetName().Name);
+            var assemblyName = type.Assembly.GetName().Name;
+            var typeName = type.FullName.Substring(assemblyName.Length + 1);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", "def", assemblyName);
             if (!Directory.Exists(path)) Directory.CreateDirectory(path);
-            path = Path.Combine(path, $"{type.Name}.xml");
+            path = Path.Combine(path, $"{typeName}.xml");
             if (!File.Exists(path))
                 File.WriteAllText(path, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<root>\r\n</root>\r\n");
             var xmlDoc = new System.Xml.XmlDocument();
