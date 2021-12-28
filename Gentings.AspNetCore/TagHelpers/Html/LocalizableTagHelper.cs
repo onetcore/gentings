@@ -72,6 +72,27 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             var local = output.TagName == "gt:local";
             if (IsChild || local)
             {
+                if (output.TagName == "img" && context.AllAttributes.TryGetAttribute("src", out var attribute))
+                {//图片
+                    var src = attribute.Value.ToString()?.Trim();
+                    if (string.IsNullOrEmpty(src)) return;
+                    if (src.StartsWith("~/"))
+                        src = src.Substring(1);
+                    var path = src;
+                    var index = path.LastIndexOf('/');//logo.zh-CN.png
+                    if (index == -1) index = 0;
+                    index = path.IndexOf('.', index);
+                    if (index != -1)
+                    {
+                        var extension = Path.GetExtension(path);
+                        path = path.Substring(0, index + 1);
+                        path += Thread.CurrentThread.CurrentUICulture.Name;
+                        path += extension;
+                        output.SetAttribute("src", path);
+                        output.SetAttribute("def", src);
+                        output.SetAttribute("onerror", "if(this.src!=this.getAttribute('def'))this.src=this.getAttribute('def');");
+                    }
+                }
                 if (local) output.TagName = null;
                 var content = await output.GetChildContentAsync();
                 if (content.IsEmptyOrWhiteSpace) return;

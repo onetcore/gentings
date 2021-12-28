@@ -362,13 +362,6 @@
                 });
             }
         });
-        // 图片
-        $('img[_error]', context).each(function () {
-            const src = $(this).attr('_error');
-            if (src) $(this).on('error', function () {
-                if (this.src !== src) this.src = src;
-            });
-        });
         // 表格排序
         $('table thead .sorting', context).on('click', function () {
             // sort

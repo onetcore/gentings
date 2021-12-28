@@ -45,11 +45,11 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
             foreach (var navigator in navigators)
             {
                 var text = navigator.LocalizedText;
-                if (navigator.LinkUrl(urlHelper, null) == null || current?.Name == navigator.Name && text == Title)
+                if (text == null || navigator.LinkUrl(urlHelper, null) == null || current?.Name == navigator.Name && text == Title)
                     continue;
                 links[text] = navigator.LinkUrl(urlHelper, null);
             }
-            if(!string.IsNullOrEmpty(Title))
+            if (!string.IsNullOrEmpty(Title))
                 links[Title] = null;
             if (!string.IsNullOrEmpty(Home))
             {

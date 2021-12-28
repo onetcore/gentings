@@ -49,7 +49,7 @@ namespace Gentings.AspNetCore.TagHelpers
             if (type.IsNullableType())
             {
                 if (DefaultText == null)
-                    DefaultText = Localizer["DropdownListTagHelper_DefaultText"];
+                    DefaultText = Resources.DropdownListTagHelper_DefaultText;
                 type = Nullable.GetUnderlyingType(type)!;
             }
             foreach (Enum value in Enum.GetValues(type!))

@@ -19,6 +19,15 @@ ul, ol, li {
 .flex-auto {
     flex: auto;
 }
+
+.trans-y, .bi-trans-y:before {
+    transform: rotate(90deg);
+}
+
+.trans-x, .bi-trans-x:before {
+    transform: rotate(180deg);
+}
+
 //form
 .input-group-prepend,
 .input-group-append {

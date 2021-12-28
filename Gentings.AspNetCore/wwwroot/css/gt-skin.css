@@ -11142,6 +11142,14 @@ ul, ol, li {
   flex: auto;
 }
 
+.trans-y, .bi-trans-y:before {
+  transform: rotate(90deg);
+}
+
+.trans-x, .bi-trans-x:before {
+  transform: rotate(180deg);
+}
+
 .input-group-prepend,
 .input-group-append {
   position: relative;
