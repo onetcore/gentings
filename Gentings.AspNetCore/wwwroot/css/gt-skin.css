@@ -11474,10 +11474,10 @@ input:disabled + label {
   cursor: default;
 }
 
-.dropdown-indicator {
+.dropdown-indicator, .card .card-header.collapse {
   position: relative;
 }
-.dropdown-indicator:after {
+.dropdown-indicator:after, .card .card-header.collapse:after {
   content: "";
   display: block;
   position: absolute;
@@ -11493,7 +11493,7 @@ input:disabled + label {
   transition-property: transform, border-color;
   border-color: currentColor;
 }
-.dropdown-indicator[aria-expanded=true]:after {
+.dropdown-indicator[aria-expanded=true]:after, .card [aria-expanded=true].card-header.collapse:after, .dropdown-indicator.show:after, .card .show.card-header.collapse:after {
   transform: translateY(-50%) rotate(225deg);
 }
 
@@ -11767,6 +11767,7 @@ body.fullscreen {
   left: 0;
   z-index: 1031;
   border: 0 !important;
+  border-radius: 0 !important;
 }
 
 .mozmd-editor {
@@ -11874,12 +11875,27 @@ body.fullscreen {
   margin-bottom: -1rem;
   border-bottom-width: 1px;
 }
+.card .card-header.collapse {
+  cursor: pointer;
+}
+.card .card-header.collapse:after {
+  right: 1rem;
+}
+.card .card-header.collapse:not(.show) {
+  border-bottom: none;
+}
+.card .card-header.collapse > *:last-child {
+  margin-right: 1rem;
+}
 .card .card-body .table th {
   background-color: #edf2f9;
   padding: 0.95rem 0.95rem;
 }
 .card .card-body .table td {
   padding: 0.95rem 0.95rem;
+}
+.card .card-body > *:last-child {
+  margin-bottom: 0;
 }
 
 .bg-none {
@@ -11891,6 +11907,17 @@ body.fullscreen {
 }
 .fl-hide > :last-child .l-hide {
   display: none !important;
+}
+
+.show-visible {
+  display: none;
+}
+
+.show .show-visible {
+  display: block;
+}
+.show .show-hide {
+  display: none;
 }
 
 .timeline .line {

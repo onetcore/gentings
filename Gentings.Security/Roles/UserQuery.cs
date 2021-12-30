@@ -25,8 +25,7 @@ namespace Gentings.Security.Roles
             base.Init(context);
             if (MaxRoleLevel > 0)
             {
-                context.Select()
-                    .LeftJoin<TRole>((u, r) => u.RoleId == r.Id)
+                context.LeftJoin<TRole>((u, r) => u.RoleId == r.Id)
                     .Where<TRole>(x => x.RoleLevel < MaxRoleLevel);
             }
         }

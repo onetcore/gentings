@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using System.Reflection;
-using System.Text.Json;
 
 namespace Gentings
 {
@@ -16,7 +15,7 @@ namespace Gentings
         /// </summary>
         /// <param name="value">枚举值。</param>
         /// <returns>返回枚举值的小写字符串。</returns>
-        public static string ToLowerString(this Enum value) => value.ToString().ToLower();
+        public static string ToLowerString(this object value) => value?.ToString().ToLower() ?? "null";
 
         /// <summary>
         /// 获取枚举描述信息。

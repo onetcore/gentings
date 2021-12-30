@@ -438,6 +438,21 @@
                 return false;
             });
         });
+        // card-collapse
+        $('.card-header.collapse', context).exec(current => {
+            current.on('click', function () {
+                if (current.hasClass('show')) {
+                    current.toggleClass('show').parents('.card').find('.card-body').toggleClass('hide');
+                    return false;
+                }
+                const group = current.parents('.card-root');
+                if (group.length) {
+                    group.find('.card-header.collapse').removeClass('show').next('.card-body').addClass('hide');
+                }
+                current.addClass('show').parents('.card').find('.card-body').removeClass('hide');
+                return false;
+            });
+        });
     });
     /**
      * Ajax请求。

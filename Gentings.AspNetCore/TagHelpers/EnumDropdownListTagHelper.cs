@@ -58,7 +58,7 @@ namespace Gentings.AspNetCore.TagHelpers
                 yield return new SelectListItem
                 {
                     Text = Localizer.GetString(value),
-                    Value = value.ToString()
+                    Value = value.ToString("d")
                 };
             }
         }

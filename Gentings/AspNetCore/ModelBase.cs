@@ -87,6 +87,20 @@ namespace Gentings.AspNetCore
             }
             return name;
         }
+
+        private bool _isFirst = true;
+        /// <summary>
+        /// 判断当前是否第一次调用。
+        /// </summary>
+        public bool IsFirst
+        {
+            get
+            {
+                var current = _isFirst;
+                _isFirst = false;
+                return current;
+            }
+        }
         #endregion
 
         #region pages

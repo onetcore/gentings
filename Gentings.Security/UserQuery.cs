@@ -1,4 +1,5 @@
 ﻿using Gentings.Extensions;
+using Gentings.Security.Scores;
 using System;
 
 namespace Gentings.Security
@@ -81,6 +82,10 @@ namespace Gentings.Security
             if (Sid > 0)
                 context.InnerJoin<UserIndex>((u, ui) => u.Id == ui.Id)
                     .Where<UserIndex>(x => x.ParentId == Sid);
+            context.Select();
+            //积分
+            context.InnerJoin<UserScore>((u, us) => u.Id == us.UserId)
+                .Select<UserScore>(x => new { x.Score, x.LockedScore, x.ScoredDate });
         }
     }
 }

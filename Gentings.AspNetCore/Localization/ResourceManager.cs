@@ -49,6 +49,7 @@ namespace Gentings.AspNetCore.Localization
 #endif
             return value ?? key;
         }
+
 #if DEBUG
         private static void WriteResource(Type type, string key, string text)
         {

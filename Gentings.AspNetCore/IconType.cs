@@ -5347,6 +5347,11 @@ namespace Gentings.AspNetCore
         [Description("bi-segmented-nav")]
         SegmentedNav,
         /// <summary>
+        /// bi-send.
+        /// </summary>
+        [Description("bi-send")]
+        Send,
+        /// <summary>
         /// bi-server.
         /// </summary>
         [Description("bi-server")]

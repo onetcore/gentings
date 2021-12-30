@@ -23,10 +23,9 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.AddClass("sorting");
-            var current = (int)(object)OrderBy;
+            var current = OrderBy.ToString("d");
             output.SetAttribute("_ajax.order", current.ToString());
-            if (HttpContext.Request.Query.TryGetValue("order", out var order) &&
-                int.TryParse(order, out var number) && current == number)
+            if (HttpContext.Request.Query.TryGetValue("order", out var order) && current == order)
             {
                 if (HttpContext.Request.Query.TryGetValue("desc", out var value) && bool.TryParse(value, out var desc) && desc)
                     output.AddClass("sorting-desc");

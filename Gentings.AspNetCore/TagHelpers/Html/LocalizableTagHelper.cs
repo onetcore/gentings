@@ -92,6 +92,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                         output.SetAttribute("def", src);
                         output.SetAttribute("onerror", "if(this.src!=this.getAttribute('def'))this.src=this.getAttribute('def');");
                     }
+                    return;
                 }
                 if (local) output.TagName = null;
                 var content = await output.GetChildContentAsync();

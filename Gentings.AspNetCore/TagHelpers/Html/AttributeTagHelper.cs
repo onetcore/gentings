@@ -53,9 +53,16 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                         break;
                     default:
                         {
-                            var attributeValue = value?.ToString();
-                            if (attributeValue != null)
-                                output.SetAttribute(attributeName, attributeValue);
+                            if (value is bool bValue && bValue)
+                                output.SetAttribute(attributeName, bValue.ToLowerString());
+                            else if (value is Enum eValue)
+                                output.SetAttribute(attributeName, eValue.ToString("d"));
+                            else
+                            {
+                                var attributeValue = value?.ToString();
+                                if (attributeValue != null)
+                                    output.SetAttribute(attributeName, attributeValue);
+                            }
                         }
                         break;
                 }

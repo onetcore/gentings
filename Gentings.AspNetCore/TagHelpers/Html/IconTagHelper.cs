@@ -14,7 +14,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// 图标类型。
         /// </summary>
         [HtmlAttributeName(".icon-type")]
-        public IconType? Type { get; set; }
+        public IconType Type { get; set; } = IconType.None;
 
         /// <summary>
         /// 图标样式名称。
@@ -34,7 +34,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
         public override void Init(TagHelperContext context)
         {
-            if (string.IsNullOrEmpty(IconName) && Type != null)
+            if (string.IsNullOrEmpty(IconName) && Type != IconType.None)
                 IconName = Type.ToDescriptionString();
         }
 

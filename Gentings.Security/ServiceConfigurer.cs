@@ -1,6 +1,7 @@
 ﻿using Gentings.Security.Data;
 using Gentings.Security.Roles;
 using Gentings.Data.Migrations;
+using Gentings.Security.Scores;
 using Gentings.Extensions.Settings;
 using Gentings.Security.Properties;
 using Gentings.Security.Permissions;
@@ -62,6 +63,7 @@ namespace Gentings.Security
                 services.AddIdentity<TUser, TRole>();
                 services.AddScoped(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext.GetUser<TUser>() ?? _anonymous);
                 services.AddScoped(service => service.GetRequiredService<ISettingsManager>().GetSettings<TSettings>());
+                services.AddScoped(service => service.GetRequiredService<ISettingsManager>().GetSettings<ScoreSettings>());
                 services.AddSingleton<IPermissionManager, PermissionManager<TRole, TUserRole>>();
                 ConfigureServices(new IdentityBuilder(typeof(TUser), typeof(TRole), services));
                 ConfigureCookieServices(services, builder.Configuration.GetSection("Cookies"));
