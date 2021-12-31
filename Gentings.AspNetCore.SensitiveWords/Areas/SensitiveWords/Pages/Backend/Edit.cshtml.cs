@@ -15,6 +15,7 @@ namespace Gentings.AspNetCore.SensitiveWords.Areas.SensitiveWords.Pages.Backend
         {
             _sensitiveWordManager = sensitiveWordManager;
         }
+
         [BindProperty]
         public SensitiveWord Input { get; set; }
 
