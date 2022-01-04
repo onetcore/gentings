@@ -1,0 +1,7 @@
+name: Default Template
+description: The default docfx site template.
+assets:
+- svg/**
+- dist/**
+- styles/**
+- fonts/**

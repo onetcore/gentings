@@ -37,10 +37,16 @@ namespace Gentings.AspNetCore.TagHelpers
         public object? Value { get; set; }
 
         /// <summary>
-        /// 是否显示默认值：“请选择”。
+        /// 当前值类型。
         /// </summary>
-        [HtmlAttributeName("default")]
-        public bool Default { get; set; }
+        protected virtual Type? ValueType
+        {
+            get
+            {
+                if (For != null) return For.ModelExplorer.ModelType;
+                return (Value ?? DefaultValue)?.GetType();
+            }
+        }
 
         /// <summary>
         /// 初始化当前标签上下文。
@@ -48,7 +54,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
         public override void Init(TagHelperContext context)
         {
-            if (Default && string.IsNullOrEmpty(DefaultText))
+            if (DefaultText == null && ValueType?.IsNullableType() != false)
                 DefaultText = Resources.DropdownListTagHelper_DefaultText;
         }
 

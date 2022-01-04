@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore.NamedSt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore.SensitiveWords", "Gentings.AspNetCore.SensitiveWords\Gentings.AspNetCore.SensitiveWords.csproj", "{1448AFBF-E1EC-46FD-8A7A-DEE82948F38E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.AspNetCore.OpenServices", "Gentings.AspNetCore.OpenServices\Gentings.AspNetCore.OpenServices.csproj", "{72B97FEE-C7F1-4753-9048-7F864770C8D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore.OpenServices", "Gentings.AspNetCore.OpenServices\Gentings.AspNetCore.OpenServices.csproj", "{72B97FEE-C7F1-4753-9048-7F864770C8D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,18 @@
+- name: Gentings
+  href: ./index.md
+- name: 更新日志
+  items:
+    - name: v2.0
+      href: ./changelogs/v2.0.md
+    - name: v1.0
+      href: ./changelogs/v1.0.md
+- name: 程序集
+  items:
+    - name: Gentings
+      items:
+        - name: Gentings简介
+          href: ./gentings/index.md
+        - name: Gentings服务注册
+          href: ./gentings/service.md
+        - name: Gentings数据库操作
+          href: ./gentings/data.md

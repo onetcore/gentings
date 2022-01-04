@@ -168,6 +168,24 @@
   <data name="DropdownListTagHelper_DefaultText" xml:space="preserve">
     <value>请选择</value>
   </data>
+  <data name="EnabledDropdownListTagHelper_Default" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="EnabledDropdownListTagHelper_False" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="EnabledDropdownListTagHelper_True" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="EnabledRadioListTagHelper_Default" xml:space="preserve">
+    <value>未设置</value>
+  </data>
+  <data name="EnabledRadioListTagHelper_False" xml:space="preserve">
+    <value>禁用</value>
+  </data>
+  <data name="EnabledRadioListTagHelper_True" xml:space="preserve">
+    <value>启用</value>
+  </data>
   <data name="EnumDropdownListTagHelper_TypeNotFound" xml:space="preserve">
     <value>未找到枚举类型</value>
   </data>

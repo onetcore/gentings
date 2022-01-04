@@ -1,0 +1,3 @@
+template: ./template
+globalMetadata:
+  titleSuffix: Gentings for .net6+

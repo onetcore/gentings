@@ -214,6 +214,60 @@ namespace Gentings.AspNetCore.Properties {
         }
         
         /// <summary>
+        ///   查找类似 全部 的本地化字符串。
+        /// </summary>
+        internal static string EnabledDropdownListTagHelper_Default {
+            get {
+                return ResourceManager.GetString("EnabledDropdownListTagHelper_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 禁用 的本地化字符串。
+        /// </summary>
+        internal static string EnabledDropdownListTagHelper_False {
+            get {
+                return ResourceManager.GetString("EnabledDropdownListTagHelper_False", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启用 的本地化字符串。
+        /// </summary>
+        internal static string EnabledDropdownListTagHelper_True {
+            get {
+                return ResourceManager.GetString("EnabledDropdownListTagHelper_True", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 未设置 的本地化字符串。
+        /// </summary>
+        internal static string EnabledRadioListTagHelper_Default {
+            get {
+                return ResourceManager.GetString("EnabledRadioListTagHelper_Default", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 禁用 的本地化字符串。
+        /// </summary>
+        internal static string EnabledRadioListTagHelper_False {
+            get {
+                return ResourceManager.GetString("EnabledRadioListTagHelper_False", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 启用 的本地化字符串。
+        /// </summary>
+        internal static string EnabledRadioListTagHelper_True {
+            get {
+                return ResourceManager.GetString("EnabledRadioListTagHelper_True", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 未找到枚举类型 的本地化字符串。
         /// </summary>
         internal static string EnumDropdownListTagHelper_TypeNotFound {
