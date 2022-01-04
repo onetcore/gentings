@@ -101,6 +101,7 @@ namespace Gentings.Security
             }
 
             user.PasswordHash = HashPassword(user);
+            user.NickName ??= user.UserName;
             return base.CreateAsync(user);
         }
 
@@ -119,6 +120,7 @@ namespace Gentings.Security
 
             user.PasswordHash = password;
             user.PasswordHash = HashPassword(user);
+            user.NickName ??= user.UserName;
             return base.CreateAsync(user);
         }
 

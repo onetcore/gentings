@@ -1,9 +1,9 @@
-﻿using Gentings.AspNetCore.Localization;
+﻿using Gentings.AspNetCore.TagHelpers;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.Html
+namespace Gentings.AspNetCore.Localization.TagHelpers
 {
     /// <summary>
     /// 标签属性或者内容资源本地化。
@@ -43,8 +43,15 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         [HtmlAttributeName(AttributeName)]
         public bool IsChild { get; set; }
 
+        /// <summary>
+        /// 资源文件类型。
+        /// </summary>
+        public string? ResourceName { get; set; }
+
         private string GetResource(string key)
         {
+            if (ResourceName != null)
+                return _resourceManager.GetResource(ResourceName, key);
             if (ViewContext.ActionDescriptor is CompiledPageActionDescriptor cpage)
                 return _resourceManager.GetResource(cpage.ModelTypeInfo, key);
             if (ViewContext.ActionDescriptor is ControllerActionDescriptor controller)

@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Gentings.AspNetCore.Localization;
+using Gentings.Localization;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gentings.AspNetCore
 {
@@ -44,5 +47,25 @@ namespace Gentings.AspNetCore
                 return data;
             return ImportLibrary.None;
         }
+
+        private static TService GetRequiredService<TService>(this ModelBase model)
+            => model.HttpContext.GetOrCreate(() => model.HttpContext.RequestServices.GetRequiredService<TService>());
+
+        /// <summary>
+        /// 获取UI资源本地字符串实例。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <param name="resourceName">资源名称。</param>
+        /// <returns>返回资源本地字符串。</returns>
+        public static string GetResource(this ModelBase model, string resourceName) => model.GetRequiredService<IResourceManager>().GetResource(model.GetType(), resourceName);
+
+        /// <summary>
+        /// 获取UI资源本地字符串实例。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <param name="resourceName">资源名称。</param>
+        /// <param name="args">参数。</param>
+        /// <returns>返回资源本地字符串。</returns>
+        public static string GetResource(this ModelBase model, string resourceName, params object[] args) => string.Format(model.GetResource(resourceName), args);
     }
 }
