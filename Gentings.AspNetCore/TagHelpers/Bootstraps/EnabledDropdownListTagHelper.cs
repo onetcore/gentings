@@ -39,7 +39,6 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <returns>返回选项列表。</returns>
         protected override IEnumerable<SelectListItem>? Init()
         {
-            yield return new SelectListItem(DefaultText, "");
             yield return new SelectListItem(EnabledText, "true");
             yield return new SelectListItem(DisabledText, "false");
         }

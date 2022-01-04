@@ -1,18 +1,52 @@
 - name: Gentings
   href: ./index.md
+- name: 开始使用
+  items:
+    - name: 实体类定义
+      href: ./tutorials/index.md
+    - name: 数据库迁移
+      href: ./tutorials/data.md
+    - name: 定义管理接口和实现类
+      href: ./tutorials/manager.md
+    - name: 分页查询实现
+      href: ./tutorials/query.md
+    - name: 服务注册
+      href: ./tutorials/setup.md
+- name: 功能模块
+  items:
+    - name: Gentings核心模块
+      items:
+        - name: Gentings核心模块介绍
+          href: ./gentings/index.md
+        - name: Gentings服务注册
+          href: ./gentings/service.md
+    - name: Gentings数据库操作
+      items:
+        - name: Gentings数据库操作介绍
+          href: ./gentings/data/index.md
+        - name: Gentings实体类定义
+          href: ./gentings/data/entity.md
+        - name: Gentings实体类特性
+          href: ./gentings/data/attributes.md
+        - name: Gentings数据库迁移
+          href: ./gentings/data/migration.md
+        - name: Gentings数据库增删改查等操作
+          href: ./gentings/data/query.md
+        - name: Gentings数据库事务操作
+          href: ./gentings/data/transaction.md
+        - name: Gentings数据库多表查询
+          href: ./gentings/data/join.md
+        - name: Gentings数据库分页查询
+          href: ./gentings/data/page.md
+        - name: Gentings数据初始化后台服务
+          href: ./gentings/data/initializer.md
+    - name: Gentings.AspNetCore功能模块
+      items:
+        - name: Gentings.AspNetCore模块介绍
+          href: ./gentings/aspnetcore/index.md
 - name: 更新日志
   items:
     - name: v2.0
       href: ./changelogs/v2.0.md
     - name: v1.0
       href: ./changelogs/v1.0.md
-- name: 程序集
-  items:
-    - name: Gentings
-      items:
-        - name: Gentings简介
-          href: ./gentings/index.md
-        - name: Gentings服务注册
-          href: ./gentings/service.md
-        - name: Gentings数据库操作
-          href: ./gentings/data.md
