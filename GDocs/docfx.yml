@@ -1,3 +1,4 @@
 template: ./template
+dest: ../../GDocs
 globalMetadata:
   titleSuffix: Gentings for .net6+
