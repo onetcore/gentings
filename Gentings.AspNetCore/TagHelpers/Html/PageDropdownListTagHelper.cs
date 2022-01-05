@@ -15,7 +15,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 当前分页实例对象。
         /// </summary>
         [HtmlAttributeName("data")]
-        public IPageEnumerable Data { get; set; }
+        public IPageEnumerable? Data { get; set; }
 
         /// <summary>
         /// 访问并呈现当前标签实例。

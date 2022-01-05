@@ -8,7 +8,7 @@ title: 首页
 
 所有程序集分为业务逻辑以及前端管理RazorUI库程序集，如果使用Razor Pages进行项目后台管理操作，还集成了基于Bootstrap，jQuery库的后台管理UI，以及各种标签类。
 
-本程序级主要包含了如下功能模块：
+## 主要功能模块
 
 1. Gentings：核心模块
 2. Gentings.Data.SqlServer：SqlServer数据库操作模块
@@ -28,5 +28,60 @@ title: 首页
     * Gentings.AspNetCore.OpenServices：开放平台服务管理模块
 
 9. Gentings.Utilities：其他有用的集成模块
+
+## 项目结构
+
+基于Gentings开发的项目结构，建议使用如下的项目结构:
+
+├──Project(项目文件夹)
+
+│    ├── Project
+
+│    ├── Project.Extensions
+
+│    └── Project.Extensions.*
+
+├──Gentings(框架文件夹)
+
+│    ├── Gentings
+
+│    ├── Gentings.Data.SqlServer
+
+│    ├── Gentings.AspNetCore
+
+│    ├── Gentings.AspNetCore.*
+
+│    ├── Gentings.Extensions
+
+│    ├── Gentings.Storages
+
+│    └── ...
+
+├──Tests(测试文件夹)
+
+│    ├── Project.Tests
+
+│    ├── Project.Extensions.Tests
+
+│    └── Project.Extensions.*.Tests
+
+└── Others(其他文件夹)
+
+## 物理文件夹结构
+
+源代码根目录(Repos)
+
+├──Project(项目文件夹)
+
+├──Gentings(框架文件夹)
+
+└── Others(其他文件夹)
+
+使用上面目录树结构进行开发的优势，可以通过git更新到最新的Gentings程序集，当然在Project项目中忽略掉Gentings目录即可，这样Gentings框架和项目源代码比较独立。如果选择特定版本的Gentings，可以通过git克隆相应的版本。
+
+## 库地址
+
+* [gitee](https://gitee.com/ydcl/gentings)
+* [github](https://github.com/onetcore/gentings)
 
 > 注意，所有基于.NET6+开发的都可以使用本框架，默认后台不建议前后端分离，直接使用集成的Razor Pages开发，也可以使用MVC进行开发，如果没有特别说明，本文档使用的为后端RazorPages开发。
