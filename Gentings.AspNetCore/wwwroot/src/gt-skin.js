@@ -212,8 +212,7 @@
     // 默认需要执行的方法
     onrender(function (context) {
         // 点击事件
-        $('[_click]', context).each(function () {
-            const current = $(this);
+        $('[_click]', context).exec(current => {
             let eventType = current.attr('_click').toLowerCase();
             const target = current.target();
             // 展示对象元素，点击元素外的对象隐藏对象元素
@@ -362,6 +361,42 @@
                 });
             }
         });
+        // onchange时间
+        $('[_change]', context).exec(current => {
+            let eventType = current.attr('_change').toLowerCase();
+            return current.on('change', function (event) {
+                let index = eventType.indexOf(':stop');
+                if (index !== -1) {
+                    event.stopPropagation();
+                    eventType = eventType.replace(':stop', '');
+                }
+                index = eventType.indexOf(':prevent');
+                if (index !== -1) {
+                    event.preventDefault();
+                    eventType = eventType.replace(':prevent', '');
+                }
+                const confirm = current.attr('_confirm');
+                if (confirm && !window.confirm(confirm))
+                    return false;
+                switch (eventType) {
+                    case 'modal':
+                        {
+                            current.loadModal();
+                        }
+                        return false;
+                    case 'ajax':
+                        {
+                            const data = current.json();
+                            const url = current.attr('href') || current.attr('action');
+                            $ajax(url, data, function (d) {
+                                if (!d.data && !d.message) { location.href = location.href; }//如果成功没有返回数据，则刷新页面
+                                current.trigger('success', d.data);
+                            }, current.attr('_json') === 'false' ? undefined : 'JSON');
+                        }
+                        return false;
+                }
+            });
+        });
         // 表格排序
         $('table thead .sorting', context).on('click', function () {
             // sort
@@ -383,8 +418,8 @@
             location.href = URL.toSearch(search, query);
         });
         // 表单
-        $('form[method=get]', context).each(function () {
-            $(this).find('input,select,textarea').each(function () {
+        $('form[method=get]', context).exec(current => {
+            current.find('input,select,textarea').each(function () {
                 var name = this.name.toLowerCase();
                 var index = name.indexOf('.');
                 if (index > 0)
