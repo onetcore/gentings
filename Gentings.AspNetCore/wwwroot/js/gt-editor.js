@@ -392,7 +392,7 @@ var MarkDownEditor = (function () {
         value: function upload(file, success) {
             var data = new FormData();
             data.append("file", file);
-            var ajaxData = this.selector.dataAttrs();
+            var ajaxData = this.selector.json();
             if (ajaxData) {
                 for (var key in ajaxData) {
                     data.append(key, ajaxData[key]);

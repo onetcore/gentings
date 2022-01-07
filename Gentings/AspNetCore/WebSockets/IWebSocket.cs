@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
-using Gentings.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace Gentings.AspNetCore.WebSockets
