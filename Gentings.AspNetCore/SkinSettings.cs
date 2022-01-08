@@ -1,6 +1,4 @@
-﻿using Gentings.AspNetCore.TagHelpers;
-
-namespace Gentings.AspNetCore
+﻿namespace Gentings.AspNetCore
 {
     /// <summary>
     /// 后台皮肤配置。

@@ -22,14 +22,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\OpenServices\Pages\Account\**" />
+    <Content Remove="Areas\OpenServices\Pages\Account\**" />
+    <EmbeddedResource Remove="Areas\OpenServices\Pages\Account\**" />
+    <None Remove="Areas\OpenServices\Pages\Account\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="bundleconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="bundleconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\OpenServices\Pages\Account\" />
   </ItemGroup>
 </Project>

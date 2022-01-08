@@ -8,7 +8,7 @@ Gentings程序集为所有基于Gentings框架进行.NET6+快速开发的基础�
 
 Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后来出现的微服务，前后端分离等等，现在除了网页模块也还添加的`Socket`，`WebSocket`，控制台等应用功能。
 
-> [Warning]
+> [!warning]
 > 本核心模块介绍主要是介绍Gentings程序集中的功能内容，本程序集主要是数据库操作抽象接口，以及在.NET开发中都会运用到的功能内容，有些内容会对相应的功能进行衍生，那样详细的应用会在单独扩展的程序集中进行介绍。
 
 ## 自动注册容器服务模块
@@ -19,7 +19,7 @@ Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后�
 
 此模块主要包含了MVC和Razor Page开发中使用到的辅助类，包含`ControllerBase`以及`ModelBase`，这里要特别提到的一个管道调用接口`IApplicationConfigurer`，这里可以手动调用，而管道所在的位置就是在`Program.cs`中使用`app.UseGentings(builder.Configuration);`地方。
 
-> [warning]
+> [!warning]
 > 如果没有特殊说明，所有优先级属性`Priority`，都是值越大越靠前！
 
 在Gentings的AspNetCore开发中，所有返回给客户端的格式都是固定的，具体代码如下：

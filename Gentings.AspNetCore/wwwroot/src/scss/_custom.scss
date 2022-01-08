@@ -586,6 +586,16 @@ span.alert, label.alert {
     margin: 0;
 }
 
+.alert {
+    > h5 {
+        font-weight: 700;
+    }
+
+    > p:last-child {
+        margin-bottom: 0;
+    }
+}
+
 //editor
 body.fullscreen {
     overflow: hidden;

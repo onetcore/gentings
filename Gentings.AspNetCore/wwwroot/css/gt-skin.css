@@ -11753,6 +11753,13 @@ span.alert, label.alert {
   margin: 0;
 }
 
+.alert > h5, .alert > .h5 {
+  font-weight: 700;
+}
+.alert > p:last-child {
+  margin-bottom: 0;
+}
+
 body.fullscreen {
   overflow: hidden;
   position: fixed;
@@ -12112,7 +12119,7 @@ code.hljs {
 }
 
 .hljs-doctag {
-  color: #dcdcdc;
+  color: #969896;
 }
 
 .hljs-meta, .hljs-meta .hljs-keyword, .hljs-tag {

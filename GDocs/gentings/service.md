@@ -28,5 +28,5 @@ title: Gentings服务注册
 
 实现了`IServiceConfigurer`接口的对象，将在自动服务注册之初就调用了`ConfigureServices`方法进行注册，注意这个方法不会对标注`SuppressAttribute`特性的实例有任何影响。
 
-> [!NOTE]
+> [!note]
 > 注：Gentings服务容器注册是本框架的灵魂，本框架会对引用的程序集或者UI库进行自动注册，实现了业务逻辑的解耦性质，所以每个业务逻辑直接不会有很高的耦合性，能够将项目进行组件化开发，特别是使用RazorUI库，不仅业务逻辑解耦，UI也可以相应的解耦合。

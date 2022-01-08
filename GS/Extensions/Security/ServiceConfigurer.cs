@@ -16,7 +16,7 @@ namespace GS.Extensions.Security
         public void ConfigureServices(IServiceBuilder builder)
         {
             builder.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.AddScoped(services => services.GetRequiredService<IUserManager>().GetUser());
+            builder.AddScoped(services => services.GetRequiredService<IUserManager>().GetUser() ?? new User { });
         }
     }
 }

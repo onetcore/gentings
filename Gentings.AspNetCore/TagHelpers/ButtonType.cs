@@ -1,18 +1,14 @@
-﻿namespace Gentings.AspNetCore
+﻿namespace Gentings.AspNetCore.TagHelpers
 {
     /// <summary>
-    /// 开关类型。
+    /// 按钮类型。
     /// </summary>
-    public enum SwitchType
+    public enum ButtonType
     {
         /// <summary>
         /// 无。
         /// </summary>
         None,
-        /// <summary>
-        /// 布尔类型。
-        /// </summary>
-        Bool,
         /// <summary>
         /// 主色调。
         /// </summary>
@@ -37,5 +33,17 @@
         /// 消息。
         /// </summary>
         Info,
+        /// <summary>
+        /// 亮色。
+        /// </summary>
+        Light,
+        /// <summary>
+        /// 暗色。
+        /// </summary>
+        Dark,
+        /// <summary>
+        /// 白色。
+        /// </summary>
+        White,
     }
 }

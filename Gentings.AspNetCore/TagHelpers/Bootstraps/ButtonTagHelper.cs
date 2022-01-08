@@ -16,14 +16,14 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 按钮类型。
         /// </summary>
         [HtmlAttributeName(AttributeName)]
-        public ButtonType? Type { get; set; }
+        public ButtonType Type { get; set; } = ButtonType.None;
 
         private const string OutlineAttributeName = ".outline";
         /// <summary>
         /// 按钮类型。
         /// </summary>
         [HtmlAttributeName(OutlineAttributeName)]
-        public ButtonType? OutlineType { get; set; }
+        public ButtonType OutlineType { get; set; } = ButtonType.None;
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -34,8 +34,8 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         {
             output.AddClass("btn");
             var className = "btn-primary";
-            if (Type != null) className = $"btn-{Type.ToLowerString()}";
-            else if (OutlineType != null) className = $"btn-outline-{OutlineType.ToLowerString()}";
+            if (Type != ButtonType.None) className = $"btn-{Type.ToLowerString()}";
+            else if (OutlineType != ButtonType.None) className = $"btn-outline-{OutlineType.ToLowerString()}";
             output.AddClass(className);
         }
     }

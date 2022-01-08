@@ -1,10 +1,18 @@
-﻿namespace Gentings.AspNetCore
+﻿namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {
     /// <summary>
-    /// 按钮类型。
+    /// 开关类型。
     /// </summary>
-    public enum ButtonType
+    public enum SwitchType
     {
+        /// <summary>
+        /// 无。
+        /// </summary>
+        None,
+        /// <summary>
+        /// 布尔类型。
+        /// </summary>
+        Bool,
         /// <summary>
         /// 主色调。
         /// </summary>
@@ -29,17 +37,5 @@
         /// 消息。
         /// </summary>
         Info,
-        /// <summary>
-        /// 亮色。
-        /// </summary>
-        Light,
-        /// <summary>
-        /// 暗色。
-        /// </summary>
-        Dark,
-        /// <summary>
-        /// 白色。
-        /// </summary>
-        White,
     }
 }
