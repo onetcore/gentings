@@ -1,4 +1,4 @@
-﻿using Gentings.Syntax;
+﻿using Gentings.Documents;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Gentings.AspNetCore.TagHelpers.Html

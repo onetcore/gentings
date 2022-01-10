@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Extensions.Events
+﻿namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 对象属性更改管理接口。

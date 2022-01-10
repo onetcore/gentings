@@ -1,5 +1,4 @@
 ﻿using Gentings.Extensions.Groups;
-using System.Threading.Tasks;
 
 namespace Gentings.Extensions.Settings
 {

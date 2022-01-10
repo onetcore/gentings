@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Data.Migrations
+﻿namespace Gentings.Data.Migrations
 {
     /// <summary>
     /// 数据迁移接口。

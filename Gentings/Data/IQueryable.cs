@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 using Gentings.Extensions;
 
 namespace Gentings.Data

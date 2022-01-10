@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Gentings.AspNetCore.WebSockets
+﻿namespace Gentings.AspNetCore.WebSockets
 {
     /// <summary>
     /// WebSocket处理接口。

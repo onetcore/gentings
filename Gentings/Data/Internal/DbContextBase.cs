@@ -1,13 +1,9 @@
 ﻿using Microsoft.Extensions.Logging;
 using Gentings.Data.Query;
 using Gentings.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Gentings.Data.Internal
 {

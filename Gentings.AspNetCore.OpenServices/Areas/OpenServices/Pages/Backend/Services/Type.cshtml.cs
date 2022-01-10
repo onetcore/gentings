@@ -1,4 +1,4 @@
-﻿using Gentings.Extensions.OpenServices.ApiDocuments;
+﻿using Gentings.Documents.XmlDocuments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend.Services

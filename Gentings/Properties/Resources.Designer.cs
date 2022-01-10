@@ -61,6 +61,51 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 警告 的本地化字符串。
+        /// </summary>
+        internal static string AlertBlock_Caution {
+            get {
+                return ResourceManager.GetString("AlertBlock_Caution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重要 的本地化字符串。
+        /// </summary>
+        internal static string AlertBlock_Important {
+            get {
+                return ResourceManager.GetString("AlertBlock_Important", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注释 的本地化字符串。
+        /// </summary>
+        internal static string AlertBlock_Note {
+            get {
+                return ResourceManager.GetString("AlertBlock_Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提示 的本地化字符串。
+        /// </summary>
+        internal static string AlertBlock_Tip {
+            get {
+                return ResourceManager.GetString("AlertBlock_Tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注意 的本地化字符串。
+        /// </summary>
+        internal static string AlertBlock_Warning {
+            get {
+                return ResourceManager.GetString("AlertBlock_Warning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 不能在服务内部设置 IsStack 和 Interval 属性！ 的本地化字符串。
         /// </summary>
         internal static string Argument_CannotSetIsStackAndInterval {

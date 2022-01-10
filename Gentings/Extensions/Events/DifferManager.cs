@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Gentings.Data;
+﻿using Gentings.Data;
 
 namespace Gentings.Extensions.Events
 {

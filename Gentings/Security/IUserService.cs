@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Security
+﻿namespace Gentings.Security
 {
     /// <summary>
     /// 获取缓存用户接口。

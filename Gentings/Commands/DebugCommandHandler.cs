@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Gentings.Properties;
+﻿using Gentings.Properties;
 
 namespace Gentings.Commands
 {

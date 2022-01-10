@@ -1,7 +1,7 @@
 ﻿using Gentings.AspNetCore.Properties;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers
+namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {
     /// <summary>
     /// 显示日期。

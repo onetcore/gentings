@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Gentings.Data;
 using Gentings.Localization;
 using Gentings.Properties;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Data.Migrations
+﻿namespace Gentings.Data.Migrations
 {
     /// <summary>
     /// 类型匹配基类。

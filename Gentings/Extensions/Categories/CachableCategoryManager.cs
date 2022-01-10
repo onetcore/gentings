@@ -1,8 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Gentings.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Gentings.Extensions.Categories
 {

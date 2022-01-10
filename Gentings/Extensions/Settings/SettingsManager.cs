@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Gentings.Data;
+﻿using Gentings.Data;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings.Extensions.Settings
@@ -72,7 +71,7 @@ namespace Gentings.Extensions.Settings
         /// <returns>返回网站配置实例。</returns>
         public virtual TSiteSettings GetSettings<TSiteSettings>() where TSiteSettings : class, new()
         {
-            return GetSettings<TSiteSettings>(typeof(TSiteSettings).FullName);
+            return GetSettings<TSiteSettings>(typeof(TSiteSettings).FullName!);
         }
 
         /// <summary>
@@ -119,7 +118,7 @@ namespace Gentings.Extensions.Settings
         /// <returns>返回网站配置实例。</returns>
         public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>() where TSiteSettings : class, new()
         {
-            return GetSettingsAsync<TSiteSettings>(typeof(TSiteSettings).FullName);
+            return GetSettingsAsync<TSiteSettings>(typeof(TSiteSettings).FullName!);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace Gentings.Extensions.Settings
         public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings settings)
             where TSiteSettings : class, new()
         {
-            return SaveSettingsAsync(typeof(TSiteSettings).FullName, settings);
+            return SaveSettingsAsync(typeof(TSiteSettings).FullName!, settings);
         }
 
         /// <summary>
@@ -177,7 +176,7 @@ namespace Gentings.Extensions.Settings
         /// <param name="settings">网站配置实例。</param>
         public virtual bool SaveSettings<TSiteSettings>(TSiteSettings settings) where TSiteSettings : class, new()
         {
-            return SaveSettings(typeof(TSiteSettings).FullName, settings);
+            return SaveSettings(typeof(TSiteSettings).FullName!, settings);
         }
 
         /// <summary>
@@ -231,7 +230,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         public virtual bool DeleteSettings<TSiteSettings>() =>
-            DeleteSettings(typeof(TSiteSettings).FullName);
+            DeleteSettings(typeof(TSiteSettings).FullName!);
 
         /// <summary>
         /// 删除网站配置实例。
@@ -253,7 +252,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         public virtual Task<bool> DeleteSettingsAsync<TSiteSettings>() =>
-            DeleteSettingsAsync(typeof(TSiteSettings).FullName);
+            DeleteSettingsAsync(typeof(TSiteSettings).FullName!);
 
         /// <summary>
         /// 删除网站配置实例。

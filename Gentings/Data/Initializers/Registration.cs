@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Data.Initializers
+﻿namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 注册码。

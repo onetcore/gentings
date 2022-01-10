@@ -1,5 +1,4 @@
 ﻿using System.Net.WebSockets;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace Gentings.AspNetCore.WebSockets

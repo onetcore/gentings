@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Commands
+﻿namespace Gentings.Commands
 {
     /// <summary>
     /// 命令处理器工厂。

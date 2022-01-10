@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Gentings.Data.Migrations.Operations;
+﻿using Gentings.Data.Migrations.Operations;
 
 namespace Gentings.Data.Migrations
 {

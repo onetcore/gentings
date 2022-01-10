@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Gentings.Data.Migrations.Operations
+﻿namespace Gentings.Data.Migrations.Operations
 {
     /// <summary>
     /// 新建表格。

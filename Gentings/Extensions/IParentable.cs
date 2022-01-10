@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Gentings.Extensions
+﻿namespace Gentings.Extensions
 {
     /// <summary>
     /// 递归接口。

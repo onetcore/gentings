@@ -1,13 +1,8 @@
 ﻿using Gentings.Data.Internal;
 using Gentings.Extensions;
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Gentings.Data
 {

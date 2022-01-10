@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Gentings.Extensions.Events
+﻿namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 对象变更对比接口。

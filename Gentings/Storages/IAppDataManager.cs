@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Storages
+﻿namespace Gentings.Storages
 {
     /// <summary>
     /// JSON配置数据管理接口。

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Gentings.Extensions.Internal
+﻿namespace Gentings.Extensions.Internal
 {
     /// <summary>
     /// 主键或者唯一键类。

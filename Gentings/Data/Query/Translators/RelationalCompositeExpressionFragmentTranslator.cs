@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Gentings.Data.Query.Translators.Internal;
 
 namespace Gentings.Data.Query.Translators

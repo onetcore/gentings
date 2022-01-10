@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Gentings.Data
+﻿namespace Gentings.Data
 {
     /// <summary>
     /// 数据源选项。

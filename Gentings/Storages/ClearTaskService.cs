@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Gentings.Properties;
+﻿using Gentings.Properties;
 using Gentings.Tasks;
 
 namespace Gentings.Storages

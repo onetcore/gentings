@@ -1,5 +1,5 @@
-﻿using Gentings.Extensions.OpenServices;
-using Gentings.Extensions.OpenServices.ApiDocuments;
+﻿using Gentings.Documents.XmlDocuments;
+using Gentings.Extensions.OpenServices;
 using Gentings.Security;
 using Microsoft.AspNetCore.Mvc;
 

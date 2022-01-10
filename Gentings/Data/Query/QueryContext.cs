@@ -1,15 +1,10 @@
 ﻿using Gentings.Data.Internal;
 using Gentings.Extensions;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Common;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Gentings.Data.Query
 {

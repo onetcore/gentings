@@ -40,10 +40,4 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="Gentings.Extensions.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 </Project>

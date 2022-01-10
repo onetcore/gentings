@@ -117,21 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ApplicationStatus_Disabled" xml:space="preserve">
-    <value>禁用</value>
-  </data>
-  <data name="ApplicationStatus_Expired" xml:space="preserve">
-    <value>过期</value>
-  </data>
-  <data name="ApplicationStatus_Normal" xml:space="preserve">
-    <value>正常</value>
-  </data>
-  <data name="ApplicationStatus_Pending" xml:space="preserve">
-    <value>等待验证</value>
-  </data>
-  <data name="ApplicationStatus_Unapproved" xml:space="preserve">
-    <value>验证失败</value>
-  </data>
   <data name="CaptchaTaskService" xml:space="preserve">
     <value>验证码清理服务</value>
   </data>
@@ -188,11 +173,5 @@
   </data>
   <data name="SMSTaskService_Description" xml:space="preserve">
     <value>发送短信相关服务</value>
-  </data>
-  <data name="TokenModel_AppIdNull" xml:space="preserve">
-    <value>AppId不能为空！</value>
-  </data>
-  <data name="TokenModel_AppSecretNull" xml:space="preserve">
-    <value>密钥不能为空！</value>
   </data>
 </root>

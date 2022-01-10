@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Data.Migrations.Operations
+﻿namespace Gentings.Data.Migrations.Operations
 {
     /// <summary>
     /// 列操作相关实例。

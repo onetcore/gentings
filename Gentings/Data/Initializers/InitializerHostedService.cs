@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Gentings.Data.Migrations;
+﻿using Gentings.Data.Migrations;
 using Gentings.Properties;
 using Gentings.Tasks;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Gentings.Data;
 using System.Collections.Concurrent;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Gentings.Extensions.Groups
 {

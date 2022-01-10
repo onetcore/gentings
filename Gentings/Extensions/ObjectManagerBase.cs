@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using Gentings.Data;
 
 namespace Gentings.Extensions
@@ -138,7 +134,7 @@ namespace Gentings.Extensions
         /// 实例化一个查询实例，这个实例相当于实例化一个查询类，不能当作属性直接调用。
         /// </summary>
         /// <returns>返回模型的一个查询实例。</returns>
-        public virtual IQueryable<TModel> AsQueryable()
+        public virtual Data.IQueryable<TModel> AsQueryable()
         {
             return Context.AsQueryable();
         }

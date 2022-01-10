@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Gentings.Properties;
+﻿using Gentings.Properties;
 using Microsoft.Extensions.Hosting;
 
 namespace Gentings.Commands

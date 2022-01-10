@@ -1,10 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Diagnostics;
 using Gentings.Extensions;
 using System.Linq.Expressions;
-using System.Collections.Generic;
 using Gentings.Data.Migrations.Operations;
 using Gentings.Properties;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Extensions
+﻿namespace Gentings.Extensions
 {
     /// <summary>
     /// 忽略更新。

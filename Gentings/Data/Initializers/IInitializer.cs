@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Data.Initializers
+﻿namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 安装时候执行的接口。

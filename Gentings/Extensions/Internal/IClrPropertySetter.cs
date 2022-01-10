@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Extensions.Internal
+﻿namespace Gentings.Extensions.Internal
 {
     /// <summary>
     /// CLR属性的Setter方法接口。

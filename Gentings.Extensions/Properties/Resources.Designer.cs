@@ -61,51 +61,6 @@ namespace Gentings.Extensions.Properties {
         }
         
         /// <summary>
-        ///   查找类似 禁用 的本地化字符串。
-        /// </summary>
-        internal static string ApplicationStatus_Disabled {
-            get {
-                return ResourceManager.GetString("ApplicationStatus_Disabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 过期 的本地化字符串。
-        /// </summary>
-        internal static string ApplicationStatus_Expired {
-            get {
-                return ResourceManager.GetString("ApplicationStatus_Expired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 正常 的本地化字符串。
-        /// </summary>
-        internal static string ApplicationStatus_Normal {
-            get {
-                return ResourceManager.GetString("ApplicationStatus_Normal", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 等待验证 的本地化字符串。
-        /// </summary>
-        internal static string ApplicationStatus_Pending {
-            get {
-                return ResourceManager.GetString("ApplicationStatus_Pending", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 验证失败 的本地化字符串。
-        /// </summary>
-        internal static string ApplicationStatus_Unapproved {
-            get {
-                return ResourceManager.GetString("ApplicationStatus_Unapproved", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 验证码清理服务 的本地化字符串。
         /// </summary>
         internal static string CaptchaTaskService {
@@ -273,24 +228,6 @@ namespace Gentings.Extensions.Properties {
         internal static string SMSTaskService_Description {
             get {
                 return ResourceManager.GetString("SMSTaskService_Description", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 AppId不能为空！ 的本地化字符串。
-        /// </summary>
-        internal static string TokenModel_AppIdNull {
-            get {
-                return ResourceManager.GetString("TokenModel_AppIdNull", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 密钥不能为空！ 的本地化字符串。
-        /// </summary>
-        internal static string TokenModel_AppSecretNull {
-            get {
-                return ResourceManager.GetString("TokenModel_AppSecretNull", resourceCulture);
             }
         }
     }

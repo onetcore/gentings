@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Gentings.Data;
+﻿using Gentings.Data;
 using Gentings.Properties;
 
 namespace Gentings.Tasks

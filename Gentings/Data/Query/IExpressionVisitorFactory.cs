@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Data.Query
+﻿namespace Gentings.Data.Query
 {
     /// <summary>
     /// 条件表达式访问工厂接口。

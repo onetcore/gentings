@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Extensions.Internal
+﻿namespace Gentings.Extensions.Internal
 {
     /// <summary>
     /// 枚举属性设置。

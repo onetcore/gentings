@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Gentings.Data.Query.Translators.Internal;
-using System.Linq;
 
 namespace Gentings.Data.Query.Translators
 {

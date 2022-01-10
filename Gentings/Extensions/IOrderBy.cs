@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Gentings.Extensions
+﻿namespace Gentings.Extensions
 {
     /// <summary>
     /// 排序规则，注意枚举的默认值为默认排序列。

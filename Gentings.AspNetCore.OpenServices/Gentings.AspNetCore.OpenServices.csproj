@@ -13,26 +13,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gentings.AspNetCore\Gentings.AspNetCore.csproj" />
+    <ProjectReference Include="..\Gentings.Extensions.OpenServices\Gentings.Extensions.OpenServices.csproj" />
     <ProjectReference Include="..\Gentings.Extensions\Gentings.Extensions.csproj" />
     <ProjectReference Include="..\Gentings\Gentings.csproj" />
   </ItemGroup>
 
   <ItemGroup>
 	  <EmbeddedResource Include="wwwroot\js\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Areas\OpenServices\Pages\Account\**" />
-    <Content Remove="Areas\OpenServices\Pages\Account\**" />
-    <EmbeddedResource Remove="Areas\OpenServices\Pages\Account\**" />
-    <None Remove="Areas\OpenServices\Pages\Account\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="bundleconfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="bundleconfig.json" />
   </ItemGroup>
 </Project>

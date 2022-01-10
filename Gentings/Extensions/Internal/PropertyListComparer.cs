@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Gentings.Extensions.Internal
+﻿namespace Gentings.Extensions.Internal
 {
     /// <summary>
     /// 属性列表对比器。

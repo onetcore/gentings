@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-
-namespace Gentings.Data.Initializers
+﻿namespace Gentings.Data.Initializers
 {
     /// <summary>
     /// 安装管理实现类基类。

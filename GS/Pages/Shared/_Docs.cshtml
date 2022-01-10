@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "_Global";
+    ViewData["SiteName"] = SiteSettings.SiteName;
+}
+
+@inject SiteSettings SiteSettings
+
+<div class="gt-docs">
+    <div class="gt-sidebar">
+        <div class="gt-search">
+        </div>
+        <div class="gt-menu">
+        </div>
+    </div>
+    <main class="gt-body">
+        <div class="gt-content">
+            @RenderBody()
+        </div>
+    </main>
+    <div class="gt-toc">
+    </div>
+</div>
+
+<gt:footer antiforgery="true" status="false">
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("scripts", required: false)
+</gt:footer>
+
+@section header{
+    <link rel="stylesheet" href="~/css/docs.css" />
+	@await RenderSectionAsync("header", required: false)
+}

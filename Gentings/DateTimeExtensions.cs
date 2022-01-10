@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings
+﻿namespace Gentings
 {
     /// <summary>
     /// 日期扩展类型。

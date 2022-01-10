@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Gentings.Extensions
+﻿namespace Gentings.Extensions
 {
     /// <summary>
     /// 主键或者唯一键接口。

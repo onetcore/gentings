@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Gentings.Data.Migrations;
+﻿using Gentings.Data.Migrations;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 

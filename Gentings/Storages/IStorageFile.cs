@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Gentings.Storages
+﻿namespace Gentings.Storages
 {
     /// <summary>
     /// 存储文件。

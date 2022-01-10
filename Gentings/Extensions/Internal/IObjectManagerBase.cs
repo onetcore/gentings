@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Gentings.Extensions.Internal
+﻿namespace Gentings.Extensions.Internal
 {
     /// <summary>
     /// 对象管理接口。

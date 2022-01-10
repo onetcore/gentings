@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Extensions.Events
+﻿namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 事件查询实例。

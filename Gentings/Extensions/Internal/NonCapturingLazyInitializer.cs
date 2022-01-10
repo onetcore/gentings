@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading;
-
-namespace Gentings.Extensions.Internal
+﻿namespace Gentings.Extensions.Internal
 {
     /// <summary>
     /// 确保延迟初始化实例已经实例化类。

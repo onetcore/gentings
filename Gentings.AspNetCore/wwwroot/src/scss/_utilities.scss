@@ -20,23 +20,3 @@
         overflow: overlay;
     }
 }
-
-@keyframes twinkling {
-    0% {
-        opacity: 0.2;
-        filter: alpha(opacity=20);
-        transform: scale(1);
-    }
-
-    50% {
-        opacity: 1;
-        filter: alpha(opacity=100);
-        transform: scale(1.12);
-    }
-
-    100% {
-        opacity: 0.2;
-        filter: alpha(opacity=20);
-        transform: scale(1);
-    }
-}

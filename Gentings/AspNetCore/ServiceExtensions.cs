@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Gentings.Localization;
+﻿using Gentings.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc.RazorPages;

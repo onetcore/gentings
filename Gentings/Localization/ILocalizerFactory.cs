@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Localization
+﻿namespace Gentings.Localization
 {
     /// <summary>
     /// 本地化资源工厂接口。

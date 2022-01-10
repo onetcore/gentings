@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace Gentings.Data.Migrations
+﻿namespace Gentings.Data.Migrations
 {
     /// <summary>
     /// 数据库扩展。

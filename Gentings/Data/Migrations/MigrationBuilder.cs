@@ -1,8 +1,6 @@
 ﻿using Gentings.Data.Migrations.Builders;
 using Gentings.Data.Migrations.Operations;
 using Gentings.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Gentings.Data.Migrations

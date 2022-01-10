@@ -1,5 +1,5 @@
-﻿using Gentings.Extensions.OpenServices;
-using Gentings.Extensions.OpenServices.ApiDocuments;
+﻿using Gentings.Documents.XmlDocuments;
+using Gentings.Extensions.OpenServices;
 
 namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend.Services
 {

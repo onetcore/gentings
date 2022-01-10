@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace Gentings.Tasks
+﻿namespace Gentings.Tasks
 {
     /// <summary>
     /// 后台服务基类。

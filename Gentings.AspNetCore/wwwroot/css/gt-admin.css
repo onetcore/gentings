@@ -16,6 +16,21 @@
   overflow: overlay;
 }
 
+html, body {
+  height: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  min-width: 256px;
+  min-height: 100%;
+}
+main.container {
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  padding: 0;
+}
+
 @keyframes twinkling {
   0% {
     opacity: 0.2;
@@ -33,21 +48,6 @@
     transform: scale(1);
   }
 }
-html, body {
-  height: 100%;
-}
-
-main {
-  display: flex;
-  flex-direction: column;
-  min-width: 256px;
-  min-height: 100%;
-}
-main.container {
-  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
-  padding: 0;
-}
-
 .main-container .main-header .main-horizontal-navigator, .navbar .navbar-horizontal-navigator {
   flex: 1 1 auto;
   display: flex;

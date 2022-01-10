@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Gentings.Data.Internal;
+﻿using Gentings.Data.Internal;
 using Gentings.Data.Migrations;
 using Gentings.Extensions;
 

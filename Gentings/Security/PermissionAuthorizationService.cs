@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Security
+﻿namespace Gentings.Security
 {
     /// <summary>
     /// 权限验证服务。

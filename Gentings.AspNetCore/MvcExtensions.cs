@@ -1,5 +1,4 @@
 ﻿using Gentings.AspNetCore.Localization;
-using Gentings.Localization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;

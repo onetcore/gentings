@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings.Extensions.Internal
+﻿namespace Gentings.Extensions.Internal
 {
     /// <summary>
     /// 属性获取访问器实现类。

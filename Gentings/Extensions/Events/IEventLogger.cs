@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Gentings.Extensions.Events
+﻿namespace Gentings.Extensions.Events
 {
     /// <summary>
     /// 事件日志接口。

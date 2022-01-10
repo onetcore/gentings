@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gentings.Data;
+using Gentings.Documents;
 using Gentings.Localization;
 using Gentings.Security;
-using Gentings.Syntax;
 
 namespace Gentings.Extensions.Emails
 {

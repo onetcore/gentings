@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Gentings
+﻿namespace Gentings
 {
     /// <summary>
     /// 挂起服务类型，用于替换已有的一些默认服务类型。
