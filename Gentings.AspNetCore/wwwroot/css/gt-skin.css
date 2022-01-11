@@ -11353,7 +11353,6 @@ input[data-switch] + label {
   display: inline-block;
   text-align: center;
   position: relative;
-  -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
 }
 
@@ -11372,7 +11371,6 @@ input[data-switch] + label:before {
   text-align: center;
   min-width: 1.66667rem;
   overflow: hidden;
-  -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
 }
 
@@ -11381,13 +11379,11 @@ input[data-switch] + label:after {
   position: absolute;
   left: 4px;
   background-color: #adb5bd;
-  -webkit-box-shadow: none;
   box-shadow: none;
   border-radius: 2rem;
   height: 18px;
   width: 18px;
   top: 3px;
-  -webkit-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
 }
 
@@ -11467,8 +11463,8 @@ input:disabled + label {
   right: 5px;
   height: 0.4rem;
   width: 0.4rem;
-  border-right: 1px solid #6e84a3;
-  border-bottom: 1px solid #6e84a3;
+  border-right: 2px solid #6e84a3;
+  border-bottom: 2px solid #6e84a3;
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
   transition: all 0.2s ease-in-out;
@@ -12045,6 +12041,38 @@ body.fullscreen {
   align-items: center;
   justify-content: center;
   font-size: 36px;
+}
+
+article blockquote, .marked blockquote, .mozmd-preview blockquote {
+  padding: 10px 15px 1px 15px;
+  border-left: 3px solid #ccc;
+}
+article img, .marked img, .mozmd-preview img {
+  display: block;
+  margin: 0 auto;
+}
+article pre, .marked pre, .mozmd-preview pre {
+  padding: 10px 20px;
+  border: 1px solid #efeeee;
+  border-radius: 4px;
+}
+article ul, article ol, article li, .marked ul, .marked ol, .marked li, .mozmd-preview ul, .mozmd-preview ol, .mozmd-preview li {
+  list-style: initial;
+  margin-bottom: 0.5rem;
+}
+article ul, article ol, .marked ul, .marked ol, .mozmd-preview ul, .mozmd-preview ol {
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+article blockquote ol:last-child, article blockquote p:last-child, article blockquote ul:last-child, article ol ol, article ol ul, article ul ol, article ul ul, .marked blockquote ol:last-child, .marked blockquote p:last-child, .marked blockquote ul:last-child, .marked ol ol, .marked ol ul, .marked ul ol, .marked ul ul, .mozmd-preview blockquote ol:last-child, .mozmd-preview blockquote p:last-child, .mozmd-preview blockquote ul:last-child, .mozmd-preview ol ol, .mozmd-preview ol ul, .mozmd-preview ul ol, .mozmd-preview ul ul {
+  margin-bottom: 0;
+}
+article h6, article .h6, article h5, article .h5, article h4, article .h4, article h3, article .h3, article h2, article .h2, article h1, article .h1, .marked h6, .marked .h6, .marked h5, .marked .h5, .marked h4, .marked .h4, .marked h3, .marked .h3, .marked h2, .marked .h2, .marked h1, .marked .h1, .mozmd-preview h6, .mozmd-preview .h6, .mozmd-preview h5, .mozmd-preview .h5, .mozmd-preview h4, .mozmd-preview .h4, .mozmd-preview h3, .mozmd-preview .h3, .mozmd-preview h2, .mozmd-preview .h2, .mozmd-preview h1, .mozmd-preview .h1 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+article a:hover, .marked a:hover, .mozmd-preview a:hover {
+  text-decoration: underline;
 }
 
 pre {

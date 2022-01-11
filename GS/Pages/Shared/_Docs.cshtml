@@ -20,11 +20,9 @@
             <gt:menu provider="admin" align="Vertical"></gt:menu>
         </div>
     </div>
-    <div class="docs-content" data-bs-spy="scroll" data-bs-target=".docs-toc" data-bs-offset="0">
-        <div class="txt">
-            @RenderBody()
-        </div>
-    </div>
+    <article class="docs-content" data-bs-spy="scroll" data-bs-target=".docs-toc" data-bs-offset="0">
+        @RenderBody()
+    </article>
     <div class="d-none d-xl-block docs-toc">
     </div>
 </div>
@@ -57,10 +55,10 @@
     }
 </script>
     @await RenderSectionAsync("scripts", required: false)
-}
+    }
 
 @section header{
 <link rel="stylesheet" href="~/css/docs.css" />
 <link rel="stylesheet" href="~/css/backend.css" />
-	@await RenderSectionAsync("header", required: false)
-}
+    @await RenderSectionAsync("header", required: false)
+    }

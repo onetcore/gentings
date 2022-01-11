@@ -865,3 +865,45 @@ body.fullscreen {
     justify-content: center;
     font-size: 36px;
 }
+
+// article
+article, .marked, .mozmd-preview {
+    blockquote {
+        padding: 10px 15px 1px 15px;
+        border-left: 3px solid #ccc;
+    }
+
+    img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    pre {
+        padding: 10px 20px;
+        border: 1px solid #efeeee;
+        border-radius: 4px;
+    }
+
+    ul, ol, li {
+        list-style: initial;
+        margin-bottom: 0.5rem;
+    }
+
+    ul, ol {
+        padding-left: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    blockquote ol:last-child, blockquote p:last-child, blockquote ul:last-child, ol ol, ol ul, ul ol, ul ul {
+        margin-bottom: 0
+    }
+
+    h6, .h6, h5, .h5, h4, .h4, h3, .h3, h2, .h2, h1, .h1 {
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+}
