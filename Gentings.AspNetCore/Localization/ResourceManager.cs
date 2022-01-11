@@ -40,11 +40,12 @@ namespace Gentings.AspNetCore.Localization
         /// </summary>
         /// <param name="type">类型。</param>
         /// <param name="key">资源名称。</param>
+        /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        public virtual string GetResource(Type type, string key)
+        public virtual string GetResource(Type type, string key, string culture = null)
         {
             var safeKey = GetSafeKey(key);
-            var culture = Thread.CurrentThread.CurrentUICulture.Name;//当前UI语言
+            culture ??= Thread.CurrentThread.CurrentUICulture.Name;//当前UI语言
             var path = GetPhysicalPath(type, culture, out var assemblyName, out var typeName);
             if (path == null)
             {
@@ -100,11 +101,12 @@ namespace Gentings.AspNetCore.Localization
         /// </summary>
         /// <param name="resourceName">资源文件名，在语言包根目录下。</param>
         /// <param name="key">资源名称。</param>
+        /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        public virtual string GetResource(string resourceName, string key)
+        public virtual string GetResource(string resourceName, string key, string culture = null)
         {
             var safeKey = GetSafeKey(key);
-            var culture = Thread.CurrentThread.CurrentUICulture.Name;//当前UI语言
+            culture ??= Thread.CurrentThread.CurrentUICulture.Name;//当前UI语言
             var path = GetPhysicalPath(resourceName, culture);
             if (path == null)
             {

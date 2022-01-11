@@ -245,7 +245,6 @@ input[data-switch] + label {
     display: inline-block;
     text-align: center;
     position: relative;
-    -webkit-transition: all .1s ease-in-out;
     transition: all .1s ease-in-out;
 }
 
@@ -264,7 +263,6 @@ input[data-switch] + label:before {
     text-align: center;
     min-width: 1.66667rem;
     overflow: hidden;
-    -webkit-transition: all .1s ease-in-out;
     transition: all .1s ease-in-out;
 }
 
@@ -273,13 +271,11 @@ input[data-switch] + label:after {
     position: absolute;
     left: 4px;
     background-color: #adb5bd;
-    -webkit-box-shadow: none;
     box-shadow: none;
     border-radius: 2rem;
     height: 18px;
     width: 18px;
     top: 3px;
-    -webkit-transition: all .1s ease-in-out;
     transition: all .1s ease-in-out;
 }
 
@@ -334,8 +330,8 @@ input:disabled + label {
         right: 5px;
         height: 0.4rem;
         width: 0.4rem;
-        border-right: 1px solid $gray-700;
-        border-bottom: 1px solid $gray-700;
+        border-right: 2px solid $gray-700;
+        border-bottom: 2px solid $gray-700;
         top: 50%;
         transform: translateY(-50%) rotate(45deg);
         transition: $transition-base;

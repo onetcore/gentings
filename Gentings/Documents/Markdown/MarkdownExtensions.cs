@@ -1,6 +1,7 @@
 ﻿using Markdig.Helpers;
 using Markdig.Parsers;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Gentings.Documents.Markdown
 {
@@ -9,6 +10,47 @@ namespace Gentings.Documents.Markdown
     /// </summary>
     public static class MarkdownExtensions
     {
+        /// <summary>
+        /// 截取字符串。
+        /// </summary>
+        /// <param name="slice">当前字符串片段。</param>
+        /// <param name="end">截止字符。</param>
+        /// <returns>返回当前截取的字符串。</returns>
+        public static string Substring(this StringSlice slice, char end)
+        {
+            var builder = new StringBuilder();
+            var current = slice.CurrentChar;
+            while (current != '\0')
+            {
+                if (current == end)
+                {
+                    return builder.ToString();
+                }
+                builder.Append(current);
+                current = slice.NextChar();
+            }
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// 截取字符串。
+        /// </summary>
+        /// <param name="slice">当前字符串片段。</param>
+        /// <param name="start">开始偏移量。</param>
+        /// <returns>返回当前截取的字符串。</returns>
+        public static string Substring(this StringSlice slice, int start)
+        {
+            var text = slice.Text;
+            start = slice.Start + start;
+            var length = slice.End - start + 1;
+            if (text == null || length <= 0)
+            {
+                return string.Empty;
+            }
+
+            return text.Substring(start, length);
+        }
+
         /// <summary>
         /// 截取非空字符串，直到遇到<paramref name="end"/>字符，并且忽略空白字符。
         /// </summary>

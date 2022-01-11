@@ -10,15 +10,17 @@
         /// </summary>
         /// <param name="type">类型。</param>
         /// <param name="key">资源名称。</param>
+        /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        string GetResource(Type type, string key);
+        string GetResource(Type type, string key, string culture = null);
 
         /// <summary>
         /// 获取资源实例。
         /// </summary>
         /// <param name="resourceName">资源文件名，在语言包根目录下。</param>
         /// <param name="key">资源名称。</param>
+        /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        string GetResource(string resourceName, string key);
+        string GetResource(string resourceName, string key, string culture = null);
     }
 }

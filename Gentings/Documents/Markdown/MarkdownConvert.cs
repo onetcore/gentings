@@ -2,6 +2,7 @@
 using Markdig;
 using Markdig.Extensions.Bootstrap;
 using Markdig.Extensions.Tables;
+using System.Collections.Concurrent;
 
 namespace Gentings.Documents.Markdown
 {
@@ -83,115 +84,7 @@ namespace Gentings.Documents.Markdown
         /// <returns>返回解析后的HTML字符串。</returns>
         public static string ToHtml(string source, MarkdownExtension extensions)
         {
-            var pipeline = new MarkdownPipelineBuilder();
-            if (extensions == MarkdownExtension.Common)
-            {
-                UseAdvancedExtensions(pipeline);
-            }
-            else
-            {
-                foreach (MarkdownExtension extension in Enum.GetValues(typeof(MarkdownExtension)))
-                {
-                    if ((extension & extensions) == MarkdownExtension.Common) continue;
-                    switch (extension)
-                    {
-                        case MarkdownExtension.Advanced:
-                            UseAdvancedExtensions(pipeline);
-                            break;
-                        case MarkdownExtension.Pipetables:
-                            pipeline.UsePipeTables();
-                            break;
-                        case MarkdownExtension.GfmPipetables:
-                            pipeline.UsePipeTables(new PipeTableOptions { UseHeaderForColumnCount = true });
-                            break;
-                        case MarkdownExtension.Emphasisextras:
-                            pipeline.UseEmphasisExtras();
-                            break;
-                        case MarkdownExtension.Listextras:
-                            pipeline.UseListExtras();
-                            break;
-                        case MarkdownExtension.Hardlinebreak:
-                            pipeline.UseSoftlineBreakAsHardlineBreak();
-                            break;
-                        case MarkdownExtension.Footnotes:
-                            pipeline.UseFootnotes();
-                            break;
-                        case MarkdownExtension.Footers:
-                            pipeline.UseFooters();
-                            break;
-                        case MarkdownExtension.Citations:
-                            pipeline.UseCitations();
-                            break;
-                        case MarkdownExtension.Attributes:
-                            pipeline.UseGenericAttributes();
-                            break;
-                        case MarkdownExtension.Gridtables:
-                            pipeline.UseGridTables();
-                            break;
-                        case MarkdownExtension.Abbreviations:
-                            pipeline.UseAbbreviations();
-                            break;
-                        case MarkdownExtension.Emojis:
-                            pipeline.UseEmojiAndSmiley();
-                            break;
-                        case MarkdownExtension.Definitionlists:
-                            pipeline.UseDefinitionLists();
-                            break;
-                        case MarkdownExtension.Customcontainers:
-                            pipeline.UseCustomContainers();
-                            break;
-                        case MarkdownExtension.Figures:
-                            pipeline.UseFigures();
-                            break;
-                        case MarkdownExtension.Mathematics:
-                            pipeline.UseMathematics();
-                            break;
-                        case MarkdownExtension.Bootstrap:
-                            pipeline.UseBootstrap();
-                            break;
-                        case MarkdownExtension.Medialinks:
-                            pipeline.UseMediaLinks();
-                            break;
-                        case MarkdownExtension.Smartypants:
-                            pipeline.UseSmartyPants();
-                            break;
-                        case MarkdownExtension.Autoidentifiers:
-                            pipeline.UseAutoIdentifiers(Markdig.Extensions.AutoIdentifiers.AutoIdentifierOptions.GitHub);
-                            break;
-                        case MarkdownExtension.Tasklists:
-                            pipeline.UseTaskLists();
-                            break;
-                        case MarkdownExtension.Diagrams:
-                            pipeline.UseDiagrams();
-                            break;
-                        case MarkdownExtension.Nofollowlinks:
-                            pipeline.UseReferralLinks("nofollow");
-                            break;
-                        case MarkdownExtension.Noopenerlinks:
-                            pipeline.UseReferralLinks("noopener");
-                            break;
-                        case MarkdownExtension.Noreferrerlinks:
-                            pipeline.UseReferralLinks("noreferrer");
-                            break;
-                        case MarkdownExtension.Nohtml:
-                            pipeline.DisableHtml();
-                            break;
-                        case MarkdownExtension.Yaml:
-                            pipeline.UseYamlFrontMatter();
-                            break;
-                        case MarkdownExtension.NonasciiNoescape:
-                            pipeline.UseNonAsciiNoEscape();
-                            break;
-                        case MarkdownExtension.Autolinks:
-                            pipeline.UseAutoLinks();
-                            break;
-                        case MarkdownExtension.Globalization:
-                            pipeline.UseGlobalization();
-                            break;
-                    }
-                }
-            }
-
+            var pipeline = Create(extensions);
             return ToHtml(source, pipeline);
         }
 
@@ -208,6 +101,129 @@ namespace Gentings.Documents.Markdown
                 pipeline.Use<AlertBlockExtension>();
             }
             return Markdig.Markdown.ToHtml(source, pipeline.Build());
+        }
+
+        private static readonly ConcurrentDictionary<MarkdownExtension, MarkdownPipelineBuilder> _builders = new ConcurrentDictionary<MarkdownExtension, MarkdownPipelineBuilder>();
+        /// <summary>
+        /// 实例化一个管道构建实例。
+        /// </summary>
+        /// <param name="extensions">Markdown扩展类型。</param>
+        /// <returns>返回一个管道构建实例。</returns>
+        public static MarkdownPipelineBuilder Create(MarkdownExtension extensions)
+        {
+            return _builders.GetOrAdd(extensions, x =>
+            {
+                var pipeline = new MarkdownPipelineBuilder();
+                if (extensions == MarkdownExtension.Common)
+                {
+                    UseAdvancedExtensions(pipeline);
+                }
+                else
+                {
+                    foreach (MarkdownExtension extension in Enum.GetValues(typeof(MarkdownExtension)))
+                    {
+                        if ((extension & extensions) == MarkdownExtension.Common) continue;
+                        switch (extension)
+                        {
+                            case MarkdownExtension.Advanced:
+                                UseAdvancedExtensions(pipeline);
+                                break;
+                            case MarkdownExtension.Pipetables:
+                                pipeline.UsePipeTables();
+                                break;
+                            case MarkdownExtension.GfmPipetables:
+                                pipeline.UsePipeTables(new PipeTableOptions { UseHeaderForColumnCount = true });
+                                break;
+                            case MarkdownExtension.Emphasisextras:
+                                pipeline.UseEmphasisExtras();
+                                break;
+                            case MarkdownExtension.Listextras:
+                                pipeline.UseListExtras();
+                                break;
+                            case MarkdownExtension.Hardlinebreak:
+                                pipeline.UseSoftlineBreakAsHardlineBreak();
+                                break;
+                            case MarkdownExtension.Footnotes:
+                                pipeline.UseFootnotes();
+                                break;
+                            case MarkdownExtension.Footers:
+                                pipeline.UseFooters();
+                                break;
+                            case MarkdownExtension.Citations:
+                                pipeline.UseCitations();
+                                break;
+                            case MarkdownExtension.Attributes:
+                                pipeline.UseGenericAttributes();
+                                break;
+                            case MarkdownExtension.Gridtables:
+                                pipeline.UseGridTables();
+                                break;
+                            case MarkdownExtension.Abbreviations:
+                                pipeline.UseAbbreviations();
+                                break;
+                            case MarkdownExtension.Emojis:
+                                pipeline.UseEmojiAndSmiley();
+                                break;
+                            case MarkdownExtension.Definitionlists:
+                                pipeline.UseDefinitionLists();
+                                break;
+                            case MarkdownExtension.Customcontainers:
+                                pipeline.UseCustomContainers();
+                                break;
+                            case MarkdownExtension.Figures:
+                                pipeline.UseFigures();
+                                break;
+                            case MarkdownExtension.Mathematics:
+                                pipeline.UseMathematics();
+                                break;
+                            case MarkdownExtension.Bootstrap:
+                                pipeline.UseBootstrap();
+                                pipeline.Use<AlertBlockExtension>();
+                                break;
+                            case MarkdownExtension.Medialinks:
+                                pipeline.UseMediaLinks();
+                                break;
+                            case MarkdownExtension.Smartypants:
+                                pipeline.UseSmartyPants();
+                                break;
+                            case MarkdownExtension.Autoidentifiers:
+                                pipeline.UseAutoIdentifiers(Markdig.Extensions.AutoIdentifiers.AutoIdentifierOptions.GitHub);
+                                break;
+                            case MarkdownExtension.Tasklists:
+                                pipeline.UseTaskLists();
+                                break;
+                            case MarkdownExtension.Diagrams:
+                                pipeline.UseDiagrams();
+                                break;
+                            case MarkdownExtension.Nofollowlinks:
+                                pipeline.UseReferralLinks("nofollow");
+                                break;
+                            case MarkdownExtension.Noopenerlinks:
+                                pipeline.UseReferralLinks("noopener");
+                                break;
+                            case MarkdownExtension.Noreferrerlinks:
+                                pipeline.UseReferralLinks("noreferrer");
+                                break;
+                            case MarkdownExtension.Nohtml:
+                                pipeline.DisableHtml();
+                                break;
+                            case MarkdownExtension.Yaml:
+                                pipeline.UseYamlFrontMatter();
+                                break;
+                            case MarkdownExtension.NonasciiNoescape:
+                                pipeline.UseNonAsciiNoEscape();
+                                break;
+                            case MarkdownExtension.Autolinks:
+                                pipeline.UseAutoLinks();
+                                break;
+                            case MarkdownExtension.Globalization:
+                                pipeline.UseGlobalization();
+                                break;
+                        }
+                    }
+                }
+                return pipeline;
+            });
         }
     }
 }

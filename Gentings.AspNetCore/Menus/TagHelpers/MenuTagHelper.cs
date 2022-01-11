@@ -10,20 +10,18 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
     /// <summary>
     /// 管理员菜单标签。
     /// </summary>
-    [HtmlTargetElement("gt:menu", Attributes = AttributeName)]
+    [HtmlTargetElement("gt:menu")]
     public class MenuTagHelper : ViewContextableTagHelperBase
     {
         private readonly IMenuProviderFactory _factory;
         private readonly IUrlHelperFactory _urlHelperFactory;
         private IUrlHelper? _urlHelper;
         private readonly IPermissionAuthorizationService _authorizationService;
-        private const string AttributeName = "provider";
 
         /// <summary>
         /// 菜单提供者名称。
         /// </summary>
-        [HtmlAttributeName(AttributeName)]
-        public string? Provider { get; set; }
+        public string Provider { get; set; } = "admin";
 
         /// <summary>
         /// 方向。

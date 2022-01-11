@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Text;
+﻿using Gentings.Documents.Markdown;
+using Gentings.Storages;
+using Markdig;
+using Markdig.Extensions.Yaml;
+using Markdig.Helpers;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
 {
@@ -9,6 +13,11 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
         /// 当前Markdown文档路径。
         /// </summary>
         public string? Path { get; private set; }
+
+        /// <summary>
+        /// 文章内容。
+        /// </summary>
+        public string? Html { get; private set; }
 
         /// <summary>
         /// 展示Markdown文档实例。
@@ -22,9 +31,21 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
                 path += ".md";
             if (!TryGetPhysicalPath(path, out var physicalPath))
                 return NotFound();
-            var source = GetMarkdownSourceAsync(physicalPath);
-
             Path = path;
+            var source = await FileHelper.ReadTextAsync(physicalPath);
+            var pipeline = MarkdownConvert.Create(MarkdownExtension.Advanced | MarkdownExtension.Bootstrap | MarkdownExtension.Yaml).Build();
+            var document = Markdown.Parse(source, pipeline);
+            Html = document.ToHtml(pipeline);
+            if (document[0] is YamlFrontMatterBlock yaml)
+            {
+                foreach (StringLine line in yaml.Lines)
+                {
+                    if (line.Slice.Length <= 1) continue;
+                    var key = line.Slice.Substring(':');
+                    if (string.IsNullOrEmpty(key)) continue;
+                    ViewData[key.Trim()] = line.Slice.Substring(key.Length + 1);
+                }
+            }
             return Page();
         }
 
@@ -32,13 +53,6 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
         {
             physicalPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "Docs", path);
             return System.IO.File.Exists(physicalPath);
-        }
-
-        private Task<string> GetMarkdownSourceAsync(string path)
-        {
-            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using var sr = new StreamReader(fs, Encoding.UTF8);
-            return sr.ReadToEndAsync();
         }
     }
 }

@@ -1,32 +1,66 @@
 ﻿@{
-    Layout = "_Global";
+    Layout = "_Layout";
     ViewData["SiteName"] = SiteSettings.SiteName;
 }
 
 @inject SiteSettings SiteSettings
 
-<div class="gt-docs">
-    <div class="gt-sidebar">
-        <div class="gt-search">
+<div class="docs-wrapper">
+    <div class="docs-sidebar">
+        <div class="docs-search">
+            <div class="input-group-prepend">
+                <label class="bi-funnel"></label>
+                <input oninput="search(this);" type="text" class="form-control" placeholder="请输入你要搜索的标题内容..." />
+            </div>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".docs-menu">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+            </button>
         </div>
-        <div class="gt-menu">
+        <div class="docs-menu collapse">
+            <gt:menu provider="admin" align="Vertical"></gt:menu>
         </div>
     </div>
-    <main class="gt-body">
-        <div class="gt-content">
+    <div class="docs-content" data-bs-spy="scroll" data-bs-target=".docs-toc" data-bs-offset="0">
+        <div class="txt">
             @RenderBody()
         </div>
-    </main>
-    <div class="gt-toc">
+    </div>
+    <div class="d-none d-xl-block docs-toc">
     </div>
 </div>
 
-<gt:footer antiforgery="true" status="false">
-    <script src="~/js/site.js" asp-append-version="true"></script>
+@section scripts{
+<script type="text/javascript">
+    function search(s){
+        var value = $.trim(s.value);
+        if(value){
+            $('.docs-menu').addClass('searching').find('a.nav-link').exec(current=>{
+                if(current.parent().hasClass('nav-group'))return;
+                var text = current.text().toLowerCase();
+                if(text.indexOf(value)===-1){
+                    current.addClass('hide');
+                }else{
+                    current.removeClass('hide');
+                }
+            });
+            $('.docs-menu').addClass('searching').find('.nav-group').exec(current=>{
+                if(current.find('ul a').not('.hide').length){
+                    current.removeClass('hide');
+                }else{
+                    current.addClass('hide');
+                }
+            });
+        }
+        else{
+            $('.docs-menu').removeClass('searching').find('.hide').removeClass('hide');
+        }
+    }
+</script>
     @await RenderSectionAsync("scripts", required: false)
-</gt:footer>
+}
 
 @section header{
-    <link rel="stylesheet" href="~/css/docs.css" />
+<link rel="stylesheet" href="~/css/docs.css" />
+<link rel="stylesheet" href="~/css/backend.css" />
 	@await RenderSectionAsync("header", required: false)
 }

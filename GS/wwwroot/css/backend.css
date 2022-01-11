@@ -1,21 +1,4 @@
-﻿@keyframes twinkling {
-  0% {
-    opacity: 0.2;
-    filter: alpha(opacity=20);
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    filter: alpha(opacity=100);
-    transform: scale(1.12);
-  }
-  100% {
-    opacity: 0.2;
-    filter: alpha(opacity=20);
-    transform: scale(1);
-  }
-}
-.txt blockquote {
+﻿.txt blockquote {
   padding: 10px 15px 1px 15px;
   border-left: 3px solid #ccc;
 }
@@ -27,4 +10,22 @@
   padding: 10px 20px;
   border: 1px solid #efeeee;
   border-radius: 4px;
+}
+.txt ul, .txt ol, .txt li {
+  list-style: initial;
+  margin-bottom: 0.5rem;
+}
+.txt ul, .txt ol {
+  padding-left: 2rem;
+  margin-bottom: 1rem;
+}
+.txt blockquote ol:last-child, .txt blockquote p:last-child, .txt blockquote ul:last-child, .txt ol ol, .txt ol ul, .txt ul ol, .txt ul ul {
+  margin-bottom: 0;
+}
+.txt h6, .txt .h6, .txt h5, .txt .h5, .txt h4, .txt .h4, .txt h3, .txt .h3, .txt h2, .txt .h2, .txt h1, .txt .h1 {
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+.txt a:hover {
+  text-decoration: underline;
 }

@@ -1,7 +1,4 @@
 ﻿@page "/docs/{*url}"
 @model IndexModel
-@{
-    ViewBag.Title = "xx";
-}
 
-@Model.Path
+@Html.Raw(Model.Html)
