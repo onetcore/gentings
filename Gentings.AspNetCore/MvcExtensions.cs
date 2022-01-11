@@ -56,7 +56,13 @@ namespace Gentings.AspNetCore
         /// <param name="model">模型实例对象。</param>
         /// <param name="resourceName">资源名称。</param>
         /// <returns>返回资源本地字符串。</returns>
-        public static string GetResource(this ModelBase model, string resourceName) => model.GetRequiredService<IResourceManager>().GetResource(model.GetType(), resourceName);
+        public static string GetResource(this ModelBase model, string resourceName)
+        {
+            string? culture = null;
+            if (model.RouteData.Values.TryGetValue("culture", out var vaule))
+                culture = vaule?.ToString();
+            return model.GetRequiredService<IResourceManager>().GetResource(model.GetType(), resourceName, culture);
+        }
 
         /// <summary>
         /// 获取UI资源本地字符串实例。

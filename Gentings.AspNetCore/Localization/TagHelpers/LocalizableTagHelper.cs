@@ -50,12 +50,15 @@ namespace Gentings.AspNetCore.Localization.TagHelpers
 
         private string GetResource(string key)
         {
+            string? culture = null;
+            if (ViewContext.RouteData.Values.TryGetValue("culture", out var value))
+                culture = value?.ToString();
             if (ResourceName != null)
-                return _resourceManager.GetResource(ResourceName, key);
+                return _resourceManager.GetResource(ResourceName, key, culture);
             if (ViewContext.ActionDescriptor is CompiledPageActionDescriptor cpage)
-                return _resourceManager.GetResource(cpage.ModelTypeInfo, key);
+                return _resourceManager.GetResource(cpage.ModelTypeInfo, key, culture);
             if (ViewContext.ActionDescriptor is ControllerActionDescriptor controller)
-                return _resourceManager.GetResource(controller.ControllerTypeInfo, key);
+                return _resourceManager.GetResource(controller.ControllerTypeInfo, key, culture);
             return key;
         }
 
