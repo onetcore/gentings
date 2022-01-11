@@ -96,11 +96,36 @@ main > .container-fluid {
 .docs-content {
     flex: 1 1 auto;
     padding: 1rem;
+    padding-right: 300px;
 }
 
 .docs-toc {
-    flex: 0 0 200px;
-    border-left: 1px solid rgba(0,0,0,0.1);
+    position: fixed;
+    right: 0;
+    width: 300px;
+    padding: 1rem;
+
+    a {
+        color: rgba(0,0,0,0.65);
+
+        &:hover, &:focus, &:active {
+            color: rgba(0,0,0,0.85);
+        }
+    }
+
+    .toc-h1 {
+        font-weight: 700;
+    }
+}
+
+@include media-breakpoint-down(xl) {
+    .docs-content {
+        padding-right: 1rem;
+    }
+
+    .docs-toc {
+        display: none;
+    }
 }
 
 @include media-breakpoint-down(md) {

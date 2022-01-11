@@ -46,6 +46,8 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
                     ViewData[key.Trim()] = line.Slice.Substring(key.Length + 1);
                 }
             }
+            ViewData["IsDocs"] = true;
+            ViewData["Current"] = path.Replace('/', '-');
             return Page();
         }
 
