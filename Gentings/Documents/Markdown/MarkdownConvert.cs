@@ -1,5 +1,6 @@
 ﻿using Gentings.Documents.Markdown.Extensions.AlertBlocks;
 using Markdig;
+using Markdig.Extensions.AutoIdentifiers;
 using Markdig.Extensions.Bootstrap;
 using Markdig.Extensions.Tables;
 using System.Collections.Concurrent;
@@ -15,7 +16,7 @@ namespace Gentings.Documents.Markdown
         {
             return pipeline
                 .UseAbbreviations()
-                .UseAutoIdentifiers(Markdig.Extensions.AutoIdentifiers.AutoIdentifierOptions.GitHub)
+                .UseAutoIdentifiers(AutoIdentifierOptions.AllowOnlyAscii)
                 .UseCitations()
                 .UseCustomContainers()
                 .UseDefinitionLists()
@@ -100,7 +101,9 @@ namespace Gentings.Documents.Markdown
             {
                 pipeline.Use<AlertBlockExtension>();
             }
-            return Markdig.Markdown.ToHtml(source, pipeline.Build());
+
+            var build = pipeline.Build();
+            return Markdig.Markdown.ToHtml(source, build);
         }
 
         private static readonly ConcurrentDictionary<MarkdownExtension, MarkdownPipelineBuilder> _builders = new ConcurrentDictionary<MarkdownExtension, MarkdownPipelineBuilder>();
@@ -187,7 +190,7 @@ namespace Gentings.Documents.Markdown
                                 pipeline.UseSmartyPants();
                                 break;
                             case MarkdownExtension.Autoidentifiers:
-                                pipeline.UseAutoIdentifiers(Markdig.Extensions.AutoIdentifiers.AutoIdentifierOptions.GitHub);
+                                pipeline.UseAutoIdentifiers(AutoIdentifierOptions.AllowOnlyAscii);
                                 break;
                             case MarkdownExtension.Tasklists:
                                 pipeline.UseTaskLists();

@@ -11107,6 +11107,10 @@ textarea.form-control-lg {
   overflow: overlay;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 ul, ol, li {
   list-style: none;
   padding: 0;
@@ -12050,11 +12054,22 @@ article blockquote, .marked blockquote, .mozmd-preview blockquote {
 article img, .marked img, .mozmd-preview img {
   display: block;
   margin: 0 auto;
+  margin-bottom: 1rem;
 }
 article pre, .marked pre, .mozmd-preview pre {
-  padding: 10px 20px;
   border: 1px solid #efeeee;
   border-radius: 4px;
+  white-space: break-spaces;
+  margin-bottom: 1rem;
+  position: relative;
+}
+article pre > a.btn, .marked pre > a.btn, .mozmd-preview pre > a.btn {
+  position: absolute;
+  right: 0.5rem;
+  top: 0.5rem;
+}
+article pre > a.btn:hover, article pre > a.btn:focus, article pre > a.btn:active, .marked pre > a.btn:hover, .marked pre > a.btn:focus, .marked pre > a.btn:active, .mozmd-preview pre > a.btn:hover, .mozmd-preview pre > a.btn:focus, .mozmd-preview pre > a.btn:active {
+  text-decoration: none;
 }
 article ul, article ol, article li, .marked ul, .marked ol, .marked li, .mozmd-preview ul, .mozmd-preview ol, .mozmd-preview li {
   list-style: initial;
@@ -12071,7 +12086,7 @@ article h6, article .h6, article h5, article .h5, article h4, article .h4, artic
   margin-bottom: 1rem;
   font-weight: 700;
 }
-article a:hover, .marked a:hover, .mozmd-preview a:hover {
+article a:hover, article:focus, article:active, .marked a:hover, .marked:focus, .marked:active, .mozmd-preview a:hover, .mozmd-preview:focus, .mozmd-preview:active {
   text-decoration: underline;
 }
 

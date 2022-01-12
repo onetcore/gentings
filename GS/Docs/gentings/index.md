@@ -1,0 +1,111 @@
+---
+title: Gentings核心模块介绍
+---
+
+# Gentings核心模块介绍
+
+Gentings程序集为所有基于Gentings框架进行.NET6+快速开发的基础程序集，所有应用都需要引用此程序集。
+
+Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后来出现的微服务，前后端分离等等，现在除了网页模块也还添加的`Socket`，`WebSocket`，控制台等应用功能。
+
+> [!warning]
+> 本核心模块介绍主要是介绍Gentings程序集中的功能内容，本程序集主要是数据库操作抽象接口，以及在.NET开发中都会运用到的功能内容，有些内容会对相应的功能进行衍生，那样详细的应用会在单独扩展的程序集中进行介绍。
+
+## 自动注册容器服务模块
+
+所有实现了`IService`接口的接口都会自动进行服务注册，根据.NET服务生命周期，可以分为普通服务，单例服务，以及生命周期内单例服务，所以在`IService`接口上又延伸了一些接口。这是本框架的灵魂所在，所以在了解AspNetCore开发方式后，还需要很全面的了解框架自动注册机制，这样才能够更好的在后续开发中进行应用。更加详细的请参考：[Gentings服务注册](./service.md)。
+
+## AspNetCore功能模块
+
+此模块主要包含了MVC和Razor Page开发中使用到的辅助类，包含`ControllerBase`以及`ModelBase`，这里要特别提到的一个管道调用接口`IApplicationConfigurer`，这里可以手动调用，而管道所在的位置就是在`Program.cs`中使用`app.UseGentings(builder.Configuration);`地方。
+
+> [!warning]
+> 如果没有特殊说明，所有优先级属性`Priority`，都是值越大越靠前！
+
+在Gentings的AspNetCore开发中，所有返回给客户端的格式都是固定的，具体代码如下：
+
+```json
+{
+    "data": {
+        //...
+    },
+    "code": -3,
+    "message": null
+}
+```
+
+其中：
+
+* code：错误编码，一般`0`表示成功，其他返回表示错误；
+* message: 错误消息；
+* data：**可选** 如果有返回数据，则会自带`data`。
+
+其他关于BS开发的功能，请参考：[Gentings.AspNetCore功能模块](./aspnetcore/index.md)。
+
+## WebSocket支持
+
+在Gentings中也对WebSocket进行了相应的封装，如果需要开启这个功能，需要在管道中调用WebSocket处理器。
+
+```csharp
+    app.UseWebSocketHandler();
+```
+
+在框架中使用的是`method:hanlder`方式来处理数据包，具体的接口代码如下：
+
+```csharp
+    /// <summary>
+    /// WebSocket处理接口。
+    /// </summary>
+    public interface IWebSocketHandler : IServices
+    {
+        /// <summary>
+        /// 处理方法唯一键。
+        /// </summary>
+        string Method { get; }
+
+        /// <summary>
+        /// 执行方法。
+        /// </summary>
+        /// <param name="socket">当前Socket实例。</param>
+        /// <param name="data">获取数据。</param>
+        /// <returns>返回执行任务实例。</returns>
+        Task ExecuteAsync(IWebSocket socket, string data);
+    }
+```
+
+## 控制台命令支持
+
+这个主要是控制台程序，可以在控制台输入一些管理员命令辅助管理使用，在于AspNetCore中使用的比较少。要对控制台命令的支持，需要在`program.cs`中显示调用如下代码：
+
+```csharp
+    /// <summary>
+    /// 启动应用程序，在控制台程序中的Main方法中调用。
+    /// </summary>
+    /// <param name="host">服务器宿主。</param>
+    public static async Task StartCommandHostAsync(this IHost host);
+```
+
+这样在控制台中，就可以敲入命令，进行一些辅助操作，命令格式如下：
+
+```ssh
+    .debug off
+```
+
+要实现命令操作，只要继承接口`ICommandHandler`即可。
+
+## Socket开发
+
+Socket开发包含了客户端和服务端，在Gentings中都进行了封装，可以很快的进行Socket程序开发，之所以集成了这个功能，是因为原来对短信发送CMPP开发，有可能集成的并不是特别好。其中包含了封包的读取和写入，因为.NET6+的管道流读取和写入进行了性能处理，基本可以实现这个功能。
+
+
+
+## 其他有用的扩展方法
+
+在应用开发中，有很多需要加密解密，类型转换，表达式解析等等，在Gentings程序集中也集成很多常用的方法，包括MD5，SHA1等单项加密，以及加密解密的双向加密方法，具体的在`Cores`类中可以看到。
+
+## 其他功能模块                                                                                           
+
+Gentings程序集中还包含了其他很多功能，一些常用而且很有用的抽象模块，具体的模块如下，而每个模块的具体功能可以链接到相应的模块中进行详细了解。具体功能模块如下。
+
+1. AspNetCore模块：主要是开发网页或者API相关基础功能，[点击访问](./aspnetcore/index.md)。
+2. Commands模块：这个主要是控制台程序，可以在控制台输入一些管理员命令辅助管理使用，在于AspNetCore中使用的比较少，[点击访问](./commands.md)。

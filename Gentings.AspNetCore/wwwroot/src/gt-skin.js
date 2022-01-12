@@ -19,6 +19,8 @@
         "confirm": "确认"
     },
     "elementError": "元素不存在或者操作一个元素实例，不能获取data-*相关数据！",
+    copy: "拷贝",
+    copyCode: "点击拷贝代码",
     copied: "已拷贝，请使用“ctrl+v”或者“粘贴”操作！",
     markdown: {
         fullscreen: {

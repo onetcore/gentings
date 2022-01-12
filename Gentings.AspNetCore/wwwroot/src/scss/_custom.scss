@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 ul, ol, li {
     list-style: none;
     padding: 0;
@@ -876,12 +880,25 @@ article, .marked, .mozmd-preview {
     img {
         display: block;
         margin: 0 auto;
+        margin-bottom: 1rem;
     }
 
     pre {
-        padding: 10px 20px;
         border: 1px solid #efeeee;
         border-radius: 4px;
+        white-space: break-spaces;
+        margin-bottom: 1rem;
+        position: relative;
+
+        > a.btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 0.5rem;
+
+            &:hover, &:focus, &:active {
+                text-decoration: none;
+            }
+        }
     }
 
     ul, ol, li {
@@ -903,7 +920,7 @@ article, .marked, .mozmd-preview {
         font-weight: 700;
     }
 
-    a:hover {
+    a:hover, &:focus, &:active {
         text-decoration: underline;
     }
 }

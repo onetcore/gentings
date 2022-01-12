@@ -1,8 +1,11 @@
 ﻿@page "/docs/{*url}"
 @model IndexModel
+@{
+    ViewContext.AddLibraries(ImportLibrary.Highlight);
+}
 
 @Html.Raw(Model.Html)
 
 @section toc{
-<gt:toc-menu data="Model.Toc"></gt:toc-menu>
+    <gt:toc-menu data="Model.Toc"></gt:toc-menu>
 }

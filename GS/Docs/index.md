@@ -1,40 +1,87 @@
-﻿---
-title: Gentings核心模块介绍
+---
+title: 首页
 ---
 
-# Gentings程序集
+# 欢迎使用Gentings!
 
-Gentings程序集为所有基于Gentings框架进行.NET6+快速开发的基础程序集，所有应用都需要引用此程序集。在.NET（本文档提到的所有.NET都表示.NET6+）开发中，所有接口服务都是基于容器存在，在Gentings中，使用.NET自带服务容器进行注册。为了程序的解耦，Gentings提供了一系列的借口，凡是基于Gentings开发的，都将按照接口进行自动的服务注册。
+欢迎使用Gentings框架进行基于.NET6+快速开发，本框架集成了很多业务快速开放模块，以及数据库等等操作底层模块。
 
-## IService系列接口
+所有程序集分为业务逻辑以及前端管理RazorUI库程序集，如果使用Razor Pages进行项目后台管理操作，还集成了基于Bootstrap，jQuery库的后台管理UI，以及各种标签类。
 
-所有实现了`IService`接口的接口都会自动进行服务注册，根据.NET服务生命周期，可以分为普通服务，单例服务，以及生命周期内单例服务，所以在`IService`接口上又延伸了一些接口。
+## 主要功能模块
 
-1. `ISingletonService`：单例服务接口，继承此接口的接口，将被自动注册为单例模式服务，在整个程序域内只有一个对象存在，也是整个服务中优先级最高的服务。
-2. `IScopedService`：生命周期内单例服务接口，继承此接口的接口，将被自动注册为生命周期内单例存在，在AspNetCore程序中，最直观的就有一个`HttpContext`，这个实例就是在HTTP请求中只有单例存在。
-3. `IService`：普通服务，每次需要的时候都会重新实例化一个对象。
+1. Gentings：核心模块
+2. Gentings.Data.SqlServer：SqlServer数据库操作模块
+3. Gentings.Extensions：业务逻辑扩展模块
+4. Gentings.Saas：支持Saas业务逻辑模块
+5. Gentings.Storages：文档存储，Excel等等文件操作模块
+6. Gentings.RabbitMQ：RabbitMQ队列集成模块
+7. Gentings.Security：基于Identity验证用户模块
+8. Gentings.AspNetCore：使用Razor Pages开发辅助模块，提供了前端库集成等等，主要包含如下后台管理库
 
-## IServices系列接口
+    * Gentings.AspNetCore.Task：后台计划任务管理模块
+    * Gentings.AspNetCore.Storages：文件存储管理模块
+    * Gentings.AspNetCore.SensitiveWords：敏感词汇管理模块
+    * Gentings.AspNetCore.NamedStrings：字典管理模块
+    * Gentings.AspNetCore.Emails：邮件管理模块
+    * Gentings.AspNetCore.Events：事件管理模块
+    * Gentings.AspNetCore.OpenServices：开放平台服务管理模块
 
-凡是带有复数的接口，一般表示某一个接口所有实现对象列表实例，根据不同的模式，在调用的时候需要在构造函数中使用`IEnumerable<TService>`模式进行实例调用。其他的使用方法以及服务的实例化方式和`IService`系列接口一样，包含`IServices`,`IScopedServices`,以及`ISingletonServices`相关服务。
+9. Gentings.Utilities：其他有用的集成模块
 
-## SuppressAttribute特性
+## 项目结构
 
-为了后期更好的重写已有的服务，我们可以使用`SuppressAttribute`特性，此特性就是会告诉自动注册服务类型**替代**原有的实现类型，在重写服务时候尤为重要。
+基于Gentings开发的项目结构，建议使用如下的项目结构:
 
-## IServiceConfigurer和IServiceBuilder接口
+├──Project(项目文件夹)
 
-在开发过程中，有些接口为了抽象或者可以更有效的被重写，我们在开发过程中需要手动进行服务注册，这个也是为了能够在需要的时候在手动添加相关服务组件模块。所以提供了`IServiceConfigurer`接口，这个可以更有效的进行服务注册，其中我们对应用程序的配置，和服务集合进行了封装，主要也是为了区别系统的`IServiceConllection`。
+│    ├── Project
 
-实现了`IServiceConfigurer`接口的对象，将在自动服务注册之初就调用了`ConfigureServices`方法进行注册，注意这个方法不会对标注`SuppressAttribute`特性的实例有任何影响。
+│    ├── Project.Extensions
 
-## 其他有用的扩展方法
+│    └── Project.Extensions.*
 
-在应用开发中，有很多需要加密解密，类型转换，表达式解析等等，在Gentings程序集中也集成很多常用的方法，包括MD5，SHA1等单项加密，以及加密解密的双向加密方法，具体的在`Cores`类中可以看到。
+├──Gentings(框架文件夹)
 
-## 其他功能模块
+│    ├── Gentings
 
-Gentings程序集中还包含了其他很多功能，一些常用而且很有用的抽象模块，具体的模块如下，而每个模块的具体功能可以链接到相应的模块中进行详细了解。具体功能模块如下。
+│    ├── Gentings.Data.SqlServer
 
-1. AspNetCore模块：主要是开发网页或者API相关基础功能，[点击访问](./aspnetcore/index.md)。
-2. Commands模块：这个主要是控制台程序，可以在控制台输入一些管理员命令辅助管理使用，在于AspNetCore中使用的比较少，[点击访问](./commands/index.md)。
+│    ├── Gentings.AspNetCore
+
+│    ├── Gentings.AspNetCore.*
+
+│    ├── Gentings.Extensions
+
+│    ├── Gentings.Storages
+
+│    └── ...
+
+├──Tests(测试文件夹)
+
+│    ├── Project.Tests
+
+│    ├── Project.Extensions.Tests
+
+│    └── Project.Extensions.*.Tests
+
+└── Others(其他文件夹)
+
+## 物理文件夹结构
+
+源代码根目录(Repos)
+
+├──Project(项目文件夹)
+
+├──Gentings(框架文件夹)
+
+└── Others(其他文件夹)
+
+使用上面目录树结构进行开发的优势，可以通过git更新到最新的Gentings程序集，当然在Project项目中忽略掉Gentings目录即可，这样Gentings框架和项目源代码比较独立。如果选择特定版本的Gentings，可以通过git克隆相应的版本。
+
+## 库地址
+
+* [gitee](https://gitee.com/ydcl/gentings)
+* [github](https://github.com/onetcore/gentings)
+
+> 注意，所有基于.NET6+开发的都可以使用本框架，默认后台不建议前后端分离，直接使用集成的Razor Pages开发，也可以使用MVC进行开发，如果没有特别说明，本文档使用的为后端RazorPages开发。

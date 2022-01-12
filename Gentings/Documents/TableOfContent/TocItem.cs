@@ -7,6 +7,11 @@ namespace Gentings.Documents.TableOfContent
     /// </summary>
     public class TocItem
     {
+        internal TocItem(Toc toc)
+        {
+            Toc = toc;
+        }
+
         /// <summary>
         /// 缩进。
         /// </summary>
@@ -38,6 +43,11 @@ namespace Gentings.Documents.TableOfContent
         public string Uid { get; private set; }
 
         /// <summary>
+        /// 菜单的唯一Id。
+        /// </summary>
+        public string Id => $"L{Line}";
+
+        /// <summary>
         /// 父级实例。
         /// </summary>
         public TocItem Parent { get; internal set; }
@@ -46,6 +56,12 @@ namespace Gentings.Documents.TableOfContent
         /// 子项数组。
         /// </summary>
         public List<TocItem> Items { get; } = new List<TocItem>();
+
+        /// <summary>
+        /// 当前Toc实例对象。
+        /// </summary>
+        public Toc Toc { get; }
+
         private readonly Dictionary<string, string> _items = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         /// <summary>
         /// 获取其他属性值。
@@ -70,7 +86,7 @@ namespace Gentings.Documents.TableOfContent
                     Name = toc.Value;
                     break;
                 case "href":
-                    Href = toc.Value;
+                    Href = GetSafeUrl(toc.Value);
                     break;
                 case "uid":
                     Uid = toc.Value;
@@ -79,6 +95,18 @@ namespace Gentings.Documents.TableOfContent
                     _items[toc.Name] = toc.Value;
                     break;
             }
+        }
+
+        private string GetSafeUrl(string href)
+        {
+            href = Path.GetFullPath(Path.Join(Toc.DirectoryName ?? "/docs", href));
+            href = href.Substring(2).Replace('\\', '/');
+            href = href.ToLower();
+            if (href.EndsWith(".md"))
+                href = href.Substring(0, href.Length - 3);
+            if (href.EndsWith("/index"))
+                href = href.Substring(0, href.Length - 6);
+            return href;
         }
 
         /// <summary>

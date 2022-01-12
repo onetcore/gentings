@@ -26,12 +26,7 @@ namespace Gentings.AspNetCore.TagHelpers.TableOfContent
         {
             output.TagName = "ul";
             output.AddClass("navbar-nav");
-            string? url = null;
-            if (ViewContext.RouteData.Values.TryGetValue("url", out var value) && value is not null)
-                url = value.ToString()?.Trim();
-            url ??= "index";
-            if (!url.EndsWith(".md")) url += ".md";
-            var current = Data.GetByHref(url);
+            var current = Data.GetByHref(ViewContext.HttpContext.Request.GetUri().AbsolutePath);
             foreach (var item in Data)
             {
                 var builder = CreateMenuItem(item, current, 0);
@@ -59,15 +54,14 @@ namespace Gentings.AspNetCore.TagHelpers.TableOfContent
             li.InnerHtml.AppendHtml(anchor);
             if (item.Items.Count > 0)
             {
-                var id = item.Name.Replace('.', '_');
                 anchor.AddCssClass("dropdown-indicator");
                 if (active)
                     anchor.MergeAttribute("aria-expanded", "true");
                 else
                     anchor.AddCssClass("collapsed");
                 anchor.MergeAttribute("data-bs-toggle", "collapse");
-                anchor.MergeAttribute("href", "#" + id);
-                CreateChildren(li, item.Items, current, menu + 1, id, active);
+                anchor.MergeAttribute("href", "#" + item.Id);
+                CreateChildren(li, item.Items, current, menu + 1, item.Id, active);
             }
             else
             {
@@ -81,7 +75,7 @@ namespace Gentings.AspNetCore.TagHelpers.TableOfContent
         {
             var ihasSub = false;
             var menu = new TagBuilder("div");
-            menu.GenerateId(id, ".");
+            menu.MergeAttribute("id", id);
             menu.AddCssClass($"menu-{level}");
             if (active) menu.AddCssClass("show");
             menu.AddCssClass("collapse");

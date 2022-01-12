@@ -1,4 +1,5 @@
-﻿using Gentings.Documents.Markdown;
+﻿using Gentings.Documents;
+using Gentings.Documents.Markdown;
 using Gentings.Documents.TableOfContent;
 using Gentings.Storages;
 using Markdig;
@@ -28,17 +29,16 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
         /// <summary>
         /// 展示Markdown文档实例。
         /// </summary>
-        /// <param name="path">当前文档路径。</param>
+        /// <param name="url">当前文档路径。</param>
         /// <returns>返回当前文档试图结果。</returns>
-        public async Task<IActionResult> OnGetAsync(string? path)
+        public async Task<IActionResult> OnGetAsync(string? url)
         {
-            path ??= "index";
-            if (!TryGetPhysicalPath(path))
+            if (!TryGetPhysicalPath(ref url))
                 return NotFound();
             await InitAsync();
             await InitTocAsync();
             ViewData["IsDocs"] = true;
-            ViewData["Current"] = path.Replace('/', '-');
+            ViewData["Current"] = url.Replace('/', '-');
             return Page();
         }
 
@@ -49,6 +49,7 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
             if (!TryGetTocFile(root, directory, out var file))
                 return;
             Toc = await Toc.LoadAsync(file);
+            Toc.DirectoryName = file.Substring(root.Length).Replace('\\', '/');
         }
 
         private bool TryGetTocFile(string root, DirectoryInfo directory, out string path)
@@ -56,7 +57,7 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
             path = Path.Combine(directory.FullName, "toc.yml");
             if (System.IO.File.Exists(path))
                 return true;
-            if (directory.Parent!.FullName.Length > root.Length)
+            if (directory.Parent!.FullName.Length >= root.Length)
                 return TryGetTocFile(root, directory.Parent!, out path);
             return false;
         }
@@ -79,21 +80,35 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
             }
         }
 
-        private bool TryGetPhysicalPath(string path)
+        private bool TryGetPhysicalPath(ref string path)
         {
+            var root = Path.Combine(Directory.GetCurrentDirectory(), "Docs");
+            if (path != null)
+            {
+                if (path.EndsWith('/') || path.EndsWith('\\'))
+                { path += "index.md"; }
+                else
+                {//目录
+                    var def = path + "/index.md";
+                    if (System.IO.File.Exists(Path.Combine(root, def)))
+                        path = def;
+                }
+            }
+            else
+            {
+                path = "index.md";
+            }
             if (!path.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
                 path += ".md";
-            path = path.TrimStart('/', '\\');
-            var root = Path.Combine(Directory.GetCurrentDirectory(), "Docs");
-            PhysicalPath = Path.Combine(root, Culture, path);
+            PhysicalPath = Path.Join(root, Culture, path);
             if (System.IO.File.Exists(PhysicalPath))
                 return true;
             var index = Culture.IndexOf('-');
             var culture = Culture.Substring(0, index);
-            PhysicalPath = Path.Combine(root, culture, path);
+            PhysicalPath = Path.Join(root, culture, path);
             if (System.IO.File.Exists(PhysicalPath))
                 return true;
-            PhysicalPath = Path.Combine(root, path);
+            PhysicalPath = Path.Join(root, path);
             return System.IO.File.Exists(PhysicalPath);
         }
     }

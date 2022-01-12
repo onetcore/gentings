@@ -10,6 +10,11 @@ namespace Gentings.Documents.TableOfContent
     /// </summary>
     public class Toc : IEnumerable<TocItem>
     {
+        /// <summary>
+        /// 文件夹名称。
+        /// </summary>
+        public string DirectoryName { get; set; }
+
         private readonly List<TocItem> _items = new List<TocItem>();
 
         private Toc(string source)
@@ -22,7 +27,7 @@ namespace Gentings.Documents.TableOfContent
             {
                 if (slice.IsStruct)
                 {
-                    item = new TocItem();
+                    item = new TocItem(this);
                     item.Indent = slice.Indent;
                     item.Index = slice.Index;
                     item.Line = slice.Line;
@@ -55,7 +60,7 @@ namespace Gentings.Documents.TableOfContent
                     return slice;
                 else if (slice.IsStruct)
                 {
-                    current = new TocItem();
+                    current = new TocItem(this);
                     current.Indent = slice.Indent;
                     current.Index = slice.Index;
                     current.Line = slice.Line;

@@ -43,6 +43,10 @@
 .docs-menu > .navbar-nav a:hover, .docs-menu > .navbar-nav a:focus, .docs-menu > .navbar-nav a:active {
   color: rgba(0, 0, 0, 0.85);
 }
+.docs-menu > .navbar-nav a.active {
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.85);
+}
 .docs-menu > .navbar-nav .menu-1 a {
   padding: 0.25rem 1.5rem 0.25rem 1.5rem;
   font-size: 90%;

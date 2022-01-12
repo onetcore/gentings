@@ -36,6 +36,20 @@ $(function () {
     });
     html.push('</ul>');
     $('.docs-toc').html(html.join('\r\n'));
-    $('article').scrollspy();
+    //$(document.body).attr('data-bs-target', '.docs-toc').scrollspy();
+
+    $('<a class="btn btn-sm btn-outline-primary">' + (resources.copy || "Copy") + '</a>').on('click', function (event) {
+        event.preventDefault();
+        var current = $(this).parent().find('code');
+        $(document).on('copy', function (e) {
+            // 设置信息，实现复制
+            e.preventDefault();
+            var code = current.text();
+            e.originalEvent.clipboardData.setData('text/plain', code);
+            showMsg(resources.copied, 0);
+        });
+        document.execCommand('copy');
+        return false;
+    }).prependTo('pre');
 });
 
