@@ -7,18 +7,20 @@
 
 <div class="docs-wrapper">
     <div class="docs-sidebar">
-        <div class="docs-search">
-            <div class="input-group-prepend">
-                <label class="bi-funnel"></label>
-                <input oninput="searchDocs(this);" type="text" class="form-control" placeholder="请输入你要搜索的标题内容..." />
+        <aside class="sticky-top">
+            <div class="docs-search">
+                <div class="input-group-prepend">
+                    <label class="bi-funnel"></label>
+                    <input oninput="searchDocs(this);" type="text" class="form-control" placeholder="请输入你要搜索的标题内容..." />
+                </div>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".docs-menu">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
+                </button>
             </div>
-            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".docs-menu">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
-            </button>
-        </div>
-        <div class="docs-menu collapse">
-            @await RenderSectionAsync("toc")
-        </div>
+            <div class="docs-menu collapse">
+                @await RenderSectionAsync("toc")
+            </div>
+        </aside>
     </div>
     <article class="docs-content" _event="code">
         @RenderBody()

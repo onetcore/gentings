@@ -11137,6 +11137,11 @@ ul, ol, li {
   transform: rotate(180deg);
 }
 
+.sticky-top {
+  position: sticky;
+  top: 0;
+}
+
 .input-group-prepend,
 .input-group-append {
   position: relative;
@@ -12050,6 +12055,7 @@ body.fullscreen {
 article blockquote, .marked blockquote, .mozmd-preview blockquote {
   padding: 10px 15px 1px 15px;
   border-left: 3px solid #ccc;
+  font-size: inherit !important;
 }
 article img, .marked img, .mozmd-preview img {
   display: block;

@@ -32,6 +32,11 @@ ul, ol, li {
     transform: rotate(180deg);
 }
 
+.sticky-top {
+    position: sticky;
+    top: 0;
+}
+
 //form
 .input-group-prepend,
 .input-group-append {
@@ -875,6 +880,7 @@ article, .marked, .mozmd-preview {
     blockquote {
         padding: 10px 15px 1px 15px;
         border-left: 3px solid #ccc;
+        font-size: inherit !important;
     }
 
     img {
