@@ -97,6 +97,25 @@ namespace Gentings.AspNetCore
                 return current;
             }
         }
+
+        private string _culture;
+        /// <summary>
+        /// 当前语言。
+        /// </summary>
+        public string Culture
+        {
+            get
+            {
+                if (_culture == null)
+                {
+                    if (RouteData.Values.TryGetValue("culture", out var cultureInfo))
+                        _culture = cultureInfo.ToString();
+                    else
+                        _culture = Thread.CurrentThread.CurrentUICulture.Name;
+                }
+                return _culture;
+            }
+        }
         #endregion
 
         #region pages

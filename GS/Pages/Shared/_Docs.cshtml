@@ -17,7 +17,7 @@
             </button>
         </div>
         <div class="docs-menu collapse">
-            <gt:menu provider="admin" align="Vertical"></gt:menu>
+            @await RenderSectionAsync("toc")
         </div>
     </div>
     <article class="docs-content" data-bs-target=".docs-toc" data-offset="0">
@@ -28,7 +28,7 @@
 </div>
 
 @section scripts{
-    <script src="~/js/docs.min.js" .dev-src="~/js/docs.js"></script>
+<script src="~/js/docs.min.js" .dev-src="~/js/docs.js"></script>
     @await RenderSectionAsync("scripts", required: false)
 }
 

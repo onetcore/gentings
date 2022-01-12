@@ -2,3 +2,7 @@
 @model IndexModel
 
 @Html.Raw(Model.Html)
+
+@section toc{
+<gt:toc-menu data="Model.Toc"></gt:toc-menu>
+}

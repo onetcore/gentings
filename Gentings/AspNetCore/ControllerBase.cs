@@ -9,6 +9,7 @@ using Gentings.Properties;
 using Gentings.Security;
 using Gentings.Storages;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -84,6 +85,25 @@ namespace Gentings.AspNetCore
                 name = key.Substring(index + 1);
             }
             return name;
+        }
+
+        private string _culture;
+        /// <summary>
+        /// 当前语言。
+        /// </summary>
+        protected string Culture
+        {
+            get
+            {
+                if (_culture == null)
+                {
+                    if (RouteData.Values.TryGetValue("culture", out var cultureInfo))
+                        _culture = cultureInfo.ToString();
+                    else
+                        _culture = Thread.CurrentThread.CurrentUICulture.Name;
+                }
+                return _culture;
+            }
         }
         #endregion
 

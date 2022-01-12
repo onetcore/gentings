@@ -952,6 +952,24 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
+        ///   查找类似 Toc项配置错误，必须为键值对：第{0}行, {1}。 的本地化字符串。
+        /// </summary>
+        internal static string TocItemInvalid {
+            get {
+                return ResourceManager.GetString("TocItemInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 配置不正确，items节点下面必须缩进！ 的本地化字符串。
+        /// </summary>
+        internal static string TocItemsInvalid {
+            get {
+                return ResourceManager.GetString("TocItemsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 实体“{0}”的主键{1}包含的不值一个属性！ 的本地化字符串。
         /// </summary>
         internal static string TypeExtensions_PrimaryKeyIsNotSingleField {

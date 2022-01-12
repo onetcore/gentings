@@ -420,4 +420,10 @@
   <data name="AlertBlock_Warning" xml:space="preserve">
     <value>注意</value>
   </data>
+  <data name="TocItemsInvalid" xml:space="preserve">
+    <value>配置不正确，items节点下面必须缩进！</value>
+  </data>
+  <data name="TocItemInvalid" xml:space="preserve">
+    <value>Toc项配置错误，必须为键值对：第{0}行, {1}。</value>
+  </data>
 </root>
