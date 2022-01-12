@@ -60,4 +60,5 @@ app.UseGentings(builder.Configuration);
 
 这样就可以实现Gentings自带的服务注册系统运行起来，其中包括了后台任务等等，通常我们还会在这个地方添加数据库。
 
-> 注：如果没有特殊说明，在本文档中的例子和代码就是Gentings项目的的GS项目中的代码。
+> [!warning]
+> 如果没有特殊说明，在本文档中的例子和代码就是Gentings项目的的GS项目中的代码。

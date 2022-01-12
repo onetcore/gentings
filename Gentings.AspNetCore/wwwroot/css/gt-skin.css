@@ -12086,7 +12086,7 @@ article h6, article .h6, article h5, article .h5, article h4, article .h4, artic
   margin-bottom: 1rem;
   font-weight: 700;
 }
-article a:hover, article:focus, article:active, .marked a:hover, .marked:focus, .marked:active, .mozmd-preview a:hover, .mozmd-preview:focus, .mozmd-preview:active {
+article a:hover, article a:focus, article a:active, .marked a:hover, .marked a:focus, .marked a:active, .mozmd-preview a:hover, .mozmd-preview a:focus, .mozmd-preview a:active {
   text-decoration: underline;
 }
 

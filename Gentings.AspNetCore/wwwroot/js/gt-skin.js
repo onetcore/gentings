@@ -213,7 +213,7 @@ var resources = {
     onrender(function (context) {
         // 点击事件
         $('[_click]', context).exec(function (current) {
-            var eventType = current.attr('_click').toLowerCase();
+            var eventType = current.attr('_click').trim().toLowerCase();
             var target = current.target();
             // 展示对象元素，点击元素外的对象隐藏对象元素
             if (eventType === 'show') {
@@ -493,6 +493,51 @@ var resources = {
                 current.addClass('show').parents('.card').find('.card-body').removeClass('hide');
                 return false;
             });
+        });
+        // copy-code
+        $('[_event]', context).exec(function (current) {
+            var action = current.attr('_event').trim().toLowerCase();
+            switch (action) {
+                case 'code':
+                    {
+                        current.find('pre>code').exec(function (element) {
+                            var parent = element.parent();
+                            $('<a class="btn btn-sm btn-outline-primary">' + resources.copy + '</a>').on('click', function (event) {
+                                event.preventDefault();
+                                $(document).on('copy', function (e) {
+                                    // 设置信息，实现复制
+                                    e.preventDefault();
+                                    var code = undefined;
+                                    var lines = element.find('.hljs-ln-code');
+                                    if (lines.length) {
+                                        (function () {
+                                            var codes = [];
+                                            lines.each(function () {
+                                                codes.push(this.innerText);
+                                            });
+                                            code = codes.join('\r\n');
+                                        })();
+                                    } else {
+                                        code = element.text();
+                                    }
+                                    e.originalEvent.clipboardData.setData('text/plain', code);
+                                    showMsg(resources.copied, 0);
+                                });
+                                document.execCommand('copy');
+                                return false;
+                            }).prependTo(parent);
+                            //parent.css('position', 'relative');
+                        });
+                    }
+                    break;
+                case 'noselect':
+                    if (current.is('input') || current.is('textarea')) current.on('select', function () {
+                        return false;
+                    });else current.on('selectstart', function () {
+                        return false;
+                    });
+                    break;
+            }
         });
     });
     /**

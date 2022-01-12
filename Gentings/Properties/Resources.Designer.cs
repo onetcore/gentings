@@ -63,45 +63,45 @@ namespace Gentings.Properties {
         /// <summary>
         ///   查找类似 警告 的本地化字符串。
         /// </summary>
-        internal static string AlertBlock_Caution {
+        internal static string AlertBlock_caution {
             get {
-                return ResourceManager.GetString("AlertBlock_Caution", resourceCulture);
+                return ResourceManager.GetString("AlertBlock_caution", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 重要 的本地化字符串。
         /// </summary>
-        internal static string AlertBlock_Important {
+        internal static string AlertBlock_important {
             get {
-                return ResourceManager.GetString("AlertBlock_Important", resourceCulture);
+                return ResourceManager.GetString("AlertBlock_important", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 注释 的本地化字符串。
         /// </summary>
-        internal static string AlertBlock_Note {
+        internal static string AlertBlock_note {
             get {
-                return ResourceManager.GetString("AlertBlock_Note", resourceCulture);
+                return ResourceManager.GetString("AlertBlock_note", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 提示 的本地化字符串。
         /// </summary>
-        internal static string AlertBlock_Tip {
+        internal static string AlertBlock_tip {
             get {
-                return ResourceManager.GetString("AlertBlock_Tip", resourceCulture);
+                return ResourceManager.GetString("AlertBlock_tip", resourceCulture);
             }
         }
         
         /// <summary>
         ///   查找类似 注意 的本地化字符串。
         /// </summary>
-        internal static string AlertBlock_Warning {
+        internal static string AlertBlock_warning {
             get {
-                return ResourceManager.GetString("AlertBlock_Warning", resourceCulture);
+                return ResourceManager.GetString("AlertBlock_warning", resourceCulture);
             }
         }
         
