@@ -39,7 +39,7 @@
                     <tr class="data-item">
                         <td class="checkbox"><gt:checkbox value="@file.Id"></gt:checkbox></td>
                         <td>
-                            <img height="18" src="~/storages/images/@(file.Extension.Trim('.')).png" onerror="this.src='/storages/images/unknown.png'" />
+                            <img height="18" src="~/images/storages/@(file.Extension.Trim('.')).png" onerror="this.src='/images/storages/unknown.png'" />
                             @(file.Name)@(file.Extension)
                         </td>
                         <td>@Model.GetOrAddNamedString($"extensionname.{file.ExtensionName}")</td>

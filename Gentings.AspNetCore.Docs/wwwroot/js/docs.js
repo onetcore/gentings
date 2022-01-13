@@ -46,6 +46,8 @@ $(function () {
                 var id = i == 0 ? item.id : list[i - 1].id;
                 $('[href="#' + id + '"]').addClass('active');
                 return;
+            } else if (i == list.length - 1) {
+                $('[href="#' + item.id + '"]').addClass('active');
             }
         }
     }

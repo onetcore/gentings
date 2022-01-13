@@ -274,3 +274,7 @@ __pycache__/
 /Gentings.AspNetCore/wwwroot/scss
 /Gentings.AspNetCore/wwwroot/lib
 /GDocs/_site
+*.zip
+/publisher
+/GS/.config
+/GS/Properties/PublishProfiles

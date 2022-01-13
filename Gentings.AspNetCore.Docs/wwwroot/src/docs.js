@@ -46,6 +46,9 @@ $(function () {
                 $('[href="#' + id + '"]').addClass('active');
                 return;
             }
+            else if (i == list.length - 1) {
+                $('[href="#' + item.id + '"]').addClass('active');
+            }
         }
     }
     toggleAnchors();
