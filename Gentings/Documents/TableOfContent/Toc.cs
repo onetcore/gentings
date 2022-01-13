@@ -13,11 +13,34 @@ namespace Gentings.Documents.TableOfContent
         /// <summary>
         /// 文件夹名称。
         /// </summary>
-        public string DirectoryName { get; set; }
+        public string DirectoryName { get; private set; }
 
         private readonly List<TocItem> _items = new List<TocItem>();
 
-        private Toc(string source)
+        /// <summary>
+        /// 获取正确的URL地址。
+        /// </summary>
+        /// <param name="href">Markdown链接地址。</param>
+        /// <returns>返回挣钱的URL地址。</returns>
+        public string SafeUrl(string href)
+        {
+            if (string.IsNullOrEmpty(href)) return null;
+            href = href.Trim();
+            if (href.StartsWith("http:", StringComparison.OrdinalIgnoreCase) ||
+                href.StartsWith("https:", StringComparison.OrdinalIgnoreCase) ||
+                href.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase))
+                return href;
+            href = Path.GetFullPath(Path.Join(DirectoryName, href));
+            href = href.Substring(2).Replace('\\', '/');
+            href = href.ToLower();
+            if (href.EndsWith(".md"))
+                href = href.Substring(0, href.Length - 3);
+            if (href.EndsWith("/index"))
+                href = href.Substring(0, href.Length - 6);
+            return href;
+        }
+
+        private void Init(string source)
         {
             var line = 1;
             TocItem item = null;
@@ -108,32 +131,26 @@ namespace Gentings.Documents.TableOfContent
         /// 加载文件并实例化。
         /// </summary>
         /// <param name="path">当前toc文件物理路径。</param>
+        /// <param name="culture">语言。</param>
         /// <returns>返回<see cref="Toc"/>实例对象。</returns>
-        public static Toc Load(string path)
+        public void Load(string path, string culture)
         {
+            DirectoryName = TocPath.GetUrlRoot(culture, path);
             var source = FileHelper.ReadText(path);
-            return new Toc(source);
+            Init(source);
         }
 
         /// <summary>
         /// 加载文件并实例化。
         /// </summary>
         /// <param name="path">当前toc文件物理路径。</param>
+        /// <param name="culture">语言。</param>
         /// <returns>返回<see cref="Toc"/>实例对象。</returns>
-        public static async Task<Toc> LoadAsync(string path)
+        public async Task LoadAsync(string path, string culture)
         {
+            DirectoryName = TocPath.GetUrlRoot(culture, path);
             var source = await FileHelper.ReadTextAsync(path);
-            return new Toc(source);
-        }
-
-        /// <summary>
-        /// 加载YAML并实例化。
-        /// </summary>
-        /// <param name="yaml">YAML字符串。</param>
-        /// <returns>返回<see cref="Toc"/>实例对象。</returns>
-        public static Toc LoadYaml(string yaml)
-        {
-            return new Toc(yaml);
+            Init(source);
         }
 
         /// <summary>
@@ -143,6 +160,7 @@ namespace Gentings.Documents.TableOfContent
         /// <returns>返回<see cref="TocItem"/>实例。</returns>
         public TocItem GetByHref(string href)
         {
+            href = href.TrimEnd('/', '\\');
             foreach (var item in _items)
             {
                 var search = Search(item, x => x.Href?.Equals(href, StringComparison.OrdinalIgnoreCase) == true);

@@ -40,6 +40,7 @@ namespace GS.Extensions
                     services.AddControllers();
                     services.AddRazorPages(options =>
                     {
+                        options.AddCultureLocalizationOptions();
                         options.Conventions.AuthorizeFolder("/admin");
                         options.Conventions.AuthorizeFolder("/account");
                     });

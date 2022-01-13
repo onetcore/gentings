@@ -61,13 +61,31 @@ main > .container-fluid {
         }
     }
 
-    .menu-1 a {
-        padding: .25rem 1.5rem 0.25rem 1.5rem;
-        font-size: 90%;
+    > .nav-group > a {
+        font-weight: 700;
     }
 
-    .nav-group > a {
-        font-weight: 700;
+    .menu-1 {
+        a {
+            padding: .25rem 1.5rem 0.25rem;
+            font-size: 90%;
+        }
+
+        .nav-group > a, .menu-2 a {
+            margin-left: 1rem;
+        }
+
+        .menu-2 .nav-group > a, .menu-3 a {
+            margin-left: 2rem;
+        }
+
+        .menu-3 .nav-group > a, .menu-4 a {
+            margin-left: 3rem;
+        }
+
+        .menu-4 .nav-group > a, .menu-5 a {
+            margin-left: 4rem;
+        }
     }
 
     .dropdown-indicator {
@@ -100,7 +118,7 @@ main > .container-fluid {
 
 .docs-content {
     flex: 1 1 auto;
-    padding: 1rem;
+    padding: 1rem 1rem 0 1rem;
     padding-right: 300px;
 }
 

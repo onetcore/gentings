@@ -47,12 +47,24 @@
   font-weight: 600;
   color: rgba(0, 0, 0, 0.85);
 }
+.docs-menu > .navbar-nav > .nav-group > a {
+  font-weight: 700;
+}
 .docs-menu > .navbar-nav .menu-1 a {
-  padding: 0.25rem 1.5rem 0.25rem 1.5rem;
+  padding: 0.25rem 1.5rem 0.25rem;
   font-size: 90%;
 }
-.docs-menu > .navbar-nav .nav-group > a {
-  font-weight: 700;
+.docs-menu > .navbar-nav .menu-1 .nav-group > a, .docs-menu > .navbar-nav .menu-1 .menu-2 a {
+  margin-left: 1rem;
+}
+.docs-menu > .navbar-nav .menu-1 .menu-2 .nav-group > a, .docs-menu > .navbar-nav .menu-1 .menu-3 a {
+  margin-left: 2rem;
+}
+.docs-menu > .navbar-nav .menu-1 .menu-3 .nav-group > a, .docs-menu > .navbar-nav .menu-1 .menu-4 a {
+  margin-left: 3rem;
+}
+.docs-menu > .navbar-nav .menu-1 .menu-4 .nav-group > a, .docs-menu > .navbar-nav .menu-1 .menu-5 a {
+  margin-left: 4rem;
 }
 .docs-menu > .navbar-nav .dropdown-indicator:after {
   transform: translateY(-50%) rotate(-40deg);
@@ -76,7 +88,7 @@
 
 .docs-content {
   flex: 1 1 auto;
-  padding: 1rem;
+  padding: 1rem 1rem 0 1rem;
   padding-right: 300px;
 }
 

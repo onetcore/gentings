@@ -45,7 +45,7 @@ namespace Gentings.Documents.TableOfContent
         /// <summary>
         /// 菜单的唯一Id。
         /// </summary>
-        public string Id => $"L{Line}";
+        public string Id => $"toc-line-{Line}";
 
         /// <summary>
         /// 父级实例。
@@ -86,7 +86,7 @@ namespace Gentings.Documents.TableOfContent
                     Name = toc.Value;
                     break;
                 case "href":
-                    Href = GetSafeUrl(toc.Value);
+                    Href = Toc.SafeUrl(toc.Value);
                     break;
                 case "uid":
                     Uid = toc.Value;
@@ -95,18 +95,6 @@ namespace Gentings.Documents.TableOfContent
                     _items[toc.Name] = toc.Value;
                     break;
             }
-        }
-
-        private string GetSafeUrl(string href)
-        {
-            href = Path.GetFullPath(Path.Join(Toc.DirectoryName ?? "/docs", href));
-            href = href.Substring(2).Replace('\\', '/');
-            href = href.ToLower();
-            if (href.EndsWith(".md"))
-                href = href.Substring(0, href.Length - 3);
-            if (href.EndsWith("/index"))
-                href = href.Substring(0, href.Length - 6);
-            return href;
         }
 
         /// <summary>

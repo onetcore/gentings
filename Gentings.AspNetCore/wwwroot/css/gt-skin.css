@@ -11137,11 +11137,6 @@ ul, ol, li {
   transform: rotate(180deg);
 }
 
-.sticky-top {
-  position: sticky;
-  top: 0;
-}
-
 .input-group-prepend,
 .input-group-append {
   position: relative;

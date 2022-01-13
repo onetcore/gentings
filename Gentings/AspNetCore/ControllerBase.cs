@@ -105,6 +105,19 @@ namespace Gentings.AspNetCore
                 return _culture;
             }
         }
+
+        private IDefaultCulture _defaultCulture;
+        /// <summary>
+        /// 判断当前语言是否为系统默认语言。
+        /// </summary>
+        /// <param name="culture">语言名称。</param>
+        /// <returns>返回判断结果。</returns>
+        protected bool IsDefaultCulture(string culture)
+        {
+            if (_defaultCulture == null)
+                _defaultCulture = GetRequiredService<IDefaultCulture>();
+            return _defaultCulture.IsDefault(culture);
+        }
         #endregion
 
         #region json
