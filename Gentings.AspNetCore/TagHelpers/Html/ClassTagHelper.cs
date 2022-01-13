@@ -10,15 +10,15 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     {
         private const string ClassValuesPrefix = ".class-";
         private const string ClassValuesDictionaryName = ".class-data";
-        private IDictionary<string, bool>? _classNames;
+        private IDictionary<string, bool?>? _classNames;
 
         /// <summary>
         /// 样式列表。
         /// </summary>
         [HtmlAttributeName(ClassValuesDictionaryName, DictionaryAttributePrefix = ClassValuesPrefix)]
-        public IDictionary<string, bool> ClassNames
+        public IDictionary<string, bool?> ClassNames
         {
-            get => _classNames ??= new Dictionary<string, bool>(StringComparer.OrdinalIgnoreCase);
+            get => _classNames ??= new Dictionary<string, bool?>(StringComparer.OrdinalIgnoreCase);
             set => _classNames = value;
         }
 
@@ -29,7 +29,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var classNames = ClassNames.Where(x => x.Value).Select(x => x.Key).ToArray();
+            var classNames = ClassNames.Where(x => x.Value == true).Select(x => x.Key).ToArray();
             output.AddClass(classNames);
         }
     }

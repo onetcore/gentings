@@ -32,11 +32,7 @@ namespace Gentings.Documents.TableOfContent
                 return href;
             href = Path.GetFullPath(Path.Join(DirectoryName, href));
             href = href.Substring(2).Replace('\\', '/');
-            href = href.ToLower();
-            if (href.EndsWith(".md"))
-                href = href.Substring(0, href.Length - 3);
-            if (href.EndsWith("/index"))
-                href = href.Substring(0, href.Length - 6);
+            href = href.TrimEndLowerCaseMD();
             return href;
         }
 
@@ -160,7 +156,7 @@ namespace Gentings.Documents.TableOfContent
         /// <returns>返回<see cref="TocItem"/>实例。</returns>
         public TocItem GetByHref(string href)
         {
-            href = href.TrimEnd('/', '\\');
+            href = href.TrimEndLowerCaseMD();
             foreach (var item in _items)
             {
                 var search = Search(item, x => x.Href?.Equals(href, StringComparison.OrdinalIgnoreCase) == true);

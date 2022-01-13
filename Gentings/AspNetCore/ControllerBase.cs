@@ -9,7 +9,6 @@ using Gentings.Properties;
 using Gentings.Security;
 using Gentings.Storages;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Razor.Internal;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -91,32 +90,42 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 当前语言。
         /// </summary>
-        protected string Culture
+        public string Culture
         {
             get
             {
                 if (_culture == null)
                 {
-                    if (RouteData.Values.TryGetValue("culture", out var cultureInfo))
+                    if (RouteData.Values.TryGetValue("culture", out var cultureInfo) && cultureInfo is not null)
                         _culture = cultureInfo.ToString();
                     else
                         _culture = Thread.CurrentThread.CurrentUICulture.Name;
+                    _culture = LocalizationCulture.GetSupportedLanguage(_culture);
                 }
                 return _culture;
             }
         }
 
-        private IDefaultCulture _defaultCulture;
+        private ILocalizationCulture _localizationCulture;
+        private ILocalizationCulture LocalizationCulture => _localizationCulture ??= GetRequiredService<ILocalizationCulture>();
         /// <summary>
         /// 判断当前语言是否为系统默认语言。
         /// </summary>
         /// <param name="culture">语言名称。</param>
         /// <returns>返回判断结果。</returns>
-        protected bool IsDefaultCulture(string culture)
+        public bool IsDefaultCulture(string culture)
         {
-            if (_defaultCulture == null)
-                _defaultCulture = GetRequiredService<IDefaultCulture>();
-            return _defaultCulture.IsDefault(culture);
+            return LocalizationCulture.IsDefault(culture);
+        }
+
+        /// <summary>
+        /// 判断当前语言是否为<paramref name="culture"/>语言。
+        /// </summary>
+        /// <param name="culture">用于判定的语言。</param>
+        /// <returns>返回判定结果。</returns>
+        public bool IsCurrentCulture(string culture)
+        {
+            return culture.IsCulture(Culture);
         }
         #endregion
 

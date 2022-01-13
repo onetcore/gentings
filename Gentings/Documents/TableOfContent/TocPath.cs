@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Gentings.Documents.TableOfContent
+﻿namespace Gentings.Documents.TableOfContent
 {
     /// <summary>
     /// Toc路径辅助类。
@@ -11,6 +9,8 @@ namespace Gentings.Documents.TableOfContent
         {
             RootDirectory = Path.Join(Directory.GetCurrentDirectory(), "Docs");
         }
+
+        private const string LanguagePrefixed = "_";
 
         /// <summary>
         /// 文档URL开始目录。
@@ -35,13 +35,13 @@ namespace Gentings.Documents.TableOfContent
                 path = RootDirectory;
                 return true;
             }
-            path = Path.Join(RootDirectory, culture);
+            path = Path.Join(RootDirectory, LanguagePrefixed + culture);
             if (Directory.Exists(path)) return true;
             var index = culture.IndexOf('-');
             if (index != -1)
             {
                 var shortName = culture.Substring(0, index);
-                path = Path.Join(RootDirectory, shortName);
+                path = Path.Join(RootDirectory, LanguagePrefixed + shortName);
                 if (Directory.Exists(path))
                 {
                     culture = shortName;
@@ -128,6 +128,7 @@ namespace Gentings.Documents.TableOfContent
             path = path.Substring(RootDirectory.Length);
             if (culture != null)
             {
+                path = path.Replace($"/{LanguagePrefixed}{culture}/", $"/{culture}/");
                 culture = $"/{culture}/";
                 var index = path.IndexOf(culture, StringComparison.OrdinalIgnoreCase);
                 if (index != -1)

@@ -40,5 +40,22 @@
             if (slice.IsEnd || !slice.IsEmptyOrComment) return slice;
             return reader.ReadNextString(ref line);
         }
+
+        /// <summary>
+        /// 移除“/index.md”或者文件“.md”后缀名。
+        /// </summary>
+        /// <param name="href">当前链接地址。</param>
+        /// <returns>返回移除后的地址。</returns>
+        public static string TrimEndLowerCaseMD(this string href)
+        {
+            href = href.ToLower();
+            if (href.EndsWith('/'))
+                href = href.TrimEnd('/');
+            if (href.EndsWith(".md"))
+                href = href.Substring(0, href.Length - 3);
+            if (href.EndsWith("/index"))
+                href = href.Substring(0, href.Length - 6);
+            return href;
+        }
     }
 }

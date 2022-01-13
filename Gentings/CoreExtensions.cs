@@ -44,5 +44,23 @@ namespace Gentings
         {
             return cache.SetAbsoluteExpiration(DefaultCacheExpiration);
         }
+
+        /// <summary>
+        /// 判断是否为当前语言。
+        /// </summary>
+        /// <param name="culture">用于判断的语言。</param>
+        /// <param name="current">当前语言。</param>
+        /// <returns>返回判断结果。</returns>
+        public static bool IsCulture(this string culture, string current)
+        {
+            if (culture == null || current == null) return false;
+            current = current.ToLowerInvariant();
+            culture = culture.ToLowerInvariant();
+            if (culture == current) return true;
+            var index = culture.IndexOf('-');
+            if (index == -1) return false;
+            culture = culture.Substring(0, index);
+            return culture == current;
+        }
     }
 }

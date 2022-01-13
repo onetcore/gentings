@@ -11,6 +11,10 @@ a {
     color: #0077cc;
 }
 
+::deep .nav-item > .nav-link.active {
+    font-weight: 700;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -48,7 +52,7 @@ button.accept-policy {
 
 .wrapper {
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     justify-content: stretch;
 }
 
