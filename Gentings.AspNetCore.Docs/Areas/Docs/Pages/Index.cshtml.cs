@@ -6,6 +6,7 @@ using Markdig;
 using Markdig.Extensions.Yaml;
 using Markdig.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
 {
@@ -19,7 +20,7 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
         /// <summary>
         /// 当前目录实例。
         /// </summary>
-        public Toc Toc { get; } = new Toc();
+        public Toc Toc { get; private set; }
 
         /// <summary>
         /// 展示Markdown文档实例。
@@ -32,7 +33,7 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
             var path = TocPath.GetMarkdownPath(url);
             if (!TocPath.TryGetPhysicalPath(ref culture, path, out var physicalPath, out var directory))
             {
-                if(IsDefaultCulture(culture))
+                if (IsDefaultCulture(culture))
                     return RedirectPermanent($"/docs/{url}");
                 return NotFound();
             }
@@ -49,7 +50,11 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
         {
             if (!TocPath.TryGetTocPhysicalPath(directory, out var file))
                 return;
-            await Toc.LoadAsync(file, culture);
+            Toc = await GetRequiredService<IMemoryCache>().GetOrCreateAsync(file, async ctx =>
+            {
+                ctx.SetDefaultAbsoluteExpiration();
+                return await Toc.LoadAsync(file, culture);
+            });
         }
 
         private bool TryGetTocFile(string root, DirectoryInfo directory, out string path)

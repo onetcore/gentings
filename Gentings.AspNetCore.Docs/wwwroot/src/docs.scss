@@ -131,13 +131,13 @@ main > .container-fluid {
     a {
         color: rgba(0,0,0,0.65);
 
-        &:hover, &:focus, &:active {
+        &:hover, &:focus, &:active, &.active {
             color: rgba(0,0,0,0.85);
         }
-    }
 
-    .toc-h1 {
-        font-weight: 700;
+        &.active {
+            font-weight: 600;
+        }
     }
 }
 

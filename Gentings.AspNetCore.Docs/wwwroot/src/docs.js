@@ -23,17 +23,31 @@
     }
 }
 $(function () {
+    // toc
     var list = [];
-    $('article').find('h1,h2,h3,h4,h5,h6').each(function () {
-        if (!this.id) return;
-        list.push({ id: this.id, text: this.innerText, type: this.tagName.toLowerCase() })
+    $('article').find('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]').each(function () {
+        list.push({ id: this.id, text: this.innerText, type: this.tagName.toLowerCase(), top: $(this).offset().top });
     });
     var html = [];
     html.push('<ul>');
     list.forEach(item => {
-        html.push(`<li class="toc-${item.type}"><a href="#${item.id}">${item.text}</a></li>`)
+        html.push(`<li class="toc-${item.type}"><a href="#${item.id}" offset="${item.top}">${item.text}</a></li>`)
     });
     html.push('</ul>')
-    $('.docs-toc').html(html.join('\r\n'));
-    //$(document.body).attr('data-bs-target', '.docs-toc').scrollspy();
+    // scrollspy
+    var anchors = $('.docs-toc').html(html.join('\r\n')).find('a');
+    function toggleAnchors() {
+        var offset = $(document).scrollTop();
+        anchors.removeClass('active');
+        for (var i = 0; i < list.length; i++) {
+            let item = list[i];
+            if (offset <= item.top) {
+                let id = i == 0 ? item.id : list[i - 1].id;
+                $('[href="#' + id + '"]').addClass('active');
+                return;
+            }
+        }
+    }
+    toggleAnchors();
+    $(window).scroll(toggleAnchors);
 });

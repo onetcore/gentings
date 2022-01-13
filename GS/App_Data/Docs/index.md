@@ -1,5 +1,5 @@
 ---
-title: 首页
+title: 开始使用
 ---
 
 # 欢迎使用Gentings!

@@ -13,17 +13,17 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <summary>
         /// 名称。
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 选定对象值。
         /// </summary>
-        public object Value { get; set; }
+        public object? Value { get; set; }
 
         /// <summary>
         /// 提示字符串。
         /// </summary>
-        public string Placeholder { get; set; }
+        public string? Placeholder { get; set; }
 
         /// <summary>
         /// 类型。
@@ -39,7 +39,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 设置属性模型。
         /// </summary>
         [HtmlAttributeName("asp-for")]
-        public ModelExpression For { get; set; }
+        public ModelExpression? For { get; set; }
 
         /// <summary>
         /// 初始化当前标签上下文。

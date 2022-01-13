@@ -42,7 +42,7 @@ namespace Gentings.AspNetCore.Localization
         /// <param name="key">资源名称。</param>
         /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        public virtual string GetResource(Type type, string key, string culture = null)
+        public virtual string GetResource(Type type, string key, string? culture = null)
         {
             var safeKey = GetSafeKey(key);
             culture ??= Thread.CurrentThread.CurrentUICulture.Name;//当前UI语言
@@ -103,7 +103,7 @@ namespace Gentings.AspNetCore.Localization
         /// <param name="key">资源名称。</param>
         /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        public virtual string GetResource(string resourceName, string key, string culture = null)
+        public virtual string GetResource(string resourceName, string key, string? culture = null)
         {
             var safeKey = GetSafeKey(key);
             culture ??= Thread.CurrentThread.CurrentUICulture.Name;//当前UI语言

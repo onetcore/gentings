@@ -17,14 +17,14 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Index" resource="true" resource-name="layout">首页</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" .class-active="@ViewBag.IsDocs" href="/docs">Docs</a>
+                            <a class="nav-link text-dark" .class-active="@ViewBag.IsDocs" href="/docs" resource="true" resource-name="layout">文档</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
-                        <li class="nav-item" .dropdown="languages" toggle-class="nav-link text-dark" menu-class="dropdown-menu-end text-small shadow">
+                        <li class="nav-item" dropdown="languages" toggle-class="nav-link text-dark" menu-class="dropdown-menu-end text-small shadow">
                         </li>
                     </ul>
                 </div>

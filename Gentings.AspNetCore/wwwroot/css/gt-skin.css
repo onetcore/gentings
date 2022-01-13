@@ -12085,6 +12085,7 @@ article blockquote ol:last-child, article blockquote p:last-child, article block
 }
 article h6, article .h6, article h5, article .h5, article h4, article .h4, article h3, article .h3, article h2, article .h2, article h1, article .h1, .marked h6, .marked .h6, .marked h5, .marked .h5, .marked h4, .marked .h4, .marked h3, .marked .h3, .marked h2, .marked .h2, .marked h1, .marked .h1, .mozmd-preview h6, .mozmd-preview .h6, .mozmd-preview h5, .mozmd-preview .h5, .mozmd-preview h4, .mozmd-preview .h4, .mozmd-preview h3, .mozmd-preview .h3, .mozmd-preview h2, .mozmd-preview .h2, .mozmd-preview h1, .mozmd-preview .h1 {
   margin-bottom: 1rem;
+  margin-top: 0.5rem;
   font-weight: 700;
 }
 article a:hover, article a:focus, article a:active, .marked a:hover, .marked a:focus, .marked a:active, .mozmd-preview a:hover, .mozmd-preview a:focus, .mozmd-preview a:active {

@@ -7,7 +7,7 @@
     {
         static TocPath()
         {
-            RootDirectory = Path.Join(Directory.GetCurrentDirectory(), "Docs");
+            RootDirectory = Path.Join(Directory.GetCurrentDirectory(), "App_Data/Docs");
         }
 
         private const string LanguagePrefixed = "_";

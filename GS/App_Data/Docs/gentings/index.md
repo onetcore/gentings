@@ -47,30 +47,30 @@ Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后�
 在Gentings中也对WebSocket进行了相应的封装，如果需要开启这个功能，需要在管道中调用WebSocket处理器。
 
 ```csharp
-    app.UseWebSocketHandler();
+app.UseWebSocketHandler();
 ```
 
 在框架中使用的是`method:hanlder`方式来处理数据包，具体的接口代码如下：
 
 ```csharp
+/// <summary>
+/// WebSocket处理接口。
+/// </summary>
+public interface IWebSocketHandler : IServices
+{
     /// <summary>
-    /// WebSocket处理接口。
+    /// 处理方法唯一键。
     /// </summary>
-    public interface IWebSocketHandler : IServices
-    {
-        /// <summary>
-        /// 处理方法唯一键。
-        /// </summary>
-        string Method { get; }
+    string Method { get; }
 
-        /// <summary>
-        /// 执行方法。
-        /// </summary>
-        /// <param name="socket">当前Socket实例。</param>
-        /// <param name="data">获取数据。</param>
-        /// <returns>返回执行任务实例。</returns>
-        Task ExecuteAsync(IWebSocket socket, string data);
-    }
+    /// <summary>
+    /// 执行方法。
+    /// </summary>
+    /// <param name="socket">当前Socket实例。</param>
+    /// <param name="data">获取数据。</param>
+    /// <returns>返回执行任务实例。</returns>
+    Task ExecuteAsync(IWebSocket socket, string data);
+}
 ```
 
 ## 控制台命令支持
@@ -78,16 +78,16 @@ Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后�
 这个主要是控制台程序，可以在控制台输入一些管理员命令辅助管理使用，在于AspNetCore中使用的比较少。要对控制台命令的支持，需要在`program.cs`中显示调用如下代码：
 
 ```csharp
-    /// <summary>
-    /// 启动应用程序，在控制台程序中的Main方法中调用。
-    /// </summary>
-    /// <param name="host">服务器宿主。</param>
-    public static async Task StartCommandHostAsync(this IHost host);
+/// <summary>
+/// 启动应用程序，在控制台程序中的Main方法中调用。
+/// </summary>
+/// <param name="host">服务器宿主。</param>
+public static async Task StartCommandHostAsync(this IHost host);
 ```
 
 这样在控制台中，就可以敲入命令，进行一些辅助操作，命令格式如下：
 
-```ssh
+```cmd
     .debug off
 ```
 

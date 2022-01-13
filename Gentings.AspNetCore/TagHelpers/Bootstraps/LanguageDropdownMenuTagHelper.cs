@@ -7,7 +7,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
     /// 语言下拉列表框。
     /// </summary>
     [HtmlTargetElement("gt:languages")]
-    [HtmlTargetElement("li", Attributes = "[.dropdown=languages]")]
+    [HtmlTargetElement("li", Attributes = "[dropdown=languages]")]
     public class LanguageDropdownMenuTagHelper : ViewContextableTagHelperBase
     {
         private readonly ILocalizationCulture _localizationCulture;

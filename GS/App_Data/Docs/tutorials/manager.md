@@ -4,7 +4,7 @@ title: 定义管理接口和实现类
 
 # 定义管理接口和实现类
 
-我们已经定了实体类，并且创建了数据库，现在我们需要在代码中使用这个类，在.NET6+中，我们需要创建一个接口`IUserManager`，以及接口实现类`UserManager`，然后注册到服务容器中，在进行调用，这些是.NET6+的基础操作方式，对于不熟悉这种开发方式的人，可以详细了解[微软的文档](https://docs.microsoft.com/dotnet)。
+我们已经定了实体类，并且创建了数据库，现在我们需要在代码中使用这个类，在.NET6+中，我们需要创建一个接口`IUserManager`，以及接口实现类`UserManager`，然后注册到服务容器中，在进行调用，这些是.NET6+的基础操作方式，对于不熟悉这种开发方式的人，可以详细了解[微软的文档](https://docs.microsoft.com/dotnet){target=_blank rel=nofollow}。
 
 ## 定义接口IUserManager
 

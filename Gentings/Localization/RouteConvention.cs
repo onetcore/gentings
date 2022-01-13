@@ -5,7 +5,7 @@ namespace Gentings.Localization
     /// <summary>
     /// 资源路由模型转换类型。
     /// </summary>
-    internal class CulturePageRouteModelConvention : IPageRouteModelConvention
+    internal class RouteConvention : IPageRouteModelConvention
     {
         /// <summary>
         /// 附加转换模型<see cref="T:Microsoft.AspNetCore.Mvc.ApplicationModels.PageRouteModel" />实例。

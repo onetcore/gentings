@@ -37,7 +37,7 @@ namespace Gentings.AspNetCore
         /// <param name="options">页面配置选项。</param>
         public static void AddCultureLocalizationOptions(this RazorPagesOptions options)
         {
-            options.Conventions.Add(new CulturePageRouteModelConvention());
+            options.Conventions.Add(new RouteConvention());
         }
 
         /// <summary>

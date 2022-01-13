@@ -101,11 +101,11 @@
 .docs-toc a {
   color: rgba(0, 0, 0, 0.65);
 }
-.docs-toc a:hover, .docs-toc a:focus, .docs-toc a:active {
+.docs-toc a:hover, .docs-toc a:focus, .docs-toc a:active, .docs-toc a.active {
   color: rgba(0, 0, 0, 0.85);
 }
-.docs-toc .toc-h1 {
-  font-weight: 700;
+.docs-toc a.active {
+  font-weight: 600;
 }
 
 @media (max-width: 1199.98px) {

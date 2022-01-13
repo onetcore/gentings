@@ -8,14 +8,14 @@ namespace Gentings.AspNetCore.TagHelpers.TableOfContent
     /// 后台管理导航。
     /// </summary>
     [HtmlTargetElement("gt:toc-navigator", Attributes = AttributeName)]
-    public class MenuNavigatorTagHelper : ViewContextableTagHelperBase
+    public class TocNavigatorTagHelper : ViewContextableTagHelperBase
     {
         private const string AttributeName = "data";
 
         /// <summary>
         /// 当前数据对象。
         /// </summary>
-        public Toc Data { get; set; }
+        public Toc? Data { get; set; }
 
         /// <summary>
         /// 呈现标记。
@@ -25,22 +25,20 @@ namespace Gentings.AspNetCore.TagHelpers.TableOfContent
         /// <returns>返回执行任务。</returns>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            if (Data == null) return;
             output.TagName = "ol";
             output.AddClass("breadcrumb");
             var current = Data.GetByHref(ViewContext.HttpContext.Request.GetUri().AbsolutePath);
             var navigators = LoadNavigators(current).ToList();
             if (navigators.Count == 0)
                 return;
+            navigators.Reverse();
             var links = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
             foreach (var navigator in navigators)
             {
                 var text = navigator.Name;
-                if (current?.Name == navigator.Name && text == Title)
-                    continue;
                 links[text] = navigator.Href;
             }
-            if (!string.IsNullOrEmpty(Title))
-                links[Title] = null;
             if (!string.IsNullOrEmpty(Home))
             {
                 links.Remove(Home);
@@ -51,12 +49,6 @@ namespace Gentings.AspNetCore.TagHelpers.TableOfContent
                 output.Content.AppendHtml(CreateLink(link.Value!, link.Key));
             }
         }
-
-        private string? _title;
-        /// <summary>
-        /// 标题。
-        /// </summary>
-        protected string? Title => _title ??= ViewContext.ViewData["Title"] as string;
 
         private TagBuilder CreateLink(string linkUrl, string text)
         {

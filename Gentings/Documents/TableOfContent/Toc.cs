@@ -10,6 +10,8 @@ namespace Gentings.Documents.TableOfContent
     /// </summary>
     public class Toc : IEnumerable<TocItem>
     {
+        private Toc() { }
+
         /// <summary>
         /// 文件夹名称。
         /// </summary>
@@ -129,11 +131,13 @@ namespace Gentings.Documents.TableOfContent
         /// <param name="path">当前toc文件物理路径。</param>
         /// <param name="culture">语言。</param>
         /// <returns>返回<see cref="Toc"/>实例对象。</returns>
-        public void Load(string path, string culture)
+        public static Toc Load(string path, string culture)
         {
-            DirectoryName = TocPath.GetUrlRoot(culture, path);
+            var toc = new Toc();
+            toc.DirectoryName = TocPath.GetUrlRoot(culture, path);
             var source = FileHelper.ReadText(path);
-            Init(source);
+            toc.Init(source);
+            return toc;
         }
 
         /// <summary>
@@ -142,11 +146,13 @@ namespace Gentings.Documents.TableOfContent
         /// <param name="path">当前toc文件物理路径。</param>
         /// <param name="culture">语言。</param>
         /// <returns>返回<see cref="Toc"/>实例对象。</returns>
-        public async Task LoadAsync(string path, string culture)
+        public static async Task<Toc> LoadAsync(string path, string culture)
         {
-            DirectoryName = TocPath.GetUrlRoot(culture, path);
+            var toc = new Toc();
+            toc.DirectoryName = TocPath.GetUrlRoot(culture, path);
             var source = await FileHelper.ReadTextAsync(path);
-            Init(source);
+            toc.Init(source);
+            return toc;
         }
 
         /// <summary>
