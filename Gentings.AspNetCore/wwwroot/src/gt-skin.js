@@ -225,7 +225,7 @@
                     current.trigger('@show', target, event);
                 });
                 // 外部点击隐藏
-                $(document).on('click', function () {
+                $(document).on('click', function (event) {
                     target.removeClass('d-block');
                     current.trigger('@hide', target, event);
                 });

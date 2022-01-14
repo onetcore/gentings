@@ -74,6 +74,20 @@
           href: ./gentings/taghelpers/header.md
         - name: footer标签
           href: ./gentings/taghelpers/footer.md
+- name: UI脚本库
+  items:
+    - name: UI库简单介绍
+      href: ./ui/index.md
+    - name: JS库全局方法介绍
+      href: ./ui/js/index.md
+    - name: jQuery扩展
+      href: ./ui/js/jquery.md
+    - name: onclick功能事件
+      href: ./ui/js/click.md
+    - name: onchange功能事件
+      href: ./ui/js/change.md
+    - name: 其他功能应用
+      href: ./ui/js/others.md
 - name: 更新日志
   items:
     - name: v2.0

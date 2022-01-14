@@ -12091,6 +12091,10 @@ article h6, article .h6, article h5, article .h5, article h4, article .h4, artic
 article a:hover, article a:focus, article a:active, .marked a:hover, .marked a:focus, .marked a:active, .mozmd-preview a:hover, .mozmd-preview a:focus, .mozmd-preview a:active {
   text-decoration: underline;
 }
+article .alert h6, article .alert .h6, article .alert h5, article .alert .h5, article .alert h4, article .alert .h4, article .alert h3, article .alert .h3, article .alert h2, article .alert .h2, article .alert h1, article .alert .h1, .marked .alert h6, .marked .alert .h6, .marked .alert h5, .marked .alert .h5, .marked .alert h4, .marked .alert .h4, .marked .alert h3, .marked .alert .h3, .marked .alert h2, .marked .alert .h2, .marked .alert h1, .marked .alert .h1, .mozmd-preview .alert h6, .mozmd-preview .alert .h6, .mozmd-preview .alert h5, .mozmd-preview .alert .h5, .mozmd-preview .alert h4, .mozmd-preview .alert .h4, .mozmd-preview .alert h3, .mozmd-preview .alert .h3, .mozmd-preview .alert h2, .mozmd-preview .alert .h2, .mozmd-preview .alert h1, .mozmd-preview .alert .h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
 
 pre {
   margin: 0;
