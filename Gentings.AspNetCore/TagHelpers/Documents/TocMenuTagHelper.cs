@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
-namespace Gentings.AspNetCore.TagHelpers.TableOfContent
+namespace Gentings.AspNetCore.TagHelpers.Documents
 {
     /// <summary>
     /// Toc菜单。

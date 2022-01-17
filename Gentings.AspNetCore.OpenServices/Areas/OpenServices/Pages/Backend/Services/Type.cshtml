@@ -45,7 +45,7 @@
                             }
                         </td>
                         <td>
-                            @Model.TypeDescriptor.GetPropertyDescriptor(property)?.Summary
+                            @Model.TypeDescriptor.GetPropertyDescriptor(property.Name)?.Summary
                         </td>
                     </tr>
                 }

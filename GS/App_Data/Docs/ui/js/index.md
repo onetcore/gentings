@@ -10,7 +10,7 @@ title: JS库全局方法介绍
 
 如果参数`render`为函数，则该方法的功能只是将函数附加到队列中，队列中的所有方法都会在在页面加载完成或者模态框加载完成时候进行调用。
 
-```
+```javascript
 /**
  * 当呈现后执行的方法。
  * @param {Function|JQuery|undefined} render 执行的方法或者当前对象，如果为当前对象则执行所有需要执行的方法。
@@ -43,7 +43,7 @@ window.$ajax = function (url, data, success, error, dataType);
 
 showMsg方法主要是在页面顶部中间显示状态消息，在几秒后会自动小时，一般只是一行文字，回调函数在消息“**消失**”后就会触发。
 
-```
+```javascript
 /**
  * 显示消息。
  * @param {string|Object} msg 消息字符串。
@@ -55,7 +55,7 @@ window.showMsg = function (msg, code, func);
 
 showAlert和showMsg参数两则一样，不同的是，showAlert显示的是模态框，回调函数需要在点击“**确定**”之后才触发。
 
-```
+```javascript
 /**
  * 显示模态对话框。
  * @param {string|Object} msg 消息字符串。

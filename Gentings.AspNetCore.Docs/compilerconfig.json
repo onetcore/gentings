@@ -6,5 +6,9 @@
   {
     "outputFile": "wwwroot/js/docs.js",
     "inputFile": "wwwroot/src/docs.js"
+  },
+  {
+    "outputFile": "wwwroot/js/docs.es5.js",
+    "inputFile": "wwwroot/js/docs.js"
   }
 ]

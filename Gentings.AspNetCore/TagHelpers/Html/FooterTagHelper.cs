@@ -38,7 +38,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// 是否生成Antiforgery验证标记表单实例。
         /// </summary>
         [HtmlAttributeName("antiforgery")]
-        public bool GenerateAntiforgery { get; set; }
+        public bool GenerateAntiforgery { get; set; } = true;
 
         /// <summary>
         /// 异步访问并呈现当前标签实例。

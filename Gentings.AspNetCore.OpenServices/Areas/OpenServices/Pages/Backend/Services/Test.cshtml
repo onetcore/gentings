@@ -33,7 +33,7 @@
                 <div class="row align-items-center">
                     <label class="col-3">@(property.Name)：</label>
                     <div class="col-5"><input type="text" name="@property.Name" class="form-control form-control-sm" /></div>
-                    <small class="text-muted col-4">@typeDescriptor.GetPropertyDescriptor(property)?.Summary</small>
+                    <small class="text-muted col-4">@typeDescriptor.GetPropertyDescriptor(property.Name)?.Summary</small>
                 </div>
             }
         }

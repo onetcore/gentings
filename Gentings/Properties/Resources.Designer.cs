@@ -61,51 +61,6 @@ namespace Gentings.Properties {
         }
         
         /// <summary>
-        ///   查找类似 警告 的本地化字符串。
-        /// </summary>
-        internal static string AlertBlock_caution {
-            get {
-                return ResourceManager.GetString("AlertBlock_caution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 重要 的本地化字符串。
-        /// </summary>
-        internal static string AlertBlock_important {
-            get {
-                return ResourceManager.GetString("AlertBlock_important", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 注释 的本地化字符串。
-        /// </summary>
-        internal static string AlertBlock_note {
-            get {
-                return ResourceManager.GetString("AlertBlock_note", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 提示 的本地化字符串。
-        /// </summary>
-        internal static string AlertBlock_tip {
-            get {
-                return ResourceManager.GetString("AlertBlock_tip", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 注意 的本地化字符串。
-        /// </summary>
-        internal static string AlertBlock_warning {
-            get {
-                return ResourceManager.GetString("AlertBlock_warning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   查找类似 不能在服务内部设置 IsStack 和 Interval 属性！ 的本地化字符串。
         /// </summary>
         internal static string Argument_CannotSetIsStackAndInterval {
@@ -867,6 +822,51 @@ namespace Gentings.Properties {
         internal static string RandomNumberGenerator_SizeInvalid {
             get {
                 return ResourceManager.GetString("RandomNumberGenerator_SizeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 警告 的本地化字符串。
+        /// </summary>
+        internal static string SectionNoteType_caution {
+            get {
+                return ResourceManager.GetString("SectionNoteType_caution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 重要 的本地化字符串。
+        /// </summary>
+        internal static string SectionNoteType_important {
+            get {
+                return ResourceManager.GetString("SectionNoteType_important", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注释 的本地化字符串。
+        /// </summary>
+        internal static string SectionNoteType_note {
+            get {
+                return ResourceManager.GetString("SectionNoteType_note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 提示 的本地化字符串。
+        /// </summary>
+        internal static string SectionNoteType_tip {
+            get {
+                return ResourceManager.GetString("SectionNoteType_tip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 注意 的本地化字符串。
+        /// </summary>
+        internal static string SectionNoteType_warning {
+            get {
+                return ResourceManager.GetString("SectionNoteType_warning", resourceCulture);
             }
         }
         

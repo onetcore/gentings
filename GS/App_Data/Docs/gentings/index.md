@@ -87,8 +87,8 @@ public static async Task StartCommandHostAsync(this IHost host);
 
 这样在控制台中，就可以敲入命令，进行一些辅助操作，命令格式如下：
 
-```cmd
-    .debug off
+```sh
+.debug off
 ```
 
 要实现命令操作，只要继承接口`ICommandHandler`即可。

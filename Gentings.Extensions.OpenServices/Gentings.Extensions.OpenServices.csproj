@@ -3,6 +3,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <DocumentationFile>..\GS\App_Data\XmlDocs\OpenServices.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

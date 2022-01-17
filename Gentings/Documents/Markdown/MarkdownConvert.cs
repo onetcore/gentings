@@ -1,7 +1,6 @@
-﻿using Gentings.Documents.Markdown.Extensions.AlertBlocks;
+﻿using Gentings.Documents.Markdown.Extensions.QuoteSectionNotes;
 using Markdig;
 using Markdig.Extensions.AutoIdentifiers;
-using Markdig.Extensions.Bootstrap;
 using Markdig.Extensions.Tables;
 using System.Collections.Concurrent;
 
@@ -32,7 +31,8 @@ namespace Gentings.Documents.Markdown
                 .UseTaskLists()
                 .UseDiagrams()
                 .UseAutoLinks()
-                .UseGenericAttributes(); // Must be last as it is one parser that is modifying other parsers
+                .UseGenericAttributes()
+                .Use<QuoteSectionNoteExtension>(); // Must be last as it is one parser that is modifying other parsers
         }
 
         /// <summary>
@@ -97,11 +97,7 @@ namespace Gentings.Documents.Markdown
         /// <returns>返回解析后的HTML字符串。</returns>
         public static string ToHtml(string source, MarkdownPipelineBuilder pipeline)
         {
-            if (pipeline.Extensions.Contains<BootstrapExtension>())
-            {
-                pipeline.Use<AlertBlockExtension>();
-            }
-
+            pipeline.Use<QuoteSectionNoteExtension>();
             var build = pipeline.Build();
             return Markdig.Markdown.ToHtml(source, build);
         }
@@ -181,7 +177,6 @@ namespace Gentings.Documents.Markdown
                                 break;
                             case MarkdownExtension.Bootstrap:
                                 pipeline.UseBootstrap();
-                                pipeline.Use<AlertBlockExtension>();
                                 break;
                             case MarkdownExtension.Medialinks:
                                 pipeline.UseMediaLinks();
@@ -225,6 +220,7 @@ namespace Gentings.Documents.Markdown
                         }
                     }
                 }
+                pipeline.Use<QuoteSectionNoteExtension>();
                 return pipeline;
             });
         }

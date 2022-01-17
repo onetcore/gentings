@@ -107,6 +107,21 @@
 .docs-toc a.active {
   font-weight: 600;
 }
+.docs-toc .toc-h2 {
+  padding-left: 0.5rem;
+}
+.docs-toc .toc-h3 {
+  padding-left: 1rem;
+}
+.docs-toc .toc-h4 {
+  padding-left: 1.5rem;
+}
+.docs-toc .toc-h5 {
+  padding-left: 2rem;
+}
+.docs-toc .toc-h6 {
+  padding-left: 2.5rem;
+}
 
 @media (max-width: 1199.98px) {
   .docs-content {

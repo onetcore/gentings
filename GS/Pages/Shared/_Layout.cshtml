@@ -20,6 +20,9 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Index" resource="true" resource-name="layout">首页</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" .class-active="@ViewBag.IsApis" href="/apidocs">API</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" .class-active="@ViewBag.IsDocs" href="/docs" resource="true" resource-name="layout">文档</a>
                         </li>
                     </ul>

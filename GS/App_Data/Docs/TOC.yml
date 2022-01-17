@@ -12,6 +12,8 @@
       href: ./tutorials/manager.md
     - name: 分页查询实现
       href: ./tutorials/query.md
+    - name: 发布
+      href: ./tutorials/publish.md
 - name: 功能模块
   items:
     - name: Gentings核心模块
@@ -66,14 +68,50 @@
           href: ./gentings/razorpages/resources.md
         - name: 图片验证码功能集成
           href: ./gentings/razorpages/verify.md
-    - name: TagHelper标签集合
+- name: TagHelper标签集合
+  items:
+    - name: TagHelper介绍
+      href: ./gentings/taghelpers/index.md
+    - name: gt:header标签
+      href: ./gentings/taghelpers/gt.header.md
+    - name: gt:footer标签
+      href: ./gentings/taghelpers/gt.footer.md
+    - name: gt:page分页标签
+      href: ./gentings/taghelpers/gt.page.md
+    - name: gt:page-dropdownlist分页标签
+      href: ./gentings/taghelpers/gt.page-dropdownlist.md
+    - name: markdown呈现标签
+      href: ./gentings/taghelpers/markdown.md
+    - name: gt:markdown编辑器标签
+      href: ./gentings/taghelpers/gt.markdown.md
+    - name: gt:icon图标标签
+      href: ./gentings/taghelpers/gt.icon.md
+    - name: gt:languages语言标签
+      href: ./gentings/taghelpers/gt.languages.md
+    - name: HTML属性标记标签
       items:
-        - name: TagHelper介绍
-          href: ./gentings/taghelpers/index.md
-        - name: header标签
-          href: ./gentings/taghelpers/header.md
-        - name: footer标签
-          href: ./gentings/taghelpers/footer.md
+        - name: 设置属性".attr-"标签
+          href: ./gentings/taghelpers/html.attribute.md
+        - name: 设置样式类型".class-"标签
+          href: ./gentings/taghelpers/html.class.md
+        - name: 设置样式".css-"标签
+          href: ./gentings/taghelpers/html.css.md
+        - name: 设置开发模式".dev-"标签
+          href: ./gentings/taghelpers/html.dev.md
+        - name: 设置图标".icon"或".icon-type"标签
+          href: ./gentings/taghelpers/html.icon.md
+        - name: 设置图片"img.error"标签
+          href: ./gentings/taghelpers/img.error.md
+        - name: 设置样式编译标签
+          href: ./gentings/taghelpers/style.mix.md
+        - name: 设置显示属性标签
+          href: ./gentings/taghelpers/html.visible.md
+        - name: 设置空对象属性标签
+          href: ./gentings/taghelpers/html.warning.md
+        - name: 设置权限".permission"标签
+          href: ./gentings/taghelpers/html.permission.md
+        - name: 设置按钮样式标签
+          href: ./gentings/taghelpers/html.button.md
 - name: UI脚本库
   items:
     - name: UI库简单介绍
@@ -82,6 +120,8 @@
       href: ./ui/js/index.md
     - name: jQuery扩展
       href: ./ui/js/jquery.md
+    - name: URL辅助操作
+      href: ./ui/js/url.md
     - name: onclick功能事件
       href: ./ui/js/click.md
     - name: onchange功能事件

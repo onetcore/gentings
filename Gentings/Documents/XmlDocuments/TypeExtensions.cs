@@ -43,6 +43,8 @@ namespace Gentings.Documents.XmlDocuments
             {
                 if (type == typeof(DateTime) || type == typeof(DateTimeOffset))
                     return "Date";
+                if(type == typeof(Guid))
+                    return "string";
                 if (type.IsEnum || type.IsValueType)
                     return "number";
                 return "string";
@@ -66,30 +68,53 @@ namespace Gentings.Documents.XmlDocuments
             builder.AppendLine("/// <summary>")
                 .Append("/// ").AppendLine(typeDescriptor?.Summary)
                 .AppendLine("/// </summary>");
-            builder.Append("public class ").Append(type.Name).AppendLine("{");
+            builder.Append("public ").Append(type.IsEnum ? "enum" : "class").Append(" ").Append(type.Name).AppendLine("{");
 
             void Append(PropertyInfo info)
             {
-                var summary = typeDescriptor?.GetPropertyDescriptor(info)?.Summary;
+                var summary = typeDescriptor?.GetPropertyDescriptor(info.Name)?.Summary;
+                if (summary == null)
+                {
+                    return;
+                }
+
+                builder.AppendLine("    /// <summary>")
+                    .Append("    /// ").AppendLine(summary)
+                    .AppendLine("    /// </summary>");
+                builder.Append("    public ").Append(info.PropertyType.Name)
+                    .Append(" ").Append(info.Name)
+                    .AppendLine(" {get; set;}");
+            }
+
+            void AppendValue(object value)
+            {
+                var summary = typeDescriptor?.GetPropertyDescriptor(value.ToString())?.Summary;
                 if (summary != null)
                 {
                     builder.AppendLine("    /// <summary>")
                         .Append("    /// ").AppendLine(summary)
                         .AppendLine("    /// </summary>");
                 }
-
-                builder.Append("    public ").Append(info.PropertyType.Name)
-                    .Append(" ").Append(info.Name)
-                    .AppendLine(" {get; set;}");
+                builder.Append("    ").Append(value).Append(" = ").AppendFormat("{0:d}", value).AppendLine(",");
             }
 
-            foreach (var property in type.GetProperties())
+            if (type.IsEnum)
             {
-                if (!property.CanRead || !property.CanWrite)
+                foreach (var value in Enum.GetValues(type))
                 {
-                    continue;
+                    AppendValue(value);
                 }
-                Append(property);
+            }
+            else
+            {
+                foreach (var property in type.GetProperties())
+                {
+                    if (!property.CanRead || !property.CanWrite)
+                    {
+                        continue;
+                    }
+                    Append(property);
+                }
             }
 
             builder.AppendLine("}");
@@ -108,30 +133,53 @@ namespace Gentings.Documents.XmlDocuments
             builder.AppendLine("/**")
                 .Append("* ").AppendLine(typeDescriptor?.Summary)
                 .AppendLine("*/");
-            builder.Append("interface ").Append(type.Name).AppendLine("{");
+            builder.Append(type.IsEnum ? "enum" : "interface").Append(" ").Append(type.Name).AppendLine("{");
 
             void Append(PropertyInfo info)
             {
-                var summary = typeDescriptor?.GetPropertyDescriptor(info)?.Summary;
+                var summary = typeDescriptor?.GetPropertyDescriptor(info.Name)?.Summary;
+                if (summary == null)
+                {
+                    return;
+                }
+                builder.AppendLine("   /**")
+                    .Append("    * ").AppendLine(summary)
+                    .AppendLine("    */");
+
+                builder.Append("   ").Append(info.Name.ToLowerCamelCase())
+                    .Append(info.PropertyType.GetTypeScriptType())
+                    .AppendLine(";");
+            }
+
+            void AppendValue(object value)
+            {
+                var summary = typeDescriptor?.GetPropertyDescriptor(value.ToString())?.Summary;
                 if (summary != null)
                 {
                     builder.AppendLine("   /**")
                         .Append("    * ").AppendLine(summary)
                         .AppendLine("    */");
                 }
-
-                builder.Append("    ").Append(info.Name.ToLowerCamelCase())
-                    .Append(info.PropertyType.GetTypeScriptType())
-                    .AppendLine(";");
+                builder.Append("   ").Append(value).Append(" = ").AppendFormat("{0:d}", value).AppendLine(",");
             }
 
-            foreach (var property in type.GetProperties())
+            if (type.IsEnum)
             {
-                if (!property.CanRead || !property.CanWrite)
+                foreach (var value in Enum.GetValues(type))
                 {
-                    continue;
+                    AppendValue(value);
                 }
-                Append(property);
+            }
+            else
+            {
+                foreach (var property in type.GetProperties())
+                {
+                    if (!property.CanRead || !property.CanWrite)
+                    {
+                        continue;
+                    }
+                    Append(property);
+                }
             }
 
             builder.AppendLine("}");

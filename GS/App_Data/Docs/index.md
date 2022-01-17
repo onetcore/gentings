@@ -33,49 +33,55 @@ title: 开始使用
 
 基于Gentings开发的项目结构，建议使用如下的项目结构:
 
-├──Project(项目文件夹)
-
-│    ├── Project
-
-│    ├── Project.Extensions
-
-│    └── Project.Extensions.*
-
-├──Gentings(框架文件夹)
-
-│    ├── Gentings
-
-│    ├── Gentings.Data.SqlServer
-
-│    ├── Gentings.AspNetCore
-
-│    ├── Gentings.AspNetCore.*
-
-│    ├── Gentings.Extensions
-
-│    ├── Gentings.Storages
-
-│    └── ...
-
-├──Tests(测试文件夹)
-
-│    ├── Project.Tests
-
-│    ├── Project.Extensions.Tests
-
-│    └── Project.Extensions.*.Tests
-
-└── Others(其他文件夹)
+> [!div class="pmb-0"]
+> VSource
+> 
+> ├─ Project(项目文件夹)
+> 
+> │ ├─ Project
+> 
+> │ ├─ Project.Extensions
+> 
+> │ └─ Project.Extensions.*
+> 
+> ├─ Gentings(框架文件夹)
+> 
+> │ ├─ Gentings
+> 
+> │ ├─ Gentings.Data.SqlServer
+> 
+> │ ├─ Gentings.AspNetCore
+> 
+> │ ├─ Gentings.AspNetCore.*
+> 
+> │ ├─ Gentings.Extensions
+> 
+> │ ├─ Gentings.Storages
+> 
+> │ └─ ...
+> 
+> ├─ Tests(测试文件夹)
+> 
+> │ ├─ Project.Tests
+> 
+> │ ├─ Project.Extensions.Tests
+> 
+> │ └─ Project.Extensions.*.Tests
+> 
+> └─ Others(其他文件夹)
 
 ## 物理文件夹结构
 
 源代码根目录(Repos)
 
-├──Project(项目文件夹)
-
-├──Gentings(框架文件夹)
-
-└── Others(其他文件夹)
+> [!div class="pmb-0"]
+> 本目录
+> 
+> ├─ Project(项目文件夹)
+> 
+> ├─ Gentings(框架文件夹)
+> 
+> └─ Others(其他文件夹)
 
 使用上面目录树结构进行开发的优势，可以通过git更新到最新的Gentings程序集，当然在Project项目中忽略掉Gentings目录即可，这样Gentings框架和项目源代码比较独立。如果选择特定版本的Gentings，可以通过git克隆相应的版本。
 

@@ -1,14 +1,14 @@
 ﻿using Gentings.Properties;
 using System.Collections.Concurrent;
 
-namespace Gentings.Documents.Markdown.Extensions.AlertBlocks
+namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
 {
     /// <summary>
-    /// Alert标签语法类。
+    /// 节点通知类型。
     /// </summary>
-    public class AlertSyntax
+    public class SectionNoteType
     {
-        static AlertSyntax()
+        static SectionNoteType()
         {
             var syntaxs = new List<SyntaxEntry>
             {
@@ -37,8 +37,8 @@ namespace Gentings.Documents.Markdown.Extensions.AlertBlocks
             internal SyntaxEntry(string key, string alertClass, string icon)
             {
                 Key = key;
-                Text = Resources.ResourceManager.GetString("AlertBlock_" + key) ?? key.ToUpperInvariant();
-                Syntax = $"> [!{key}]";
+                Text = Resources.ResourceManager.GetString("SectionNoteType_" + key) ?? key.ToUpperInvariant();
+                Syntax = $"[!{key}]";
                 AlertClass = alertClass;
                 Icon = icon;
             }
@@ -84,5 +84,12 @@ namespace Gentings.Documents.Markdown.Extensions.AlertBlocks
             _syntaxs.TryGetValue(syntax, out var entry);
             return entry;
         }
+
+        /// <summary>
+        /// 判断是否为语法。
+        /// </summary>
+        /// <param name="noteType">节点类型。</param>
+        /// <returns>返回判断结果。</returns>
+        public static bool IsNoteType(string noteType) => _syntaxs.ContainsKey(noteType);
     }
 }

@@ -405,19 +405,19 @@
   <data name="StorageClearTaskExecutor_Name" xml:space="preserve">
     <value>存储文件夹清理服务</value>
   </data>
-  <data name="AlertBlock_caution" xml:space="preserve">
+  <data name="SectionNoteType_caution" xml:space="preserve">
     <value>警告</value>
   </data>
-  <data name="AlertBlock_important" xml:space="preserve">
+  <data name="SectionNoteType_important" xml:space="preserve">
     <value>重要</value>
   </data>
-  <data name="AlertBlock_note" xml:space="preserve">
+  <data name="SectionNoteType_note" xml:space="preserve">
     <value>注释</value>
   </data>
-  <data name="AlertBlock_tip" xml:space="preserve">
+  <data name="SectionNoteType_tip" xml:space="preserve">
     <value>提示</value>
   </data>
-  <data name="AlertBlock_warning" xml:space="preserve">
+  <data name="SectionNoteType_warning" xml:space="preserve">
     <value>注意</value>
   </data>
   <data name="TocItemsInvalid" xml:space="preserve">

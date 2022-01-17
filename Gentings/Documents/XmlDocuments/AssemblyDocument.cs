@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System.Collections;
+using System.Collections.Concurrent;
 using System.Xml;
 
 namespace Gentings.Documents.XmlDocuments
@@ -6,7 +7,7 @@ namespace Gentings.Documents.XmlDocuments
     /// <summary>
     /// XML注释文档实例。
     /// </summary>
-    public class AssemblyDocument
+    public class AssemblyDocument : IEnumerable<TypeDescriptor>
     {
         static AssemblyDocument()
         {
@@ -184,6 +185,17 @@ namespace Gentings.Documents.XmlDocuments
         {
             return _assemblyDocuments.Values.SelectMany(x => x._members.Values)
                 .FirstOrDefault(x => x.FullName == typeFullName);
+        }
+
+        /// <summary>
+        /// 获取类型迭代器。
+        /// </summary>
+        /// <returns>类型迭代器。</returns>
+        public IEnumerator<TypeDescriptor> GetEnumerator() => _members.Values.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }

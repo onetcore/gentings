@@ -1,36 +1,8 @@
 ﻿@{
     Layout = "_Layout";
-    ViewData["SiteName"] = SiteSettings.SiteName;
 }
 
-@inject SiteSettings SiteSettings
-
-<div class="docs-wrapper" style="margin-top:-1rem;">
-    <div class="docs-sidebar">
-        <aside class="sticky-top" style="top:55px;">
-            <div class="docs-search">
-                <div class="input-group-prepend">
-                    <label class="bi-funnel"></label>
-                    <input oninput="searchDocs(this);" type="text" class="form-control" .res-placeholder="请输入你要搜索的标题内容..." resource-name="layout" />
-                </div>
-                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target=".docs-menu">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg>
-                </button>
-            </div>
-            <div class="docs-menu collapse">
-                <gt:toc-menu data="Model.Toc"></gt:toc-menu>
-            </div>
-        </aside>
-    </div>
-    <div class="docs-content">
-        <gt:toc-navigator data="Model.Toc"></gt:toc-navigator>
-        <article _event="code">
-            @RenderBody()
-        </article>
-    </div>
-    <div class="docs-toc">
-    </div>
-</div>
+@RenderBody()
 
 @section scripts
 {

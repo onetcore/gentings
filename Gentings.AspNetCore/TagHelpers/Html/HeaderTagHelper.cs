@@ -52,6 +52,8 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         {
             if (Import != ImportLibrary.None)
                 ViewContext.AddLibraries(Import);
+            Keyword ??= ViewContext.ViewData["Keyword"]?.ToString();
+            Description ??= ViewContext.ViewData["Description"]?.ToString();
         }
 
         /// <summary>

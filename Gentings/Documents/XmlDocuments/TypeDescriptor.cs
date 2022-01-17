@@ -69,11 +69,11 @@ namespace Gentings.Documents.XmlDocuments
         /// <summary>
         /// 通过成员信息获取属性注释实例。
         /// </summary>
-        /// <param name="info">成员信息。</param>
+        /// <param name="name">成员名称。</param>
         /// <returns>返回属性注释实例。</returns>
-        public PropertyDescriptor GetPropertyDescriptor(PropertyInfo info)
+        public PropertyDescriptor GetPropertyDescriptor(string name)
         {
-            var name = $"{FullName}.{info.Name}";
+            name = $"{FullName}.{name}";
             _properties.TryGetValue(name, out var descriptor);
             return descriptor;
         }
@@ -103,5 +103,10 @@ namespace Gentings.Documents.XmlDocuments
             _methods.TryGetValue(fullName, out var descriptor);
             return descriptor;
         }
+
+        /// <summary>
+        /// 属性列表。
+        /// </summary>
+        public IEnumerable<PropertyDescriptor> Properties => _properties.Values;
     }
 }
