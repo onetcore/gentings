@@ -1,6 +1,5 @@
 ﻿using Gentings.Data;
 using Gentings.Security;
-using System;
 
 namespace Gentings.Extensions.OpenServices
 {

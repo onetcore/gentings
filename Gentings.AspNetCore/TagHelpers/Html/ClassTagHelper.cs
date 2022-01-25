@@ -32,15 +32,11 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (ClassNames.Count > 0)
-            {
-                var classNames = ClassNames.Where(x => x.Value == true).Select(x => x.Key).ToArray();
-                output.AddClass(classNames);
-            }
-
+            var classNames = ClassNames.Where(x => x.Value == true).Select(x => x.Key).ToList();
             var className = ClassName?.ToString()?.Trim();
             if (!string.IsNullOrEmpty(className))
-                output.AddClass(className);
+                classNames.AddRange(className.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            output.AddClass(classNames.ToArray());
         }
     }
 }

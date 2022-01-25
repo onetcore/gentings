@@ -530,11 +530,11 @@ namespace Gentings.AspNetCore
             return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
         }
 
-        private IUserService _userManager;
+        private IUserManager _userManager;
         /// <summary>
         /// 用户管理接口实例。
         /// </summary>
-        private IUserService UserManager => _userManager ??= GetRequiredService<IUserService>();
+        private IUserManager UserManager => _userManager ??= GetRequiredService<IUserManager>();
 
         /// <summary>
         /// 获取当前缓存用户实例。
@@ -554,13 +554,13 @@ namespace Gentings.AspNetCore
         private IPermissionAuthorizationService PermissionAuthorizationService => _permissionAuthorizationService ??= GetRequiredService<IPermissionAuthorizationService>();
 
         /// <summary>
-        /// 判断当前用户是否是管理员。
+        /// 判断当前用户是否具有管理员权限。
         /// </summary>
         /// <returns>返回判断结果。</returns>
         public bool IsAdministrator() => PermissionAuthorizationService.IsAdministrator();
 
         /// <summary>
-        /// 判断当前用户是否是管理员。
+        /// 判断当前用户是否具有管理员权限。
         /// </summary>
         /// <returns>返回判断结果。</returns>
         public Task<bool> IsAdministratorAsync() => PermissionAuthorizationService.IsAdministratorAsync();

@@ -54,7 +54,7 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
             if (!string.IsNullOrEmpty(Home))
             {
                 links.Remove(Home);
-                output.Content.AppendHtml($"<li><a href=\"{Href}\">{Home}</a></li>");
+                output.Content.AppendHtml($"<li class=\"breadcrumb-item\"><a href=\"{Href}\">{Home}</a></li>");
             }
             foreach (var link in links)
             {

@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Gentings.Security.Settings
+﻿namespace Gentings.Security.Settings
 {
     /// <summary>
     /// 配置管理接口。

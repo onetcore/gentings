@@ -5,9 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Gentings.Security.Settings
 {
     /// <summary>
-    /// 网站配置数据库操作适配器。
+    /// 用户配置数据库操作适配器。
     /// </summary>
-    [Table("sec_Settings")]
+    [Table("core_Users_Settings")]
     public class SettingsAdapter 
     {
         /// <summary>

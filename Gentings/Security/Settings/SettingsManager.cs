@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Gentings.Data;
+﻿using Gentings.Data;
 using Gentings.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;

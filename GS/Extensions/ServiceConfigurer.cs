@@ -32,7 +32,7 @@ namespace GS.Extensions
                 .AddServices(services =>
                 {
                     services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                    .AddPermission()//添加权限验证
+                    .AddPermissionAuthorization()//添加权限验证
                     .AddCookie(options =>
                     {
                         options.LoginPath = new PathString("/login");

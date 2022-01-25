@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Gentings.Extensions.OpenServices
+﻿namespace Gentings.Extensions.OpenServices
 {
     /// <summary>
     /// 应用管理接口。

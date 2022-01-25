@@ -12,7 +12,7 @@ namespace GS.Extensions.Security
     /// <summary>
     /// 管理员管理接口。
     /// </summary>
-    public interface IUserManager : IObjectManager<User>, IUserService
+    public interface IUserManager : IObjectManager<User>, Gentings.Security.IUserManager
     {
         /// <summary>
         /// 获取当前登录用户。

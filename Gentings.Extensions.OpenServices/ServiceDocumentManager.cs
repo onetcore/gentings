@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Gentings.Extensions.OpenServices.ApiDocuments;
+﻿using Gentings.Extensions.OpenServices.ApiDocuments;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.Caching.Memory;
 

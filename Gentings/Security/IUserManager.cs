@@ -3,7 +3,7 @@
     /// <summary>
     /// 获取缓存用户接口。
     /// </summary>
-    public interface IUserService : IScopedService
+    public interface IUserManager : IScopedService
     {
         /// <summary>
         /// 获取缓存用户实例。

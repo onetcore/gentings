@@ -1,7 +1,6 @@
 ﻿using Markdig.Helpers;
 using Markdig.Parsers;
 using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Gentings.Documents.Markdown
 {

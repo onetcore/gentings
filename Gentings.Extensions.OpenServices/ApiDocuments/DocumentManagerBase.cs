@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.Caching.Memory;
-using System.Collections.Generic;
 
 namespace Gentings.Extensions.OpenServices.ApiDocuments
 {

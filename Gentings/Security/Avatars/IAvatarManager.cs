@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Gentings.Storages;
+﻿using Gentings.Storages;
 using Microsoft.AspNetCore.Http;
 
 namespace Gentings.Security.Avatars

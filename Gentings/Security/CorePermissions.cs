@@ -19,6 +19,5 @@
         /// 开发者权限，建站时候初始化的信息。
         /// </summary>
         public const string Developer = "core.developer";
-
     }
 }

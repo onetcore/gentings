@@ -1,8 +1,7 @@
-﻿using Gentings.Security.Avatars;
-using Gentings.Storages;
+﻿using Gentings.Storages;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gentings.Security.Controllers
+namespace Gentings.Security.Avatars
 {
     /// <summary>
     /// 头像控制器。
@@ -33,9 +32,7 @@ namespace Gentings.Security.Controllers
         {
             var file = _avatarManager.GetFile(userid, size);
             if (!file.Exists)
-            {
                 return NotFound();
-            }
 
             return PhysicalFile(file.FullName, file.Extension.GetContentType());
         }

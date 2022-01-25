@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Gentings.Extensions.OpenServices
+﻿namespace Gentings.Extensions.OpenServices
 {
     /// <summary>
     /// 开发服务管理接口。

@@ -1,6 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Gentings.Storages;
+﻿using Gentings.Storages;
 using Microsoft.AspNetCore.Http;
 
 namespace Gentings.Security.Avatars
@@ -30,21 +28,15 @@ namespace Gentings.Security.Avatars
         /// <returns>返回文件实例。</returns>
         public IStorageFile GetFile(int userId, int size)
         {
-            var path = GetPath(userId);
-            var defaultFile = _storageDirectory.GetFile(path + "default.png");
+            var defaultFile = _storageDirectory.GetFile($"avatars/{userId}/default.png");
             if (size <= 0 || size == Size)
-            {
                 return defaultFile;
-            }
 
-            var currentFile = _storageDirectory.GetFile(path + $"{size}.png");
+            var currentFile = _storageDirectory.GetFile($"avatars/{userId}/{size}.png");
             if (!currentFile.Exists)
-            {
                 currentFile.Resize(size, size).MoveTo($"{size}.png");
-            }
 
             return currentFile;
-
         }
 
         /// <summary>
@@ -58,20 +50,13 @@ namespace Gentings.Security.Avatars
             var tempFile = await _storageDirectory.SaveToTempAsync(file);
             tempFile = tempFile.Resize(Size, Size);
             //上传头像新文件，把老文件删除
-            var path = _storageDirectory.GetPhysicalPath(GetPath(userId));
+            var path = _storageDirectory.GetPhysicalPath($"avatars/{userId}/");
             if (Directory.Exists(path))
-            {
                 Directory.Delete(path, true);
-            }
 
             path = Path.Combine(path, "default.png").MakeDirectory();
             tempFile.MoveTo(path);
             return $"/s-avatars/{userId}.png";
-        }
-
-        private string GetPath(int userId)
-        {
-            return $"avatars/{userId}/";
         }
     }
 }

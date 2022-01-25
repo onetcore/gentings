@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Abstractions;
-using System.Linq;
 
 namespace Gentings.Extensions.OpenServices
 {
