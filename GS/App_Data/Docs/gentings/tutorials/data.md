@@ -11,32 +11,32 @@ title: 数据库迁移
 在EntityFramework中会自动生成迁移代码，而在Gentings中需要手动编写数据库迁移代码，当然也提供了自动生成插件，这个后面在进行介绍，具体代码如下：
 
 ```csharp
+/// <summary>
+/// 数据库迁移类。
+/// </summary>
+public class UserDataMigration : DataMigration
+{
     /// <summary>
-    /// 数据库迁移类。
+    /// 当模型建立时候构建的表格实例。
     /// </summary>
-    public class UserDataMigration : DataMigration
+    /// <param name="builder">迁移实例对象。</param>
+    public override void Create(MigrationBuilder builder)
     {
-        /// <summary>
-        /// 当模型建立时候构建的表格实例。
-        /// </summary>
-        /// <param name="builder">迁移实例对象。</param>
-        public override void Create(MigrationBuilder builder)
-        {
-            builder.CreateTable<User>(table => table
-               .Column(x => x.Id)
-               .Column(x => x.UserName)
-               .Column(x => x.Password)
-               .Column(x => x.NickName)
-               .Column(x => x.Email)
-               .Column(x => x.CreatedDate)
-               .Column(x => x.UpdatedDate)
-               .Column(x => x.LastLoginDate)
-               .Column(x => x.Avatar)
-               .Column(x => x.LoginIP)
-               .Column(x => x.ExtendProperties)
-            );
-        }
+        builder.CreateTable<User>(table => table
+            .Column(x => x.Id)
+            .Column(x => x.UserName)
+            .Column(x => x.Password)
+            .Column(x => x.NickName)
+            .Column(x => x.Email)
+            .Column(x => x.CreatedDate)
+            .Column(x => x.UpdatedDate)
+            .Column(x => x.LastLoginDate)
+            .Column(x => x.Avatar)
+            .Column(x => x.LoginIP)
+            .Column(x => x.ExtendProperties)
+        );
     }
+}
 ```
 
 ## 代码解析

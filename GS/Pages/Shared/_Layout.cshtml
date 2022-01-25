@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "_Global";
     ViewData["SiteName"] = SiteSettings.SiteName;
+    ViewData["ClassName"] = "theme-dark";
 }
 @inject SiteSettings SiteSettings
 @inject GS.Extensions.Security.User CurrentUser
@@ -9,7 +10,15 @@
     <header class="sticky-top" style="z-index:1030;">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">GS</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <svg class="icon" viewBox="0 0 430 430" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="currentColor"
+                              d="m214.18,1.71c-117.79,0 -213.28,95.49 -213.28,213.29a213.62,213.62 0 0 0 5.5,48l203.6,-214.29l14.6,15.75l109.91,116.79l-62.26,-5l-60.36,-63.08l-149.73,154.43a430.19,430.19 0 0 1 65.32,-31.9c112.44,-43.65 227.14,-35.51 297.26,13.24a214.63,214.63 0 0 0 2.72,-33.94c0,-117.8 -95.46,-213.29 -213.28,-213.29z" />
+                        <path fill="currentColor"
+                              d="m259.7,241.18l-0.11,0c-17.73,-2.22 -37.4,-1.73 -59,1.16c-48.81,6 -93.63,22.91 -126.07,38.25a295.46,295.46 0 0 0 -51.72,28.54a213.2,213.2 0 0 0 339,59.79c2.85,-30.67 -3.72,-59.45 -21.06,-82.6c-19.88,-26.49 -46.85,-40.84 -81.04,-45.14z" />
+                    </svg>
+                    云顶创联
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,7 +32,7 @@
                             <a class="nav-link text-dark" .class-active="@ViewBag.IsApis" href="/apidocs">API</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" .class-active="@ViewBag.IsDocs" href="/docs" resource="true" resource-name="layout">文档</a>
+                            <a class="nav-link text-dark" .class-active="@ViewBag.IsDocs" href="/docs/gentings" resource="true" resource-name="layout">文档</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">

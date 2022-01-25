@@ -5,22 +5,25 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     /// <summary>
     /// 样式标签。
     /// </summary>
+    [HtmlTargetElement("*", Attributes = AttributeName)]
     [HtmlTargetElement("*", Attributes = ClassValuesPrefix + "*")]
     public class ClassTagHelper : TagHelperBase
     {
+        private const string AttributeName = ".class";
         private const string ClassValuesPrefix = ".class-";
         private const string ClassValuesDictionaryName = ".class-data";
-        private IDictionary<string, bool?>? _classNames;
 
         /// <summary>
         /// 样式列表。
         /// </summary>
         [HtmlAttributeName(ClassValuesDictionaryName, DictionaryAttributePrefix = ClassValuesPrefix)]
-        public IDictionary<string, bool?> ClassNames
-        {
-            get => _classNames ??= new Dictionary<string, bool?>(StringComparer.OrdinalIgnoreCase);
-            set => _classNames = value;
-        }
+        public IDictionary<string, bool?> ClassNames { get; set; } = new Dictionary<string, bool?>(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
+        /// 样式名称。
+        /// </summary>
+        [HtmlAttributeName(AttributeName)]
+        public object? ClassName { get; set; }
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -29,8 +32,15 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            var classNames = ClassNames.Where(x => x.Value == true).Select(x => x.Key).ToArray();
-            output.AddClass(classNames);
+            if (ClassNames.Count > 0)
+            {
+                var classNames = ClassNames.Where(x => x.Value == true).Select(x => x.Key).ToArray();
+                output.AddClass(classNames);
+            }
+
+            var className = ClassName?.ToString()?.Trim();
+            if (!string.IsNullOrEmpty(className))
+                output.AddClass(className);
         }
     }
 }

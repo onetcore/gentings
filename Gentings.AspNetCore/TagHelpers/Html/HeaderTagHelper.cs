@@ -91,6 +91,11 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.AppendStyle("/lib/bootstrap-icons/font/bootstrap-icons", isDevelopment);
             }
 
+            if ((libraries & ImportLibrary.GtDocs) == ImportLibrary.GtDocs)
+            {
+                output.AppendStyle("/css/gt-docs", isDevelopment);
+            }
+
             if ((libraries & ImportLibrary.CodeMirror) == ImportLibrary.CodeMirror)
             {
                 output.AppendStyle("/lib/codemirror/codemirror", isDevelopment);

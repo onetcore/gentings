@@ -110,6 +110,10 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.AppendScript("/lib/highlightjs-line-numbers.js/highlightjs-line-numbers", isDevelopment);
                 output.AppendHtml("<script>if (window.hljs) {$.fn.highlight = function(){return this.each(function () {hljs.highlightBlock(this);hljs.lineNumbersBlock(this);});};onrender(function(context){$('pre code', context).highlight();});}</script>");
             }
+            if ((libraries & ImportLibrary.GtDocs) == ImportLibrary.GtDocs)
+            {
+                output.AppendScript("/js/gt-docs", isDevelopment);
+            }
             if ((libraries & ImportLibrary.GtEditor) == ImportLibrary.GtEditor)
             {
                 output.AppendScript("/lib/marked/marked", isDevelopment);

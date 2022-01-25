@@ -53,6 +53,10 @@ CodeMirror = 0x20,
 /// MD简易编辑器。
 /// </summary>
 GtEditor = 0x40,
+/// <summary>
+/// 文档样式和脚本。
+/// </summary>
+GtDocs = 0x80,
 ```
 
 ## 例子

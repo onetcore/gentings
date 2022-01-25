@@ -1,14 +1,3 @@
-﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "首页";
-    ViewBag.Layout = "_Docs";
-    ViewContext.AddLibraries(ImportLibrary.Highlight);
-}
-
-<div class="card mb-3">
-    <div class="card-body txt">
-        <gt:markdown extensions="@(MarkdownExtension.Advanced|MarkdownExtension.Bootstrap|MarkdownExtension.Yaml)">
 ---
 title: Gentings核心模块介绍
 ---
@@ -19,7 +8,7 @@ Gentings程序集为所有基于Gentings框架进行.NET6+快速开发的基础�
 
 Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后来出现的微服务，前后端分离等等，现在除了网页模块也还添加的`Socket`，`WebSocket`，控制台等应用功能。
 
-> [!note]
+> [!warning]
 > 本核心模块介绍主要是介绍Gentings程序集中的功能内容，本程序集主要是数据库操作抽象接口，以及在.NET开发中都会运用到的功能内容，有些内容会对相应的功能进行衍生，那样详细的应用会在单独扩展的程序集中进行介绍。
 
 ## 自动注册容器服务模块
@@ -31,10 +20,6 @@ Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后�
 此模块主要包含了MVC和Razor Page开发中使用到的辅助类，包含`ControllerBase`以及`ModelBase`，这里要特别提到的一个管道调用接口`IApplicationConfigurer`，这里可以手动调用，而管道所在的位置就是在`Program.cs`中使用`app.UseGentings(builder.Configuration);`地方。
 
 > [!warning]
-> 如果没有特殊说明，所有优先级属性`Priority`，都是值越大越靠前！
-
-
-> [!important]
 > 如果没有特殊说明，所有优先级属性`Priority`，都是值越大越靠前！
 
 在Gentings的AspNetCore开发中，所有返回给客户端的格式都是固定的，具体代码如下：
@@ -62,30 +47,30 @@ Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后�
 在Gentings中也对WebSocket进行了相应的封装，如果需要开启这个功能，需要在管道中调用WebSocket处理器。
 
 ```csharp
-    app.UseWebSocketHandler();
+app.UseWebSocketHandler();
 ```
 
 在框架中使用的是`method:hanlder`方式来处理数据包，具体的接口代码如下：
 
 ```csharp
+/// <summary>
+/// WebSocket处理接口。
+/// </summary>
+public interface IWebSocketHandler : IServices
+{
     /// <summary>
-    /// WebSocket处理接口。
+    /// 处理方法唯一键。
     /// </summary>
-    public interface IWebSocketHandler : IServices
-    {
-        /// <summary>
-        /// 处理方法唯一键。
-        /// </summary>
-        string Method { get; }
+    string Method { get; }
 
-        /// <summary>
-        /// 执行方法。
-        /// </summary>
-        /// <param name="socket">当前Socket实例。</param>
-        /// <param name="data">获取数据。</param>
-        /// <returns>返回执行任务实例。</returns>
-        Task ExecuteAsync(IWebSocket socket, string data);
-    }
+    /// <summary>
+    /// 执行方法。
+    /// </summary>
+    /// <param name="socket">当前Socket实例。</param>
+    /// <param name="data">获取数据。</param>
+    /// <returns>返回执行任务实例。</returns>
+    Task ExecuteAsync(IWebSocket socket, string data);
+}
 ```
 
 ## 控制台命令支持
@@ -93,17 +78,17 @@ Gentings的初衷是为了更快的开发BS整体应用而设计的，由于后�
 这个主要是控制台程序，可以在控制台输入一些管理员命令辅助管理使用，在于AspNetCore中使用的比较少。要对控制台命令的支持，需要在`program.cs`中显示调用如下代码：
 
 ```csharp
-    /// <summary>
-    /// 启动应用程序，在控制台程序中的Main方法中调用。
-    /// </summary>
-    /// <param name="host">服务器宿主。</param>
-    public static async Task StartCommandHostAsync(this IHost host);
+/// <summary>
+/// 启动应用程序，在控制台程序中的Main方法中调用。
+/// </summary>
+/// <param name="host">服务器宿主。</param>
+public static async Task StartCommandHostAsync(this IHost host);
 ```
 
 这样在控制台中，就可以敲入命令，进行一些辅助操作，命令格式如下：
 
-```ssh
-    .debug off
+```sh
+.debug off
 ```
 
 要实现命令操作，只要继承接口`ICommandHandler`即可。
@@ -124,6 +109,3 @@ Gentings程序集中还包含了其他很多功能，一些常用而且很有用
 
 1. AspNetCore模块：主要是开发网页或者API相关基础功能，[点击访问](./aspnetcore/index.md)。
 2. Commands模块：这个主要是控制台程序，可以在控制台输入一些管理员命令辅助管理使用，在于AspNetCore中使用的比较少，[点击访问](./commands.md)。
-        </gt:markdown>
-    </div>
-</div>

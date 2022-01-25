@@ -19,99 +19,99 @@
     - name: Gentings核心模块
       items:
         - name: Gentings核心模块介绍
-          href: ./gentings/index.md
+          href: ./core/index.md
         - name: Gentings服务注册
-          href: ./gentings/service.md
+          href: ./core/service.md
     - name: Gentings数据库操作
       items:
         - name: Gentings数据库操作介绍
-          href: ./gentings/data/index.md
+          href: ./data/index.md
         - name: Gentings实体类定义
-          href: ./gentings/data/entity.md
+          href: ./data/entity.md
         - name: Gentings实体类特性
-          href: ./gentings/data/attributes.md
+          href: ./data/attributes.md
         - name: Gentings数据库迁移
-          href: ./gentings/data/migration.md
+          href: ./data/migration.md
         - name: Gentings数据库增删改查等操作
-          href: ./gentings/data/query.md
+          href: ./data/query.md
         - name: Gentings数据库事务操作
-          href: ./gentings/data/transaction.md
+          href: ./data/transaction.md
         - name: Gentings数据库多表查询
-          href: ./gentings/data/join.md
+          href: ./data/join.md
         - name: Gentings数据库分页查询
-          href: ./gentings/data/page.md
+          href: ./data/page.md
         - name: Gentings数据初始化后台服务
-          href: ./gentings/data/initializer.md
+          href: ./data/initializer.md
         - name: Gentings单Id主键对象扩展查询
-          href: ./gentings/data/idobject.md
+          href: ./data/idobject.md
     - name: Gentings.AspNetCore功能模块
       items:
         - name: Gentings.AspNetCore模块介绍
-          href: ./gentings/aspnetcore/index.md
+          href: ./aspnetcore/index.md
         - name: Razor Page模型功能
-          href: ./gentings/aspnetcore/modelbase.md
+          href: ./aspnetcore/modelbase.md
         - name: WebAPI控制器功能
-          href: ./gentings/aspnetcore/controllerbase.md
+          href: ./aspnetcore/controllerbase.md
         - name: JSON消息结果
-          href: ./gentings/aspnetcore/json-result.md
+          href: ./aspnetcore/json-result.md
         - name: WebSocket功能集成
-          href: ./gentings/aspnetcore/websocket.md
+          href: ./aspnetcore/websocket.md
     - name: Razor Pages功能模块
       items:
         - name: Razor Pages功能模块介绍
-          href: ./gentings/razorpages/index.md
+          href: ./razorpages/index.md
         - name: Razor Pages后台集成菜单
-          href: ./gentings/razorpages/menus.md
+          href: ./razorpages/menus.md
         - name: Razor Pages前端资源本地化
-          href: ./gentings/razorpages/localization.md
+          href: ./razorpages/localization.md
         - name: Razor UI库静态资源集成功能
-          href: ./gentings/razorpages/resources.md
+          href: ./razorpages/resources.md
         - name: 图片验证码功能集成
-          href: ./gentings/razorpages/verify.md
+          href: ./razorpages/verify.md
 - name: TagHelper标签集合
   items:
     - name: TagHelper介绍
-      href: ./gentings/taghelpers/index.md
+      href: ./taghelpers/index.md
     - name: gt:header标签
-      href: ./gentings/taghelpers/gt.header.md
+      href: ./taghelpers/gt.header.md
     - name: gt:footer标签
-      href: ./gentings/taghelpers/gt.footer.md
+      href: ./taghelpers/gt.footer.md
     - name: gt:page分页标签
-      href: ./gentings/taghelpers/gt.page.md
+      href: ./taghelpers/gt.page.md
     - name: gt:page-dropdownlist分页标签
-      href: ./gentings/taghelpers/gt.page-dropdownlist.md
-    - name: markdown呈现标签
-      href: ./gentings/taghelpers/markdown.md
-    - name: gt:markdown编辑器标签
-      href: ./gentings/taghelpers/gt.markdown.md
+      href: ./taghelpers/gt.page-dropdownlist.md
+    - name: gt:markdown呈现标签
+      href: ./taghelpers/gt.markdown.md
+    - name: gt:markdown-editor标签
+      href: ./taghelpers/gt.markdown-editor.md
     - name: gt:icon图标标签
-      href: ./gentings/taghelpers/gt.icon.md
+      href: ./taghelpers/gt.icon.md
     - name: gt:languages语言标签
-      href: ./gentings/taghelpers/gt.languages.md
+      href: ./taghelpers/gt.languages.md
     - name: HTML属性标记标签
       items:
         - name: 设置属性".attr-"标签
-          href: ./gentings/taghelpers/html.attribute.md
+          href: ./taghelpers/html.attribute.md
         - name: 设置样式类型".class-"标签
-          href: ./gentings/taghelpers/html.class.md
+          href: ./taghelpers/html.class.md
         - name: 设置样式".css-"标签
-          href: ./gentings/taghelpers/html.css.md
+          href: ./taghelpers/html.css.md
         - name: 设置开发模式".dev-"标签
-          href: ./gentings/taghelpers/html.dev.md
+          href: ./taghelpers/html.dev.md
         - name: 设置图标".icon"或".icon-type"标签
-          href: ./gentings/taghelpers/html.icon.md
+          href: ./taghelpers/html.icon.md
         - name: 设置图片"img.error"标签
-          href: ./gentings/taghelpers/img.error.md
+          href: ./taghelpers/img.error.md
         - name: 设置样式编译标签
-          href: ./gentings/taghelpers/style.mix.md
+          href: ./taghelpers/style.mix.md
         - name: 设置显示属性标签
-          href: ./gentings/taghelpers/html.visible.md
+          href: ./taghelpers/html.visible.md
         - name: 设置空对象属性标签
-          href: ./gentings/taghelpers/html.warning.md
+          href: ./taghelpers/html.warning.md
         - name: 设置权限".permission"标签
-          href: ./gentings/taghelpers/html.permission.md
+          href: ./taghelpers/html.permission.md
         - name: 设置按钮样式标签
-          href: ./gentings/taghelpers/html.button.md
+          href: ./taghelpers/html.button.md
 - name: UI脚本库
   items:
     - name: UI库简单介绍

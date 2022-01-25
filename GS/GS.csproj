@@ -4,7 +4,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Gentings.AspNetCore.Docs\Gentings.AspNetCore.Docs.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.Emails\Gentings.AspNetCore.Emails.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.Events\Gentings.AspNetCore.Events.csproj" />
     <ProjectReference Include="..\Gentings.AspNetCore.NamedStrings\Gentings.AspNetCore.NamedStrings.csproj" />

@@ -1,8 +1,8 @@
-﻿@import "../../../Gentings.AspNetCore/wwwroot/lib/bootstrap/scss/functions";
-@import "../../../Gentings.AspNetCore/wwwroot/src/scss/variables";
-@import "../../../Gentings.AspNetCore/wwwroot/lib/bootstrap/scss/mixins";
-@import "../../../Gentings.AspNetCore/wwwroot/lib/bootstrap/scss/utilities";
-@import "../../../Gentings.AspNetCore/wwwroot/src/scss/utilities";
+﻿@import "../../lib/bootstrap/scss/functions";
+@import "variables";
+@import "../../lib/bootstrap/scss/mixins";
+@import "../../lib/bootstrap/scss/utilities";
+@import "utilities";
 
 main > .container-fluid {
     padding: 0;

@@ -873,8 +873,8 @@ body.fullscreen {
 // article
 article, .marked, .mozmd-preview {
     blockquote {
-        padding: 10px 15px 1px 15px;
-        border-left: 3px solid #ccc;
+        padding: 10px 15px;
+        border-left: 3px solid $primary;
         font-size: inherit !important;
     }
 
@@ -887,7 +887,6 @@ article, .marked, .mozmd-preview {
     pre {
         border: 1px solid #efeeee;
         border-radius: 4px;
-        white-space: break-spaces;
         margin-bottom: 1rem;
         position: relative;
 
@@ -945,6 +944,14 @@ article, .marked, .mozmd-preview {
 
         > p {
             margin-bottom: 0;
+        }
+    }
+}
+// break code spaces
+@include media-breakpoint-up(md) {
+    article, .marked, .mozmd-preview {
+        pre {
+            white-space: break-spaces;
         }
     }
 }

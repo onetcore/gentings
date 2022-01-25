@@ -14,5 +14,13 @@
   {
     "outputFile": "wwwroot/js/gt-editor.js",
     "inputFile": "wwwroot/src/gt-editor.js"
+  },
+  {
+    "outputFile": "wwwroot/css/gt-docs.css",
+    "inputFile": "wwwroot/src/scss/gt-docs.scss"
+  },
+  {
+    "outputFile": "wwwroot/js/gt-docs.js",
+    "inputFile": "wwwroot/src/gt-docs.js"
   }
 ]

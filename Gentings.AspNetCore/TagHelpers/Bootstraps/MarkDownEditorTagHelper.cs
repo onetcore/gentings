@@ -8,44 +8,44 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
     /// <summary>
     /// MarkDown编辑器。
     /// </summary>
-    [HtmlTargetElement("gt:markdown")]
-    public class MarkDownTagHelper : ViewContextableTagHelperBase
+    [HtmlTargetElement("gt:markdown-editor")]
+    public class MarkDownEditorTagHelper : ViewContextableTagHelperBase
     {
         /// <summary>
         /// 源码模型属性。
         /// </summary>
         [HtmlAttributeName("md-for")]
-        public ModelExpression SourceFor { get; set; }
+        public ModelExpression? SourceFor { get; set; }
 
         /// <summary>
         /// HTML模型属性。
         /// </summary>
         [HtmlAttributeName("html-for")]
-        public ModelExpression HtmlFor { get; set; }
+        public ModelExpression? HtmlFor { get; set; }
 
         /// <summary>
         /// 源码名称。
         /// </summary>
         [HtmlAttributeName("md-name")]
-        public string SourceName { get; set; }
+        public string? SourceName { get; set; }
 
         /// <summary>
         /// HTML名称。
         /// </summary>
         [HtmlAttributeName("html-name")]
-        public string HtmlName { get; set; }
+        public string? HtmlName { get; set; }
 
         /// <summary>
         /// 值。
         /// </summary>
         [HtmlAttributeName("value")]
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// 上传图片文件地址。
         /// </summary>
         [HtmlAttributeName("upload")]
-        public string UploadUrl { get; set; }
+        public string? UploadUrl { get; set; }
 
         /// <summary>
         /// 初始化当前标签上下文。

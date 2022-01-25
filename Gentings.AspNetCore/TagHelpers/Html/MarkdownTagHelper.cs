@@ -6,7 +6,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     /// <summary>
     /// Markdown语法标签实例。
     /// </summary>
-    [HtmlTargetElement("markdown")]
+    [HtmlTargetElement("gt:markdown")]
     public class MarkdownTagHelper : TagHelperBase
     {
         /// <summary>

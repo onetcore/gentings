@@ -1,4 +1,5 @@
-﻿using Gentings.Documents;
+﻿using Gentings.AspNetCore;
+using Gentings.Documents;
 using Gentings.Documents.Markdown;
 using Gentings.Documents.TableOfContent;
 using Gentings.Storages;
@@ -8,9 +9,12 @@ using Markdig.Helpers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
+namespace Gentings.AspNetCore.Documents
 {
-    public class IndexModel : ModelBase
+    /// <summary>
+    /// 文档展示页面基类。
+    /// </summary>
+    public abstract class DocModelBase : ModelBase
     {
         /// <summary>
         /// 文章内容。
@@ -20,7 +24,7 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
         /// <summary>
         /// 当前目录实例。
         /// </summary>
-        public Toc Toc { get; private set; }
+        public Toc? Toc { get; private set; }
 
         /// <summary>
         /// 展示Markdown文档实例。
@@ -41,10 +45,17 @@ namespace Gentings.AspNetCore.Docs.Areas.Docs.Pages
                 return RedirectPermanent($"/{culture}/docs/{url}");
             ViewData["IsDocs"] = true;
             ViewData["Current"] = path.Replace('/', '-');
+            PageContext.AddLibraries(ImportLibrary.Highlight | ImportLibrary.GtDocs);
             await InitAsync(physicalPath);
             await InitTocAsync(directory, culture);
-            return Page();
+            return await OnAfterGettedAsync();
         }
+
+        /// <summary>
+        /// 获取所有文档之后执行的方法，提供子类重写。
+        /// </summary>
+        /// <returns>返回当前页面实例。</returns>
+        protected virtual async Task<IActionResult> OnAfterGettedAsync() => await Task.FromResult(Page());
 
         private async Task InitTocAsync(DirectoryInfo directory, string? culture)
         {

@@ -12048,8 +12048,8 @@ body.fullscreen {
 }
 
 article blockquote, .marked blockquote, .mozmd-preview blockquote {
-  padding: 10px 15px 1px 15px;
-  border-left: 3px solid #ccc;
+  padding: 10px 15px;
+  border-left: 3px solid #2c7be5;
   font-size: inherit !important;
 }
 article img, .marked img, .mozmd-preview img {
@@ -12060,7 +12060,6 @@ article img, .marked img, .mozmd-preview img {
 article pre, .marked pre, .mozmd-preview pre {
   border: 1px solid #efeeee;
   border-radius: 4px;
-  white-space: break-spaces;
   margin-bottom: 1rem;
   position: relative;
 }
@@ -12108,9 +12107,13 @@ article div.pmb-0 > p, .marked div.pmb-0 > p, .mozmd-preview div.pmb-0 > p {
   margin-bottom: 0;
 }
 
+@media (min-width: 768px) {
+  article pre, .marked pre, .mozmd-preview pre {
+    white-space: break-spaces;
+  }
+}
 pre {
   margin: 0;
-  overflow: visible;
   font-family: "Cascadia Mono", "Courier New";
 }
 

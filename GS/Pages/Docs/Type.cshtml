@@ -1,17 +1,13 @@
 ﻿@page "/docs/type/{type}"
+@using Gentings.Documents.XmlDocuments
 @model TypeModel
-@{
-    ViewContext.AddLibraries(ImportLibrary.Highlight);
-    ViewData["Title"] = Model.Type.GetRealTypeName();
-    ViewData["IsDocs"] = true;
-}
 
 <div class="docs-wrapper flex-column p-3" style="margin-top:-1rem;">
     <div class="d-flex align-items-center p-3 mb-3 text-white-50 bg-primary rounded shadow-sm">
         <div class="icon-48 text-uppercase">@Model.TagName</div>
         <div class="px-3" style="flex:auto;">
             <h2 class="mb-0 text-white">@ViewBag.Title</h2>
-            <small>@Model.TypeDescriptor.Summary</small>
+            <small>@Model.TypeDescriptor!.Summary</small>
         </div>
         <a href="#" onclick="history.go(-1);return false;" title="返回" style="font-size:2rem;color:var(--bs-light);" .icon="bi-reply"></a>
     </div>
@@ -22,7 +18,7 @@
                 <thead>
                     <tr>
                         <th>属性名称</th>
-                        @if (Model.Type.IsEnum)
+                        @if (Model.Type!.IsEnum)
                         {
                         <th>值</th>
                         }
@@ -63,16 +59,17 @@
                             {
                                 continue;
                             }
+                            var propertyType = property.PropertyType;
                             <tr>
                                 <td>@property.Name</td>
                                 <td>
-                                    @if (property.PropertyType.IsLinkable())
+                                    @if (propertyType.IsLinkable())
                                     {
-                                        <a asp-route-type="@property.PropertyType.FullName">@property.PropertyType.GetRealTypeName()</a>
+                                        <a asp-route-type="@propertyType.FullName">@propertyType.GetRealTypeName()</a>
                                     }
                                     else
                                     {
-                                        <span>@property.PropertyType.GetRealTypeName()</span>
+                                        <span>@propertyType.GetRealTypeName()</span>
                                     }
                                 </td>
                                 <td>

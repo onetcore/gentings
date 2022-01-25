@@ -9,7 +9,7 @@ Footer标签为HTML中`body`最后中使用，主要用于引入集成的脚本�
 ## 使用方法
 
 ```html
-<gt:footer status="" antiforgery=""></gt:footer>
+<gt:footer status="true" antiforgery="true"></gt:footer>
 ```
 
 参数说明：
