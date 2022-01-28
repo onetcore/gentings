@@ -1,3 +1,4 @@
+using Gentings.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Pages
@@ -25,15 +26,19 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Pages
             Input = _pageManager.Find(id);
             if (id > 0 && Input == null)
                 return NotFound();
+            Input ??= new Page
+            {
+                ImportLibraries = ImportLibrary.JQuery | ImportLibrary.Bootstrap
+            };
             return Page();
         }
 
         public IActionResult OnPost()
         {
             var isValid = true;
-            if (string.IsNullOrEmpty(Input.Key))
+            if (string.IsNullOrEmpty(Input.Name))
             {
-                ModelState.AddModelError("Input.Key", "唯一名称不能为空！");
+                ModelState.AddModelError("Input.Name", "唯一名称不能为空！");
                 isValid = false;
             }
             if (string.IsNullOrEmpty(Input.Title))

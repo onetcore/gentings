@@ -1,9 +1,11 @@
-﻿namespace Gentings.Extensions.Sites.Sections
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Gentings.Extensions.Sites.Sections.Defaults
 {
     /// <summary>
     /// 默认节点。
     /// </summary>
-    public class DefaultSection : SectionBase
+    public class DefaultSectionRender : SectionRenderBase
     {
         /// <summary>
         /// 默认名称。
@@ -38,6 +40,23 @@
         /// <summary>
         /// 配置地址。
         /// </summary>
-        public override string EditUrl => "/sites/backend/sections/edit";
+        public override string EditUrl => "./Defaults/Edit";
+
+        /// <summary>
+        /// 呈现节点实例。
+        /// </summary>
+        /// <param name="context">节点上下文。</param>
+        /// <param name="output">输出实例对象。</param>
+        /// <returns>当前节点呈现任务。</returns>
+        public override Task ProcessAsync(SectionContext context, TagBuilder output)
+        {
+            if (context.Section.SectionType == Name)
+            {
+                var source = context.Section.As<DefaultSection>();
+                if (source?.Html != null)
+                    output.InnerHtml.AppendHtml(source.Html);
+            }
+            return Task.CompletedTask;
+        }
     }
 }

@@ -15,18 +15,17 @@ namespace Gentings.Extensions.Sites
         {
             builder.CreateTable<Page>(table => table
                .Column(x => x.Id)
-               .Column(x => x.Key)
                .Column(x => x.Name)
+               .Column(x => x.Title)
                .Column(x => x.Disabled)
                .Column(x => x.DisplayMode)
-               .Column(x => x.Title)
                .Column(x => x.MenuId)
                .Column(x => x.TemplateName)
                .Column(x => x.CreatedDate)
                .Column(x => x.UpdatedDate)
                .Column(x => x.ExtendProperties)
             );
-            builder.CreateIndex<Page>(x => x.Key);
+            builder.CreateIndex<Page>(x => x.Name);
         }
     }
 }

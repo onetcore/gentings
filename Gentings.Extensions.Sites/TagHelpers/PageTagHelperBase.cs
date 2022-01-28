@@ -12,7 +12,7 @@ namespace Gentings.Extensions.Sites.TagHelpers
         /// <summary>
         /// 当前页面模型上下文。
         /// </summary>
-        protected PageModelContext Context { get; private set; }
+        protected PageContext? Context { get; private set; }
 
         /// <summary>
         /// 初始化当前标签上下文。

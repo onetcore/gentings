@@ -144,7 +144,10 @@ namespace Gentings.Documents
                 var keys = new List<string>();
                 foreach (var selector in Selectors)
                 {
-                    keys.Add($"{key} {selector}");
+                    if (selector.StartsWith('&'))
+                        keys.Add($"{key}{selector[1..]}");
+                    else
+                        keys.Add($"{key} {selector}");
                 }
                 return $"{keys.Join()}{{{_values.Join(string.Empty)}}}";
             }

@@ -1,88 +1,27 @@
 ﻿@page
 @model EditModel
 @{
-    ViewContext.AddLibraries(ImportLibrary.CodeMirror);
-    ViewBag.Title = "编辑节点";
-    ViewBag.Current = "pages.index";
+    Layout = "_Modal";
+    ViewBag.Title = "配置节点";
 }
 
-<div class="card">
-    <div class="card-body">
-        <form method="post" class="tab-content">
-            <div class="tab-pane fade show active" id="home">
-                <input type="hidden" asp-for="Input.Id" />
-                <input type="hidden" asp-for="Input.PageId" />
-                <div class="mb-3">
-                    <gt:checkbox asp-for="Input.Disabled">是否禁用</gt:checkbox>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">节点类型</label>
-                    <gt:checkbox id="reset-default" class="mb-2">是否修改默认的HTML,样式以及脚本</gt:checkbox>
-                    <gt:section-dropdownlist onchange="setDefault(this.value)" asp-for="Input.SectionType"></gt:section-dropdownlist>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">显示名称</label>
-                    <input asp-for="Input.DisplayName" class="form-control" />
-                </div>
-            </div>
-            <div class="tab-pane fade" id="html">
-                <div class="mb-3">
-                    <textarea asp-for="Input.Html" class="CodeMirror" rows="20"></textarea>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="style">
-                <div class="mb-3">
-                    <textarea asp-for="Input.Style" class="CodeMirror" _mode="css" rows="20"></textarea>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="script">
-                <div class="mb-3">
-                    <textarea asp-for="Input.Script" class="CodeMirror" _mode="javascript" rows="20"></textarea>
-                </div>
-            </div>
-            <button type="submit" class="btn btn-primary">提交</button>
-        </form>
+<form method="post">
+    <input type="hidden" asp-for="Input.PageId" />
+    <input type="hidden" asp-for="Input.Id" />
+    <div class="mb-3">
+        <gt:checkbox asp-for="Input.Disabled">是否禁用</gt:checkbox>
     </div>
-</div>
-
-@section navigator{
-<ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item active">
-        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab">基础</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="html-tab" data-bs-toggle="tab" href="#html" role="tab">HTML</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="style-tab" data-bs-toggle="tab" href="#style" role="tab">样式</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="script-tab" data-bs-toggle="tab" href="#script" role="tab">脚本</a>
-    </li>
-</ul>
-}
-
-@*@section right{
-    <div class="btn-group btn-group-sm">
-    <a .visible="@(!string.IsNullOrEmpty(Model.Section.EditUrl))" class="btn btn-outline-secondary btn-sm" .icon="fa-cog" asp-page="@Model.Section.EditUrl" asp-route-id="@Model.Input.Id"> 配置</a>
-    <buttom class="btn btn-outline-secondary btn-sm" .icon="fa-reply" onclick="history.go(-1)"> 返回</buttom>
+    <div class="mb-3">
+        <label class="form-label">唯一名称(<small class="text-danger">*不能修改，使用英文</small>)</label>
+        <input asp-for="Input.Name" class="form-control text-lowercase" .attr-readonly="@(Model.Input.Id>0)" />
+        <span asp-validation-for="Input.Name" class="text-danger"></span>
     </div>
-    }*@
-
-@section scripts
-{
-<script type="text/javascript">
-    function setDefault(name) {
-        if ($('#reset-default>input').is(':checked'))
-        {
-            $ajax('@Url.Page(null, "Section")', { name }, function (d) {
-                if (d) {
-                    $('#Input_Html').data('CodeMirror').setValue(d.html || '');
-                    $('#Input_Style').data('CodeMirror').setValue(d.style || '');
-                    $('#Input_Script').data('CodeMirror').setValue(d.script || '');
-                }
-            });
-        }
-    }
-</script>
-}
+    <div class="mb-3">
+        <label class="form-label">显示名称</label>
+        <input asp-for="Input.DisplayName" class="form-control" />
+    </div>
+    <div class="mb-3" .visible="@(Model.Input.Id<=0)">
+        <label class="form-label">类型(<small class="text-danger">*不能修改</small>)</label>
+        <gt:section-dropdownlist asp-for="Input.SectionType"></gt:section-dropdownlist>
+    </div>
+</form>

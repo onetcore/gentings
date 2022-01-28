@@ -28,7 +28,7 @@ namespace Gentings.Extensions.Sites.TagHelpers
         protected override IEnumerable<SelectListItem> Init()
         {
             var items = new List<SelectListItem>();
-            foreach (var section in _sectionManager.SectionTypes)
+            foreach (var section in _sectionManager.SectionRenderes)
             {
                 items.Add(new SelectListItem(section.DisplayName ?? section.Name, section.Name));
             }

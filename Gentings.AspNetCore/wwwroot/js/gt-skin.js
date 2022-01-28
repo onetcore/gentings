@@ -132,7 +132,7 @@ var resources = {
             }, function (e) {
                 submit.enabled();
                 if (error) error(e);
-            }, 'FormData');
+            }, false);
         },
         /**
          * 加载当前元素指定的模态框。
@@ -579,6 +579,7 @@ var resources = {
             processData = _error;
             _error = undefined;
         }
+
         var options = {
             url: url,
             data: data,

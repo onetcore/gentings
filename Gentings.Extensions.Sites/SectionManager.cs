@@ -1,5 +1,6 @@
 ﻿using Gentings.Data;
 using Gentings.Extensions.Sites.Sections;
+using Gentings.Extensions.Sites.Sections.Defaults;
 using System.Collections.Concurrent;
 
 namespace Gentings.Extensions.Sites
@@ -12,14 +13,14 @@ namespace Gentings.Extensions.Sites
         /// <summary>
         /// 节点呈现模板列表。
         /// </summary>
-        IEnumerable<ISection> SectionTypes { get; }
+        IEnumerable<ISectionRender> SectionRenderes { get; }
 
         /// <summary>
         /// 通过节点类型名称获取节点呈现模板实例。
         /// </summary>
         /// <param name="sectionType">节点类型名称。</param>
         /// <returns>节点呈现模板实例。</returns>
-        ISection GetSection(string? sectionType);
+        ISectionRender GetSectionRender(string? sectionType);
 
         /// <summary>
         /// 上移一个位置。
@@ -41,36 +42,64 @@ namespace Gentings.Extensions.Sites
     /// </summary>
     public class SectionManager : ObjectManager<Section>, ISectionManager
     {
-        private readonly ConcurrentDictionary<string, ISection> _sections;
+        private readonly ConcurrentDictionary<string, ISectionRender> _sections;
 
         /// <summary>
         /// 初始化类<see cref="Section"/>。
         /// </summary>
         /// <param name="context">数据库操作接口实例。</param>
         /// <param name="sections">节点模板呈现列表。</param>
-        public SectionManager(IDbContext<Section> context, IEnumerable<ISection> sections) : base(context)
+        public SectionManager(IDbContext<Section> context, IEnumerable<ISectionRender> sections) : base(context)
         {
-            _sections = new ConcurrentDictionary<string, ISection>(sections.OrderByDescending(x => x.Priority).ToDictionary(x => x.Name), StringComparer.OrdinalIgnoreCase);
+            _sections = new ConcurrentDictionary<string, ISectionRender>(sections.OrderByDescending(x => x.Priority).ToDictionary(x => x.Name), StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
         /// 节点呈现模板列表。
         /// </summary>
-        public IEnumerable<ISection> SectionTypes => _sections.Values;
+        public IEnumerable<ISectionRender> SectionRenderes => _sections.Values;
 
         /// <summary>
         /// 通过节点类型名称获取节点呈现模板实例。
         /// </summary>
         /// <param name="sectionType">节点类型名称。</param>
         /// <returns>节点呈现模板实例。</returns>
-        public ISection GetSection(string? sectionType)
+        public ISectionRender GetSectionRender(string? sectionType)
         {
-            if(!_sections.TryGetValue(sectionType?? DefaultSection.Default, out var section))
+            if (!_sections.TryGetValue(sectionType ?? DefaultSectionRender.Default, out var section))
             {
-                section = _sections[DefaultSection.Default];
+                section = _sections[DefaultSectionRender.Default];
             }
             return section;
         }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <returns>返回添加结果。</returns>
+        public override bool Create(Section model)
+        {
+            if (model.Id == 0)
+                model.Order = 1 + Context.Max(x => x.Order, x => x.PageId == model.PageId);
+            model.SectionTypeName ??= GetSectionRender(model.SectionType).DisplayName;
+            return base.Create(model);
+        }
+
+        /// <summary>
+        /// 添加实例。
+        /// </summary>
+        /// <param name="model">添加对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回添加结果。</returns>
+        public override async Task<bool> CreateAsync(Section model, CancellationToken cancellationToken = default)
+        {
+            if (model.Id == 0)
+                model.Order = 1 + await Context.MaxAsync(x => x.Order, x => x.PageId == model.PageId, cancellationToken);
+            model.SectionTypeName ??= GetSectionRender(model.SectionType).DisplayName;
+            return await base.CreateAsync(model, cancellationToken);
+        }
+
         /// <summary>
         /// 上移一个位置。
         /// </summary>
@@ -101,6 +130,27 @@ namespace Gentings.Extensions.Sites
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// 判断是否重复。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <returns>返回判断结果。</returns>
+        public override bool IsDuplicated(Section model)
+        {
+            return Context.Any(x => x.Name == model.Name && x.PageId == model.PageId && x.Id != model.Id);
+        }
+
+        /// <summary>
+        /// 判断是否重复。
+        /// </summary>
+        /// <param name="model">模型实例对象。</param>
+        /// <param name="cancellationToken">取消标识。</param>
+        /// <returns>返回判断结果。</returns>
+        public override Task<bool> IsDuplicatedAsync(Section model, CancellationToken cancellationToken = default)
+        {
+            return Context.AnyAsync(x => x.Name == model.Name && x.PageId == model.PageId && x.Id != model.Id, cancellationToken);
         }
     }
 }

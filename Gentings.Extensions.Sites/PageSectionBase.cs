@@ -1,9 +1,9 @@
 ﻿namespace Gentings.Extensions.Sites
 {
     /// <summary>
-    /// 源码实体基类。
+    /// 页面或节点实体基类。
     /// </summary>
-    public abstract class SourceEntityBase : SourceBase, IIdObject
+    public abstract class PageSectionBase : ExtendBase, IIdObject
     {
         /// <summary>
         /// 获取或设置唯一Id。
@@ -15,7 +15,6 @@
         /// 唯一名称。
         /// </summary>
         [Size(64)]
-        [NotUpdated]
         public string? Name { get; set; }
 
         /// <summary>

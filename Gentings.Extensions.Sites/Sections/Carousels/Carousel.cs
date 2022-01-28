@@ -93,6 +93,6 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
         /// 内容HTML代码。
         /// </summary>
         [NotMapped]
-        public string CaptionHTML { get => this[nameof(CaptionHTML)]; set => this[nameof(CaptionHTML)] = value; }
+        public string HTML { get => this[nameof(HTML)]; set => this[nameof(HTML)] = value; }
     }
 }

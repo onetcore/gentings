@@ -6,8 +6,18 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
     /// <summary>
     /// Carousel节点。
     /// </summary>
-    public class CarouselSection : SectionBase
+    public class CarouselSection : SectionRenderBase
     {
+        private readonly ICarouselManager _carouselManager;
+        /// <summary>
+        /// 初始化类<see cref="CarouselSection"/>。
+        /// </summary>
+        /// <param name="carouselManager">滚动管理接口。</param>
+        public CarouselSection(ICarouselManager carouselManager)
+        {
+            _carouselManager = carouselManager;
+        }
+
         /// <summary>
         /// 图标地址。
         /// </summary>
@@ -16,7 +26,7 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
         /// <summary>
         /// 显示名称。
         /// </summary>
-        public override string DisplayName => "Carousel滑动节点";
+        public override string DisplayName => "滚动节点";
 
         /// <summary>
         /// 配置地址。
@@ -26,7 +36,7 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
         /// <summary>
         /// 样式。
         /// </summary>
-        public override string Style => @".carousel{z-index:-1;}";
+        public override string Style => @"&.carousel{z-index:-1;}";
 
         /// <summary>
         /// 呈现节点实例。
@@ -34,25 +44,24 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
         /// <param name="context">节点上下文。</param>
         /// <param name="output">输出实例对象。</param>
         /// <returns>当前节点呈现任务。</returns>
-        public override async Task ProcessAsync(SectionContext context, TagHelperOutput output)
+        public override async Task ProcessAsync(SectionContext context, TagBuilder output)
         {
-            context.Container.AddCssClass("slide");
-            context.Container.AddCssClass("carousel");
-            context.Container.MergeAttribute("data-bs-ride", "carousel");
-            var carousels = await context.GetRequiredService<ICarouselManager>()
-                .FetchAsync(x => x.SectionId == context.SectionId && !x.Disabled);
+            output.AddCssClass("slide");
+            output.AddCssClass("carousel");
+            output.MergeAttribute("data-bs-ride", "carousel");
+            var carousels = await _carouselManager.FetchAsync(x => x.SectionId == context.Section.Id && !x.Disabled);
             if (!carousels.Any())
                 return;
             // 滚动条
             carousels = carousels.OrderBy(x => x.Order);
             var indicators = new TagBuilder("ol");
             indicators.AddCssClass("carousel-indicators");
-            context.AppendHtml(indicators);
+            output.InnerHtml.AppendHtml(indicators);
             var index = 0;
             foreach (var carousel in carousels)
             {
                 var li = new TagBuilder("li");
-                li.MergeAttribute("data-bs-target", $"#{context.Id}");
+                li.MergeAttribute("data-bs-target", $"#{context.Section.UniqueId}");
                 li.MergeAttribute("data-bs-slide-to", index.ToString());
                 if (index == 0)
                     li.AddCssClass("active");
@@ -62,7 +71,7 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
             // 图片以及描述
             var inner = new TagBuilder("div");
             inner.AddCssClass("carousel-inner");
-            context.AppendHtml(inner);
+            output.InnerHtml.AppendHtml(inner);
             index = 0;
             foreach (var carousel in carousels)
             {
@@ -86,9 +95,9 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
                 var caption = new TagBuilder("div");
                 item.InnerHtml.AppendHtml(caption);
                 caption.AddCssClass("carousel-caption d-none d-md-block");
-                if (!string.IsNullOrWhiteSpace(carousel.CaptionHTML))
+                if (!string.IsNullOrWhiteSpace(carousel.HTML))
                 {
-                    caption.InnerHtml.AppendHtml(carousel.CaptionHTML);
+                    caption.InnerHtml.AppendHtml(carousel.HTML);
                 }
                 else if (!string.IsNullOrEmpty(carousel.Title))
                 {

@@ -1,54 +1,62 @@
-using Gentings.Extensions.Sites.Sections;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
 {
     /// <summary>
-    /// 编辑节点。
+    /// 配置节点。
     /// </summary>
     public class EditModel : ModelBase
     {
-        private readonly ISectionManager _sectionManager;
-
-        public EditModel(ISectionManager sectionManager)
-        {
-            _sectionManager = sectionManager;
-        }
-
         /// <summary>
         /// 输入模型。
         /// </summary>
         [BindProperty]
-        public Section Input { get; set; }
+        public Section? Input { get; set; }
 
-        /// <summary>
-        /// 当前节点类型。
-        /// </summary>
-        public ISection Section { get; private set; }
-
-        public IActionResult OnGet(int id)
+        public IActionResult OnGet(int id, int pid)
         {
-            Input = _sectionManager.Find(id);
-            if (Input == null)
+            if (id > 0)
+            {
+                Input = SectionManager.Find(id);
+                if (Input == null)
+                    return NotFound();
+            }
+            else if (pid <= 0)
                 return NotFound();
-            Section = _sectionManager.GetSection(Input.SectionType);
+            else
+                Input = new Section { PageId = pid };
             return Page();
         }
 
         public IActionResult OnPost()
         {
-            Section = _sectionManager.GetSection(Input.SectionType);
-            Input.UpdatedDate = DateTimeOffset.Now;
-            var result = _sectionManager.Save(Input);
-            if (result)
-                return SuccessPage("你已经成功更新了节点！", "Index", routeValues: new { pid = Input.PageId });
-            return ErrorPage(result.ToString("节点"));
-        }
+            var isValid = true;
+            if (string.IsNullOrEmpty(Input!.Name))
+            {
+                ModelState.AddModelError("Input.Name", "唯一名称不能为空！");
+                isValid = false;
+            }
 
-        public IActionResult OnPostSection(string name)
-        {
-            var section = _sectionManager.GetSection(name);
-            return Json(new { section.Html, section.Style, section.Script });
+            Input.Name = Input.Name!.ToLower();
+            if (string.IsNullOrEmpty(Input.DisplayName))
+            {
+                Input.DisplayName = Input.Name;
+            }
+
+            if (isValid)
+            {
+                var entity = Input.Id == 0 ? Input : SectionManager.Find(Input.Id);
+                if (Input.Id > 0)
+                {
+                    entity.Disabled = Input.Disabled;
+                    entity.DisplayName = Input.DisplayName;
+                    entity.Name = Input.Name;
+                }
+                var result = SectionManager.Save(Input);
+                return Json(result, "节点");
+            }
+
+            return Page();
         }
     }
 }

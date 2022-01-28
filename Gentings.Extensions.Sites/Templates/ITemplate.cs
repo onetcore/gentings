@@ -3,7 +3,7 @@
     /// <summary>
     /// 页面模板。
     /// </summary>
-    public interface IPageTemplate : IServices
+    public interface ITemplate : IServices
     {
         /// <summary>
         /// 唯一名称。

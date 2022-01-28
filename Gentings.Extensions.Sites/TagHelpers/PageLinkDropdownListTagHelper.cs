@@ -27,7 +27,7 @@ namespace Gentings.Extensions.Sites.TagHelpers
         protected override async Task<IEnumerable<SelectListItem>> InitAsync()
         {
             var items = await _pageManager.AsQueryable().WithNolock()
-                .Select(x => new { x.Title, x.Key })
+                .Select(x => new { x.Title, x.Name })
                 .AsEnumerableAsync(reader => new SelectListItem(reader.GetString(0), reader.GetString(1).ToString()));
             foreach (var item in items)
             {

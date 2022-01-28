@@ -22,9 +22,22 @@ namespace Gentings.Extensions.Sites.Templates
             var page = await GetRequiredService<IPageManager>().FindAsync(path);
             if (page == null || page.Disabled)
                 return NotFound();
+
+            // 访问权限验证
+            switch (page.DisplayMode)
+            {
+                case DisplayMode.Anonymous:
+                    if (IsAuthenticated)
+                        return BadRequest();
+                    break;
+                case DisplayMode.Authorized:
+                    if (!IsAuthenticated)
+                        return Forbid();
+                    break;
+            }
             var template = GetRequiredService<ITemplateManager>().GetTemplate(page.TemplateName);
             var sections = await GetRequiredService<ISectionManager>().FetchAsync(x => x.PageId == page.Id);
-            Context = new PageModelContext(page, sections, template, Settings);
+            Context = new PageContext(page, sections, template, Settings);
             AddData("Model", Context);
             AddData("Title", page.Title);
             AddData("Keyword", page.Keyword);
@@ -36,7 +49,7 @@ namespace Gentings.Extensions.Sites.Templates
         /// <summary>
         /// 当前模型上下文。
         /// </summary>
-        public PageModelContext Context { get; private set; }
+        public PageContext Context { get; private set; }
 
         /// <summary>
         /// 添加视图数据。

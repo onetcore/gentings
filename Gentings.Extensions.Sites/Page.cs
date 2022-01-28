@@ -7,14 +7,8 @@ namespace Gentings.Extensions.Sites
     /// 页面类型。
     /// </summary>
     [Table("site_Pages")]
-    public class Page : SourceEntityBase
+    public class Page : PageSectionBase
     {
-        /// <summary>
-        /// 唯一键，主要用于URL。
-        /// </summary>
-        [Size(64)]
-        public string? Key { get; set; }
-
         /// <summary>
         /// 标题。
         /// </summary>
@@ -110,10 +104,5 @@ namespace Gentings.Extensions.Sites
         /// </summary>
         [Size(64)]
         public string? TemplateName { get; set; }
-
-        /// <summary>
-        /// 访问地址。
-        /// </summary>
-        public string Url => Key == "/" ? "/" : $"/pages/{Key}";
     }
 }

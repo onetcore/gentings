@@ -123,7 +123,6 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             {
                 output.AppendScript("/lib/codemirror/codemirror", isDevelopment);
                 output.AppendScript("/lib/codemirror/addon/mode/loadmode", isDevelopment);
-                //output.AppendScript("/lib/codemirror/mode/htmlmixed/htmlmixed", isDevelopment);
                 // 代码提示
                 output.AppendScript("/lib/codemirror/addon/hint/show-hint", isDevelopment);
                 output.AppendScript("/lib/codemirror/addon/hint/javascript-hint", isDevelopment);
@@ -141,7 +140,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 output.AppendScript("/lib/codemirror/addon/fold/comment-fold", isDevelopment);
                 output.AppendScript("/lib/codemirror/addon/fold/xml-fold", isDevelopment);
                 // 匹配代码
-                output.AppendScript("/js/codemirror", isDevelopment);
+                output.AppendScript("/js/gt-codemirror", isDevelopment);
             }
         }
     }

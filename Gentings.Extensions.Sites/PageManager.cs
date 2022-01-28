@@ -11,9 +11,9 @@ namespace Gentings.Extensions.Sites
         /// <summary>
         /// 通过唯一键获取页面实例。
         /// </summary>
-        /// <param name="key">唯一键。</param>
+        /// <param name="name">唯一键。</param>
         /// <returns>返回页面实例。</returns>
-        Task<Page> FindAsync(string key);
+        Task<Page?> FindAsync(string name);
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ namespace Gentings.Extensions.Sites
         /// <returns>返回判断结果。</returns>
         public override bool IsDuplicated(Page model)
         {
-            return Context.Any(x => x.Key == model.Key && x.Id != model.Id);
+            return Context.Any(x => x.Name == model.Name && x.Id != model.Id);
         }
 
         /// <summary>
@@ -47,22 +47,22 @@ namespace Gentings.Extensions.Sites
         /// <returns>返回判断结果。</returns>
         public override Task<bool> IsDuplicatedAsync(Page model, CancellationToken cancellationToken = default)
         {
-            return Context.AnyAsync(x => x.Key == model.Key && x.Id != model.Id, cancellationToken);
+            return Context.AnyAsync(x => x.Name == model.Name && x.Id != model.Id, cancellationToken);
         }
 
         /// <summary>
         /// 通过唯一键获取页面实例。
         /// </summary>
-        /// <param name="key">唯一键。</param>
+        /// <param name="name">唯一键。</param>
         /// <returns>返回页面实例。</returns>
-        public virtual async Task<Page> FindAsync(string key)
+        public virtual async Task<Page?> FindAsync(string name)
         {
-            var page = await Context.FindAsync(x => x.Key == key);
-            if(page == null && key == "/")//首页不存在，则自动创建一个
+            var page = await Context.FindAsync(x => x.Name == name);
+            if (page == null && name == "/")//首页不存在，则自动创建一个
             {
                 page = new Page()
                 {
-                    Key = key,
+                    Name = name,
                     Title = Resources.HomePage
                 };
                 await CreateAsync(page);

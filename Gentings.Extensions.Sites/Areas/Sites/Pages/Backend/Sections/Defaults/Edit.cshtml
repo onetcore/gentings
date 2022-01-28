@@ -1,0 +1,48 @@
+﻿@page
+@model EditModel
+@{
+    ViewContext.AddLibraries(ImportLibrary.CodeMirror);
+    ViewBag.Title = "编辑节点";
+    ViewBag.Current = "pages.index";
+}
+
+<form method="post">
+    <div class="card">
+        <div class="card-header">
+            <h2>@Model.Section!.DisplayName</h2>
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item active">
+                    <a class="nav-link active" id="html-tab" data-bs-toggle="tab" href="#html" role="tab">html</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="style-tab" data-bs-toggle="tab" href="#style" role="tab">css</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="script-tab" data-bs-toggle="tab" href="#script" role="tab">js</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body px-0 pt-0">
+            <div class="tab-content CodeMirror-border-bottom">
+                <input type="hidden" name="pid" value="@Model.Section.PageId" />
+                <input type="hidden" asp-for="Input!.Id" />
+                <div class="tab-pane fade show active" id="html">
+                    <div class="mb-3">
+                        <textarea asp-for="Input!.Html" class="CodeMirror" rows="12"></textarea>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="style">
+                    <div class="mb-3">
+                        <textarea asp-for="Input!.Style" class="CodeMirror" _mode="css" rows="12"></textarea>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="script">
+                    <div class="mb-3">
+                        <textarea asp-for="Input!.Script" class="CodeMirror" _mode="javascript" rows="12"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary ms-3">提交</button>
+            </div>
+        </div>
+    </div>
+</form>

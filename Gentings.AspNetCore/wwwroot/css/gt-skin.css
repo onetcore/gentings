@@ -12227,3 +12227,15 @@ code.hljs {
 .CodeMirror .CodeMirror-gutters {
   border-color: #d2ddec;
 }
+
+.CodeMirror-border-none .CodeMirror {
+  border: 0;
+  border-radius: 0;
+}
+
+.CodeMirror-border-bottom .CodeMirror {
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0;
+}

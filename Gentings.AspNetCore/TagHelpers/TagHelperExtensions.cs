@@ -106,8 +106,8 @@ namespace Gentings.AspNetCore.TagHelpers
         public static async Task AppendHtmlAsync(this TagHelperOutput output, string tagName, Func<TagBuilder, Task> action)
         {
             var builder = new TagBuilder(tagName);
-            await action(builder);
             output.Content.AppendHtml(builder);
+            await action(builder);
         }
 
         /// <summary>

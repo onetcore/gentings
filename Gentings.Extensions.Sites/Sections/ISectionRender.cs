@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gentings.Extensions.Sites.Sections
 {
     /// <summary>
-    /// Html节点接口。
+    /// Html节点呈现接口。
     /// </summary>
-    public interface ISection : IServices
+    public interface ISectionRender : IServices
     {
         /// <summary>
         /// 优先级。
@@ -58,6 +58,6 @@ namespace Gentings.Extensions.Sites.Sections
         /// <param name="context">节点上下文。</param>
         /// <param name="output">输出实例对象。</param>
         /// <returns>当前节点呈现任务。</returns>
-        Task ProcessAsync(SectionContext context, TagHelperOutput output);
+        Task ProcessAsync(SectionContext context, TagBuilder output);
     }
 }

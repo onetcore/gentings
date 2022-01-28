@@ -10,9 +10,7 @@
             <gt:action-group>
                 <gt:action typeof="Add" asp-page="./edit" asp-route-sid="@Model.SectionId">添加</gt:action>
                 <gt:action typeof="Link" asp-page="../edit" asp-route-id="@Model.SectionId" icon="Pencil">编辑</gt:action>
-                <gt:action typeof="Divider"></gt:action>
                 <gt:action typeof="Delete" confirm="你确定要删除所选择滚动项目吗？" asp-page-handler="Delete"></gt:action>
-                <gt:action typeof="Divider"></gt:action>
                 <gt:action href="#" typeof="Link" onclick="history.go(-1); return false;" icon="ReplyAll">返回</gt:action>
             </gt:action-group>
         </div>

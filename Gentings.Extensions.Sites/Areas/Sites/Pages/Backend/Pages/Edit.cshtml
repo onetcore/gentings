@@ -16,8 +16,8 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">唯一名称</label>
-                    <input asp-for="Input.Key" class="form-control" />
-                    <span asp-validation-for="Input.Key" class="text-danger"></span>
+                    <input asp-for="Input.Name" class="form-control" />
+                    <span asp-validation-for="Input.Name" class="text-danger"></span>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">标题</label>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">显示模式</label>
-                    <gt:enum-radiolist asp-for="Input.DisplayMode"></gt:enum-radiolist>
+                    <gt:enum-radiolist ignore="DisplayMode.Anonymous" asp-for="Input.DisplayMode"></gt:enum-radiolist>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">提交</button>

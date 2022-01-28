@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Razor.TagHelpers;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Gentings.Extensions.Sites.Sections
 {
     /// <summary>
     /// HTML代码节点基类。
     /// </summary>
-    public abstract class SectionBase : ISection
+    public abstract class SectionRenderBase : ISectionRender
     {
         /// <summary>
         /// 优先级。
@@ -58,15 +58,6 @@ namespace Gentings.Extensions.Sites.Sections
         /// <param name="context">节点上下文。</param>
         /// <param name="output">输出实例对象。</param>
         /// <returns>当前节点呈现任务。</returns>
-        public virtual async Task ProcessAsync(SectionContext context, TagHelperOutput output)
-        {
-            if (string.IsNullOrWhiteSpace(context.Section.Html))
-            {
-                var content = await output.GetChildContentAsync();
-                context.AppendHtml(content);
-                return;
-            }
-            context.AppendHtml(context.Section.Html);
-        }
+        public abstract Task ProcessAsync(SectionContext context, TagBuilder output);
     }
 }

@@ -3,7 +3,7 @@
     /// <summary>
     /// 页面模板。
     /// </summary>
-    public class PageTemplate : IPageTemplate
+    public class DefaultTemplate : ITemplate
     {
         /// <summary>
         /// 默认模板。
@@ -35,6 +35,6 @@
         /// </summary>
         /// <param name="name">文件名称。</param>
         /// <returns>返回布局页面路径。</returns>
-        protected string GetDefaultPath(string name) => $"/Areas/Sites/Templates/_{name}.cshtml";
+        protected string GetDefaultPath(string name) => $"/Pages/Templates/_{name}.cshtml";
     }
 }
