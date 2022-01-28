@@ -88,15 +88,18 @@
 
 .docs-content {
   flex: 1 1 auto;
-  padding: 1rem 1rem 0 1rem;
-  padding-right: 300px;
+  padding: 1rem 0 0 1rem;
 }
 
 .docs-toc {
-  position: fixed;
-  right: 0;
-  width: 300px;
+  flex: 0 0 auto;
+  position: relative;
   padding: 1rem;
+  max-width: 300px;
+}
+.docs-toc > ul {
+  position: sticky;
+  top: 105px;
 }
 .docs-toc a {
   color: rgba(0, 0, 0, 0.65);

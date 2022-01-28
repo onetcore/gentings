@@ -13,24 +13,27 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 忽略值。
         /// </summary>
         [HtmlAttributeName("ignore")]
-        public Enum IgnoreValue { get; set; }
+        public Enum? IgnoreValue { get; set; }
 
         /// <summary>
         /// 忽略值。
         /// </summary>
         [HtmlAttributeName("ignores")]
-        public Enum[] IgnoreValues { get; set; }
+        public Enum[]? IgnoreValues { get; set; }
 
         /// <summary>
         /// 附加复选项目列表，文本/值。
         /// </summary>
         /// <param name="items">复选框项目列表实例。</param>
-        protected override void Init(IDictionary<string, object> items)
+        protected override void Init(IDictionary<string, object?> items)
         {
-            if (IgnoreValue != null)
-                Init(items, IgnoreValue.GetType());
-            else if (For != null)
+            if (For != null)
+            {
                 Init(items, For.ModelExplorer.ModelType);
+                Value = For.Model as Enum;
+            }
+            else if (IgnoreValue != null)
+                Init(items, IgnoreValue.GetType());
             else if (Value is Enum value)
                 Init(items, value.GetType());
             else
@@ -46,25 +49,16 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             return false;
         }
 
-        private object _value;
         /// <summary>
         /// 当前值。
         /// </summary>
         [HtmlAttributeName("value")]
-        public new object Value
-        {
-            get => _value;
-            set
-            {
-                _value = value;
-                base.Value = _value?.ToString();
-            }
-        }
+        public new Enum? Value { get; set; }
 
-        private void Init(IDictionary<string, object> items, Type type)
+        private void Init(IDictionary<string, object?> items, Type type)
         {
             if (type.IsNullableType())
-                type = Nullable.GetUnderlyingType(type);
+                type = Nullable.GetUnderlyingType(type)!;
             foreach (Enum value in Enum.GetValues(type))
             {
                 if (IsIgnore(value)) continue;

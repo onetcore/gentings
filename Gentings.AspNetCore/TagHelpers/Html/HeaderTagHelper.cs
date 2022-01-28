@@ -70,7 +70,9 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if (!string.IsNullOrWhiteSpace(Description))
                 output.Content.AppendHtml($"<meta name=\"description\" content=\"{Description}\" />");
             AppendLibraries(output);
-            output.AppendHtml(await output.GetChildContentAsync());
+            var content = await output.GetChildContentAsync();
+            if (!content.IsEmptyOrWhiteSpace)
+                output.AppendHtml(content.GetContent().Trim());
         }
 
         private void AppendLibraries(TagHelperOutput output)

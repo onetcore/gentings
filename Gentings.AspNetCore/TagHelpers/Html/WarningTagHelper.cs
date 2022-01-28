@@ -7,6 +7,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     /// <summary>
     /// 如果数据为空显示警告标签。
     /// </summary>
+    [HtmlTargetElement("*", Attributes = AttributeName)]
     [HtmlTargetElement("*", Attributes = DataAttributeName)]
     public class WarningTagHelper : TagHelperBase
     {
@@ -15,7 +16,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// 警告消息。
         /// </summary>
         [HtmlAttributeName(AttributeName)]
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// 横跨列数，在tbody,tr,td上使用。
@@ -28,7 +29,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// 是否显示警告标签。
         /// </summary>
         [HtmlAttributeName(DataAttributeName)]
-        public object Data { get; set; }
+        public object? Data { get; set; }
 
         /// <summary>
         /// 是否显示。
@@ -36,11 +37,13 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// <returns>返回判断结果。</returns>
         protected bool IsAttached()
         {
+            if (Data is null)
+                return true;
             if (Data is bool bValue)
                 return !bValue;
             if (Data is IEnumerable value)
                 return !value.GetEnumerator().MoveNext();
-            return Data == null;
+            return false;
         }
 
         /// <summary>

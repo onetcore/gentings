@@ -87,15 +87,20 @@ var resources = {
             return data;
         },
         /**
-         * 回调不包含no-js得所有元素。
-         * @param {Function} callback 回调函数。
+         * 循环执行每个元素的回调函数。
+         * @param {string|Function} event 事件唯一键或者回调函数。
+         * @param {Function|undefined} callback 回调函数。
          */
-        exec: function exec(callback) {
+        exec: function exec(event, callback) {
+            if (typeof event === 'function') {
+                callback = event;
+                event = undefined;
+            }
             return this.each(function () {
                 var current = $(this);
-                if (!current.hasClass('no-js')) {
-                    callback(current);
-                }
+                if (event && current.data(event)) return;
+                callback(current);
+                event && current.data(event, true);
             });
         },
         /**
@@ -127,7 +132,7 @@ var resources = {
             }, function (e) {
                 submit.enabled();
                 if (error) error(e);
-            });
+            }, 'FormData');
         },
         /**
          * 加载当前元素指定的模态框。
@@ -212,7 +217,7 @@ var resources = {
     // 默认需要执行的方法
     onrender(function (context) {
         // 点击事件
-        $('[_click]', context).exec(function (current) {
+        $('[_click]', context).exec('@click', function (current) {
             var eventType = current.attr('_click').trim().toLowerCase();
             var target = current.target();
             // 展示对象元素，点击元素外的对象隐藏对象元素
@@ -325,7 +330,7 @@ var resources = {
                                                 location.href = location.href;
                                             } //如果成功没有返回数据，则刷新页面
                                             current.trigger('success', d.data);
-                                        }, current.attr('_json') === 'false' ? undefined : 'JSON');
+                                        });
                                     }
                                     return false;
                                 case 'checked':
@@ -343,7 +348,7 @@ var resources = {
                                                     location.href = location.href;
                                                 } //如果成功没有返回数据，则刷新页面
                                                 else current.trigger('success', d.data);
-                                            }, current.attr('_json') === 'false' ? undefined : 'JSON');
+                                            });
                                         })();
                                     }
                                     return false;
@@ -366,7 +371,7 @@ var resources = {
                     }
         });
         // onchange时间
-        $('[_change]', context).exec(function (current) {
+        $('[_change]', context).exec('@change', function (current) {
             var eventType = current.attr('_change').toLowerCase();
             return current.on('change', function (event) {
                 var index = eventType.indexOf(':stop');
@@ -396,34 +401,36 @@ var resources = {
                                     location.href = location.href;
                                 } //如果成功没有返回数据，则刷新页面
                                 current.trigger('success', d.data);
-                            }, current.attr('_json') === 'false' ? undefined : 'JSON');
+                            });
                         }
                         return false;
                 }
             });
         });
         // 表格排序
-        $('table thead .sorting', context).on('click', function () {
-            // sort
-            var current = $(this);
-            var order = 'sorting-asc';
-            if (current.hasClass('sorting-asc')) {
-                current.json('desc', 'true');
-                order = 'sorting-desc';
-            } else {
-                current.json('desc', 'false');
-            }
-            current.parent().find('.sorting').removeClass('sorting-asc').removeClass('sorting-desc');
-            var query = current.addClass(order).json();
-            // form[method=get]
-            var search = {};
-            $('.toolbar form[method=get]', context).find('input,select,textarea').each(function () {
-                if (this.value) search[this.name] = this.value.trim();
+        $('table thead .sorting', context).exec('@click', function (current) {
+            return current.on('click', function () {
+                // sort
+                var current = $(this);
+                var order = 'sorting-asc';
+                if (current.hasClass('sorting-asc')) {
+                    current.json('desc', 'true');
+                    order = 'sorting-desc';
+                } else {
+                    current.json('desc', 'false');
+                }
+                current.parent().find('.sorting').removeClass('sorting-asc').removeClass('sorting-desc');
+                var query = current.addClass(order).json();
+                // form[method=get]
+                var search = {};
+                $('.toolbar form[method=get]', context).find('input,select,textarea').each(function () {
+                    if (this.value) search[this.name] = this.value.trim();
+                });
+                location.href = URL.toSearch(search, query);
             });
-            location.href = URL.toSearch(search, query);
         });
         // 表单
-        $('form[method=get]', context).exec(function (current) {
+        $('form[method=get]', context).exec("@form-get", function (current) {
             current.find('input,select,textarea').each(function () {
                 var name = this.name.toLowerCase();
                 var index = name.indexOf('.');
@@ -432,24 +439,28 @@ var resources = {
             });
         });
         // 多级菜单
-        $('.navbar-nav', context).find('.menu-1,.menu-2,.menu-3').on('hidden.bs.collapse', function (event) {
-            event.stopPropagation();
-            $(this).find('a[data-bs-toggle="collapse"]').addClass('collapsed').removeAttr('aria-expanded');
-            $(this).find('div').removeClass('show');
+        $('.navbar-nav', context).find('.menu-1,.menu-2,.menu-3').exec('@hidden-bs-collapse', function (current) {
+            return current.on('hidden.bs.collapse', function (event) {
+                event.stopPropagation();
+                $(this).find('a[data-bs-toggle="collapse"]').addClass('collapsed').removeAttr('aria-expanded');
+                $(this).find('div').removeClass('show');
+            });
         });
         // 选中显示toolbar
         $('.data-list', context).exec(function (current) {
             var actions = current.find('.checked-enabled');
             if (!actions.length) return;
-            var items = current.find('.data-item input[type=checkbox]');
-            current.find('input[type=checkbox]').on('click', function () {
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i].checked) {
-                        actions.enabled();
-                        return;
+            var items = current.find('.data-item input[type=checkbox]:not([name])');
+            current.find('input[type=checkbox]:not([name]').exec('@click-checked', function (cbox) {
+                cbox.on('click', function () {
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].checked) {
+                            actions.enabled();
+                            return;
+                        }
                     }
-                }
-                actions.disabled();
+                    actions.disabled();
+                });
             });
             for (var i = 0; i < items.length; i++) {
                 if (items[i].checked) {
@@ -461,7 +472,7 @@ var resources = {
         // 将当前值设为目标属性值。
         (function (names, context) {
             names.split(',').forEach(function (name) {
-                return $('[_v' + name + ']', context).exec(function (current) {
+                return $('[_v' + name + ']', context).exec('@v' + name, function (current) {
                     var target = $(current.attr('_v' + name + ''), context);
                     if (target.length) {
                         target.attr(name, current.val());
@@ -473,14 +484,14 @@ var resources = {
             });
         })("min,max", context);
         // ajax
-        $('form[_ajax=true] [type=submit]', context).exec(function (current) {
+        $('form[_ajax=true] [type=submit]', context).exec('@form-ajax-submit', function (current) {
             current.on('click', function () {
                 current.parents('form').ajaxSubmit();
                 return false;
             });
         });
         // card-collapse
-        $('.card-header.collapse', context).exec(function (current) {
+        $('.card-header.collapse', context).exec('@card-collapse', function (current) {
             current.on('click', function () {
                 if (current.hasClass('show')) {
                     current.toggleClass('show').parents('.card').find('.card-body').toggleClass('hide');
@@ -495,7 +506,7 @@ var resources = {
             });
         });
         // copy-code
-        $('[_event]', context).exec(function (current) {
+        $('[_event]', context).exec('@event', function (current) {
             current.attr('_event').trim().toLowerCase().split(':').forEach(function (action) {
                 switch (action.trim()) {
                     case 'code':
@@ -541,24 +552,31 @@ var resources = {
             });
         });
     });
+    // 挂接bootstrap，默认页面会自动挂接bootstrap相关操作
+    onrender(function (context) {
+        if (context === undefined) {
+            return;
+        } //页面加载
+        $('[data-bs-toggle=dropdown]', context).dropdown();
+    });
     /**
      * Ajax请求。
      * @param {string} url 请求的URL地址。
      * @param {Object} data 请求的数据对象。
-     * @param {Function|undefined} success 成功后执行的方法。
-     * @param {Function|undefined} error 发生错误时候执行的方法。
-     * @param {string|undefined} dataType 发送数据类型：'JSON'，不设置表示表单提交。
+     * @param {Function|undefined|boolean} success 成功后执行的方法。
+     * @param {Function|undefined|boolean} error 发生错误时候执行的方法。
+     * @param {boolean|undefined} processData 是否发送数据，默认使用JSON格式，如果设置为false，则使用FormData格式。
      */
-    window.$ajax = function (url, data, _success, _error, dataType) {
+    window.$ajax = function (url, data, _success, _error, processData) {
         if (typeof data === 'undefined') {
             data = {};
         }
-        if (typeof _success === 'string') {
-            dataType = _success;
+        if (typeof _success === 'boolean') {
+            processData = _success;
             _success = undefined;
         }
-        if (typeof _error === 'string') {
-            dataType = _error;
+        if (typeof _error === 'boolean') {
+            processData = _error;
             _error = undefined;
         }
         var options = {
@@ -576,11 +594,11 @@ var resources = {
                 errorHandler(e, _error);
             }
         };
-        if (dataType) {
-            options.dataType = dataType;
-        } else {
+        if (processData === false) {
             options.contentType = false;
             options.processData = false;
+        } else {
+            options.dataType = 'JSON';
         }
         $.ajax(options);
         return false;

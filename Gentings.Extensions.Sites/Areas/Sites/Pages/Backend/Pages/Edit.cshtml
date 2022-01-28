@@ -1,0 +1,89 @@
+﻿@page
+@model EditModel
+@{
+    ViewContext.AddLibraries(ImportLibrary.CodeMirror);
+    ViewBag.Title = "编辑页面";
+    ViewBag.Current = "pages.index";
+}
+
+<div class="card">
+    <div class="card-body">
+        <form method="post" class="tab-content">
+            <div class="tab-pane fade show active" id="home">
+                <input type="hidden" asp-for="Input.Id" />
+                <div class="mb-3">
+                    <gt:checkbox asp-for="Input.Disabled">是否关闭</gt:checkbox>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">唯一名称</label>
+                    <input asp-for="Input.Key" class="form-control" />
+                    <span asp-validation-for="Input.Key" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">标题</label>
+                    <input asp-for="Input.Title" class="form-control" />
+                    <span asp-validation-for="Input.Title" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">模板</label>
+                    <gt:template-dropdownlist asp-for="Input.TemplateName"></gt:template-dropdownlist>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">主菜单</label>
+                    <gt:page-menu-dropdownlist cname="main" asp-for="Input.MenuId" default-text="请选择主菜单" default-value="0"></gt:page-menu-dropdownlist>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">关键词</label>
+                    <textarea asp-for="Input.Keyword" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">描述</label>
+                    <textarea asp-for="Input.Description" class="form-control" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="hf">
+                <div class="mb-3">
+                    <label class="form-label">页面样式 <small class="text-secondary">(在body中添加样式！)</small></label>
+                    <input asp-for="Input.ClassName" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">引用脚本库</label>
+                    <gt:enum-checkboxlist asp-for="Input.FormImportLibraries" ignore="ImportLibrary.None"></gt:enum-checkboxlist>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">头部代码</label>
+                    <textarea asp-for="Input.Header" class="CodeMirror" _height="300px"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">尾部代码</label>
+                    <textarea asp-for="Input.Footer" class="CodeMirror" _height="300px"></textarea>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="others">
+                <div class="mb-3">
+                    <label class="form-label">宽屏显示</label>
+                    <gt:enabled-radioboxlist enabled="宽屏" disabled="居中" default="未设置" asp-for="Input.IsFluid"></gt:enabled-radioboxlist>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">显示模式</label>
+                    <gt:enum-radiolist asp-for="Input.DisplayMode"></gt:enum-radiolist>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+    </div>
+</div>
+
+@section navigator{
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item active">
+        <a class="nav-link active" id="home-tab" data-bs-toggle="tab" href="#home" role="tab">基础配置</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="hf-tab" data-bs-toggle="tab" href="#hf" role="tab">头尾代码</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="others-tab" data-bs-toggle="tab" href="#others" role="tab">其他选项</a>
+    </li>
+</ul>
+}

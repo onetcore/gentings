@@ -88,7 +88,7 @@ namespace Gentings.Extensions
             if (value == null)
                 _extendProperties.Remove(name);
             else
-                this[name] = value.ToString();
+                this[name] = value.ToString("D");
         }
 
         /// <summary>

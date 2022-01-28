@@ -27,9 +27,11 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// </summary>
         /// <param name="current">当前项目值。</param>
         /// <returns>返回判断结果。</returns>
-        protected override bool IsChecked(object current)
+        protected override bool IsChecked(object? current)
         {
-            return Value.Equals(current?.ToString(), StringComparison.OrdinalIgnoreCase);
+            if (Value == null && current == null)
+                return true;
+            return Value?.ToString().Equals(current?.ToString(), StringComparison.OrdinalIgnoreCase) == true;
         }
 
         /// <summary>

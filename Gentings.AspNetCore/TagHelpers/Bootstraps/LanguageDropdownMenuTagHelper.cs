@@ -1,5 +1,6 @@
 ﻿using Gentings.Localization;
 using Microsoft.AspNetCore.Razor.TagHelpers;
+using System;
 
 namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {
@@ -7,7 +8,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
     /// 语言下拉列表框。
     /// </summary>
     [HtmlTargetElement("gt:languages")]
-    [HtmlTargetElement("li", Attributes = "[dropdown=languages]")]
+    [HtmlTargetElement("*", Attributes = "[dropdown=languages]")]
     public class LanguageDropdownMenuTagHelper : ViewContextableTagHelperBase
     {
         private readonly ILocalizationCulture _localizationCulture;
@@ -37,10 +38,9 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (output.TagName == "li")
-                output.AddClass("dropdown");
-            else
-                output.TagName = null;
+            if (output.TagName == "gt:languages")
+                output.TagName = "li";
+            output.AddClass("dropdown");
             var current = GetCurrentCulture();
             var uri = ViewContext.HttpContext.Request.GetUri();
             output.AppendHtml("a", builder =>
@@ -58,17 +58,20 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                     builder.AddCssClass(MenuClass);
                 foreach (var culture in _localizationCulture.SupportedLanguages)
                 {
+                    var active = culture.Key.IsCulture(current);
                     builder.AppendTag("li", li =>
                     {
                         li.AppendTag("a", a =>
                         {
                             a.MergeAttribute("href", GetUrl(uri, culture.Key));
                             a.AddCssClass("dropdown-item");
-                            if (culture.Key.IsCulture(current))
-                                a.AddCssClass("active");
+                            if (active)
+                                a.MergeAttribute("style", "font-weight:600;");
                             a.AppendTag("span", span =>
                             {
-                                span.AddCssClass("bi-flag");
+                                if (!active)
+                                    span.MergeAttribute("style", "visibility:hidden");
+                                span.AddCssClass("bi-check-lg");
                             });
                             a.InnerHtml.AppendHtml(culture.Value);
                         });

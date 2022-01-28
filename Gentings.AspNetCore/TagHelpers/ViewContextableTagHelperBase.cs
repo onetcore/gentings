@@ -1,4 +1,5 @@
-﻿using Gentings.Localization;
+﻿using Gentings.AspNetCore.Localization;
+using Gentings.Localization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -89,6 +90,43 @@ namespace Gentings.AspNetCore.TagHelpers
                 }
                 return _localizer;
             }
+        }
+
+        private string? _culture;
+        /// <summary>
+        /// 当前语言。
+        /// </summary>
+        public string Culture
+        {
+            get
+            {
+                if (_culture == null)
+                {
+                    if (ViewContext.RouteData.Values.TryGetValue("culture", out var cultureInfo) && cultureInfo is not null)
+                        _culture = cultureInfo.ToString();
+                    else
+                        _culture = Thread.CurrentThread.CurrentUICulture.Name;
+                    _culture = LocalizationCulture.GetSupportedLanguage(_culture);
+                }
+                return _culture;
+            }
+        }
+
+        private ILocalizationCulture? _localizationCulture;
+        private ILocalizationCulture LocalizationCulture => _localizationCulture ??= GetRequiredService<ILocalizationCulture>();
+
+        private IResourceManager? _resourceManager;
+        /// <summary>
+        /// 获取UI前端资源。
+        /// </summary>
+        /// <param name="resourceName">资源文件名称。</param>
+        /// <param name="key">唯一键。</param>
+        /// <returns>返回前端资源，如果不存在返回<c>null</c>。</returns>
+        public virtual string? GetResource(string resourceName, string key)
+        {
+            if (_resourceManager == null)
+                _resourceManager = GetRequiredService<IResourceManager>();
+            return _resourceManager.GetResource(resourceName, key, Culture);
         }
     }
 }

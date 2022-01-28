@@ -27,6 +27,16 @@ namespace Gentings.Documents
         }
 
         /// <summary>
+        /// 样式字符串。
+        /// </summary>
+        /// <param name="key">唯一键，样式前缀。</param>
+        /// <returns>返回样式字符串。</returns>
+        public string ToString(string key)
+        {
+            return _style.ToString(key);
+        }
+
+        /// <summary>
         /// 样式实例。
         /// </summary>
         private class Style : IEnumerable<Syntax>
@@ -62,6 +72,16 @@ namespace Gentings.Documents
             {
                 return _styles.Join(" ");
             }
+
+            /// <summary>
+            /// 样式字符串。
+            /// </summary>
+            /// <param name="key">唯一键，样式前缀。</param>
+            /// <returns>返回样式字符串。</returns>
+            public string ToString(string key)
+            {
+                return _styles.Select(x => x.ToString(key)).Join(" ");
+            }
         }
 
         /// <summary>
@@ -73,9 +93,9 @@ namespace Gentings.Documents
             {
                 var selectors = source.ReadWhile(ref index, '{');
                 source.EscapeWhiteSpace(ref index);
-                Selector = selectors.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                Selectors = selectors.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(x => x.Trim())
-                    .Join();
+                    .ToArray();
                 while (index < source.Length)
                 {
                     if (source[index] == '}')
@@ -90,7 +110,7 @@ namespace Gentings.Documents
             /// <summary>
             /// 选择器。
             /// </summary>
-            public string Selector { get; }
+            public string[] Selectors { get; }
 
             private readonly List<NameValue> _values = new List<NameValue>();
 
@@ -111,7 +131,22 @@ namespace Gentings.Documents
             /// <returns>返回样式字符串。</returns>
             public override string ToString()
             {
-                return $"{Selector}{{{_values.Join(string.Empty)}}}";
+                return $"{Selectors.Join()}{{{_values.Join(string.Empty)}}}";
+            }
+
+            /// <summary>
+            /// 样式字符串。
+            /// </summary>
+            /// <param name="key">唯一键，样式前缀。</param>
+            /// <returns>返回样式字符串。</returns>
+            public string ToString(string key)
+            {
+                var keys = new List<string>();
+                foreach (var selector in Selectors)
+                {
+                    keys.Add($"{key} {selector}");
+                }
+                return $"{keys.Join()}{{{_values.Join(string.Empty)}}}";
             }
         }
 

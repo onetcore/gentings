@@ -12,7 +12,7 @@
         /// <param name="key">资源名称。</param>
         /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        string GetResource(Type type, string key, string? culture = null);
+        string? GetResource(Type type, string key, string? culture = null);
 
         /// <summary>
         /// 获取资源实例。
@@ -21,6 +21,6 @@
         /// <param name="key">资源名称。</param>
         /// <param name="culture">区域语言。</param>
         /// <returns>返回当前资源实例。</returns>
-        string GetResource(string resourceName, string key, string? culture = null);
+        string? GetResource(string resourceName, string key, string? culture = null);
     }
 }

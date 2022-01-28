@@ -98,6 +98,19 @@ namespace Gentings.AspNetCore.TagHelpers
         }
 
         /// <summary>
+        /// 附加HTML标签。
+        /// </summary>
+        /// <param name="output">当前输出实例。</param>
+        /// <param name="tagName">标签名称。</param>
+        /// <param name="action">HTML标签实例化方法。</param>
+        public static async Task AppendHtmlAsync(this TagHelperOutput output, string tagName, Func<TagBuilder, Task> action)
+        {
+            var builder = new TagBuilder(tagName);
+            await action(builder);
+            output.Content.AppendHtml(builder);
+        }
+
+        /// <summary>
         /// 获取属性值。
         /// </summary>
         /// <param name="output">当前输出实例。</param>

@@ -1,0 +1,50 @@
+﻿@page
+@model IndexModel
+@{
+    ViewBag.Title = "滚动项目管理";
+    ViewBag.Current = "pages.index";
+}
+<div class="card data-list">
+    <div class="card-header toolbar">
+        <div>
+            <gt:action-group>
+                <gt:action typeof="Add" asp-page="./edit" asp-route-sid="@Model.SectionId">添加</gt:action>
+                <gt:action typeof="Link" asp-page="../edit" asp-route-id="@Model.SectionId" icon="Pencil">编辑</gt:action>
+                <gt:action typeof="Divider"></gt:action>
+                <gt:action typeof="Delete" confirm="你确定要删除所选择滚动项目吗？" asp-page-handler="Delete"></gt:action>
+                <gt:action typeof="Divider"></gt:action>
+                <gt:action href="#" typeof="Link" onclick="history.go(-1); return false;" icon="ReplyAll">返回</gt:action>
+            </gt:action-group>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table" .warning="Model.Items" .warning-text="还没有添加任何滚动项目实例！">
+            <thead>
+                <tr>
+                    <th class="checkbox"><gt:checkall></gt:checkall></th>
+                    <th>标题</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr class="data-item">
+                        <td class="checkbox-only"><gt:checkbox value="@item.Id"></gt:checkbox></td>
+                        <td>
+                            @item.Title
+                            <i .visible="@(item.Disabled)" class="text-danger bi-lock" title="禁用"></i>
+                        </td>
+                        <td>
+                            <gt:action-dropdownmenu>
+                                <gt:action typeof="Edit" asp-page="./edit" asp-route-id="@item.Id"></gt:action>
+                                <gt:action typeof="Delete" confirm="你确定要删除“@item.Title”吗？" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
+                            </gt:action-dropdownmenu>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -22,5 +22,9 @@
   {
     "outputFile": "wwwroot/js/gt-docs.js",
     "inputFile": "wwwroot/src/gt-docs.js"
+  },
+  {
+    "outputFile": "wwwroot/js/codemirror.js",
+    "inputFile": "wwwroot/src/codemirror.js"
   }
 ]

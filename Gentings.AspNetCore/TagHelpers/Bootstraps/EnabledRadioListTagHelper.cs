@@ -33,6 +33,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
         public override void Init(TagHelperContext context)
         {
+            base.Init(context);
             if (NullText == null) NullText = Resources.EnabledRadioListTagHelper_Default;
             if (EnabledText == null) EnabledText = Resources.EnabledRadioListTagHelper_True;
             if (DisabledText == null) DisabledText = Resources.EnabledRadioListTagHelper_False;
@@ -42,11 +43,11 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 附加复选项目列表，文本/值。
         /// </summary>
         /// <param name="items">复选框项目列表实例。</param>
-        protected override void Init(IDictionary<string, object> items)
+        protected override void Init(IDictionary<string, object?> items)
         {
-            items.Add(EnabledText, true);
-            items.Add(NullText, null);
-            items.Add(DisabledText, false);
+            items.Add(EnabledText!, true);
+            items.Add(NullText!, null);
+            items.Add(DisabledText!, false);
         }
     }
 }

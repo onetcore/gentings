@@ -2352,7 +2352,7 @@ textarea.form-control-lg {
 .form-select:focus {
   border-color: #96bdf2;
   outline: 0;
-  box-shadow: 0 0 0 0.25rem rgba(44, 123, 229, 0.25);
+  box-shadow: 0;
 }
 .form-select[multiple], .form-select[size]:not([size="1"]) {
   padding-right: 0.75rem;
@@ -12218,4 +12218,12 @@ code.hljs {
 }
 .hljs-ln .hljs-ln-code {
   padding-left: 0.5rem;
+}
+
+.CodeMirror {
+  border: 1px solid #d2ddec;
+  border-radius: 0.25rem;
+}
+.CodeMirror .CodeMirror-gutters {
+  border-color: #d2ddec;
 }

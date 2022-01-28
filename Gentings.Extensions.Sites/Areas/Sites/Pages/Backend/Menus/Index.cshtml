@@ -1,0 +1,56 @@
+﻿@page
+@model IndexModel
+@{
+    ViewBag.Title = "菜单管理";
+    ViewBag.Current = "pages.menus";
+}
+
+<div class="card data-list">
+    <div class="card-header toolbar">
+        <div>
+            <gt:action-group>
+                <gt:action typeof="Add" asp-page="./edit"></gt:action>
+                <gt:action typeof="Delete" confirm="你确定要删除所选择分类吗？" asp-page-handler="Delete"></gt:action>
+            </gt:action-group>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <table class="table" .warning="Model.Items" .warning-text="还没有添加任何菜单分类！">
+            <thead>
+                <tr>
+                    <th class="checkbox"><gt:checkall></gt:checkall></th>
+                    <th>名称</th>
+                    <th>显示名称</th>
+                    <th>描述</th>
+                    <th class="text-center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr class="data-item">
+                        <td class="checkbox"><gt:checkbox value="@item.Id"></gt:checkbox></td>
+                        <td>
+                            @item.Name
+                        </td>
+                        <td>
+                            @item.DisplayName
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                        <td>
+                            <gt:action-dropdownmenu>
+                                <gt:action typeof="Edit" asp-page="./edit" asp-route-id="@item.Id"></gt:action>
+                                <gt:action typeof="Link" asp-page="./Menus" asp-route-cid="@item.Id" icon="ListTask">菜单</gt:action>
+                                <gt:action typeof="Divider"></gt:action>
+                                <gt:action typeof="Delete" confirm="你确定要删除“@item.Name”吗？" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
+                            </gt:action-dropdownmenu>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

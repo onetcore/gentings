@@ -8,10 +8,14 @@
 	<ItemGroup>
 		<EmbeddedResource Include="wwwroot\css\**" />
 		<EmbeddedResource Include="wwwroot\js\**" />
+		<None Remove="wwwroot\js\codemirror.js" />
+		<None Remove="wwwroot\js\codemirror.min.js" />
+		<None Remove="wwwroot\src\codemirror.js" />
 		<EmbeddedResource Include="wwwroot\lib\jquery\jquery.js" />
 		<EmbeddedResource Include="wwwroot\lib\jquery\jquery.min.js" />
 		<EmbeddedResource Include="wwwroot\lib\bootstrap\js\bootstrap.bundle.js" />
 		<EmbeddedResource Include="wwwroot\lib\bootstrap\js\bootstrap.bundle.min.js" />
+		<EmbeddedResource Include="wwwroot\src\codemirror.js" />
 	</ItemGroup>
 
 	<ItemGroup>

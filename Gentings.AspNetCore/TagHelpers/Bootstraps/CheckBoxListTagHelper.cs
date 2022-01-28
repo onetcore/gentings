@@ -14,18 +14,18 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 名称。
         /// </summary>
         [HtmlAttributeName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 以“,”分割值。。
         /// </summary>
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// 设置属性模型。
         /// </summary>
         [HtmlAttributeName("asp-for")]
-        public ModelExpression For { get; set; }
+        public ModelExpression? For { get; set; }
 
         /// <summary>
         /// 初始化当前标签上下文。
@@ -42,12 +42,12 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                         Value = str;
                     else if (For.Model is IEnumerable array)
                         Value = array.Join();
+                    else if (For.Model is Enum eValue)
+                        Value = eValue.ToString("D");
                     else
-                        Value = For.Model?.ToString();
+                        Value = For.Model?.ToString()!;
                 }
             }
-            if (Value != null)
-                Value = $",{Value},";
         }
 
         /// <summary>
@@ -55,16 +55,16 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// </summary>
         /// <param name="current">当前项目值。</param>
         /// <returns>返回判断结果。</returns>
-        protected virtual bool IsChecked(object current)
+        protected virtual bool IsChecked(object? current)
         {
-            return Value?.IndexOf($",{current},") >= 0;
+            return $",{Value},".IndexOf($",{current},") >= 0;
         }
 
         /// <summary>
         /// 附加复选项目列表，文本/值。
         /// </summary>
         /// <param name="items">复选框项目列表实例。</param>
-        protected abstract void Init(IDictionary<string, object> items);
+        protected abstract void Init(IDictionary<string, object?> items);
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -103,7 +103,10 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             if (!string.IsNullOrEmpty(Name))
                 input.MergeAttribute("name", Name);
             if (item.Value != null)
-                input.MergeAttribute("value", item.Value.ToString());
+            {
+                var value = item.Value is Enum eValue ? eValue.ToString("D") : item.Value.ToString();
+                input.MergeAttribute("value", value);
+            }
             if (IsChecked(item.Value))
                 input.MergeAttribute("checked", null);
             var label = new TagBuilder("label");
