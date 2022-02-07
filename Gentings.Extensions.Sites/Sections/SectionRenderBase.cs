@@ -15,7 +15,7 @@ namespace Gentings.Extensions.Sites.Sections
         /// <summary>
         /// 类型名称。
         /// </summary>
-        public virtual string Name => GetType().Name;
+        public virtual string Name => GetType().Name.Replace("SectionRender", string.Empty);
 
         /// <summary>
         /// 显示名称。

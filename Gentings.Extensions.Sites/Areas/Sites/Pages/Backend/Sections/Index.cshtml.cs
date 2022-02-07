@@ -30,7 +30,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
         /// </summary>
         /// <param name="name">节点类型名称。</param>
         /// <returns>返回节点类型实例。</returns>
-        public ISectionRender GetSection(string name) => SectionManager.GetSectionRender(name);
+        public ISectionRender GetSectionRender(string name) => SectionManager.GetSectionRender(name);
 
         public IActionResult OnGet(int pid)
         {

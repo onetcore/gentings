@@ -6,7 +6,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Carousel
     /// <summary>
     /// 页面滚动项目列表。
     /// </summary>
-    public class IndexModel : ModelBase
+    public class IndexModel : EditModelBase<CarouselSection>
     {
         private readonly ICarouselManager _carouselManager;
         /// <summary>
@@ -19,22 +19,18 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Carousel
         }
 
         /// <summary>
-        /// 滚动项目Id。
-        /// </summary>
-        public int SectionId { get; private set; }
-
-        /// <summary>
         /// 页面列表。
         /// </summary>
-        public IEnumerable<Extensions.Sites.Sections.Carousels.Carousel> Items { get; private set; }
+        public IEnumerable<Extensions.Sites.Sections.Carousels.Carousel>? Items { get; private set; }
 
-        public IActionResult OnGet(int id)
+        /// <summary>
+        /// 查询其他实例。
+        /// </summary>
+        /// <returns>返回成功返回当前页面实例，否则返回NotFound。</returns>
+        protected override bool OnFound()
         {
-            if (id <= 0)
-                return NotFound();
-            SectionId = id;
-            Items = _carouselManager.Fetch(x => x.SectionId == id).OrderBy(x => x.Order);
-            return Page();
+            Items = _carouselManager.Fetch(x => x.SectionId == Section!.Id).OrderBy(x => x.Order).ToList();
+            return true;
         }
 
         public IActionResult OnPostDelete(int[] id)

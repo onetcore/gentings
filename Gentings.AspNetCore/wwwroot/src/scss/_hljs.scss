@@ -129,3 +129,7 @@ code.hljs {
     border-right: 0;
     border-radius: 0;
 }
+
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar {
+    @extend %scrollbar;
+}

@@ -52,6 +52,15 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
                     entity.DisplayName = Input.DisplayName;
                     entity.Name = Input.Name;
                 }
+                else
+                {//初始代码
+                    var render = SectionManager.GetSectionRender(Input.RenderName);
+                    entity.RenderDisplayName = render.DisplayName;
+                    entity.Style = render.Style;
+                    entity.Script = render.Script;
+                    if (!string.IsNullOrWhiteSpace(render.Html))
+                        entity["Html"] = render.Html;
+                }
                 var result = SectionManager.Save(Input);
                 return Json(result, "节点");
             }

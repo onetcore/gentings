@@ -442,6 +442,7 @@ main:not(.navbar-vertical) .navbar-pills .navbar-nav .nav-group:hover > div .nav
   flex-direction: row;
   justify-content: flex-end;
   padding-bottom: 0.5rem;
+  padding-top: 1rem;
 }
 .toolbar > form, .card > .card-header.toolbar > form {
   display: flex;

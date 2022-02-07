@@ -11089,20 +11089,20 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
-.mozmd-preview, .mozmd-source, .scrollbar {
+.CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .mozmd-preview, .mozmd-source, .scrollbar {
   overflow: hidden;
 }
-.mozmd-preview::-webkit-scrollbar, .mozmd-source::-webkit-scrollbar, .scrollbar::-webkit-scrollbar {
+.CodeMirror-vscrollbar::-webkit-scrollbar, .CodeMirror-hscrollbar::-webkit-scrollbar, .mozmd-preview::-webkit-scrollbar, .mozmd-source::-webkit-scrollbar, .scrollbar::-webkit-scrollbar {
   height: 10px;
   width: 10px;
 }
-.mozmd-preview::-webkit-scrollbar-thumb, .mozmd-source::-webkit-scrollbar-thumb, .scrollbar::-webkit-scrollbar-thumb {
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb, .CodeMirror-hscrollbar::-webkit-scrollbar-thumb, .mozmd-preview::-webkit-scrollbar-thumb, .mozmd-source::-webkit-scrollbar-thumb, .scrollbar::-webkit-scrollbar-thumb {
   border-radius: 10px;
   border: solid 2px transparent;
   background-clip: content-box;
   background-color: rgba(200, 200, 200, 0.25);
 }
-.mozmd-preview:hover, .mozmd-source:hover, .scrollbar:hover {
+.CodeMirror-vscrollbar:hover, .CodeMirror-hscrollbar:hover, .mozmd-preview:hover, .mozmd-source:hover, .scrollbar:hover {
   overflow: scroll;
   overflow: overlay;
 }
@@ -11662,6 +11662,15 @@ th.checkbox, td.checkbox {
   text-align: center;
 }
 
+th.checkbox + th, td.checkbox + td {
+  padding-left: 0 !important;
+}
+
+th.action, td.action {
+  width: 64px;
+  text-align: center;
+}
+
 th.sorting,
 th.sorting-asc,
 th.sorting-desc {
@@ -11842,7 +11851,6 @@ body.fullscreen {
 .card .card-header {
   display: flex;
   align-items: center;
-  padding: 1rem 1rem;
   background-color: transparent;
   justify-content: space-between;
 }
@@ -11853,17 +11861,21 @@ body.fullscreen {
   letter-spacing: 0.02em;
   font-size: 0.9rem;
 }
+.card .card-header .nav-tabs {
+  margin: -1rem 0;
+}
+.card .card-header .nav-tabs.nav-middle {
+  margin-left: 1rem;
+  flex: auto;
+}
 .card .card-header .nav-tabs > .nav-item {
-  margin-left: 0.5rem;
-  margin-right: 0;
+  margin: 0;
+  padding: 1.25rem 0.4rem 0.5rem;
 }
 .card .card-header .nav-tabs > .nav-item > .nav-link {
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: 0;
-  padding-bottom: 0.6rem;
-  margin-bottom: -1rem;
-  border-bottom-width: 1px;
+  padding: 0 0.1rem 0.25rem 0.1rem;
+  margin-bottom: -0.5rem;
+  border-bottom-width: 2px;
 }
 .card .card-header.collapse {
   cursor: pointer;
@@ -12112,6 +12124,16 @@ article div.pmb-0 > p, .marked div.pmb-0 > p, .mozmd-preview div.pmb-0 > p {
     white-space: break-spaces;
   }
 }
+.carousel-inner, .carousel-item, .carousel-image {
+  height: 100%;
+}
+
+.carousel-image {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 pre {
   margin: 0;
   font-family: "Cascadia Mono", "Courier New";

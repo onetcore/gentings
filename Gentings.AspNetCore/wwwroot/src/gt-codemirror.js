@@ -2,9 +2,8 @@
     window.CodeMirror.modeURL = "/lib/codemirror/mode/%N/%N.min.js";
     onrender(function (context) {
         // 编辑器
-        $('.CodeMirror', context).exec(item => {
+        $('textarea.CodeMirror', context).exec(item => {
             var mode = item.attr('_mode') || 'htmlmixed';
-            var height = item.attr('_height') || '100vh';
             var readOnly = item.attr('_readonly') || 'false';
             readOnly = readOnly === 'readonly' || readOnly === 'true';
             var editor = window.CodeMirror.fromTextArea(item[0],
@@ -20,7 +19,8 @@
                     readOnly: readOnly,
                     gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
                 });
-            editor.setSize('100%', height);
+            var height = item.attr('_height');
+            if (height) editor.setSize('100%', height);
             var loadMode = item.attr('_load');
             if (!loadMode) {
                 if (mode.startsWith('text/x-'))

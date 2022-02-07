@@ -24,11 +24,11 @@ var resources = {
     copy: "拷贝",
     copyCode: "点击拷贝代码",
     copied: "已拷贝，请使用“ctrl+v”或者“粘贴”操作！",
+    fullscreen: {
+        show: '全屏显示',
+        quit: '退出全屏'
+    },
     markdown: {
-        fullscreen: {
-            show: '全屏显示',
-            quit: '退出全屏'
-        },
         preview: '预览',
         source: '源码',
         link: '请输入链接地址',
@@ -128,7 +128,7 @@ var resources = {
             var submit = this.find('[type=submit]').disabled();
             return $ajax(this.attr('action') || location.href, data, function (d) {
                 submit.enabled();
-                if (success) success.call(_this, d);
+                if (success) return success.call(_this, d);
             }, function (e) {
                 submit.enabled();
                 if (error) error(e);
@@ -364,6 +364,20 @@ var resources = {
                                             if (items.length > 0) query.id = items.join(',');
                                             current.loadModal(query);
                                         })();
+                                    }
+                                    return false;
+                                case 'fullscreen':
+                                    {
+                                        if ($(document.body).hasClass('fullscreen')) {
+                                            $(document.body).removeClass('fullscreen');
+                                            target.removeClass('fullscreen-container').css('height', target.data('_height'));
+                                            current.attr('title', resources.fullscreen.show).find('i').attr('class', 'bi-window-fullscreen');
+                                        } else {
+                                            target.data('_height', target.css('height'));
+                                            $(document.body).addClass('fullscreen');
+                                            target.addClass('fullscreen-container').css('height', '100%');
+                                            current.attr('title', resources.fullscreen.quit).find('i').attr('class', 'bi-window-stack');
+                                        }
                                     }
                                     return false;
                             }

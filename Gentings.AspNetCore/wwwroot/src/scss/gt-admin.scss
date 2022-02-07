@@ -558,6 +558,7 @@ main:not(.navbar-vertical) {
     flex-direction: row;
     justify-content: flex-end;
     padding-bottom: 0.5rem;
+    padding-top: 1rem;
 
     > form {
         display: flex;

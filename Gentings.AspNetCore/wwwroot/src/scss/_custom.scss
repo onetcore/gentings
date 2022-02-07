@@ -508,6 +508,15 @@ th.checkbox, td.checkbox {
     width: 39px;
     text-align: center;
 }
+
+th.checkbox + th, td.checkbox + td {
+    padding-left: 0 !important;
+}
+
+th.action, td.action {
+    width: 64px;
+    text-align: center;
+}
 //sorting
 th.sorting,
 th.sorting-asc,
@@ -703,7 +712,6 @@ body.fullscreen {
     .card-header {
         display: flex;
         align-items: center;
-        padding: 1rem 1rem;
         background-color: transparent;
         justify-content: space-between;
 
@@ -715,17 +723,23 @@ body.fullscreen {
             font-size: .9rem;
         }
 
-        .nav-tabs > .nav-item {
-            margin-left: 0.5rem;
-            margin-right: 0;
+        .nav-tabs {
+            margin: -1rem 0;
 
-            > .nav-link {
-                padding-left: 0;
-                padding-right: 0;
-                padding-top: 0;
-                padding-bottom: 0.6rem;
-                margin-bottom: -1rem;
-                border-bottom-width: 1px;
+            &.nav-middle {
+                margin-left: 1rem;
+                flex: auto;
+            }
+
+            > .nav-item {
+                margin: 0;
+                padding: 1.25rem 0.4rem 0.5rem;
+
+                > .nav-link {
+                    padding: 0 0.1rem 0.25rem 0.1rem;
+                    margin-bottom: -0.5rem;
+                    border-bottom-width: 2px;
+                }
             }
         }
 
@@ -954,4 +968,15 @@ article, .marked, .mozmd-preview {
             white-space: break-spaces;
         }
     }
+}
+
+// carousel
+.carousel-inner, .carousel-item, .carousel-image {
+    height: 100%;
+}
+
+.carousel-image {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }

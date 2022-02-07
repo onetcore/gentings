@@ -1,0 +1,99 @@
+﻿@{
+    Layout = "_Admin";
+    ViewContext.AddLibraries(ImportLibrary.CodeMirror);
+    ViewBag.Title = Model!.Section!.DisplayName;
+    ViewBag.Current = "pages.index";
+}
+
+<form method="post" _ajax="true" id="ctrl-saved">
+    <div class="card">
+        <div class="card-header ps-0">
+            <ul class="nav nav-tabs" role="tablist">
+                @await RenderSectionAsync("tabs")
+                <li class="nav-item">
+                    <a class="nav-link" id="style-tab" data-bs-toggle="tab" href="#style" role="tab">css</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="script-tab" data-bs-toggle="tab" href="#script" role="tab">js</a>
+                </li>
+            </ul>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-sm btn-primary" title="保存"><i class="bi-save"></i></button>
+                <a class="btn btn-sm btn-white" asp-page="../Index" asp-route-pid="@Model.Section.PageId"><i class="bi-reply-all" title="返回"></i></a>
+                <button type="button" class="btn btn-sm btn-white" _click="fullscreen" _target=".card" title="全屏"><i class="bi-window-fullscreen"></i></button>
+            </div>
+        </div>
+        <div class="card-body px-0 pt-0">
+            <div class="tab-content CodeMirror-border-bottom">
+                <input type="hidden" name="pid" value="@Model.Section.PageId" />
+                <input type="hidden" name="Input.Id" value="@Model.Input.Id" />
+                @await RenderSectionAsync("panes")
+                <div class="tab-pane fade full-code" id="style">
+                    <textarea name="Input.Style" id="Input_Style" class="CodeMirror" _mode="css">@Model.Input.Style</textarea>
+                </div>
+                <div class="tab-pane fade full-code" id="script">
+                    <textarea name="Input.Script" id="Input_Script" class="CodeMirror" _mode="javascript">@Model.Input.Script</textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section header{
+	@await RenderSectionAsync("header", required: false)
+<style .mix="true">
+    .mb--1 {
+        margin-bottom: -1rem !important;
+    }
+
+    .full-code {
+        margin-bottom: -1rem !important;
+    }
+
+        .full-code > div.CodeMirror {
+            height: calc(100vh - 200px);
+        }
+
+    .fullscreen .full-code > div.CodeMirror {
+        height: calc(100vh - 48px);
+    }
+
+    .nav-muted {
+        color: var(--bs-danger);
+        display: flex;
+        align-items: flex-end;
+        flex: auto;
+        padding-bottom: 0.25rem;
+        justify-content: flex-end;
+    }
+</style>
+}
+
+@section scripts{
+	@await RenderSectionAsync("scripts", required: false)
+<script>
+    $(function(){
+        function save(){
+            // 要把CodeMirror代码保存到textarea中
+            $('textarea.CodeMirror').exec(current=>{
+                current.data('CodeMirror').save();
+            });
+            $('#ctrl-saved').ajaxSubmit(function(d){
+                showMsg(d);
+                return true;
+            });
+        }
+        $('button[type=submit]').on('click', function(event){
+            event.preventDefault();
+            save();
+            return false;
+        });
+        $(document).on('keydown', function(event){
+            if(event.ctrlKey&&event.keyCode == 83&&$('div.tab-pane.active').hasClass('full-code')){
+                save();
+                return false;
+            }
+        });
+    });
+</script>
+}

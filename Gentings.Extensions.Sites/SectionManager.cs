@@ -82,7 +82,6 @@ namespace Gentings.Extensions.Sites
         {
             if (model.Id == 0)
                 model.Order = 1 + Context.Max(x => x.Order, x => x.PageId == model.PageId);
-            model.SectionTypeName ??= GetSectionRender(model.SectionType).DisplayName;
             return base.Create(model);
         }
 
@@ -96,7 +95,6 @@ namespace Gentings.Extensions.Sites
         {
             if (model.Id == 0)
                 model.Order = 1 + await Context.MaxAsync(x => x.Order, x => x.PageId == model.PageId, cancellationToken);
-            model.SectionTypeName ??= GetSectionRender(model.SectionType).DisplayName;
             return await base.CreateAsync(model, cancellationToken);
         }
 

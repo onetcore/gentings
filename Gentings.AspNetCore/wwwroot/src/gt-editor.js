@@ -18,7 +18,7 @@ marked.setOptions({
 class MarkDownEditor {
     constructor(selector) {
         this.selector = selector;
-        this._hight = selector.css('height');//用于全屏
+        this._height = selector.css('height');//用于全屏
         this._uploadUrl = selector.attr('action');
         this.preview = $('.mozmd-preview', selector);
         this.source = $('.mozmd-source', selector);
@@ -257,12 +257,12 @@ class MarkDownEditor {
                 case 'mozmd-fullscreen':
                     $(document.body).addClass('fullscreen');
                     this.selector.addClass('fullscreen-container').css('height', '100%');
-                    current.attr('class', 'mozmd-exitfull').attr('title', resources.markdown.fullscreen.quit).find('i').attr('class', 'bi-window-stack');
+                    current.attr('class', 'mozmd-exitfull').attr('title', resources.fullscreen.quit).find('i').attr('class', 'bi-window-stack');
                     break;
                 case 'mozmd-exitfull':
                     $(document.body).removeClass('fullscreen');
-                    this.selector.removeClass('fullscreen-container').css('height', this._hight);
-                    current.attr('class', 'mozmd-fullscreen').attr('title', resources.markdown.fullscreen.show).find('i').attr('class', 'bi-window-fullscreen');
+                    this.selector.removeClass('fullscreen-container').css('height', this._height);
+                    current.attr('class', 'mozmd-fullscreen').attr('title', resources.fullscreen.show).find('i').attr('class', 'bi-window-fullscreen');
                     break;
                 case 'mozmd-mode-preview':
                     this.source.hide();

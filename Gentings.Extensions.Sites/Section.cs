@@ -40,13 +40,13 @@ namespace Gentings.Extensions.Sites
         /// 节点模板类型Id。
         /// </summary>
         [NotMapped]
-        public string SectionType { get => this[nameof(SectionType)]; set => this[nameof(SectionType)] = value; }
+        public string RenderName { get => this[nameof(RenderName)]; set => this[nameof(RenderName)] = value; }
 
         /// <summary>
         /// 节点模板类型显示名称。
         /// </summary>
         [NotMapped]
-        public string SectionTypeName { get => this[nameof(SectionTypeName)]; set => this[nameof(SectionTypeName)] = value; }
+        public string RenderDisplayName { get => this[nameof(RenderDisplayName)]; set => this[nameof(RenderDisplayName)] = value; }
 
         /// <summary>
         /// 是否宽屏。
@@ -58,13 +58,13 @@ namespace Gentings.Extensions.Sites
         /// 样式代码。
         /// </summary>
         [NotMapped]
-        public string Style { get => this[nameof(Style)]; set => this[nameof(Style)] = value; }
+        public string? Style { get => this[nameof(Style)]; set => this[nameof(Style)] = value; }
 
         /// <summary>
         /// 脚本代码。
         /// </summary>
         [NotMapped]
-        public string Script { get => this[nameof(Script)]; set => this[nameof(Script)] = value; }
+        public string? Script { get => this[nameof(Script)]; set => this[nameof(Script)] = value; }
 
         /// <summary>
         /// 将存储类型实例转换为子类型。

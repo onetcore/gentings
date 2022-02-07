@@ -50,7 +50,7 @@ namespace Gentings.Extensions.Sites.Sections.Defaults
         /// <returns>当前节点呈现任务。</returns>
         public override Task ProcessAsync(SectionContext context, TagBuilder output)
         {
-            if (context.Section.SectionType == Name)
+            if (context.Section.RenderName == Name)
             {
                 var source = context.Section.As<DefaultSection>();
                 if (source?.Html != null)
