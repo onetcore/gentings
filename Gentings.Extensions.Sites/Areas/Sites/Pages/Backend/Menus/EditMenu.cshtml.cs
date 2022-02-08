@@ -38,7 +38,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Menus
             if (Input.Target == OpenTarget.Frame && string.IsNullOrEmpty(Input.FrameName))
                 Input.Target = OpenTarget.Self;
             var result = await _menuManager.SaveAsync(Input);
-            return Json(result, "菜单");
+            return Json(result, Input.Name);
         }
     }
 }

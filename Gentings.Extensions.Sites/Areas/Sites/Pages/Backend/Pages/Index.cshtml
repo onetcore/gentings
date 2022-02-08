@@ -49,8 +49,9 @@
                         <td>
                             <gt:action-dropdownmenu>
                                 <gt:action typeof="Link" asp-page="./edit" asp-route-id="@item.Id"><i class="bi-pencil"></i>编辑</gt:action>
-                                <gt:action typeof="Divider"></gt:action>
                                 <gt:action typeof="Delete" confirm="你确定要删除“@item.Title”吗？" asp-page-handler="Delete" asp-route-id="@item.Id"></gt:action>
+                                <gt:action typeof="Divider"></gt:action>
+                                <gt:action typeof="Link" href="@item.Url" target="_blank"><i class="bi-eye"></i>访问</gt:action>
                             </gt:action-dropdownmenu>
                         </td>
                     </tr>

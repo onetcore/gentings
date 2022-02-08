@@ -1,4 +1,4 @@
-using Gentings.Extensions.Sites.Sections.Carousels;
+using Gentings.Extensions.Sites.SectionRenders.Carousels;
 using Gentings.Storages;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Carousel
         /// 输入模型。
         /// </summary>
         [BindProperty]
-        public Extensions.Sites.Sections.Carousels.Carousel? Input { get; set; }
+        public SectionRenders.Carousels.Carousel? Input { get; set; }
 
         public IActionResult OnGet(int id, int sid)
         {
@@ -40,7 +40,15 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Carousel
 
         public IActionResult OnPost()
         {
-            var result = _carouselManager.Save(Input!);
+            if (string.IsNullOrEmpty(Input!.Title))
+            {
+                ModelState.AddModelError("Input.Title", "标题不能为空！");
+                return Error();
+            }
+            if (Input.Target == OpenTarget.Frame && string.IsNullOrEmpty(Input.FrameName))
+                Input.Target = OpenTarget.Self;
+            Input.UpdatedDate = DateTimeOffset.Now;
+            var result = _carouselManager.Save(Input);
             return Json(result, "项目");
         }
 

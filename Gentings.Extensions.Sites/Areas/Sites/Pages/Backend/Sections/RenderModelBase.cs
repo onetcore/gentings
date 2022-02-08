@@ -1,4 +1,4 @@
-using Gentings.Extensions.Sites.Sections;
+using Gentings.Extensions.Sites.SectionRenders;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
@@ -6,7 +6,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
     /// <summary>
     /// 编辑默认节点。
     /// </summary>
-    public abstract class EditModelBase<TSection> : ModelBase where TSection : Section, new()
+    public abstract class RenderModelBase<TSection> : ModelBase where TSection : Section, new()
     {
         /// <summary>
         /// 输入模型。
@@ -56,6 +56,10 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
             var section = SectionManager.Find(Input!.Id).As<TSection>();
             section.Style = Input.Style;
             section.Script = Input.Script;
+            section.IsFluid = Input.IsFluid;
+            section.DisplayName = Input.DisplayName;
+            section.Disabled = Input.Disabled;
+            section.DisplayMode = Input.DisplayMode;
             if (OnSaving(section))
             {
                 section.UpdatedDate = DateTimeOffset.Now;

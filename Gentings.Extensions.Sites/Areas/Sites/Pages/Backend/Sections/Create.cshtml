@@ -1,0 +1,24 @@
+﻿@page
+@model CreateModel
+@{
+    Layout = "_Modal";
+    ViewBag.Title = "添加配置节点";
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Input!.PageId" />
+    <input type="hidden" asp-for="Input!.Id" />
+    <div class="mb-3">
+        <label class="form-label">唯一名称(<small class="text-danger">*不能修改，使用英文</small>)</label>
+        <input asp-for="Input!.Name" class="form-control text-lowercase" .attr-readonly="@(Model.Input!.Id>0)" />
+        <span asp-validation-for="Input!.Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">显示名称</label>
+        <input asp-for="Input!.DisplayName" class="form-control" />
+    </div>
+    <div class="mb-3" .visible="@(Model.Input.Id<=0)">
+        <label class="form-label">类型(<small class="text-danger">*不能修改</small>)</label>
+        <gt:section-dropdownlist asp-for="Input!.RenderName"></gt:section-dropdownlist>
+    </div>
+</form>

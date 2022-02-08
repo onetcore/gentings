@@ -21,6 +21,12 @@ namespace Gentings.Extensions.Sites
         public int MenuId { get; set; }
 
         /// <summary>
+        /// 页面包含的菜单Id。
+        /// </summary>
+        [NotMapped]
+        public int? SubMenuId { get => GetInt32(nameof(SubMenuId)); set => SetInt32(nameof(SubMenuId), value); }
+
+        /// <summary>
         /// Body样式名称。
         /// </summary>
         [NotMapped]
@@ -104,5 +110,11 @@ namespace Gentings.Extensions.Sites
         /// </summary>
         [Size(64)]
         public string? TemplateName { get; set; }
+
+        private string? _url;
+        /// <summary>
+        /// 访问地址。
+        /// </summary>
+        public string Url => _url ??= Name == "/" ? "/" : $"/pages/{Name!.TrimEnd('/')}";
     }
 }

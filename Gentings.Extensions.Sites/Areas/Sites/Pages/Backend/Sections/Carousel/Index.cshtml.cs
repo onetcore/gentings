@@ -1,4 +1,4 @@
-using Gentings.Extensions.Sites.Sections.Carousels;
+using Gentings.Extensions.Sites.SectionRenders.Carousels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Carousel
@@ -6,7 +6,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Carousel
     /// <summary>
     /// 页面滚动项目列表。
     /// </summary>
-    public class IndexModel : EditModelBase<CarouselSection>
+    public class IndexModel : RenderModelBase<CarouselSection>
     {
         private readonly ICarouselManager _carouselManager;
         /// <summary>
@@ -21,7 +21,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Carousel
         /// <summary>
         /// 页面列表。
         /// </summary>
-        public IEnumerable<Extensions.Sites.Sections.Carousels.Carousel>? Items { get; private set; }
+        public IEnumerable<SectionRenders.Carousels.Carousel>? Items { get; private set; }
 
         /// <summary>
         /// 查询其他实例。

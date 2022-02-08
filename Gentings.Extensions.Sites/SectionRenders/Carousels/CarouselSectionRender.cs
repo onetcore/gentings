@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Gentings.Extensions.Sites.SectionRenders;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Gentings.Extensions.Sites.Sections.Carousels
+namespace Gentings.Extensions.Sites.SectionRenders.Carousels
 {
     /// <summary>
     /// Carousel节点。
@@ -28,16 +29,6 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
         public override string DisplayName => "滚动节点";
 
         /// <summary>
-        /// 配置地址。
-        /// </summary>
-        public override string EditUrl => "./Carousel/Index";
-
-        /// <summary>
-        /// 样式。
-        /// </summary>
-        public override string Style => @"&.carousel{z-index:-1;}";
-
-        /// <summary>
         /// 呈现节点实例。
         /// </summary>
         /// <param name="context">节点上下文。</param>
@@ -49,22 +40,24 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
             output.AddCssClass("carousel");
             output.MergeAttribute("data-bs-ride", "carousel");
             var carousels = await _carouselManager.FetchAsync(x => x.SectionId == context.Section.Id && !x.Disabled);
+            carousels = carousels.Where(x => context.Context.IsValid(x.DisplayMode));
             if (!carousels.Any())
                 return;
             // 滚动条
             carousels = carousels.OrderBy(x => x.Order);
-            var indicators = new TagBuilder("ol");
+            var indicators = new TagBuilder("div");
             indicators.AddCssClass("carousel-indicators");
             output.InnerHtml.AppendHtml(indicators);
             var index = 0;
             foreach (var carousel in carousels)
             {
-                var li = new TagBuilder("li");
-                li.MergeAttribute("data-bs-target", $"#{context.Section.UniqueId}");
-                li.MergeAttribute("data-bs-slide-to", index.ToString());
+                var item = new TagBuilder("button");
+                item.MergeAttribute("type", "button");
+                item.MergeAttribute("data-bs-target", $"#{context.Section.UniqueId}");
+                item.MergeAttribute("data-bs-slide-to", index.ToString());
                 if (index == 0)
-                    li.AddCssClass("active");
-                indicators.InnerHtml.AppendHtml(li);
+                    item.AddCssClass("active");
+                indicators.InnerHtml.AppendHtml(item);
                 index++;
             }
             // 图片以及描述
@@ -74,7 +67,9 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
             index = 0;
             foreach (var carousel in carousels)
             {
-                var item = new TagBuilder("div");
+                var item = new TagBuilder("a");
+                if (!string.IsNullOrEmpty(carousel.LinkUrl))
+                    item.Merge(carousel);
                 inner.InnerHtml.AppendHtml(item);
                 item.AddCssClass("carousel-item");
                 if (index == 0)
@@ -91,23 +86,26 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
                 image.AddCssClass("carousel-index" + index);
                 item.InnerHtml.AppendHtml(image);
                 // 内容块
-                var caption = new TagBuilder("div");
-                item.InnerHtml.AppendHtml(caption);
-                caption.AddCssClass("carousel-caption d-none d-md-block");
-                if (!string.IsNullOrWhiteSpace(carousel.HTML))
+                if (carousel.IsCaption)
                 {
-                    caption.InnerHtml.AppendHtml(carousel.HTML);
-                }
-                else if (!string.IsNullOrEmpty(carousel.Title))
-                {
-                    var h5 = new TagBuilder("h5");
-                    caption.InnerHtml.AppendHtml(h5);
-                    h5.InnerHtml.AppendHtml(carousel.Title);
-                    if (!string.IsNullOrEmpty(carousel.Description))
+                    var caption = new TagBuilder("div");
+                    item.InnerHtml.AppendHtml(caption);
+                    caption.AddCssClass("carousel-caption d-none d-md-block");
+                    if (!string.IsNullOrWhiteSpace(carousel.HTML))
                     {
-                        var p = new TagBuilder("p");
-                        caption.InnerHtml.AppendHtml(p);
-                        p.InnerHtml.AppendHtml(carousel.Description);
+                        caption.InnerHtml.AppendHtml(carousel.HTML);
+                    }
+                    else if (!string.IsNullOrEmpty(carousel.Title))
+                    {
+                        var h5 = new TagBuilder("h5");
+                        caption.InnerHtml.AppendHtml(h5);
+                        h5.InnerHtml.AppendHtml(carousel.Title);
+                        if (!string.IsNullOrEmpty(carousel.Description))
+                        {
+                            var p = new TagBuilder("p");
+                            caption.InnerHtml.AppendHtml(p);
+                            p.InnerHtml.AppendHtml(carousel.Description);
+                        }
                     }
                 }
                 index++;

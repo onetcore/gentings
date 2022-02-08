@@ -9,43 +9,69 @@
 <form method="post" class="tab-content">
     <input type="hidden" asp-for="Input!.Id" />
     <input type="hidden" asp-for="Input!.SectionId" />
-    <div class="mb-3">
-        <gt:checkbox asp-for="Input!.Disabled"> 禁用</gt:checkbox>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">背景图片</label>
-        <div class="input-group-append">
-            <input placeholder="图片地址" asp-for="Input!.ImageUrl" class="form-control uploaded" />
-            <a _click="upload" asp-page-handler="Upload" asp-route-sid="@Model.Input.SectionId"><i class="bi-upload"></i></a>
-        </div>
-    </div>
-    <div class="mb-3">
-        <label class="form-label">背景颜色</label>
-        <gt:color asp-for="Input!.BgColor" placeholder="背景颜色"></gt:color>
-    </div>
-    <div>
-        <ul class="nav nav-tabs border-bottom" role="tablist">
-            <li class="nav-item active">
-                <a class="nav-link active" id="basic-tab" data-bs-toggle="tab" href="#basic" role="tab">基础</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="html-tab" data-bs-toggle="tab" href="#html" role="tab">代码</a>
-            </li>
-            <li class="nav-muted"><small>* 基础配置和代码只能使用一个，并且代码优先于基础配置</small></li>
-        </ul>
-        <div class="tab-content p-1">
-            <div class="tab-pane fade show active" id="basic">
-                <div class="mb-3">
-                    <label class="form-label">标题</label>
-                    <input asp-for="Input!.Title" class="form-control" />
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">备注</label>
-                    <textarea asp-for="Input!.Description" class="form-control" rows="5"></textarea>
+    <ul class="nav nav-tabs border-bottom" role="tablist">
+        <li class="nav-item active">
+            <a class="nav-link active" id="m-basic-tab" data-bs-toggle="tab" href="#m-basic" role="tab">基础</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="m-html-tab" data-bs-toggle="tab" href="#m-html" role="tab">代码</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="m-others-tab" data-bs-toggle="tab" href="#m-others" role="tab">其他</a>
+        </li>
+        <li class="nav-muted"><small>* 基础配置和代码只能使用一个，并且代码优先于基础配置</small></li>
+    </ul>
+    <div class="tab-content mb-0">
+        <div class="tab-pane fade show active" id="m-basic">
+            <div class="mt-3">
+                <gt:checkbox asp-for="Input!.Disabled"> 禁用</gt:checkbox>
+            </div>
+            <div class="mt-3">
+                <label class="form-label">标题</label>
+                <input asp-for="Input!.Title" class="form-control" />
+                <span class="text-danger" asp-validation-for="Input!.Title"></span>
+            </div>
+            <div class="mt-3">
+                <label class="form-label">备注</label>
+                <textarea asp-for="Input!.Description" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="mt-3">
+                <label class="form-label">背景图片</label>
+                <div class="input-group-append">
+                    <input placeholder="图片地址" asp-for="Input!.ImageUrl" class="form-control uploaded" />
+                    <a _click="upload" asp-page-handler="Upload" asp-route-sid="@Model.Input!.SectionId"><i class="bi-upload"></i></a>
                 </div>
             </div>
-            <div class="tab-pane fade full-code CodeMirror-border-bottom" id="html">
-                <textarea asp-for="Input!.HTML" class="CodeMirror" _mode="htmlmixed" _height="300"></textarea>
+            <div class="mt-3">
+                <label class="form-label">背景颜色</label>
+                <gt:color asp-for="Input!.BgColor" placeholder="背景颜色"></gt:color>
+            </div>
+        </div>
+        <div class="tab-pane fade full-code CodeMirror-border-bottom" id="m-html">
+            <textarea asp-for="Input!.HTML" class="CodeMirror" _mode="htmlmixed" _height="420"></textarea>
+        </div>
+        <div class="tab-pane fade" id="m-others">
+            <div class="mt-3">
+                <gt:checkbox asp-for="Input!.IsCaption">显示标题和备注或者代码</gt:checkbox>
+            </div>
+            <div class="mt-3">
+                <label class="form-label">显示模式</label>
+                <gt:enum-radiolist asp-for="Input!.DisplayMode"></gt:enum-radiolist>
+            </div>
+            <div class="mt-3">
+                <label class="form-label">链接地址</label>
+                <div class="input-group input-group-range">
+                    <input class="form-control" asp-for="Input!.LinkUrl" />
+                    <gt:page-link-dropdownlist onchange="$(this).parent().find('input').val(this.value);" default-text="请选择网页地址" default-value="@Model.Input.LinkUrl" value="@Model.Input.LinkUrl"></gt:page-link-dropdownlist>
+                </div>
+            </div>
+            <div class="mt-3">
+                <label class="form-label">打开方式</label>
+                <div class="input-group input-group-range">
+                    <gt:enum-dropdownlist onchange="if (this.value == '4') { $(this).parent().find('input').removeClass('hide'); } else {$(this).parent().find('input').addClass('hide');}" asp-for="Input!.Target"></gt:enum-dropdownlist>
+                    <input placeholder="框架名称" class="form-control" .class-hide="@(Model.Input?.Target != OpenTarget.Frame)" asp-for="Input!.FrameName" />
+                    <gt:enum-dropdownlist default-text="rel属性" asp-for="Input!.Rel"></gt:enum-dropdownlist>
+                </div>
             </div>
         </div>
     </div>

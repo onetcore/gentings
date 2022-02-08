@@ -1,11 +1,11 @@
-using Gentings.Extensions.Sites.Sections.Defaults;
+using Gentings.Extensions.Sites.SectionRenders.Defaults;
 
-namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Defaults
+namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections.Default
 {
     /// <summary>
     /// 编辑默认节点。
     /// </summary>
-    public class EditModel : EditModelBase<DefaultSection>
+    public class IndexModel : RenderModelBase<DefaultSection>
     {
         /// <summary>
         /// 保存之前更新节点实例。

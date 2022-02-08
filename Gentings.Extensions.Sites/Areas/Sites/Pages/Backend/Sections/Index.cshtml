@@ -9,7 +9,7 @@
     <div class="card-header toolbar">
         <div>
             <gt:action-group>
-                <gt:action typeof="Add" asp-page="./Edit" asp-route-pid="@Model.CurrentPage.Id"></gt:action>
+                <gt:action typeof="Add" asp-page="./Create" asp-route-pid="@Model.CurrentPage.Id"></gt:action>
                 <gt:action typeof="Delete" confirm="你确定要删除所选择节点吗？" asp-page-handler="Delete"></gt:action>
                 <gt:action typeof="Link" asp-page="../Pages/Index" asp-route-id="@Model.CurrentPage.Id" icon="ReplyAll">返回</gt:action>
             </gt:action-group>
@@ -54,7 +54,6 @@
                         </td>
                         <td>
                             <gt:action-dropdownmenu>
-                                <gt:action typeof="Edit" asp-page="./Edit" asp-route-id="@item.Id"></gt:action>
                                 <gt:action typeof="Link" .visible="@(!string.IsNullOrEmpty(render.EditUrl))" asp-page="@(render.EditUrl)" asp-route-id="@item.Id" icon="Gear">配置</gt:action>
                                 <gt:action typeof="MoveUp" class="f-hide" asp-route-id="@item.Id" asp-page-handler="MoveUp"></gt:action>
                                 <gt:action typeof="MoveDown" class="l-hide" asp-route-id="@item.Id" asp-page-handler="MoveDown"></gt:action>

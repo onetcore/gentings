@@ -5,16 +5,19 @@
     ViewBag.Current = "pages.index";
 }
 
-<form method="post" _ajax="true" id="ctrl-saved">
+<form method="post" id="ctrl-saved">
     <div class="card">
         <div class="card-header ps-0">
             <ul class="nav nav-tabs" role="tablist">
                 @await RenderSectionAsync("tabs")
                 <li class="nav-item">
-                    <a class="nav-link" id="style-tab" data-bs-toggle="tab" href="#style" role="tab">css</a>
+                    <a class="nav-link" id="style-tab" data-bs-toggle="tab" href="#style" role="tab">样式</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="script-tab" data-bs-toggle="tab" href="#script" role="tab">js</a>
+                    <a class="nav-link" id="script-tab" data-bs-toggle="tab" href="#script" role="tab">脚本</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="others-tab" data-bs-toggle="tab" href="#others" role="tab">其他</a>
                 </li>
             </ul>
             <div class="btn-group">
@@ -34,6 +37,28 @@
                 <div class="tab-pane fade full-code" id="script">
                     <textarea name="Input.Script" id="Input_Script" class="CodeMirror" _mode="javascript">@Model.Input.Script</textarea>
                 </div>
+                <div class="tab-pane fade p-3" id="others">
+                    <div class="mb-3">
+                        <gt:checkbox name="Input.Disabled" id="Input_Disabled" checked="Model.Input.Disabled">是否禁用</gt:checkbox>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">显示名称</label>
+                        <input name="Input.DisplayName" id="Input_DisplayName" value="@Model.Input.DisplayName" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">显示模式</label>
+                        <gt:enum-dropdownlist name="Input.DisplayMode" id="Input_DisplayMode" value="@(Model.Input.DisplayMode)" class="form-control"></gt:enum-dropdownlist>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">宽屏显示</label>
+                        <div class="radio-list">
+                            <label class="form-check radio-item"><input .attr-checked="@(Model.Input.IsFluid == true)" class="form-check-input" name="Input.IsFluid" type="radio" value="True" />宽屏</label>
+                            <label class="form-check radio-item"><input .attr-checked="@(Model.Input.IsFluid == null)" class="form-check-input" name="Input.IsFluid" type="radio" />未设置</label>
+                            <label class="form-check radio-item"><input .attr-checked="@(Model.Input.IsFluid == false)" class="form-check-input" name="Input.IsFluid" type="radio" value="False" />居中</label>
+                        </div>
+                    </div>
+                    @await RenderSectionAsync("others", false)
+                </div>
             </div>
         </div>
     </div>
@@ -42,17 +67,23 @@
 @section header{
 	@await RenderSectionAsync("header", required: false)
 <style .mix="true">
-    .mb--1 {
+    .mb--1, .full-code {
         margin-bottom: -1rem !important;
     }
 
-    .full-code {
-        margin-bottom: -1rem !important;
+    #ctrl-saved .tab-pane {
+        min-height: calc(100vh - 220px);
     }
 
-        .full-code > div.CodeMirror {
-            height: calc(100vh - 200px);
-        }
+    .full-code > div.CodeMirror {
+        height: calc(100vh - 205px);
+    }
+
+    .modal .full-code > div.CodeMirror {
+        border-left: 1px solid #e3ebf6;
+        border-right: 1px solid #e3ebf6;
+        margin-bottom: 1rem !important;
+    }
 
     .fullscreen .full-code > div.CodeMirror {
         height: calc(100vh - 48px);

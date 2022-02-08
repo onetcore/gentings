@@ -1,4 +1,4 @@
-using Gentings.Extensions.Sites.Sections;
+using Gentings.Extensions.Sites.SectionRenders;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections

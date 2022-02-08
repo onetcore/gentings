@@ -4,13 +4,11 @@
     Layout = "_Render";
 }
 @section tabs{
-<li class="nav-item active">
-    <a class="nav-link active" id="items-tab" data-bs-toggle="tab" href="#items" role="tab">项目</a>
-</li>
+<gt:tab-header name="items" active="true">项目</gt:tab-header>
 }
 
 @section panes{
-<div class="tab-pane fade show active data-list p-3" id="items">
+<gt:tab-content class="data-list p-3" name="items" active="true">
     <div class="toolbar pt-0">
         <gt:action-group>
             <gt:action typeof="Add" asp-page="./edit" asp-route-sid="@Model.Section!.Id">添加</gt:action>
@@ -46,5 +44,5 @@
             }
         </tbody>
     </table>
-</div>
+</gt:tab-content>
 }

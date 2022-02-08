@@ -33,7 +33,7 @@ namespace Gentings.Extensions.Sites.TagHelpers
             // 添加脚本
             var scripts = Context.Sections
                 .Where(x => !string.IsNullOrWhiteSpace(x.Script))
-                .Select(x => $"({x.Script})($('#{x.UniqueId}'));")
+                .Select(x => $"({x.Script!.Trim().Trim(';')})($('#{x.UniqueId}'));")
                 .Join("\r\n").Trim();
             if (!string.IsNullOrWhiteSpace(scripts))
                 output.AppendHtml("script", builder =>

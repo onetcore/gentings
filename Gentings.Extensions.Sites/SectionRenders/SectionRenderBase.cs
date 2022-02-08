@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Gentings.Extensions.Sites.Sections
+namespace Gentings.Extensions.Sites.SectionRenders
 {
     /// <summary>
     /// HTML代码节点基类。
@@ -30,7 +30,7 @@ namespace Gentings.Extensions.Sites.Sections
         /// <summary>
         /// 配置地址。
         /// </summary>
-        public abstract string EditUrl { get; }
+        public virtual string EditUrl => $"./{Name}/Index";
 
         /// <summary>
         /// 描述。
@@ -40,17 +40,12 @@ namespace Gentings.Extensions.Sites.Sections
         /// <summary>
         /// 样式。
         /// </summary>
-        public virtual string? Style { get; }
+        public virtual string? Style => "/*没有填写选择器或者&，表示当前顶级元素*/";
 
         /// <summary>
         /// 脚本。
         /// </summary>
-        public virtual string? Script { get; }
-
-        /// <summary>
-        /// 初始代码。
-        /// </summary>
-        public virtual string? Html { get; }
+        public virtual string? Script => "/*脚本格式为：\r\nfunction($this){\r\n  //$this：表示当前顶级元素的jQuery实例\r\n}*/";
 
         /// <summary>
         /// 呈现节点实例。

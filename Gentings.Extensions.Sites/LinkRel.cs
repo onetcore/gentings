@@ -1,4 +1,4 @@
-﻿namespace Gentings.Extensions.Sites.Menus
+﻿namespace Gentings.Extensions.Sites
 {
     /// <summary>
     /// a和link标签的rel属性。

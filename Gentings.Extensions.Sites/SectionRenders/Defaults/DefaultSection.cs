@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Gentings.Extensions.Sites.Sections.Defaults
+namespace Gentings.Extensions.Sites.SectionRenders.Defaults
 {
     /// <summary>
     /// 默认节点模板。

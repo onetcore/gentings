@@ -42,7 +42,7 @@
         <label class="form-label">打开方式</label>
         <div class="input-group input-group-range">
             <gt:enum-dropdownlist onchange="if (this.value == '4') { $(this).parent().find('input').removeClass('hide'); } else {$(this).parent().find('input').addClass('hide');}" asp-for="Input.Target"></gt:enum-dropdownlist>
-            <input placeholder="框架名称" class="form-control" .class-hide="@(Model.Input?.Target != Extensions.Sites.Menus.OpenTarget.Frame)" asp-for="Input.FrameName" />
+            <input placeholder="框架名称" class="form-control" .class-hide="@(Model.Input?.Target != OpenTarget.Frame)" asp-for="Input.FrameName" />
             <gt:enum-dropdownlist default-text="rel属性" asp-for="Input.Rel"></gt:enum-dropdownlist>
         </div>
     </div>

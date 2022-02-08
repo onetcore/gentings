@@ -61,6 +61,33 @@ namespace Gentings.Extensions.Sites.Properties {
         }
         
         /// <summary>
+        ///   查找类似 总是显示 的本地化字符串。
+        /// </summary>
+        internal static string DisplayMode_Always {
+            get {
+                return ResourceManager.GetString("DisplayMode_Always", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 匿名显示 的本地化字符串。
+        /// </summary>
+        internal static string DisplayMode_Anonymous {
+            get {
+                return ResourceManager.GetString("DisplayMode_Anonymous", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 登陆显示 的本地化字符串。
+        /// </summary>
+        internal static string DisplayMode_Authorized {
+            get {
+                return ResourceManager.GetString("DisplayMode_Authorized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 首页 的本地化字符串。
         /// </summary>
         internal static string HomePage {

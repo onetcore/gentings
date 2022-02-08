@@ -1,13 +1,12 @@
-﻿using Gentings.Extensions.Sites.Menus;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Gentings.Extensions.Sites.Sections.Carousels
+namespace Gentings.Extensions.Sites.SectionRenders.Carousels
 {
     /// <summary>
     /// Carousel实例。
     /// </summary>
     [Table("site_Sections_Carousels")]
-    public class Carousel : ExtendBase, IIdObject
+    public class Carousel : ExtendBase, IIdObject, ILinkable
     {
         /// <summary>
         /// 获取或设置唯一Id。
@@ -54,6 +53,11 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
         public DateTimeOffset? UpdatedDate { get; set; }
 
         /// <summary>
+        /// 是否显示标题和备注。
+        /// </summary>
+        public bool IsCaption { get; set; }
+
+        /// <summary>
         /// 描述。
         /// </summary>
         [NotMapped]
@@ -82,6 +86,12 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
         /// </summary>
         [NotMapped]
         public OpenTarget Target { get => GetEnum<OpenTarget>(nameof(Target)) ?? OpenTarget.Self; set => SetEnum(nameof(Target), value); }
+
+        /// <summary>
+        /// 框架名称。
+        /// </summary>
+        [NotMapped]
+        public string? FrameName { get => this[nameof(FrameName)]; set => this[nameof(FrameName)] = value; }
 
         /// <summary>
         /// a和link标签的rel属性。

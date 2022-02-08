@@ -1,4 +1,4 @@
-﻿namespace Gentings.Extensions.Sites.Menus
+﻿namespace Gentings.Extensions.Sites
 {
     /// <summary>
     /// 链接打开目标。

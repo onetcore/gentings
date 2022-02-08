@@ -1,6 +1,6 @@
 ﻿using Gentings.Data.Migrations;
 
-namespace Gentings.Extensions.Sites.Sections.Carousels
+namespace Gentings.Extensions.Sites.SectionRenders.Carousels
 {
     /// <summary>
     /// 数据库迁移类。
@@ -18,6 +18,7 @@ namespace Gentings.Extensions.Sites.Sections.Carousels
                .Column(x => x.SectionId)
                .Column(x => x.Order)
                .Column(x => x.Title)
+               .Column(x => x.IsCaption)
                .Column(x => x.Disabled)
                .Column(x => x.DisplayMode)
                .Column(x => x.CreatedDate)

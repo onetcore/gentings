@@ -1,6 +1,7 @@
-﻿using Gentings.Extensions.Sites.Sections;
+﻿using Gentings.Extensions.Sites.SectionRenders;
 using Gentings.Extensions.Sites.Templates;
 using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
 using static System.Collections.Specialized.BitVector32;
@@ -24,6 +25,7 @@ namespace Gentings.Extensions.Sites
 
         private readonly IDictionary<string?, Section> _sections;
         private readonly IServiceProvider _services;
+        private readonly bool _isAuthenticated;
 
         /// <summary>
         /// 初始化类型<see cref="PageContext"/>。
@@ -32,7 +34,8 @@ namespace Gentings.Extensions.Sites
         /// <param name="services">当前服务提供者接口。</param>
         /// <param name="sections">当前页面未禁用的节点列表。</param>
         /// <param name="settings">网站配置。</param>
-        public PageContext(Page page, IServiceProvider services, IEnumerable<Section> sections, SiteSettings settings)
+        /// <param name="isAuthenticated">当前用户是否已经登录。</param>
+        internal PageContext(Page page, IServiceProvider services, IEnumerable<Section> sections, SiteSettings settings, bool isAuthenticated)
         {
             Page = page;
             _services = services;
@@ -40,6 +43,7 @@ namespace Gentings.Extensions.Sites
             _sections = sections.ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase);
             Sections = _sections.Values.Where(x => !x.IsPaged).OrderBy(x => x.Order).ToList();
             Settings = settings;
+            _isAuthenticated = isAuthenticated;
         }
 
         /// <summary>
@@ -53,6 +57,27 @@ namespace Gentings.Extensions.Sites
         public SiteSettings Settings { get; }
 
         /// <summary>
+        /// 判断是否可以显示。
+        /// </summary>
+        /// <param name="mode">显示模式。</param>
+        /// <returns>返回判断结果。</returns>
+        public bool IsValid(DisplayMode mode)
+        {
+            switch (mode)
+            {
+                case DisplayMode.Anonymous:
+                    if (_isAuthenticated)
+                        return false;
+                    break;
+                case DisplayMode.Authorized:
+                    if (!_isAuthenticated)
+                        return false;
+                    break;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// 呈现节点。
         /// </summary>
         /// <returns>返回节点的HTML代码。</returns>
@@ -62,6 +87,8 @@ namespace Gentings.Extensions.Sites
             var sectionManager = _services.GetRequiredService<ISectionManager>();
             foreach (var section in Sections)
             {
+                // 访问权限验证
+                if (section.Disabled || !IsValid(section.DisplayMode)) continue;
                 var html = await RenderSectionAsync(sectionManager.GetSectionRender(section.RenderName), section);
                 content.AppendHtml(html);
             }

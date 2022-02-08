@@ -1,6 +1,6 @@
 ﻿using Gentings.Data;
-using Gentings.Extensions.Sites.Sections;
-using Gentings.Extensions.Sites.Sections.Defaults;
+using Gentings.Extensions.Sites.SectionRenders;
+using Gentings.Extensions.Sites.SectionRenders.Defaults;
 using System.Collections.Concurrent;
 
 namespace Gentings.Extensions.Sites

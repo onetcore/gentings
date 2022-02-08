@@ -1,6 +1,6 @@
 ﻿using Gentings.Data;
 
-namespace Gentings.Extensions.Sites.Sections.Carousels
+namespace Gentings.Extensions.Sites.SectionRenders.Carousels
 {
     /// <summary>
     /// Carousel管理接口。

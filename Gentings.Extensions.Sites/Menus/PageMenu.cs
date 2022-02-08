@@ -7,7 +7,7 @@ namespace Gentings.Extensions.Sites.Menus
     /// 页面菜单。
     /// </summary>
     [Table("site_Menus")]
-    public class PageMenu : GroupBase<PageMenu>
+    public class PageMenu : GroupBase<PageMenu>, ILinkable
     {
         /// <summary>
         /// 分类Id。

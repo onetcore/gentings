@@ -1,0 +1,15 @@
+﻿@page
+@model IndexModel
+@{
+    Layout = "_Render";
+}
+
+@section tabs{
+<gt:tab-header name="html" active="true">HTML</gt:tab-header>
+}
+
+@section panes{
+<gt:tab-content class="full-code" name="html" active="true">
+    <textarea asp-for="Input!.Html" class="CodeMirror"></textarea>
+</gt:tab-content>
+}

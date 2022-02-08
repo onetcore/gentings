@@ -37,6 +37,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                 switch (attributeName)
                 {
                     case "readonly":
+                    case "checked":
                         {
                             if (value is bool bValue && bValue)
                                 output.SetAttribute(attributeName, attributeName);

@@ -65,13 +65,7 @@ namespace Gentings.Extensions.Sites.TagHelpers
             link.AddCssClass(InnerClassName);
             link.InnerHtml.AppendHtml(text);
             builder.InnerHtml.AppendHtml(link);
-            if (menu.Target == OpenTarget.Frame)
-                link.MergeAttribute("target", menu.FrameName, true);
-            else if (menu.Target != OpenTarget.Self)
-                link.MergeAttribute("target", $"_{menu.Target.ToString().ToLower()}");
-            if (menu.Rel != null)
-                link.MergeAttribute("rel", menu.Rel.ToString()!.ToLower());
-            link.MergeAttribute("href", menu.LinkUrl, true);
+            link.Merge(menu);
             return builder;
         }
 

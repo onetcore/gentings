@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Gentings.Extensions.Sites.Sections
+namespace Gentings.Extensions.Sites.SectionRenders
 {
     /// <summary>
     /// Html节点呈现接口。
@@ -46,11 +46,6 @@ namespace Gentings.Extensions.Sites.Sections
         /// 初始脚本。
         /// </summary>
         string? Script { get; }
-
-        /// <summary>
-        /// 初始代码。
-        /// </summary>
-        string? Html { get; }
 
         /// <summary>
         /// 呈现节点实例。

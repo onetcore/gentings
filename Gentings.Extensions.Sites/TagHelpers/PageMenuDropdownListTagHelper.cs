@@ -58,6 +58,7 @@ namespace Gentings.Extensions.Sites.TagHelpers
             var menus = CategoryId > 0 ?
                 await _menuManager.FetchAsync(x => x.CategoryId == CategoryId) :
                 await _menuManager.FetchAsync();
+            menus = menus.Where(x => x.ParentId == 0 && x.Id > 0).OrderBy(x => x.Order).ToList();
             var items = new List<SelectListItem>();
             if (ExcludeId > 0)
                 InitChildren(items, menus, xx => xx.Where(menu => menu.Id != ExcludeId).OrderBy(x => x.Order), getText: x => x.DisplayName!);

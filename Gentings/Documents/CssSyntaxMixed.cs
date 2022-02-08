@@ -14,7 +14,23 @@ namespace Gentings.Documents
         /// <param name="source">样式源代码。</param>
         public CssSyntaxMixed(string source)
         {
+            RemoveComments(ref source);
             _style = new Style(source);
+        }
+
+        private void RemoveComments(ref string source)
+        {
+            // 移除注释
+            var index = source.IndexOf("/*");
+            while (index != -1)
+            {
+                var temp = source[index..];
+                source = source[..index];
+                index = temp.IndexOf("*/");
+                if (index == -1) break;
+                source += temp[(index + 2)..];
+                index = source.IndexOf("/*");
+            }
         }
 
         /// <summary>
@@ -144,11 +160,13 @@ namespace Gentings.Documents
                 var keys = new List<string>();
                 foreach (var selector in Selectors)
                 {
-                    if (selector.StartsWith('&'))
-                        keys.Add($"{key}{selector[1..]}");
+                    if (selector.IndexOf('&') != -1)
+                        keys.Add(key.Replace("&", key));
                     else
                         keys.Add($"{key} {selector}");
                 }
+                if (keys.Count == 0)
+                    keys.Add(key);
                 return $"{keys.Join()}{{{_values.Join(string.Empty)}}}";
             }
         }

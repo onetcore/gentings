@@ -54,7 +54,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Pages
                 var result = _pageManager.Save(Input);
                 if (result)
                     return SuccessPage("你已经成功更新了页面！", "./Index");
-                return ErrorPage(result.ToString("页面"));
+                return ErrorPage(result.ToString(Input.Title));
             }
 
             return Page();

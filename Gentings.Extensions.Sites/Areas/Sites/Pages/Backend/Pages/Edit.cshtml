@@ -33,6 +33,10 @@
                     <gt:page-menu-dropdownlist cname="main" asp-for="Input.MenuId" default-text="请选择主菜单" default-value="0"></gt:page-menu-dropdownlist>
                 </div>
                 <div class="mb-3">
+                    <label class="form-label">包含菜单</label>
+                    <gt:page-menu-dropdownlist asp-for="Input.SubMenuId" default-text="请选择包含菜单" default-value="0"></gt:page-menu-dropdownlist>
+                </div>
+                <div class="mb-3">
                     <label class="form-label">关键词</label>
                     <textarea asp-for="Input.Keyword" class="form-control" rows="3"></textarea>
                 </div>

@@ -36,12 +36,13 @@ namespace Gentings.Extensions.Sites.Templates
                     break;
             }
             var sections = await GetRequiredService<ISectionManager>().FetchAsync(x => x.PageId == page.Id);
-            Context = new PageContext(page, HttpContext.RequestServices, sections, Settings);
+            Context = new PageContext(page, HttpContext.RequestServices, sections, Settings, IsAuthenticated);
             AddData("Model", Context);
             AddData("Title", page.Title);
             AddData("Keyword", page.Keyword);
             AddData("Description", page.Description);
             AddData("ClassName", page.ClassName);
+            ViewData["IsFluid"] = page.IsFluid;
             return Page();
         }
 

@@ -5,7 +5,7 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
     /// <summary>
     /// 配置节点。
     /// </summary>
-    public class EditModel : ModelBase
+    public class CreateModel : ModelBase
     {
         /// <summary>
         /// 输入模型。
@@ -48,7 +48,6 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
                 var entity = Input.Id == 0 ? Input : SectionManager.Find(Input.Id);
                 if (Input.Id > 0)
                 {
-                    entity.Disabled = Input.Disabled;
                     entity.DisplayName = Input.DisplayName;
                     entity.Name = Input.Name;
                 }
@@ -58,11 +57,9 @@ namespace Gentings.Extensions.Sites.Areas.Sites.Pages.Backend.Sections
                     entity.RenderDisplayName = render.DisplayName;
                     entity.Style = render.Style;
                     entity.Script = render.Script;
-                    if (!string.IsNullOrWhiteSpace(render.Html))
-                        entity["Html"] = render.Html;
                 }
-                var result = SectionManager.Save(Input);
-                return Json(result, "节点");
+                var result = SectionManager.Save(entity);
+                return Json(result, entity.DisplayName);
             }
 
             return Page();

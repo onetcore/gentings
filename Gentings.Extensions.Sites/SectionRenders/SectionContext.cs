@@ -1,4 +1,4 @@
-﻿namespace Gentings.Extensions.Sites.Sections
+﻿namespace Gentings.Extensions.Sites.SectionRenders
 {
     /// <summary>
     /// 节点上下文。

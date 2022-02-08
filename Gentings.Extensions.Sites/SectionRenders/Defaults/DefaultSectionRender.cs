@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Gentings.Extensions.Sites.Sections.Defaults
+namespace Gentings.Extensions.Sites.SectionRenders.Defaults
 {
     /// <summary>
     /// 默认节点。
@@ -36,11 +36,6 @@ namespace Gentings.Extensions.Sites.Sections.Defaults
         /// 描述。
         /// </summary>
         public override string Summary => "默认节点实例，提供节点默认设置。";
-
-        /// <summary>
-        /// 配置地址。
-        /// </summary>
-        public override string EditUrl => "./Defaults/Edit";
 
         /// <summary>
         /// 呈现节点实例。
