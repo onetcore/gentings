@@ -58,7 +58,7 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "ul";
-            output.AddClass("navbar-nav");
+            output.AddCssClass("navbar-nav");
             var items = _factory.GetRoots(Provider!)
                 .Where(IsAuthorized)//当前项
                 .ToList();

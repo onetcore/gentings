@@ -27,7 +27,7 @@ namespace Gentings.AspNetCore.TagHelpers.Documents
         {
             if (Data == null) return;
             output.TagName = "ol";
-            output.AddClass("breadcrumb");
+            output.AddCssClass("breadcrumb");
             var current = Data.GetByHref(ViewContext.HttpContext.Request.GetUri().AbsolutePath);
             var navigators = LoadNavigators(current).ToList();
             if (navigators.Count == 0)

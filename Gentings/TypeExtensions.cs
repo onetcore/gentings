@@ -171,7 +171,7 @@ namespace Gentings
             }
         }
 
-        private static readonly Dictionary<Type, string> _builtInTypeNames = new Dictionary<Type, string>
+        private static readonly Dictionary<Type, string> _builtInTypeNames = new()
         {
             {typeof(bool), "bool"},
             {typeof(byte), "byte"},

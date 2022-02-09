@@ -134,34 +134,33 @@ main > .container-fluid {
 
     a {
         color: rgba(0,0,0,0.65);
+        padding-left: 0.25rem;
+        border-left: 3px solid transparent;
 
         &:hover, &:focus, &:active, &.active {
             color: rgba(0,0,0,0.85);
         }
 
         &.active {
-            font-weight: 600;
+            border-color: $primary;
+            color: $primary;
         }
     }
 
-    .toc-h2 {
+    .toc-h3 {
         padding-left: 0.5rem;
     }
 
-    .toc-h3 {
+    .toc-h4 {
         padding-left: 1rem;
     }
 
-    .toc-h4 {
+    .toc-h5 {
         padding-left: 1.5rem;
     }
 
-    .toc-h5 {
-        padding-left: 2rem;
-    }
-
     .toc-h6 {
-        padding-left: 2.5rem;
+        padding-left: 2rem;
     }
 }
 

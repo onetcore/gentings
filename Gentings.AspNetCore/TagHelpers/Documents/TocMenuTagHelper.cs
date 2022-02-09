@@ -15,7 +15,7 @@ namespace Gentings.AspNetCore.TagHelpers.Documents
         /// <summary>
         /// 当前数据对象。
         /// </summary>
-        public Toc Data { get; set; }
+        public Toc? Data { get; set; }
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -24,8 +24,13 @@ namespace Gentings.AspNetCore.TagHelpers.Documents
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
+            if(Data == null)
+            {
+                output.SuppressOutput();
+                return;
+            }
             output.TagName = "ul";
-            output.AddClass("navbar-nav");
+            output.AddCssClass("navbar-nav");
             var current = Data.GetByHref(ViewContext.HttpContext.Request.GetUri().AbsolutePath);
             foreach (var item in Data)
             {

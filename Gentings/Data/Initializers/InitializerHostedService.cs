@@ -12,7 +12,7 @@ namespace Gentings.Data.Initializers
     public class InitializerHostedService : BackgroundService
     {
         private static InitializerStatus _current;
-        private static readonly object _locker = new object();
+        private static readonly object _locker = new();
         private readonly IServiceProvider _serviceProvider;
         private readonly IInitializerManager _installerManager;
         private readonly ILogger _logger;

@@ -98,7 +98,7 @@ namespace Gentings.Data.Query
 
         private int _current = 'a';
 
-        private readonly Dictionary<Type, string> _alias = new Dictionary<Type, string>
+        private readonly Dictionary<Type, string> _alias = new()
         {
             {typeof(TModel), "a"}
         };
@@ -173,7 +173,7 @@ namespace Gentings.Data.Query
             }
         }
 
-        private readonly List<Func<string>> _joins = new List<Func<string>>();
+        private readonly List<Func<string>> _joins = new();
 
         /// <summary>
         /// 设置表格关联。
@@ -345,7 +345,7 @@ namespace Gentings.Data.Query
             }
         }
 
-        private readonly List<string> _fields = new List<string>();
+        private readonly List<string> _fields = new();
 
         /// <summary>
         /// 设置选择列。
@@ -536,7 +536,7 @@ namespace Gentings.Data.Query
             }
         }
 
-        private readonly List<string> _wheres = new List<string>();
+        private readonly List<string> _wheres = new();
 
         /// <summary>
         /// 添加条件表达式。
@@ -610,7 +610,7 @@ namespace Gentings.Data.Query
             }
         }
 
-        private readonly List<string> _orderbys = new List<string>();
+        private readonly List<string> _orderbys = new();
 
         /// <summary>
         /// 添加排序规则。

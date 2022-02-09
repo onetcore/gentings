@@ -10,7 +10,7 @@ namespace Gentings.Data.Query.Translators.Internal
     public class StringCompareTranslator : IExpressionFragmentTranslator
     {
         private static readonly Dictionary<ExpressionType, ExpressionType> _operatorMap =
-            new Dictionary<ExpressionType, ExpressionType>
+            new()
             {
                 {ExpressionType.LessThan, ExpressionType.GreaterThan},
                 {ExpressionType.LessThanOrEqual, ExpressionType.GreaterThanOrEqual},

@@ -48,7 +48,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                             if (value is bool bValue && bValue)
                             {
                                 output.SetAttribute(attributeName, attributeName);
-                                output.AddClass("disabled");
+                                output.AddCssClass("disabled");
                             }
                         }
                         break;

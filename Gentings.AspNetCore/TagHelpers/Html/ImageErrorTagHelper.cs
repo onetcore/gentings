@@ -14,7 +14,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// 默认地址。
         /// </summary>
         [HtmlAttributeName(AttributeName)]
-        public string Defsrc { get; set; }
+        public string? Defsrc { get; set; }
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -26,7 +26,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if(string.IsNullOrWhiteSpace(Defsrc))
                 return;
             if (Defsrc.StartsWith("~/"))
-                Defsrc = Defsrc.Substring(1);
+                Defsrc = Defsrc[1..];
             output.SetAttribute("def", Defsrc);
             output.SetAttribute("onerror", "if(this.src!=this.getAttribute('def'))this.src=this.getAttribute('def');");
         }

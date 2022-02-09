@@ -63,7 +63,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             base.Process(context, output);
-            await output.RenderAsync("a", async builder =>
+            await output.ProcessAsync("a", async builder =>
             {
                 if (Disabled == true) builder.AddCssClass("checked-enabled disabled");
                 builder.AddCssClass("btn");
@@ -71,7 +71,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                 else builder.AddCssClass("btn-" + Mode.ToLowerString());
 
                 if (IconName != null)
-                    builder.AppendTag("i", i => i.AddCssClass(IconName));
+                    builder.AppendHtml("i", i => i.AddCssClass(IconName));
 
                 if (Confirm != null)
                     builder.MergeAttribute("_confirm", Confirm);
@@ -79,7 +79,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                 ClickHandler(builder);
 
                 var content = await output.GetChildContentAsync();
-                builder.AppendTag("span", span =>
+                builder.AppendHtml("span", span =>
                 {
                     if (content.IsEmptyOrWhiteSpace)
                         span.InnerHtml.AppendHtml(_localizer[Type]);

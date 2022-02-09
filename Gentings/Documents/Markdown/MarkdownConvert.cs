@@ -102,7 +102,7 @@ namespace Gentings.Documents.Markdown
             return Markdig.Markdown.ToHtml(source, build);
         }
 
-        private static readonly ConcurrentDictionary<MarkdownExtension, MarkdownPipelineBuilder> _builders = new ConcurrentDictionary<MarkdownExtension, MarkdownPipelineBuilder>();
+        private static readonly ConcurrentDictionary<MarkdownExtension, MarkdownPipelineBuilder> _builders = new();
         /// <summary>
         /// 实例化一个管道构建实例。
         /// </summary>

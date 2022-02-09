@@ -27,7 +27,7 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
         /// <summary>
         /// 警告标签定义的语法键值。
         /// </summary>
-        private static readonly ConcurrentDictionary<string, SyntaxEntry> _syntaxs = new ConcurrentDictionary<string, SyntaxEntry>(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, SyntaxEntry> _syntaxs = new(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// 语法实体。

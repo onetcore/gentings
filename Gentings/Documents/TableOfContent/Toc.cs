@@ -17,7 +17,7 @@ namespace Gentings.Documents.TableOfContent
         /// </summary>
         public string DirectoryName { get; private set; }
 
-        private readonly List<TocItem> _items = new List<TocItem>();
+        private readonly List<TocItem> _items = new();
 
         /// <summary>
         /// 获取正确的URL地址。

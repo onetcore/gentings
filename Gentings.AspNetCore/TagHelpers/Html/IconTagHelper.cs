@@ -20,7 +20,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// 图标样式名称。
         /// </summary>
         [HtmlAttributeName(".icon")]
-        public string IconName { get; set; }
+        public string? IconName { get; set; }
 
         /// <summary>
         /// 图标位置是否为末尾。

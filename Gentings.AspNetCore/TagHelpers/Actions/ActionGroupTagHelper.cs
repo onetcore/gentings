@@ -27,10 +27,10 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         {
             output.TagName = "div";
             if (Align == AlignMode.Vertical)
-                output.AddClass("btn-group-vertical");
+                output.AddCssClass("btn-group-vertical");
             else
-                output.AddClass("btn-group");
-            if (Disabled) output.AddClass("checked-enabled disabled");
+                output.AddCssClass("btn-group");
+            if (Disabled) output.AddCssClass("checked-enabled disabled");
         }
     }
 }

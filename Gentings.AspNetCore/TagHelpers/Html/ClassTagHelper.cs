@@ -36,7 +36,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             var className = ClassName?.ToString()?.Trim();
             if (!string.IsNullOrEmpty(className))
                 classNames.AddRange(className.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
-            output.AddClass(classNames.ToArray());
+            output.AddCssClass(classNames);
         }
     }
 }

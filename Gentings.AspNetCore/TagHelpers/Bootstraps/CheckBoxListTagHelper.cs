@@ -83,9 +83,9 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="type">标签类型：checkbox,radio。</param>
         protected void Process(TagHelperOutput output, string type)
         {
-            var items = new Dictionary<string, object>();
+            var items = new Dictionary<string, object?>();
             Init(items);
-            output.Render("div", builder =>
+            output.Process("div", builder =>
             {
                 builder.AddCssClass($"{type}-list");
                 foreach (var item in items)
@@ -95,7 +95,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             });
         }
 
-        private void Append(TagBuilder builder, string type, KeyValuePair<string, object> item)
+        private void Append(TagBuilder builder, string type, KeyValuePair<string, object?> item)
         {
             var input = new TagBuilder("input");
             input.AddCssClass("form-check-input");

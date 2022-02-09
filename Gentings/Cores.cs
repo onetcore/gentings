@@ -211,7 +211,7 @@ namespace Gentings
             return Md5(Sha1(salt + code.ToUpper()));
         }
 
-        private static readonly DateTime _unixDate = new DateTime(1970, 1, 1);
+        private static readonly DateTime _unixDate = new(1970, 1, 1);
 
         /// <summary>
         /// 获取当前时间对应的UNIX时间的秒数。
@@ -341,7 +341,7 @@ namespace Gentings
         /// </summary>
         public static Version Version => Assembly.GetEntryAssembly()?.GetName().Version;
 
-        private static readonly JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions
+        private static readonly JsonSerializerOptions _defaultJsonSerializerOptions = new()
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase

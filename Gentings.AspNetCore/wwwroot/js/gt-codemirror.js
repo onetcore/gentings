@@ -28,6 +28,43 @@ if (typeof window.CodeMirror !== 'undefined') {
             }
             window.CodeMirror.autoLoadMode(editor, loadMode);
             item.data('CodeMirror', editor);
+            // upload
+            if (mode == 'markdown') {
+                var upload = item.attr('_upload');
+                if (upload) {
+                    (function () {
+                        var json = item.json();
+                        editor.on('paste', function (cm, e) {
+                            var clipboardData = e.clipboardData || e.originalEvent.clipboardData;
+                            if (clipboardData && clipboardData.items) {
+                                for (var i = 0; i < clipboardData.items.length; i++) {
+                                    var item = clipboardData.items[i];
+                                    if (item.kind == 'file' && item.type.indexOf('image') != -1) {
+                                        var file = item.getAsFile();
+                                        var data = new FormData();
+                                        data.append("file", file);
+                                        if (json) {
+                                            for (var key in json) {
+                                                data.append(key, json[key]);
+                                            }
+                                        }
+                                        $ajax(upload, data, function (d) {
+                                            if (d.url) {
+                                                var selection = cm.doc.getSelection();
+                                                cm.replaceSelection('![' + selection + '](' + d.url + ')');
+                                            } else {
+                                                showMsg(d);
+                                            }
+                                            return true;
+                                        }, false);
+                                        return false;
+                                    }
+                                }
+                            }
+                        });
+                    })();
+                }
+            }
         });
         //bootstrap tab标签
         $('a[data-bs-toggle="tab"]', context).on('shown.bs.tab', function () {

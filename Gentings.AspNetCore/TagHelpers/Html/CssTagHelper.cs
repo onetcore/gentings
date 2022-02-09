@@ -13,7 +13,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
     {
         private const string CssValuesPrefix = ".css-";
         private const string CssValuesDictionaryName = ".css-data";
-        private IDictionary<string, object> _styles;
+        private IDictionary<string, object>? _styles;
 
         /// <summary>
         /// 样式列表。
@@ -44,7 +44,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             var tag = new TagBuilder("div");
             foreach (var style in Styles)
             {
-                var value = style.Value?.ToString().Trim();
+                var value = style.Value?.ToString()?.Trim();
                 tag.MergeAttribute(style.Key, value, true);
                 builder.Append($"{style.Key}:{value};");
             }

@@ -55,9 +55,9 @@ namespace Gentings.Data.Query
         }
 
         private readonly ConcurrentDictionary<Type, CacheEntry> _creations =
-            new ConcurrentDictionary<Type, CacheEntry>();
+            new();
 
-        private readonly ConcurrentDictionary<Type, CacheEntry> _updates = new ConcurrentDictionary<Type, CacheEntry>();
+        private readonly ConcurrentDictionary<Type, CacheEntry> _updates = new();
 
         private class CacheEntry
         {

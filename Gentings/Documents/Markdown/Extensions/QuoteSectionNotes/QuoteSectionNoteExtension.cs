@@ -22,7 +22,7 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
         {
             if (renderer is HtmlRenderer htmlRenderer)
             {
-                QuoteSectionNoteRender quoteSectionNoteRender = new QuoteSectionNoteRender();
+                QuoteSectionNoteRender quoteSectionNoteRender = new();
 
                 if (!renderer.ObjectRenderers.Replace<QuoteBlockRenderer>(quoteSectionNoteRender))
                 {

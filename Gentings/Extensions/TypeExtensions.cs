@@ -10,10 +10,10 @@ namespace Gentings.Extensions
     /// </summary>
     public static class TypeExtensions
     {
-        private static readonly ConcurrentDictionary<Type, string> _tables = new ConcurrentDictionary<Type, string>();
+        private static readonly ConcurrentDictionary<Type, string> _tables = new();
 
         private static readonly ConcurrentDictionary<Type, IEntityType> _types =
-            new ConcurrentDictionary<Type, IEntityType>();
+            new();
 
         /// <summary>
         /// 获取数据库表格。

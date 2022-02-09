@@ -25,7 +25,7 @@
 $(function () {
     // toc
     var list = [];
-    $('article').find('h1[id],h2[id],h3[id],h4[id],h5[id],h6[id]').each(function () {
+    $('.marked').find('h2[id],h3[id],h4[id],h5[id],h6[id]').each(function () {
         list.push({ id: this.id, text: this.innerText, type: this.tagName.toLowerCase(), top: $(this).offset().top });
     });
     var html = [];

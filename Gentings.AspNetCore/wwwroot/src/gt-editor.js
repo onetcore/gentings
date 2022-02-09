@@ -405,7 +405,7 @@ class MarkDownEditor {
                 data.append(key, ajaxData[key]);
             }
         }
-        $ajax(this._uploadUrl, data, success);
+        $ajax(this._uploadUrl, data, success, false);
     }
 
     /**

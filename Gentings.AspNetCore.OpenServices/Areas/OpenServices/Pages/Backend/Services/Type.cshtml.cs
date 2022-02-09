@@ -35,12 +35,12 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend.Serv
         /// <summary>
         /// 程序集。
         /// </summary>
-        public string AssemblyName { get; private set; }
+        public string? AssemblyName { get; private set; }
 
         /// <summary>
         /// 类型名称。
         /// </summary>
-        public Type Type { get; private set; }
+        public Type? Type { get; private set; }
 
         /// <summary>
         /// 类型名称首字母。
@@ -50,6 +50,6 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend.Serv
         /// <summary>
         /// 类型注释实例。
         /// </summary>
-        public TypeDescriptor TypeDescriptor { get; private set; }
+        public TypeDescriptor? TypeDescriptor { get; private set; }
     }
 }

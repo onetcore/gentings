@@ -67,7 +67,7 @@ namespace Gentings.Documents
                 }
             }
 
-            private readonly List<Syntax> _styles = new List<Syntax>();
+            private readonly List<Syntax> _styles = new();
 
             /// <summary>
             /// 获取迭代器实例。
@@ -128,7 +128,7 @@ namespace Gentings.Documents
             /// </summary>
             public string[] Selectors { get; }
 
-            private readonly List<NameValue> _values = new List<NameValue>();
+            private readonly List<NameValue> _values = new();
 
             /// <summary>
             /// 获取迭代器实例。

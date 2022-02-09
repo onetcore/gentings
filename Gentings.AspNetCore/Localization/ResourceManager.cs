@@ -8,15 +8,15 @@ namespace Gentings.AspNetCore.Localization
     /// </summary>
     public class ResourceManager : IResourceManager
     {
-        private readonly Regex _regex = new Regex(@"\W");
-        private readonly Regex _single = new Regex("_+");
+        private readonly Regex _regex = new(@"\W");
+        private readonly Regex _single = new("_+");
         private string GetSafeKey(string key) => _single.Replace(_regex.Replace(key, "_"), "_").Trim('_');//移除空格，将空格转换为下划线
 
-        private readonly ConcurrentDictionary<string, TypedResource> _resources = new ConcurrentDictionary<string, TypedResource>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, TypedResource> _resources = new(StringComparer.OrdinalIgnoreCase);
         private string? GetPhysicalPath(Type type, string culture, out string assemblyName, out string typeName)
         {
             assemblyName = type.Assembly.GetName().Name!;
-            typeName = type.FullName!.Substring(assemblyName.Length + 1);
+            typeName = type.FullName![(assemblyName.Length + 1)..];
             var path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", culture, assemblyName, $"{typeName}.xml");
             if (File.Exists(path)) return path;
             culture = culture.Split('-')[0];
@@ -25,7 +25,7 @@ namespace Gentings.AspNetCore.Localization
             return null;
         }
 
-        private string? GetPhysicalPath(string resourceName, string culture)
+        private static string? GetPhysicalPath(string resourceName, string culture)
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(), "App_Data/Resources", culture, $"{resourceName}.xml");
             if (File.Exists(path)) return path;
@@ -94,7 +94,7 @@ namespace Gentings.AspNetCore.Localization
             xmlDoc.Save(path);
         }
 #endif
-        private readonly ConcurrentDictionary<string, NamedResource> _namedResources = new ConcurrentDictionary<string, NamedResource>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, NamedResource> _namedResources = new(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// 获取资源实例。

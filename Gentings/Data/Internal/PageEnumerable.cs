@@ -9,7 +9,7 @@ namespace Gentings.Data.Internal
     /// <typeparam name="TModel">模型类型。</typeparam>
     public class PageEnumerable<TModel> : IPageEnumerable<TModel>
     {
-        private readonly List<TModel> _models = new List<TModel>();
+        private readonly List<TModel> _models = new();
 
         /// <summary>返回一个循环访问集合的枚举器。</summary>
         /// <returns>用于循环访问集合的枚举数。</returns>

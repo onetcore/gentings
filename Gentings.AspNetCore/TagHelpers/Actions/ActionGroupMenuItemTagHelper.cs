@@ -39,7 +39,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                 builder.MergeAttribute("_click", "upload");
             else if (Type == ActionType.Edit)
                 builder.MergeAttribute("_click", "checked:modal");
-            else if (Type != null)
+            else
                 builder.MergeAttribute("_click", "checked");
         }
     }

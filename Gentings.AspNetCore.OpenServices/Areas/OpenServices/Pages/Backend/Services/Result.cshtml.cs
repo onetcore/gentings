@@ -22,7 +22,7 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend.Serv
         /// <summary>
         /// 返回类型列表。
         /// </summary>
-        public ApiDescriptor ApiDescriptor { get; private set; }
+        public ApiDescriptor? ApiDescriptor { get; private set; }
 
         /// <summary>
         /// 获取Token页面。

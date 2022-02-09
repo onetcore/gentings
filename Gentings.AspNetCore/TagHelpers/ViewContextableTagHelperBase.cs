@@ -74,7 +74,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <summary>
         /// 本地化接口。
         /// </summary>
-        public ILocalizer Localizer
+        protected ILocalizer Localizer
         {
             get
             {
@@ -96,7 +96,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <summary>
         /// 当前语言。
         /// </summary>
-        public string Culture
+        protected string Culture
         {
             get
             {
@@ -122,11 +122,17 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="resourceName">资源文件名称。</param>
         /// <param name="key">唯一键。</param>
         /// <returns>返回前端资源，如果不存在返回<c>null</c>。</returns>
-        public virtual string? GetResource(string resourceName, string key)
+        protected virtual string? GetResource(string resourceName, string key)
         {
             if (_resourceManager == null)
                 _resourceManager = GetRequiredService<IResourceManager>();
             return _resourceManager.GetResource(resourceName, key, Culture);
         }
+
+        private bool? _isAuthenticated;
+        /// <summary>
+        /// 当前用户是否已经登录。
+        /// </summary>
+        protected bool IsAuthenticated => _isAuthenticated ??= HttpContext.User.Identity?.IsAuthenticated == true;
     }
 }

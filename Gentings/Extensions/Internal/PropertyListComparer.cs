@@ -8,7 +8,7 @@
         /// <summary>
         /// 属性列表对比器实例。
         /// </summary>
-        public static readonly PropertyListComparer Instance = new PropertyListComparer();
+        public static readonly PropertyListComparer Instance = new();
 
         private PropertyListComparer()
         {

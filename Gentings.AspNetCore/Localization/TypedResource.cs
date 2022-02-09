@@ -7,7 +7,7 @@ namespace Gentings.AspNetCore.Localization
     /// </summary>
     public class TypedResource
     {
-        private readonly ConcurrentDictionary<Type, Resource> _resources = new ConcurrentDictionary<Type, Resource>();
+        private readonly ConcurrentDictionary<Type, Resource> _resources = new();
 
         internal TypedResource(Type type, string path)
         {

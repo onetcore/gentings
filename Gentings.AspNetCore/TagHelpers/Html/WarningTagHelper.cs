@@ -62,13 +62,13 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                         output.AppendHtml("td", RenderWarning);
                         break;
                     case "td":
-                        output.Render("td", RenderWarning);
+                        output.Process("td", RenderWarning);
                         break;
                     case "tbody":
-                        output.AppendHtml("tr", builder => builder.AppendTag("td", RenderWarning));
+                        output.AppendHtml("tr", builder => builder.AppendHtml("td", RenderWarning));
                         break;
                     default:
-                        output.Render("div", RenderWarning);
+                        output.Process("div", RenderWarning);
                         break;
                 }
             }
@@ -79,8 +79,8 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if (builder.TagName == "td")
                 builder.MergeAttribute("colspan", Colspan?.ToString() ?? "100");
             builder.AddCssClass("null-warning");
-            builder.AppendTag("i", i => i.AddCssClass("bi-exclamation-circle"));
-            builder.AppendTag("div", div => div.InnerHtml.AppendHtml(Text));
+            builder.AppendHtml("i", i => i.AddCssClass("bi-exclamation-circle"));
+            builder.AppendHtml("div", div => div.InnerHtml.AppendHtml(Text));
         }
     }
 }

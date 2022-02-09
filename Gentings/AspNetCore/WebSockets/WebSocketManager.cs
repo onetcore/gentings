@@ -9,7 +9,7 @@ namespace Gentings.AspNetCore.WebSockets
     /// </summary>
     public class WebSocketManager : IWebSocketManager
     {
-        private static readonly ConcurrentDictionary<string, IWebSocket> _sockets = new ConcurrentDictionary<string, IWebSocket>(StringComparer.OrdinalIgnoreCase);
+        private static readonly ConcurrentDictionary<string, IWebSocket> _sockets = new(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// 添加<see cref="IWebSocket"/>实例。

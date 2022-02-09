@@ -19,9 +19,9 @@
         "confirm": "确认"
     },
     "elementError": "元素不存在或者操作一个元素实例，不能获取data-*相关数据！",
-    copy: "拷贝",
-    copyCode: "点击拷贝代码",
-    copied: "已拷贝，请使用“ctrl+v”或者“粘贴”操作！",
+    copy: "复制",
+    copyCode: "复制代码",
+    copied: "复制成功",
     fullscreen: {
         show: '全屏显示',
         quit: '退出全屏'
@@ -244,12 +244,12 @@
             else if (eventType === 'copy' || eventType.startsWith('copy:')) {
                 current.on('click', function (event) {
                     event.preventDefault();
-                    $(document).on('copy', function (e) {
+                    $(document).off('copy').on('copy', function (e) {
                         // 设置信息，实现复制
                         const value = eventType === 'copy:html' ? target.html() : target.text();
                         e.originalEvent.clipboardData.setData('text/plain', value.trim());
                         e.preventDefault();
-                        showMsg(resources.copied, 0);
+                        showPopup(resources.copied, event);
                     });
                     document.execCommand('copy');
                     return false;
@@ -523,9 +523,9 @@
                             {
                                 current.find('pre>code').exec(element => {
                                     const parent = element.parent();
-                                    $('<a class="btn btn-sm btn-outline-primary">' + resources.copy + '</a>').on('click', function (event) {
+                                    $('<a class="copy" href="javascript:;" title="' + resources.copyCode + '"><i class="bi-clipboard"></i></a>').prependTo(parent).on('click', function (event) {
                                         event.preventDefault();
-                                        $(document).on('copy', function (e) {
+                                        $(document).off('copy').on('copy', function (e) {
                                             // 设置信息，实现复制
                                             e.preventDefault();
                                             let code;
@@ -540,11 +540,11 @@
                                                 code = element.text();
                                             }
                                             e.originalEvent.clipboardData.setData('text/plain', code);
-                                            showMsg(resources.copied, 0);
+                                            showPopup(resources.copied, event);
                                         });
                                         document.execCommand('copy');
                                         return false;
-                                    }).prependTo(parent);
+                                    });
                                     //parent.css('position', 'relative');
                                 });
                             }
@@ -610,6 +610,35 @@
         }
         $.ajax(options);
         return false;
+    };
+    /**
+     * 请求标题头。
+     * */
+    function ajaxHeaders() {
+        var token = $('#ajax-protected-form').find('[name="__RequestVerificationToken"]');
+        if (token.length == 0) {
+            throw new Error(resources.ajax.noHeader);
+        }
+        return {
+            'RequestVerificationToken': token.val()
+        };
+    };
+    /**
+     * 发生错误请求后执行的方法。
+     * @param {Object} e 事件对象。
+     * @param {Function|undefined} error 错误发生后执行的方法。
+     */
+    function errorHandler(e, error) {
+        if (error && error(e))
+            return;
+        var status = resources.status[e.status]
+        if (status) {
+            showMsg(status);
+            return;
+        } else {
+            console.error(e.responseText);
+            showMsg(resources.unknownError);
+        }
     };
     //URL辅助方法
     if (!window.URL) window.URL = {};
@@ -764,33 +793,17 @@
         current.modal('show');
     };
     /**
-     * 请求标题头。
-     * */
-    function ajaxHeaders() {
-        var token = $('#ajax-protected-form').find('[name="__RequestVerificationToken"]');
-        if (token.length == 0) {
-            throw new Error(resources.ajax.noHeader);
-        }
-        return {
-            'RequestVerificationToken': token.val()
-        };
-    };
-    /**
-     * 发生错误请求后执行的方法。
-     * @param {Object} e 事件对象。
-     * @param {Function|undefined} error 错误发生后执行的方法。
+     * 显示字符串后消失。
+     * @param {string} text 显示的字符串；
+     * @param {Event} e JS事件，一般为点击事件；
+     * @param {string} color 颜色样式，默认text-success；
      */
-    function errorHandler(e, error) {
-        if (error && error(e))
-            return;
-        var status = resources.status[e.status]
-        if (status) {
-            showMsg(status);
-            return;
-        } else {
-            console.error(e.responseText);
-            showMsg(resources.unknownError);
-        }
-    };
+    window.showPopup = function (text, e, color) {
+        let current = $('<span class="text-popup"></span>').addClass(color || 'text-success').html(text).appendTo(document.body);
+        current.css({ left: e.pageX - current.width() / 2 + "px", top: e.pageY - current.height() / 2 + "px" });
+        current.on('animationend', function () {
+            current.remove();
+        });
+    }
     $(function () { onrender(); });
 })(jQuery);

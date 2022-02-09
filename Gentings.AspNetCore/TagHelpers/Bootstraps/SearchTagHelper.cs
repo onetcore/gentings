@@ -61,9 +61,9 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Render("div", builder =>
+            output.Process("div", builder =>
             {
-                builder.AppendTag("input", input =>
+                builder.AppendHtml("input", input =>
                 {
                     input.AddCssClass("form-control");
                     if (Small)
@@ -81,10 +81,10 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                         input.MergeAttribute("value", Value?.ToString());
                     input.TagRenderMode = TagRenderMode.SelfClosing;
                 });
-                builder.AppendTag("button", button =>
+                builder.AppendHtml("button", button =>
                 {
                     button.MergeAttribute("type", "submit");
-                    button.AppendTag("span", span => span.AddCssClass("bi-search"));
+                    button.AppendHtml("span", span => span.AddCssClass("bi-search"));
                 });
                 output.Attributes.Clear();
                 builder.AddCssClass("input-group-append");

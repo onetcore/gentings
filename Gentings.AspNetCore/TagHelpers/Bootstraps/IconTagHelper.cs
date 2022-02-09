@@ -19,7 +19,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 图标样式名称。
         /// </summary>
         [HtmlAttributeName("name")]
-        public string IconName { get; set; }
+        public string? IconName { get; set; }
 
         /// <summary>
         /// 初始化当前标签上下文。
@@ -41,7 +41,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             if (string.IsNullOrWhiteSpace(IconName))
                 return;
 
-            output.Render("span", builder =>
+            output.Process("span", builder =>
             {
                 builder.AddCssClass(IconName);
             });

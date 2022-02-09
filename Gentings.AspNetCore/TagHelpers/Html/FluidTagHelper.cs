@@ -24,9 +24,9 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             if (IsFluid == true)
-                output.AddClass("container-fluid");
+                output.AddCssClass("container-fluid");
             else if (IsFluid == false)
-                output.AddClass("container");
+                output.AddCssClass("container-lg");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Gentings.AspNetCore.TagHelpers.Security
         /// 权限名称。
         /// </summary>
         [HtmlAttributeName(AttributeName)]
-        public string PermissionName { get; set; }
+        public string? PermissionName { get; set; }
 
         /// <summary>
         /// 异步访问并呈现当前标签实例。

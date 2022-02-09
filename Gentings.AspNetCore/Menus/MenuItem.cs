@@ -17,7 +17,7 @@ namespace Gentings.AspNetCore.Menus
         /// <summary>
         /// 提供者类型。
         /// </summary>
-        public Type ProviderType { get; internal set; }
+        public Type? ProviderType { get; internal set; }
 
         /// <summary>
         /// 初始化类<see cref="MenuItem"/>。
@@ -117,8 +117,10 @@ namespace Gentings.AspNetCore.Menus
         /// <returns>返回当前项目实例。</returns>
         public MenuItem AddMenu(string name, Action<MenuItem> action)
         {
-            var menu = new MenuItem(name, this);
-            menu.ProviderType = ProviderType;
+            var menu = new MenuItem(name, this)
+            {
+                ProviderType = ProviderType
+            };
             action(menu);
             _children.Add(menu.Name!, menu);
             return this;
@@ -131,10 +133,12 @@ namespace Gentings.AspNetCore.Menus
         /// <returns>返回当前项目实例。</returns>
         public MenuItem AddMenu(Action<MenuItem> action)
         {
-            var menu = new MenuItem();
-            menu.ProviderType = ProviderType;
-            menu.Parent = this;
-            menu.Level = Level + 1;
+            var menu = new MenuItem
+            {
+                ProviderType = ProviderType,
+                Parent = this,
+                Level = Level + 1
+            };
             action(menu);
             if (menu.Name == null)
                 throw new Exception("菜单唯一名称不能为空！");

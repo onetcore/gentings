@@ -14,12 +14,12 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 名称。
         /// </summary>
         [HtmlAttributeName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 选定对象值。
         /// </summary>
-        public object Value { get; set; }
+        public object? Value { get; set; }
 
         /// <summary>
         /// 开关类型。
@@ -29,18 +29,18 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <summary>
         /// 启用文字。
         /// </summary>
-        public string On { get; set; }
+        public string? On { get; set; }
 
         /// <summary>
         /// 关闭文字。
         /// </summary>
-        public string Off { get; set; }
+        public string? Off { get; set; }
 
         /// <summary>
         /// 设置属性模型。
         /// </summary>
         [HtmlAttributeName("asp-for")]
-        public ModelExpression For { get; set; }
+        public ModelExpression? For { get; set; }
 
         /// <summary>
         /// 是否选中。
@@ -71,7 +71,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             var id = $"switch-{GetCounter()}";
             if (context.AllAttributes.TryGetAttribute("id", out var attribute) && attribute.Value != null)
                 id = attribute.Value.ToString();
-            output.Render("input", builder =>
+            output.Process("input", builder =>
             {
                 builder.GenerateId(id, "-");
                 builder.MergeAttribute("type", "checkbox");

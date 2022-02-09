@@ -14,7 +14,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
     /// </summary>
     public class ConvertTranslator : IMethodCallTranslator
     {
-        private static readonly Dictionary<string, DbType> _typeMapping = new Dictionary<string, DbType>
+        private static readonly Dictionary<string, DbType> _typeMapping = new()
         {
             [nameof(Convert.ToByte)] = DbType.Byte,
             [nameof(Convert.ToDecimal)] = DbType.Decimal,
@@ -25,7 +25,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
             [nameof(Convert.ToString)] = DbType.String,
         };
 
-        private static readonly List<Type> _supportedTypes = new List<Type>
+        private static readonly List<Type> _supportedTypes = new()
         {
             typeof(bool),
             typeof(byte),

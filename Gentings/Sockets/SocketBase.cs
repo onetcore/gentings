@@ -13,12 +13,12 @@ namespace Gentings.Sockets
         /// <summary>
         /// 当前线程包含的任务。
         /// </summary>
-        private readonly ConcurrentBag<Task> _tasks = new ConcurrentBag<Task>();
+        private readonly ConcurrentBag<Task> _tasks = new();
 
         /// <summary>
         /// 取消标志源。
         /// </summary>
-        public readonly CancellationTokenSource TokenSource = new CancellationTokenSource();
+        public readonly CancellationTokenSource TokenSource = new();
 
         /// <summary>
         /// 添加后台任务。
@@ -211,7 +211,7 @@ namespace Gentings.Sockets
         /// <returns>返回处理结果。</returns>
         protected abstract Task<bool> ProcessAsync(ByteReader reader);
 
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _semaphore = new(1);
 
         /// <summary>
         /// 发送消息包。
@@ -235,7 +235,7 @@ namespace Gentings.Sockets
 
         private volatile int _seconds;
         private long _lastSecond = Cores.UnixNow;
-        private static readonly object _secondsLocker = new object();
+        private static readonly object _secondsLocker = new();
 
         /// <summary>
         /// 同一秒钟内的并发数量。

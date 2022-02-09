@@ -27,7 +27,7 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend.Serv
         /// <summary>
         /// 文档列表。
         /// </summary>
-        public IDictionary<string, IEnumerable<ApiDescriptor>> Document { get; private set; }
+        public IDictionary<string, IEnumerable<ApiDescriptor>>? Document { get; private set; }
         /// <summary>
         /// 获取文档列表。
         /// </summary>

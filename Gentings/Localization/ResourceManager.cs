@@ -10,9 +10,9 @@ namespace Gentings.Localization
     /// </summary>
     public class ResourceManager
     {
-        private static readonly Regex _regex = new Regex(@"\W");
-        private static readonly Regex _single = new Regex("_+");
-        private static readonly ConcurrentDictionary<Type, System.Resources.ResourceManager> _localizers = new ConcurrentDictionary<Type, System.Resources.ResourceManager>();
+        private static readonly Regex _regex = new(@"\W");
+        private static readonly Regex _single = new("_+");
+        private static readonly ConcurrentDictionary<Type, System.Resources.ResourceManager> _localizers = new();
 
         /// <summary>
         /// 获取当前键的本地化字符串实例。

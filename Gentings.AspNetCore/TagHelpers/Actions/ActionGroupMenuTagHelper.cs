@@ -12,7 +12,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         /// <summary>
         /// 显示文本字符串。
         /// </summary>
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// 按钮类型。
@@ -36,7 +36,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            output.Render("a", builder =>
+            output.Process("a", builder =>
             {
                 if (Disabled) builder.AddCssClass("checked-enabled disabled");
                 builder.AddCssClass("btn");

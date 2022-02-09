@@ -15,7 +15,7 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend
         }
 
         [BindProperty]
-        public Application Input { get; set; }
+        public Application? Input { get; set; }
 
         public void OnGet(Guid id)
         {
@@ -24,7 +24,7 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend
 
         public async Task<IActionResult> OnPost()
         {
-            if (string.IsNullOrEmpty(Input.Name))
+            if (string.IsNullOrEmpty(Input!.Name))
             {
                 ModelState.AddModelError("Input.Name", "名称不能为空！");
                 return Error();

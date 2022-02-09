@@ -42,7 +42,7 @@ namespace Gentings.AspNetCore.Verifiers
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Render("img", builder =>
+            output.Process("img", builder =>
             {
                 var url = $"/vcode-{Key}.png?n={Length}&s={FontSize}&h={Height}";
                 builder.MergeAttribute("src", url);

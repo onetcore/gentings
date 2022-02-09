@@ -176,7 +176,7 @@ namespace Gentings.Documents
                 {
                     case '\n':
                     case '\r':
-                        string str = _source.Substring(_position, pos - _position);
+                        string str = _source[_position..pos];
                         _position = pos + 1;
                         if (ch == '\r' && _position < _length && _source[_position] == '\n')
                             ++_position;
@@ -188,7 +188,7 @@ namespace Gentings.Documents
 
             if (pos <= _position)
                 return null;
-            var text = _source.Substring(_position, pos - _position);
+            var text = _source[_position..pos];
             _position = pos;
             return text;
         }

@@ -12,7 +12,7 @@ namespace Gentings.Tasks
     {
         private readonly IEnumerable<ITaskService> _services;
         private readonly ITaskManager _taskManager;
-        private readonly ConcurrentDictionary<string, TaskContext> _contexts = new ConcurrentDictionary<string, TaskContext>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, TaskContext> _contexts = new(StringComparer.OrdinalIgnoreCase);
         private DateTime _updatedDate = DateTime.MinValue;
         private readonly ILogger _logger;
 

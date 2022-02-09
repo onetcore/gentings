@@ -36,7 +36,7 @@ namespace Gentings.AspNetCore.Menus.TagHelpers
         {
             var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
             output.TagName = "ol";
-            output.AddClass("breadcrumb");
+            output.AddCssClass("breadcrumb");
             var current = ViewContext.GetCurrent(_factory, Provider!, urlHelper);
             var navigators = LoadNavigators(current).OrderBy(n => n.Level).ToList();
             if (navigators.Count == 0)

@@ -10,7 +10,7 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 成功实例。
         /// </summary>
-        public static readonly ApiResult Success = new ApiResult { Message = Resources.ErrorCode_Success };
+        public static readonly ApiResult Success = new() { Message = Resources.ErrorCode_Success };
 
         /// <summary>
         /// 设置错误编码。

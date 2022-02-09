@@ -32,11 +32,11 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.AddClass("btn");
+            output.AddCssClass("btn");
             var className = "btn-primary";
             if (Type != ButtonType.None) className = $"btn-{Type.ToLowerString()}";
             else if (OutlineType != ButtonType.None) className = $"btn-outline-{OutlineType.ToLowerString()}";
-            output.AddClass(className);
+            output.AddCssClass(className);
         }
     }
 }

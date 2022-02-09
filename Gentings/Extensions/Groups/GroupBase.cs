@@ -9,7 +9,7 @@ namespace Gentings.Extensions.Groups
     public abstract class GroupBase<TGroup> : CategoryBase, IGroupable<TGroup>
         where TGroup : GroupBase<TGroup>
     {
-        private readonly List<TGroup> _children = new List<TGroup>();
+        private readonly List<TGroup> _children = new();
 
         /// <summary>
         /// 父级Id。

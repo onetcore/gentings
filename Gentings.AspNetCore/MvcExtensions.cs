@@ -56,7 +56,7 @@ namespace Gentings.AspNetCore
         /// <param name="model">模型实例对象。</param>
         /// <param name="resourceName">资源名称。</param>
         /// <returns>返回资源本地字符串。</returns>
-        public static string GetResource(this ModelBase model, string resourceName)
+        public static string? GetResource(this ModelBase model, string resourceName)
         {
             string? culture = null;
             if (model.RouteData.Values.TryGetValue("culture", out var vaule))
@@ -71,6 +71,12 @@ namespace Gentings.AspNetCore
         /// <param name="resourceName">资源名称。</param>
         /// <param name="args">参数。</param>
         /// <returns>返回资源本地字符串。</returns>
-        public static string GetResource(this ModelBase model, string resourceName, params object[] args) => string.Format(model.GetResource(resourceName), args);
+        public static string? GetResource(this ModelBase model, string resourceName, params object[] args)
+        {
+            var resource = model.GetResource(resourceName);
+            if (resource == null)
+                return null;
+            return string.Format(resource, args);
+        }
     }
 }

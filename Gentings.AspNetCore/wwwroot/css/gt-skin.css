@@ -11107,6 +11107,13 @@ textarea.form-control-lg {
   overflow: overlay;
 }
 
+:root {
+  --vw: 1920;
+  --vh: 1080;
+  --cvw: calc(100vh / var(--vh));
+  --cvh: calc(100vw / var(--vw));
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -11115,6 +11122,12 @@ ul, ol, li {
   list-style: none;
   padding: 0;
   margin: 0;
+}
+
+small, .small {
+  font-weight: normal;
+  font-size: xx-small;
+  color: #e63757;
 }
 
 .hide, .hidden {
@@ -11495,11 +11508,14 @@ input:disabled + label {
   display: none !important;
 }
 
+.dropdown-menu {
+  padding: 0.25rem 0;
+}
 .dropdown-menu .dropdown-item {
   width: auto;
-  padding: 0.25rem 0.5rem;
+  padding: 0.15rem 0.5rem;
   border-radius: 5px;
-  margin: auto 0.25rem;
+  margin: 0.1rem 0.25rem;
 }
 .dropdown-menu .dropdown-item [class^=bi-], .dropdown-menu .dropdown-item [class*=" bi-"] {
   margin-right: 0.75rem;
@@ -11845,6 +11861,70 @@ body.fullscreen {
   cursor: pointer;
 }
 
+.offcanvas-header {
+  background-color: #12263f;
+  color: #edf2f9;
+}
+.offcanvas-header h3, .offcanvas-header .h3 {
+  margin: 0;
+}
+.offcanvas-header .btn-close {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 100%;
+  margin-right: 0;
+  background-color: #edf2f9 !important;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-bottom: 0.5rem;
+  padding-top: 1rem;
+}
+.toolbar > form {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.toolbar > form > div {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-right: 0.5rem;
+}
+.toolbar > form > div > label {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.toolbar > div, .toolbar > .actions {
+  flex: auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.toolbar > div > .btn-group, .toolbar > .actions > .btn-group {
+  margin-bottom: 0.5rem;
+}
+.toolbar > div > .btn-group .btn:focus, .toolbar > div > .btn-group .btn:hover, .toolbar > .actions > .btn-group .btn:focus, .toolbar > .actions > .btn-group .btn:hover {
+  box-shadow: none;
+}
+.toolbar > div > .btn-group + .btn-group, .toolbar > .actions > .btn-group + .btn-group {
+  margin-left: 0.5rem;
+}
+a.action-link > i {
+  margin-right: 0.25rem;
+}
+
+a.action-link + a.action-link {
+  margin-left: 0.5rem;
+}
+
 .card {
   box-shadow: 0 0.75rem 1.5rem rgba(18, 38, 63, 0.08);
 }
@@ -11899,7 +11979,18 @@ body.fullscreen {
 .card .card-body > *:last-child {
   margin-bottom: 0;
 }
+.card > .card-header.toolbar {
+  border-bottom-color: transparent;
+}
+.card > .card-header.toolbar ~ .card-body {
+  padding-top: 0;
+}
 
+@media (max-width: 767.98px) {
+  .card-body {
+    overflow-x: auto;
+  }
+}
 .bg-none {
   background-color: transparent !important;
 }
@@ -11908,6 +11999,13 @@ body.fullscreen {
   display: none !important;
 }
 .fl-hide > :last-child .l-hide {
+  display: none !important;
+}
+
+.data-list tbody > .data-item:first-child .f-hide {
+  display: none !important;
+}
+.data-list tbody > .data-item:last-child .l-hide {
   display: none !important;
 }
 
@@ -12075,13 +12173,20 @@ article pre, .marked pre, .mozmd-preview pre {
   margin-bottom: 1rem;
   position: relative;
 }
-article pre > a.btn, .marked pre > a.btn, .mozmd-preview pre > a.btn {
+article pre > a, .marked pre > a, .mozmd-preview pre > a {
   position: absolute;
-  right: 0.5rem;
   top: 0.5rem;
+  font-size: 1rem;
+  display: none;
 }
-article pre > a.btn:hover, article pre > a.btn:focus, article pre > a.btn:active, .marked pre > a.btn:hover, .marked pre > a.btn:focus, .marked pre > a.btn:active, .mozmd-preview pre > a.btn:hover, .mozmd-preview pre > a.btn:focus, .mozmd-preview pre > a.btn:active {
+article pre > a:hover, article pre > a:focus, article pre > a:active, .marked pre > a:hover, .marked pre > a:focus, .marked pre > a:active, .mozmd-preview pre > a:hover, .mozmd-preview pre > a:focus, .mozmd-preview pre > a:active {
   text-decoration: none;
+}
+article pre:hover > a, .marked pre:hover > a, .mozmd-preview pre:hover > a {
+  display: inline-block;
+}
+article pre a.copy, .marked pre a.copy, .mozmd-preview pre a.copy {
+  right: 0.5rem;
 }
 article ul, article ol, article li, .marked ul, .marked ol, .marked li, .mozmd-preview ul, .mozmd-preview ol, .mozmd-preview li {
   list-style: initial;
@@ -12094,21 +12199,15 @@ article ul, article ol, .marked ul, .marked ol, .mozmd-preview ul, .mozmd-previe
 article blockquote ol:last-child, article blockquote p:last-child, article blockquote ul:last-child, article ol ol, article ol ul, article ul ol, article ul ul, .marked blockquote ol:last-child, .marked blockquote p:last-child, .marked blockquote ul:last-child, .marked ol ol, .marked ol ul, .marked ul ol, .marked ul ul, .mozmd-preview blockquote ol:last-child, .mozmd-preview blockquote p:last-child, .mozmd-preview blockquote ul:last-child, .mozmd-preview ol ol, .mozmd-preview ol ul, .mozmd-preview ul ol, .mozmd-preview ul ul {
   margin-bottom: 0;
 }
-article h6, article .h6, article h5, article .h5, article h4, article .h4, article h3, article .h3, article h2, article .h2, article h1, article .h1, .marked h6, .marked .h6, .marked h5, .marked .h5, .marked h4, .marked .h4, .marked h3, .marked .h3, .marked h2, .marked .h2, .marked h1, .marked .h1, .mozmd-preview h6, .mozmd-preview .h6, .mozmd-preview h5, .mozmd-preview .h5, .mozmd-preview h4, .mozmd-preview .h4, .mozmd-preview h3, .mozmd-preview .h3, .mozmd-preview h2, .mozmd-preview .h2, .mozmd-preview h1, .mozmd-preview .h1 {
+article > h6, article > .h6, article > h5, article > .h5, article > h4, article > .h4, article > h3, article > .h3, article > h2, article > .h2, article > h1, article > .h1, .marked > h6, .marked > .h6, .marked > h5, .marked > .h5, .marked > h4, .marked > .h4, .marked > h3, .marked > .h3, .marked > h2, .marked > .h2, .marked > h1, .marked > .h1, .mozmd-preview > h6, .mozmd-preview > .h6, .mozmd-preview > h5, .mozmd-preview > .h5, .mozmd-preview > h4, .mozmd-preview > .h4, .mozmd-preview > h3, .mozmd-preview > .h3, .mozmd-preview > h2, .mozmd-preview > .h2, .mozmd-preview > h1, .mozmd-preview > .h1 {
   margin-bottom: 1rem;
   margin-top: 0.5rem;
   font-weight: 600;
 }
-article h6[id]:hover:after, article .h6[id]:hover:after, article h5[id]:hover:after, article .h5[id]:hover:after, article h4[id]:hover:after, article .h4[id]:hover:after, article h3[id]:hover:after, article .h3[id]:hover:after, article h2[id]:hover:after, article .h2[id]:hover:after, article h1[id]:hover:after, article .h1[id]:hover:after, .marked h6[id]:hover:after, .marked .h6[id]:hover:after, .marked h5[id]:hover:after, .marked .h5[id]:hover:after, .marked h4[id]:hover:after, .marked .h4[id]:hover:after, .marked h3[id]:hover:after, .marked .h3[id]:hover:after, .marked h2[id]:hover:after, .marked .h2[id]:hover:after, .marked h1[id]:hover:after, .marked .h1[id]:hover:after, .mozmd-preview h6[id]:hover:after, .mozmd-preview .h6[id]:hover:after, .mozmd-preview h5[id]:hover:after, .mozmd-preview .h5[id]:hover:after, .mozmd-preview h4[id]:hover:after, .mozmd-preview .h4[id]:hover:after, .mozmd-preview h3[id]:hover:after, .mozmd-preview .h3[id]:hover:after, .mozmd-preview h2[id]:hover:after, .mozmd-preview .h2[id]:hover:after, .mozmd-preview h1[id]:hover:after, .mozmd-preview .h1[id]:hover:after {
-  content: "#";
-  margin-left: 5px;
-  color: #2c7be5;
-  font-weight: normal;
-}
 article a:hover, article a:focus, article a:active, .marked a:hover, .marked a:focus, .marked a:active, .mozmd-preview a:hover, .mozmd-preview a:focus, .mozmd-preview a:active {
   text-decoration: underline;
 }
-article .alert h6, article .alert .h6, article .alert h5, article .alert .h5, article .alert h4, article .alert .h4, article .alert h3, article .alert .h3, article .alert h2, article .alert .h2, article .alert h1, article .alert .h1, .marked .alert h6, .marked .alert .h6, .marked .alert h5, .marked .alert .h5, .marked .alert h4, .marked .alert .h4, .marked .alert h3, .marked .alert .h3, .marked .alert h2, .marked .alert .h2, .marked .alert h1, .marked .alert .h1, .mozmd-preview .alert h6, .mozmd-preview .alert .h6, .mozmd-preview .alert h5, .mozmd-preview .alert .h5, .mozmd-preview .alert h4, .mozmd-preview .alert .h4, .mozmd-preview .alert h3, .mozmd-preview .alert .h3, .mozmd-preview .alert h2, .mozmd-preview .alert .h2, .mozmd-preview .alert h1, .mozmd-preview .alert .h1 {
+article .alert > h6, article .alert > .h6, article .alert > h5, article .alert > .h5, article .alert > h4, article .alert > .h4, article .alert > h3, article .alert > .h3, article .alert > h2, article .alert > .h2, article .alert > h1, article .alert > .h1, .marked .alert > h6, .marked .alert > .h6, .marked .alert > h5, .marked .alert > .h5, .marked .alert > h4, .marked .alert > .h4, .marked .alert > h3, .marked .alert > .h3, .marked .alert > h2, .marked .alert > .h2, .marked .alert > h1, .marked .alert > .h1, .mozmd-preview .alert > h6, .mozmd-preview .alert > .h6, .mozmd-preview .alert > h5, .mozmd-preview .alert > .h5, .mozmd-preview .alert > h4, .mozmd-preview .alert > .h4, .mozmd-preview .alert > h3, .mozmd-preview .alert > .h3, .mozmd-preview .alert > h2, .mozmd-preview .alert > .h2, .mozmd-preview .alert > h1, .mozmd-preview .alert > .h1 {
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
@@ -12117,6 +12216,16 @@ article div.pmb-0, .marked div.pmb-0, .mozmd-preview div.pmb-0 {
 }
 article div.pmb-0 > p, .marked div.pmb-0 > p, .mozmd-preview div.pmb-0 > p {
   margin-bottom: 0;
+}
+article p, .marked p, .mozmd-preview p {
+  text-indent: 2rem;
+}
+
+.marked > h6[id]:hover:after, .marked > .h6[id]:hover:after, .marked > h5[id]:hover:after, .marked > .h5[id]:hover:after, .marked > h4[id]:hover:after, .marked > .h4[id]:hover:after, .marked > h3[id]:hover:after, .marked > .h3[id]:hover:after, .marked > h2[id]:hover:after, .marked > .h2[id]:hover:after, .marked > h1[id]:hover:after, .marked > .h1[id]:hover:after, .mozmd-preview > h6[id]:hover:after, .mozmd-preview > .h6[id]:hover:after, .mozmd-preview > h5[id]:hover:after, .mozmd-preview > .h5[id]:hover:after, .mozmd-preview > h4[id]:hover:after, .mozmd-preview > .h4[id]:hover:after, .mozmd-preview > h3[id]:hover:after, .mozmd-preview > .h3[id]:hover:after, .mozmd-preview > h2[id]:hover:after, .mozmd-preview > .h2[id]:hover:after, .mozmd-preview > h1[id]:hover:after, .mozmd-preview > .h1[id]:hover:after {
+  content: "#";
+  margin-left: 5px;
+  color: #2c7be5;
+  font-weight: normal;
 }
 
 @media (min-width: 768px) {
@@ -12134,6 +12243,37 @@ article div.pmb-0 > p, .marked div.pmb-0 > p, .mozmd-preview div.pmb-0 > p {
   background-repeat: no-repeat;
 }
 
+@media (max-width: 575.98px) {
+  .toolbar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
+.text-popup {
+  animation: text-popup 1s;
+  user-select: none;
+  white-space: nowrap;
+  position: absolute;
+  z-index: 99;
+  font-size: 12px;
+}
+
+@keyframes text-popup {
+  0%, 100% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-50px);
+  }
+}
+@media (min-width: 1600px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+    max-width: 1440px;
+  }
+}
 pre {
   margin: 0;
   font-family: "Cascadia Mono", "Courier New";

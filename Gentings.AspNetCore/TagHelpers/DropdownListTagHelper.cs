@@ -66,7 +66,7 @@ namespace Gentings.AspNetCore.TagHelpers
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             output.TagName = "select";
-            output.AddClass("form-select");
+            output.AddCssClass("form-select");
             var items = Init() ?? await InitAsync() ?? Enumerable.Empty<SelectListItem>();
             items = items.ToList();
             if (!string.IsNullOrEmpty(DefaultText))//添加默认选项

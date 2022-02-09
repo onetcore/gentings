@@ -62,7 +62,7 @@ namespace Gentings.Documents.TableOfContent
         /// </summary>
         public Toc Toc { get; }
 
-        private readonly Dictionary<string, string> _items = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string> _items = new(StringComparer.OrdinalIgnoreCase);
         /// <summary>
         /// 获取其他属性值。
         /// </summary>

@@ -34,12 +34,12 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend
         /// <summary>
         /// 文档列表。
         /// </summary>
-        public IDictionary<string, IEnumerable<ApiDescriptor>> Document { get; private set; }
+        public IDictionary<string, IEnumerable<ApiDescriptor>>? Document { get; private set; }
 
         /// <summary>
         /// 当前应用程序。
         /// </summary>
-        public Application Application { get; private set; }
+        public Application? Application { get; private set; }
 
         /// <summary>
         /// 获取文档列表。
@@ -72,6 +72,6 @@ namespace Gentings.AspNetCore.OpenServices.Areas.OpenServices.Pages.Backend
         /// <summary>
         /// 当前应用程序包含的服务Id。
         /// </summary>
-        public List<int> Services { get; private set; }
+        public List<int>? Services { get; private set; }
     }
 }

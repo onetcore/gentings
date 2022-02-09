@@ -9,7 +9,7 @@ namespace Gentings.Data.Query.Translators
     public class RelationalCompositeExpressionFragmentTranslator : IExpressionFragmentTranslator
     {
         private readonly List<IExpressionFragmentTranslator> _translators
-            = new List<IExpressionFragmentTranslator>
+            = new()
             {
                 new StringCompareTranslator(),
                 new StringConcatTranslator()

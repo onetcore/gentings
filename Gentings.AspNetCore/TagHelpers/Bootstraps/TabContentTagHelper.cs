@@ -26,7 +26,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var content = await output.GetChildContentAsync();
-            output.Render("div", builder =>
+            output.Process("div", builder =>
             {
                 builder.AddCssClass("tab-pane fade");
                 if (Active)

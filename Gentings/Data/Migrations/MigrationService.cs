@@ -11,7 +11,7 @@
 
         private MigrationStatus _status;
         private string _message;
-        private static readonly MigrationService _instance = new MigrationService();
+        private static readonly MigrationService _instance = new();
 
         /// <summary>
         /// 当前状态。

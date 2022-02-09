@@ -28,7 +28,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         /// <summary>
         /// 确认属性。
         /// </summary>
-        public string Confirm { get; set; }
+        public string? Confirm { get; set; }
 
         /// <summary>
         /// 操作类型。
@@ -77,19 +77,19 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         {
             if (Type == ActionType.Divider)
             {
-                output.Render("hr", hr => hr.AddCssClass("dropdown-divider"));
+                output.Process("hr", hr => hr.AddCssClass("dropdown-divider"));
                 return;
             }
 
             base.Process(context, output);
-            await output.RenderAsync("a", async builder =>
+            await output.ProcessAsync("a", async builder =>
             {
                 if (IsLink)
                     builder.AddCssClass("action-link");
                 else
                     builder.AddCssClass("dropdown-item");
                 if (IconName != null)
-                    builder.AppendTag("i", i => i.AddCssClass(IconName));
+                    builder.AppendHtml("i", i => i.AddCssClass(IconName));
 
                 var content = await output.GetChildContentAsync();
                 if (!content.IsEmptyOrWhiteSpace)
@@ -117,6 +117,10 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                 builder.MergeAttribute("_click", "upload");
             else if (Type != ActionType.Link)
                 builder.MergeAttribute("_click", "ajax");
+            if (Type == ActionType.MoveDown)
+                builder.AddCssClass("l-hide");
+            else if (Type == ActionType.MoveUp)
+                builder.AddCssClass("f-hide");
         }
     }
 }

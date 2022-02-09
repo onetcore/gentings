@@ -76,50 +76,50 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 return;
             }
             var actions = await output.GetChildContentAsync();
-            output.Render("div", builder =>
+            output.Process("div", builder =>
             {
                 if (UploadUrl != null)
                     builder.MergeAttribute("action", UploadUrl);
                 builder.AddCssClass("mozmd-editor");
-                builder.AppendTag("div", toolbar =>
+                builder.AppendHtml("div", toolbar =>
                 {
                     toolbar.AddCssClass("mozmd-toolbar");
-                    toolbar.AppendTag("div", left =>
+                    toolbar.AppendHtml("div", left =>
                     {
                         left.AddCssClass("mozmd-left");
                         if (!actions.IsEmptyOrWhiteSpace)
                             left.InnerHtml.AppendHtml(actions.GetContent().Trim());
                         ProcessToolbar(left);
-                        left.AppendTag("a", a =>
+                        left.AppendHtml("a", a =>
                         {
-                            a.AppendTag("i", x => x.AddCssClass("bi-eye"));
+                            a.AppendHtml("i", x => x.AddCssClass("bi-eye"));
                             a.MergeAttribute("title", Resources.Mozmd_ModePreview);
                             a.AddCssClass("mozmd-mode-preview");
                         });
                     });
-                    toolbar.AppendTag("div", right =>
+                    toolbar.AppendHtml("div", right =>
                     {
                         right.AddCssClass("mozmd-right");
                         ProcessRightToolbar(right);
-                        right.AppendTag("a", a =>
+                        right.AppendHtml("a", a =>
                         {
-                            a.AppendTag("i", x => x.AddCssClass("bi-window-fullscreen"));
+                            a.AppendHtml("i", x => x.AddCssClass("bi-window-fullscreen"));
                             a.MergeAttribute("title", Resources.Mozmd_FullScreen);
                             a.AddCssClass("mozmd-fullscreen");
                         });
                     });
                 });
-                builder.AppendTag("div", source =>
+                builder.AppendHtml("div", source =>
                 {
                     source.AddCssClass("mozmd-source scrollBar");
                     source.MergeAttribute("contenteditable", "plaintext-only");
                     source.InnerHtml.Append(Value);
                 });
-                builder.AppendTag("div", source =>
+                builder.AppendHtml("div", source =>
                 {
                     source.AddCssClass("mozmd-preview scrollBar txt");
                 });
-                builder.AppendTag("textarea", x =>
+                builder.AppendHtml("textarea", x =>
                 {
                     x.MergeAttribute("name", SourceName);
                     x.AddCssClass("mozmd-source-value");
@@ -127,7 +127,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 });
                 if (!string.IsNullOrEmpty(HtmlName))
                 {
-                    builder.AppendTag("textarea", x =>
+                    builder.AppendHtml("textarea", x =>
                     {
                         x.MergeAttribute("name", HtmlName);
                         x.AddCssClass("mozmd-html-value");
@@ -138,20 +138,37 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         }
 
         /// <summary>
+        /// 添加MarkDown编辑器按钮。
+        /// </summary>
+        /// <param name="builder">当前工具栏标签实例。</param>
+        /// <param name="key">功能键。</param>
+        /// <param name="icon">图标。</param>
+        /// <param name="title">标题。</param>
+        protected void AddButton(TagBuilder builder, string key, string icon, string title)
+        {
+            builder.AppendHtml("a", a =>
+            {
+                a.AppendHtml("i", x => x.AddCssClass(icon));
+                a.MergeAttribute("title", title);
+                a.AddCssClass($"mozmd-syntax-{key}");
+            });
+        }
+
+        /// <summary>
         /// 添加工具栏按钮。
         /// </summary>
         /// <param name="builder">Html内容构建实例。</param>
         protected virtual void ProcessToolbar(TagBuilder builder)
         {
-            builder.AddSyntax("header", "bi-type-h1", Resources.Mozmd_Syntax_Header)
-                   .AddSyntax("bold", "bi-type-bold", Resources.Mozmd_Syntax_Bold)
-                   .AddSyntax("italic", "bi-type-italic", Resources.Mozmd_Syntax_Italic)
-                   .AddSyntax("ul", "bi-list-ul", Resources.Mozmd_Syntax_Ul)
-                   .AddSyntax("ol", "bi-list-ol", Resources.Mozmd_Syntax_Ol)
-                   .AddSyntax("link", "bi-link", Resources.Mozmd_Syntax_Link)
-                   .AddSyntax("image", "bi-image", Resources.Mozmd_Syntax_Image)
-                   .AddSyntax("quote", "bi-blockquote-left", Resources.Mozmd_Syntax_Quote)
-                   .AddSyntax("code", "bi-code", Resources.Mozmd_Syntax_Code);
+            AddButton(builder, "header", "bi-type-h1", Resources.Mozmd_Syntax_Header);
+            AddButton(builder, "bold", "bi-type-bold", Resources.Mozmd_Syntax_Bold);
+            AddButton(builder, "italic", "bi-type-italic", Resources.Mozmd_Syntax_Italic);
+            AddButton(builder, "ul", "bi-list-ul", Resources.Mozmd_Syntax_Ul);
+            AddButton(builder, "ol", "bi-list-ol", Resources.Mozmd_Syntax_Ol);
+            AddButton(builder, "link", "bi-link", Resources.Mozmd_Syntax_Link);
+            AddButton(builder, "image", "bi-image", Resources.Mozmd_Syntax_Image);
+            AddButton(builder, "quote", "bi-blockquote-left", Resources.Mozmd_Syntax_Quote);
+            AddButton(builder, "code", "bi-code", Resources.Mozmd_Syntax_Code);
         }
 
         /// <summary>

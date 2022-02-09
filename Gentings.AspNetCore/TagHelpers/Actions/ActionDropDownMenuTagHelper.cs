@@ -17,7 +17,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         /// <summary>
         /// 显示文本字符串。
         /// </summary>
-        public string Text { get; set; }
+        public string? Text { get; set; }
 
         /// <summary>
         /// 异步访问并呈现当前标签实例。
@@ -26,17 +26,17 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            return output.RenderAsync("div", async builder =>
+            return output.ProcessAsync("div", async builder =>
             {
                 builder.AddCssClass("dropdown");
-                builder.AppendTag("a", anchor =>
+                builder.AppendHtml("a", anchor =>
                 {
                     anchor.MergeAttribute("href", "#");
                     anchor.AddCssClass("dropdown-toggle");
                     anchor.AddCssClass("action-dropdown");
                     anchor.MergeAttribute("data-bs-toggle", "dropdown");
                     anchor.MergeAttribute("aria-expanded", "false");
-                    anchor.AppendTag("span", span =>
+                    anchor.AppendHtml("span", span =>
                     {
                         if (IconType == AlignMode.Horizontal)
                             span.AddCssClass("bi-three-dots");
@@ -46,7 +46,7 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                     anchor.InnerHtml.AppendHtml(Text);
                 });
                 var content = await output.GetChildContentAsync();
-                builder.AppendTag("div", menu =>
+                builder.AppendHtml("div", menu =>
                 {
                     menu.AddCssClass("dropdown-menu dropdown-menu-end");
                     menu.InnerHtml.AppendHtml(content);

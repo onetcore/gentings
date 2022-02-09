@@ -7,7 +7,7 @@ namespace Gentings.AspNetCore.Localization
     /// </summary>
     public class NamedResource
     {
-        private readonly ConcurrentDictionary<string, Resource> _resources = new ConcurrentDictionary<string, Resource>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, Resource> _resources = new(StringComparer.OrdinalIgnoreCase);
 
         internal NamedResource(string resourceName, string path)
         {

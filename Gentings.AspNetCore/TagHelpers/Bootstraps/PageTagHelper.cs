@@ -1,6 +1,5 @@
 ﻿using Gentings.AspNetCore.Properties;
 using Gentings.Extensions;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
@@ -12,21 +11,9 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
     /// 分页标签。
     /// </summary> 
     [HtmlTargetElement("gt:page", Attributes = DataAttributeName)]
-    public class PageTagHelper : ViewContextableTagHelperBase
+    public class PageTagHelper : LinkableTagHelperBase
     {
-        private const string ActionAttributeName = "asp-action";
-        private const string ControllerAttributeName = "asp-controller";
-        private const string AreaAttributeName = "asp-area";
-        private const string FragmentAttributeName = "asp-fragment";
-        private const string HostAttributeName = "asp-host";
-        private const string ProtocolAttributeName = "asp-protocol";
-        private const string RouteAttributeName = "asp-route";
-        private const string RouteValuesDictionaryName = "all-route-data";
-        private const string RouteValuesPrefix = "asp-route-";
-        private const string HrefAttributeName = "href";
         private const string DataAttributeName = "data";
-        private const string FactorAttributeName = "factor";
-        private IDictionary<string, string>? _routeValues;
 
         /// <summary>
         /// 初始化类<see cref="PageTagHelper"/>。
@@ -48,116 +35,29 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         protected IHtmlGenerator Generator { get; }
 
         /// <summary>
-        /// 试图名称。
-        /// </summary>
-        [HtmlAttributeName(ActionAttributeName)]
-        public string? Action { get; set; }
-
-        /// <summary>
-        /// 控制器名称。
-        /// </summary>
-        [HtmlAttributeName(ControllerAttributeName)]
-        public string? Controller { get; set; }
-
-        /// <summary>
-        /// 区域名称。
-        /// </summary>
-        [HtmlAttributeName(AreaAttributeName)]
-        public string? Area { get; set; }
-
-        /// <summary>
-        /// 协议如：http:或者https:等。
-        /// </summary>
-        [HtmlAttributeName(ProtocolAttributeName)]
-        public string? Protocol { get; set; }
-
-        /// <summary>
-        /// 主机名称。
-        /// </summary>
-        [HtmlAttributeName(HostAttributeName)]
-        public string? Host { get; set; }
-
-        /// <summary>
-        /// URL片段。
-        /// </summary>
-        [HtmlAttributeName(FragmentAttributeName)]
-        public string? Fragment { get; set; }
-
-        /// <summary>
-        /// 路由配置名称。
-        /// </summary>
-        [HtmlAttributeName(RouteAttributeName)]
-        public string? Route { get; set; }
-
-        /// <summary>
-        /// 路由对象列表。
-        /// </summary>
-        [HtmlAttributeName(RouteValuesDictionaryName, DictionaryAttributePrefix = RouteValuesPrefix)]
-        public IDictionary<string, string> RouteValues
-        {
-            get => _routeValues ??= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-            set => _routeValues = value;
-        }
-
-        /// <summary>
         /// 分页数据对象。
         /// </summary>
         [HtmlAttributeName(DataAttributeName)]
         public IPageEnumerable? Data { get; set; }
 
         /// <summary>
-        /// 链接地址。
-        /// </summary>
-        [HtmlAttributeName(HrefAttributeName)]
-        public string? Href { get; set; }
-
-        /// <summary>
         /// 显示页码数量。
         /// </summary>
-        [HtmlAttributeName(FactorAttributeName)]
         public int Factor { get; set; } = 9;
-
-        /// <summary>
-        /// 网页。
-        /// </summary>
-        [HtmlAttributeName("asp-page")]
-        public string? Page { get; set; }
-
-        /// <summary>
-        /// 网页。
-        /// </summary>
-        [HtmlAttributeName("asp-page-handler")]
-        public string? PageHandler { get; set; }
 
         /// <summary>
         /// 排序。
         /// </summary>
         [HtmlAttributeName("orderby")]
-        public IOrderBy OrderBy { get; set; }
-
-        /// <summary>
-        /// 初始化当前标签上下文。
-        /// </summary>
-        /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
-        public override void Init(TagHelperContext context)
-        {
-            base.Init(context);
-            if (Area == null && ViewContext.RouteData.Values.TryGetValue("area", out var area))
-                Area = area.ToString();
-            if ((Controller == null || Action == null) && ViewContext.ActionDescriptor is ControllerActionDescriptor descriptor)
-            {
-                Controller ??= descriptor.ControllerName;
-                Action ??= descriptor.ActionName;
-            }
-        }
+        public IOrderBy? OrderBy { get; set; }
 
         private Func<int, TagBuilder>? _createAnchor;
         private Func<int, TagBuilder> GenerateActionLink()
         {
             var routeValues = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
-            if (_routeValues != null && _routeValues.Count > 0)
+            if (RouteValues.Count > 0)
             {
-                foreach (var routeValue in _routeValues)
+                foreach (var routeValue in RouteValues)
                 {
                     routeValues.Add(routeValue.Key, routeValue.Value);
                 }
@@ -166,7 +66,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             if (OrderBy != null)
             {
                 routeValues["order"] = OrderBy.Order.ToString();
-                routeValues["desc"] = OrderBy.Desc.ToString();
+                routeValues["desc"] = OrderBy.Desc.ToString() ?? "false";
             }
 
             if (Area != null)
@@ -286,12 +186,12 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         {
             var li = new TagBuilder("li");
             li.AddCssClass("page-item");
-            title = title ?? string.Format(Resources.PageTagHelper_NumberPage, pageIndex);
+            title ??= string.Format(Resources.PageTagHelper_NumberPage, pageIndex);
 
             if (Data!.PageIndex == pageIndex)
             {
                 li.AddCssClass("active");
-                li.AppendTag("span", span =>
+                li.AppendHtml("span", span =>
                 {
                     span.AddCssClass("page-link");
                     span.MergeAttribute("title", title);
@@ -317,7 +217,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="factor">显示项数。</param>
         /// <param name="end">返回结束索引。</param>
         /// <returns>返回开始索引。</returns>
-        protected int GetRange(int pageIndex, int pages, int factor, out int end)
+        protected static int GetRange(int pageIndex, int pages, int factor, out int end)
         {
             var item = factor / 2;
             var start = pageIndex - item;

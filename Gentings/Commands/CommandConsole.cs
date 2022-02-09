@@ -144,7 +144,7 @@ namespace Gentings.Commands
             WriteLine(ConsoleColor.Yellow, message, args);
         }
 
-        private static readonly object _locker = new object();
+        private static readonly object _locker = new();
 
         /// <summary>
         /// 输出控制台日志。

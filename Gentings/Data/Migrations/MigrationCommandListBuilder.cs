@@ -7,8 +7,8 @@ namespace Gentings.Data.Migrations
     /// </summary>
     public class MigrationCommandListBuilder : IEnumerable<string>
     {
-        private IndentedStringBuilder _builder = new IndentedStringBuilder();
-        private readonly List<string> _commands = new List<string>();
+        private IndentedStringBuilder _builder = new();
+        private readonly List<string> _commands = new();
 
         /// <summary>
         /// 结束命令。

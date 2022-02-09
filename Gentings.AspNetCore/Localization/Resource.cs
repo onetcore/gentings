@@ -8,12 +8,14 @@ namespace Gentings.AspNetCore.Localization
     /// </summary>
     public class Resource
     {
-        private readonly ConcurrentDictionary<string, string> _resources = new ConcurrentDictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly ConcurrentDictionary<string, string> _resources = new(StringComparer.OrdinalIgnoreCase);
         internal Resource(string path)
         {
             var xmlDoc = new XmlDocument();
             xmlDoc.Load(path);
             var node = xmlDoc.SelectSingleNode("root");
+            if (node == null)
+                return;
             foreach (XmlNode childNode in node.ChildNodes)
             {
                 if (childNode.NodeType == XmlNodeType.Comment)

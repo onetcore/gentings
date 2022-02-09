@@ -7,7 +7,7 @@ namespace Gentings.Data.Query.Translators
     /// </summary>
     public abstract class RelationalCompositeMemberTranslator : IMemberTranslator
     {
-        private readonly List<IMemberTranslator> _translators = new List<IMemberTranslator>();
+        private readonly List<IMemberTranslator> _translators = new();
 
         /// <summary>
         /// 转换字段或属性表达式。

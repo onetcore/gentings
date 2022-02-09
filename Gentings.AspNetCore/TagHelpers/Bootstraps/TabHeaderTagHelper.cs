@@ -26,12 +26,12 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
             var content = await output.GetChildContentAsync();
-            output.Render("li", builder =>
+            output.Process("li", builder =>
             {
                 builder.AddCssClass("nav-item");
                 if (Active)
                     builder.AddCssClass("active");
-                builder.AppendTag("a", anchor =>
+                builder.AppendHtml("a", anchor =>
                 {
                     anchor.AddCssClass("nav-link");
                     if (Active)

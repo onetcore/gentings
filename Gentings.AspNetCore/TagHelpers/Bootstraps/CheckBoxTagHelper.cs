@@ -13,12 +13,12 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <summary>
         /// 名称。
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 选定对象值。
         /// </summary>
-        public object Value { get; set; }
+        public object? Value { get; set; }
 
         /// <summary>
         /// 是否为开关。
@@ -29,7 +29,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 设置属性模型。
         /// </summary>
         [HtmlAttributeName("asp-for")]
-        public ModelExpression For { get; set; }
+        public ModelExpression? For { get; set; }
 
         /// <summary>
         /// 是否选中。
@@ -69,7 +69,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             var content = await output.GetChildContentAsync();
             if (Switch || !content.IsEmptyOrWhiteSpace)
             {
-                output.Render("label", label =>
+                output.Process("label", label =>
                 {
                     label.AddCssClass("form-check");
                     if (Switch)
@@ -79,7 +79,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 });
             }
             else
-                output.Render(builder);
+                output.Process(builder);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Gentings.Documents
         private const string HtmlCaseRegexReplacement = "-$1$2";
 
         private static readonly Regex _htmlCaseRegex =
-            new Regex(
+            new(
                 "(?<!^)((?<=[a-zA-Z0-9])[A-Z][a-z])|((?<=[a-z])[A-Z])",
                 RegexOptions.None,
                 TimeSpan.FromMilliseconds(500));
@@ -66,7 +66,7 @@ namespace Gentings.Documents
         }
 
         private static readonly Regex _htmlRegex =
-            new Regex("</*[a-z].*?>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+            new("</*[a-z].*?>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
         /// <summary>
         /// 移除所有HTML标记。

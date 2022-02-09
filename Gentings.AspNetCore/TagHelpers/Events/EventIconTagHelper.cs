@@ -43,7 +43,7 @@ namespace Gentings.AspNetCore.TagHelpers.Events
                 output.SuppressOutput();
                 return;
             }
-            output.Render("span", builder =>
+            output.Process("span", builder =>
             {
                 if (string.IsNullOrEmpty(type.IconName))
                 {
@@ -52,7 +52,7 @@ namespace Gentings.AspNetCore.TagHelpers.Events
                 }
                 else if (Text)
                 {
-                    builder.AppendTag("i", i => i.AddCssClass(type.IconName));
+                    builder.AppendHtml("i", i => i.AddCssClass(type.IconName));
                     builder.InnerHtml.AppendHtml(" ");
                     builder.InnerHtml.AppendHtml(type.Name);
                 }
@@ -64,7 +64,7 @@ namespace Gentings.AspNetCore.TagHelpers.Events
                 }
                 string? css = null;
                 if (context.AllAttributes.TryGetAttribute("style", out var style))
-                    css = style.Value?.ToString().Trim();
+                    css = style.Value?.ToString()?.Trim();
                 if (css?.EndsWith(";") == false) css += ";";
                 if (!string.IsNullOrEmpty(type.BgColor))
                     css += $"background-color:{type.BgColor};";

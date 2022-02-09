@@ -229,7 +229,7 @@ namespace Gentings.Data.Internal
             return builder.ToString();
         }
 
-        private readonly Dictionary<DbType, string> _dbTypeNameMapping = new Dictionary<DbType, string>
+        private readonly Dictionary<DbType, string> _dbTypeNameMapping = new()
         {
             {DbType.Byte, "tinyint"},
             {DbType.Decimal, "decimal"},

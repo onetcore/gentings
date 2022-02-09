@@ -422,77 +422,6 @@ main:not(.navbar-vertical) .navbar-pills .navbar-nav .nav-group:hover > div .nav
   padding: 1rem;
 }
 
-.offcanvas-header {
-  background-color: #12263f;
-  color: #edf2f9;
-}
-.offcanvas-header h3 {
-  margin: 0;
-}
-.offcanvas-header .btn-close {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 100%;
-  margin-right: 0;
-  background-color: #edf2f9 !important;
-}
-
-.toolbar, .card > .card-header.toolbar {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding-bottom: 0.5rem;
-  padding-top: 1rem;
-}
-.toolbar > form, .card > .card-header.toolbar > form {
-  display: flex;
-  flex: 1 1 auto;
-  flex-wrap: wrap;
-  flex-direction: row;
-}
-.toolbar > form > div, .card > .card-header.toolbar > form > div {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  margin-right: 0.5rem;
-}
-.toolbar > form > div > label, .card > .card-header.toolbar > form > div > label {
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  flex: 0 0 auto;
-}
-.toolbar > div, .card > .card-header.toolbar > div, .toolbar > .actions, .card > .card-header.toolbar > .actions {
-  flex: 0 1 auto;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-.toolbar > div > .btn-group, .card > .card-header.toolbar > div > .btn-group, .toolbar > .actions > .btn-group {
-  margin-bottom: 0.5rem;
-}
-.toolbar > div > .btn-group .btn:focus, .toolbar > div > .btn-group .btn:hover, .toolbar > .actions > .btn-group .btn:focus, .toolbar > .actions > .btn-group .btn:hover {
-  box-shadow: none;
-}
-.toolbar > div > .btn-group + .btn-group, .toolbar > .actions > .btn-group + .btn-group {
-  margin-left: 0.5rem;
-}
-a.action-link > i {
-  margin-right: 0.25rem;
-}
-
-a.action-link + a.action-link {
-  margin-left: 0.5rem;
-}
-
-.card > .card-header.toolbar {
-  border-bottom-color: transparent;
-}
-.card > .card-header.toolbar ~ .card-body {
-  padding-top: 0;
-}
-
 @media (min-width: 576px) and (max-width: 767.98px) {
   .navbar-vertical .navbar {
     width: 64px;
@@ -749,10 +678,5 @@ a.action-link + a.action-link {
   }
   main .main-container .navbar-toggler {
     display: none !important;
-  }
-
-  .toolbar, .card > .card-header.toolbar {
-    flex-direction: column !important;
-    align-items: flex-start !important;
   }
 }

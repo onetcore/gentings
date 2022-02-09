@@ -1,6 +1,5 @@
 ﻿using Gentings.Localization;
 using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
 
 namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 {
@@ -40,7 +39,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         {
             if (output.TagName == "gt:languages")
                 output.TagName = "li";
-            output.AddClass("dropdown");
+            output.AddCssClass("dropdown");
             var current = GetCurrentCulture();
             var uri = ViewContext.HttpContext.Request.GetUri();
             output.AppendHtml("a", builder =>
@@ -59,15 +58,15 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                 foreach (var culture in _localizationCulture.SupportedLanguages)
                 {
                     var active = culture.Key.IsCulture(current);
-                    builder.AppendTag("li", li =>
+                    builder.AppendHtml("li", li =>
                     {
-                        li.AppendTag("a", a =>
+                        li.AppendHtml("a", a =>
                         {
                             a.MergeAttribute("href", GetUrl(uri, culture.Key));
                             a.AddCssClass("dropdown-item");
                             if (active)
                                 a.MergeAttribute("style", "font-weight:600;");
-                            a.AppendTag("span", span =>
+                            a.AppendHtml("span", span =>
                             {
                                 if (!active)
                                     span.MergeAttribute("style", "visibility:hidden");

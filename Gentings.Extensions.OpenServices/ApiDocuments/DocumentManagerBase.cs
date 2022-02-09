@@ -41,7 +41,7 @@ namespace Gentings.Extensions.OpenServices.ApiDocuments
                         return new ApiDescriptor
                         {
                             GroupName = x.GroupName ?? "core",
-                            ControllerName = controller.ControllerName,
+                            ControllerName = controller!.ControllerName,
                             Assembly = new AssemblyInfo(controller.ControllerTypeInfo.Assembly),
                             ActionName = controller.ActionName,
                             DisplayName = controller.DisplayName,

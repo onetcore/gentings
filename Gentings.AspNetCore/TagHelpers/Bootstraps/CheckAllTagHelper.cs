@@ -16,7 +16,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Render("input", builder =>
+            output.Process("input", builder =>
             {
                 builder.TagRenderMode = TagRenderMode.SelfClosing;
                 builder.AddCssClass("form-check-input");

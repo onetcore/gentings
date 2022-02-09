@@ -13,7 +13,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// 排序。
         /// </summary>
         [HtmlAttributeName(AttributeName)]
-        public Enum OrderBy { get; set; }
+        public Enum? OrderBy { get; set; }
 
         /// <summary>
         /// 访问并呈现当前标签实例。
@@ -22,15 +22,15 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.AddClass("sorting");
-            var current = OrderBy.ToString("d");
-            output.SetAttribute("_ajax.order", current.ToString());
+            output.AddCssClass("sorting");
+            var current = OrderBy?.ToString("d") ?? "0";
+            output.SetAttribute("_ajax.order", current);
             if (HttpContext.Request.Query.TryGetValue("order", out var order) && current == order)
             {
                 if (HttpContext.Request.Query.TryGetValue("desc", out var value) && bool.TryParse(value, out var desc) && desc)
-                    output.AddClass("sorting-desc");
+                    output.AddCssClass("sorting-desc");
                 else
-                    output.AddClass("sorting-asc");
+                    output.AddCssClass("sorting-asc");
             }
         }
     }
