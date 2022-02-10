@@ -31,6 +31,7 @@ namespace Gentings.Documents
                 source += temp[(index + 2)..];
                 index = source.IndexOf("/*");
             }
+            source = source.Replace("\r\n", string.Empty).Replace("\n", string.Empty);
         }
 
         /// <summary>

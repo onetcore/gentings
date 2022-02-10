@@ -119,6 +119,20 @@ main > .container-fluid {
 .docs-content {
     flex: 1 1 auto;
     padding: 1rem 0 0 1rem;
+
+    .marked {
+        div.pmb-0 {
+            margin-bottom: 1rem;
+
+            > p {
+                margin-bottom: 0;
+            }
+        }
+
+        > p {
+            text-indent: 0;
+        }
+    }
 }
 
 .docs-toc {

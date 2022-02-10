@@ -11986,11 +11986,6 @@ a.action-link + a.action-link {
   padding-top: 0;
 }
 
-@media (max-width: 767.98px) {
-  .card-body {
-    overflow-x: auto;
-  }
-}
 .bg-none {
   background-color: transparent !important;
 }
@@ -12166,6 +12161,7 @@ article img, .marked img, .mozmd-preview img {
   display: block;
   margin: 0 auto;
   margin-bottom: 1rem;
+  max-width: 100%;
 }
 article pre, .marked pre, .mozmd-preview pre {
   border: 1px solid #efeeee;
@@ -12211,13 +12207,7 @@ article .alert > h6, article .alert > .h6, article .alert > h5, article .alert >
   margin-top: 0;
   margin-bottom: 0.5rem;
 }
-article div.pmb-0, .marked div.pmb-0, .mozmd-preview div.pmb-0 {
-  margin-bottom: 1rem;
-}
-article div.pmb-0 > p, .marked div.pmb-0 > p, .mozmd-preview div.pmb-0 > p {
-  margin-bottom: 0;
-}
-article p, .marked p, .mozmd-preview p {
+article > p, .marked > p, .mozmd-preview > p {
   text-indent: 2rem;
 }
 
@@ -12228,27 +12218,43 @@ article p, .marked p, .mozmd-preview p {
   font-weight: normal;
 }
 
-@media (min-width: 768px) {
-  article pre, .marked pre, .mozmd-preview pre {
-    white-space: break-spaces;
-  }
+.carousel {
+  --height: 500px;
+  --min-height: 200px;
+  --carousel-height: calc(var(--cvh) * var(--height));
+  height: var(--carousel-height);
+  min-height: var(--min-height);
+  padding: 0;
 }
-.carousel-inner, .carousel-item, .carousel-image {
+.carousel .carousel-inner, .carousel .carousel-item, .carousel .carousel-image {
   height: 100%;
+  padding: 0;
 }
-
-.carousel-image {
+.carousel .carousel-image {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
-
-@media (max-width: 575.98px) {
-  .toolbar {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-  }
+.carousel .carousel-caption {
+  position: static;
+  text-align: left;
+  height: var(--carousel-height);
+  min-height: var(--min-height);
+  display: flex;
+  align-items: center;
 }
+.carousel .carousel-caption > div {
+  max-width: 50%;
+}
+.carousel .carousel-caption > div h5, .carousel .carousel-caption > div .h5 {
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+.carousel .carousel-caption > div p {
+  margin-top: 2rem;
+  line-height: 2;
+}
+
 .text-popup {
   animation: text-popup 1s;
   user-select: none;
@@ -12272,6 +12278,33 @@ article p, .marked p, .mozmd-preview p {
 @media (min-width: 1600px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
     max-width: 1440px;
+  }
+}
+@media (min-width: 768px) {
+  article pre, .marked pre, .mozmd-preview pre {
+    white-space: break-spaces;
+  }
+}
+@media (max-width: 767.98px) {
+  .card-body {
+    overflow-x: auto;
+  }
+
+  article, .marked, .mozmd-preview {
+    word-wrap: break-word;
+  }
+
+  .carousel .carousel-caption > div h5, .carousel .carousel-caption > div .h5 {
+    font-size: 1.5rem;
+  }
+  .carousel .carousel-caption > div p {
+    line-height: 1.5;
+  }
+}
+@media (max-width: 575.98px) {
+  .toolbar {
+    flex-direction: column !important;
+    align-items: flex-start !important;
   }
 }
 pre {

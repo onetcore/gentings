@@ -90,6 +90,15 @@
   flex: 1 1 auto;
   padding: 1rem 0 0 1rem;
 }
+.docs-content .marked div.pmb-0 {
+  margin-bottom: 1rem;
+}
+.docs-content .marked div.pmb-0 > p {
+  margin-bottom: 0;
+}
+.docs-content .marked > p {
+  text-indent: 0;
+}
 
 .docs-toc {
   flex: 0 0 auto;
