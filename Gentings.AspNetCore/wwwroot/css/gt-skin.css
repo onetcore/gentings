@@ -12210,6 +12210,9 @@ article .alert > h6, article .alert > .h6, article .alert > h5, article .alert >
 article > p, .marked > p, .mozmd-preview > p {
   text-indent: 2rem;
 }
+article > ul, article > ol, .marked > ul, .marked > ol, .mozmd-preview > ul, .mozmd-preview > ol {
+  margin-left: 1rem;
+}
 
 .marked > h6[id]:hover:after, .marked > .h6[id]:hover:after, .marked > h5[id]:hover:after, .marked > .h5[id]:hover:after, .marked > h4[id]:hover:after, .marked > .h4[id]:hover:after, .marked > h3[id]:hover:after, .marked > .h3[id]:hover:after, .marked > h2[id]:hover:after, .marked > .h2[id]:hover:after, .marked > h1[id]:hover:after, .marked > .h1[id]:hover:after, .mozmd-preview > h6[id]:hover:after, .mozmd-preview > .h6[id]:hover:after, .mozmd-preview > h5[id]:hover:after, .mozmd-preview > .h5[id]:hover:after, .mozmd-preview > h4[id]:hover:after, .mozmd-preview > .h4[id]:hover:after, .mozmd-preview > h3[id]:hover:after, .mozmd-preview > .h3[id]:hover:after, .mozmd-preview > h2[id]:hover:after, .mozmd-preview > .h2[id]:hover:after, .mozmd-preview > h1[id]:hover:after, .mozmd-preview > .h1[id]:hover:after {
   content: "#";

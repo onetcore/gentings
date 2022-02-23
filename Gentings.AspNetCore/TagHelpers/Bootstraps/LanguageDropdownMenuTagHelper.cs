@@ -7,7 +7,6 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
     /// 语言下拉列表框。
     /// </summary>
     [HtmlTargetElement("gt:languages")]
-    [HtmlTargetElement("*", Attributes = "[dropdown=languages]")]
     public class LanguageDropdownMenuTagHelper : ViewContextableTagHelperBase
     {
         private readonly ILocalizationCulture _localizationCulture;
@@ -31,14 +30,18 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         public string? MenuClass { get; set; }
 
         /// <summary>
+        /// 标签名称。
+        /// </summary>
+        public string Tag { get; set; } = "li";
+
+        /// <summary>
         /// 访问并呈现当前标签实例。
         /// </summary>
         /// <param name="context">当前HTML标签上下文，包含当前HTML相关信息。</param>
         /// <param name="output">当前标签输出实例，用于呈现标签相关信息。</param>
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            if (output.TagName == "gt:languages")
-                output.TagName = "li";
+            output.TagName = Tag;
             output.AddCssClass("dropdown");
             var current = GetCurrentCulture();
             var uri = ViewContext.HttpContext.Request.GetUri();
@@ -65,7 +68,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
                             a.MergeAttribute("href", GetUrl(uri, culture.Key));
                             a.AddCssClass("dropdown-item");
                             if (active)
-                                a.MergeAttribute("style", "font-weight:600;");
+                                a.AddCssClass("active");
                             a.AppendHtml("span", span =>
                             {
                                 if (!active)

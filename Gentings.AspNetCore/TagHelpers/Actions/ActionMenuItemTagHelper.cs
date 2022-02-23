@@ -60,6 +60,19 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                 else
                     IconName = Type.GetIconClassName();
             }
+            if (!RouteValues.ContainsKey("handler"))
+            {
+                switch (Type)
+                {
+                    case ActionType.Delete:
+                    case ActionType.MoveUp:
+                    case ActionType.MoveDown:
+                    case ActionType.Edit:
+                    case ActionType.Upload:
+                        RouteValues.Add("handler", Type.ToString());
+                        break;
+                }
+            }
         }
 
         /// <summary>

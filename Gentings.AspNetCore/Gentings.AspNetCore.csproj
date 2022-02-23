@@ -10,6 +10,7 @@
 		<EmbeddedResource Include="wwwroot\js\**" />
 		<EmbeddedResource Include="wwwroot\lib\jquery\jquery.js" />
 		<EmbeddedResource Include="wwwroot\lib\jquery\jquery.min.js" />
+		<EmbeddedResource Include="wwwroot\lib\bootstrap\font\**" />
 		<EmbeddedResource Include="wwwroot\lib\bootstrap\js\bootstrap.bundle.js" />
 		<EmbeddedResource Include="wwwroot\lib\bootstrap\js\bootstrap.bundle.min.js" />
 	</ItemGroup>

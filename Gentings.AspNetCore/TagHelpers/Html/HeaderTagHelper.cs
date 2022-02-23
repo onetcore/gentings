@@ -84,13 +84,13 @@ namespace Gentings.AspNetCore.TagHelpers.Html
             if ((libraries & ImportLibrary.GtSkin) == ImportLibrary.GtSkin)
             {
                 output.AppendStyle("/css/gt-skin", isDevelopment);
-                output.AppendStyle("/lib/bootstrap-icons/font/bootstrap-icons", isDevelopment);
+                output.AppendStyle("/lib/bootstrap/font/bootstrap-icons", isDevelopment);
                 output.AppendStyle("/css/gt-admin", isDevelopment);
             }
             else if ((libraries & ImportLibrary.Bootstrap) == ImportLibrary.Bootstrap)
             {
                 output.AppendStyle("/css/gt-skin", isDevelopment);
-                output.AppendStyle("/lib/bootstrap-icons/font/bootstrap-icons", isDevelopment);
+                output.AppendStyle("/lib/bootstrap/font/bootstrap-icons", isDevelopment);
             }
 
             if ((libraries & ImportLibrary.GtDocs) == ImportLibrary.GtDocs)
