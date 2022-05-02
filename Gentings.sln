@@ -41,6 +41,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore.OpenSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions.OpenServices", "Gentings.Extensions.OpenServices\Gentings.Extensions.OpenServices.csproj", "{3CEC8478-6B48-489B-A709-321B7A8222FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.Searching", "Gentings.Searching\Gentings.Searching.csproj", "{52FA9411-7650-4C62-96E3-0B549B8C0D76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +201,14 @@ Global
 		{3CEC8478-6B48-489B-A709-321B7A8222FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3CEC8478-6B48-489B-A709-321B7A8222FA}.Release|x86.ActiveCfg = Release|Any CPU
 		{3CEC8478-6B48-489B-A709-321B7A8222FA}.Release|x86.Build.0 = Release|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Debug|x86.Build.0 = Debug|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Release|x86.ActiveCfg = Release|Any CPU
+		{52FA9411-7650-4C62-96E3-0B549B8C0D76}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
