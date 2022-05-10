@@ -10,6 +10,6 @@
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <returns>返回属性值。</returns>
-        object GetClrValue(object instance);
+        object? GetClrValue(object instance);
     }
 }

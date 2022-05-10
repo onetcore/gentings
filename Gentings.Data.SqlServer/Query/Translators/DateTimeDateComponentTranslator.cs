@@ -11,7 +11,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
     /// </summary>
     public class DateTimeDateComponentTranslator : IMemberTranslator
     {
-        public virtual Expression Translate(MemberExpression memberExpression)
+        public virtual Expression? Translate(MemberExpression memberExpression)
             => (memberExpression.Expression != null)
                && (memberExpression.Expression.Type == typeof(DateTime))
                && (memberExpression.Member.Name == nameof(DateTime.Date))

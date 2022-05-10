@@ -25,7 +25,7 @@ namespace Gentings.AspNetCore.WebSockets
             {
                 ct.ThrowIfCancellationRequested();
                 result = await socket.ReceiveAsync(buffer, ct);
-                ms.Write(buffer.Array, buffer.Offset, result.Count);
+                ms.Write(buffer.Array!, buffer.Offset, result.Count);
             }
             while (!result.EndOfMessage);
             if (result.CloseStatus.HasValue)
@@ -39,17 +39,19 @@ namespace Gentings.AspNetCore.WebSockets
         /// </summary>
         /// <param name="app">应用程序构建实例。</param>
         /// <returns>应用程序构建实例。</returns>
-        public static IApplicationBuilder UseWebSocketHandler(this IApplicationBuilder app) =>
-            app.Use(async (context, next) =>
-            {
-                if (context.WebSockets.IsWebSocketRequest)
-                {
-                    var webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                    await context.RequestServices.GetRequiredService<IWebSocketManager>().InvokeAsync(webSocket, context);
-                    return;
-                }
+        public static IApplicationBuilder UseWebSocketHandler(this IApplicationBuilder app)
+        {
+            return app.Use(async (context, next) =>
+{
+if (context.WebSockets.IsWebSocketRequest)
+{
+var webSocket = await context.WebSockets.AcceptWebSocketAsync();
+await context.RequestServices.GetRequiredService<IWebSocketManager>().InvokeAsync(webSocket, context);
+return;
+}
 
-                await next();
-            });
+await next();
+});
+        }
     }
 }

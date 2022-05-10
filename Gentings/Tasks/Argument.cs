@@ -8,8 +8,8 @@ namespace Gentings.Tasks
     /// </summary>
     public class Argument
     {
-        private readonly IDictionary<string, object> _arguments =
-            new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, object?> _arguments =
+            new Dictionary<string, object?>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// 初始化类<see cref="Argument"/>。
@@ -18,14 +18,14 @@ namespace Gentings.Tasks
         {
         }
 
-        internal Argument(string arguments)
+        internal Argument(string? arguments)
         {
             if (string.IsNullOrWhiteSpace(arguments))
             {
                 return;
             }
 
-            var data = Cores.FromJsonString<Dictionary<string, object>>(arguments);
+            var data = Cores.FromJsonString<Dictionary<string, object>>(arguments)!;
             foreach (var o in data)
             {
                 _arguments[o.Key] = o.Value;
@@ -37,7 +37,7 @@ namespace Gentings.Tasks
         /// </summary>
         /// <param name="name">参数名称。</param>
         /// <returns></returns>
-        public object this[string name]
+        public object? this[string name]
         {
             get
             {
@@ -65,7 +65,7 @@ namespace Gentings.Tasks
         /// <returns>
         /// 表示当前对象的字符串。
         /// </returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return _arguments.ToJsonString();
         }
@@ -123,12 +123,12 @@ namespace Gentings.Tasks
         /// <summary>
         /// 当前服务Id。
         /// </summary>
-        public TaskContext TaskContext { get; internal set; }
+        public TaskContext? TaskContext { get; internal set; }
 
         /// <summary>
         /// 自定义后台服务运行模式。
         /// </summary>
-        public string Interval
+        public string? Interval
         {
             get => this[nameof(Interval)]?.ToString();
             internal set => _arguments[nameof(Interval)] = value;
@@ -137,7 +137,7 @@ namespace Gentings.Tasks
         /// <summary>
         /// 错误消息。
         /// </summary>
-        public string Error
+        public string? Error
         {
             get => this[nameof(Error)]?.ToString();
             set => this[nameof(Error)] = value;

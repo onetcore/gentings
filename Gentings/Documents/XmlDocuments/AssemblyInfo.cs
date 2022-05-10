@@ -34,7 +34,7 @@ namespace Gentings.Documents.XmlDocuments
         /// <param name="x">程序集信息实例。</param>
         /// <param name="y">程序集信息实例。</param>
         /// <returns>返回对比结果。</returns>
-        public bool Equals(AssemblyInfo x, AssemblyInfo y)
+        public bool Equals(AssemblyInfo? x, AssemblyInfo? y)
         {
             return x?.AssemblyName.Equals(y?.AssemblyName) == true;
         }
@@ -54,7 +54,7 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="other">程序集信息实例。</param>
         /// <returns>返回对比结果。</returns>
-        public int CompareTo(AssemblyInfo other)
+        public int CompareTo(AssemblyInfo? other)
         {
             if (ReferenceEquals(this, other)) return 0;
             if (ReferenceEquals(null, other)) return 1;

@@ -39,7 +39,7 @@ namespace Gentings.Security
 
             public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
             {
-                if (!context.HttpContext.User.Identity.IsAuthenticated)
+                if (!context.HttpContext.User.Identity!.IsAuthenticated)
                 {
                     context.Result = new ChallengeResult();
                     return;

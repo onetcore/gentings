@@ -13,7 +13,7 @@
         /// <summary>
         /// 排序列枚举。
         /// </summary>
-        Enum Order { get; }
+        Enum? Order { get; }
     }
 
     /// <summary>
@@ -31,8 +31,8 @@
         /// <summary>
         /// 排序列枚举。
         /// </summary>
-        public TEnum Order { get; set; }
-        Enum IOrderBy.Order => Order;
+        public TEnum? Order { get; set; }
+        Enum? IOrderBy.Order => Order;
 
         /// <summary>
         /// 排序。

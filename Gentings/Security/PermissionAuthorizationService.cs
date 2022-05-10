@@ -29,12 +29,18 @@
         /// 判断当前用户是否拥有管理员权限。
         /// </summary>
         /// <returns>返回判断结果。</returns>
-        public virtual Task<bool> IsAdministratorAsync() => IsAuthorizedAsync(CorePermissions.Administrator);
+        public virtual Task<bool> IsAdministratorAsync()
+        {
+            return IsAuthorizedAsync(CorePermissions.Administrator);
+        }
 
         /// <summary>
         /// 判断当前用户是否拥有管理员权限。
         /// </summary>
         /// <returns>返回判断结果。</returns>
-        public virtual bool IsAdministrator() => IsAuthorized(CorePermissions.Administrator);
+        public virtual bool IsAdministrator()
+        {
+            return IsAuthorized(CorePermissions.Administrator);
+        }
     }
 }

@@ -25,13 +25,13 @@ namespace Gentings.Extensions.Internal
             if (memberInfo == null)
             {
                 throw new InvalidOperationException(string.Format(
-                    Resources.ClrPropertySetterFactory_NoSetter, propertyInfo.Name, propertyInfo.DeclaringType.DisplayName(false)));
+                    Resources.ClrPropertySetterFactory_NoSetter, propertyInfo.Name, propertyInfo.DeclaringType!.DisplayName(false)));
             }
 
             var entityParameter = Expression.Parameter(typeof(TEntity), "entity");
             var valueParameter = Expression.Parameter(typeof(TValue), "value");
 
-            var setter = Expression.Lambda<Action<TEntity, TValue>>(
+            var setter = Expression.Lambda<Action<TEntity, TValue?>>(
                 Expression.Assign(
                     Expression.MakeMemberAccess(entityParameter, memberInfo),
                     valueParameter),
@@ -42,7 +42,7 @@ namespace Gentings.Extensions.Internal
             return propertyType.IsNullableType()
                    && propertyType.UnwrapNullableType().GetTypeInfo().IsEnum
                 ? new NullableEnumClrPropertySetter<TEntity, TValue, TNonNullableEnumValue>(setter)
-                : (IClrPropertySetter) new ClrPropertySetter<TEntity, TValue>(setter);
+                : new ClrPropertySetter<TEntity, TValue>(setter);
         }
     }
 }

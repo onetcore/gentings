@@ -54,7 +54,7 @@ namespace Gentings.AspNetCore.WebSockets
         /// <param name="method">操作方法。</param>
         /// <param name="data">数据实例。</param>
         /// <returns>返回发送任务实例。</returns>
-        public Task SendAsync(string method, object data = null)
+        public Task SendAsync(string method, object? data = null)
         {
             if (data != null)
                 method += Header + data.ToJsonString();
@@ -70,7 +70,9 @@ namespace Gentings.AspNetCore.WebSockets
         /// <param name="message">错误消息。</param>
         /// <returns>返回发送任务实例。</returns>
         public Task SendAsync(string method, Enum errorCode, string message)
-            => SendAsync(method, (int)(object)errorCode, message);
+        {
+            return SendAsync(method, (int)(object)errorCode, message);
+        }
 
         /// <summary>
         /// 发送数据。
@@ -99,7 +101,10 @@ namespace Gentings.AspNetCore.WebSockets
         /// 关闭连接。
         /// </summary>
         /// <returns>关闭连接任务。</returns>
-        public Task CloseAsync() => _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", _cancellationToken);
+        public Task CloseAsync()
+        {
+            return _socket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", _cancellationToken);
+        }
 
         /// <summary>
         /// 执行方法。
@@ -120,8 +125,8 @@ namespace Gentings.AspNetCore.WebSockets
                 var index = json.IndexOf(Header);
                 if (index != -1)
                 {
-                    name = name.Substring(0, index);
-                    json = json.Substring(index + 1);
+                    name = name[..index];
+                    json = json[(index + 1)..];
                 }
                 else
                     json = null;
@@ -146,6 +151,6 @@ namespace Gentings.AspNetCore.WebSockets
         /// <summary>
         /// 所有WebSocket实例。
         /// </summary>
-        public ConcurrentDictionary<string, IWebSocket> WebSockets { get; internal set; }
+        public ConcurrentDictionary<string, IWebSocket>? WebSockets { get; internal set; }
     }
 }

@@ -29,16 +29,16 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
         /// <summary>
         /// 节点属性字符串。
         /// </summary>
-        public string SectionAttributeString { get; set; }
+        public string? SectionAttributeString { get; set; }
 
         /// <summary>
         /// 通知类型字符串。
         /// </summary>
-        public string NoteTypeString { get; set; }
+        public string? NoteTypeString { get; set; }
 
         /// <summary>
         /// 视频链接地址。
         /// </summary>
-        public string VideoLink { get; set; }
+        public string? VideoLink { get; set; }
     }
 }

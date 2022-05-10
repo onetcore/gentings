@@ -43,6 +43,6 @@ namespace Gentings.Data
         /// 获取数据库版本信息。
         /// </summary>
         /// <returns>返回数据库版本信息。</returns>
-        string GetVersion();
+        string? GetVersion();
     }
 }

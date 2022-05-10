@@ -43,11 +43,11 @@ namespace Gentings.AspNetCore
             }
         }
 
-        private string _message;
+        private string? _message;
         /// <summary>
         /// 消息。
         /// </summary>
-        public string Message
+        public string? Message
         {
             get => _message ??= _tempData[StatusMessageKey] as string;
             set
@@ -72,7 +72,7 @@ namespace Gentings.AspNetCore
         /// 状态消息。
         /// </summary>
         /// <returns>返回状态消息。</returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return _tempData.Peek(StatusMessageKey) as string;
         }

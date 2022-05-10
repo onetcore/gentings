@@ -8,6 +8,6 @@
         /// <summary>
         /// 新名称。
         /// </summary>
-        public virtual string NewName { get; set; }
+        public virtual string? NewName { get; set; }
     }
 }

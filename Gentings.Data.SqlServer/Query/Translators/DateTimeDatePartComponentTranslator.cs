@@ -15,9 +15,9 @@ namespace Gentings.Data.SqlServer.Query.Translators
         /// </summary>
         /// <param name="memberExpression">转换字段或属性表达式。</param>
         /// <returns>转换后的表达式。</returns>
-        public virtual Expression Translate(MemberExpression memberExpression)
+        public virtual Expression? Translate(MemberExpression memberExpression)
         {
-            string datePart;
+            string? datePart;
             if (memberExpression.Expression != null
                 && memberExpression.Expression.Type == typeof(DateTime)
                 && (datePart = GetDatePart(memberExpression.Member.Name)) != null)
@@ -30,7 +30,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
             return null;
         }
 
-        private static string GetDatePart(string memberName)
+        private static string? GetDatePart(string memberName)
         {
             switch (memberName)
             {

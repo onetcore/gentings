@@ -22,7 +22,7 @@ namespace Gentings.Extensions.Internal
                 return DataAction.Duplicate;
             }
 
-            if (Context.Any(model.Id))
+            if (Context.Any(model.Id!))
             {
                 return DataResult.FromResult(Update(model), DataAction.Updated);
             }
@@ -48,7 +48,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回更新结果。</returns>
         public virtual DataResult Update(TKey id, object fields)
         {
-            return DataResult.FromResult(Context.Update(id, fields), DataAction.Updated);
+            return DataResult.FromResult(Context.Update(id!, fields), DataAction.Updated);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回删除结果。</returns>
         public virtual DataResult Delete(TKey id)
         {
-            return DataResult.FromResult(Context.Delete(id), DataAction.Deleted);
+            return DataResult.FromResult(Context.Delete(id!), DataAction.Deleted);
         }
 
         /// <summary>
@@ -66,9 +66,9 @@ namespace Gentings.Extensions.Internal
         /// </summary>
         /// <param name="id">唯一Id。</param>
         /// <returns>返回当前模型实例。</returns>
-        public virtual TModel Find(TKey id)
+        public virtual TModel? Find(TKey id)
         {
-            return Context.Find(id);
+            return Context.Find(id!);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Gentings.Extensions.Internal
                 return DataAction.Duplicate;
             }
 
-            if (Context.Any(model.Id))
+            if (Context.Any(model.Id!))
             {
                 return DataResult.FromResult(await UpdateAsync(model, cancellationToken), DataAction.Updated);
             }
@@ -113,7 +113,7 @@ namespace Gentings.Extensions.Internal
         public virtual async Task<DataResult> UpdateAsync(TKey id, object fields,
             CancellationToken cancellationToken = default)
         {
-            return DataResult.FromResult(await Context.UpdateAsync(id, fields, cancellationToken),
+            return DataResult.FromResult(await Context.UpdateAsync(id!, fields, cancellationToken),
                 DataAction.Updated);
         }
 
@@ -124,7 +124,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回删除结果。</returns>
         public virtual DataResult Delete(IEnumerable<TKey> ids)
         {
-            return DataResult.FromResult(Context.Delete(x => x.Id.Included(ids)), DataAction.Deleted);
+            return DataResult.FromResult(Context.Delete(x => x.Id!.Included(ids)), DataAction.Deleted);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Gentings.Extensions.Internal
         public virtual async Task<DataResult> DeleteAsync(IEnumerable<TKey> ids,
             CancellationToken cancellationToken = default)
         {
-            return DataResult.FromResult(await Context.DeleteAsync(x => x.Id.Included(ids), cancellationToken),
+            return DataResult.FromResult(await Context.DeleteAsync(x => x.Id!.Included(ids), cancellationToken),
                 DataAction.Deleted);
         }
 
@@ -148,7 +148,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回删除结果。</returns>
         public virtual async Task<DataResult> DeleteAsync(TKey id, CancellationToken cancellationToken = default)
         {
-            return DataResult.FromResult(await Context.DeleteAsync(id, cancellationToken), DataAction.Deleted);
+            return DataResult.FromResult(await Context.DeleteAsync(id!, cancellationToken), DataAction.Deleted);
         }
 
         /// <summary>
@@ -157,9 +157,9 @@ namespace Gentings.Extensions.Internal
         /// <param name="id">唯一Id。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前模型实例。</returns>
-        public virtual Task<TModel> FindAsync(TKey id, CancellationToken cancellationToken = default)
+        public virtual Task<TModel?> FindAsync(TKey id, CancellationToken cancellationToken = default)
         {
-            return Context.FindAsync(id, cancellationToken);
+            return Context.FindAsync(id!, cancellationToken);
         }
 
         /// <summary>

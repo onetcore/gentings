@@ -45,7 +45,7 @@ namespace Gentings.Data.SqlServer.Query
         public override SqlIndentedStringBuilder Any(IEntityType entityType)
         {
             var builder = new SqlIndentedStringBuilder();
-            builder.Append("SELECT TOP(1) 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table))
+            builder.Append("SELECT TOP(1) 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table!))
                 .Append(" ")
                 .Append(WithNolock())
                 .Append(" ");
@@ -59,14 +59,14 @@ namespace Gentings.Data.SqlServer.Query
         /// <param name="entityType">模型实例。</param>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回SQL构建实例。</returns>
-        public override SqlIndentedStringBuilder Any(IEntityType entityType, Expression expression)
+        public override SqlIndentedStringBuilder Any(IEntityType entityType, Expression? expression)
         {
             var builder = new SqlIndentedStringBuilder();
-            builder.Append("SELECT TOP(1) 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table))
+            builder.Append("SELECT TOP(1) 1 FROM ").Append(SqlHelper.DelimitIdentifier(entityType.Table!))
                 .Append(" ")
                 .Append(WithNolock())
                 .Append(" ");
-            builder.AppendEx(Visit(expression), " WHERE {0}").Append(SqlHelper.fieldsTerminator);
+            builder.AppendEx(Visit(expression), " WHERE {0}").Append(SqlHelper.FieldsTerminator);
             return builder;
         }
 
@@ -78,10 +78,10 @@ namespace Gentings.Data.SqlServer.Query
         /// <param name="order">排序列。</param>
         /// <param name="expression">分组条件表达式。</param>
         /// <returns>返回SQL构建实例。</returns>
-        public override SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order, Expression expression)
+        public override SqlIndentedStringBuilder Move(IEntityType entityType, string direction, LambdaExpression order, Expression? expression)
         {
             var column = SqlHelper.DelimitIdentifier(order.GetPropertyAccess().Name);
-            var table = SqlHelper.DelimitIdentifier(entityType.Table);
+            var table = SqlHelper.DelimitIdentifier(entityType.Table!);
             var primaryKey = SqlHelper.DelimitIdentifier(entityType.SingleKey().Name);
             var where = Visit(expression);
             var builder = new SqlIndentedStringBuilder();
@@ -128,7 +128,7 @@ END");
             builder.Append(sql.FieldSql).Append(" ");
             builder.Append(sql.FromSql).Append(" ");
             builder.Append(sql.WhereSql).Append(" ");
-            builder.Append(sql.OrderBySql).Append(SqlHelper.fieldsTerminator);
+            builder.Append(sql.OrderBySql).Append(SqlHelper.FieldsTerminator);
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ END");
 
             var size = sql.Size ?? 20;
             builder.Append("OFFSET ")
-                .Append(Math.Max((sql.PageIndex.Value - 1) * size, 0))
+                .Append(Math.Max((sql.PageIndex!.Value - 1) * size, 0))
                 .Append(" ROWS FETCH NEXT ")
                 .Append(size)
                 .AppendLine(" ROWS ONLY;");
@@ -185,7 +185,7 @@ END");
             builder.Append(sql.FieldSql).Append(" ");
             builder.Append(sql.FromSql).Append(" ");
             builder.Append(sql.WhereSql).Append(" ");
-            builder.Append(sql.OrderBySql).Append(SqlHelper.fieldsTerminator);
+            builder.Append(sql.OrderBySql).Append(SqlHelper.FieldsTerminator);
         }
 
         /// <summary>

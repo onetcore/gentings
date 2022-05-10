@@ -393,7 +393,9 @@ namespace Gentings.Storages
         /// </summary>
         /// <param name="fileName">文件名称。</param>
         /// <returns>返回内容类型。</returns>
-        public static string GetFileContentType(this string fileName) =>
-            Path.GetFileNameWithoutExtension(fileName).GetContentType();
+        public static string GetFileContentType(this string fileName)
+        {
+            return Path.GetFileNameWithoutExtension(fileName).GetContentType();
+        }
     }
 }

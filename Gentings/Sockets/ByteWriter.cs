@@ -141,7 +141,7 @@ namespace Gentings.Sockets
         /// <param name="size">大小。</param>
         /// <param name="encoding">字符集。</param>
         /// <returns>返回当前实例。</returns>
-        public void Write(string value, int size, Encoding encoding = null)
+        public void Write(string value, int size, Encoding? encoding = null)
         {
             if (string.IsNullOrEmpty(value))
                 Zero(size);
@@ -201,7 +201,10 @@ namespace Gentings.Sockets
         /// <param name="value">当前字符串。</param>
         /// <param name="size">大小。</param>
         /// <returns>返回当前实例。</returns>
-        public void Write(byte[] value, int size) => Write(value, 0, size);
+        public void Write(byte[] value, int size)
+        {
+            Write(value, 0, size);
+        }
 
         /// <summary>
         /// 写入<paramref name="size"/>大小的字节数组。

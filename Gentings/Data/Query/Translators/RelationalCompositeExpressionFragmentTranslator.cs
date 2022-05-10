@@ -20,7 +20,7 @@ namespace Gentings.Data.Query.Translators
         /// </summary>
         /// <param name="expression">当前表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate(Expression expression)
+        public virtual Expression? Translate(Expression? expression)
         {
             foreach (var translator in _translators)
             {

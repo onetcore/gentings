@@ -10,6 +10,6 @@
         /// <summary>
         /// 分组名称。
         /// </summary>
-        string Name { get; }
+        string? Name { get; }
     }
 }

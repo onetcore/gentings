@@ -106,7 +106,7 @@ namespace Gentings.AspNetCore.TagHelpers
                         _culture = cultureInfo.ToString();
                     else
                         _culture = Thread.CurrentThread.CurrentUICulture.Name;
-                    _culture = LocalizationCulture.GetSupportedLanguage(_culture);
+                    _culture = LocalizationCulture.GetSupportedLanguage(_culture!);
                 }
                 return _culture;
             }

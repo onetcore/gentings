@@ -10,10 +10,10 @@ namespace Gentings.Data.SqlServer.Query.Translators
     /// </summary>
     public class EndsWithOptimizedTranslator : IMethodCallTranslator
     {
-        private static readonly MethodInfo _methodInfo
+        private static readonly MethodInfo? _methodInfo
             = typeof(string).GetRuntimeMethod(nameof(string.EndsWith), new[] {typeof(string)});
 
-        public virtual Expression Translate(MethodCallExpression methodCallExpression)
+        public virtual Expression? Translate(MethodCallExpression methodCallExpression)
         {
             if (ReferenceEquals(methodCallExpression.Method, _methodInfo))
             {
@@ -24,7 +24,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
                     new SqlFunctionExpression(
                         "RIGHT",
                         // ReSharper disable once PossibleNullReferenceException
-                        methodCallExpression.Object.Type,
+                        methodCallExpression.Object!.Type,
                         new[]
                         {
                             methodCallExpression.Object,
@@ -34,7 +34,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
 
                 return new NotNullableExpression(
                     patternConstantExpression != null
-                        ? (string) patternConstantExpression.Value == string.Empty
+                        ? (string) patternConstantExpression.Value! == string.Empty
                             ? (Expression) Expression.Constant(true)
                             : endsWithExpression
                         : Expression.OrElse(

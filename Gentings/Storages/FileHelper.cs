@@ -1,5 +1,5 @@
-﻿using System.Text;
-using Gentings.Properties;
+﻿using Gentings.Properties;
+using System.Text;
 
 namespace Gentings.Storages
 {
@@ -15,7 +15,7 @@ namespace Gentings.Storages
         /// <param name="encoding">编码。</param>
         /// <param name="share">文件共享选项。</param>
         /// <returns>返回文件内容字符串。</returns>
-        public static string ReadText(string path, Encoding encoding = null, FileShare share = FileShare.None)
+        public static string ReadText(string path, Encoding? encoding = null, FileShare share = FileShare.None)
         {
             using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, share);
             using var reader = new StreamReader(fs, encoding ?? Encoding.UTF8);
@@ -29,7 +29,7 @@ namespace Gentings.Storages
         /// <param name="encoding">编码。</param>
         /// <param name="share">文件共享选项。</param>
         /// <returns>返回文件内容字符串。</returns>
-        public static async Task<string> ReadTextAsync(string path, Encoding encoding = null, FileShare share = FileShare.None)
+        public static async Task<string> ReadTextAsync(string path, Encoding? encoding = null, FileShare share = FileShare.None)
         {
             await using var fs = new FileStream(path, FileMode.Open, FileAccess.Read, share);
             using var reader = new StreamReader(fs, encoding ?? Encoding.UTF8);
@@ -70,7 +70,7 @@ namespace Gentings.Storages
         /// <param name="path">当前文件的物理路径。</param>
         /// <param name="defaultEncoding">默认编码，如果为<code>null</code>，则为<see cref="Encoding.Default"/>。</param>
         /// <returns>返回当前文件的编码。</returns>
-        public static Encoding GetEncoding(string path, Encoding defaultEncoding = null)
+        public static Encoding GetEncoding(string path, Encoding? defaultEncoding = null)
         {
             defaultEncoding ??= Encoding.GetEncoding("GB2312");
             using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
@@ -158,7 +158,7 @@ namespace Gentings.Storages
         /// <param name="defaultEncoding">默认编码，如果为<code>null</code>，则为<see cref="Encoding.Default"/>。</param>
         /// <param name="destinationEncoding">转换的编码，如果为<code>null</code>，则为<see cref="Encoding.UTF8"/>。</param>
         /// <returns>返回转换任务。</returns>
-        public static async Task ConvertAsync(string directoryName, string searchPattern = "*.*", SearchOption option = SearchOption.AllDirectories, Encoding defaultEncoding = null, Encoding destinationEncoding = null)
+        public static async Task ConvertAsync(string directoryName, string searchPattern = "*.*", SearchOption option = SearchOption.AllDirectories, Encoding? defaultEncoding = null, Encoding? destinationEncoding = null)
         {
             var directory = new DirectoryInfo(directoryName);
             if (!directory.Exists)

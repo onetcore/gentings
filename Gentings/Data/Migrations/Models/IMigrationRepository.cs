@@ -24,7 +24,7 @@ namespace Gentings.Data.Migrations.Models
         /// </summary>
         /// <param name="migrationId">迁移Id。</param>
         /// <returns>返回实例列表。</returns>
-        Migration FindMigration(string migrationId);
+        Migration? FindMigration(string migrationId);
 
         /// <summary>
         /// 获取已经迁移到数据库中的实例。
@@ -32,7 +32,7 @@ namespace Gentings.Data.Migrations.Models
         /// <param name="migrationId">迁移Id。</param>
         /// <param name="cancellationToken">异步取消标识。</param>
         /// <returns>返回实例列表。</returns>
-        Task<Migration> FindMigrationAsync(string migrationId, CancellationToken cancellationToken = default);
+        Task<Migration?> FindMigrationAsync(string migrationId, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 执行迁移命令。

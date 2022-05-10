@@ -200,11 +200,11 @@ namespace Gentings.Documents
         /// 返回当前可读取的字符串。
         /// </summary>
         /// <returns>返回可读取的字符串。</returns>
-        public override string ToString()
+        public override string? ToString()
         {
             if (_index < _length)
             {
-                return _source.Substring(_index);
+                return _source[_index..];
             }
 
             return null;
@@ -216,7 +216,7 @@ namespace Gentings.Documents
         /// <param name="quote">引用符号：'"','`','\''。</param>
         /// <param name="builder">字符串构建实例。</param>
         /// <returns>返回当前引用块字符串。</returns>
-        public string ReadQuote(char quote, StringBuilder builder = null)
+        public string ReadQuote(char quote, StringBuilder? builder = null)
         {
             builder ??= new StringBuilder();
             if (quote == Current)
@@ -272,7 +272,7 @@ namespace Gentings.Documents
         /// <param name="end">结束字符。</param>
         /// <param name="builder">字符串构建实例。</param>
         /// <returns>返回当前字符串。</returns>
-        public string ReadUntil(char end, StringBuilder builder = null)
+        public string ReadUntil(char end, StringBuilder? builder = null)
         {
             builder ??= new StringBuilder();
             while (_source.Length > _index)
@@ -302,7 +302,7 @@ namespace Gentings.Documents
         /// <param name="end">结束字符串。</param>
         /// <param name="builder">字符串构建实例。</param>
         /// <returns>返回当前字符串。</returns>
-        public string ReadUntil(string end, StringBuilder builder = null)
+        public string ReadUntil(string end, StringBuilder? builder = null)
         {
             builder ??= new StringBuilder();
             while (_source.Length > _index)
@@ -332,7 +332,7 @@ namespace Gentings.Documents
         /// <param name="ends">结束字符集。</param>
         /// <param name="builder">字符串构建实例。</param>
         /// <returns>返回当前字符串。</returns>
-        public string ReadUntil(char[] ends, StringBuilder builder = null)
+        public string ReadUntil(char[] ends, StringBuilder? builder = null)
         {
             builder ??= new StringBuilder();
             while (_source.Length > _index)
@@ -363,7 +363,7 @@ namespace Gentings.Documents
         /// <param name="end">块结束符号。</param>
         /// <param name="builder">字符串构建实例。</param>
         /// <returns>返回当前字符串。</returns>
-        public string ReadBlock(char start, char end, StringBuilder builder = null)
+        public string ReadBlock(char start, char end, StringBuilder? builder = null)
         {
             builder ??= new StringBuilder();
             var blocks = 0;
@@ -405,7 +405,7 @@ namespace Gentings.Documents
         /// <param name="end">块结束符号。</param>
         /// <param name="builder">字符串构建实例。</param>
         /// <returns>返回当前字符串。</returns>
-        public string ReadUntil(char[] ends, char start, char end, StringBuilder builder = null)
+        public string ReadUntil(char[] ends, char start, char end, StringBuilder? builder = null)
         {
             builder ??= new StringBuilder();
             while (_source.Length > _index)

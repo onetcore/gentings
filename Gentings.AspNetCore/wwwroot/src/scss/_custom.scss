@@ -37,6 +37,30 @@ small {
     flex: auto;
 }
 
+.d-flex-auto {
+    display: flex;
+    flex-direction: row;
+
+    > * {
+        flex: auto;
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+
+        &:first-child {
+            padding-left: 0;
+        }
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    > .form-check .form-check-input {
+        margin-left: 0;
+        margin-right: 0.5rem;
+    }
+}
+
 .trans-y, .bi-trans-y:before {
     transform: rotate(90deg);
 }

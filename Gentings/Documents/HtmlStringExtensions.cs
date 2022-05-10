@@ -15,7 +15,7 @@ namespace Gentings.Documents
         /// <param name="end">结束字符串，结果不包含此字符串。</param>
         /// <param name="comparison">对比模式。</param>
         /// <returns>返回截取得到的字符串。</returns>
-        public static string Substring(this string source, string start, string end = null, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        public static string? Substring(this string source, string start, string? end = null, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             var index = source.IndexOf(start, comparison);
             if (index == -1)
@@ -23,7 +23,7 @@ namespace Gentings.Documents
                 return null;
             }
 
-            source = source.Substring(index + start.Length);
+            source = source[(index + start.Length)..];
             if (end != null)
             {
                 index = source.IndexOf(end, comparison);
@@ -32,7 +32,7 @@ namespace Gentings.Documents
                     return null;
                 }
 
-                source = source.Substring(0, index);
+                source = source[..index];
             }
 
             return source.Trim();
@@ -58,7 +58,7 @@ namespace Gentings.Documents
         /// ONE1TWO2THREE3 => one1two2three3
         /// First_Second_ThirdHi => first_second_third-hi
         /// </example>
-        public static string ToHtmlCase(this string name)
+        public static string? ToHtmlCase(this string name)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return null;
@@ -74,7 +74,7 @@ namespace Gentings.Documents
         /// <param name="source">当前代码。</param>
         /// <param name="isBlank">是否移除空格。</param>
         /// <returns>返回移除后的结果。</returns>
-        public static string RemoveHtml(this string source, bool isBlank = false)
+        public static string? RemoveHtml(this string source, bool isBlank = false)
         {
             if (string.IsNullOrWhiteSpace(source))
             {
@@ -97,7 +97,7 @@ namespace Gentings.Documents
         /// </summary>
         /// <param name="source">源代码。</param>
         /// <returns>返回分隔后的字符串。</returns>
-        public static string[] SplitHtml(this string source)
+        public static string[]? SplitHtml(this string source)
         {
             if (string.IsNullOrWhiteSpace(source))
             {
@@ -128,6 +128,9 @@ namespace Gentings.Documents
         /// </summary>
         /// <param name="current">当前字符。</param>
         /// <returns>返回判断结果。</returns>
-        public static bool IsQuote(this char current) => current == '"' || current == '`' || current == '\'';
+        public static bool IsQuote(this char current)
+        {
+            return current == '"' || current == '`' || current == '\'';
+        }
     }
 }

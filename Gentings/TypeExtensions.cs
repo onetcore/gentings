@@ -22,12 +22,12 @@ namespace Gentings
                 var typeInfo = type.GetTypeInfo();
                 var propertyInfo = typeInfo.GetDeclaredProperty(name);
                 if (propertyInfo != null
-                    && !(propertyInfo.GetMethod ?? propertyInfo.SetMethod).IsStatic)
+                    && !(propertyInfo.GetMethod ?? propertyInfo.SetMethod)!.IsStatic)
                 {
                     yield return propertyInfo;
                 }
 
-                type = typeInfo.BaseType;
+                type = typeInfo.BaseType!;
             } while (type != null);
         }
 
@@ -36,7 +36,10 @@ namespace Gentings
         /// </summary>
         /// <param name="type">当前类型。</param>
         /// <returns>返回基础类型。</returns>
-        public static Type UnwrapNullableType(this Type type) => Nullable.GetUnderlyingType(type) ?? type;
+        public static Type UnwrapNullableType(this Type type)
+        {
+            return Nullable.GetUnderlyingType(type) ?? type;
+        }
 
         /// <summary>
         /// 脱掉枚举类型并返回。
@@ -62,9 +65,11 @@ namespace Gentings
         /// <param name="type">类型实例。</param>
         /// <returns>返回转换后的类型。</returns>
         public static Type MakeNullable(this Type type)
-            => type.IsNullableType()
-                ? type
-                : typeof(Nullable<>).MakeGenericType(type);
+        {
+            return type.IsNullableType()
+                           ? type
+                           : typeof(Nullable<>).MakeGenericType(type);
+        }
 
         /// <summary>
         /// 判断当前类型是否可以承载null值。
@@ -86,7 +91,7 @@ namespace Gentings
         /// <param name="type">当前类型。</param>
         /// <param name="interfaceOrBaseType">泛型接口或基类。</param>
         /// <returns>返回元素类型。</returns>
-        public static Type TryGetElementType(this Type type, Type interfaceOrBaseType)
+        public static Type? TryGetElementType(this Type type, Type interfaceOrBaseType)
         {
             if (!type.GetTypeInfo().IsGenericTypeDefinition)
             {
@@ -112,7 +117,7 @@ namespace Gentings
                 return (interfaceOrBaseType.GetTypeInfo().IsInterface
                         ? typeInfo.ImplementedInterfaces
                         : type.GetBaseTypes())
-                    .Union(new[] {type})
+                    .Union(new[] { type })
                     .Where(
                         t => t.GetTypeInfo().IsGenericType
                              && (t.GetGenericTypeDefinition() == interfaceOrBaseType));
@@ -126,8 +131,11 @@ namespace Gentings
         /// </summary>
         /// <param name="type">当前类型。</param>
         /// <returns>基类列表。</returns>
-        public static IEnumerable<Type> GetBaseTypes(this Type type)
+        public static IEnumerable<Type> GetBaseTypes(this Type? type)
         {
+            if (type == null)
+                yield break;
+
             type = type.GetTypeInfo().BaseType;
 
             while (type != null)
@@ -173,21 +181,21 @@ namespace Gentings
 
         private static readonly Dictionary<Type, string> _builtInTypeNames = new()
         {
-            {typeof(bool), "bool"},
-            {typeof(byte), "byte"},
-            {typeof(char), "char"},
-            {typeof(decimal), "decimal"},
-            {typeof(double), "double"},
-            {typeof(float), "float"},
-            {typeof(int), "int"},
-            {typeof(long), "long"},
-            {typeof(object), "object"},
-            {typeof(sbyte), "sbyte"},
-            {typeof(short), "short"},
-            {typeof(string), "string"},
-            {typeof(uint), "uint"},
-            {typeof(ulong), "ulong"},
-            {typeof(ushort), "ushort"}
+            { typeof(bool), "bool" },
+            { typeof(byte), "byte" },
+            { typeof(char), "char" },
+            { typeof(decimal), "decimal" },
+            { typeof(double), "double" },
+            { typeof(float), "float" },
+            { typeof(int), "int" },
+            { typeof(long), "long" },
+            { typeof(object), "object" },
+            { typeof(sbyte), "sbyte" },
+            { typeof(short), "short" },
+            { typeof(string), "string" },
+            { typeof(uint), "uint" },
+            { typeof(ulong), "ulong" },
+            { typeof(ushort), "ushort" }
         };
 
         private static void ProcessTypeName(Type t, StringBuilder sb, bool fullName)
@@ -210,7 +218,7 @@ namespace Gentings
 
         private static void ProcessNestedGenericTypes(Type t, StringBuilder sb, bool fullName)
         {
-            var genericFullName = t.GetGenericTypeDefinition().FullName;
+            var genericFullName = t.GetGenericTypeDefinition().FullName!;
             var genericSimpleName = t.GetGenericTypeDefinition().Name;
             var parts = genericFullName.Split('+');
             var genericArguments = t.GetTypeInfo().GenericTypeArguments;
@@ -225,9 +233,9 @@ namespace Gentings
                     return;
                 }
 
-                var name = part.Substring(0, num);
-                var numberOfGenericTypeArgs = int.Parse(part.Substring(num + 1), CultureInfo.InvariantCulture);
-                sb.Append(fullName ? name : genericSimpleName.Substring(0, genericSimpleName.IndexOf('`')));
+                var name = part[..num];
+                var numberOfGenericTypeArgs = int.Parse(part[(num + 1)..], CultureInfo.InvariantCulture);
+                sb.Append(fullName ? name : genericSimpleName[..genericSimpleName.IndexOf('`')]);
                 AppendGenericArguments(genericArguments, index, numberOfGenericTypeArgs, sb, fullName);
                 return;
             }
@@ -238,8 +246,8 @@ namespace Gentings
                 var num = part.IndexOf('`');
                 if (num != -1)
                 {
-                    var name = part.Substring(0, num);
-                    var numberOfGenericTypeArgs = int.Parse(part.Substring(num + 1), CultureInfo.InvariantCulture);
+                    var name = part[..num];
+                    var numberOfGenericTypeArgs = int.Parse(part[(num + 1)..], CultureInfo.InvariantCulture);
                     if (fullName || (i == totalParts - 1))
                     {
                         sb.Append(name);

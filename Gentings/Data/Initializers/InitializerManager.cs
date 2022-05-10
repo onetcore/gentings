@@ -23,7 +23,7 @@
         /// <returns>返回保存结果。</returns>
         public async Task<bool> SaveRegistrationAsync(Registration registration)
         {
-            var lisence = new Lisence {Registration = Cores.Encrypto(registration.ToJsonString())};
+            var lisence = new Lisence {Registration = Cores.Encrypto(registration.ToJsonString()!)};
             if (await _context.AnyAsync())
             {
                 return await _context.UpdateAsync(lisence);
@@ -43,9 +43,9 @@
             {
                 try
                 {
-                    var code = registions.First().Registration;
+                    var code = registions.First().Registration!;
                     code = Cores.Decrypto(code.Trim());
-                    return Cores.FromJsonString<Registration>(code);
+                    return Cores.FromJsonString<Registration>(code)!;
                 }
                 catch
                 {

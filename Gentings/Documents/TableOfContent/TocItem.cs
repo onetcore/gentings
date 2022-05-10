@@ -30,17 +30,17 @@ namespace Gentings.Documents.TableOfContent
         /// <summary>
         /// 名称。
         /// </summary>
-        public string Name { get; private set; }
+        public string? Name { get; private set; }
 
         /// <summary>
         /// 链接地址。
         /// </summary>
-        public string Href { get; private set; }
+        public string? Href { get; private set; }
 
         /// <summary>
         /// 唯一Id。
         /// </summary>
-        public string Uid { get; private set; }
+        public string? Uid { get; private set; }
 
         /// <summary>
         /// 菜单的唯一Id。
@@ -50,7 +50,7 @@ namespace Gentings.Documents.TableOfContent
         /// <summary>
         /// 父级实例。
         /// </summary>
-        public TocItem Parent { get; internal set; }
+        public TocItem? Parent { get; internal set; }
 
         /// <summary>
         /// 子项数组。
@@ -62,13 +62,13 @@ namespace Gentings.Documents.TableOfContent
         /// </summary>
         public Toc Toc { get; }
 
-        private readonly Dictionary<string, string> _items = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string?> _items = new(StringComparer.OrdinalIgnoreCase);
         /// <summary>
         /// 获取其他属性值。
         /// </summary>
         /// <param name="key">其他属性健。</param>
         /// <returns>返回当前配置的值，如果不存在则返回<c>null</c>。</returns>
-        public string this[string key]
+        public string? this[string key]
         {
             get
             {
@@ -80,7 +80,7 @@ namespace Gentings.Documents.TableOfContent
 
         internal void Init(TocString toc)
         {
-            switch (toc.Name)
+            switch (toc.Name!)
             {
                 case "name":
                     Name = toc.Value;
@@ -92,7 +92,7 @@ namespace Gentings.Documents.TableOfContent
                     Uid = toc.Value;
                     break;
                 default:
-                    _items[toc.Name] = toc.Value;
+                    _items[toc.Name!] = toc.Value;
                     break;
             }
         }

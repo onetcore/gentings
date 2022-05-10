@@ -4,7 +4,7 @@ namespace Gentings.Data.Migrations.Builders
 {
     internal class OperationHelper
     {
-        public static string GetName(NameType type, string table, string[] columns = null, string alt = null)
+        public static string GetName(NameType type, string table, string[]? columns = null, string? alt = null)
         {
             var name = new StringBuilder();
             switch (type)

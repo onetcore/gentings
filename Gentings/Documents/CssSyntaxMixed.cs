@@ -74,7 +74,10 @@ namespace Gentings.Documents
             /// 获取迭代器实例。
             /// </summary>
             /// <returns>迭代器实例。</returns>
-            public IEnumerator<Syntax> GetEnumerator() => _styles.GetEnumerator();
+            public IEnumerator<Syntax> GetEnumerator()
+            {
+                return _styles.GetEnumerator();
+            }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
@@ -135,7 +138,10 @@ namespace Gentings.Documents
             /// 获取迭代器实例。
             /// </summary>
             /// <returns>迭代器实例。</returns>
-            public IEnumerator<NameValue> GetEnumerator() => _values.GetEnumerator();
+            public IEnumerator<NameValue> GetEnumerator()
+            {
+                return _values.GetEnumerator();
+            }
 
             IEnumerator IEnumerable.GetEnumerator()
             {

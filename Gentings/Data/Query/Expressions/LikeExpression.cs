@@ -85,6 +85,9 @@ namespace Gentings.Data.Query.Expressions
         /// 字符串显示LIKE表达式。
         /// </summary>
         /// <returns>字符串显示LIKE表达式。</returns>
-        public override string ToString() => Match + " LIKE " + Pattern;
+        public override string ToString()
+        {
+            return Match + " LIKE " + Pattern;
+        }
     }
 }

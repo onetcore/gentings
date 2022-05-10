@@ -42,7 +42,7 @@
             var index = cultureName.IndexOf('-');
             if (index != -1)
             {
-                cultureName = cultureName.Substring(0, index);
+                cultureName = cultureName[..index];
                 if (SupportedLanguages.ContainsKey(cultureName))
                     return cultureName;
             }

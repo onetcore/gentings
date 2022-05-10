@@ -18,4 +18,20 @@
     public interface IIdObject : IIdObject<int>
     {
     }
+
+    /// <summary>
+    /// 唯一Id对象接口。
+    /// </summary>
+    /// <typeparam name="TKey">Id类型。</typeparam>
+    public interface ICachableIdObject<TKey> : IIdObject<TKey>
+    {
+
+    }
+
+    /// <summary>
+    /// 唯一Id对象接口。
+    /// </summary>
+    public interface ICachableIdObject : ICachableIdObject<int>, IIdObject
+    {
+    }
 }

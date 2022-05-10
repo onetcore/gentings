@@ -40,7 +40,7 @@ namespace Gentings.Searching
         /// 返回生成的HTML实体内容。
         /// </summary>
         /// <returns>返回实体内容。</returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return Summary;
         }

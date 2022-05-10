@@ -20,7 +20,7 @@ namespace Gentings.Data.Query.Translators.Internal
         /// </summary>
         /// <param name="expression">当前表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate(Expression expression)
+        public virtual Expression? Translate(Expression? expression)
         {
             var binaryExpression = expression as BinaryExpression;
             if (binaryExpression != null
@@ -28,12 +28,12 @@ namespace Gentings.Data.Query.Translators.Internal
                 && binaryExpression.Method == _stringConcatMethodInfo)
             {
                 var newLeft = binaryExpression.Left.Type != typeof(string)
-                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Left.RemoveConvert()),
+                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Left.RemoveConvert()!),
                         typeof(string))
                     : binaryExpression.Left;
 
                 var newRight = binaryExpression.Right.Type != typeof(string)
-                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Right.RemoveConvert()),
+                    ? new ExplicitCastExpression(HandleNullTypedConstant(binaryExpression.Right.RemoveConvert()!),
                         typeof(string))
                     : binaryExpression.Right;
 

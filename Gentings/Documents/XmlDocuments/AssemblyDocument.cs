@@ -26,7 +26,7 @@ namespace Gentings.Documents.XmlDocuments
             }
         }
 
-        private readonly XmlNode _xmlDoc;
+        private readonly XmlNode? _xmlDoc;
         private static readonly IDictionary<string, AssemblyDocument> _assemblyDocuments = new ConcurrentDictionary<string, AssemblyDocument>();
         /// <summary>
         /// 初始化类<see cref="AssemblyDocument"/>。
@@ -58,7 +58,7 @@ namespace Gentings.Documents.XmlDocuments
         /// <summary>
         /// 程序集名称。
         /// </summary>
-        public string AssemblyName { get; }
+        public string? AssemblyName { get; }
 
         /// <summary>
         /// 类型成员。
@@ -67,14 +67,14 @@ namespace Gentings.Documents.XmlDocuments
 
         private void InitMembers()
         {
-            foreach (XmlNode xmlNode in _xmlDoc)
+            foreach (XmlNode xmlNode in _xmlDoc!)
             {
                 if (xmlNode.NodeType == XmlNodeType.Comment || xmlNode.Name != "member")
                     continue;
-                var name = xmlNode.Attributes["name"]?.Value.Trim();
+                var name = xmlNode.Attributes!["name"]?.Value.Trim();
                 if (name == null) continue;
                 var prefix = name[0];
-                var typeName = name.Substring(2);
+                var typeName = name[2..];
                 var fullName = typeName;
                 var summary = xmlNode.GetInnerXml("summary");
                 switch (prefix)
@@ -97,8 +97,8 @@ namespace Gentings.Documents.XmlDocuments
                     case 'F':
                         {
                             var index = typeName.LastIndexOf('.');
-                            name = typeName.Substring(index + 1);
-                            typeName = typeName.Substring(0, index);
+                            name = typeName[(index + 1)..];
+                            typeName = typeName[..index];
                             if (!_members.TryGetValue(typeName, out var ptype))
                                 throw new NullReferenceException($"类型{typeName}不能为空！");
                             ptype.IsEnum = prefix == 'F';
@@ -109,10 +109,10 @@ namespace Gentings.Documents.XmlDocuments
                         {
                             var index = typeName.IndexOf('(');
                             if (index != -1)
-                                typeName = typeName.Substring(0, index);
+                                typeName = typeName[..index];
                             index = typeName.LastIndexOf('.');
-                            name = typeName.Substring(index + 1);
-                            typeName = typeName.Substring(0, index);
+                            name = typeName[(index + 1)..];
+                            typeName = typeName[..index];
                             if (!_members.TryGetValue(typeName, out var mtype))
                             {
                                 mtype = new TypeDescriptor(typeName, null);
@@ -120,12 +120,12 @@ namespace Gentings.Documents.XmlDocuments
                             }
                             var method = new MethodDescriptor(mtype, name, summary, fullName);
                             mtype.Add(method);
-                            var @params = xmlNode.SelectNodes("param");
+                            var @params = xmlNode.SelectNodes("param")!;
                             foreach (XmlNode param in @params)
                             {
                                 if (param.NodeType == XmlNodeType.Comment)
                                     continue;
-                                method.Add(new ParameterDescriptor(null, param.Attributes["name"]?.Value.Trim(), method, param.InnerXml.Trim()));
+                                method.Add(new ParameterDescriptor(null, param.Attributes!["name"]?.Value.Trim(), method, param.InnerXml.Trim()));
                             }
 
                             var returns = xmlNode.SelectSingleNode("returns");
@@ -144,15 +144,17 @@ namespace Gentings.Documents.XmlDocuments
         /// <param name="assemblyName">程序集。</param>
         /// <param name="document">返回注释实例对象。</param>
         /// <returns>返回获取结果。</returns>
-        public static bool TryGetDocument(string assemblyName, out AssemblyDocument document) =>
-            _assemblyDocuments.TryGetValue(assemblyName, out document);
+        public static bool TryGetDocument(string assemblyName, out AssemblyDocument? document)
+        {
+            return _assemblyDocuments.TryGetValue(assemblyName, out document);
+        }
 
         /// <summary>
         /// 获取当前注释实例。
         /// </summary>
         /// <param name="assemblyName">程序集。</param>
         /// <returns>返回获取结果。</returns>
-        public static AssemblyDocument GetDocument(string assemblyName)
+        public static AssemblyDocument? GetDocument(string assemblyName)
         {
             _assemblyDocuments.TryGetValue(assemblyName, out var document);
             return document;
@@ -168,10 +170,10 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="type">当前类型。</param>
         /// <returns>返回注释描述实例。</returns>
-        public static TypeDescriptor GetTypeDescriptor(Type type)
+        public static TypeDescriptor? GetTypeDescriptor(Type type)
         {
-            if (TryGetDocument(type.Assembly.GetName().Name, out var document) &&
-                document._members.TryGetValue(type.FullName, out var value))
+            if (TryGetDocument(type.Assembly.GetName().Name!, out var document) &&
+                document!._members.TryGetValue(type.FullName!, out var value))
                 return value;
             return null;
         }
@@ -181,7 +183,7 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="typeFullName">当前类型。</param>
         /// <returns>返回注释描述实例。</returns>
-        public static TypeDescriptor GetTypeDescriptor(string typeFullName)
+        public static TypeDescriptor? GetTypeDescriptor(string typeFullName)
         {
             return _assemblyDocuments.Values.SelectMany(x => x._members.Values)
                 .FirstOrDefault(x => x.FullName == typeFullName);
@@ -191,11 +193,11 @@ namespace Gentings.Documents.XmlDocuments
         /// 获取类型迭代器。
         /// </summary>
         /// <returns>类型迭代器。</returns>
-        public IEnumerator<TypeDescriptor> GetEnumerator() => _members.Values.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator<TypeDescriptor> GetEnumerator()
         {
-            throw new NotImplementedException();
+            return _members.Values.GetEnumerator();
         }
+
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

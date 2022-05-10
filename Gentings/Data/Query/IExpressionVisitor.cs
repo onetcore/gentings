@@ -14,6 +14,6 @@ namespace Gentings.Data.Query
         /// 如果修改了该表达式或任何子表达式，则为修改后的表达式；否则返回原始表达式。
         /// </returns>
         /// <param name="expression">要访问的表达式。</param>
-        Expression Visit(Expression expression);
+        Expression? Visit(Expression? expression);
     }
 }

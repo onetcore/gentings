@@ -11142,6 +11142,26 @@ small, .small {
   flex: auto;
 }
 
+.d-flex-auto {
+  display: flex;
+  flex-direction: row;
+}
+.d-flex-auto > * {
+  flex: auto;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.d-flex-auto > *:first-child {
+  padding-left: 0;
+}
+.d-flex-auto > *:last-child {
+  padding-right: 0;
+}
+.d-flex-auto > .form-check .form-check-input {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
 .trans-y, .bi-trans-y:before {
   transform: rotate(90deg);
 }

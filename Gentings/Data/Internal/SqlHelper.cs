@@ -12,7 +12,7 @@ namespace Gentings.Data.Internal
         /// <summary>
         /// 语句结束符。
         /// </summary>
-        public virtual string fieldsTerminator => ";";
+        public virtual string FieldsTerminator => ";";
 
         /// <summary>
         /// 参数化字符串。
@@ -29,14 +29,14 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="literal">值。</param>
         /// <returns>返回转换后的字符串。</returns>
-        public string EscapeLiteral(object literal)
+        public string EscapeLiteral(object? literal)
         {
             if (literal == null)
             {
                 return "NULL";
             }
 
-            return GenerateLiteralValue((dynamic) literal);
+            return GenerateLiteralValue((dynamic)literal);
         }
 
         /// <summary>
@@ -59,8 +59,10 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="identifier">当前标识字符串。</param>
         /// <returns>返回格式化后的字符串。</returns>
-        public virtual string DelimitIdentifier(string identifier) =>
-            $"[{Check.NotEmpty(identifier, nameof(identifier))}]";
+        public virtual string DelimitIdentifier(string identifier)
+        {
+            return $"[{Check.NotEmpty(identifier, nameof(identifier))}]";
+        }
 
         /// <summary>
         /// 将表格名称或列名称加上安全括弧。
@@ -69,10 +71,12 @@ namespace Gentings.Data.Internal
         /// <param name="schema">架构名称。</param>
         /// <returns>返回格式化后的字符串。</returns>
         public virtual string DelimitIdentifier(string name, string schema)
-            => (!string.IsNullOrEmpty(schema)
-                   ? DelimitIdentifier(schema) + "."
-                   : string.Empty)
-               + DelimitIdentifier(Check.NotEmpty(name, nameof(name)));
+        {
+            return (!string.IsNullOrEmpty(schema)
+                              ? DelimitIdentifier(schema) + "."
+                              : string.Empty)
+                          + DelimitIdentifier(Check.NotEmpty(name, nameof(name)));
+        }
 
         private const string DecimalFormatConst = "0.0###########################";
         private const string DateTimeFormatConst = @"yyyy-MM-dd HH\:mm\:ss.fffffff";
@@ -104,7 +108,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(string value)
-            => $"'{Check.NotNull(value, nameof(value)).Replace("'", "''")}'";
+        {
+            return $"'{Check.NotNull(value, nameof(value)).Replace("'", "''")}'";
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -112,7 +118,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(int value)
-            => value.ToString(CultureInfo.InvariantCulture);
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -120,7 +128,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(uint value)
-            => value.ToString(CultureInfo.InvariantCulture);
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -128,7 +138,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(short value)
-            => value.ToString(CultureInfo.InvariantCulture);
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -136,7 +148,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(ushort value)
-            => value.ToString(CultureInfo.InvariantCulture);
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -144,7 +158,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(long value)
-            => value.ToString(CultureInfo.InvariantCulture);
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -152,7 +168,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(ulong value)
-            => value.ToString(CultureInfo.InvariantCulture);
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -160,7 +178,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(byte value)
-            => value.ToString(CultureInfo.InvariantCulture);
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -168,7 +188,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(decimal value)
-            => value.ToString(DecimalFormat, CultureInfo.InvariantCulture);
+        {
+            return value.ToString(DecimalFormat, CultureInfo.InvariantCulture);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -176,7 +198,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(double value)
-            => string.Format(CultureInfo.InvariantCulture, FloatingPointFormatString, value);
+        {
+            return string.Format(CultureInfo.InvariantCulture, FloatingPointFormatString, value);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -184,7 +208,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(float value)
-            => string.Format(CultureInfo.InvariantCulture, FloatingPointFormatString, value);
+        {
+            return string.Format(CultureInfo.InvariantCulture, FloatingPointFormatString, value);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -192,7 +218,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(bool value)
-            => value ? "1" : "0";
+        {
+            return value ? "1" : "0";
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -200,7 +228,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(char value)
-            => string.Format(CultureInfo.InvariantCulture, "'{0}'", value);
+        {
+            return string.Format(CultureInfo.InvariantCulture, "'{0}'", value);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -208,7 +238,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(object value)
-            => GenerateLiteralValue(value.ToString());
+        {
+            return GenerateLiteralValue(value.ToString()!);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -231,14 +263,14 @@ namespace Gentings.Data.Internal
 
         private readonly Dictionary<DbType, string> _dbTypeNameMapping = new()
         {
-            {DbType.Byte, "tinyint"},
-            {DbType.Decimal, "decimal"},
-            {DbType.Double, "float"},
-            {DbType.Int16, "smallint"},
-            {DbType.Int32, "int"},
-            {DbType.Int64, "bigint"},
-            {DbType.String, "nvarchar"},
-            {DbType.Date, "date"}
+            { DbType.Byte, "tinyint" },
+            { DbType.Decimal, "decimal" },
+            { DbType.Double, "float" },
+            { DbType.Int16, "smallint" },
+            { DbType.Int32, "int" },
+            { DbType.Int64, "bigint" },
+            { DbType.String, "nvarchar" },
+            { DbType.Date, "date" }
         };
 
         /// <summary>
@@ -247,7 +279,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(DbType value)
-            => _dbTypeNameMapping[value];
+        {
+            return _dbTypeNameMapping[value];
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -255,7 +289,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(Enum value)
-            => string.Format(CultureInfo.InvariantCulture, "{0:d}", Check.NotNull(value, nameof(value)));
+        {
+            return string.Format(CultureInfo.InvariantCulture, "{0:d}", Check.NotNull(value, nameof(value)));
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -263,7 +299,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(Guid value)
-            => string.Format(CultureInfo.InvariantCulture, "'{0}'", value);
+        {
+            return string.Format(CultureInfo.InvariantCulture, "'{0}'", value);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -271,7 +309,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(DateTime value)
-            => $"TIMESTAMP '{value.ToString(DateTimeFormat, CultureInfo.InvariantCulture)}'";
+        {
+            return $"TIMESTAMP '{value.ToString(DateTimeFormat, CultureInfo.InvariantCulture)}'";
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -279,7 +319,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(DateTimeOffset value)
-            => $"TIMESTAMP '{value.ToString(DateTimeOffsetFormat, CultureInfo.InvariantCulture)}'";
+        {
+            return $"TIMESTAMP '{value.ToString(DateTimeOffsetFormat, CultureInfo.InvariantCulture)}'";
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -287,7 +329,9 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(TimeSpan value)
-            => string.Format(CultureInfo.InvariantCulture, "'{0}'", value);
+        {
+            return string.Format(CultureInfo.InvariantCulture, "'{0}'", value);
+        }
 
         /// <summary>
         /// 将对象转换为安全的SQL字符串。
@@ -295,6 +339,8 @@ namespace Gentings.Data.Internal
         /// <param name="value">值。</param>
         /// <returns>返回转换后的字符串。</returns>
         protected virtual string GenerateLiteralValue(Type value)
-            => GenerateLiteralValue(value.DisplayName());
+        {
+            return GenerateLiteralValue(value.DisplayName());
+        }
     }
 }

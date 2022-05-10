@@ -8,11 +8,11 @@
         /// <summary>
         /// 名称。
         /// </summary>
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
 
         /// <summary>
         /// 表格。
         /// </summary>
-        public virtual string Table { get; set; }
+        public virtual string? Table { get; set; }
     }
 }

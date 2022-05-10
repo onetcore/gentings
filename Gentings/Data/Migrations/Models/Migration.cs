@@ -13,7 +13,7 @@ namespace Gentings.Data.Migrations.Models
         /// 迁移类型。
         /// </summary>
         [Key]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// 版本。

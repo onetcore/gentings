@@ -29,12 +29,12 @@ namespace Gentings.Data.Query.Translators.Internal
         /// </summary>
         /// <param name="expression">当前表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate(Expression expression)
+        public virtual Expression? Translate(Expression? expression)
         {
             var binaryExpression = expression as BinaryExpression;
             if (binaryExpression != null)
             {
-                if (!_operatorMap.ContainsKey(expression.NodeType))
+                if (!_operatorMap.ContainsKey(expression!.NodeType))
                 {
                     return null;
                 }
@@ -60,11 +60,11 @@ namespace Gentings.Data.Query.Translators.Internal
             return null;
         }
 
-        private Expression TranslateInternal(
+        private Expression? TranslateInternal(
             Func<ExpressionType, ExpressionType> opFunc,
             ExpressionType op,
-            MethodCallExpression methodCall,
-            ConstantExpression constant)
+            MethodCallExpression? methodCall,
+            ConstantExpression? constant)
         {
             if (methodCall != null
                 && methodCall.Method == _methodInfo
@@ -75,7 +75,7 @@ namespace Gentings.Data.Query.Translators.Internal
                 var arguments = methodCall.Arguments.ToList();
                 var leftString = arguments[0];
                 var rightString = arguments[1];
-                var constantValue = (int) constant.Value;
+                var constantValue = (int) constant.Value!;
 
                 if (constantValue == 0)
                 {

@@ -75,6 +75,9 @@ namespace Gentings.Data.Query.Expressions
         /// SQL判断为空字符串。
         /// </summary>
         /// <returns>SQL判断为空字符串。</returns>
-        public override string ToString() => $"{Operand} IS NULL";
+        public override string ToString()
+        {
+            return $"{Operand} IS NULL";
+        }
     }
 }

@@ -18,7 +18,9 @@ namespace Gentings.Extensions.Internal
         /// <param name="property">属性实例。</param>
         /// <returns>返回CLR访问器实例。</returns>
         public virtual TAccessor Create(Property property)
-            => property as TAccessor ?? Create(property.PropertyInfo);
+        {
+            return property as TAccessor ?? Create(property.PropertyInfo);
+        }
 
         /// <summary>
         /// 获取属性的CLR访问器实例。
@@ -28,13 +30,13 @@ namespace Gentings.Extensions.Internal
         public virtual TAccessor Create(PropertyInfo propertyInfo)
         {
             var boundMethod = _genericCreate.MakeGenericMethod(
-                propertyInfo.DeclaringType,
+                propertyInfo.DeclaringType!,
                 propertyInfo.PropertyType,
                 propertyInfo.PropertyType.UnwrapNullableType());
 
             try
             {
-                return (TAccessor) boundMethod.Invoke(this, new object[] {propertyInfo});
+                return (TAccessor) boundMethod.Invoke(this, new object[] {propertyInfo})!;
             }
             catch (TargetInvocationException e) when (e.InnerException != null)
             {

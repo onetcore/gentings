@@ -8,7 +8,7 @@
         /// <summary>
         /// 类型。
         /// </summary>
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// 用户Id。
@@ -18,7 +18,7 @@
         /// <summary>
         /// 属性名称。
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 初始化查询上下文。

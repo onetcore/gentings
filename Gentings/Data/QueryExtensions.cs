@@ -17,7 +17,7 @@ namespace Gentings.Data
         /// <param name="expression">关联表达式。</param>
         /// <param name="select">选择返回列对象实例。</param>
         /// <returns>返回当前查询实例。</returns>
-        public static IQueryable<TModel> JoinSelect<TModel, JModel>(this IDbContext<TModel> context, Expression<Func<TModel, JModel, bool>> expression, Expression<Func<JModel, object>> select)
+        public static IQueryable<TModel> JoinSelect<TModel, JModel>(this IDbContext<TModel> context, Expression<Func<TModel, JModel, bool>> expression, Expression<Func<JModel, object?>> select)
             where TModel : class
             where JModel : class
         {
@@ -33,7 +33,7 @@ namespace Gentings.Data
         /// <param name="expression">关联表达式。</param>
         /// <param name="select">选择返回列对象实例。</param>
         /// <returns>返回当前查询实例。</returns>
-        public static IQueryContext<TModel> JoinSelect<TModel, JModel>(this IQueryContext<TModel> context, Expression<Func<TModel, JModel, bool>> expression, Expression<Func<JModel, object>> select)
+        public static IQueryContext<TModel> JoinSelect<TModel, JModel>(this IQueryContext<TModel> context, Expression<Func<TModel, JModel, bool>> expression, Expression<Func<JModel, object?>> select)
             where TModel : class
             where JModel : class
         {

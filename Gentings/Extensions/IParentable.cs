@@ -18,7 +18,7 @@
         /// <summary>
         /// 父级实例。
         /// </summary>
-        object Parent { get; }
+        object? Parent { get; }
 
         /// <summary>
         /// 获取子项。
@@ -45,7 +45,7 @@
         /// <summary>
         /// 父级实例。
         /// </summary>
-        new TModel Parent { get; }
+        new TModel? Parent { get; }
 
         /// <summary>
         /// 获取子项。

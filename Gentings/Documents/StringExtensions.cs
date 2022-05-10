@@ -76,7 +76,7 @@ namespace Gentings.Documents
         /// <param name="end">结束字符串，结果不包含此字符串。</param>
         /// <param name="comparison">对比模式。</param>
         /// <returns>返回截取得到的字符串。</returns>
-        public static string Substring(this string source, string start, string end = null, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
+        public static string? Substring(this string source, string start, string? end = null, StringComparison comparison = StringComparison.OrdinalIgnoreCase)
         {
             var index = source.IndexOf(start, comparison);
             if (index == -1)
@@ -84,7 +84,7 @@ namespace Gentings.Documents
                 return null;
             }
 
-            source = source.Substring(index + start.Length);
+            source = source[(index + start.Length)..];
             if (end != null)
             {
                 index = source.IndexOf(end, comparison);
@@ -93,7 +93,7 @@ namespace Gentings.Documents
                     return null;
                 }
 
-                source = source.Substring(0, index);
+                source = source[..index];
             }
 
             return source.Trim();

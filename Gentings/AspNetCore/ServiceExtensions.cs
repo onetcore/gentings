@@ -20,9 +20,11 @@ namespace Gentings.AspNetCore
         /// <returns>应用程序构建实例接口。</returns>
         public static IApplicationBuilder UseGentings(this IApplicationBuilder app, IConfiguration configuration)
         {
-            var services = app.ApplicationServices.GetService<IEnumerable<IApplicationConfigurer>>()
+            var services = app.ApplicationServices.GetService<IEnumerable<IApplicationConfigurer>>()?
                 .OrderByDescending(x => x.Priority)
                 .ToArray();
+            if (services == null)
+                return app;
             foreach (var service in services)
             {
                 service.Configure(app, configuration);

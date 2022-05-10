@@ -29,6 +29,6 @@ namespace Gentings.Data.Migrations
         /// <summary>
         /// 日志接口。
         /// </summary>
-        protected internal ILogger Logger { get; internal set; }
+        protected internal ILogger? Logger { get; internal set; }
     }
 }

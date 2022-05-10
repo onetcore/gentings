@@ -1,22 +1,22 @@
-﻿using System;
-
-namespace Gentings.Utilities.Encoding
+﻿namespace Gentings.Text
 {
     /// <summary>
-    /// 拼音。
+    /// 拼音字母。
     /// </summary>
-    public class Pinyin
+    public class Letter
     {
-        internal Pinyin(string[] pinyins)
+        internal Letter(string letters)
         {
-            DisplayName = pinyins[0];
-            var name = pinyins[1];
+            var parts = letters.Split('.');
+            DisplayName = parts[0];
+            var name = parts[1];
             Name = name[0..^1];
+            First = char.ToUpper(name[0]);
             Tone = Convert.ToInt16(name[^1].ToString());
         }
 
         /// <summary>
-        /// 含音标的显示名称。
+        /// 含音标的拼音字母。
         /// </summary>
         public string DisplayName { get; }
 
@@ -24,6 +24,11 @@ namespace Gentings.Utilities.Encoding
         /// 英文字母。
         /// </summary>
         public string Name { get; }
+
+        /// <summary>
+        /// 首字母。
+        /// </summary>
+        public char First { get; }
 
         /// <summary>
         /// 声调。

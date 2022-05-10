@@ -7,19 +7,19 @@ namespace Gentings.Documents.XmlDocuments
     /// </summary>
     public class TypeDescriptor
     {
-        internal TypeDescriptor(string typeName, string summary)
+        internal TypeDescriptor(string typeName, string? summary)
         {
             Summary = summary;
             FullName = typeName;
             var index = typeName.LastIndexOf('.');
-            Name = typeName.Substring(index + 1);
-            Namespace = typeName.Substring(0, index);
+            Name = typeName[(index + 1)..];
+            Namespace = typeName[..index];
         }
 
         /// <summary>
         /// 程序集实例。
         /// </summary>
-        public AssemblyDocument Assembly { get; internal set; }
+        public AssemblyDocument? Assembly { get; internal set; }
 
         /// <summary>
         /// 是否为枚举。
@@ -44,7 +44,7 @@ namespace Gentings.Documents.XmlDocuments
         /// <summary>
         /// 描述。
         /// </summary>
-        public string Summary { get; internal set; }
+        public string? Summary { get; internal set; }
 
         /// <summary>
         /// 属性列表。
@@ -71,7 +71,7 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="name">成员名称。</param>
         /// <returns>返回属性注释实例。</returns>
-        public PropertyDescriptor GetPropertyDescriptor(string name)
+        public PropertyDescriptor? GetPropertyDescriptor(string name)
         {
             name = $"{FullName}.{name}";
             _properties.TryGetValue(name, out var descriptor);
@@ -83,16 +83,16 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="info">成员信息。</param>
         /// <returns>返回方法注释实例。</returns>
-        public MethodDescriptor GetMethodDescriptor(MemberInfo info)
+        public MethodDescriptor? GetMethodDescriptor(MemberInfo info)
         {
             var method = info as MethodInfo;
             if (method == null)
                 return null;
-            var fullName = $"{method.DeclaringType.FullName}.{method.Name}";
+            var fullName = $"{method.DeclaringType!.FullName}.{method.Name}";
             var parameters = new List<string>();
             foreach (var parameter in method.GetParameters())
             {
-                parameters.Add(parameter.ParameterType.FullName);
+                parameters.Add(parameter.ParameterType.FullName!);
             }
 
             if (parameters.Count > 0)

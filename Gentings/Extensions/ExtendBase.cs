@@ -17,8 +17,8 @@ namespace Gentings.Extensions
         [JsonIgnore]
         public string ExtendProperties
         {
-            get => _extendProperties.ToJsonString();
-            set => _extendProperties = Cores.FromJsonString<Dictionary<string, string>>(value);
+            get => _extendProperties.ToJsonString()!;
+            set => _extendProperties = Cores.FromJsonString<Dictionary<string, string>>(value) ?? new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -28,14 +28,20 @@ namespace Gentings.Extensions
         /// <returns>返回当前扩展属性值。</returns>
         [NotMapped]
         [JsonIgnore]
-        public string this[string name]
+        public string? this[string name]
         {
             get
             {
                 _extendProperties.TryGetValue(name, out var value);
                 return value;
             }
-            set => _extendProperties[name] = value;
+            set
+            {
+                if (value == null)
+                    _extendProperties.Remove(name);
+                else
+                    _extendProperties[name] = value;
+            }
         }
 
         /// <summary>
@@ -83,7 +89,7 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="name">当前名称。</param>
         /// <param name="value">参数值。</param>
-        protected void SetEnum(string name, Enum value)
+        protected void SetEnum(string name, Enum? value)
         {
             if (value == null)
                 _extendProperties.Remove(name);

@@ -55,8 +55,8 @@
         /// <summary>
         /// 排序列枚举。
         /// </summary>
-        public TEnum Order { get; set; }
-        Enum IOrderBy.Order => Order;
+        public TEnum? Order { get; set; }
+        Enum? IOrderBy.Order => Order;
 
         /// <summary>
         /// 初始化查询上下文。
@@ -65,7 +65,8 @@
         protected internal override void Init(IQueryContext<TModel> context)
         {
             base.Init(context);
-            context.OrderBy<TModel>(Order.ToString(), Desc ?? IsDesc);
+            if (Order != null)
+                context.OrderBy<TModel>(Order.ToString(), Desc ?? IsDesc);
         }
 
         /// <summary>

@@ -69,6 +69,9 @@ namespace Gentings.Data.Query.Expressions
         /// <returns>
         /// 已简化的表达式。
         /// </returns>
-        public override Expression Reduce() => _operand;
+        public override Expression Reduce()
+        {
+            return _operand;
+        }
     }
 }

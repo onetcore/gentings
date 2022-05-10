@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        string GetSettings(string key);
+        string? GetSettings(string key);
 
         /// <summary>
         /// 获取网站配置实例。
@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        Task<string> GetSettingsAsync(string key);
+        Task<string?> GetSettingsAsync(string key);
 
         /// <summary>
         /// 获取网站配置实例。
@@ -59,7 +59,7 @@
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        string GetSettings(int userId, string key);
+        string? GetSettings(int userId, string key);
 
         /// <summary>
         /// 获取网站配置实例。
@@ -86,7 +86,7 @@
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        Task<string> GetSettingsAsync(int userId, string key);
+        Task<string?> GetSettingsAsync(int userId, string key);
 
         /// <summary>
         /// 获取网站配置实例。
@@ -113,7 +113,7 @@
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="userId">用户Id。</param>
         /// <param name="settings">网站配置实例。</param>
-        Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, TSiteSettings settings)
+        Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, TSiteSettings? settings)
             where TSiteSettings : class, new();
 
         /// <summary>
@@ -123,7 +123,7 @@
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, string key, TSiteSettings settings);
+        Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, string key, TSiteSettings? settings);
 
         /// <summary>
         /// 保存网站配置实例。
@@ -131,7 +131,7 @@
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        Task<bool> SaveSettingsAsync(int userId, string key, string settings);
+        Task<bool> SaveSettingsAsync(int userId, string key, string? settings);
 
         /// <summary>
         /// 保存网站配置实例。
@@ -139,7 +139,7 @@
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="userId">用户Id。</param>
         /// <param name="settings">网站配置实例。</param>
-        bool SaveSettings<TSiteSettings>(int userId, TSiteSettings settings)
+        bool SaveSettings<TSiteSettings>(int userId, TSiteSettings? settings)
             where TSiteSettings : class, new();
 
         /// <summary>
@@ -149,7 +149,7 @@
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        bool SaveSettings<TSiteSettings>(int userId, string key, TSiteSettings settings);
+        bool SaveSettings<TSiteSettings>(int userId, string key, TSiteSettings? settings);
 
         /// <summary>
         /// 保存网站配置实例。
@@ -157,7 +157,7 @@
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        bool SaveSettings(int userId, string key, string settings);
+        bool SaveSettings(int userId, string key, string? settings);
 
         /// <summary>
         /// 刷新缓存。

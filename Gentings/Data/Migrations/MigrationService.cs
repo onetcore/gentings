@@ -10,7 +10,7 @@
         }
 
         private MigrationStatus _status;
-        private string _message;
+        private string? _message;
         private static readonly MigrationService _instance = new();
 
         /// <summary>
@@ -33,7 +33,7 @@
         /// <summary>
         /// 消息。
         /// </summary>
-        public static string Message
+        public static string? Message
         {
             get => _instance._message;
             set => _instance._message = value;

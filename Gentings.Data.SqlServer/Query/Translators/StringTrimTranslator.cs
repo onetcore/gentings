@@ -13,13 +13,13 @@ namespace Gentings.Data.SqlServer.Query.Translators
     {
         // Method defined in netstandard2.0
         private static readonly MethodInfo _methodInfoWithoutArgs
-            = typeof(string).GetRuntimeMethod(nameof(string.Trim), new Type[] { });
+            = typeof(string).GetRuntimeMethod(nameof(string.Trim), new Type[] { })!;
 
         // Method defined in netstandard2.0
         private static readonly MethodInfo _methodInfoWithCharArrayArg
-            = typeof(string).GetRuntimeMethod(nameof(string.Trim), new[] {typeof(char[])});
+            = typeof(string).GetRuntimeMethod(nameof(string.Trim), new[] {typeof(char[])})!;
 
-        public virtual Expression Translate(MethodCallExpression methodCallExpression)
+        public virtual Expression? Translate(MethodCallExpression methodCallExpression)
         {
             if (_methodInfoWithoutArgs.Equals(methodCallExpression.Method)
                 || _methodInfoWithCharArrayArg.Equals(methodCallExpression.Method)
@@ -36,7 +36,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
                         new SqlFunctionExpression(
                             "RTRIM",
                             methodCallExpression.Type,
-                            sqlArguments)
+                            sqlArguments!)
                     });
             }
 

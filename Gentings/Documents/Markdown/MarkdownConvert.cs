@@ -68,7 +68,7 @@ namespace Gentings.Documents.Markdown
         /// <param name="source">Markdown源代码。</param>
         /// <param name="action">Markdown配置实例。</param>
         /// <returns>返回解析后的HTML字符串。</returns>
-        public static string ToHtml(string source, Action<MarkdownPipelineBuilder> action = null)
+        public static string ToHtml(string source, Action<MarkdownPipelineBuilder>? action = null)
         {
             var pipeline = new MarkdownPipelineBuilder();
             if (action != null) action(pipeline);

@@ -61,7 +61,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
                     {
                         x.MergeAttribute("type", "text/javascript");
                         x.InnerHtml.AppendHtml("$(function(){");
-                        x.InnerHtml.AppendHtml($"if(window.showMsg){{showMsg({status.ToJsonString()});}}else{{alert('{_scriptEncoder.Encode(status.Message)}');}}");
+                        x.InnerHtml.AppendHtml($"if(window.showMsg){{showMsg({status.ToJsonString()});}}else{{alert('{_scriptEncoder.Encode(status.Message!)}');}}");
                         x.InnerHtml.AppendHtml("});");
                     });
                 }

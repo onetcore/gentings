@@ -24,7 +24,7 @@ namespace Gentings.Data
         /// </summary>
         /// <param name="expression">当前表达式。</param>
         /// <returns>返回执行后的结果。</returns>
-        public static object Invoke(this Expression expression)
+        public static object? Invoke(this Expression expression)
         {
             return Expression.Lambda(expression).Compile().DynamicInvoke();
         }
@@ -37,7 +37,10 @@ namespace Gentings.Data
         /// <param name="merger">附加并且条件表达式。</param>
         /// <returns>返回添加后得表达式。</returns>
         public static Expression<Predicate<T>> AndAlso<T>(this Expression<Predicate<T>> expression,
-            Expression<Predicate<T>> merger) => expression.Merge(merger, Expression.AndAlso);
+            Expression<Predicate<T>> merger)
+        {
+            return expression.Merge(merger, Expression.AndAlso);
+        }
 
         /// <summary>
         /// 添加或者条件。
@@ -47,7 +50,10 @@ namespace Gentings.Data
         /// <param name="merger">附加或者条件表达式。</param>
         /// <returns>返回添加后得表达式。</returns>
         public static Expression<Predicate<T>> OrElse<T>(this Expression<Predicate<T>> expression,
-            Expression<Predicate<T>> merger) => expression.Merge(merger, Expression.OrElse);
+            Expression<Predicate<T>> merger)
+        {
+            return expression.Merge(merger, Expression.OrElse);
+        }
 
         private static Expression<Predicate<T>> Merge<T>(this Expression<Predicate<T>> expression,
             Expression<Predicate<T>> merger, Func<Expression, Expression, BinaryExpression> method)
@@ -63,7 +69,7 @@ namespace Gentings.Data
         /// <param name="values">值列表。</param>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回当前实例列表。</returns>
-        public static IEnumerable<T> Filter<T>(this IEnumerable<T> values, Expression<Predicate<T>> expression)
+        public static IEnumerable<T>? Filter<T>(this IEnumerable<T>? values, Expression<Predicate<T>>? expression)
         {
             if (values == null || expression == null)
             {

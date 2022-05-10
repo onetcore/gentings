@@ -126,14 +126,14 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" ADD ");
 
             ColumnDefinition(operation, builder);
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -154,14 +154,14 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" ADD ");
 
             ForeignKeyConstraint(operation, builder);
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -182,13 +182,13 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" ADD ");
             PrimaryKeyConstraint(operation, builder);
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -207,10 +207,10 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" ADD ");
             UniqueConstraint(operation, builder);
-            builder.AppendLine(SqlHelper.fieldsTerminator);
+            builder.AppendLine(SqlHelper.FieldsTerminator);
             Endfields(builder);
         }
 
@@ -297,16 +297,16 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("INDEX ")
-                .Append(operation.Name)
+                .Append(operation.Name!)
                 .Append(" ON ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" (")
-                .Append(ColumnList(operation.Columns))
+                .Append(ColumnList(operation.Columns!))
                 .Append(")");
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -327,7 +327,7 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("CREATE TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .AppendLine(" (");
 
             using (builder.Indent())
@@ -368,7 +368,7 @@ namespace Gentings.Data.Migrations
             CreateTableAppender(builder);
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -397,13 +397,13 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" DROP COLUMN ")
-                .Append(SqlHelper.DelimitIdentifier(operation.Name));
+                .Append(SqlHelper.DelimitIdentifier(operation.Name!));
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -424,13 +424,13 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" DROP CONSTRAINT ")
-                .Append(operation.Name);
+                .Append(operation.Name!);
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -463,13 +463,13 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" DROP CONSTRAINT ")
-                .Append(operation.Name);
+                .Append(operation.Name!);
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -490,11 +490,11 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("DROP TABLE ")
-                .Append(operation.Table);
+                .Append(operation.Table!);
 
             if (terminate)
             {
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Endfields(builder);
             }
         }
@@ -513,10 +513,10 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" DROP CONSTRAINT ")
-                .Append(operation.Name)
-                .AppendLine(SqlHelper.fieldsTerminator);
+                .Append(operation.Name!)
+                .AppendLine(SqlHelper.FieldsTerminator);
 
             Endfields(builder);
         }
@@ -561,13 +561,13 @@ namespace Gentings.Data.Migrations
                 }
                 else
                 {
-                    operation.Sql = GenerateSqlDelete(entity, operation.Expression);
+                    operation.Sql = GenerateSqlDelete(entity, operation.Expression!);
                 }
             }
 
             builder
-                .Append(operation.Sql)
-                .AppendLine(SqlHelper.fieldsTerminator);
+                .Append(operation.Sql!)
+                .AppendLine(SqlHelper.FieldsTerminator);
 
             Endfields(builder);
         }
@@ -577,7 +577,7 @@ namespace Gentings.Data.Migrations
         /// </summary>
         /// <param name="fields">匿名对象。</param>
         /// <param name="action">执行每一项。</param>
-        protected virtual void ForEachProperty(object fields, Action<PropertyInfo, object> action)
+        protected virtual void ForEachProperty(object fields, Action<PropertyInfo, object?> action)
         {
             var type = fields.GetType();
             var isAnonymous = type.IsAnonymous();
@@ -606,7 +606,7 @@ namespace Gentings.Data.Migrations
         /// <param name="instance">当前实例。</param>
         /// <param name="where">条件表达式。</param>
         /// <returns>返回生成的SQL语句。</returns>
-        protected abstract string GenerateSqlUpdate(IEntityType entityType, object instance, Expression where);
+        protected abstract string GenerateSqlUpdate(IEntityType entityType, object instance, Expression? where);
 
         /// <summary>
         /// 生成更新语句。
@@ -614,7 +614,7 @@ namespace Gentings.Data.Migrations
         /// <param name="entityType">当前实体。</param>
         /// <param name="where">条件表达式。</param>
         /// <returns>返回生成的SQL语句。</returns>
-        protected abstract string GenerateSqlDelete(IEntityType entityType, Expression where);
+        protected abstract string GenerateSqlDelete(IEntityType entityType, Expression? where);
 
         /// <summary>
         /// 添加列的相关定义。
@@ -624,24 +624,26 @@ namespace Gentings.Data.Migrations
         protected virtual void ColumnDefinition(
             AddColumnOperation operation,
             MigrationCommandListBuilder builder)
-            => ColumnDefinition(
-                operation.Table,
-                operation.Name,
-                operation.ClrType,
-                operation.ColumnType,
-                operation.IsUnicode,
-                operation.MaxLength,
-                operation.Precision,
-                operation.Scale,
-                operation.IsRowVersion,
-                operation.Identity,
-                operation.Seed,
-                operation.Step,
-                operation.IsNullable,
-                operation.DefaultValue,
-                operation.DefaultValueSql,
-                operation.ComputedColumnSql,
-                builder);
+        {
+            ColumnDefinition(
+                           operation.Table!,
+                           operation.Name!,
+                           operation.ClrType!,
+                           operation.ColumnType!,
+                           operation.IsUnicode,
+                           operation.MaxLength,
+                           operation.Precision,
+                           operation.Scale,
+                           operation.IsRowVersion,
+                           operation.Identity,
+                           operation.Seed,
+                           operation.Step,
+                           operation.IsNullable,
+                           operation.DefaultValue,
+                           operation.DefaultValueSql,
+                           operation.ComputedColumnSql,
+                           builder);
+        }
 
         /// <summary>
         /// 列定义。
@@ -677,9 +679,9 @@ namespace Gentings.Data.Migrations
             long seed,
             int step,
             bool? nullable,
-            object defaultValue,
-            string defaultValueSql,
-            string computedColumnSql,
+            object? defaultValue,
+            string? defaultValueSql,
+            string? computedColumnSql,
             MigrationCommandListBuilder builder)
         {
             Check.NotEmpty(name, nameof(name));
@@ -708,8 +710,8 @@ namespace Gentings.Data.Migrations
         /// <param name="defaultValueSql">默认值SQL字符串。</param>
         /// <param name="builder"><see cref="MigrationCommandListBuilder"/>实例。</param>
         protected virtual void DefaultValue(
-            object defaultValue,
-            string defaultValueSql,
+            object? defaultValue,
+            string? defaultValueSql,
             MigrationCommandListBuilder builder)
         {
             Check.NotNull(builder, nameof(builder));
@@ -751,9 +753,9 @@ namespace Gentings.Data.Migrations
 
             builder
                 .Append("FOREIGN KEY (")
-                .Append(ColumnList(operation.Columns))
+                .Append(ColumnList(operation.Columns!))
                 .Append(") REFERENCES ")
-                .Append(operation.PrincipalTable);
+                .Append(operation.PrincipalTable!);
 
             if (operation.PrincipalColumns != null)
             {
@@ -802,7 +804,7 @@ namespace Gentings.Data.Migrations
             IndexTraits(operation.IsClustered, builder);
 
             builder.Append("(")
-                .Append(ColumnList(operation.Columns))
+                .Append(ColumnList(operation.Columns!))
                 .Append(")");
         }
 
@@ -832,7 +834,7 @@ namespace Gentings.Data.Migrations
             IndexTraits(operation.IsClustered, builder);
 
             builder.Append("(")
-                .Append(ColumnList(operation.Columns))
+                .Append(ColumnList(operation.Columns!))
                 .Append(")");
         }
 
@@ -890,6 +892,8 @@ namespace Gentings.Data.Migrations
         /// <param name="columns">列集合。</param>
         /// <returns>返回拼接后的字符串。</returns>
         protected virtual string ColumnList(string[] columns)
-            => string.Join(", ", columns.Select(SqlHelper.DelimitIdentifier));
+        {
+            return string.Join(", ", columns.Select(SqlHelper.DelimitIdentifier));
+        }
     }
 }

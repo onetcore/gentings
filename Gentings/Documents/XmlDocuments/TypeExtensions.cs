@@ -26,7 +26,10 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="type">类型实例。</param>
         /// <returns>返回真实类型名称。</returns>
-        public static string GetRealTypeName(this Type type) => type.GetRealType().Name;
+        public static string GetRealTypeName(this Type type)
+        {
+            return type.GetRealType().Name;
+        }
 
         /// <summary>
         /// 获取TypeScript类型。
@@ -88,7 +91,7 @@ namespace Gentings.Documents.XmlDocuments
 
             void AppendValue(object value)
             {
-                var summary = typeDescriptor?.GetPropertyDescriptor(value.ToString())?.Summary;
+                var summary = typeDescriptor?.GetPropertyDescriptor(value.ToString()!)?.Summary;
                 if (summary != null)
                 {
                     builder.AppendLine("    /// <summary>")
@@ -153,7 +156,7 @@ namespace Gentings.Documents.XmlDocuments
 
             void AppendValue(object value)
             {
-                var summary = typeDescriptor?.GetPropertyDescriptor(value.ToString())?.Summary;
+                var summary = typeDescriptor?.GetPropertyDescriptor(value.ToString()!)?.Summary;
                 if (summary != null)
                 {
                     builder.AppendLine("   /**")
@@ -191,6 +194,9 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="name">名称。</param>
         /// <returns>返回驼峰格式字符串。</returns>
-        public static string ToLowerCamelCase(this string name) => char.ToLower(name[0]) + name[1..];
+        public static string ToLowerCamelCase(this string name)
+        {
+            return char.ToLower(name[0]) + name[1..];
+        }
     }
 }

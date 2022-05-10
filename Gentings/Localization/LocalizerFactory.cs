@@ -29,8 +29,8 @@ namespace Gentings.Localization
 
         private class TypedLocalizer : ILocalizer
         {
-            private ILocalizer _localizer;
-            private Type _type;
+            private readonly ILocalizer _localizer;
+            private readonly Type _type;
 
             public TypedLocalizer(ILocalizer localizer, Type type)
             {
@@ -43,25 +43,55 @@ namespace Gentings.Localization
             public string this[Enum key, params object[] args] => GetString(key, args);
             public string this[string key, params object[] args] => GetString(key, args);
 
-            public string GetString(Enum key) => _localizer.GetString(key);
+            public string GetString(Enum key)
+            {
+                return _localizer.GetString(key);
+            }
 
-            public string GetString(Enum key, params object[] args) => _localizer.GetString(key, args);
+            public string GetString(Enum key, params object[] args)
+            {
+                return _localizer.GetString(key, args);
+            }
 
-            public string GetString<TResource>(string key) => _localizer.GetString<TResource>(key);
+            public string GetString<TResource>(string key)
+            {
+                return _localizer.GetString<TResource>(key);
+            }
 
-            public string GetString<TResource>(string key, params object[] args) => _localizer.GetString<TResource>(key, args);
+            public string GetString<TResource>(string key, params object[] args)
+            {
+                return _localizer.GetString<TResource>(key, args);
+            }
 
-            public string GetString<TResource>(Expression<Func<TResource, object>> expression) => _localizer.GetString(expression);
+            public string? GetString<TResource>(Expression<Func<TResource, object?>> expression)
+            {
+                return _localizer.GetString(expression);
+            }
 
-            public string GetString<TResource>(Expression<Func<TResource, object>> expression, params object[] args) => _localizer.GetString(expression, args);
+            public string? GetString<TResource>(Expression<Func<TResource, object?>> expression, params object[] args)
+            {
+                return _localizer.GetString(expression, args);
+            }
 
-            public string GetString(Type type, string key) => _localizer.GetString(type, key);
+            public string GetString(Type type, string key)
+            {
+                return _localizer.GetString(type, key);
+            }
 
-            public string GetString(Type type, string key, params object[] args) => _localizer.GetString(type, key, args);
+            public string GetString(Type type, string key, params object[] args)
+            {
+                return _localizer.GetString(type, key, args);
+            }
 
-            public string GetString(string key) => GetString(_type, key);
+            public string GetString(string key)
+            {
+                return GetString(_type, key);
+            }
 
-            public string GetString(string key, params object[] args) => GetString(_type, key, args);
+            public string GetString(string key, params object[] args)
+            {
+                return GetString(_type, key, args);
+            }
         }
     }
 }

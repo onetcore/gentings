@@ -8,7 +8,7 @@
         /// <summary>
         /// 相关列。
         /// </summary>
-        public virtual string[] Columns { get; set; }
+        public virtual string[]? Columns { get; set; }
 
         /// <summary>
         /// 是否聚合索引。

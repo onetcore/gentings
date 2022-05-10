@@ -17,13 +17,13 @@ namespace Gentings.Extensions.Events
     internal class ObjectDiffer : IObjectDiffer
     {
         private bool _differed;
-        private string _typeName;
+        private string? _typeName;
         private bool _initialized;
-        private IEntityType _entityType;
-        private IList<Differ> _entities;
+        private IEntityType? _entityType;
+        private IList<Differ>? _entities;
         private readonly ILocalizer _localizer;
         private readonly int _userId;
-        private readonly IDictionary<string, string> _stored = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly IDictionary<string, string?> _stored = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
         private readonly IDifferManager _differManager;
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Gentings.Extensions.Events
             }
         }
 
-        private string GetValue(IProperty property, object instance)
+        private string? GetValue(IProperty property, object instance)
         {
             var value = property.Get(instance);
             if (value == null)
@@ -90,7 +90,7 @@ namespace Gentings.Extensions.Events
 
             _differed = true;
             _entities = new List<Differ>();
-            foreach (var property in _entityType.GetProperties())
+            foreach (var property in _entityType!.GetProperties())
             {
                 if (!property.IsUpdatable())
                 {

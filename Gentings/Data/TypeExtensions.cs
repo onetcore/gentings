@@ -128,7 +128,7 @@ namespace Gentings.Data
         /// <returns>返回属性实例。</returns>
         public static IProperty SingleKey(this IEntityType entityType)
         {
-            var key = entityType.PrimaryKey.Properties;
+            var key = entityType.PrimaryKey!.Properties;
             if (key.Count > 1)
             {
                 throw new IndexOutOfRangeException(string.Format(Resources.TypeExtensions_PrimaryKeyIsNotSingleField,
@@ -144,14 +144,14 @@ namespace Gentings.Data
         /// <param name="parameters">参数（字典实例或者匿名对象）。</param>
         /// <param name="stringComparer">属性字符串对比实例。</param>
         /// <returns>返回键值对字典实例。</returns>
-        public static IDictionary<string, object> ToDictionary(this object parameters,  StringComparer stringComparer = null)
+        public static IDictionary<string, object?> ToDictionary(this object parameters,  StringComparer? stringComparer = null)
         {
-            if (parameters is IDictionary<string, object> dic)
+            if (parameters is IDictionary<string, object?> dic)
             {
                 return dic;
             }
 
-            dic = new Dictionary<string, object>(stringComparer ?? StringComparer.OrdinalIgnoreCase);
+            dic = new Dictionary<string, object?>(stringComparer ?? StringComparer.OrdinalIgnoreCase);
             var properties = parameters.GetType().GetProperties().Where(x => x.CanRead).ToList();
             foreach (var property in properties)
             {

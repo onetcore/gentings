@@ -62,6 +62,9 @@ namespace Gentings.Data.Internal
         /// 添加模型。
         /// </summary>
         /// <param name="model">模型实例对象。</param>
-        public void Add(TModel model) => _models.Add(model);
+        public void Add(TModel model)
+        {
+            _models.Add(model);
+        }
     }
 }

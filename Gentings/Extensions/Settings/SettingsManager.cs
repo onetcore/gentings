@@ -34,7 +34,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        public virtual string GetSettings(string key)
+        public virtual string? GetSettings(string key)
         {
             return Cache.GetOrCreate(key, entry =>
             {
@@ -60,7 +60,7 @@ namespace Gentings.Extensions.Settings
                     return new TSiteSettings();
                 }
 
-                return Cores.FromJsonString<TSiteSettings>(settings);
+                return Cores.FromJsonString<TSiteSettings>(settings) ?? new TSiteSettings();
             });
         }
 
@@ -79,7 +79,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        public virtual Task<string> GetSettingsAsync(string key)
+        public virtual Task<string?> GetSettingsAsync(string key)
         {
             return Cache.GetOrCreateAsync(key, async entry =>
             {
@@ -107,7 +107,7 @@ namespace Gentings.Extensions.Settings
                     return new TSiteSettings();
                 }
 
-                return Cores.FromJsonString<TSiteSettings>(settings.SettingValue);
+                return Cores.FromJsonString<TSiteSettings>(settings.SettingValue) ?? new TSiteSettings();
             });
         }
 
@@ -126,7 +126,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="settings">网站配置实例。</param>
-        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings settings)
+        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(TSiteSettings? settings)
             where TSiteSettings : class, new()
         {
             return SaveSettingsAsync(typeof(TSiteSettings).FullName!, settings);
@@ -138,7 +138,7 @@ namespace Gentings.Extensions.Settings
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(string key, TSiteSettings settings)
+        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(string key, TSiteSettings? settings)
         {
             return SaveSettingsAsync(key, settings.ToJsonString());
         }
@@ -148,9 +148,9 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual async Task<bool> SaveSettingsAsync(string key, string settings)
+        public virtual async Task<bool> SaveSettingsAsync(string key, string? settings)
         {
-            var adapter = new SettingsAdapter {SettingKey = key, SettingValue = settings};
+            var adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
             if (await Context.AnyAsync(x => x.SettingKey == key))
             {
                 if (await Context.UpdateAsync(adapter))
@@ -174,7 +174,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="settings">网站配置实例。</param>
-        public virtual bool SaveSettings<TSiteSettings>(TSiteSettings settings) where TSiteSettings : class, new()
+        public virtual bool SaveSettings<TSiteSettings>(TSiteSettings? settings) where TSiteSettings : class, new()
         {
             return SaveSettings(typeof(TSiteSettings).FullName!, settings);
         }
@@ -185,7 +185,7 @@ namespace Gentings.Extensions.Settings
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual bool SaveSettings<TSiteSettings>(string key, TSiteSettings settings)
+        public virtual bool SaveSettings<TSiteSettings>(string key, TSiteSettings? settings)
         {
             return SaveSettings(key, settings.ToJsonString());
         }
@@ -195,9 +195,9 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual bool SaveSettings(string key, string settings)
+        public virtual bool SaveSettings(string key, string? settings)
         {
-            var adapter = new SettingsAdapter {SettingKey = key, SettingValue = settings};
+            var adapter = new SettingsAdapter { SettingKey = key, SettingValue = settings };
             if (Context.Any(x => x.SettingKey == key))
             {
                 if (Context.Update(adapter))
@@ -229,8 +229,10 @@ namespace Gentings.Extensions.Settings
         /// 删除网站配置实例。
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
-        public virtual bool DeleteSettings<TSiteSettings>() =>
-            DeleteSettings(typeof(TSiteSettings).FullName!);
+        public virtual bool DeleteSettings<TSiteSettings>()
+        {
+            return DeleteSettings(typeof(TSiteSettings).FullName!);
+        }
 
         /// <summary>
         /// 删除网站配置实例。
@@ -251,8 +253,10 @@ namespace Gentings.Extensions.Settings
         /// 删除网站配置实例。
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
-        public virtual Task<bool> DeleteSettingsAsync<TSiteSettings>() =>
-            DeleteSettingsAsync(typeof(TSiteSettings).FullName!);
+        public virtual Task<bool> DeleteSettingsAsync<TSiteSettings>()
+        {
+            return DeleteSettingsAsync(typeof(TSiteSettings).FullName!);
+        }
 
         /// <summary>
         /// 删除网站配置实例。

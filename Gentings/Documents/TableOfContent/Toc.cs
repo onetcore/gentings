@@ -15,7 +15,7 @@ namespace Gentings.Documents.TableOfContent
         /// <summary>
         /// 文件夹名称。
         /// </summary>
-        public string DirectoryName { get; private set; }
+        public string? DirectoryName { get; private set; }
 
         private readonly List<TocItem> _items = new();
 
@@ -24,7 +24,7 @@ namespace Gentings.Documents.TableOfContent
         /// </summary>
         /// <param name="href">Markdown链接地址。</param>
         /// <returns>返回挣钱的URL地址。</returns>
-        public string SafeUrl(string href)
+        public string? SafeUrl(string? href)
         {
             if (string.IsNullOrEmpty(href)) return null;
             href = href.Trim();
@@ -33,7 +33,7 @@ namespace Gentings.Documents.TableOfContent
                 href.StartsWith("mailto:", StringComparison.OrdinalIgnoreCase))
                 return href;
             href = Path.GetFullPath(Path.Join(DirectoryName, href));
-            href = href.Substring(2).Replace('\\', '/');
+            href = href[2..].Replace('\\', '/');
             href = href.TrimEndLowerCaseMD();
             return href;
         }
@@ -41,7 +41,7 @@ namespace Gentings.Documents.TableOfContent
         private void Init(string source)
         {
             var line = 1;
-            TocItem item = null;
+            TocItem? item = null;
             using var reader = new StringReader(source);
             var slice = reader.ReadNextString(ref line);
             while (!slice.IsEnd)
@@ -59,12 +59,12 @@ namespace Gentings.Documents.TableOfContent
                 }
                 if (slice.Name == "items")
                 {
-                    slice = ReadChildren(item, reader, ref line);
+                    slice = ReadChildren(item!, reader, ref line);
                     continue;
                 }
                 else
                 {
-                    item.Init(slice);
+                    item!.Init(slice);
                 }
                 slice = reader.ReadNextString(ref line);
             }
@@ -74,7 +74,7 @@ namespace Gentings.Documents.TableOfContent
         {
             var slice = reader.ReadNextString(ref line);
             if (slice.Indent <= item.Indent) throw new Exception(Resources.TocItemsInvalid);
-            TocItem current = null;
+            TocItem? current = null;
             while (!slice.IsEnd)
             {
                 if (slice.Indent <= item.Indent)
@@ -91,10 +91,10 @@ namespace Gentings.Documents.TableOfContent
                 }
                 else if (slice.Name == "items")
                 {
-                    slice = ReadChildren(current, reader, ref line);
+                    slice = ReadChildren(current!, reader, ref line);
                     continue;
                 }
-                else if (slice.Indent == current.Index)
+                else if (slice.Indent == current!.Index)
                 {
                     current.Init(slice);
                 }
@@ -107,9 +107,15 @@ namespace Gentings.Documents.TableOfContent
         /// 迭代器。
         /// </summary>
         /// <returns>返回迭代器实例。</returns>
-        public IEnumerator<TocItem> GetEnumerator() => _items.GetEnumerator();
+        public IEnumerator<TocItem> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
 
         /// <summary>
         /// 呈现Toc字符串。
@@ -146,7 +152,7 @@ namespace Gentings.Documents.TableOfContent
         /// <param name="path">当前toc文件物理路径。</param>
         /// <param name="culture">语言。</param>
         /// <returns>返回<see cref="Toc"/>实例对象。</returns>
-        public static async Task<Toc> LoadAsync(string path, string culture)
+        public static async Task<Toc> LoadAsync(string path, string? culture)
         {
             var toc = new Toc();
             toc.DirectoryName = TocPath.GetUrlRoot(culture, path);
@@ -160,7 +166,7 @@ namespace Gentings.Documents.TableOfContent
         /// </summary>
         /// <param name="href">链接地址。</param>
         /// <returns>返回<see cref="TocItem"/>实例。</returns>
-        public TocItem GetByHref(string href)
+        public TocItem? GetByHref(string href)
         {
             href = href.TrimEndLowerCaseMD();
             foreach (var item in _items)
@@ -172,7 +178,7 @@ namespace Gentings.Documents.TableOfContent
             return null;
         }
 
-        private TocItem Search(TocItem item, Predicate<TocItem> predicate)
+        private TocItem? Search(TocItem item, Predicate<TocItem> predicate)
         {
             if (predicate(item)) return item;
             foreach (var child in item.Items)

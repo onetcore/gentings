@@ -10,21 +10,21 @@ namespace Gentings.Security
         /// <summary>
         /// 用户名称。
         /// </summary>
-        string UserName { get; }
+        string? UserName { get; }
 
         /// <summary>
         /// 昵称。
         /// </summary>
-        string NickName { get; set; }
+        string? NickName { get; set; }
 
         /// <summary>
         /// 电子邮件。
         /// </summary>
-        string Email { get; set; }
+        string? Email { get; set; }
 
         /// <summary>
         /// 头像。
         /// </summary>
-        string Avatar { get; set; }
+        string? Avatar { get; set; }
     }
 }

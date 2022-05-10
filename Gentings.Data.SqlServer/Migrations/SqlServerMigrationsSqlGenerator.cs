@@ -51,13 +51,13 @@ namespace Gentings.Data.SqlServer.Migrations
             {
                 builder.Append(" WHERE ");
                 builder.Append(string.Join(" AND ",
-                    operation.Columns.Select(c => string.Format("{0} IS NOT NULL", SqlHelper.DelimitIdentifier(c)))));
+                    operation.Columns!.Select(c => string.Format("{0} IS NOT NULL", SqlHelper.DelimitIdentifier(c)))));
             }
 
             if (terminate)
             {
                 builder
-                    .AppendLine(SqlHelper.fieldsTerminator)
+                    .AppendLine(SqlHelper.FieldsTerminator)
                     .EndCommand();
             }
         }
@@ -96,25 +96,25 @@ namespace Gentings.Data.SqlServer.Migrations
                     ComputedColumnSql = operation.ComputedColumnSql
                 };
                 Generate(dropColumnOperation, builder, false);
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 Generate(addColumnOperation, builder, false);
-                builder.AppendLine(SqlHelper.fieldsTerminator);
+                builder.AppendLine(SqlHelper.FieldsTerminator);
                 builder.EndCommand();
                 return;
             }
 
-            DropDefaultConstraint(operation.Table, operation.Name, builder);
+            DropDefaultConstraint(operation.Table!, operation.Name!, builder);
 
             builder
                 .Append("ALTER TABLE ")
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(" ALTER COLUMN ");
 
             ColumnDefinition(
-                operation.Table,
-                operation.Name,
-                operation.ClrType,
-                operation.ColumnType,
+                operation.Table!,
+                operation.Name!,
+                operation.ClrType!,
+                operation.ColumnType!,
                 operation.IsUnicode,
                 operation.MaxLength,
                 operation.Precision,
@@ -129,20 +129,20 @@ namespace Gentings.Data.SqlServer.Migrations
                 operation.ComputedColumnSql,
                 builder);
 
-            builder.AppendLine(SqlHelper.fieldsTerminator);
+            builder.AppendLine(SqlHelper.FieldsTerminator);
 
             if ((operation.DefaultValue != null)
                 || (operation.DefaultValueSql != null))
             {
                 builder
                     .Append("ALTER TABLE ")
-                    .Append(operation.Table)
+                    .Append(operation.Table!)
                     .Append(" ADD");
                 DefaultValue(operation.DefaultValue, operation.DefaultValueSql, builder);
                 builder
                     .Append(" FOR ")
-                    .Append(SqlHelper.DelimitIdentifier(operation.Name))
-                    .AppendLine(SqlHelper.fieldsTerminator);
+                    .Append(SqlHelper.DelimitIdentifier(operation.Name!))
+                    .AppendLine(SqlHelper.FieldsTerminator);
             }
 
             builder.EndCommand();
@@ -162,9 +162,9 @@ namespace Gentings.Data.SqlServer.Migrations
 
             builder
                 .Append("DROP INDEX ")
-                .Append(SqlHelper.DelimitIdentifier(operation.Name))
+                .Append(SqlHelper.DelimitIdentifier(operation.Name!))
                 .Append(" ON ")
-                .Append(operation.Table);
+                .Append(operation.Table!);
         }
 
         /// <summary>
@@ -181,13 +181,13 @@ namespace Gentings.Data.SqlServer.Migrations
             Check.NotNull(operation, nameof(operation));
             Check.NotNull(builder, nameof(builder));
 
-            DropDefaultConstraint(operation.Table, operation.Name, builder);
+            DropDefaultConstraint(operation.Table!, operation.Name!, builder);
             base.Generate(operation, builder, false);
 
             if (terminate)
             {
                 builder
-                    .AppendLine(SqlHelper.fieldsTerminator)
+                    .AppendLine(SqlHelper.FieldsTerminator)
                     .EndCommand();
             }
         }
@@ -237,12 +237,12 @@ namespace Gentings.Data.SqlServer.Migrations
 
             var qualifiedName = new StringBuilder();
             qualifiedName
-                .Append(operation.Table)
+                .Append(operation.Table!)
                 .Append(".")
                 .Append(operation.Name);
 
             Rename(SqlHelper.DelimitIdentifier(qualifiedName.ToString()),
-                SqlHelper.DelimitIdentifier(operation.NewName), "COLUMN", builder);
+                SqlHelper.DelimitIdentifier(operation.NewName!), "COLUMN", builder);
             builder.EndCommand();
         }
 
@@ -281,9 +281,9 @@ namespace Gentings.Data.SqlServer.Migrations
             long seed,
             int step,
             bool? nullable,
-            object defaultValue,
-            string defaultValueSql,
-            string computedColumnSql,
+            object? defaultValue,
+            string? defaultValueSql,
+            string? computedColumnSql,
             MigrationCommandListBuilder builder)
         {
             if (computedColumnSql != null)
@@ -326,7 +326,7 @@ namespace Gentings.Data.SqlServer.Migrations
                 items.Add(SqlHelper.DelimitIdentifier(k.Name));
                 values.Add(SqlHelper.EscapeLiteral(v));
             });
-            builder.Append("INSERT INTO ").Append(entityType.Table).Append("(");
+            builder.Append("INSERT INTO ").Append(entityType.Table!).Append("(");
             builder.JoinAppend(items);
             builder.Append(")VALUES(");
             builder.JoinAppend(values);
@@ -341,10 +341,10 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <param name="instance">当前实例。</param>
         /// <param name="where">条件表达式。</param>
         /// <returns>返回生成的SQL语句。</returns>
-        protected override string GenerateSqlUpdate(IEntityType entityType, object instance, Expression @where)
+        protected override string GenerateSqlUpdate(IEntityType entityType, object instance, Expression? @where)
         {
             var builder = new IndentedStringBuilder();
-            builder.Append("UPDATE ").Append(entityType.Table).Append(" SET ");
+            builder.Append("UPDATE ").Append(entityType.Table!).Append(" SET ");
             var items = new List<string>();
             ForEachProperty(instance, (k, v) =>
             {
@@ -368,10 +368,10 @@ namespace Gentings.Data.SqlServer.Migrations
         /// <param name="entityType">当前实体。</param>
         /// <param name="where">条件表达式。</param>
         /// <returns>返回生成的SQL语句。</returns>
-        protected override string GenerateSqlDelete(IEntityType entityType, Expression @where)
+        protected override string GenerateSqlDelete(IEntityType entityType, Expression? @where)
         {
             var builder = new IndentedStringBuilder();
-            builder.Append("DELETE FROM ").Append(entityType.Table);
+            builder.Append("DELETE FROM ").Append(entityType.Table!);
             var visitor = _visitorFactory.Create();
             visitor.Visit(where);
             builder.AppendEx(visitor.ToString(), " WHERE {0}");
@@ -408,7 +408,7 @@ namespace Gentings.Data.SqlServer.Migrations
                     .Append(SqlHelper.EscapeLiteral(type));
             }
 
-            builder.AppendLine(SqlHelper.fieldsTerminator);
+            builder.AppendLine(SqlHelper.FieldsTerminator);
         }
 
         /// <summary>
@@ -433,7 +433,7 @@ namespace Gentings.Data.SqlServer.Migrations
                 .Append(SqlHelper.DelimitIdentifier(newSchema))
                 .Append(" TRANSFER ")
                 .Append(SqlHelper.DelimitIdentifier(name, schema))
-                .AppendLine(SqlHelper.fieldsTerminator);
+                .AppendLine(SqlHelper.FieldsTerminator);
         }
 
         private int _variableCounter = 0;
@@ -479,9 +479,9 @@ namespace Gentings.Data.SqlServer.Migrations
                 .Append(" DROP CONSTRAINT [' + ")
                 .Append(variable)
                 .Append(" + ']")
-                .Append(SqlHelper.fieldsTerminator)
+                .Append(SqlHelper.FieldsTerminator)
                 .Append("')")
-                .AppendLine(SqlHelper.fieldsTerminator);
+                .AppendLine(SqlHelper.FieldsTerminator);
         }
     }
 }

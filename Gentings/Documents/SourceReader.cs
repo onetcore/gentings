@@ -46,7 +46,7 @@ namespace Gentings.Documents
         /// </param>
         protected override void Dispose(bool disposing)
         {
-            _source = null;
+            _source = string.Empty;
             _position = 0;
             _length = 0;
             base.Dispose(disposing);
@@ -151,7 +151,7 @@ namespace Gentings.Documents
         /// </exception>
         public override string ReadToEnd()
         {
-            var text = _position != 0 ? _source.Substring(_position, _length - _position) : _source;
+            var text = _position != 0 ? _source[_position.._length] : _source;
             _position = _length;
             return text;
         }
@@ -166,7 +166,7 @@ namespace Gentings.Documents
         /// <exception cref="T:System.OutOfMemoryException">
         ///   没有足够的内存来为返回的字符串分配缓冲区。
         /// </exception>
-        public override string ReadLine()
+        public override string? ReadLine()
         {
             int pos;
             for (pos = _position; pos < _length; ++pos)
@@ -208,7 +208,7 @@ namespace Gentings.Documents
         ///   以前的读取操作当前正在使用读取器。
         /// </exception>
         [ComVisible(false)]
-        public override Task<string> ReadLineAsync()
+        public override Task<string?> ReadLineAsync()
         {
             return Task.FromResult(ReadLine());
         }
@@ -719,7 +719,7 @@ namespace Gentings.Documents
         /// 读取注释。
         /// </summary>
         /// <returns>返回注释代码。</returns>
-        public virtual string ReadComment()
+        public virtual string? ReadComment()
         {
             if (Current == '/' && _position + 1 < _length)
             {
@@ -739,7 +739,7 @@ namespace Gentings.Documents
         /// <param name="end">结束符。</param>
         /// <param name="chars">读取的字符。</param>
         /// <returns>返回当前读取到的字符串。</returns>
-        public virtual string ReadChars(char end, char[] chars)
+        public virtual string? ReadChars(char end, char[] chars)
         {
             var builder = new StringBuilder();
             var index = _position;
@@ -773,7 +773,7 @@ namespace Gentings.Documents
         public override string ToString()
         {
             if (CanRead)
-                return _source.Substring(_position);
+                return _source[_position..];
             return string.Empty;
         }
 

@@ -8,8 +8,8 @@ namespace Gentings.Data.Query
     /// </summary>
     public class SqlIndentedStringBuilder : IndentedStringBuilder
     {
-        private readonly string _sql;
-        private readonly List<string> _parameterNames;
+        private readonly string? _sql;
+        private readonly List<string>? _parameterNames;
 
         internal SqlIndentedStringBuilder(string sql, List<string> parameterNames)
         {
@@ -27,26 +27,29 @@ namespace Gentings.Data.Query
         /// <summary>
         /// 参数。
         /// </summary>
-        public IDictionary<string, object> Parameters { get; private set; }
+        public IDictionary<string, object?>? Parameters { get; private set; }
 
         /// <summary>
         /// 生成参数对象。
         /// </summary>
-        public IDictionary<string, object> CreateEntityParameters(object instance)
+        public IDictionary<string, object?>? CreateEntityParameters(object? instance)
         {
-            if (instance is IDictionary<string, object> parameters)
+            if (instance is IDictionary<string, object?> parameters)
             {
                 Parameters = parameters;
             }
             else if (_parameterNames != null)
             {
                 //匿名类型
-                Parameters = new Dictionary<string, object>();
-                var entityType = instance.GetType().GetEntityType();
-                var parameterNames = _parameterNames.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
-                foreach (var parameterName in parameterNames)
+                Parameters = new Dictionary<string, object?>();
+                if (instance != null)
                 {
-                    Parameters.Add(parameterName, entityType.FindProperty(parameterName).Get(instance));
+                    var entityType = instance.GetType().GetEntityType();
+                    var parameterNames = _parameterNames.Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+                    foreach (var parameterName in parameterNames)
+                    {
+                        Parameters.Add(parameterName, entityType.FindProperty(parameterName)!.Get(instance));
+                    }
                 }
             }
 
@@ -60,14 +63,14 @@ namespace Gentings.Data.Query
         {
             if (Parameters == null)
             {
-                if (instance is IDictionary<string, object> parameters)
+                if (instance is IDictionary<string, object?> parameters)
                 {
                     Parameters = parameters;
                 }
                 else
                 {
                     //匿名类型
-                    Parameters = new Dictionary<string, object>();
+                    Parameters = new Dictionary<string, object?>();
                     foreach (var property in instance.GetType().GetRuntimeProperties())
                     {
                         var value = property.GetValue(instance);
@@ -85,7 +88,7 @@ namespace Gentings.Data.Query
         {
             if (Parameters == null)
             {
-                Parameters = new Dictionary<string, object>();
+                Parameters = new Dictionary<string, object?>();
             }
 
             Parameters[QuerySqlGenerator.PrimaryKeyParameterName] = key;

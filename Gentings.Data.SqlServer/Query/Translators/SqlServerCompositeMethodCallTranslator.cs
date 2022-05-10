@@ -12,8 +12,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
         /// <summary>
         /// 初始化类<see cref="SqlServerCompositeMethodCallTranslator"/>。
         /// </summary>
-        /// <param name="loggerFactory">日志工厂接口。</param>
-        public SqlServerCompositeMethodCallTranslator(ILoggerFactory loggerFactory) : base(loggerFactory)
+        public SqlServerCompositeMethodCallTranslator()
         {
             var sqlServerTranslators = new List<IMethodCallTranslator>
             {

@@ -70,7 +70,10 @@ namespace Gentings.Extensions
         /// 返回错误消息。
         /// </summary>
         /// <returns>错误消息。</returns>
-        public override string ToString() => _desc;
+        public override string ToString()
+        {
+            return _desc;
+        }
 
         /// <summary>
         /// 格式化参数并返回描述信息。

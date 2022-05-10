@@ -12,7 +12,7 @@ namespace Gentings.AspNetCore
         /// 初始化类<see cref="ApiResultAttribute"/>。
         /// </summary>
         /// <param name="type">返回结果类型。</param>
-        public ApiResultAttribute(Type type = null) : base(type ?? typeof(ApiResult), 200)
+        public ApiResultAttribute(Type? type = null) : base(type ?? typeof(ApiResult), 200)
         {
 
         }

@@ -28,7 +28,7 @@
         /// <param name="culture">语言实例。</param>
         /// <param name="path">返回语言文档根目录。</param>
         /// <returns>判断是否存在语言文件夹。</returns>
-        public static bool TryGetCultureRoot(ref string culture, out string path)
+        public static bool TryGetCultureRoot(ref string? culture, out string path)
         {
             if (culture == null)
             {
@@ -40,7 +40,7 @@
             var index = culture.IndexOf('-');
             if (index != -1)
             {
-                var shortName = culture.Substring(0, index);
+                var shortName = culture[..index];
                 path = Path.Join(RootDirectory, LanguagePrefixed + shortName);
                 if (Directory.Exists(path))
                 {
@@ -59,12 +59,12 @@
         /// <param name="physicalPath">Markdown物理路径。</param>
         /// <param name="directory">Toc文件在语言包中的文件夹物理路径。</param>
         /// <returns>返回判断结果。</returns>
-        public static bool TryGetPhysicalPath(ref string culture, string path, out string physicalPath, out DirectoryInfo directory)
+        public static bool TryGetPhysicalPath(ref string? culture, string path, out string? physicalPath, out DirectoryInfo? directory)
         {
             if (TryGetCultureRoot(ref culture, out var culturePath))
             {
                 physicalPath = Path.Join(culturePath, path);
-                directory = new DirectoryInfo(Path.GetDirectoryName(physicalPath));//即使Markdown不存在，toc目录还是返回语言包的的目录
+                directory = new DirectoryInfo(Path.GetDirectoryName(physicalPath)!);//即使Markdown不存在，toc目录还是返回语言包的的目录
                 return File.Exists(physicalPath);
             }
 
@@ -78,7 +78,7 @@
         /// </summary>
         /// <param name="path">当前链接路径地址，不包含“/docs/”。</param>
         /// <returns>返回对应的Markdown文件路径。</returns>
-        public static string GetMarkdownPath(string path)
+        public static string GetMarkdownPath(string? path)
         {
             if (path != null)
             {
@@ -122,17 +122,17 @@
         /// <param name="culture">语言。</param>
         /// <param name="path">路径。</param>
         /// <returns>返回URL地址。</returns>
-        public static string GetUrlRoot(string culture, string path)
+        public static string GetUrlRoot(string? culture, string path)
         {
-            path = Path.GetDirectoryName(path).Replace('\\', '/') + '/';
-            path = path.Substring(RootDirectory.Length);
+            path = Path.GetDirectoryName(path)!.Replace('\\', '/') + '/';
+            path = path[RootDirectory.Length..];
             if (culture != null)
             {
                 path = path.Replace($"/{LanguagePrefixed}{culture}/", $"/{culture}/");
                 culture = $"/{culture}/";
                 var index = path.IndexOf(culture, StringComparison.OrdinalIgnoreCase);
                 if (index != -1)
-                    path = path.Substring(index + culture.Length).ToLowerInvariant();
+                    path = path[(index + culture.Length)..].ToLowerInvariant();
             }
             path = Path.Join(culture, "/docs/", path);
             return path;

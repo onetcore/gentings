@@ -18,7 +18,7 @@
         /// <summary>
         /// 绝对地址。
         /// </summary>
-        string Path { get; }
+        string? Path { get; }
 
         /// <summary>
         /// 访问地址。
@@ -43,7 +43,7 @@
         /// <summary>
         /// 文件哈希值，一般为Md5值。
         /// </summary>
-        string Hashed { get; }
+        string? Hashed { get; }
 
         /// <summary>
         /// 判断是否存在。
@@ -63,6 +63,6 @@
         /// <param name="height">高度。</param>
         /// <param name="path">保存路径，未指定将保存在<paramref name="info"/>得文件夹中。</param>
         /// <returns>返回缩略图文件实例。</returns>
-        FileInfo Resize(int width, int height, string path = null);
+        FileInfo Resize(int width, int height, string? path = null);
     }
 }

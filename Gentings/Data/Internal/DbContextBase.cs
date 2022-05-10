@@ -27,8 +27,10 @@ namespace Gentings.Data.Internal
         /// 实例化一个查询实例，这个实例相当于实例化一个查询类，不能当作属性直接调用。
         /// </summary>
         /// <returns>返回模型的一个查询实例。</returns>
-        public IQueryable<TModel> AsQueryable() =>
-            new QueryContext<TModel>(SqlHelper, VisitorFactory, SqlGenerator, _executor);
+        public IQueryable<TModel> AsQueryable()
+        {
+            return new QueryContext<TModel>(SqlHelper, VisitorFactory, SqlGenerator, _executor);
+        }
 
         /// <summary>
         /// 脚本生成接口。
@@ -68,9 +70,11 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数实例对象。</param>
         /// <param name="commandType">命令类型。</param>
         /// <returns>返回是否有执行影响到数据行。</returns>
-        public bool ExecuteNonQuery(string commandText, object parameters = null,
+        public bool ExecuteNonQuery(string commandText, object? parameters = null,
             CommandType commandType = CommandType.Text)
-            => _executor.ExecuteNonQuery(commandText, parameters, commandType);
+        {
+            return _executor.ExecuteNonQuery(commandText, parameters, commandType);
+        }
 
         /// <summary>
         /// 查询实例对象。
@@ -79,9 +83,11 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数实例对象。</param>
         /// <param name="commandType">命令类型。</param>
         /// <returns>返回数据库读取实例接口。</returns>
-        public DbDataReader ExecuteReader(string commandText, object parameters = null,
+        public DbDataReader ExecuteReader(string commandText, object? parameters = null,
             CommandType commandType = CommandType.Text)
-            => _executor.ExecuteReader(commandText, parameters, commandType);
+        {
+            return _executor.ExecuteReader(commandText, parameters, commandType);
+        }
 
         /// <summary>
         /// 查询数据库聚合值。
@@ -90,9 +96,11 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数实例对象。</param>
         /// <param name="commandType">命令类型。</param>
         /// <returns>返回聚合值实例对象。</returns>
-        public object ExecuteScalar(string commandText, object parameters = null,
+        public object? ExecuteScalar(string commandText, object? parameters = null,
             CommandType commandType = CommandType.Text)
-            => _executor.ExecuteScalar(commandText, parameters, commandType);
+        {
+            return _executor.ExecuteScalar(commandText, parameters, commandType);
+        }
 
         /// <summary>
         /// 执行SQL语句。
@@ -102,10 +110,12 @@ namespace Gentings.Data.Internal
         /// <param name="commandType">SQL类型。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回影响的行数。</returns>
-        public Task<bool> ExecuteNonQueryAsync(string commandText, object parameters = null,
+        public Task<bool> ExecuteNonQueryAsync(string commandText, object? parameters = null,
             CommandType commandType = CommandType.Text,
             CancellationToken cancellationToken = default)
-            => _executor.ExecuteNonQueryAsync(commandText, parameters, commandType, cancellationToken);
+        {
+            return _executor.ExecuteNonQueryAsync(commandText, parameters, commandType, cancellationToken);
+        }
 
         /// <summary>
         /// 执行SQL语句。
@@ -115,10 +125,12 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数匿名类型。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回数据库读取器实例对象。</returns>
-        public Task<DbDataReader> ExecuteReaderAsync(string commandText, object parameters = null,
+        public Task<DbDataReader> ExecuteReaderAsync(string commandText, object? parameters = null,
             CommandType commandType = CommandType.Text,
             CancellationToken cancellationToken = default)
-            => _executor.ExecuteReaderAsync(commandText, parameters, commandType, cancellationToken);
+        {
+            return _executor.ExecuteReaderAsync(commandText, parameters, commandType, cancellationToken);
+        }
 
         /// <summary>
         /// 执行SQL语句。
@@ -128,10 +140,12 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数匿名类型。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回单一结果实例对象。</returns>
-        public Task<object> ExecuteScalarAsync(string commandText, object parameters = null,
+        public Task<object?> ExecuteScalarAsync(string commandText, object? parameters = null,
             CommandType commandType = CommandType.Text,
             CancellationToken cancellationToken = default)
-            => _executor.ExecuteScalarAsync(commandText, parameters, commandType, cancellationToken);
+        {
+            return _executor.ExecuteScalarAsync(commandText, parameters, commandType, cancellationToken);
+        }
 
         /// <summary>
         /// 当前实体类型。
@@ -153,15 +167,15 @@ namespace Gentings.Data.Internal
                 {
                     if (EntityType.Identity.ClrType == typeof(int))
                     {
-                        EntityType.Identity.Set(model, Convert.ToInt32(id));
+                        EntityType.Identity.Set(model!, Convert.ToInt32(id));
                     }
                     else if (EntityType.Identity.ClrType == typeof(long))
                     {
-                        EntityType.Identity.Set(model, Convert.ToInt64(id));
+                        EntityType.Identity.Set(model!, Convert.ToInt64(id));
                     }
                     else if (EntityType.Identity.ClrType == typeof(short))
                     {
-                        EntityType.Identity.Set(model, Convert.ToInt16(id));
+                        EntityType.Identity.Set(model!, Convert.ToInt16(id));
                     }
 
                     return true;
@@ -190,15 +204,15 @@ namespace Gentings.Data.Internal
                 {
                     if (EntityType.Identity.ClrType == typeof(int))
                     {
-                        EntityType.Identity.Set(model, Convert.ToInt32(id));
+                        EntityType.Identity.Set(model!, Convert.ToInt32(id));
                     }
                     else if (EntityType.Identity.ClrType == typeof(long))
                     {
-                        EntityType.Identity.Set(model, Convert.ToInt64(id));
+                        EntityType.Identity.Set(model!, Convert.ToInt64(id));
                     }
                     else if (EntityType.Identity.ClrType == typeof(short))
                     {
-                        EntityType.Identity.Set(model, Convert.ToInt16(id));
+                        EntityType.Identity.Set(model!, Convert.ToInt16(id));
                     }
 
                     return true;
@@ -275,7 +289,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="fields">更新选项实例。</param>
         /// <returns>返回是否更新成功。</returns>
-        public virtual bool Update(Expression<Predicate<TModel>> expression, object fields)
+        public virtual bool Update(Expression<Predicate<TModel>>? expression, object fields)
         {
             var sql = SqlGenerator.Update(EntityType, expression, fields);
             return ExecuteSql(sql);
@@ -296,7 +310,7 @@ namespace Gentings.Data.Internal
         /// db.Update(x=>x.Id == 1, x=>new{Views = x.Views + 1,DayViews = x.DayViews + 1});
         /// db.Update(x=>x.Id == 1, Views=>Views.Views + 1);//这里参数必须为列名称
         /// </example>
-        public virtual bool Update(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object>> fields)
+        public virtual bool Update(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object?>> fields)
         {
             var sql = SqlGenerator.Update(EntityType, expression, fields);
             return ExecuteSql(sql);
@@ -319,7 +333,7 @@ namespace Gentings.Data.Internal
         /// db.Update(x=>x.Id == 1, Views=>Views.Views + 1);//这里参数必须为列名称
         /// </example>
         public virtual Task<bool> UpdateAsync(Expression<Predicate<TModel>> expression,
-            Expression<Func<TModel, object>> fields, CancellationToken cancellationToken = default)
+            Expression<Func<TModel, object?>> fields, CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Update(EntityType, expression, fields);
             return ExecuteSqlAsync(sql, cancellationToken);
@@ -331,7 +345,9 @@ namespace Gentings.Data.Internal
         /// <param name="fields">更新选项实例。</param>
         /// <returns>返回是否更新成功。</returns>
         public virtual bool Update(object fields)
-            => Update(null, fields);
+        {
+            return Update(null, fields);
+        }
 
         /// <summary>
         /// 根据条件更新相应的模型实例对象。
@@ -340,7 +356,7 @@ namespace Gentings.Data.Internal
         /// <param name="fields">更新选项实例。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回是否更新成功。</returns>
-        public virtual async Task<bool> UpdateAsync(Expression<Predicate<TModel>> expression, object fields,
+        public virtual async Task<bool> UpdateAsync(Expression<Predicate<TModel>>? expression, object fields,
             CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Update(EntityType, expression, fields);
@@ -368,15 +384,19 @@ namespace Gentings.Data.Internal
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回是否更新成功。</returns>
         public virtual Task<bool> UpdateAsync(object fields, CancellationToken cancellationToken = default)
-            => UpdateAsync(null, fields, cancellationToken);
+        {
+            return UpdateAsync(null, fields, cancellationToken);
+        }
 
         /// <summary>
         /// 根据条件删除模型实例对象。
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>判断是否删除成功。</returns>
-        public virtual bool Delete(Expression<Predicate<TModel>> expression = null)
-            => ExecuteNonQuery(SqlGenerator.Delete(EntityType, expression));
+        public virtual bool Delete(Expression<Predicate<TModel>>? expression = null)
+        {
+            return ExecuteNonQuery(SqlGenerator.Delete(EntityType, expression));
+        }
 
         /// <summary>
         /// 根据条件删除模型实例对象。
@@ -384,16 +404,18 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>判断是否删除成功。</returns>
-        public virtual Task<bool> DeleteAsync(Expression<Predicate<TModel>> expression = null,
+        public virtual Task<bool> DeleteAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
-            => ExecuteNonQueryAsync(SqlGenerator.Delete(EntityType, expression), cancellationToken: cancellationToken);
+        {
+            return ExecuteNonQueryAsync(SqlGenerator.Delete(EntityType, expression), cancellationToken: cancellationToken);
+        }
 
         /// <summary>
         /// 通过条件表达式获取模型实例对象。
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual TModel Find(Expression<Predicate<TModel>> expression)
+        public virtual TModel? Find(Expression<Predicate<TModel>> expression)
         {
             Check.NotNull(expression, nameof(expression));
             var builder = SqlGenerator.Select(EntityType, expression);
@@ -406,7 +428,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual async Task<TModel> FindAsync(Expression<Predicate<TModel>> expression,
+        public virtual async Task<TModel?> FindAsync(Expression<Predicate<TModel>> expression,
             CancellationToken cancellationToken = default)
         {
             Check.NotNull(expression, nameof(expression));
@@ -420,7 +442,7 @@ namespace Gentings.Data.Internal
         /// <param name="sql">SQL语句。</param>
         /// <param name="parameters">参数。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual TModel Query(string sql, object parameters = null)
+        public virtual TModel? Query(string sql, object? parameters = null)
         {
             using var reader = ExecuteReader(sql, parameters);
             if (reader.Read())
@@ -438,7 +460,7 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual async Task<TModel> QueryAsync(string sql, object parameters = null,
+        public virtual async Task<TModel?> QueryAsync(string sql, object? parameters = null,
             CancellationToken cancellationToken = default)
         {
             await using var reader = await ExecuteReaderAsync(sql, parameters, cancellationToken: cancellationToken);
@@ -487,7 +509,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="key">主键值，主键必须为一列时候才可使用。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual TModel Find(object key)
+        public virtual TModel? Find(object key)
         {
             var sql = PrimaryKeySql("SELECT * FROM", key);
             return Query(sql, sql.Parameters);
@@ -499,7 +521,7 @@ namespace Gentings.Data.Internal
         /// <param name="key">主键值，主键必须为一列时候才可使用。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual Task<TModel> FindAsync(object key, CancellationToken cancellationToken = default)
+        public virtual Task<TModel?> FindAsync(object key, CancellationToken cancellationToken = default)
         {
             var sql = PrimaryKeySql("SELECT * FROM", key);
             return QueryAsync(sql, sql.Parameters, cancellationToken);
@@ -510,7 +532,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null)
+        public virtual IEnumerable<TModel> Fetch(Expression<Predicate<TModel>>? expression = null)
         {
             var sql = SqlGenerator.Select(EntityType, expression);
             return Fetch(sql, sql.Parameters);
@@ -522,7 +544,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null,
+        public virtual async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Select(EntityType, expression);
@@ -535,7 +557,7 @@ namespace Gentings.Data.Internal
         /// <param name="sql">SQL语句。</param>
         /// <param name="parameters">参数。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual IEnumerable<TModel> Fetch(string sql, object parameters = null)
+        public virtual IEnumerable<TModel> Fetch(string sql, object? parameters = null)
         {
             var models = new List<TModel>();
             using var reader = ExecuteReader(sql, parameters);
@@ -554,7 +576,7 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        public virtual async Task<IEnumerable<TModel>> FetchAsync(string sql, object parameters = null,
+        public virtual async Task<IEnumerable<TModel>> FetchAsync(string sql, object? parameters = null,
             CancellationToken cancellationToken = default)
         {
             var models = new List<TModel>();
@@ -575,9 +597,11 @@ namespace Gentings.Data.Internal
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual IPageEnumerable<TModel> Load<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null)
+            Expression<Func<TModel, object?>>? countExpression = null)
             where TQuery : QueryBase<TModel>
-            => Load<TQuery, TModel>(query, countExpression);
+        {
+            return Load<TQuery, TModel>(query, countExpression);
+        }
 
         /// <summary>
         /// 分页获取实例列表。
@@ -588,7 +612,7 @@ namespace Gentings.Data.Internal
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
+            Expression<Func<TModel, object?>>? countExpression = null) where TQuery : QueryBase<TModel>
         {
             var context = AsQueryable();
             query.Init(context);
@@ -631,9 +655,11 @@ namespace Gentings.Data.Internal
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null,
+            Expression<Func<TModel, object?>>? countExpression = null,
             CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
-            => LoadAsync<TQuery, TModel>(query, countExpression, cancellationToken);
+        {
+            return LoadAsync<TQuery, TModel>(query, countExpression, cancellationToken);
+        }
 
         /// <summary>
         /// 分页获取实例列表。
@@ -645,7 +671,7 @@ namespace Gentings.Data.Internal
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null,
+            Expression<Func<TModel, object?>>? countExpression = null,
             CancellationToken cancellationToken = default) where TQuery : QueryBase<TModel>
         {
             var context = AsQueryable();
@@ -688,7 +714,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回判断结果。</returns>
-        public virtual bool Any(Expression<Predicate<TModel>> expression = null)
+        public virtual bool Any(Expression<Predicate<TModel>>? expression = null)
         {
             var sql = SqlGenerator.Any(EntityType, expression);
             return ExecuteScalar(sql.ToString()) != null;
@@ -700,7 +726,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回判断结果。</returns>
-        public virtual async Task<bool> AnyAsync(Expression<Predicate<TModel>> expression = null,
+        public virtual async Task<bool> AnyAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Any(EntityType, expression);
@@ -776,8 +802,8 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="scalarMethod">聚合方法。</param>
         /// <returns>返回聚合结果。</returns>
-        public virtual TValue GetScalar<TValue>(string scalarMethod, Expression<Func<TModel, object>> column,
-            Expression<Predicate<TModel>> expression, Func<object, TValue> convertFunc)
+        public virtual TValue? GetScalar<TValue>(string scalarMethod, Expression<Func<TModel, object?>> column,
+            Expression<Predicate<TModel>>? expression, Func<object, TValue>? convertFunc)
         {
             var sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
             var scalar = ExecuteScalar(sql);
@@ -803,9 +829,9 @@ namespace Gentings.Data.Internal
         /// <param name="scalarMethod">聚合方法。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回聚合结果。</returns>
-        public virtual async Task<TValue> GetScalarAsync<TValue>(string scalarMethod,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression,
-            Func<object, TValue> convertFunc,
+        public virtual async Task<TValue?> GetScalarAsync<TValue>(string scalarMethod,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression,
+            Func<object, TValue>? convertFunc,
             CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Scalar(EntityType, scalarMethod, column, expression);
@@ -831,7 +857,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <returns>返回移动结果。</returns>
-        public virtual bool MoveUp(object key, Expression<Func<TModel, object>> order, Expression<Predicate<TModel>> expression = null, bool isDesc = true)
+        public virtual bool MoveUp(object key, Expression<Func<TModel, object?>> order, Expression<Predicate<TModel>>? expression = null, bool isDesc = true)
         {
             var sql = SqlGenerator.Move(EntityType, isDesc ? ">" : "<", order, expression);
             sql.AddPrimaryKey(key);
@@ -847,8 +873,8 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <returns>返回移动结果。</returns>
-        public virtual bool MoveDown(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, bool isDesc = true)
+        public virtual bool MoveDown(object key, Expression<Func<TModel, object?>> order,
+            Expression<Predicate<TModel>>? expression = null, bool isDesc = true)
         {
             var sql = SqlGenerator.Move(EntityType, isDesc ? "<" : ">", order, expression);
             sql.AddPrimaryKey(key);
@@ -865,8 +891,8 @@ namespace Gentings.Data.Internal
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
-        public virtual async Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, bool isDesc = true, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object?>> order,
+            Expression<Predicate<TModel>>? expression = null, bool isDesc = true, CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Move(EntityType, isDesc ? ">" : "<", order, expression);
             sql.AddPrimaryKey(key);
@@ -883,8 +909,8 @@ namespace Gentings.Data.Internal
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
-        public virtual async Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, bool isDesc = true, CancellationToken cancellationToken = default)
+        public virtual async Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object?>> order,
+            Expression<Predicate<TModel>>? expression = null, bool isDesc = true, CancellationToken cancellationToken = default)
         {
             var sql = SqlGenerator.Move(EntityType, isDesc ? "<" : ">", order, expression);
             sql.AddPrimaryKey(key);
@@ -899,7 +925,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="sql">SQL语句。</param>
         /// <returns>返回执行结果。</returns>
-        protected object ScalarSql(SqlIndentedStringBuilder sql)
+        protected object? ScalarSql(SqlIndentedStringBuilder sql)
         {
             return ExecuteScalar(sql, sql.Parameters);
         }
@@ -910,7 +936,7 @@ namespace Gentings.Data.Internal
         /// <param name="sql">SQL语句。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回执行结果。</returns>
-        protected Task<object> ScalarSqlAsync(SqlIndentedStringBuilder sql,
+        protected Task<object?> ScalarSqlAsync(SqlIndentedStringBuilder sql,
             CancellationToken cancellationToken = default)
         {
             return ExecuteScalarAsync(sql, sql.Parameters, cancellationToken: cancellationToken);

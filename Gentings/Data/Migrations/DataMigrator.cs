@@ -35,7 +35,7 @@ namespace Gentings.Data.Migrations
         {
             _reposority = reposority;
             Logger = logger;
-            _provider = options.Value.Provider;
+            _provider = options.Value.Provider!;
             _migrations = migrations.Where(m => !m.GetType().GetTypeInfo().IsDefined(typeof(NotMappedAttribute)))
                 .OrderByDescending(m => m.Priority)
                 .ToList();
@@ -46,7 +46,7 @@ namespace Gentings.Data.Migrations
             migration.Logger = Logger;
         }
 
-        private async Task<IEnumerable<OperationsMigration>> LoadMirationsAsync(IDataMigration instance, int version)
+        private async Task<IEnumerable<OperationsMigration>?> LoadMirationsAsync(IDataMigration instance, int version)
         {
             var type = instance.GetType();
             var migration = instance as DataMigration;
@@ -55,7 +55,7 @@ namespace Gentings.Data.Migrations
                 InitDataMigration(migration);
             }
 
-            var dbMigration = await _reposority.FindMigrationAsync(type.FullName);
+            var dbMigration = await _reposority.FindMigrationAsync(type.FullName!);
             if ((dbMigration == null && version == -1) //卸载
                 || (dbMigration != null && dbMigration.Version == version)) //版本已经是设置的版本
             {
@@ -69,18 +69,18 @@ namespace Gentings.Data.Migrations
 
             if (dbMigration == null || version > dbMigration.Version)
             {
-                return Upgrade(migration, dbMigration, version);
+                return Upgrade(migration!, dbMigration!, version);
             }
 
             if (dbMigration.Version > version)
             {
-                return Downgrade(migration, dbMigration, version);
+                return Downgrade(migration!, dbMigration, version);
             }
 
             return null;
         }
 
-        private IEnumerable<OperationsMigration> LoadMirations(IDataMigration instance, int version)
+        private IEnumerable<OperationsMigration>? LoadMirations(IDataMigration instance, int version)
         {
             var type = instance.GetType();
             var migration = instance as DataMigration;
@@ -89,7 +89,7 @@ namespace Gentings.Data.Migrations
                 InitDataMigration(migration);
             }
 
-            var dbMigration = _reposority.FindMigration(type.FullName);
+            var dbMigration = _reposority.FindMigration(type.FullName!);
             if ((dbMigration == null && version == -1) //卸载
                 || (dbMigration != null && dbMigration.Version == version)) //版本已经是设置的版本
             {
@@ -103,12 +103,12 @@ namespace Gentings.Data.Migrations
 
             if (dbMigration == null || version > dbMigration.Version)
             {
-                return Upgrade(migration, dbMigration, version);
+                return Upgrade(migration!, dbMigration!, version);
             }
 
             if (dbMigration.Version > version)
             {
-                return Downgrade(migration, dbMigration, version);
+                return Downgrade(migration!, dbMigration, version);
             }
 
             return null;
@@ -123,7 +123,7 @@ namespace Gentings.Data.Migrations
 
         private IEnumerable<OperationsMigration> Upgrade(DataMigration migration, Migration dbMigration, int version)
         {
-            var id = migration.GetType().FullName;
+            var id = migration.GetType().FullName!;
             if (dbMigration == null)
             {
                 yield return CreateOperationsMigration(id, 1, migration.Create);
@@ -132,7 +132,7 @@ namespace Gentings.Data.Migrations
             var methods = GetMethods(migration, dbMigration?.Version ?? 0, version);
             foreach (var method in methods)
             {
-                yield return CreateOperationsMigration(id, method.Version, method.Method);
+                yield return CreateOperationsMigration(id, method.Version, method.Method!);
             }
         }
 
@@ -141,12 +141,12 @@ namespace Gentings.Data.Migrations
             var methods = GetMethods(migration, version, dbMigration.Version, false);
             foreach (var method in methods)
             {
-                yield return CreateOperationsMigration(dbMigration.Id, method.Version, method.Method);
+                yield return CreateOperationsMigration(dbMigration.Id!, method.Version, method.Method!);
             }
 
             if (version == -1)
             {
-                yield return CreateOperationsMigration(dbMigration.Id, 0, migration.Destroy);
+                yield return CreateOperationsMigration(dbMigration.Id!, 0, migration.Destroy);
             }
         }
 
@@ -162,7 +162,7 @@ namespace Gentings.Data.Migrations
             public IReadOnlyList<MigrationOperation> Operations { get; }
         }
 
-        private List<MethodInfo> GetMethods(DataMigration migration, int version, int endVersion = 0, bool isUp = true)
+        private static List<MethodInfo> GetMethods(DataMigration migration, int version, int endVersion = 0, bool isUp = true)
         {
             var methodHeader = isUp ? "Up" : "Down";
             var methods = migration
@@ -176,7 +176,7 @@ namespace Gentings.Data.Migrations
                     m =>
                         new MethodInfo
                         {
-                            Version = Convert.ToInt32(m.Name.Substring(methodHeader.Length)) + 1,
+                            Version = Convert.ToInt32(m.Name[methodHeader.Length..]) + 1,
                             Method = builder => m.Invoke(migration, new[] {builder})
                         })
                 .Where(method => method.Version > version && method.Version < endVersion);
@@ -191,7 +191,7 @@ namespace Gentings.Data.Migrations
         private class MethodInfo
         {
             public int Version { get; set; }
-            public Action<MigrationBuilder> Method { get; set; }
+            public Action<MigrationBuilder>? Method { get; set; }
         }
 
         /// <summary>
@@ -206,12 +206,12 @@ namespace Gentings.Data.Migrations
                 try
                 {
                     var operations = await LoadMirationsAsync(migration, version);
-                    if (!operations.Any())
+                    if (!operations!.Any())
                     {
                         continue;
                     }
 
-                    foreach (var operation in operations)
+                    foreach (var operation in operations!)
                     {
                         if (!await _reposority.ExecuteAsync(operation, operation.Operations))
                         {

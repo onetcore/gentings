@@ -112,7 +112,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="id">事件Id。</param>
         /// <returns>返回事件类型。</returns>
-        public virtual EventType GetEventType(int id)
+        public virtual EventType? GetEventType(int id)
         {
             var eventTypes = GetCached();
             eventTypes.TryGetValue(id, out var eventType);
@@ -124,7 +124,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="id">事件Id。</param>
         /// <returns>返回事件类型。</returns>
-        public virtual async Task<EventType> GetEventTypeAsync(int id)
+        public virtual async Task<EventType?> GetEventTypeAsync(int id)
         {
             var eventTypes = await GetCachedAsync();
             eventTypes.TryGetValue(id, out var eventType);
@@ -136,10 +136,10 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="eventType">事件类型名称。</param>
         /// <returns>返回事件类型。</returns>
-        public virtual EventType GetEventType(string eventType)
+        public virtual EventType? GetEventType(string eventType)
         {
             var eventTypes = GetCached();
-            return eventTypes.Values.SingleOrDefault(x => x.Name.Equals(eventType, StringComparison.OrdinalIgnoreCase));
+            return eventTypes.Values.SingleOrDefault(x => x.Name!.Equals(eventType, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -147,10 +147,10 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="eventType">事件类型名称。</param>
         /// <returns>返回事件类型。</returns>
-        public virtual async Task<EventType> GetEventTypeAsync(string eventType)
+        public virtual async Task<EventType?> GetEventTypeAsync(string eventType)
         {
             var eventTypes = await GetCachedAsync();
-            return eventTypes.Values.SingleOrDefault(x => x.Name.Equals(eventType, StringComparison.OrdinalIgnoreCase));
+            return eventTypes.Values.SingleOrDefault(x => x.Name!.Equals(eventType, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
@@ -268,7 +268,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="id">事件消息列表。</param>
         /// <returns>返回事件消息实例。</returns>
-        public virtual Event GetEvent(int id)
+        public virtual Event? GetEvent(int id)
         {
             return _edb.Find(id);
         }
@@ -278,7 +278,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="id">事件消息列表。</param>
         /// <returns>返回事件消息实例。</returns>
-        public virtual Task<Event> GetEventAsync(int id)
+        public virtual Task<Event?> GetEventAsync(int id)
         {
             return _edb.FindAsync(id);
         }

@@ -16,8 +16,9 @@ namespace Gentings.Extensions
         /// <returns>返回用户Id，如果未登录则返回0。</returns>
         public static int GetUserId(this ClaimsPrincipal claims)
         {
-            int.TryParse(claims.GetFirstValue(ClaimTypes.NameIdentifier), out var userId);
-            return userId;
+            if (int.TryParse(claims.GetFirstValue(ClaimTypes.NameIdentifier), out var userId))
+                return userId;
+            return 0;
         }
 
         /// <summary>
@@ -25,7 +26,7 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="claims">当前用户接口实例。</param>
         /// <returns>返回用户名称，如果未登录则返回“Anonymous”。</returns>
-        public static string GetUserName(this ClaimsPrincipal claims)
+        public static string? GetUserName(this ClaimsPrincipal claims)
         {
             return claims.GetFirstValue(ClaimTypes.Name);
         }
@@ -35,7 +36,7 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="claims">当前用户接口实例。</param>
         /// <returns>返回角色名称。</returns>
-        public static string GetRoleName(this ClaimsPrincipal claims)
+        public static string? GetRoleName(this ClaimsPrincipal claims)
         {
             return claims.GetFirstValue(ClaimTypes.Role);
         }
@@ -50,7 +51,7 @@ namespace Gentings.Extensions
             return claims.FindAll(ClaimTypes.Role).Select(x => x.Value).ToArray();
         }
 
-        private static string GetFirstValue(this ClaimsPrincipal claims, string claimType)
+        private static string? GetFirstValue(this ClaimsPrincipal claims, string claimType)
         {
             return claims.FindFirst(claimType)?.Value;
         }
@@ -61,7 +62,7 @@ namespace Gentings.Extensions
         /// <param name="context">当前HTTP上下文。</param>
         /// <param name="claimType">声明类型。</param>
         /// <returns>返回用户声明实例。</returns>
-        public static string GetUserFirstValue(this HttpContext context, string claimType)
+        public static string? GetUserFirstValue(this HttpContext context, string claimType)
         {
             return context.User.FindFirst(claimType)?.Value;
         }
@@ -73,14 +74,14 @@ namespace Gentings.Extensions
         /// <param name="authenticationScheme">验证方式。</param>
         /// <param name="action">实例化声明列表。</param>
         /// <returns>返回用户声明标志。</returns>
-        public static ClaimsIdentity Create(this IUser user, string authenticationScheme, Action<List<Claim>> action = null)
+        public static ClaimsIdentity Create(this IUser user, string authenticationScheme, Action<List<Claim>>? action = null)
         {
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.UserName!),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
-            if (action != null) action(claims);
+            action?.Invoke(claims);
             return new ClaimsIdentity(claims, authenticationScheme);
         }
     }

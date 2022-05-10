@@ -245,7 +245,10 @@ namespace Gentings
         /// </summary>
         /// <param name="date">当前时间。</param>
         /// <returns>返回当前时间对应的UNIX时间的秒数。</returns>
-        public static long ToUnix(this DateTime date) => (date.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+        public static long ToUnix(this DateTime date)
+        {
+            return (date.ToUniversalTime().Ticks - 621355968000000000) / 10000000;
+        }
 
         /// <summary>
         /// 生成随机的最多13位的唯一ID字符串。
@@ -339,7 +342,7 @@ namespace Gentings
         /// <summary>
         /// 当前程序的版本。
         /// </summary>
-        public static Version Version => Assembly.GetEntryAssembly()?.GetName().Version;
+        public static Version? Version => Assembly.GetEntryAssembly()?.GetName().Version;
 
         private static readonly JsonSerializerOptions _defaultJsonSerializerOptions = new()
         {
@@ -353,7 +356,7 @@ namespace Gentings
         /// <param name="instance">对象实例。</param>
         /// <param name="options">JSON序列化配置。</param>
         /// <returns>返回格式化后的字符串。</returns>
-        public static string ToJsonString(this object instance, JsonSerializerOptions options = null)
+        public static string? ToJsonString(this object? instance, JsonSerializerOptions? options = null)
         {
             if (instance == null)
             {
@@ -371,7 +374,7 @@ namespace Gentings
         /// <param name="json">JSON字符串。</param>
         /// <param name="options">JSON序列化配置实例。</param>
         /// <returns>返回实例对象。</returns>
-        public static TModel FromJsonString<TModel>(string json, JsonSerializerOptions options = null)
+        public static TModel? FromJsonString<TModel>(string? json, JsonSerializerOptions? options = null)
         {
             try
             {

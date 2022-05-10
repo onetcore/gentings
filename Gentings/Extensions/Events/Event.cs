@@ -40,19 +40,19 @@ namespace Gentings.Extensions.Events
         /// </summary>
         [Size(32)]
         // ReSharper disable once InconsistentNaming
-        public string IPAdress { get; set; }
+        public string? IPAdress { get; set; }
 
         /// <summary>
         /// 来源。
         /// </summary>
         [Size(64)]
-        public string Source { get; set; }
+        public string? Source { get; set; }
 
         /// <summary>
         /// 操作日志。
         /// </summary>
         [NotMapped]
-        public string Message
+        public string? Message
         {
             get => this[nameof(Message)]; set => this[nameof(Message)] = value;
         }
@@ -61,7 +61,7 @@ namespace Gentings.Extensions.Events
         /// 详细信息。
         /// </summary>
         [NotMapped]
-        public string Data
+        public string? Data
         {
             get => this[nameof(Data)]; set => this[nameof(Data)] = value;
         }

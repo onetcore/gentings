@@ -27,6 +27,7 @@ namespace Gentings.Extensions.Internal
 
             ClrType = type;
             Name = type.DisplayName();
+            Table = type.GetTableName();
             var properties = _properties.Values
                 .Where(property => property.IsPrimaryKey)
                 .ToList();
@@ -61,33 +62,33 @@ namespace Gentings.Extensions.Internal
         /// <summary>
         /// 获取主键。
         /// </summary>
-        public IKey PrimaryKey { get; }
+        public IKey? PrimaryKey { get; }
 
         /// <summary>
         /// 行版本属性。
         /// </summary>
-        public Property RowVersion { get; set; }
+        public Property? RowVersion { get; set; }
 
         /// <summary>
         /// 并发验证属性。
         /// </summary>
-        public IKey ConcurrencyKey { get; }
+        public IKey? ConcurrencyKey { get; }
 
-        IProperty IEntityType.RowVersion => RowVersion;
+        IProperty? IEntityType.RowVersion => RowVersion;
 
         /// <summary>
         /// 自增长列。
         /// </summary>
-        public Property Identity { get; set; }
+        public Property? Identity { get; set; }
 
-        IProperty IEntityType.Identity => Identity;
+        IProperty? IEntityType.Identity => Identity;
 
         /// <summary>
         /// 通过名称查找属性实例。
         /// </summary>
         /// <param name="name">属性名称。</param>
         /// <returns>返回属性实例对象。</returns>
-        public IProperty FindProperty(string name)
+        public IProperty? FindProperty(string name)
         {
             _properties.TryGetValue(name, out var property);
             return property;
@@ -110,7 +111,7 @@ namespace Gentings.Extensions.Internal
         /// <returns>返回当前模型实例对象。</returns>
         public virtual TModel Read<TModel>(DbDataReader reader)
         {
-            var model = Activator.CreateInstance<TModel>();
+            var model = Activator.CreateInstance<TModel>()!;
             for (var i = 0; i < reader.FieldCount; i++)
             {
                 var name = reader.GetName(i);
@@ -149,7 +150,7 @@ namespace Gentings.Extensions.Internal
                 var value = FindProperty(property.Name)?.Get(instance);
                 if (value != null)
                 {
-                    property.Set(model, value);
+                    property.Set(model!, value);
                 }
             }
 
@@ -159,6 +160,6 @@ namespace Gentings.Extensions.Internal
         /// <summary>
         /// 表格名称。
         /// </summary>
-        public string Table { get; set; }
+        public string Table { get; }
     }
 }

@@ -20,7 +20,7 @@
         /// </summary>
         public abstract string Description { get; }
 
-        private string _extensionName;
+        private string? _extensionName;
 
         /// <summary>
         /// 扩展名称，即服务的分类。
@@ -32,18 +32,18 @@
                 if (_extensionName == null)
                 {
                     const string extensionName = ".Extensions.";
-                    var @namespace = GetType().Namespace;
+                    var @namespace = GetType().Namespace!;
                     var index = @namespace.IndexOf(extensionName, StringComparison.Ordinal);
                     if (index == -1)
                     {
                         _extensionName = "core";
                     }
 
-                    @namespace = @namespace.Substring(index + extensionName.Length);
+                    @namespace = @namespace[(index + extensionName.Length)..];
                     index = @namespace.IndexOf(".", StringComparison.Ordinal);
                     if (index != -1)
                     {
-                        @namespace = @namespace.Substring(0, index);
+                        @namespace = @namespace[..index];
                     }
 
                     _extensionName = @namespace.ToLower();

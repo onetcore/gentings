@@ -52,9 +52,9 @@
             if (href.EndsWith('/'))
                 href = href.TrimEnd('/');
             if (href.EndsWith(".md"))
-                href = href.Substring(0, href.Length - 3);
+                href = href[0..^3];
             if (href.EndsWith("/index"))
-                href = href.Substring(0, href.Length - 6);
+                href = href[0..^6];
             return href;
         }
     }

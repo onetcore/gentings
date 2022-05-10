@@ -53,7 +53,7 @@ namespace Gentings.Data.Query
         /// <param name="expression">表达式。</param>
         /// <param name="getAliasFunc">获取别名方法。</param>
         /// <returns>返回解析后的SQL字符串。</returns>
-        protected string Visit(Expression expression, Func<Type, string> getAliasFunc)
+        protected string? Visit(Expression expression, Func<Type, string> getAliasFunc)
         {
             var visitor = _visitorFactory.Create(getAliasFunc);
             visitor.Visit(expression);
@@ -65,14 +65,20 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="value">值对象。</param>
         /// <returns>返回格式化后的字符串。</returns>
-        protected string Escape(object value) => SqlHelper.EscapeLiteral(value);
+        protected string Escape(object value)
+        {
+            return SqlHelper.EscapeLiteral(value);
+        }
 
         /// <summary>
         /// 格式化标识符，如列名称加上“[]”。
         /// </summary>
         /// <param name="name">标识字符串。</param>
         /// <returns>返回格式化后的字符串。</returns>
-        protected virtual string Delimit(string name) => Delimit<TModel>(name);
+        protected virtual string Delimit(string name)
+        {
+            return Delimit<TModel>(name);
+        }
 
         /// <summary>
         /// 格式化列名称，如列名称加上“[]”和前缀。
@@ -140,7 +146,7 @@ namespace Gentings.Data.Query
 
         #region froms
 
-        private string _fromSql;
+        private string? _fromSql;
 
         /// <summary>
         /// FROM语句。
@@ -225,11 +231,15 @@ namespace Gentings.Data.Query
 
         IQueryContext<TModel> IQueryContext<TModel>.InnerJoin<TForeign>(
             Expression<Func<TModel, TForeign, bool>> onExpression)
-            => InnerJoin<TForeign>(onExpression);
+        {
+            return InnerJoin<TForeign>(onExpression);
+        }
 
         IQueryContext<TModel> IQueryContext<TModel>.InnerJoin<TPrimary, TForeign>(
             Expression<Func<TPrimary, TForeign, bool>> onExpression)
-            => InnerJoin(onExpression);
+        {
+            return InnerJoin(onExpression);
+        }
 
         /// <summary>
         /// 设置表格左关联。
@@ -279,19 +289,27 @@ namespace Gentings.Data.Query
 
         IQueryContext<TModel> IQueryContext<TModel>.LeftJoin<TForeign>(
             Expression<Func<TModel, TForeign, bool>> onExpression)
-            => LeftJoin<TForeign>(onExpression);
+        {
+            return LeftJoin<TForeign>(onExpression);
+        }
 
         IQueryContext<TModel> IQueryContext<TModel>.LeftJoin<TPrimary, TForeign>(
             Expression<Func<TPrimary, TForeign, bool>> onExpression)
-            => LeftJoin(onExpression);
+        {
+            return LeftJoin(onExpression);
+        }
 
         IQueryContext<TModel> IQueryContext<TModel>.RightJoin<TForeign>(
             Expression<Func<TModel, TForeign, bool>> onExpression)
-            => RightJoin<TForeign>(onExpression);
+        {
+            return RightJoin<TForeign>(onExpression);
+        }
 
         IQueryContext<TModel> IQueryContext<TModel>.RightJoin<TPrimary, TForeign>(
             Expression<Func<TPrimary, TForeign, bool>> onExpression)
-            => RightJoin(onExpression);
+        {
+            return RightJoin(onExpression);
+        }
 
         private bool _nolock;
 
@@ -319,7 +337,7 @@ namespace Gentings.Data.Query
 
         #region fields
 
-        private string _fieldSql;
+        private string? _fieldSql;
 
         /// <summary>
         /// 选择列。
@@ -354,7 +372,7 @@ namespace Gentings.Data.Query
         /// <param name="field">列表达式。</param>
         /// <param name="alias">别名。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> Select<TEntity>(Expression<Func<TEntity, object>> field, string alias)
+        public virtual IQueryable<TModel> Select<TEntity>(Expression<Func<TEntity, object?>> field, string alias)
         {
             var column = Delimit<TEntity>(field.GetPropertyAccess());
             alias = SqlHelper.DelimitIdentifier(alias);
@@ -368,7 +386,7 @@ namespace Gentings.Data.Query
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="fields">列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> Select<TEntity>(Expression<Func<TEntity, object>> fields)
+        public virtual IQueryable<TModel> Select<TEntity>(Expression<Func<TEntity, object?>> fields)
         {
             if (fields == null)
             {
@@ -388,7 +406,7 @@ namespace Gentings.Data.Query
         /// <param name="field">列表达式。</param>
         /// <param name="alias">别名。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> Select(Expression<Func<TModel, object>> field, string alias)
+        public virtual IQueryable<TModel> Select(Expression<Func<TModel, object?>> field, string alias)
         {
             var column = Delimit<TModel>(field.GetPropertyAccess());
             alias = SqlHelper.DelimitIdentifier(alias);
@@ -401,7 +419,7 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="fields">列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> Select(Expression<Func<TModel, object>> fields)
+        public virtual IQueryable<TModel> Select(Expression<Func<TModel, object?>> fields)
         {
             return Select<TModel>(fields);
         }
@@ -412,7 +430,7 @@ namespace Gentings.Data.Query
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="fields">不包含的列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> Exclude<TEntity>(Expression<Func<TEntity, object>> fields)
+        public virtual IQueryable<TModel> Exclude<TEntity>(Expression<Func<TEntity, object?>> fields)
         {
             var excludes = fields.GetPropertyNames();
             var includes = Entity.GetProperties()
@@ -428,7 +446,10 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="fields">不包含的列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> Exclude(Expression<Func<TModel, object>> fields) => Exclude<TModel>(fields);
+        public virtual IQueryable<TModel> Exclude(Expression<Func<TModel, object?>> fields)
+        {
+            return Exclude<TModel>(fields);
+        }
 
         /// <summary>
         /// 设置选择列。
@@ -436,15 +457,20 @@ namespace Gentings.Data.Query
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="fields">不包含的列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.Exclude<TEntity>(Expression<Func<TEntity, object>> fields) =>
-            Exclude(fields);
+        IQueryContext<TModel> IQueryContext<TModel>.Exclude<TEntity>(Expression<Func<TEntity, object?>> fields)
+        {
+            return Exclude(fields);
+        }
 
         /// <summary>
         /// 设置选择列。
         /// </summary>
         /// <param name="fields">不包含的列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.Exclude(Expression<Func<TModel, object>> fields) => Exclude(fields);
+        IQueryContext<TModel> IQueryContext<TModel>.Exclude(Expression<Func<TModel, object?>> fields)
+        {
+            return Exclude(fields);
+        }
 
         /// <summary>
         /// 设置选择列。
@@ -463,7 +489,7 @@ namespace Gentings.Data.Query
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="fields">列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public IQueryable<TModel> Distinct<TEntity>(Expression<Func<TEntity, object>> fields)
+        public IQueryable<TModel> Distinct<TEntity>(Expression<Func<TEntity, object?>> fields)
         {
             IsDistinct = true;
             return Select(fields);
@@ -474,26 +500,36 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="fields">列表达式。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public IQueryable<TModel> Distinct(Expression<Func<TModel, object>> fields)
+        public IQueryable<TModel> Distinct(Expression<Func<TModel, object?>> fields)
         {
             return Distinct<TModel>(fields);
         }
 
-        IQueryContext<TModel> IQueryContext<TModel>.Distinct<TEntity>(Expression<Func<TEntity, object>> fields)
-            => Distinct(fields);
+        IQueryContext<TModel> IQueryContext<TModel>.Distinct<TEntity>(Expression<Func<TEntity, object?>> fields)
+        {
+            return Distinct(fields);
+        }
 
-        IQueryContext<TModel> IQueryContext<TModel>.Distinct(Expression<Func<TModel, object>> fields)
-            => Distinct(fields);
+        IQueryContext<TModel> IQueryContext<TModel>.Distinct(Expression<Func<TModel, object?>> fields)
+        {
+            return Distinct(fields);
+        }
 
-        IQueryContext<TModel> IQueryContext<TModel>.Select<TEntity>(Expression<Func<TEntity, object>> fields,
+        IQueryContext<TModel> IQueryContext<TModel>.Select<TEntity>(Expression<Func<TEntity, object?>> fields,
             string alias)
-            => Select(fields, alias);
+        {
+            return Select(fields, alias);
+        }
 
-        IQueryContext<TModel> IQueryContext<TModel>.Select<TEntity>(Expression<Func<TEntity, object>> fields)
-            => Select(fields);
+        IQueryContext<TModel> IQueryContext<TModel>.Select<TEntity>(Expression<Func<TEntity, object?>> fields)
+        {
+            return Select(fields);
+        }
 
-        IQueryContext<TModel> IQueryContext<TModel>.Select(Expression<Func<TModel, object>> fields)
-            => Select(fields);
+        IQueryContext<TModel> IQueryContext<TModel>.Select(Expression<Func<TModel, object?>> fields)
+        {
+            return Select(fields);
+        }
 
         /// <summary>
         /// 设置选择列。
@@ -501,26 +537,30 @@ namespace Gentings.Data.Query
         /// <param name="field">列表达式。</param>
         /// <param name="alias">别名。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.Select(Expression<Func<TModel, object>> field, string alias)
-            => Select(field, alias);
+        IQueryContext<TModel> IQueryContext<TModel>.Select(Expression<Func<TModel, object?>> field, string alias)
+        {
+            return Select(field, alias);
+        }
 
         /// <summary>
         /// 设置选择列。
         /// </summary>
         /// <returns>返回当前查询实例对象。</returns>
         IQueryContext<TModel> IQueryContext<TModel>.Select()
-            => Select();
+        {
+            return Select();
+        }
 
         #endregion
 
         #region wheres
 
-        private string _whereSql;
+        private string? _whereSql;
 
         /// <summary>
         /// WHERE语句。
         /// </summary>
-        public string WhereSql
+        public string? WhereSql
         {
             get
             {
@@ -546,7 +586,7 @@ namespace Gentings.Data.Query
         /// <returns>返回当前查询实例对象。</returns>
         public virtual IQueryable<TModel> Where<TEntity>(Expression<Predicate<TEntity>> expression)
         {
-            return Where(Visit(expression, type => GetAlias(typeof(TEntity))));
+            return Where(Visit(expression, type => GetAlias(typeof(TEntity)))!);
         }
 
         /// <summary>
@@ -571,25 +611,31 @@ namespace Gentings.Data.Query
         }
 
         IQueryContext<TModel> IQueryContext<TModel>.Where<TEntity>(Expression<Predicate<TEntity>> expression)
-            => Where(expression);
+        {
+            return Where(expression);
+        }
 
         IQueryContext<TModel> IQueryContext<TModel>.Where(string where)
-            => Where(where);
+        {
+            return Where(where);
+        }
 
         IQueryContext<TModel> IQueryContext<TModel>.Where(Expression<Predicate<TModel>> expression)
-            => Where(expression);
+        {
+            return Where(expression);
+        }
 
         #endregion
 
         #region orderbys
 
-        private string _orderbySql;
+        private string? _orderbySql;
         private bool _requiredOrderby;
 
         /// <summary>
         /// ORDER BY语句。
         /// </summary>
-        public string OrderBySql
+        public string? OrderBySql
         {
             get
             {
@@ -601,7 +647,7 @@ namespace Gentings.Data.Query
                     }
                     else if (_requiredOrderby)
                     {
-                        _orderbySql = string.Join(",", Entity.PrimaryKey.Properties.Select(k => Delimit(k.Name)));
+                        _orderbySql = string.Join(",", Entity.PrimaryKey!.Properties.Select(k => Delimit(k.Name)));
                         _orderbySql = $"ORDER BY {_orderbySql}";
                     }
                 }
@@ -617,7 +663,7 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="expression">列名称表达式。</param>
-        public virtual IQueryable<TModel> OrderBy<TEntity>(Expression<Func<TEntity, object>> expression)
+        public virtual IQueryable<TModel> OrderBy<TEntity>(Expression<Func<TEntity, object?>> expression)
         {
             return OrderBy(expression, false);
         }
@@ -627,7 +673,7 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="expression">列名称表达式。</param>
-        public virtual IQueryable<TModel> OrderByDescending<TEntity>(Expression<Func<TEntity, object>> expression)
+        public virtual IQueryable<TModel> OrderByDescending<TEntity>(Expression<Func<TEntity, object?>> expression)
         {
             return OrderBy(expression, true);
         }
@@ -636,7 +682,7 @@ namespace Gentings.Data.Query
         /// 添加排序规则。
         /// </summary>
         /// <param name="expression">列名称表达式。</param>
-        public virtual IQueryable<TModel> OrderBy(Expression<Func<TModel, object>> expression)
+        public virtual IQueryable<TModel> OrderBy(Expression<Func<TModel, object?>> expression)
         {
             return OrderBy<TModel>(expression);
         }
@@ -645,7 +691,7 @@ namespace Gentings.Data.Query
         /// 添加排序规则。
         /// </summary>
         /// <param name="expression">列名称表达式。</param>
-        public virtual IQueryable<TModel> OrderByDescending(Expression<Func<TModel, object>> expression)
+        public virtual IQueryable<TModel> OrderByDescending(Expression<Func<TModel, object?>> expression)
         {
             return OrderByDescending<TModel>(expression);
         }
@@ -701,7 +747,7 @@ namespace Gentings.Data.Query
         /// <param name="expression">列名称表达式。</param>
         /// <param name="isDesc">是否为降序。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> OrderBy<TEntity>(Expression<Func<TEntity, object>> expression, bool isDesc)
+        public virtual IQueryable<TModel> OrderBy<TEntity>(Expression<Func<TEntity, object?>> expression, bool isDesc)
         {
             var properties = expression.GetPropertyAccessList();
             if (isDesc)
@@ -722,14 +768,20 @@ namespace Gentings.Data.Query
         /// <param name="field">列名称。</param>
         /// <param name="isDesc">是否为降序。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> OrderBy(string field, bool isDesc) => OrderBy<TModel>(field, isDesc);
+        public virtual IQueryable<TModel> OrderBy(string field, bool isDesc)
+        {
+            return OrderBy<TModel>(field, isDesc);
+        }
 
         /// <summary>
         /// 添加排序规则。
         /// </summary>
         /// <param name="field">列名称。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public IQueryable<TModel> OrderByDescending(string field) => OrderBy<TModel>(field, true);
+        public IQueryable<TModel> OrderByDescending(string field)
+        {
+            return OrderBy<TModel>(field, true);
+        }
 
         /// <summary>
         /// 添加排序规则。
@@ -759,7 +811,10 @@ namespace Gentings.Data.Query
         /// <typeparam name="TEntity">模型类型。</typeparam>
         /// <param name="field">列名称。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public IQueryable<TModel> OrderByDescending<TEntity>(string field) => OrderBy<TEntity>(field, true);
+        public IQueryable<TModel> OrderByDescending<TEntity>(string field)
+        {
+            return OrderBy<TEntity>(field, true);
+        }
 
         /// <summary>
         /// 添加排序规则。
@@ -767,7 +822,7 @@ namespace Gentings.Data.Query
         /// <param name="expression">列名称表达式。</param>
         /// <param name="isDesc">是否为降序。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        public virtual IQueryable<TModel> OrderBy(Expression<Func<TModel, object>> expression, bool isDesc)
+        public virtual IQueryable<TModel> OrderBy(Expression<Func<TModel, object?>> expression, bool isDesc)
         {
             return OrderBy<TModel>(expression, isDesc);
         }
@@ -778,9 +833,11 @@ namespace Gentings.Data.Query
         /// <param name="expression">列名称表达式。</param>
         /// <param name="isDesc">是否为降序。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(Expression<Func<TEntity, object>> expression,
+        IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(Expression<Func<TEntity, object?>> expression,
             bool isDesc)
-            => OrderBy(expression, isDesc);
+        {
+            return OrderBy(expression, isDesc);
+        }
 
         /// <summary>
         /// 添加排序规则。
@@ -788,21 +845,31 @@ namespace Gentings.Data.Query
         /// <param name="expression">列名称表达式。</param>
         /// <param name="isDesc">是否为降序。</param>
         /// <returns>返回当前查询实例对象。</returns>
-        IQueryContext<TModel> IQueryContext<TModel>.OrderBy(Expression<Func<TModel, object>> expression, bool isDesc)
-            => OrderBy(expression, isDesc);
+        IQueryContext<TModel> IQueryContext<TModel>.OrderBy(Expression<Func<TModel, object?>> expression, bool isDesc)
+        {
+            return OrderBy(expression, isDesc);
+        }
 
-        IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(Expression<Func<TEntity, object>> expression)
-            => OrderBy(expression);
+        IQueryContext<TModel> IQueryContext<TModel>.OrderBy<TEntity>(Expression<Func<TEntity, object?>> expression)
+        {
+            return OrderBy(expression);
+        }
 
         IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending<TEntity>(
-            Expression<Func<TEntity, object>> expression)
-            => OrderByDescending(expression);
+            Expression<Func<TEntity, object?>> expression)
+        {
+            return OrderByDescending(expression);
+        }
 
-        IQueryContext<TModel> IQueryContext<TModel>.OrderBy(Expression<Func<TModel, object>> expression)
-            => OrderBy(expression);
+        IQueryContext<TModel> IQueryContext<TModel>.OrderBy(Expression<Func<TModel, object?>> expression)
+        {
+            return OrderBy(expression);
+        }
 
-        IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending(Expression<Func<TModel, object>> expression)
-            => OrderByDescending(expression);
+        IQueryContext<TModel> IQueryContext<TModel>.OrderByDescending(Expression<Func<TModel, object?>> expression)
+        {
+            return OrderByDescending(expression);
+        }
 
         #endregion
 
@@ -821,7 +888,7 @@ namespace Gentings.Data.Query
         /// <summary>
         /// 聚合列或表达式。
         /// </summary>
-        public string Aggregation { get; private set; }
+        public string? Aggregation { get; private set; }
 
         /// <summary>
         /// 页码。
@@ -846,7 +913,7 @@ namespace Gentings.Data.Query
         /// 查询数据库返回结果。
         /// </summary>
         /// <returns>返回数据列表。</returns>
-        public TModel FirstOrDefault()
+        public TModel? FirstOrDefault()
         {
             Size = 1;
             if (_fields.Count == 0)
@@ -862,7 +929,7 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        public Task<TModel> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
+        public Task<TModel?> FirstOrDefaultAsync(CancellationToken cancellationToken = default)
         {
             Size = 1;
             if (_fields.Count == 0)
@@ -878,7 +945,7 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="converter">对象转换器。</param>
         /// <returns>返回数据列表。</returns>
-        public TValue FirstOrDefault<TValue>(Func<DbDataReader, TValue> converter)
+        public TValue? FirstOrDefault<TValue>(Func<DbDataReader, TValue> converter)
         {
             Size = 1;
             if (_fields.Count == 0)
@@ -903,7 +970,7 @@ namespace Gentings.Data.Query
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        public async Task<TValue> FirstOrDefaultAsync<TValue>(Func<DbDataReader, TValue> converter,
+        public async Task<TValue?> FirstOrDefaultAsync<TValue>(Func<DbDataReader, TValue> converter,
             CancellationToken cancellationToken = default)
         {
             Size = 1;
@@ -933,7 +1000,7 @@ namespace Gentings.Data.Query
         /// <param name="count">分页总记录数计算列。</param>
         /// <returns>返回数据列表。</returns>
         public virtual IPageEnumerable<TObject> AsEnumerable<TObject>(int pageIndex, int pageSize,
-            Expression<Func<TModel, object>> count = null)
+            Expression<Func<TModel, object?>>? count = null)
         {
             //必须添加ORDER BY，如果没添加都自动附加主键排序
             _requiredOrderby = true;
@@ -952,21 +1019,26 @@ namespace Gentings.Data.Query
         /// <param name="count">分页总记录数计算列。</param>
         /// <returns>返回数据列表。</returns>
         public IPageEnumerable<TModel> AsEnumerable(int pageIndex, int pageSize,
-            Expression<Func<TModel, object>> count = null)
-            => AsEnumerable<TModel>(pageIndex, pageSize, count);
+            Expression<Func<TModel, object?>>? count = null)
+        {
+            return AsEnumerable<TModel>(pageIndex, pageSize, count);
+        }
 
         /// <summary>
         /// 查询数据库返回结果。
         /// </summary>
         /// <returns>返回数据列表。</returns>
-        public IEnumerable<TModel> AsEnumerable() => Load(_sqlGenerator.Query(this));
+        public IEnumerable<TModel> AsEnumerable()
+        {
+            return Load(_sqlGenerator.Query(this));
+        }
 
         /// <summary>
         /// 查询数据库返回结果。
         /// </summary>
         /// <param name="converter">对象转换器。</param>
         /// <returns>返回数据列表。</returns>
-        public IEnumerable<TValue> AsEnumerable<TValue>(Func<DbDataReader, TValue> converter = null)
+        public IEnumerable<TValue> AsEnumerable<TValue>(Func<DbDataReader, TValue>? converter = null)
         {
             var models = new List<TValue>();
             var type = typeof(TValue).GetEntityType();
@@ -1004,9 +1076,11 @@ namespace Gentings.Data.Query
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
         public virtual Task<IPageEnumerable<TModel>> AsEnumerableAsync(int pageIndex, int pageSize,
-            Expression<Func<TModel, object>> count = null,
+            Expression<Func<TModel, object?>>? count = null,
             CancellationToken cancellationToken = default)
-            => AsEnumerableAsync<TModel>(pageIndex, pageSize, count);
+        {
+            return AsEnumerableAsync<TModel>(pageIndex, pageSize, count);
+        }
 
         /// <summary>
         /// 查询数据库返回结果。
@@ -1018,7 +1092,7 @@ namespace Gentings.Data.Query
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
         public virtual Task<IPageEnumerable<TObject>> AsEnumerableAsync<TObject>(int pageIndex, int pageSize,
-            Expression<Func<TModel, object>> count = null,
+            Expression<Func<TModel, object?>>? count = null,
             CancellationToken cancellationToken = default)
         {
             //必须添加ORDER BY，如果没添加都自动附加主键排序
@@ -1046,7 +1120,7 @@ namespace Gentings.Data.Query
         /// <param name="converter">对象转换器。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回数据列表。</returns>
-        public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue> converter = null,
+        public async Task<IEnumerable<TValue>> AsEnumerableAsync<TValue>(Func<DbDataReader, TValue>? converter = null,
             CancellationToken cancellationToken = default)
         {
             var models = new List<TValue>();
@@ -1069,7 +1143,7 @@ namespace Gentings.Data.Query
         /// </summary>
         /// <param name="sql">SQL脚本。</param>
         /// <returns>返回模型实例。</returns>
-        protected TModel Get(SqlIndentedStringBuilder sql)
+        protected TModel? Get(SqlIndentedStringBuilder sql)
         {
             using (var reader = _db.ExecuteReader(sql.ToString()))
             {
@@ -1088,7 +1162,7 @@ namespace Gentings.Data.Query
         /// <param name="sql">SQL脚本。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例。</returns>
-        protected async Task<TModel> GetAsync(SqlIndentedStringBuilder sql,
+        protected async Task<TModel?> GetAsync(SqlIndentedStringBuilder sql,
             CancellationToken cancellationToken = default)
         {
             await using (var reader =

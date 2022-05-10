@@ -19,7 +19,7 @@ namespace Gentings.AspNetCore
         /// <param name="url">URL地址。</param>
         /// <param name="referenceUrl">引用地址。</param>
         /// <returns>返回HTML代码。</returns>
-        public static async Task<string> GetHtmlAsync(string url, string referenceUrl = null)
+        public static async Task<string> GetHtmlAsync(string url, string? referenceUrl = null)
         {
             return await GetHtmlAsync(new Uri(url), referenceUrl);
         }
@@ -30,7 +30,7 @@ namespace Gentings.AspNetCore
         /// <param name="uri">URL地址。</param>
         /// <param name="referenceUrl">引用地址。</param>
         /// <returns>返回HTML代码。</returns>
-        public static async Task<string> GetHtmlAsync(Uri uri, string referenceUrl = null)
+        public static async Task<string> GetHtmlAsync(Uri uri, string? referenceUrl = null)
         {
             return await ExecuteAsync(async client => await client.GetStringAsync(uri), referenceUrl);
         }
@@ -41,7 +41,7 @@ namespace Gentings.AspNetCore
         /// <param name="url">URL地址。</param>
         /// <param name="referenceUrl">引用地址。</param>
         /// <returns>返回文件流。</returns>
-        public static async Task<Stream> GetStreamAsync(string url, string referenceUrl = null)
+        public static async Task<Stream> GetStreamAsync(string url, string? referenceUrl = null)
         {
             return await GetStreamAsync(new Uri(url), referenceUrl);
         }
@@ -52,7 +52,7 @@ namespace Gentings.AspNetCore
         /// <param name="uri">URL地址。</param>
         /// <param name="referenceUrl">引用地址。</param>
         /// <returns>返回文件流。</returns>
-        public static async Task<Stream> GetStreamAsync(Uri uri, string referenceUrl = null)
+        public static async Task<Stream> GetStreamAsync(Uri uri, string? referenceUrl = null)
         {
             return await ExecuteAsync(async client => await client.GetStreamAsync(uri), referenceUrl);
         }
@@ -66,7 +66,7 @@ namespace Gentings.AspNetCore
         /// <param name="referenceUrl">引用地址。</param>
         /// <param name="content">发送内容。</param>
         /// <returns>返回HTML代码。</returns>
-        public static async Task<string> PostHtmlAsync(string url, string referenceUrl = null, HttpContent content = null)
+        public static async Task<string> PostHtmlAsync(string url, string? referenceUrl = null, HttpContent? content = null)
         {
             return await PostHtmlAsync(new Uri(url), referenceUrl, content);
         }
@@ -79,7 +79,7 @@ namespace Gentings.AspNetCore
         /// <param name="content">发送内容。</param>
         /// <param name="headers">配置头部信息。</param>
         /// <returns>返回HTML代码。</returns>
-        public static async Task<string> PostHtmlAsync(Uri uri, string referenceUrl = null, HttpContent content = null, Action<HttpRequestHeaders> headers = null)
+        public static async Task<string> PostHtmlAsync(Uri uri, string? referenceUrl = null, HttpContent? content = null, Action<HttpRequestHeaders>? headers = null)
         {
             return await ExecuteAsync(async client =>
             {
@@ -97,7 +97,7 @@ namespace Gentings.AspNetCore
         /// <param name="referenceUrl">引用地址。</param>
         /// <param name="content">发送内容。</param>
         /// <returns>返回响应内容。</returns>
-        public static async Task<Stream> PostAsync(string url, string referenceUrl = null, HttpContent content = null)
+        public static async Task<Stream> PostAsync(string url, string? referenceUrl = null, HttpContent? content = null)
         {
             return await PostAsync(new Uri(url), referenceUrl, content);
         }
@@ -110,7 +110,7 @@ namespace Gentings.AspNetCore
         /// <param name="content">发送内容。</param>
         /// <param name="headers">配置头部信息。</param>
         /// <returns>返回响应内容。</returns>
-        public static async Task<Stream> PostAsync(Uri uri, string referenceUrl = null, HttpContent content = null, Action<HttpRequestHeaders> headers = null)
+        public static async Task<Stream> PostAsync(Uri uri, string? referenceUrl = null, HttpContent? content = null, Action<HttpRequestHeaders>? headers = null)
         {
             return await ExecuteAsync(async client =>
             {
@@ -161,7 +161,7 @@ namespace Gentings.AspNetCore
         /// <param name="url">URL地址。</param>
         /// <param name="path">保存文件（临时文件）物理路径。</param>
         /// <returns>返回文件扩展名称。</returns>
-        public static async Task<string> DownloadAsync(string url, string path)
+        public static async Task<string?> DownloadAsync(string url, string path)
         {
             try
             {
@@ -208,7 +208,7 @@ namespace Gentings.AspNetCore
         /// <param name="func">执行方法，获取相应得对象实例。</param>
         /// <param name="referenceUrl">引用地址。</param>
         /// <returns>返回请求得结果实例。</returns>
-        public static async Task<T> ExecuteAsync<T>(Func<HttpClient, Task<T>> func, string referenceUrl = null)
+        public static async Task<T> ExecuteAsync<T>(Func<HttpClient, Task<T>> func, string? referenceUrl = null)
         {
             using var client = new HttpClient();
             if (referenceUrl != null)
@@ -227,7 +227,7 @@ namespace Gentings.AspNetCore
         /// <param name="func">执行方法，获取相应得对象实例。</param>
         /// <param name="referenceUrl">引用地址。</param>
         /// <returns>返回请求得结果实例。</returns>
-        public static T Execute<T>(Func<HttpClient, T> func, string referenceUrl = null)
+        public static T Execute<T>(Func<HttpClient, T> func, string? referenceUrl = null)
         {
             using var client = new HttpClient();
             if (referenceUrl != null)

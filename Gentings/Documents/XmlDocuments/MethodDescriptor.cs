@@ -5,7 +5,7 @@
     /// </summary>
     public class MethodDescriptor
     {
-        internal MethodDescriptor(TypeDescriptor type, string name, string summary, string fullName)
+        internal MethodDescriptor(TypeDescriptor type, string name, string? summary, string fullName)
         {
             Type = type;
             Name = name;
@@ -36,12 +36,12 @@
         /// <summary>
         /// 描述。
         /// </summary>
-        public string Summary { get; }
+        public string? Summary { get; }
 
         /// <summary>
         /// 返回描述。
         /// </summary>
-        public ReturnDescriptor Returns { get; internal set; }
+        public ReturnDescriptor? Returns { get; internal set; }
 
         /// <summary>
         /// 参数。
@@ -50,7 +50,7 @@
 
         internal void Add(ParameterDescriptor parameter)
         {
-            Parameters[parameter.Name] = parameter;
+            Parameters[parameter.Name!] = parameter;
         }
     }
 }

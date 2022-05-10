@@ -88,11 +88,11 @@ namespace Gentings
             foreach (var susppendService in susppendServices)
             {
                 var suppendAttribute = susppendService.GetCustomAttribute<SuppressAttribute>();
-                susppendTypes.Add(suppendAttribute.FullName);
+                susppendTypes.Add(suppendAttribute!.FullName);
             }
 
             susppendTypes = susppendTypes.Distinct().ToList();
-            return types.Where(type => !susppendTypes.Contains(type.FullName))
+            return types.Where(type => !susppendTypes.Contains(type.FullName!))
                 .ToList();
         }
 
@@ -151,15 +151,17 @@ namespace Gentings
         /// <typeparam name="TInterface">接口类型。</typeparam>
         /// <param name="serviceProvider">服务提供者。</param>
         /// <returns>返回判断结果。</returns>
-        public static bool IsServiceRegistered<TInterface>(this IServiceProvider serviceProvider) =>
-            serviceProvider.GetService<TInterface>() != null;
+        public static bool IsServiceRegistered<TInterface>(this IServiceProvider serviceProvider)
+        {
+            return serviceProvider.GetService<TInterface>() != null;
+        }
 
         /// <summary>
         /// 获取配置节点的字符串列表。
         /// </summary>
         /// <param name="section">配置节点。</param>
         /// <returns>返回当前配置的字符串列表。</returns>
-        public static List<string> AsList(this IConfigurationSection section)
+        public static List<string>? AsList(this IConfigurationSection section)
         {
             return section?.AsEnumerable().Where(x => x.Value != null).Select(x => x.Value).ToList();
         }
@@ -171,7 +173,7 @@ namespace Gentings
         /// <param name="key">配置键或者路径。</param>
         /// <param name="defaultValue">默认值。</param>
         /// <returns>返回配置节点的字符串实例。</returns>
-        public static string GetString(this IConfiguration section, string key, string defaultValue = null)
+        public static string? GetString(this IConfiguration section, string key, string? defaultValue = null)
         {
             return section[key]?.Trim() ?? defaultValue;
         }
@@ -197,7 +199,7 @@ namespace Gentings
         /// <param name="configuration">配置接口。</param>
         /// <param name="action">实例化容器。</param>
         /// <returns>返回服务提供者接口实例。</returns>
-        public static IServiceProvider BuildServiceProvider(this IConfiguration configuration, Action<IServiceBuilder> action = null)
+        public static IServiceProvider BuildServiceProvider(this IConfiguration configuration, Action<IServiceBuilder>? action = null)
         {
             var services = new ServiceCollection();
             var builder = services.AddGentings(configuration);

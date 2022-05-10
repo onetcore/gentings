@@ -9,13 +9,13 @@ namespace Gentings.Commands
     public class CommandArgs
     {
         private readonly IDictionary<string, string> _arguments = new Dictionary<string, string>();
-        private readonly string _args;
+        private readonly string? _args;
 
         /// <summary>
         /// 初始化类<see cref="CommandArgs"/>。
         /// </summary>
         /// <param name="args">参数字符串。</param>
-        public CommandArgs(string args)
+        public CommandArgs(string? args)
         {
             if (string.IsNullOrWhiteSpace(args))
             {
@@ -56,7 +56,7 @@ namespace Gentings.Commands
 
         private void Skip(ref int index, char end)
         {
-            while (index < _args.Length)
+            while (index < _args?.Length)
             {
                 if (_args[index] == end)
                 {
@@ -71,7 +71,7 @@ namespace Gentings.Commands
         private string Read(ref int index, char end)
         {
             var builder = new StringBuilder();
-            while (index < _args.Length)
+            while (index < _args?.Length)
             {
                 var current = _args[index];
                 if ((end == '"' || end == '\'') && current == '\\')
@@ -105,14 +105,17 @@ namespace Gentings.Commands
         /// </summary>
         /// <param name="name">参数名称。</param>
         /// <returns>返回判断结果。</returns>
-        public bool Contains(string name) => _arguments.ContainsKey(name);
+        public bool Contains(string name)
+        {
+            return _arguments.ContainsKey(name);
+        }
 
         /// <summary>
         /// 获取当前参数值，不包含“-”。
         /// </summary>
         /// <param name="name">名称，大小写敏感。</param>
         /// <returns>返回当前参数值。</returns>
-        public string this[string name]
+        public string? this[string name]
         {
             get
             {
@@ -126,7 +129,7 @@ namespace Gentings.Commands
         /// </summary>
         /// <param name="names">名称集合，只要参数中包含一个就会返回当前值。</param>
         /// <returns>返回参数值，如果不存在返回<c>null</c>。</returns>
-        public string GetArg(params string[] names)
+        public string? GetArg(params string[] names)
         {
             foreach (var name in names)
             {
@@ -149,7 +152,10 @@ namespace Gentings.Commands
         /// </summary>
         /// <param name="commandName">命令名称，忽略大小写。</param>
         /// <returns>返回判断结果。</returns>
-        public bool IsSubCommand(string commandName) => SubComamnds.Contains(commandName.ToLower());
+        public bool IsSubCommand(string commandName)
+        {
+            return SubComamnds.Contains(commandName.ToLower());
+        }
 
         /// <summary>
         /// 是否为空。

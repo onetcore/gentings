@@ -12,9 +12,9 @@ namespace Gentings.Documents.XmlDocuments
         /// </summary>
         /// <param name="info">当前方法实例。</param>
         /// <returns>返回方法注释实例。</returns>
-        public static MethodDescriptor GetSummary(this MemberInfo info)
+        public static MethodDescriptor? GetSummary(this MemberInfo info)
         {
-            var typeDescriptor = AssemblyDocument.GetTypeDescriptor(info.DeclaringType);
+            var typeDescriptor = AssemblyDocument.GetTypeDescriptor(info.DeclaringType!);
             return typeDescriptor?.GetMethodDescriptor(info);
         }
 

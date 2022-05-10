@@ -70,7 +70,7 @@ namespace Gentings.Data.Query
         /// 如果修改了该表达式或任何子表达式，则为修改后的表达式；否则返回原始表达式。
         /// </returns>
         /// <param name="expression">要访问的表达式。</param>
-        public override Expression Visit(Expression expression)
+        public override Expression? Visit(Expression? expression)
         {
             var translatedExpression = _fragmentTranslator.Translate(expression);
             if (translatedExpression != null && translatedExpression != expression)
@@ -139,13 +139,13 @@ namespace Gentings.Data.Query
                     }
                     else
                     {
-                        Sql.Append(op);
+                        Sql.Append(op!);
                         Sql.Append(_sqlHelper.EscapeLiteral(value));
                     }
                 }
                 else
                 {
-                    Sql.Append(op);
+                    Sql.Append(op!);
 
                     Visit(binaryExpression.Right);
 
@@ -201,13 +201,13 @@ namespace Gentings.Data.Query
         {
             if (unaryExpression.Operand is MemberExpression memberExpression)
             {
-                var expr = memberExpression.Expression;
+                var expr = memberExpression.Expression!;
                 if (expr.NodeType == ExpressionType.Convert)
                 {
                     expr = expr.RemoveConvert();
                 }
 
-                switch (expr.NodeType)
+                switch (expr?.NodeType)
                 {
                     case ExpressionType.Parameter:
                         Visit(Expression.Equal(memberExpression, Expression.Constant(false)));
@@ -271,7 +271,7 @@ namespace Gentings.Data.Query
                 if (expression.IfTrue is ConstantExpression constantIfTrue
                     && constantIfTrue.Type == typeof(bool))
                 {
-                    Sql.Append((bool) constantIfTrue.Value ? "1" : "0");
+                    Sql.Append((bool) constantIfTrue.Value! ? "1" : "0");
                 }
                 else
                 {
@@ -283,7 +283,7 @@ namespace Gentings.Data.Query
                 if (expression.IfFalse is ConstantExpression constantIfFalse
                     && constantIfFalse.Type == typeof(bool))
                 {
-                    Sql.Append((bool) constantIfFalse.Value ? "1" : "0");
+                    Sql.Append((bool) constantIfFalse.Value! ? "1" : "0");
                 }
                 else
                 {
@@ -312,16 +312,16 @@ namespace Gentings.Data.Query
             var translatedExpression = _memberTranslator.Translate(node);
             if (translatedExpression != null)
             {
-                return Visit(translatedExpression);
+                return Visit(translatedExpression)!;
             }
 
-            var expr = node.Expression;
+            var expr = node.Expression!;
             if (expr.NodeType == ExpressionType.Convert)
             {
                 expr = expr.RemoveConvert();
             }
 
-            switch (expr.NodeType)
+            switch (expr!.NodeType)
             {
                 case ExpressionType.Parameter:
                     Sql.Append(Delimter(node.Member, expr.Type));
@@ -363,7 +363,7 @@ namespace Gentings.Data.Query
 
             if (translatedExpression != null)
             {
-                return Visit(translatedExpression);
+                return Visit(translatedExpression)!;
             }
 
             return base.VisitMethodCall(methodCallExpression);
@@ -409,7 +409,7 @@ namespace Gentings.Data.Query
         /// <param name="op">当前表达式类型。</param>
         /// <param name="result">返回操作符号。</param>
         /// <returns>返回是否有结果。</returns>
-        protected virtual bool TryGenerateBinaryOperator(ExpressionType op, out string result)
+        protected virtual bool TryGenerateBinaryOperator(ExpressionType op, out string? result)
         {
             return _binaryOperatorMap.TryGetValue(op, out result);
         }
@@ -435,7 +435,7 @@ namespace Gentings.Data.Query
             var expression = node.Body;
             if (expression.NodeType == ExpressionType.MemberAccess && expression.Type == typeof(bool))
             {
-                return Visit(Expression.Equal(expression, Expression.Constant(true)));
+                return Visit(Expression.Equal(expression, Expression.Constant(true)))!;
             }
 
             return base.VisitLambda(node);
@@ -617,7 +617,7 @@ namespace Gentings.Data.Query
             var expressions = new List<Expression>();
             if (inValues is ConstantExpression inConstant)
             {
-                AddInExpressionValues(inConstant.Value, expressions, inValues);
+                AddInExpressionValues(inConstant.Value!, expressions, inValues);
                 return expressions;
             }
 
@@ -638,7 +638,7 @@ namespace Gentings.Data.Query
 
             if (inValues is MemberExpression memberExpression)
             {
-                AddInExpressionValues(memberExpression.Invoke(), expressions, inValues);
+                AddInExpressionValues(memberExpression.Invoke()!, expressions, inValues);
                 return expressions;
             }
 
@@ -671,11 +671,13 @@ namespace Gentings.Data.Query
         protected IndentedStringBuilder Sql { get; } = new IndentedStringBuilder();
 
         private void VisitJoin(
-            IReadOnlyList<Expression> expressions, Action<IndentedStringBuilder> joinAction = null)
-            => VisitJoin(expressions, e => Visit(e), joinAction);
+            IReadOnlyList<Expression> expressions, Action<IndentedStringBuilder>? joinAction = null)
+        {
+            VisitJoin(expressions, e => Visit(e), joinAction);
+        }
 
         private void VisitJoin<T>(
-            IReadOnlyList<T> items, Action<T> itemAction, Action<IndentedStringBuilder> joinAction = null)
+            IReadOnlyList<T> items, Action<T> itemAction, Action<IndentedStringBuilder>? joinAction = null)
         {
             joinAction ??= (isb => isb.Append(", "));
 

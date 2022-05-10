@@ -62,13 +62,19 @@ namespace Gentings.Sockets
         /// 读取一个整形实例。
         /// </summary>
         /// <returns>返回读取值。</returns>
-        public short ReadInt16() => ReadBuffer(2, span => span.ReadInt16());
+        public short ReadInt16()
+        {
+            return ReadBuffer(2, span => span.ReadInt16());
+        }
 
         /// <summary>
         /// 读取一个无符号整形实例。
         /// </summary>
         /// <returns>返回读取值。</returns>
-        public ushort ReadUInt16() => ReadBuffer(2, span => span.ReadUInt16());
+        public ushort ReadUInt16()
+        {
+            return ReadBuffer(2, span => span.ReadUInt16());
+        }
 
         /// <summary>
         /// 读取一个整形实例。
@@ -83,19 +89,28 @@ namespace Gentings.Sockets
         /// 读取一个无符号整形实例。
         /// </summary>
         /// <returns>返回读取值。</returns>
-        public uint ReadUInt32() => ReadBuffer(4, span => span.ReadUInt32());
+        public uint ReadUInt32()
+        {
+            return ReadBuffer(4, span => span.ReadUInt32());
+        }
 
         /// <summary>
         /// 读取一个长整形实例。
         /// </summary>
         /// <returns>返回读取值。</returns>
-        public long ReadInt64() => ReadBuffer(8, span => span.ReadInt64());
+        public long ReadInt64()
+        {
+            return ReadBuffer(8, span => span.ReadInt64());
+        }
 
         /// <summary>
         /// 读取一个无符号长整形实例。
         /// </summary>
         /// <returns>返回读取值。</returns>
-        public ulong ReadUInt64() => ReadBuffer(8, span => span.ReadUInt64());
+        public ulong ReadUInt64()
+        {
+            return ReadBuffer(8, span => span.ReadUInt64());
+        }
 
         private const byte EndChar = 0;
         /// <summary>
@@ -104,34 +119,45 @@ namespace Gentings.Sockets
         /// <param name="size">字节大小。</param>
         /// <param name="encoding">编码。</param>
         /// <returns>返回当前字符串实例。</returns>
-        public string ReadString(int size, Encoding encoding = default)
-            => ReadBuffer(size, span =>
-            {
-                var index = span.IndexOf(EndChar);
-                if (index != -1)
-                    span = span.Slice(0, index);
-                return (encoding ?? Encoding.Default).GetString(span);
-            });
+        public string ReadString(int size, Encoding? encoding = default)
+        {
+            return ReadBuffer(size, span =>
+                        {
+                            var index = span.IndexOf(EndChar);
+                            if (index != -1)
+                                span = span[..index];
+                            return (encoding ?? Encoding.Default).GetString(span);
+                        });
+        }
 
         /// <summary>
         /// 读取字符串。
         /// </summary>
         /// <param name="size">字节大小。</param>
         /// <returns>返回当前字符串实例。</returns>
-        public string ReadASCII(int size) => ReadString(size, Encoding.ASCII);
+        public string ReadASCII(int size)
+        {
+            return ReadString(size, Encoding.ASCII);
+        }
 
         /// <summary>
         /// 读取一个字节。
         /// </summary>
         /// <returns>返回读取结果。</returns>
-        public byte ReadByte() => ReadBuffer(1, span => span[0]);
+        public byte ReadByte()
+        {
+            return ReadBuffer(1, span => span[0]);
+        }
 
         /// <summary>
         /// 读取字节。
         /// </summary>
         /// <param name="size">当前字节数。</param>
         /// <returns>返回读取结果。</returns>
-        public byte[] ReadBytes(int size) => ReadBuffer(size, span => span.ToArray());
+        public byte[] ReadBytes(int size)
+        {
+            return ReadBuffer(size, span => span.ToArray());
+        }
 
         /// <summary>
         /// 读取当前只读片段。

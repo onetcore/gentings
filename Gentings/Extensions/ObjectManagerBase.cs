@@ -49,7 +49,7 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回当前模型实例。</returns>
-        public virtual TModel Find(Expression<Predicate<TModel>> expression)
+        public virtual TModel? Find(Expression<Predicate<TModel>> expression)
         {
             return Context.Find(expression);
         }
@@ -59,7 +59,7 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回模型实例列表。</returns>
-        public virtual IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null)
+        public virtual IEnumerable<TModel> Fetch(Expression<Predicate<TModel>>? expression = null)
         {
             return Context.Fetch(expression);
         }
@@ -112,7 +112,7 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前模型实例。</returns>
-        public virtual Task<TModel> FindAsync(Expression<Predicate<TModel>> expression,
+        public virtual Task<TModel?> FindAsync(Expression<Predicate<TModel>> expression,
             CancellationToken cancellationToken = default)
         {
             return Context.FindAsync(expression, cancellationToken);
@@ -124,7 +124,7 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回模型实例列表。</returns>
-        public virtual Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null,
+        public virtual Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
         {
             return Context.FetchAsync(expression, cancellationToken);
@@ -189,7 +189,7 @@ namespace Gentings.Extensions
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual IPageEnumerable<TModel> Load<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
+            Expression<Func<TModel, object?>>? countExpression = null) where TQuery : QueryBase<TModel>
         {
             return Context.Load(query, countExpression);
         }
@@ -203,7 +203,7 @@ namespace Gentings.Extensions
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>
+            Expression<Func<TModel, object?>>? countExpression = null) where TQuery : QueryBase<TModel>
         {
             return Context.Load<TQuery, TObject>(query, countExpression);
         }
@@ -217,7 +217,7 @@ namespace Gentings.Extensions
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            Expression<Func<TModel, object?>>? countExpression = null, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>
         {
             return Context.LoadAsync(query, countExpression, cancellationToken);
@@ -233,7 +233,7 @@ namespace Gentings.Extensions
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         public virtual Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            Expression<Func<TModel, object?>>? countExpression = null, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>
         {
             return Context.LoadAsync<TQuery, TObject>(query, countExpression, cancellationToken);

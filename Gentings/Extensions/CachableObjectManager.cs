@@ -223,7 +223,7 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="id">分类Id。</param>
         /// <returns>返回分类实例。</returns>
-        public override TModel Find(TKey id)
+        public override TModel? Find(TKey id)
         {
             var models = LoadCached();
             models.TryGetValue(id, out var model);
@@ -236,7 +236,7 @@ namespace Gentings.Extensions
         /// <param name="id">分类Id。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分类实例。</returns>
-        public override async Task<TModel> FindAsync(TKey id, CancellationToken cancellationToken = default)
+        public override async Task<TModel?> FindAsync(TKey id, CancellationToken cancellationToken = default)
         {
             var models = await LoadCachedAsync(cancellationToken);
             models.TryGetValue(id, out var model);
@@ -248,7 +248,7 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回当前模型实例。</returns>
-        public override TModel Find(Expression<Predicate<TModel>> expression)
+        public override TModel? Find(Expression<Predicate<TModel>> expression)
         {
             return Fetch(expression).SingleOrDefault();
         }
@@ -259,7 +259,7 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前模型实例。</returns>
-        public override async Task<TModel> FindAsync(Expression<Predicate<TModel>> expression,
+        public override async Task<TModel?> FindAsync(Expression<Predicate<TModel>> expression,
             CancellationToken cancellationToken = default)
         {
             var categories = await FetchAsync(expression, cancellationToken);
@@ -295,10 +295,10 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回模型实例列表。</returns>
-        public override IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null)
+        public override IEnumerable<TModel> Fetch(Expression<Predicate<TModel>>? expression = null)
         {
             var models = LoadCached();
-            return models.Values.Filter(expression);
+            return models.Values.Filter(expression)!;
         }
 
         /// <summary>
@@ -307,12 +307,12 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回模型实例列表。</returns>
-        public override async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null,
+        public override async Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             var models = await LoadCachedAsync(cancellationToken);
-            return models.Values.Filter(expression);
+            return models.Values.Filter(expression)!;
         }
 
         /// <summary>

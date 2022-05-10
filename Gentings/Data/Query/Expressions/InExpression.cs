@@ -70,7 +70,10 @@ namespace Gentings.Data.Query.Expressions
         /// 要访问的表达式，或应在树中替换此表达式的表达式。
         /// </returns>
         /// <param name="visitor"><see cref="T:System.Func`2"/> 的一个实例。</param>
-        protected override Expression VisitChildren(ExpressionVisitor visitor) => this;
+        protected override Expression VisitChildren(ExpressionVisitor visitor)
+        {
+            return this;
+        }
 
         /// <summary>
         /// 返回 <see cref="T:System.Linq.Expressions.Expression"/> 的文本化表示形式。
@@ -79,6 +82,8 @@ namespace Gentings.Data.Query.Expressions
         /// <see cref="T:System.Linq.Expressions.Expression"/> 的文本化表示形式。
         /// </returns>
         public override string ToString()
-            => Operand + " IN (" + string.Join(", ", Values) + ")";
+        {
+            return Operand + " IN (" + string.Join(", ", Values) + ")";
+        }
     }
 }

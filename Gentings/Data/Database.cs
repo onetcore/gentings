@@ -49,7 +49,7 @@ namespace Gentings.Data
         protected DbConnection GetConnection()
         {
             var connection = _factory.CreateConnection();
-            connection.ConnectionString = Options.ConnectionString;
+            connection!.ConnectionString = Options.ConnectionString;
             return connection;
         }
 
@@ -59,10 +59,10 @@ namespace Gentings.Data
         /// <param name="name">参数名称。</param>
         /// <param name="value">参数值。</param>
         /// <returns>返回数据库参数实例对象。</returns>
-        protected virtual DbParameter CreateParameter(string name, object value)
+        protected virtual DbParameter CreateParameter(string name, object? value)
         {
             var p = _factory.CreateParameter();
-            p.ParameterName = name;
+            p!.ParameterName = name;
             if (value == null)
             {
                 p.Value = DBNull.Value;
@@ -115,9 +115,9 @@ namespace Gentings.Data
         private DbCommand GetCommand(DbConnection connection,
             CommandType commandType,
             string commandText,
-            object parameters = null)
+            object? parameters = null)
         {
-            var command = _factory.CreateCommand();
+            var command = _factory.CreateCommand()!;
             command.Connection = connection;
             command.CommandText = ReplacePrefixed(commandText);
             command.CommandType = commandType;
@@ -189,7 +189,7 @@ namespace Gentings.Data
         /// <param name="commandType">命令类型。</param>
         /// <returns>返回是否有执行影响到数据行。</returns>
         public virtual bool ExecuteNonQuery(string commandText,
-            object parameters = null,
+            object? parameters = null,
             CommandType commandType = CommandType.Text)
         {
             using var connection = GetConnection();
@@ -207,7 +207,7 @@ namespace Gentings.Data
         /// <param name="commandType">命令类型。</param>
         /// <returns>返回数据库读取实例接口。</returns>
         public virtual DbDataReader ExecuteReader(string commandText,
-            object parameters = null,
+            object? parameters = null,
             CommandType commandType = CommandType.Text)
         {
             var connection = GetConnection();
@@ -224,8 +224,8 @@ namespace Gentings.Data
         /// <param name="parameters">参数实例对象。</param>
         /// <param name="commandType">命令类型。</param>
         /// <returns>返回聚合值实例对象。</returns>
-        public virtual object ExecuteScalar(string commandText,
-            object parameters = null,
+        public virtual object? ExecuteScalar(string commandText,
+            object? parameters = null,
             CommandType commandType = CommandType.Text)
         {
             using var connection = GetConnection();
@@ -244,7 +244,7 @@ namespace Gentings.Data
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回影响的行数。</returns>
         public virtual async Task<bool> ExecuteNonQueryAsync(string commandText,
-            object parameters = null,
+            object? parameters = null,
             CommandType commandType = CommandType.Text,
             CancellationToken cancellationToken = default)
         {
@@ -265,7 +265,7 @@ namespace Gentings.Data
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回数据库读取器实例对象。</returns>
         public virtual async Task<DbDataReader> ExecuteReaderAsync(string commandText,
-            object parameters = null,
+            object? parameters = null,
             CommandType commandType = CommandType.Text,
             CancellationToken cancellationToken = default)
         {
@@ -286,8 +286,8 @@ namespace Gentings.Data
         /// <param name="parameters">参数匿名类型。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回单一结果实例对象。</returns>
-        public virtual async Task<object> ExecuteScalarAsync(string commandText,
-            object parameters = null,
+        public virtual async Task<object?> ExecuteScalarAsync(string commandText,
+            object? parameters = null,
             CommandType commandType = CommandType.Text,
             CancellationToken cancellationToken = default)
         {
@@ -310,7 +310,7 @@ namespace Gentings.Data
             using var connection = GetConnection();
             connection.Open();
             using var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-            var command = _factory.CreateCommand();
+            var command = _factory.CreateCommand()!;
             try
             {
                 command.CommandTimeout = timeout;
@@ -344,7 +344,7 @@ namespace Gentings.Data
         /// 获取数据库版本信息。
         /// </summary>
         /// <returns>返回数据库版本信息。</returns>
-        public abstract string GetVersion();
+        public abstract string? GetVersion();
 
         /// <summary>
         /// 开启一个事务并执行。
@@ -359,7 +359,7 @@ namespace Gentings.Data
             await using var connection = GetConnection();
             await connection.OpenAsync(cancellationToken);
             await using var transaction = connection.BeginTransaction(IsolationLevel.ReadCommitted);
-            var command = _factory.CreateCommand();
+            var command = _factory.CreateCommand()!;
             try
             {
                 command.CommandTimeout = timeout;
@@ -406,14 +406,14 @@ namespace Gentings.Data
             /// <param name="parameters">参数实例对象。</param>
             /// <param name="commandType">命令类型。</param>
             /// <returns>返回是否有执行影响到数据行。</returns>
-            public bool ExecuteNonQuery(string commandText, object parameters = null,
+            public bool ExecuteNonQuery(string commandText, object? parameters = null,
                 CommandType commandType = CommandType.Text)
             {
                 SetCommand(commandType, commandText, parameters);
                 return ExecuteCommand(_command, cmd => cmd.ExecuteNonQuery()) > 0;
             }
 
-            private void SetCommand(CommandType commandType, string commandText, object parameters)
+            private void SetCommand(CommandType commandType, string commandText, object? parameters)
             {
                 _command.CommandText = _replacePrefixed(commandText);
                 _command.CommandType = commandType;
@@ -423,7 +423,7 @@ namespace Gentings.Data
                     _attachParameters(_command.Parameters, parameters);
                 }
 
-                if (_command.Connection.State != ConnectionState.Open)
+                if (_command.Connection!.State != ConnectionState.Open)
                 {
                     _command.Connection.Open();
                 }
@@ -436,7 +436,7 @@ namespace Gentings.Data
             /// <param name="parameters">参数实例对象。</param>
             /// <param name="commandType">命令类型。</param>
             /// <returns>返回数据库读取实例接口。</returns>
-            public DbDataReader ExecuteReader(string commandText, object parameters = null,
+            public DbDataReader ExecuteReader(string commandText, object? parameters = null,
                 CommandType commandType = CommandType.Text)
             {
                 SetCommand(commandType, commandText, parameters);
@@ -450,7 +450,7 @@ namespace Gentings.Data
             /// <param name="parameters">参数实例对象。</param>
             /// <param name="commandType">命令类型。</param>
             /// <returns>返回聚合值实例对象。</returns>
-            public object ExecuteScalar(string commandText, object parameters = null,
+            public object? ExecuteScalar(string commandText, object? parameters = null,
                 CommandType commandType = CommandType.Text)
             {
                 SetCommand(commandType, commandText, parameters);
@@ -465,7 +465,7 @@ namespace Gentings.Data
             /// <param name="commandType">SQL类型。</param>
             /// <param name="cancellationToken">取消标记。</param>
             /// <returns>返回影响的行数。</returns>
-            public async Task<bool> ExecuteNonQueryAsync(string commandText, object parameters = null,
+            public async Task<bool> ExecuteNonQueryAsync(string commandText, object? parameters = null,
                 CommandType commandType = CommandType.Text,
                 CancellationToken cancellationToken = default)
             {
@@ -481,7 +481,7 @@ namespace Gentings.Data
             /// <param name="parameters">参数匿名类型。</param>
             /// <param name="cancellationToken">取消标记。</param>
             /// <returns>返回数据库读取器实例对象。</returns>
-            public async Task<DbDataReader> ExecuteReaderAsync(string commandText, object parameters = null,
+            public async Task<DbDataReader> ExecuteReaderAsync(string commandText, object? parameters = null,
                 CommandType commandType = CommandType.Text,
                 CancellationToken cancellationToken = default)
             {
@@ -497,7 +497,7 @@ namespace Gentings.Data
             /// <param name="parameters">参数匿名类型。</param>
             /// <param name="cancellationToken">取消标记。</param>
             /// <returns>返回单一结果实例对象。</returns>
-            public async Task<object> ExecuteScalarAsync(string commandText, object parameters = null,
+            public async Task<object?> ExecuteScalarAsync(string commandText, object? parameters = null,
                 CommandType commandType = CommandType.Text,
                 CancellationToken cancellationToken = default)
             {

@@ -7,7 +7,7 @@ namespace Gentings.Data.Migrations
     /// </summary>
     public class MigrationCommandListBuilder : IEnumerable<string>
     {
-        private IndentedStringBuilder _builder = new();
+        private IndentedStringBuilder? _builder = new();
         private readonly List<string> _commands = new();
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回当前脚本。</returns>
         public void EndCommand()
         {
-            _commands.Add(_builder.ToString());
+            _commands.Add(_builder!.ToString());
             _builder = new IndentedStringBuilder();
         }
 
@@ -27,7 +27,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回当前命令列表构建实例。</returns>
         public MigrationCommandListBuilder Append(string command)
         {
-            _builder.Append(command);
+            _builder!.Append(command);
             return this;
         }
 
@@ -38,7 +38,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回当前命令列表构建实例。</returns>
         public MigrationCommandListBuilder AppendLine(string command)
         {
-            _builder.AppendLine(command);
+            _builder!.AppendLine(command);
             return this;
         }
 
@@ -48,7 +48,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回当前命令列表构建实例。</returns>
         public MigrationCommandListBuilder AppendLine()
         {
-            _builder.AppendLine();
+            _builder!.AppendLine();
             return this;
         }
 
@@ -83,7 +83,7 @@ namespace Gentings.Data.Migrations
         /// <returns>返回当前块实例，使用using将自动释放。</returns>
         public IDisposable Indent()
         {
-            return _builder.Indent();
+            return _builder!.Indent();
         }
     }
 }

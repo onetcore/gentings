@@ -37,7 +37,7 @@ namespace Gentings.Storages
         /// </summary>
         /// <param name="path">当前相对路径。</param>
         /// <returns>返回当前路径的物理路径。</returns>
-        public string GetPhysicalPath(string path = null)
+        public string GetPhysicalPath(string? path = null)
         {
             if (path == null)
             {
@@ -53,7 +53,7 @@ namespace Gentings.Storages
         /// </summary>
         /// <param name="fileName">文件名称。</param>
         /// <returns>返回当前临时文件物理路径。</returns>
-        public string GetTempPath(string fileName = null)
+        public string GetTempPath(string? fileName = null)
         {
             if (fileName == null)
             {
@@ -123,7 +123,7 @@ namespace Gentings.Storages
         /// <param name="text">要保存的字符串。</param>
         /// <param name="fileName">文件名。</param>
         /// <returns>返回文件实例。</returns>
-        public virtual async Task<FileInfo> SaveToTempAsync(string text, string fileName = null)
+        public virtual async Task<FileInfo> SaveToTempAsync(string text, string? fileName = null)
         {
             fileName ??= Guid.NewGuid().ToString();
             fileName = GetTempPath(fileName);
@@ -138,7 +138,7 @@ namespace Gentings.Storages
         /// <param name="directoryName">文件夹名称。</param>
         /// <param name="fileName">文件名称，如果为空，则直接使用表单实例的文件名。</param>
         /// <returns>返回文件提供者操作接口实例。</returns>
-        public async Task<IStorageFile> SaveAsync(IFormFile file, string directoryName, string fileName = null)
+        public async Task<IStorageFile> SaveAsync(IFormFile file, string directoryName, string? fileName = null)
         {
             if (file == null || file.Length == 0)
             {
@@ -257,7 +257,7 @@ namespace Gentings.Storages
             /// <summary>
             /// 绝对地址。
             /// </summary>
-            public string Path { get; }
+            public string? Path { get; }
 
             /// <summary>
             /// 访问地址。
@@ -289,11 +289,11 @@ namespace Gentings.Storages
             /// </summary>
             public string Extension => _info.Extension;
 
-            private string _hashed;
+            private string? _hashed;
             /// <summary>
             /// 文件哈希值，一般为Md5值。
             /// </summary>
-            public string Hashed
+            public string? Hashed
             {
                 get
                 {
@@ -326,7 +326,7 @@ namespace Gentings.Storages
             /// <param name="height">高度。</param>
             /// <param name="path">保存路径，未指定将保存在当前文件夹中。</param>
             /// <returns>返回缩略图文件实例。</returns>
-            public FileInfo Resize(int width, int height, string path = null)
+            public FileInfo Resize(int width, int height, string? path = null)
             {
                 return _info.Resize(width, height, path);
             }

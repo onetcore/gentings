@@ -122,7 +122,7 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="httpContext">当前HTTP上下文。</param>
         /// <returns>返回当前用户IP地址。</returns>
-        public static string GetUserAddress(this HttpContext httpContext)
+        public static string? GetUserAddress(this HttpContext httpContext)
         {
             var ipAddress = httpContext.Connection?.RemoteIpAddress?.ToString();
             if (ipAddress != null)

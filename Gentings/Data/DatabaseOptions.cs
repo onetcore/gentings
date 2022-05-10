@@ -8,25 +8,25 @@
         /// <summary>
         /// 链接字符串。
         /// </summary>
-        public string ConnectionString { get; set; }
+        public string? ConnectionString { get; set; }
 
         /// <summary>
         /// 表格前缀。
         /// </summary>
-        public string Prefix { get; set; }
+        public string? Prefix { get; set; }
 
         /// <summary>
         /// 提供者。
         /// </summary>
-        public string Provider { get; set; }
+        public string? Provider { get; set; }
 
-        private readonly IDictionary<string, string> _configs = new Dictionary<string, string>();
+        private readonly IDictionary<string, string?> _configs = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// 获取或设置数据库选项配置。
         /// </summary>
         /// <param name="key">配置名称。</param>
-        public string this[string key]
+        public string? this[string key]
         {
             get
             {

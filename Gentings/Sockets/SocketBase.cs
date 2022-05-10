@@ -49,8 +49,8 @@ namespace Gentings.Sockets
         protected SocketBase(Socket socket)
         {
             Socket = socket;
-            Local = (IPEndPoint)Socket.LocalEndPoint;
-            Remote = (IPEndPoint)Socket.RemoteEndPoint;
+            Local = (IPEndPoint)Socket.LocalEndPoint!;
+            Remote = (IPEndPoint)Socket.RemoteEndPoint!;
         }
 
         /// <summary>

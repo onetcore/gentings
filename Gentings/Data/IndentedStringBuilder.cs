@@ -33,7 +33,7 @@ namespace Gentings.Data
         /// <param name="o">当前实例。</param>
         /// <param name="format">格式化字符串。</param>
         /// <returns>返回缩进实例对象。</returns>
-        public virtual IndentedStringBuilder AppendEx(object o, string format)
+        public virtual IndentedStringBuilder AppendEx(object? o, string format)
         {
             if (string.IsNullOrWhiteSpace(o?.ToString()))
             {
@@ -52,7 +52,7 @@ namespace Gentings.Data
         /// </summary>
         /// <param name="o">当前实例。</param>
         /// <returns>返回缩进实例对象。</returns>
-        public virtual IndentedStringBuilder Append(object o)
+        public virtual IndentedStringBuilder Append(object? o)
         {
             DoIndent();
 
@@ -121,13 +121,19 @@ namespace Gentings.Data
         /// 增加缩进块。
         /// </summary>
         /// <returns>返回当前块实例，使用using将自动释放。</returns>
-        public virtual IDisposable Indent() => new Indenter(this);
+        public virtual IDisposable Indent()
+        {
+            return new Indenter(this);
+        }
 
         /// <summary>
         /// 获取当前字符串实例。
         /// </summary>
         /// <returns>返回当前字符串内容实例。</returns>
-        public override string ToString() => _builder.ToString();
+        public override string ToString()
+        {
+            return _builder.ToString();
+        }
 
         private void DoIndent()
         {
@@ -150,7 +156,10 @@ namespace Gentings.Data
                 _stringBuilder.IncrementIndent();
             }
 
-            public void Dispose() => _stringBuilder.DecrementIndent();
+            public void Dispose()
+            {
+                _stringBuilder.DecrementIndent();
+            }
         }
 
         /// <summary>

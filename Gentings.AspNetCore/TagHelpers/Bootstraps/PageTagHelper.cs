@@ -65,7 +65,7 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
 
             if (OrderBy != null)
             {
-                routeValues["order"] = OrderBy.Order.ToString();
+                routeValues["order"] = OrderBy.Order!.ToString();
                 routeValues["desc"] = OrderBy.Desc.ToString() ?? "false";
             }
 

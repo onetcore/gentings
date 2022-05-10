@@ -56,7 +56,7 @@ namespace Gentings.Documents.Markdown
         /// <param name="processor">代码块分析器。</param>
         /// <param name="end">截止字符。</param>
         /// <returns>返回非空字符串。</returns>
-        public static string Substring(this BlockProcessor processor, char end)
+        public static string? Substring(this BlockProcessor processor, char end)
         {
             var start = processor.Start;
             var current = processor.CurrentChar;
@@ -114,7 +114,7 @@ namespace Gentings.Documents.Markdown
         /// <param name="ignoreCase">忽略大小写。</param>
         /// <param name="starts">开始字符串列表。</param>
         /// <returns>返回判断结果，如果不存在返回<c>null</c>。</returns>
-        public static string GetStartsWith(this BlockProcessor processor, bool ignoreCase, params string[] starts)
+        public static string? GetStartsWith(this BlockProcessor processor, bool ignoreCase, params string[] starts)
         {
             foreach (var start in starts)
             {

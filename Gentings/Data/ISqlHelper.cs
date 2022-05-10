@@ -8,7 +8,7 @@
         /// <summary>
         /// 语句结束符。
         /// </summary>
-        string fieldsTerminator { get; }
+        string FieldsTerminator { get; }
 
         /// <summary>
         /// 参数化字符串。
@@ -22,7 +22,7 @@
         /// </summary>
         /// <param name="literal">值。</param>
         /// <returns>返回转换后的字符串。</returns>
-        string EscapeLiteral(object literal);
+        string EscapeLiteral(object? literal);
 
         /// <summary>
         /// 将字符串的“'”替换为“''”。

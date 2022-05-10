@@ -23,25 +23,25 @@ namespace Gentings.Extensions.Events
         /// 类型名称。
         /// </summary>
         [Size(64)]
-        public string TypeName { get; set; }
+        public string? TypeName { get; set; }
 
         /// <summary>
         /// 属性名称。
         /// </summary>
         [Size(64)]
-        public string PropertyName { get; set; }
+        public string? PropertyName { get; set; }
 
         /// <summary>
         /// 原始数据。
         /// </summary>
         [Size(64)]
-        public string Source { get; set; }
+        public string? Source { get; set; }
 
         /// <summary>
         /// 修改后得值。
         /// </summary>
         [Size(64)]
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
         /// <summary>
         /// 用户Id。

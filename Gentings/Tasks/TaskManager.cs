@@ -81,7 +81,7 @@ namespace Gentings.Tasks
         /// </summary>
         /// <param name="type">任务<seealso cref="ITaskService"/>类型。</param>
         /// <returns>返回当前类型的服务对象。</returns>
-        public TaskDescriptor GeTask(Type type)
+        public TaskDescriptor? GeTask(Type type)
         {
             var fullName = type.DisplayName();
             return _db.Find(t => t.Type == fullName);
@@ -92,7 +92,7 @@ namespace Gentings.Tasks
         /// </summary>
         /// <param name="id">任务ID。</param>
         /// <returns>返回当前ID的服务对象。</returns>
-        public TaskDescriptor GeTask(int id)
+        public TaskDescriptor? GeTask(int id)
         {
             return _db.Find(id);
         }
@@ -147,7 +147,7 @@ namespace Gentings.Tasks
 
             if (argument.Interval != task.TaskArgument.Interval)
             {
-                TaskInterval interval = argument.Interval ?? task.Interval;
+                TaskInterval interval = argument.Interval ?? task.Interval!;
                 return await _db.UpdateAsync(id, new {Argument = argument.ToString(), NextExecuting = interval.Next()});
             }
 
@@ -162,7 +162,7 @@ namespace Gentings.Tasks
         public async Task<bool> SetCompletedAsync(TaskContext context)
         {
             //将外部更改的属性附加到参数中
-            var argument = (await _db.FindAsync(context.Id)).TaskArgument;
+            var argument = (await _db.FindAsync(context.Id))!.TaskArgument;
             context.Argument.Interval = argument.Interval;
             context.Argument.IsStack = argument.IsStack;
             return await _db.UpdateAsync(context.Id,

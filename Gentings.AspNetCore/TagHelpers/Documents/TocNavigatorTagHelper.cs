@@ -36,8 +36,7 @@ namespace Gentings.AspNetCore.TagHelpers.Documents
             var links = new Dictionary<string, string?>(StringComparer.OrdinalIgnoreCase);
             foreach (var navigator in navigators)
             {
-                var text = navigator.Name;
-                links[text] = navigator.Href;
+                links[navigator.Name!] = navigator.Href;
             }
             if (!string.IsNullOrEmpty(Home))
             {

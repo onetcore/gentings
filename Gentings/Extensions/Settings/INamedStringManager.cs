@@ -12,27 +12,27 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        string GetString(string path);
+        string? GetString(string path);
 
         /// <summary>
         /// 通过路径获取字典值。
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        Task<string> GetStringAsync(string path);
+        Task<string?> GetStringAsync(string path);
 
         /// <summary>
         /// 通过路径获取字典值。
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        string GetOrAddString(string path);
+        string? GetOrAddString(string path);
 
         /// <summary>
         /// 通过路径获取字典值。
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        Task<string> GetOrAddStringAsync(string path);
+        Task<string?> GetOrAddStringAsync(string path);
     }
 }

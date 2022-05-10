@@ -10,8 +10,8 @@ namespace Gentings.Extensions.Internal
     /// </summary>
     public class Property : IProperty
     {
-        private IClrPropertyGetter _getter;
-        private IClrPropertySetter _setter;
+        private IClrPropertyGetter? _getter;
+        private IClrPropertySetter? _setter;
 
         /// <summary>
         /// 初始化类<see cref="Property"/>。
@@ -70,7 +70,7 @@ namespace Gentings.Extensions.Internal
         /// <summary>
         /// 显示名称。
         /// </summary>
-        public string DisplayName { get; }
+        public string? DisplayName { get; }
 
         /// <summary>
         /// 类型。
@@ -123,7 +123,7 @@ namespace Gentings.Extensions.Internal
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <returns>获取当前属性值。</returns>
-        public object Get(object instance)
+        public object? Get(object instance)
         {
             return Getter.GetClrValue(instance);
         }
@@ -133,7 +133,7 @@ namespace Gentings.Extensions.Internal
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <param name="value">属性值。</param>
-        public void Set(object instance, object value)
+        public void Set(object instance, object? value)
         {
             Setter.SetClrValue(instance, value);
         }
@@ -172,14 +172,14 @@ namespace Gentings.Extensions.Internal
         /// 属性的获取访问器实例。
         /// </summary>
         protected virtual IClrPropertyGetter Getter
-            => NonCapturingLazyInitializer.EnsureInitialized(ref _getter, this,
+            => NonCapturingLazyInitializer.EnsureInitialized(ref _getter!, this,
                 p => new ClrPropertyGetterFactory().Create(p));
 
         /// <summary>
         /// 属性的设置访问器实例。
         /// </summary>
         protected virtual IClrPropertySetter Setter
-            => NonCapturingLazyInitializer.EnsureInitialized(ref _setter, this,
+            => NonCapturingLazyInitializer.EnsureInitialized(ref _setter!, this,
                 p => new ClrPropertySetterFactory().Create(p));
 
         /// <summary>

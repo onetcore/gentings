@@ -15,7 +15,7 @@ namespace Gentings.Security.Settings
         /// </summary>
         [Key]
         [Size(256)]
-        public string SettingKey { get; set; }
+        public string? SettingKey { get; set; }
 
         /// <summary>
         /// 用户Id。
@@ -26,6 +26,6 @@ namespace Gentings.Security.Settings
         /// <summary>
         /// 配置的字符串或JSON格式化的字符串。
         /// </summary>
-        public string SettingValue { get; set; }
+        public string? SettingValue { get; set; }
     }
 }

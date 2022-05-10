@@ -5,7 +5,7 @@
     /// </summary>
     public class ReturnDescriptor
     {
-        internal ReturnDescriptor(string typeName, MethodDescriptor method, string summary)
+        internal ReturnDescriptor(string? typeName, MethodDescriptor method, string summary)
         {
             TypeName = typeName;
             Method = method;
@@ -20,7 +20,7 @@
         /// <summary>
         /// 类型名称。
         /// </summary>
-        public string TypeName { get; }
+        public string? TypeName { get; }
 
         /// <summary>
         /// 描述。

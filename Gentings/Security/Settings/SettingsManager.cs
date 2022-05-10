@@ -48,7 +48,7 @@ namespace Gentings.Security.Settings
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        public virtual string GetSettings(string key)
+        public virtual string? GetSettings(string key)
         {
             return GetSettings(CurrentId, key);
         }
@@ -79,7 +79,7 @@ namespace Gentings.Security.Settings
         /// </summary>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        public virtual Task<string> GetSettingsAsync(string key)
+        public virtual Task<string?> GetSettingsAsync(string key)
         {
             return GetSettingsAsync(CurrentId, key);
         }
@@ -112,7 +112,7 @@ namespace Gentings.Security.Settings
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        public virtual string GetSettings(int userId, string key)
+        public virtual string? GetSettings(int userId, string key)
         {
             return Cache.GetOrCreate(GetCacheKey(userId, key), entry =>
             {
@@ -141,7 +141,7 @@ namespace Gentings.Security.Settings
                 if (settings == null)//用户配置未获取实例，则返回系统设定的配置
                     return _settingsManager.GetSettings<TSiteSettings>(key);
 
-                return Cores.FromJsonString<TSiteSettings>(settings);
+                return Cores.FromJsonString<TSiteSettings>(settings) ?? new TSiteSettings();
             });
         }
 
@@ -153,7 +153,7 @@ namespace Gentings.Security.Settings
         /// <returns>返回网站配置实例。</returns>
         public virtual TSiteSettings GetSettings<TSiteSettings>(int userId) where TSiteSettings : class, new()
         {
-            return GetSettings<TSiteSettings>(userId, typeof(TSiteSettings).FullName);
+            return GetSettings<TSiteSettings>(userId, typeof(TSiteSettings).FullName!);
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Gentings.Security.Settings
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回当前配置字符串实例。</returns>
-        public virtual Task<string> GetSettingsAsync(int userId, string key)
+        public virtual Task<string?> GetSettingsAsync(int userId, string key)
         {
             return Cache.GetOrCreateAsync(GetCacheKey(userId, key), async entry =>
             {
@@ -192,7 +192,7 @@ namespace Gentings.Security.Settings
                 if (settings == null)//用户配置未获取实例，则返回系统设定的配置
                     return await _settingsManager.GetSettingsAsync<TSiteSettings>(key);
 
-                return Cores.FromJsonString<TSiteSettings>(settings.SettingValue);
+                return Cores.FromJsonString<TSiteSettings>(settings.SettingValue) ?? new TSiteSettings();
             });
         }
 
@@ -204,7 +204,7 @@ namespace Gentings.Security.Settings
         /// <returns>返回网站配置实例。</returns>
         public virtual Task<TSiteSettings> GetSettingsAsync<TSiteSettings>(int userId) where TSiteSettings : class, new()
         {
-            return GetSettingsAsync<TSiteSettings>(userId, typeof(TSiteSettings).FullName);
+            return GetSettingsAsync<TSiteSettings>(userId, typeof(TSiteSettings).FullName!);
         }
 
         /// <summary>
@@ -213,10 +213,10 @@ namespace Gentings.Security.Settings
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="userId">用户Id。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, TSiteSettings settings)
+        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, TSiteSettings? settings)
             where TSiteSettings : class, new()
         {
-            return SaveSettingsAsync(userId, typeof(TSiteSettings).FullName, settings);
+            return SaveSettingsAsync(userId, typeof(TSiteSettings).FullName!, settings);
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Gentings.Security.Settings
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, string key, TSiteSettings settings)
+        public virtual Task<bool> SaveSettingsAsync<TSiteSettings>(int userId, string key, TSiteSettings? settings)
         {
             return SaveSettingsAsync(userId, key, settings.ToJsonString());
         }
@@ -237,7 +237,7 @@ namespace Gentings.Security.Settings
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual async Task<bool> SaveSettingsAsync(int userId, string key, string settings)
+        public virtual async Task<bool> SaveSettingsAsync(int userId, string key, string? settings)
         {
             var adapter = new SettingsAdapter { UserId = userId, SettingKey = key, SettingValue = settings };
             if (await Context.AnyAsync(x => x.UserId == userId && x.SettingKey == key))
@@ -264,9 +264,9 @@ namespace Gentings.Security.Settings
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="userId">用户Id。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual bool SaveSettings<TSiteSettings>(int userId, TSiteSettings settings) where TSiteSettings : class, new()
+        public virtual bool SaveSettings<TSiteSettings>(int userId, TSiteSettings? settings) where TSiteSettings : class, new()
         {
-            return SaveSettings(userId, typeof(TSiteSettings).FullName, settings);
+            return SaveSettings(userId, typeof(TSiteSettings).FullName!, settings);
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Gentings.Security.Settings
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual bool SaveSettings<TSiteSettings>(int userId, string key, TSiteSettings settings)
+        public virtual bool SaveSettings<TSiteSettings>(int userId, string key, TSiteSettings? settings)
         {
             return SaveSettings(userId, key, settings.ToJsonString());
         }
@@ -287,7 +287,7 @@ namespace Gentings.Security.Settings
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <param name="settings">网站配置实例。</param>
-        public virtual bool SaveSettings(int userId, string key, string settings)
+        public virtual bool SaveSettings(int userId, string key, string? settings)
         {
             var adapter = new SettingsAdapter { UserId = userId, SettingKey = key, SettingValue = settings };
             if (Context.Any(x => x.UserId == userId && x.SettingKey == key))
@@ -324,14 +324,20 @@ namespace Gentings.Security.Settings
         /// <param name="userId">用户Id。</param>
         /// <param name="key">配置唯一键。</param>
         /// <returns>返回缓存键字符串。</returns>
-        protected virtual string GetCacheKey(int userId, string key) => $"settings:{userId}:{key}";
+        protected virtual string GetCacheKey(int userId, string key)
+        {
+            return $"settings:{userId}:{key}";
+        }
 
         /// <summary>
         /// 删除网站配置实例。
         /// </summary>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
         /// <param name="userId">用户Id。</param>
-        public virtual bool DeleteSettings<TSiteSettings>(int userId) => DeleteSettings(userId, typeof(TSiteSettings).FullName);
+        public virtual bool DeleteSettings<TSiteSettings>(int userId)
+        {
+            return DeleteSettings(userId, typeof(TSiteSettings).FullName!);
+        }
 
         /// <summary>
         /// 删除网站配置实例。
@@ -354,7 +360,10 @@ namespace Gentings.Security.Settings
         /// </summary>
         /// <param name="userId">用户Id。</param>
         /// <typeparam name="TSiteSettings">网站配置类型。</typeparam>
-        public virtual Task<bool> DeleteSettingsAsync<TSiteSettings>(int userId) => DeleteSettingsAsync(userId, typeof(TSiteSettings).FullName);
+        public virtual Task<bool> DeleteSettingsAsync<TSiteSettings>(int userId)
+        {
+            return DeleteSettingsAsync(userId, typeof(TSiteSettings).FullName!);
+        }
 
         /// <summary>
         /// 删除网站配置实例。

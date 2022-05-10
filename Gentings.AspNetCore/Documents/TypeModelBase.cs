@@ -18,7 +18,7 @@ namespace Gentings.AspNetCore.Documents
             TypeDescriptor = AssemblyDocument.GetTypeDescriptor(type);
             if (TypeDescriptor == null)
                 return NotFound();
-            AssemblyName = TypeDescriptor.Assembly.AssemblyName;
+            AssemblyName = TypeDescriptor.Assembly!.AssemblyName;
             Type = Type.GetType($"{type}, {AssemblyName}", false, true);
             if (Type == null)
                 return NotFound();

@@ -29,6 +29,9 @@ namespace Gentings.Data.Query.Expressions
         {
             var unwrappedExpression = expression.RemoveConvert();
 
+            if (unwrappedExpression == null)
+                return true;
+
             if (unwrappedExpression is ConstantExpression
                 || unwrappedExpression is ParameterExpression
                 || unwrappedExpression is LiteralExpression)

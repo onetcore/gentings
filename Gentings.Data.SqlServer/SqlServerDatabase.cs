@@ -43,9 +43,9 @@ namespace Gentings.Data.SqlServer
         /// 获取数据库版本信息。
         /// </summary>
         /// <returns>返回数据库版本信息。</returns>
-        public override string GetVersion()
+        public override string? GetVersion()
         {
-            return ExecuteScalar("SELECT @@VERSION;").ToString();
+            return ExecuteScalar("SELECT @@VERSION;")?.ToString();
         }
     }
 }

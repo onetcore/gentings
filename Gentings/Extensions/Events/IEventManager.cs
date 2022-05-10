@@ -39,28 +39,28 @@
         /// </summary>
         /// <param name="id">事件Id。</param>
         /// <returns>返回事件类型。</returns>
-        EventType GetEventType(int id);
+        EventType? GetEventType(int id);
 
         /// <summary>
         /// 获取事件类型。
         /// </summary>
         /// <param name="id">事件Id。</param>
         /// <returns>返回事件类型。</returns>
-        Task<EventType> GetEventTypeAsync(int id);
+        Task<EventType?> GetEventTypeAsync(int id);
 
         /// <summary>
         /// 获取事件类型。
         /// </summary>
         /// <param name="eventType">事件类型名称。</param>
         /// <returns>返回事件类型。</returns>
-        EventType GetEventType(string eventType);
+        EventType? GetEventType(string eventType);
 
         /// <summary>
         /// 获取事件类型。
         /// </summary>
         /// <param name="eventType">事件类型名称。</param>
         /// <returns>返回事件类型。</returns>
-        Task<EventType> GetEventTypeAsync(string eventType);
+        Task<EventType?> GetEventTypeAsync(string eventType);
 
         /// <summary>
         /// 获取事件类型。
@@ -139,14 +139,14 @@
         /// </summary>
         /// <param name="id">事件消息列表。</param>
         /// <returns>返回事件消息实例。</returns>
-        Event GetEvent(int id);
+        Event? GetEvent(int id);
 
         /// <summary>
         /// 获取事件消息实例。
         /// </summary>
         /// <param name="id">事件消息列表。</param>
         /// <returns>返回事件消息实例。</returns>
-        Task<Event> GetEventAsync(int id);
+        Task<Event?> GetEventAsync(int id);
 
         /// <summary>
         /// 删除事件实例。

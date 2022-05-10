@@ -16,7 +16,7 @@ namespace Gentings.Extensions.Groups
         /// </summary>
         public int ParentId { get; set; }
 
-        object IParentable.Parent => Parent;
+        object? IParentable.Parent => Parent;
 
         List<object> IParentable.Children => Children.OfType<object>().ToList();
 
@@ -24,7 +24,7 @@ namespace Gentings.Extensions.Groups
         /// 父级分组。
         /// </summary>
         [JsonIgnore]
-        public TGroup Parent { get; private set; }
+        public TGroup? Parent { get; private set; }
 
         /// <summary>
         /// 层次等级。

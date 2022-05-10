@@ -15,7 +15,7 @@ namespace Gentings.Extensions
         /// <summary>
         /// 显示名称。
         /// </summary>
-        string DisplayName { get; }
+        string? DisplayName { get; }
 
         /// <summary>
         /// 类型。
@@ -82,13 +82,13 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <returns>获取当前属性值。</returns>
-        object Get(object instance);
+        object? Get(object instance);
 
         /// <summary>
         /// 设置当前属性。
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <param name="value">属性值。</param>
-        void Set(object instance, object value);
+        void Set(object instance, object? value);
     }
 }

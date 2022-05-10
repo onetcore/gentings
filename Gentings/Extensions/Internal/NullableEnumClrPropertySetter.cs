@@ -9,13 +9,13 @@
     public class NullableEnumClrPropertySetter<TEntity, TValue, TNonNullableEnumValue> : IClrPropertySetter
         where TEntity : class
     {
-        private readonly Action<TEntity, TValue> _setter;
+        private readonly Action<TEntity, TValue?> _setter;
 
         /// <summary>
         /// 初始化类<see cref="NullableEnumClrPropertySetter{TEntity, TValue, TNonNullableEnumValue}"/>。
         /// </summary>
         /// <param name="setter">设置代理方法。</param>
-        public NullableEnumClrPropertySetter(Action<TEntity, TValue> setter)
+        public NullableEnumClrPropertySetter(Action<TEntity, TValue?> setter)
         {
             _setter = setter;
         }
@@ -25,14 +25,14 @@
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <param name="value">属性值。</param>
-        public virtual void SetClrValue(object instance, object value)
+        public virtual void SetClrValue(object instance, object? value)
         {
             if (value != null)
             {
                 value = (TNonNullableEnumValue) value;
             }
 
-            _setter((TEntity) instance, (TValue) value);
+            _setter((TEntity) instance, (TValue?) value);
         }
     }
 }

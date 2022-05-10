@@ -136,7 +136,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="id">对象对比Id。</param>
         /// <returns>返回对象对比实例。</returns>
-        public virtual Differ GetDiffer(int id)
+        public virtual Differ? GetDiffer(int id)
         {
             return _db.Find(id);
         }
@@ -146,7 +146,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="id">对象对比Id。</param>
         /// <returns>返回对象对比实例。</returns>
-        public virtual Task<Differ> GetDifferAsync(int id)
+        public virtual Task<Differ?> GetDifferAsync(int id)
         {
             return _db.FindAsync(id);
         }

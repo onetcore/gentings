@@ -12,7 +12,7 @@ namespace Gentings.Localization
     {
         private static readonly Regex _regex = new(@"\W");
         private static readonly Regex _single = new("_+");
-        private static readonly ConcurrentDictionary<Type, System.Resources.ResourceManager> _localizers = new();
+        private static readonly ConcurrentDictionary<Type, System.Resources.ResourceManager?> _localizers = new();
 
         /// <summary>
         /// 获取当前键的本地化字符串实例。
@@ -20,12 +20,12 @@ namespace Gentings.Localization
         /// <param name="type">资源所在程序集的类型。</param>
         /// <param name="key">资源键。</param>
         /// <returns>返回当前本地化字符串。</returns>
-        public static string GetString(Type type, string key)
+        public static string GetString(Type? type, string key)
         {
             var resourceManager = _localizers.GetOrAdd(type ?? typeof(ResourceManager), t =>
             {
                 var assembly = type == null ? Assembly.GetEntryAssembly() : t.Assembly;
-                var baseName = assembly.GetManifestResourceNames()
+                var baseName = assembly!.GetManifestResourceNames()
                     .SingleOrDefault(x => x.EndsWith(".Resources.resources"));
                 if (baseName == null)
                     return null;
@@ -43,7 +43,10 @@ namespace Gentings.Localization
         /// </summary>
         /// <param name="key">资源键。</param>
         /// <returns>返回当前本地化字符串。</returns>
-        public static string GetString(string key) => GetString(null, key);
+        public static string GetString(string key)
+        {
+            return GetString(null, key);
+        }
 
         /// <summary>
         /// 获取当前键的本地化字符串实例（网站程序集）。
@@ -115,13 +118,13 @@ namespace Gentings.Localization
         /// <typeparam name="TResource">当前属性所在得类型实例。</typeparam>
         /// <param name="expression">表达式。</param>
         /// <returns>返回当前属性本地化字符串。</returns>
-        public static string GetString<TResource>(Expression<Func<TResource, object>> expression)
+        public static string? GetString<TResource>(Expression<Func<TResource, object?>> expression)
         {
             var member = expression.GetPropertyAccess();
             if (member == null)
                 return null;
 
-            var name = $"{member.DeclaringType.Name}_{member.Name}";
+            var name = $"{member.DeclaringType!.Name}_{member.Name}";
             return GetString(member.DeclaringType, name);
         }
 
@@ -132,7 +135,7 @@ namespace Gentings.Localization
         /// <param name="expression">表达式。</param>
         /// <param name="args">格式化参数。</param>
         /// <returns>返回当前属性本地化字符串。</returns>
-        public static string GetString<TResource>(Expression<Func<TResource, object>> expression, params object[] args)
+        public static string? GetString<TResource>(Expression<Func<TResource, object?>> expression, params object[] args)
         {
             var resource = GetString(expression);
             if (resource == null)

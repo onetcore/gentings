@@ -19,31 +19,31 @@ namespace Gentings.Tasks
         /// 名称。
         /// </summary>
         [Size(64)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 描述。
         /// </summary>
         [Size(256)]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         /// <summary>
         /// 所属扩展类型，一般为类型Gentings.Extensions.名称。
         /// </summary>
         [Size(64)]
-        public string ExtensionName { get; set; }
+        public string? ExtensionName { get; set; }
 
         /// <summary>
         /// 任务执行类型。
         /// </summary>
         [Size(256)]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
         /// <summary>
         /// 执行间隔。
         /// </summary>
         [Size(64)]
-        public string Interval { get; set; }
+        public string? Interval { get; set; }
 
         /// <summary>
         /// 显示间隔。
@@ -53,7 +53,7 @@ namespace Gentings.Tasks
             TaskInterval interval;
             if (string.IsNullOrEmpty(TaskArgument.Interval))
             {
-                interval = Interval;
+                interval = Interval!;
             }
             else
             {
@@ -81,9 +81,9 @@ namespace Gentings.Tasks
         /// <summary>
         /// 参数。
         /// </summary>
-        public string Argument { get; set; }
+        public string? Argument { get; set; }
 
-        private Argument _argument;
+        private Argument? _argument;
 
         /// <summary>
         /// 参数实例。

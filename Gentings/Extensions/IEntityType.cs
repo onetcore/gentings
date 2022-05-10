@@ -10,7 +10,7 @@ namespace Gentings.Extensions
         /// <summary>
         /// 表格名称。
         /// </summary>
-        string Table { get; }
+        string? Table { get; }
 
         /// <summary>
         /// 名称。
@@ -25,29 +25,29 @@ namespace Gentings.Extensions
         /// <summary>
         /// 获取主键。
         /// </summary>
-        IKey PrimaryKey { get; }
+        IKey? PrimaryKey { get; }
 
         /// <summary>
         /// 行版本属性。
         /// </summary>
-        IProperty RowVersion { get; }
+        IProperty? RowVersion { get; }
 
         /// <summary>
         /// 并发验证属性。
         /// </summary>
-        IKey ConcurrencyKey { get; }
+        IKey? ConcurrencyKey { get; }
 
         /// <summary>
         /// 自增长列。
         /// </summary>
-        IProperty Identity { get; }
+        IProperty? Identity { get; }
 
         /// <summary>
         /// 通过名称查找属性实例。
         /// </summary>
         /// <param name="name">属性名称。</param>
         /// <returns>返回属性实例对象。</returns>
-        IProperty FindProperty(string name);
+        IProperty? FindProperty(string name);
 
         /// <summary>
         /// 获取当前类型的所有属性列表。

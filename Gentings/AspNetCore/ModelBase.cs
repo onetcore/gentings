@@ -20,19 +20,19 @@ namespace Gentings.AspNetCore
     public abstract class ModelBase : PageModel
     {
         #region common
-        private Version _version;
+        private Version? _version;
         /// <summary>
         /// 当前程序的版本。
         /// </summary>
-        public Version Version => _version ??= Cores.Version;
+        public Version? Version => _version ??= Cores.Version;
 
-        private ILocalizer _localizer;
+        private ILocalizer? _localizer;
         /// <summary>
         /// 本地化接口。
         /// </summary>
         public ILocalizer Localizer => _localizer ??= GetRequiredService<ILocalizerFactory>().CreateLocalizer(GetType());
 
-        private ILogger _logger;
+        private ILogger? _logger;
         /// <summary>
         /// 日志接口。
         /// </summary>
@@ -43,14 +43,20 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <typeparam name="TService">服务类型或者接口。</typeparam>
         /// <returns>返回当前服务的实例对象。</returns>
-        protected TService GetService<TService>() => HttpContext.RequestServices.GetService<TService>();
+        protected TService? GetService<TService>()
+        {
+            return HttpContext.RequestServices.GetService<TService>();
+        }
 
         /// <summary>
         /// 获取已经注册的服务对象。
         /// </summary>
         /// <typeparam name="TService">服务类型或者接口。</typeparam>
         /// <returns>返回当前服务的实例对象。</returns>
-        protected TService GetRequiredService<TService>() => HttpContext.RequestServices.GetRequiredService<TService>();
+        protected TService GetRequiredService<TService>()
+        {
+            return HttpContext.RequestServices.GetRequiredService<TService>();
+        }
 
         /// <summary>
         /// 获取对象对比实例。
@@ -64,7 +70,7 @@ namespace Gentings.AspNetCore
             return differ;
         }
 
-        private INamedStringManager _namedStringManager;
+        private INamedStringManager? _namedStringManager;
         /// <summary>
         /// 获取或者添加名称字符串。
         /// </summary>
@@ -79,7 +85,7 @@ namespace Gentings.AspNetCore
             {
                 var index = key.LastIndexOf('.');
                 if (index == -1) return key;
-                name = key.Substring(index + 1);
+                name = key[(index + 1)..];
             }
             return name;
         }
@@ -98,7 +104,7 @@ namespace Gentings.AspNetCore
             }
         }
 
-        private string _culture;
+        private string? _culture;
         /// <summary>
         /// 当前语言。
         /// </summary>
@@ -112,13 +118,13 @@ namespace Gentings.AspNetCore
                         _culture = cultureInfo.ToString();
                     else
                         _culture = Thread.CurrentThread.CurrentUICulture.Name;
-                    _culture = LocalizationCulture.GetSupportedLanguage(_culture);
+                    _culture = LocalizationCulture.GetSupportedLanguage(_culture!);
                 }
                 return _culture;
             }
         }
 
-        private ILocalizationCulture _localizationCulture;
+        private ILocalizationCulture? _localizationCulture;
         private ILocalizationCulture LocalizationCulture => _localizationCulture ??= GetRequiredService<ILocalizationCulture>();
         /// <summary>
         /// 判断当前语言是否为系统默认语言。
@@ -142,7 +148,7 @@ namespace Gentings.AspNetCore
         #endregion
 
         #region pages
-        private StatusMessage _statusMessage;
+        private StatusMessage? _statusMessage;
         /// <summary>
         /// 设置状态消息。
         /// </summary>
@@ -161,14 +167,17 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="message">消息字符串。</param>
         /// <returns>返回当前页面结果。</returns>
-        protected IActionResult ErrorPage(string message) => Page(-1, message);
+        protected IActionResult ErrorPage(string message)
+        {
+            return Page(-1, message);
+        }
 
         /// <summary>
         /// 成功消息页面。
         /// </summary>
         /// <param name="message">消息字符串。</param>
         /// <returns>返回当前页面结果。</returns>
-        protected IActionResult SuccessPage(string message, string pageName = null, string pageHandler = null, object routeValues = null)
+        protected IActionResult SuccessPage(string message, string? pageName = null, string? pageHandler = null, object? routeValues = null)
         {
             return Page(0, message, pageName, pageHandler, routeValues);
         }
@@ -193,7 +202,7 @@ namespace Gentings.AspNetCore
         /// <param name="code">错误代码。</param>
         /// <param name="message">消息。</param>
         /// <returns>返回当前页面结果实例。</returns>
-        private IActionResult Page(int code, string message, string pageName = null, string pageHandler = null, object routeValues = null)
+        private IActionResult Page(int code, string message, string? pageName = null, string? pageHandler = null, object? routeValues = null)
         {
             StatusMessage(code, message);
             if (code == 0)
@@ -219,7 +228,7 @@ namespace Gentings.AspNetCore
         /// <returns>验证失败结果。</returns>
         protected virtual IActionResult Error()
         {
-            var dic = new Dictionary<string, string>();
+            var dic = new Dictionary<string, string?>();
             var result = new ApiDataResult(dic) { Code = (int)ErrorCode.ValidError };
             foreach (var key in ModelState.Keys)
             {
@@ -264,7 +273,7 @@ namespace Gentings.AspNetCore
         /// 返回数据结果。
         /// </summary>
         /// <returns>返回包含数据的结果。</returns>
-        protected virtual IActionResult Success(string message = null)
+        protected virtual IActionResult Success(string? message = null)
         {
             var result = new ApiResult();
             result.Message = message;
@@ -287,7 +296,7 @@ namespace Gentings.AspNetCore
         /// <param name="data">数据列表。</param>
         /// <param name="message">消息。</param>
         /// <returns>返回包含数据的结果。</returns>
-        protected virtual IActionResult Success(object data, string message = null)
+        protected virtual IActionResult Success(object data, string? message = null)
         {
             var instance = new ApiDataResult(data);
             instance.Message = message;
@@ -382,14 +391,24 @@ namespace Gentings.AspNetCore
         {
             return new OkObjectResult(data);
         }
+
+        /// <summary>
+        /// 返回JSON字符串数据。
+        /// </summary>
+        /// <param name="data">返回的数据对象。</param>
+        /// <returns>返回JSON数据结果。</returns>
+        protected virtual IActionResult Json(string data)
+        {
+            return Success(new ApiDataResult(data));
+        }
         #endregion
 
         #region events
-        private IEventLogger _eventLogger;
+        private IEventLogger? _eventLogger;
         /// <summary>
         /// 本地化接口。
         /// </summary>
-        protected IEventLogger Events => _eventLogger ??= GetService<IEventLogger>();
+        protected IEventLogger? Events => _eventLogger ??= GetService<IEventLogger>();
 
         /// <summary>
         /// 添加事件日志。
@@ -397,8 +416,10 @@ namespace Gentings.AspNetCore
         /// <param name="message">消息。</param>
         /// <param name="level">事件等级。</param>
         /// <param name="source">来源。</param>
-        protected void Log(string message, EventLevel level = EventLevel.Success, string source = null)
-            => Events?.Log(message, EventType, level, source);
+        protected void Log(string message, EventLevel level = EventLevel.Success, string? source = null)
+        {
+            Events?.Log(message, EventType, level, source);
+        }
 
         /// <summary>
         /// 添加事件日志。
@@ -406,7 +427,7 @@ namespace Gentings.AspNetCore
         /// <param name="message">消息。</param>
         /// <param name="level">事件等级。</param>
         /// <param name="source">来源。</param>
-        protected async Task LogAsync(string message, EventLevel level = EventLevel.Success, string source = null)
+        protected async Task LogAsync(string message, EventLevel level = EventLevel.Success, string? source = null)
         {
             if (Events != null)
                 await Events.LogAsync(message, EventType, level, source);
@@ -418,7 +439,9 @@ namespace Gentings.AspNetCore
         /// <param name="message">事件消息。</param>
         /// <param name="args">格式化参数。</param>
         protected void Log(string message, params object[] args)
-            => Events?.Log(string.Format(message, args));
+        {
+            Events?.Log(string.Format(message, args));
+        }
 
         /// <summary>
         /// 添加事件日志。
@@ -436,7 +459,9 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="exception">错误实例对象。</param>
         protected void Log(Exception exception)
-            => Events?.Log(exception, EventType);
+        {
+            Events?.Log(exception, EventType);
+        }
 
         /// <summary>
         /// 添加事件日志。
@@ -454,8 +479,10 @@ namespace Gentings.AspNetCore
         /// <param name="result">数据操作结果。</param>
         /// <param name="name">名称。</param>
         /// <param name="source">来源。</param>
-        protected void LogResult(DataResult result, string name, string source = null)
-            => Events?.LogResult(result, name, EventType, source);
+        protected void LogResult(DataResult result, string name, string? source = null)
+        {
+            Events?.LogResult(result, name, EventType, source);
+        }
 
         /// <summary>
         /// 添加事件日志。
@@ -463,7 +490,7 @@ namespace Gentings.AspNetCore
         /// <param name="result">数据操作结果。</param>
         /// <param name="name">名称。</param>
         /// <param name="source">来源。</param>
-        protected async Task LogResultAsync(DataResult result, string name, string source = null)
+        protected async Task LogResultAsync(DataResult result, string name, string? source = null)
         {
             if (Events != null)
                 await Events.LogResultAsync(result, name, EventType, source);
@@ -482,16 +509,16 @@ namespace Gentings.AspNetCore
         /// </summary>
         public int UserId => _userId ??= User.GetUserId();
 
-        private string _userName;
+        private string? _userName;
         /// <summary>
         /// 当前登录用户名称。
         /// </summary>
-        public string UserName => _userName ??= User.GetUserName();
+        public string? UserName => _userName ??= User.GetUserName();
 
         /// <summary>
         /// 是否已经登录。
         /// </summary>
-        public virtual bool IsAuthenticated => User.Identity.IsAuthenticated;
+        public virtual bool IsAuthenticated => User.Identity?.IsAuthenticated ?? false;
 
         /// <summary>
         /// 写入用户登录。
@@ -522,7 +549,7 @@ namespace Gentings.AspNetCore
         /// <param name="key">当前唯一键。</param>
         /// <param name="code">验证码。</param>
         /// <returns>返回判断结果。</returns>
-        public bool IsCodeValid(string key, string code)
+        public bool IsCodeValid(string key, string? code)
         {
             if (string.IsNullOrEmpty(code) || !Request.Cookies.TryGetValue(key, out var value))
                 return false;
@@ -530,7 +557,7 @@ namespace Gentings.AspNetCore
             return string.Equals(value, code, StringComparison.OrdinalIgnoreCase);
         }
 
-        private IUserManager _userManager;
+        private IUserManager? _userManager;
         /// <summary>
         /// 用户管理接口实例。
         /// </summary>
@@ -541,43 +568,61 @@ namespace Gentings.AspNetCore
         /// </summary>
         /// <param name="userId">用户Id。</param>
         /// <returns>返回用户实例。</returns>
-        public IUser GetUser(int userId) => UserManager.GetCachedUser(userId);
+        public IUser? GetUser(int userId)
+        {
+            return UserManager.GetCachedUser(userId);
+        }
 
         /// <summary>
         /// 获取当前缓存用户实例。
         /// </summary>
         /// <param name="userId">用户Id。</param>
         /// <returns>返回用户实例。</returns>
-        public Task<IUser> GetUserAsync(int userId) => UserManager.GetCachedUserAsync(userId);
+        public Task<IUser?> GetUserAsync(int userId)
+        {
+            return UserManager.GetCachedUserAsync(userId);
+        }
 
-        private IPermissionAuthorizationService _permissionAuthorizationService;
+        private IPermissionAuthorizationService? _permissionAuthorizationService;
         private IPermissionAuthorizationService PermissionAuthorizationService => _permissionAuthorizationService ??= GetRequiredService<IPermissionAuthorizationService>();
 
         /// <summary>
         /// 判断当前用户是否具有管理员权限。
         /// </summary>
         /// <returns>返回判断结果。</returns>
-        public bool IsAdministrator() => PermissionAuthorizationService.IsAdministrator();
+        public bool IsAdministrator()
+        {
+            return PermissionAuthorizationService.IsAdministrator();
+        }
 
         /// <summary>
         /// 判断当前用户是否具有管理员权限。
         /// </summary>
         /// <returns>返回判断结果。</returns>
-        public Task<bool> IsAdministratorAsync() => PermissionAuthorizationService.IsAdministratorAsync();
+        public Task<bool> IsAdministratorAsync()
+        {
+            return PermissionAuthorizationService.IsAdministratorAsync();
+        }
 
         /// <summary>
         /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
         /// </summary>
         /// <param name="permissionName">权限名称。</param>
         /// <returns>返回判断结果。</returns>
-        public Task<bool> IsAuthorizedAsync(string permissionName) => PermissionAuthorizationService.IsAuthorizedAsync(permissionName);
+        public Task<bool> IsAuthorizedAsync(string permissionName)
+        {
+            return PermissionAuthorizationService.IsAuthorizedAsync(permissionName);
+        }
 
         /// <summary>
         /// 判断当前用户是否拥有<paramref name="permissionName"/>权限。
         /// </summary>
         /// <param name="permissionName">权限名称。</param>
         /// <returns>返回判断结果。</returns>
-        public bool IsAuthorized(string permissionName) => PermissionAuthorizationService.IsAuthorized(permissionName);
+        public bool IsAuthorized(string permissionName)
+        {
+            return PermissionAuthorizationService.IsAuthorized(permissionName);
+        }
         #endregion
     }
 }

@@ -80,13 +80,13 @@
         /// </summary>
         /// <param name="id">对象对比Id。</param>
         /// <returns>返回对象对比实例。</returns>
-        Differ GetDiffer(int id);
+        Differ? GetDiffer(int id);
 
         /// <summary>
         /// 查询对象对比实例。
         /// </summary>
         /// <param name="id">对象对比Id。</param>
         /// <returns>返回对象对比实例。</returns>
-        Task<Differ> GetDifferAsync(int id);
+        Task<Differ?> GetDifferAsync(int id);
     }
 }

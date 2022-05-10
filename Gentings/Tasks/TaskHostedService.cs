@@ -68,7 +68,7 @@ namespace Gentings.Tasks
             var tasks = await _taskManager.LoadTasksAsync();
             foreach (var task in tasks)
             {
-                if (!_contexts.TryGetValue(task.Type, out var context))
+                if (!_contexts.TryGetValue(task.Type!, out var context))
                 {
                     continue;
                 }
@@ -116,14 +116,14 @@ namespace Gentings.Tasks
                                     context.Argument.Error = null;
                                     context.Argument.ErrorDate = null;
                                     //在服务运行后可以更改当前参数值
-                                    await context.ExecuteAsync(context.Argument);
+                                    await context.ExecuteAsync!(context.Argument);
                                 }
                                 catch (Exception ex)
                                 {
                                     if (context.Argument.IsStack)
                                     {
                                         context.Argument.Error = $"{ex.Message}\r\n{ex.StackTrace}";
-                                        _taskManager.LogError(context.Name, ex);
+                                        _taskManager.LogError(context.Name!, ex);
                                     }
                                     else
                                     {
@@ -134,7 +134,7 @@ namespace Gentings.Tasks
                                 }
 
                                 context.LastExecuted = DateTime.Now;
-                                context.NextExecuting = context.Interval.Next();
+                                context.NextExecuting = context.Interval!.Next();
                                 await _taskManager.SetCompletedAsync(context);
                                 context.IsRunning = false;
                             }, cancellationToken);

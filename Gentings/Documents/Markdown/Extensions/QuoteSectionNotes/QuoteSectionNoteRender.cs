@@ -38,6 +38,7 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
         private void WriteNote(HtmlRenderer renderer, QuoteSectionNoteBlock obj)
         {
             var syntax = SectionNoteType.GetSyntax($"[!{obj.NoteTypeString}]");
+            if (syntax == null) return;
             var noteHeading = $"<h5><i class=\"{syntax.Icon}\"></i> {syntax.Text}</h5>";
             renderer.Write("<div").Write($" class=\"alert alert-{syntax.AlertClass}\"").WriteAttributes(obj).WriteLine(">");
             var savedImplicitParagraph = renderer.ImplicitParagraph;
@@ -80,7 +81,7 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
                 modifiedLink = FixUpLink(obj.VideoLink);
             }
 
-            renderer.Write("<div class=\"embeddedvideo\"").WriteAttributes(obj).Write(">");
+            renderer.Write("<div class=\"embeddedvideo\"").WriteAttributes(obj!).Write(">");
             renderer.Write($"<iframe src=\"{modifiedLink}\" frameborder=\"0\" allowfullscreen=\"true\"></iframe>");
             renderer.WriteLine("</div>");
         }
@@ -91,13 +92,13 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
             {
                 link = link.Replace("http", "https");
             }
-            if (Uri.TryCreate(link, UriKind.Absolute, out Uri videoLink))
+            if (Uri.TryCreate(link, UriKind.Absolute, out var videoLink))
             {
                 var host = videoLink.Host;
                 var query = videoLink.Query;
                 if (query.Length > 1)
                 {
-                    query = query.Substring(1);
+                    query = query[1..];
                 }
 
                 if (host.Equals("channel9.msdn.com", StringComparison.OrdinalIgnoreCase))

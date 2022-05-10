@@ -43,10 +43,10 @@ namespace Gentings.Extensions
                 }
 
                 var name = info.Assembly.GetName().Name;
-                var index = name.LastIndexOf('.');
+                var index = name!.LastIndexOf('.');
                 if (index != -1)
                 {
-                    name = name.Substring(index);
+                    name = name[index..];
                 }
 
                 name += '_' + info.Name;
@@ -64,7 +64,6 @@ namespace Gentings.Extensions
             return _types.GetOrAdd(type, key =>
             {
                 var entity = new EntityType(type);
-                entity.Table = GetTableName(type);
                 return entity;
             });
         }

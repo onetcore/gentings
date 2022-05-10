@@ -12,7 +12,7 @@ namespace Gentings.Data.Query.Translators.Internal
         /// </summary>
         /// <param name="methodCallExpression">方法调用表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate(MethodCallExpression methodCallExpression)
+        public virtual Expression? Translate(MethodCallExpression methodCallExpression)
         {
             Check.NotNull(methodCallExpression, nameof(methodCallExpression));
 
@@ -22,11 +22,11 @@ namespace Gentings.Data.Query.Translators.Internal
                 var argument = methodCallExpression.Arguments[0];
                 var @object = methodCallExpression.Object;
                 if (methodCallExpression.Method.GetParameters()[0].ParameterType == typeof(object)
-                    && @object.Type != argument.Type)
+                    && @object!.Type != argument.Type)
                 {
                     argument = argument.RemoveConvert();
                     var unwrappedObjectType = @object.Type.UnwrapNullableType();
-                    var unwrappedArgumentType = argument.Type.UnwrapNullableType();
+                    var unwrappedArgumentType = argument!.Type.UnwrapNullableType();
                     if (unwrappedObjectType == unwrappedArgumentType)
                     {
                         return Expression.Equal(
@@ -37,7 +37,7 @@ namespace Gentings.Data.Query.Translators.Internal
                     return Expression.Constant(false);
                 }
 
-                return Expression.Equal(methodCallExpression.Object, argument);
+                return Expression.Equal(methodCallExpression.Object!, argument);
             }
 
             return null;

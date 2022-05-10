@@ -8,12 +8,12 @@
         /// <summary>
         /// 名称。
         /// </summary>
-        public virtual string Table { get; set; }
+        public virtual string? Table { get; set; }
 
         /// <summary>
         /// 主键。
         /// </summary>
-        public virtual AddPrimaryKeyOperation PrimaryKey { get; set; }
+        public virtual AddPrimaryKeyOperation? PrimaryKey { get; set; }
 
         /// <summary>
         /// 添加的列。

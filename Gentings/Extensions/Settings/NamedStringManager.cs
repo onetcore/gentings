@@ -56,7 +56,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        public virtual string GetString(string path)
+        public virtual string? GetString(string path)
         {
             var strings = LoadPathCache();
             if (strings.TryGetValue(path, out var ns))
@@ -69,7 +69,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        public virtual async Task<string> GetStringAsync(string path)
+        public virtual async Task<string?> GetStringAsync(string path)
         {
             var strings = await LoadPathCacheAsync();
             if (strings.TryGetValue(path, out var ns))
@@ -82,7 +82,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        public virtual string GetOrAddString(string path)
+        public virtual string? GetOrAddString(string path)
         {
             var strings = LoadPathCache();
             if (strings.TryGetValue(path, out var ns))
@@ -113,7 +113,7 @@ namespace Gentings.Extensions.Settings
             }))
             {
                 Refresh();
-                return ns.Value;
+                return ns!.Value;
             }
 
             return null;
@@ -124,7 +124,7 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         /// <param name="path">路径。</param>
         /// <returns>返回字典值。</returns>
-        public virtual async Task<string> GetOrAddStringAsync(string path)
+        public virtual async Task<string?> GetOrAddStringAsync(string path)
         {
             var strings = await LoadPathCacheAsync();
             if (strings.TryGetValue(path, out var ns))
@@ -155,7 +155,7 @@ namespace Gentings.Extensions.Settings
             }))
             {
                 Refresh();
-                return ns.Value;
+                return ns?.Value;
             }
 
             return null;

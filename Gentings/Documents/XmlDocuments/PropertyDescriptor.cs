@@ -5,7 +5,7 @@
     /// </summary>
     public class PropertyDescriptor
     {
-        internal PropertyDescriptor(TypeDescriptor type, string name, string summary, string fullName)
+        internal PropertyDescriptor(TypeDescriptor type, string name, string? summary, string fullName)
         {
             Type = type;
             Name = name;
@@ -31,6 +31,6 @@
         /// <summary>
         /// 描述。
         /// </summary>
-        public string Summary { get; }
+        public string? Summary { get; }
     }
 }

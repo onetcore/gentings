@@ -16,7 +16,7 @@
         /// <param name="socket">当前Socket实例。</param>
         /// <param name="data">获取数据。</param>
         /// <returns>返回执行任务实例。</returns>
-        Task ExecuteAsync(IWebSocket socket, string data);
+        Task ExecuteAsync(IWebSocket socket, string? data);
     }
 
 #if DEBUG
@@ -36,7 +36,7 @@
         /// <param name="socket">当前Socket实例。</param>
         /// <param name="data">获取数据。</param>
         /// <returns>返回执行任务实例。</returns>
-        public Task ExecuteAsync(IWebSocket socket, string data)
+        public Task ExecuteAsync(IWebSocket socket, string? data)
         {
             return socket.SendDataAsync(Method, $"[{DateTime.Now:HH:mm:ss}] Hi, I had received {data}");
         }

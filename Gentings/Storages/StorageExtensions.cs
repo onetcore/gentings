@@ -15,12 +15,12 @@ namespace Gentings.Storages
         /// <param name="path">当前路径实例。</param>
         /// <param name="directoryName">父级文件夹名称。</param>
         /// <returns>返回当前路径是否为绝对路径。</returns>
-        public static string MapPath(this string path, string directoryName = null)
+        public static string MapPath(this string path, string? directoryName = null)
         {
             directoryName ??= Directory.GetCurrentDirectory();
             if (path.StartsWith("~/"))//虚拟目录
             {
-                path = Path.Combine(directoryName, path.Substring(2));
+                path = Path.Combine(directoryName, path[2..]);
             }
             else if (!path.IsPhysicalPath())//物理目录
             {
@@ -67,7 +67,10 @@ namespace Gentings.Storages
         /// </summary>
         /// <param name="path">当前路径。</param>
         /// <returns>返回判断结果。</returns>
-        public static bool IsPhysicalPath(this string path) => path.Length > 3 && path[1] == ':' && path[2] == '\\';
+        public static bool IsPhysicalPath(this string path)
+        {
+            return path.Length > 3 && path[1] == ':' && path[2] == '\\';
+        }
 
         /// <summary>
         /// 计算文件的哈希值。
@@ -184,7 +187,7 @@ namespace Gentings.Storages
         /// <param name="height">高度。</param>
         /// <param name="path">保存路径，未指定将保存在<paramref name="info"/>得文件夹中。</param>
         /// <returns>返回缩略图文件实例。</returns>
-        public static FileInfo Resize(this FileInfo info, int width, int height, string path = null)
+        public static FileInfo Resize(this FileInfo info, int width, int height, string? path = null)
         {
             if (path == null)
             {
@@ -195,7 +198,7 @@ namespace Gentings.Storages
                 Directory.CreateDirectory(path);
             }
 
-            path = Path.Combine(path, Guid.NewGuid() + ".png");
+            path = Path.Combine(path!, Guid.NewGuid() + ".png");
             var image = Image.FromFile(info.FullName);
             GetDrawSize(image.Width, image.Height, width, height, out var dw, out var dh);
             using (var bitmap = new Bitmap(dw, dh))

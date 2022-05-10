@@ -8,22 +8,22 @@
         /// <summary>
         /// FROM语句。
         /// </summary>
-        string FromSql { get; }
+        string? FromSql { get; }
 
         /// <summary>
         /// 选择列。
         /// </summary>
-        string FieldSql { get; }
+        string? FieldSql { get; }
 
         /// <summary>
         /// WHERE语句。
         /// </summary>
-        string WhereSql { get; }
+        string? WhereSql { get; }
 
         /// <summary>
         /// ORDER BY语句。
         /// </summary>
-        string OrderBySql { get; }
+        string? OrderBySql { get; }
 
         /// <summary>
         /// 获取页码。
@@ -43,6 +43,6 @@
         /// <summary>
         /// 聚合列或表达式。
         /// </summary>
-        string Aggregation { get; }
+        string? Aggregation { get; }
     }
 }

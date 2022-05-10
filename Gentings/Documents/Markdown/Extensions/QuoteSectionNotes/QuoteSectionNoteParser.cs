@@ -161,17 +161,17 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
             if (SectionNoteType.IsNoteType(infoString))
             {
                 block.QuoteType = QuoteSectionNoteType.DFMNote;
-                block.NoteTypeString = infoString.Substring(2, infoString.Length - 3).ToLowerInvariant();
+                block.NoteTypeString = infoString[2..^1].ToLowerInvariant();
                 return true;
             }
 
             if (infoString.StartsWith("[!div", StringComparison.OrdinalIgnoreCase))
             {
                 block.QuoteType = QuoteSectionNoteType.DFMSection;
-                string attribute = infoString.Substring(5, infoString.Length - 6).Trim();
+                string attribute = infoString[5..^1].Trim();
                 if (attribute.Length >= 2 && attribute.First() == '`' && attribute.Last() == '`')
                 {
-                    block.SectionAttributeString = attribute.Substring(1, attribute.Length - 2).Trim();
+                    block.SectionAttributeString = attribute[1..^1].Trim();
                 }
                 if (attribute.Length >= 1 && attribute.First() != '`' && attribute.Last() != '`')
                 {
@@ -182,7 +182,7 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
 
             if (infoString.StartsWith("[!Video", StringComparison.OrdinalIgnoreCase))
             {
-                string link = infoString.Substring(7, infoString.Length - 8);
+                string link = infoString[7..^1];
                 if (link.StartsWith(" http://") || link.StartsWith(" https://"))
                 {
                     block.QuoteType = QuoteSectionNoteType.DFMVideo;

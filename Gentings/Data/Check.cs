@@ -78,7 +78,7 @@ namespace Gentings.Data
         /// <returns>返回当前实例对象。</returns>
         public static string NotEmpty(string value, string parameterName)
         {
-            Exception e = null;
+            Exception? e = null;
             if (ReferenceEquals(value, null))
             {
                 e = new ArgumentNullException(parameterName);
@@ -95,7 +95,7 @@ namespace Gentings.Data
                 throw e;
             }
 
-            return value;
+            return value!;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Gentings.Data
         /// <param name="value">当前参数值。</param>
         /// <param name="parameterName">参数名称。</param>
         /// <returns>返回当前实例对象。</returns>
-        public static string NullButNotEmpty(string value, string parameterName)
+        public static string? NullButNotEmpty(string value, string parameterName)
         {
             if (!ReferenceEquals(value, null)
                 && (value.Length == 0))

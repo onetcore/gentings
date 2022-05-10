@@ -20,6 +20,6 @@ namespace Gentings.AspNetCore
         /// <summary>
         /// 消息。
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace Gentings.Data.Initializers
         /// <summary>
         /// 注册码。
         /// </summary>
-        public string Registration { get; set; }
+        public string? Registration { get; set; }
     }
 }

@@ -42,14 +42,14 @@ namespace Gentings.Extensions
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回当前模型实例。</returns>
-        TModel Find(Expression<Predicate<TModel>> expression);
+        TModel? Find(Expression<Predicate<TModel>> expression);
 
         /// <summary>
         /// 根据条件获取列表。
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回模型实例列表。</returns>
-        IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null);
+        IEnumerable<TModel> Fetch(Expression<Predicate<TModel>>? expression = null);
 
         /// <summary>
         /// 添加实例。
@@ -102,7 +102,7 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前模型实例。</returns>
-        Task<TModel> FindAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default);
+        Task<TModel?> FindAsync(Expression<Predicate<TModel>> expression, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 根据条件获取列表。
@@ -110,7 +110,7 @@ namespace Gentings.Extensions
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回模型实例列表。</returns>
-        Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null,
+        Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace Gentings.Extensions
         /// <param name="query">查询实例。</param>
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
-        IPageEnumerable<TModel> Load<TQuery>(TQuery query, Expression<Func<TModel, object>> countExpression = null)
+        IPageEnumerable<TModel> Load<TQuery>(TQuery query, Expression<Func<TModel, object?>>? countExpression = null)
             where TQuery : QueryBase<TModel>;
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Gentings.Extensions
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
         IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>;
+            Expression<Func<TModel, object?>>? countExpression = null) where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 分页获取实例列表。
@@ -149,7 +149,7 @@ namespace Gentings.Extensions
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            Expression<Func<TModel, object?>>? countExpression = null, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>;
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Gentings.Extensions
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            Expression<Func<TModel, object?>>? countExpression = null, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>;
     }
 }

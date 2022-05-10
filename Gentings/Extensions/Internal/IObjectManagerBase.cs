@@ -42,7 +42,7 @@
         /// </summary>
         /// <param name="id">唯一Id。</param>
         /// <returns>返回当前模型实例。</returns>
-        TModel Find(TKey id);
+        TModel? Find(TKey id);
 
         /// <summary>
         /// 保存对象实例。
@@ -98,6 +98,6 @@
         /// <param name="id">唯一Id。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前模型实例。</returns>
-        Task<TModel> FindAsync(TKey id, CancellationToken cancellationToken = default);
+        Task<TModel?> FindAsync(TKey id, CancellationToken cancellationToken = default);
     }
 }

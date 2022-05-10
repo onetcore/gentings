@@ -13,13 +13,13 @@ namespace Gentings.Data.SqlServer.Query.Translators
     {
         // Method defined in netcoreapp2.0 only
         private static readonly MethodInfo _methodInfoWithoutArgs
-            = typeof(string).GetRuntimeMethod(nameof(string.TrimStart), new Type[] { });
+            = typeof(string).GetRuntimeMethod(nameof(string.TrimStart), new Type[] { })!;
 
         // Method defined in netstandard2.0
         private static readonly MethodInfo _methodInfoWithCharArrayArg
-            = typeof(string).GetRuntimeMethod(nameof(string.TrimStart), new[] {typeof(char[])});
+            = typeof(string).GetRuntimeMethod(nameof(string.TrimStart), new[] {typeof(char[])})!;
 
-        public virtual Expression Translate(MethodCallExpression methodCallExpression)
+        public virtual Expression? Translate(MethodCallExpression methodCallExpression)
         {
             if (_methodInfoWithoutArgs?.Equals(methodCallExpression.Method) == true
                 || _methodInfoWithCharArrayArg.Equals(methodCallExpression.Method)
@@ -28,7 +28,7 @@ namespace Gentings.Data.SqlServer.Query.Translators
             {
                 var sqlArguments = new[] {methodCallExpression.Object};
 
-                return new SqlFunctionExpression("LTRIM", methodCallExpression.Type, sqlArguments);
+                return new SqlFunctionExpression("LTRIM", methodCallExpression.Type, sqlArguments!);
             }
 
             return null;

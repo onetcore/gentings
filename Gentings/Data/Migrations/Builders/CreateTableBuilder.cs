@@ -34,11 +34,11 @@ namespace Gentings.Data.Migrations.Builders
         /// <param name="action">添加扩展操作。</param>
         /// <returns>返回迁移构建实例。</returns>
         public virtual CreateTableBuilder<TEntity> ForeignKey<TPrincipal>(
-            Expression<Func<TEntity, object>> columns,
-            Expression<Func<TPrincipal, object>> principalColumns = null,
+            Expression<Func<TEntity, object?>> columns,
+            Expression<Func<TPrincipal, object>>? principalColumns = null,
             ReferentialAction onUpdate = ReferentialAction.NoAction,
             ReferentialAction onDelete = ReferentialAction.NoAction,
-            Action<OperationBuilder<AddForeignKeyOperation>> action = null)
+            Action<OperationBuilder<AddForeignKeyOperation>>? action = null)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -59,7 +59,7 @@ namespace Gentings.Data.Migrations.Builders
                 operation.PrincipalColumns = principalColumns.GetPropertyNames();
             }
 
-            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table, operation.Columns,
+            operation.Name = OperationHelper.GetName(NameType.ForeignKey, operation.Table!, operation.Columns,
                 operation.PrincipalTable);
             Operation.ForeignKeys.Add(operation);
 
@@ -73,7 +73,7 @@ namespace Gentings.Data.Migrations.Builders
         /// <param name="action">添加扩展信息。</param>
         /// <returns>返回迁移构建实例。</returns>
         public virtual CreateTableBuilder<TEntity> PrimaryKey(
-            Action<OperationBuilder<AddPrimaryKeyOperation>> action = null)
+            Action<OperationBuilder<AddPrimaryKeyOperation>>? action = null)
         {
             var key = _entity.PrimaryKey;
             if (key == null)
@@ -86,7 +86,7 @@ namespace Gentings.Data.Migrations.Builders
                 Table = Operation.Table,
                 Columns = key.Properties.Select(p => p.Name).ToArray()
             };
-            operation.Name = OperationHelper.GetName(NameType.PrimaryKey, operation.Table);
+            operation.Name = OperationHelper.GetName(NameType.PrimaryKey, operation.Table!);
             Operation.PrimaryKey = operation;
 
             action?.Invoke(new OperationBuilder<AddPrimaryKeyOperation>(operation));
@@ -100,8 +100,8 @@ namespace Gentings.Data.Migrations.Builders
         /// <param name="action">添加扩展信息。</param>
         /// <returns>返回迁移构建实例。</returns>
         public virtual CreateTableBuilder<TEntity> UniqueConstraint(
-            Expression<Func<TEntity, object>> columns,
-            Action<OperationBuilder<AddUniqueConstraintOperation>> action = null)
+            Expression<Func<TEntity, object?>> columns,
+            Action<OperationBuilder<AddUniqueConstraintOperation>>? action = null)
         {
             Check.NotNull(columns, nameof(columns));
 
@@ -110,7 +110,7 @@ namespace Gentings.Data.Migrations.Builders
                 Table = Operation.Table,
                 Columns = columns.GetPropertyNames()
             };
-            operation.Name = OperationHelper.GetName(NameType.UniqueKey, operation.Table, operation.Columns);
+            operation.Name = OperationHelper.GetName(NameType.UniqueKey, operation.Table!, operation.Columns);
             Operation.UniqueConstraints.Add(operation);
 
             action?.Invoke(new OperationBuilder<AddUniqueConstraintOperation>(operation));
@@ -132,13 +132,13 @@ namespace Gentings.Data.Migrations.Builders
         /// <returns>返回操作实例。</returns>
         public virtual CreateTableBuilder<TEntity> Column<T>(
             Expression<Func<TEntity, T>> column,
-            string type = null,
+            string? type = null,
             bool? nullable = null,
             bool? unicode = null,
-            object defaultValue = null,
-            string defaultValueSql = null,
-            string computedColumnSql = null,
-            Action<OperationBuilder<AddColumnOperation>> action = null)
+            object? defaultValue = null,
+            string? defaultValueSql = null,
+            string? computedColumnSql = null,
+            Action<OperationBuilder<AddColumnOperation>>? action = null)
         {
             Check.NotNull(column, nameof(column));
 
@@ -146,7 +146,7 @@ namespace Gentings.Data.Migrations.Builders
             var operation = new AddColumnOperation
             {
                 Table = Operation.Table,
-                Name = property.Name,
+                Name = property!.Name,
                 ClrType = property.ClrType,
                 ColumnType = type,
                 IsUnicode = unicode,
@@ -185,16 +185,16 @@ namespace Gentings.Data.Migrations.Builders
         /// <returns>返回操作实例。</returns>
         public virtual CreateTableBuilder<TEntity> Column(
             string name,
-            string type = null,
+            string? type = null,
             bool? nullable = null,
             bool? unicode = null,
             bool identity = false,
             long seed = 1,
             int step = 1,
-            object defaultValue = null,
-            string defaultValueSql = null,
-            string computedColumnSql = null,
-            Action<OperationBuilder<AddColumnOperation>> action = null)
+            object? defaultValue = null,
+            string? defaultValueSql = null,
+            string? computedColumnSql = null,
+            Action<OperationBuilder<AddColumnOperation>>? action = null)
         {
             Check.NotNull(name, nameof(name));
 

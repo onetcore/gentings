@@ -191,7 +191,7 @@ namespace Gentings.AspNetCore.TagHelpers
         /// <param name="output">输出实例对象。</param>
         /// <param name="name">属性名称。</param>
         /// <param name="value">属性值。</param>
-        public static void SetAttribute(this TagHelperOutput output, string name, string value)
+        public static void SetAttribute(this TagHelperOutput output, string name, string? value)
         {
             output.Attributes.SetAttribute(new TagHelperAttribute(name, value));
         }

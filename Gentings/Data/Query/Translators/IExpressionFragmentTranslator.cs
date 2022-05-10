@@ -12,6 +12,6 @@ namespace Gentings.Data.Query.Translators
         /// </summary>
         /// <param name="expression">当前表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        Expression Translate(Expression expression);
+        Expression? Translate(Expression? expression);
     }
 }

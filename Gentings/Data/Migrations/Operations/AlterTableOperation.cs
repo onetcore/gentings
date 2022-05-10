@@ -8,6 +8,6 @@
         /// <summary>
         /// 表格名称。
         /// </summary>
-        public virtual string Table { get; set; }
+        public virtual string? Table { get; set; }
     }
 }

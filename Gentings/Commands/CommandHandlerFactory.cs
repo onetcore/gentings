@@ -27,7 +27,7 @@ namespace Gentings.Commands
         /// <param name="commandName">命令名称。</param>
         /// <param name="args">参数。</param>
         /// <returns>返回执行任务。</returns>
-        public async Task ExecuteAsync(string commandName, string args)
+        public async Task ExecuteAsync(string commandName, string? args)
         {
             switch (commandName)
             {

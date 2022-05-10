@@ -42,15 +42,15 @@ namespace Gentings.Commands
                         var index = command.IndexOf(' ');
                         if (index != -1)
                         {
-                            commandName = command.Substring(0, index);
-                            command = command.Substring(index).Trim();
+                            commandName = command[..index];
+                            command = command[index..].Trim();
                         }
                         else
                         {
                             command = null;
                         }
 
-                        await commandHandlerFactory.ExecuteAsync(commandName, command);
+                        await commandHandlerFactory!.ExecuteAsync(commandName, command);
                     }
                     else
                     {
@@ -111,7 +111,7 @@ namespace Gentings.Commands
         public static void Error(Exception exception)
         {
             Error(exception.Message);
-            Error(exception.StackTrace);
+            Error(exception.StackTrace!);
         }
 
         /// <summary>

@@ -37,7 +37,7 @@ namespace Gentings.AspNetCore.Documents
             var path = TocPath.GetMarkdownPath(url);
             if (!TocPath.TryGetPhysicalPath(ref culture, path, out var physicalPath, out var directory))
             {
-                if (IsDefaultCulture(culture))
+                if (IsDefaultCulture(culture!))
                     return RedirectPermanent($"/docs/{url}");
                 return NotFound();
             }
@@ -46,8 +46,8 @@ namespace Gentings.AspNetCore.Documents
             ViewData["IsDocs"] = true;
             ViewData["Current"] = path.Replace('/', '-');
             PageContext.AddLibraries(ImportLibrary.Highlight | ImportLibrary.GtDocs);
-            await InitAsync(physicalPath);
-            await InitTocAsync(directory, culture);
+            await InitAsync(physicalPath!);
+            await InitTocAsync(directory!, culture);
             return await OnAfterGettedAsync();
         }
 

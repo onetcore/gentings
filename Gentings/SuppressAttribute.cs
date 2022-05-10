@@ -21,7 +21,7 @@
         /// <param name="type">要被替换的类型。</param>
         public SuppressAttribute(Type type)
         {
-            FullName = type.FullName;
+            FullName = type.FullName!;
         }
 
         /// <summary>

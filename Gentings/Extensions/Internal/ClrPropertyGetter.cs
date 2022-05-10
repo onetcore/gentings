@@ -24,6 +24,9 @@
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <returns>返回属性值。</returns>
-        public virtual object GetClrValue(object instance) => _getter((TEntity) instance);
+        public virtual object? GetClrValue(object instance)
+        {
+            return _getter((TEntity)instance);
+        }
     }
 }

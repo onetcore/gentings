@@ -19,24 +19,24 @@ namespace Gentings.Extensions.Events
         /// </summary>
         [Size(12)]
         [NotUpdated]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 图标样式名称。
         /// </summary>
         [Size(64)]
-        public string IconName { get; set; }
+        public string? IconName { get; set; }
 
         /// <summary>
         /// 背景颜色。
         /// </summary>
         [Size(20)]
-        public string BgColor { get; set; }
+        public string? BgColor { get; set; }
 
         /// <summary>
         /// 字体颜色。
         /// </summary>
         [Size(20)]
-        public string Color { get; set; }
+        public string? Color { get; set; }
     }
 }

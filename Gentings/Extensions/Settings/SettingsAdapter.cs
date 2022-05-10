@@ -14,11 +14,11 @@ namespace Gentings.Extensions.Settings
         /// </summary>
         [Key]
         [Size(256)]
-        public string SettingKey { get; set; }
+        public string? SettingKey { get; set; }
 
         /// <summary>
         /// 配置的字符串或JSON格式化的字符串。
         /// </summary>
-        public string SettingValue { get; set; }
+        public string? SettingValue { get; set; }
     }
 }

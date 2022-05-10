@@ -13,9 +13,9 @@ namespace Gentings.Documents.XmlDocuments
         /// <param name="node">节点实例。</param>
         /// <param name="xpath">路径。</param>
         /// <returns>返回子节点文本字符串。</returns>
-        public static string GetInnerXml(this XmlNode node, string xpath)
+        public static string? GetInnerXml(this XmlNode? node, string xpath)
         {
-            node = node.SelectSingleNode(xpath);
+            node = node?.SelectSingleNode(xpath);
             return node?.InnerXml.Trim();
         }
     }

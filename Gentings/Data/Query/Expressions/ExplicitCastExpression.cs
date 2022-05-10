@@ -67,6 +67,9 @@ namespace Gentings.Data.Query.Expressions
         /// <summary>返回 <see cref="T:System.Linq.Expressions.Expression" /> 的的文本化表示形式。</summary>
         /// <returns>
         /// <see cref="T:System.Linq.Expressions.Expression" /> 的文本化表示形式。</returns>
-        public override string ToString() => "CAST(" + Operand + " AS " + _type.Name + ")";
+        public override string ToString()
+        {
+            return "CAST(" + Operand + " AS " + _type.Name + ")";
+        }
     }
 }

@@ -13,7 +13,7 @@
         /// <summary>
         /// 名称。
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// 是否在运行。
@@ -33,16 +33,16 @@
         /// <summary>
         /// 执行间隔时间。
         /// </summary>
-        public TaskInterval Interval { get; set; }
+        public TaskInterval? Interval { get; set; }
 
-        private Argument _argument;
+        private Argument? _argument;
 
         /// <summary>
         /// 参数。
         /// </summary>
         public Argument Argument
         {
-            get => _argument ?? new Argument();
+            get => _argument ??= new Argument();
             set
             {
                 _argument = value;
@@ -60,6 +60,6 @@
         /// <summary>
         /// 执行方法。
         /// </summary>
-        internal Func<Argument, Task> ExecuteAsync { get; set; }
+        internal Func<Argument, Task>? ExecuteAsync { get; set; }
     }
 }

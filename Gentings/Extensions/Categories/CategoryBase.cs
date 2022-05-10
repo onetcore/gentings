@@ -15,6 +15,6 @@
         /// 分类名称。
         /// </summary>
         [Size(64)]
-        public virtual string Name { get; set; }
+        public virtual string? Name { get; set; }
     }
 }

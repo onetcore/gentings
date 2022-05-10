@@ -67,7 +67,6 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                     case ActionType.Delete:
                     case ActionType.MoveUp:
                     case ActionType.MoveDown:
-                    case ActionType.Edit:
                     case ActionType.Upload:
                         RouteValues.Add("handler", Type.ToString());
                         break;
@@ -105,16 +104,18 @@ namespace Gentings.AspNetCore.TagHelpers.Actions
                     builder.AppendHtml("i", i => i.AddCssClass(IconName));
 
                 var content = await output.GetChildContentAsync();
-                if (!content.IsEmptyOrWhiteSpace)
+                if (content.IsEmptyOrWhiteSpace)
+                {
+                    if (Type != ActionType.Link)
+                        builder.InnerHtml.AppendHtml(_localizer[Type]);
+                }
+                else
                     builder.InnerHtml.AppendHtml(content);
 
                 if (Confirm != null)
                     builder.MergeAttribute("_confirm", Confirm);
 
                 ClickHandler(builder);
-
-                if (content.IsEmptyOrWhiteSpace)
-                    builder.InnerHtml.AppendHtml(_localizer[Type]);
             });
         }
 

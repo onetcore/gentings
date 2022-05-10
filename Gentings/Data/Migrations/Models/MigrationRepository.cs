@@ -90,7 +90,7 @@ namespace Gentings.Data.Migrations.Models
         /// </summary>
         /// <param name="migrationId">迁移Id。</param>
         /// <returns>返回实例列表。</returns>
-        public Migration FindMigration(string migrationId)
+        public Migration? FindMigration(string migrationId)
         {
             return Context.Find(m => m.Id == migrationId);
         }
@@ -101,7 +101,7 @@ namespace Gentings.Data.Migrations.Models
         /// <param name="migrationId">迁移Id。</param>
         /// <param name="cancellationToken">异步取消标识。</param>
         /// <returns>返回实例列表。</returns>
-        public Task<Migration> FindMigrationAsync(string migrationId, CancellationToken cancellationToken = default)
+        public Task<Migration?> FindMigrationAsync(string migrationId, CancellationToken cancellationToken = default)
         {
             return Context.FindAsync(m => m.Id == migrationId, cancellationToken);
         }

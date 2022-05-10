@@ -32,7 +32,7 @@ namespace Gentings.Data.Query.Translators
         /// </summary>
         /// <param name="methodCallExpression">方法调用表达式。</param>
         /// <returns>返回转换后的表达式。</returns>
-        public virtual Expression Translate(MethodCallExpression methodCallExpression)
+        public virtual Expression? Translate(MethodCallExpression methodCallExpression)
         {
             var methodInfo = _declaringType.GetTypeInfo()
                 .GetDeclaredMethods(_clrMethodName).SingleOrDefault(m => !m.GetParameters().Any());
@@ -40,7 +40,7 @@ namespace Gentings.Data.Query.Translators
             if (methodInfo == methodCallExpression.Method)
             {
                 var sqlArguments = new[] {methodCallExpression.Object}.Concat(methodCallExpression.Arguments);
-                return new SqlFunctionExpression(_sqlFunctionName, methodCallExpression.Type, sqlArguments);
+                return new SqlFunctionExpression(_sqlFunctionName, methodCallExpression.Type, sqlArguments!);
             }
 
             return null;

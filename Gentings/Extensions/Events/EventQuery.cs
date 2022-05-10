@@ -18,12 +18,12 @@
         /// <summary>
         /// IP地址。
         /// </summary>
-        public string IP { get; set; }
+        public string? IP { get; set; }
 
         /// <summary>
         /// 来源。
         /// </summary>
-        public string Source { get; set; }
+        public string? Source { get; set; }
 
         /// <summary>
         /// 起始时间。
@@ -47,7 +47,7 @@
             if (!string.IsNullOrEmpty(IP))
                 context.Where(x => x.IPAdress == IP);
             if (!string.IsNullOrEmpty(Source))
-                context.Where(x => x.Source.Contains(Source));
+                context.Where(x => x.Source!.Contains(Source));
             if (Start != null)
                 context.Where(x => x.CreatedDate >= Start);
             if (End != null)

@@ -79,7 +79,7 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
         /// </summary>
         /// <param name="syntax">语法字符串。</param>
         /// <returns>返回语法实体对象。</returns>
-        public static SyntaxEntry GetSyntax(string syntax)
+        public static SyntaxEntry? GetSyntax(string syntax)
         {
             _syntaxs.TryGetValue(syntax, out var entry);
             return entry;
@@ -90,6 +90,9 @@ namespace Gentings.Documents.Markdown.Extensions.QuoteSectionNotes
         /// </summary>
         /// <param name="noteType">节点类型。</param>
         /// <returns>返回判断结果。</returns>
-        public static bool IsNoteType(string noteType) => _syntaxs.ContainsKey(noteType);
+        public static bool IsNoteType(string noteType)
+        {
+            return _syntaxs.ContainsKey(noteType);
+        }
     }
 }

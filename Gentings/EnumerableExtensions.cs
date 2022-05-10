@@ -31,7 +31,7 @@ namespace Gentings
         /// <param name="items">当前数值字符串。</param>
         /// <param name="separator">分隔符。</param>
         /// <returns>返回数值列表。</returns>
-        public static int[] ToInt32Array(this string items, string separator = ",")
+        public static int[]? ToInt32Array(this string items, string separator = ",")
         {
             if (string.IsNullOrEmpty(items))
                 return null;

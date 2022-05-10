@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <param name="value">属性值。</param>
-        void SetClrValue(object instance, object value);
+        void SetClrValue(object instance, object? value);
     }
 
     /// <summary>
@@ -21,13 +21,13 @@
     public class ClrPropertySetter<TEntity, TValue> : IClrPropertySetter
         where TEntity : class
     {
-        private readonly Action<TEntity, TValue> _setter;
+        private readonly Action<TEntity, TValue?> _setter;
 
         /// <summary>
         /// 初始化类<see cref="ClrPropertySetter{TEntity, TValue}"/>。
         /// </summary>
         /// <param name="setter">属性设置代理方法。</param>
-        public ClrPropertySetter(Action<TEntity, TValue> setter)
+        public ClrPropertySetter(Action<TEntity, TValue?> setter)
         {
             _setter = setter;
         }
@@ -37,7 +37,9 @@
         /// </summary>
         /// <param name="instance">当前对象实例。</param>
         /// <param name="value">属性值。</param>
-        public virtual void SetClrValue(object instance, object value)
-            => _setter((TEntity) instance, (TValue) value);
+        public virtual void SetClrValue(object instance, object? value)
+        {
+            _setter((TEntity)instance, (TValue?)value);
+        }
     }
 }

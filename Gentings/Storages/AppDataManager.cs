@@ -1,5 +1,5 @@
-﻿using System.Text;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
+using System.Text;
 
 namespace Gentings.Storages
 {
@@ -19,7 +19,10 @@ namespace Gentings.Storages
             return Path.Combine(path, name);
         }
 
-        private string GetCacheKey(string name) => $"{ConfigDir}:[{name}]";
+        private string GetCacheKey(string name)
+        {
+            return $"{ConfigDir}:[{name}]";
+        }
 
         /// <summary>
         /// 初始化类<see cref="AppDataManager"/>。
@@ -37,7 +40,7 @@ namespace Gentings.Storages
         /// <param name="name">名称，不包含文件扩展名。</param>
         /// <param name="minutes">缓存分钟数。</param>
         /// <returns>返回配置实例。</returns>
-        public virtual TModel LoadData<TModel>(string name, int minutes = -1)
+        public virtual TModel? LoadData<TModel>(string name, int minutes = -1)
         {
             if (minutes <= 0)
             {
@@ -58,7 +61,7 @@ namespace Gentings.Storages
         /// <param name="name">名称，不包含文件扩展名。</param>
         /// <param name="minutes">缓存分钟数。</param>
         /// <returns>返回配置实例。</returns>
-        public virtual async Task<TModel> LoadDataAsync<TModel>(string name, int minutes = -1)
+        public virtual async Task<TModel?> LoadDataAsync<TModel>(string name, int minutes = -1)
         {
             if (minutes <= 0)
             {
@@ -77,7 +80,7 @@ namespace Gentings.Storages
         /// </summary>
         /// <param name="name">文件名称。</param>
         /// <returns>返回当前文件内容字符串。</returns>
-        public virtual string LoadFile(string name)
+        public virtual string? LoadFile(string name)
         {
             var path = GetPath(name);
             if (!File.Exists(path))
@@ -95,7 +98,7 @@ namespace Gentings.Storages
         /// </summary>
         /// <param name="name">文件名称。</param>
         /// <returns>返回当前文件内容字符串。</returns>
-        public virtual async Task<string> LoadFileAsync(string name)
+        public virtual async Task<string?> LoadFileAsync(string name)
         {
             var path = GetPath(name);
             if (!File.Exists(path))

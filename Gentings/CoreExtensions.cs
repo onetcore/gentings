@@ -13,8 +13,12 @@ namespace Gentings
         /// 获取小写字符串。
         /// </summary>
         /// <param name="value">枚举值。</param>
+        /// <param name="defaultValue">默认值。</param>
         /// <returns>返回枚举值的小写字符串。</returns>
-        public static string ToLowerString(this object value) => value?.ToString().ToLower() ?? "null";
+        public static string? ToLowerString(this object? value, string? defaultValue = "null")
+        {
+            return value?.ToString()?.ToLower() ?? defaultValue;
+        }
 
         /// <summary>
         /// 获取枚举描述信息。
@@ -59,7 +63,7 @@ namespace Gentings
             if (culture == current) return true;
             var index = culture.IndexOf('-');
             if (index == -1) return false;
-            culture = culture.Substring(0, index);
+            culture = culture[..index];
             return culture == current;
         }
     }

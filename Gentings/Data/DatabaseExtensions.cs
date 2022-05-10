@@ -31,9 +31,9 @@ namespace Gentings.Data
         /// <param name="expression">条件表达式。</param>
         /// <param name="convert">转换函数。</param>
         /// <returns>返回当前值。</returns>
-        public static TValue Max<TModel, TValue>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
-            Func<object, TValue> convert = null)
+        public static TValue? Max<TModel, TValue>(this IDbContextBase<TModel> db,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
+            Func<object, TValue>? convert = null)
         {
             return db.GetScalar("MAX", column, expression, convert);
         }
@@ -47,7 +47,7 @@ namespace Gentings.Data
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回当前值。</returns>
         public static int Max<TModel>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null)
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null)
         {
             return db.Max(column, expression, Convert.ToInt32);
         }
@@ -62,9 +62,9 @@ namespace Gentings.Data
         /// <param name="expression">条件表达式。</param>
         /// <param name="convert">转换函数。</param>
         /// <returns>返回当前值。</returns>
-        public static TValue Min<TModel, TValue>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
-            Func<object, TValue> convert = null)
+        public static TValue? Min<TModel, TValue>(this IDbContextBase<TModel> db,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
+            Func<object, TValue>? convert = null)
         {
             return db.GetScalar("MIN", column, expression, convert);
         }
@@ -78,7 +78,7 @@ namespace Gentings.Data
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回当前值。</returns>
         public static int Min<TModel>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null)
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null)
         {
             return db.Min(column, expression, Convert.ToInt32);
         }
@@ -93,9 +93,9 @@ namespace Gentings.Data
         /// <param name="expression">条件表达式。</param>
         /// <param name="convert">转换函数。</param>
         /// <returns>返回当前值。</returns>
-        public static TValue Sum<TModel, TValue>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
-            Func<object, TValue> convert = null)
+        public static TValue? Sum<TModel, TValue>(this IDbContextBase<TModel> db,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
+            Func<object, TValue>? convert = null)
         {
             return db.GetScalar("SUM", column, expression, convert);
         }
@@ -109,7 +109,7 @@ namespace Gentings.Data
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回当前值。</returns>
         public static int Sum<TModel>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null)
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null)
         {
             return db.Sum(column, expression, Convert.ToInt32);
         }
@@ -125,9 +125,9 @@ namespace Gentings.Data
         /// <param name="convert">转换函数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前值。</returns>
-        public static Task<TValue> MaxAsync<TModel, TValue>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
-            Func<object, TValue> convert = null,
+        public static Task<TValue?> MaxAsync<TModel, TValue>(this IDbContextBase<TModel> db,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
+            Func<object, TValue>? convert = null,
             CancellationToken cancellationToken = default)
         {
             return db.GetScalarAsync("MAX", column, expression, convert, cancellationToken);
@@ -143,7 +143,7 @@ namespace Gentings.Data
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前值。</returns>
         public static Task<int> MaxAsync<TModel>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
         {
             return db.MaxAsync(column, expression, ConvertInt32, cancellationToken);
@@ -160,9 +160,9 @@ namespace Gentings.Data
         /// <param name="convert">转换函数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前值。</returns>
-        public static Task<TValue> MinAsync<TModel, TValue>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
-            Func<object, TValue> convert = null,
+        public static Task<TValue?> MinAsync<TModel, TValue>(this IDbContextBase<TModel> db,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
+            Func<object, TValue>? convert = null,
             CancellationToken cancellationToken = default)
         {
             return db.GetScalarAsync("MIN", column, expression, convert, cancellationToken);
@@ -178,7 +178,7 @@ namespace Gentings.Data
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前值。</returns>
         public static Task<int> MinAsync<TModel>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
         {
             return db.MinAsync(column, expression, ConvertInt32, cancellationToken);
@@ -195,9 +195,9 @@ namespace Gentings.Data
         /// <param name="convert">转换函数。</param>
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前值。</returns>
-        public static Task<TValue> SumAsync<TModel, TValue>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
-            Func<object, TValue> convert = null,
+        public static Task<TValue?> SumAsync<TModel, TValue>(this IDbContextBase<TModel> db,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
+            Func<object, TValue>? convert = null,
             CancellationToken cancellationToken = default)
         {
             return db.GetScalarAsync("SUM", column, expression, convert, cancellationToken);
@@ -213,7 +213,7 @@ namespace Gentings.Data
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回当前值。</returns>
         public static Task<int> SumAsync<TModel>(this IDbContextBase<TModel> db,
-            Expression<Func<TModel, object>> column, Expression<Predicate<TModel>> expression = null,
+            Expression<Func<TModel, object?>> column, Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default)
         {
             return db.SumAsync(column, expression, ConvertInt32, cancellationToken);
@@ -236,12 +236,12 @@ namespace Gentings.Data
                 table.Columns.Add(property.Name, Nullable.GetUnderlyingType(property.ClrType) ?? property.ClrType);
             }
 
-            var values = new object[properties.Count];
+            var values = new object?[properties.Count];
             foreach (var model in models)
             {
                 for (var i = 0; i < values.Length; i++)
                 {
-                    values[i] = properties[i].Get(model);
+                    values[i] = properties[i].Get(model!);
                 }
 
                 table.Rows.Add(values);

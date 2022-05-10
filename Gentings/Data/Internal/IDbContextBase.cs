@@ -99,7 +99,7 @@ namespace Gentings.Data.Internal
         /// db.Update(x=>x.Id == 1, x=>new{Views = x.Views + 1,DayViews = x.DayViews + 1});
         /// db.Update(x=>x.Id == 1, Views=>Views.Views + 1);//这里参数必须为列名称
         /// </example>
-        bool Update(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object>> fields);
+        bool Update(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object?>> fields);
 
         /// <summary>
         /// 根据条件更新相应的模型实例对象。
@@ -117,7 +117,7 @@ namespace Gentings.Data.Internal
         /// db.Update(x=>x.Id == 1, x=>new{Views = x.Views + 1,DayViews = x.DayViews + 1});
         /// db.Update(x=>x.Id == 1, Views=>Views.Views + 1);//这里参数必须为列名称
         /// </example>
-        Task<bool> UpdateAsync(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object>> fields,
+        Task<bool> UpdateAsync(Expression<Predicate<TModel>> expression, Expression<Func<TModel, object?>> fields,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -127,7 +127,7 @@ namespace Gentings.Data.Internal
         /// <param name="fields">更新选项实例。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回是否更新成功。</returns>
-        Task<bool> UpdateAsync(Expression<Predicate<TModel>> expression, object fields,
+        Task<bool> UpdateAsync(Expression<Predicate<TModel>>? expression, object fields,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>判断是否删除成功。</returns>
-        bool Delete(Expression<Predicate<TModel>> expression = null);
+        bool Delete(Expression<Predicate<TModel>>? expression = null);
 
         /// <summary>
         /// 根据条件删除模型实例对象。
@@ -160,7 +160,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>判断是否删除成功。</returns>
-        Task<bool> DeleteAsync(Expression<Predicate<TModel>> expression = null,
+        Task<bool> DeleteAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回模型实例对象。</returns>
-        TModel Find(Expression<Predicate<TModel>> expression);
+        TModel? Find(Expression<Predicate<TModel>> expression);
 
         /// <summary>
         /// 通过条件表达式获取模型实例对象。
@@ -176,7 +176,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        Task<TModel> FindAsync(Expression<Predicate<TModel>> expression,
+        Task<TModel?> FindAsync(Expression<Predicate<TModel>> expression,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace Gentings.Data.Internal
         /// <param name="sql">SQL语句。</param>
         /// <param name="parameters">参数。</param>
         /// <returns>返回模型实例对象。</returns>
-        TModel Query(string sql, object parameters = null);
+        TModel? Query(string sql, object? parameters = null);
 
         /// <summary>
         /// 通过SQL语句获取模型实例对象。
@@ -194,7 +194,7 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        Task<TModel> QueryAsync(string sql, object parameters = null,
+        Task<TModel?> QueryAsync(string sql, object? parameters = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="key">主键值，主键必须为一列时候才可使用。</param>
         /// <returns>返回模型实例对象。</returns>
-        TModel Find(object key);
+        TModel? Find(object key);
 
         /// <summary>
         /// 通过主键获取模型实例对象。
@@ -226,7 +226,7 @@ namespace Gentings.Data.Internal
         /// <param name="key">主键值，主键必须为一列时候才可使用。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        Task<TModel> FindAsync(object key,
+        Task<TModel?> FindAsync(object key,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -234,7 +234,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回模型实例对象。</returns>
-        IEnumerable<TModel> Fetch(Expression<Predicate<TModel>> expression = null);
+        IEnumerable<TModel> Fetch(Expression<Predicate<TModel>>? expression = null);
 
         /// <summary>
         /// 通过条件表达式获取模型实例对象。
@@ -242,7 +242,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>> expression = null,
+        Task<IEnumerable<TModel>> FetchAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace Gentings.Data.Internal
         /// <param name="sql">SQL语句。</param>
         /// <param name="parameters">参数。</param>
         /// <returns>返回模型实例对象。</returns>
-        IEnumerable<TModel> Fetch(string sql, object parameters = null);
+        IEnumerable<TModel> Fetch(string sql, object? parameters = null);
 
         /// <summary>
         /// 通过SQL语句获取模型实例对象。
@@ -260,7 +260,7 @@ namespace Gentings.Data.Internal
         /// <param name="parameters">参数。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回模型实例对象。</returns>
-        Task<IEnumerable<TModel>> FetchAsync(string sql, object parameters = null,
+        Task<IEnumerable<TModel>> FetchAsync(string sql, object? parameters = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -270,7 +270,7 @@ namespace Gentings.Data.Internal
         /// <param name="query">查询实例。</param>
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
-        IPageEnumerable<TModel> Load<TQuery>(TQuery query, Expression<Func<TModel, object>> countExpression = null)
+        IPageEnumerable<TModel> Load<TQuery>(TQuery query, Expression<Func<TModel, object?>>? countExpression = null)
             where TQuery : QueryBase<TModel>;
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Gentings.Data.Internal
         /// <param name="countExpression">返回总记录数的表达式,用于多表拼接过滤重复记录数。</param>
         /// <returns>返回分页实例列表。</returns>
         IPageEnumerable<TObject> Load<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null) where TQuery : QueryBase<TModel>;
+            Expression<Func<TModel, object?>>? countExpression = null) where TQuery : QueryBase<TModel>;
 
         /// <summary>
         /// 获取所有符合条件的实例列表，主要用于导出操作。
@@ -310,7 +310,7 @@ namespace Gentings.Data.Internal
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         Task<IPageEnumerable<TModel>> LoadAsync<TQuery>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            Expression<Func<TModel, object?>>? countExpression = null, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>;
 
         /// <summary>
@@ -323,7 +323,7 @@ namespace Gentings.Data.Internal
         /// <param name="cancellationToken">取消标识。</param>
         /// <returns>返回分页实例列表。</returns>
         Task<IPageEnumerable<TObject>> LoadAsync<TQuery, TObject>(TQuery query,
-            Expression<Func<TModel, object>> countExpression = null, CancellationToken cancellationToken = default)
+            Expression<Func<TModel, object?>>? countExpression = null, CancellationToken cancellationToken = default)
             where TQuery : QueryBase<TModel>;
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace Gentings.Data.Internal
         /// </summary>
         /// <param name="expression">条件表达式。</param>
         /// <returns>返回判断结果。</returns>
-        bool Any(Expression<Predicate<TModel>> expression = null);
+        bool Any(Expression<Predicate<TModel>>? expression = null);
 
         /// <summary>
         /// 通过条件表达式判断是否存在实例对象。
@@ -360,7 +360,7 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回判断结果。</returns>
-        Task<bool> AnyAsync(Expression<Predicate<TModel>> expression = null,
+        Task<bool> AnyAsync(Expression<Predicate<TModel>>? expression = null,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -403,8 +403,8 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="scalarMethod">聚合方法。</param>
         /// <returns>返回聚合结果。</returns>
-        TValue GetScalar<TValue>(string scalarMethod, Expression<Func<TModel, object>> column,
-            Expression<Predicate<TModel>> expression, Func<object, TValue> convertFunc);
+        TValue? GetScalar<TValue>(string scalarMethod, Expression<Func<TModel, object?>> column,
+            Expression<Predicate<TModel>>? expression, Func<object, TValue>? convertFunc);
 
         /// <summary>
         /// 通过条件表达式获取聚合实例对象。
@@ -415,9 +415,9 @@ namespace Gentings.Data.Internal
         /// <param name="scalarMethod">聚合方法。</param>
         /// <param name="cancellationToken">取消标记。</param>
         /// <returns>返回聚合结果。</returns>
-        Task<TValue> GetScalarAsync<TValue>(string scalarMethod, Expression<Func<TModel, object>> column,
-            Expression<Predicate<TModel>> expression,
-            Func<object, TValue> convertFunc,
+        Task<TValue?> GetScalarAsync<TValue>(string scalarMethod, Expression<Func<TModel, object?>> column,
+            Expression<Predicate<TModel>>? expression,
+            Func<object, TValue>? convertFunc,
             CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -428,8 +428,8 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <returns>返回移动结果。</returns>
-        bool MoveUp(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, bool isDesc = true);
+        bool MoveUp(object key, Expression<Func<TModel, object?>> order,
+            Expression<Predicate<TModel>>? expression = null, bool isDesc = true);
 
         /// <summary>
         /// 下移一个位置。
@@ -439,8 +439,8 @@ namespace Gentings.Data.Internal
         /// <param name="expression">条件表达式。</param>
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <returns>返回移动结果。</returns>
-        bool MoveDown(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, bool isDesc = true);
+        bool MoveDown(object key, Expression<Func<TModel, object?>> order,
+            Expression<Predicate<TModel>>? expression = null, bool isDesc = true);
 
         /// <summary>
         /// 上移一个位置。
@@ -451,8 +451,8 @@ namespace Gentings.Data.Internal
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
-        Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, bool isDesc = true, CancellationToken cancellationToken = default);
+        Task<bool> MoveUpAsync(object key, Expression<Func<TModel, object?>> order,
+            Expression<Predicate<TModel>>? expression = null, bool isDesc = true, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// 下移一个位置。
@@ -463,7 +463,7 @@ namespace Gentings.Data.Internal
         /// <param name="isDesc"><paramref name="order"/>是否为降序。</param>
         /// <param name="cancellationToken">取消标志。</param>
         /// <returns>返回移动结果。</returns>
-        Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object>> order,
-            Expression<Predicate<TModel>> expression = null, bool isDesc = true, CancellationToken cancellationToken = default);
+        Task<bool> MoveDownAsync(object key, Expression<Func<TModel, object?>> order,
+            Expression<Predicate<TModel>>? expression = null, bool isDesc = true, CancellationToken cancellationToken = default);
     }
 }

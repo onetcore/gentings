@@ -24,7 +24,7 @@ namespace Gentings.AspNetCore.WebSockets
         /// <param name="method">操作方法。</param>
         /// <param name="data">数据实例。</param>
         /// <returns>返回发送任务实例。</returns>
-        Task SendAsync(string method, object data = null);
+        Task SendAsync(string method, object? data = null);
 
         /// <summary>
         /// 发送数据。
@@ -67,6 +67,6 @@ namespace Gentings.AspNetCore.WebSockets
         /// <summary>
         /// 所有WebSocket实例。
         /// </summary>
-        ConcurrentDictionary<string, IWebSocket> WebSockets { get; }
+        ConcurrentDictionary<string, IWebSocket>? WebSockets { get; }
     }
 }

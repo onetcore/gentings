@@ -13,9 +13,9 @@ namespace Gentings.Extensions.Settings
         /// 值。
         /// </summary>
         [Size(256)]
-        public string Value { get; set; }
+        public string? Value { get; set; }
 
-        private string _path;
+        private string? _path;
         /// <summary>
         /// 路径，以“.”分割父级名称。
         /// </summary>
@@ -29,7 +29,7 @@ namespace Gentings.Extensions.Settings
                     var current = this;
                     while (current?.Id > 0)
                     {
-                        list.Add(current.Name);
+                        list.Add(current.Name!);
                         current = current.Parent;
                     }
 
@@ -45,7 +45,7 @@ namespace Gentings.Extensions.Settings
         /// 当前名称的值。
         /// </summary>
         /// <returns>当前名称的值。</returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return Value;
         }

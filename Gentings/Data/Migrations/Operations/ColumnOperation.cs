@@ -13,12 +13,12 @@
         /// <summary>
         /// 类型。
         /// </summary>
-        public virtual Type ClrType { get; set; }
+        public virtual Type? ClrType { get; set; }
 
         /// <summary>
         /// 列类型。
         /// </summary>
-        public virtual string ColumnType { get; set; }
+        public virtual string? ColumnType { get; set; }
 
         /// <summary>
         /// 大小。
@@ -63,16 +63,16 @@
         /// <summary>
         /// 默认值。
         /// </summary>
-        public virtual object DefaultValue { get; set; }
+        public virtual object? DefaultValue { get; set; }
 
         /// <summary>
         /// 默认SQL字符串。
         /// </summary>
-        public virtual string DefaultValueSql { get; set; }
+        public virtual string? DefaultValueSql { get; set; }
 
         /// <summary>
         /// 计算列的值字符串。
         /// </summary>
-        public virtual string ComputedColumnSql { get; set; }
+        public virtual string? ComputedColumnSql { get; set; }
     }
 }

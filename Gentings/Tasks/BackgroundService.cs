@@ -13,7 +13,7 @@
         /// <summary>
         /// 描述。
         /// </summary>
-        public virtual string Description { get; }
+        public virtual string? Description { get; }
 
         private bool _isRunning;
         /// <summary>

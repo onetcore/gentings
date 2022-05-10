@@ -10,10 +10,10 @@ namespace Gentings.Data.SqlServer.Query.Translators
     /// </summary>
     public class StringIsNullOrWhiteSpaceTranslator : IMethodCallTranslator
     {
-        private static readonly MethodInfo _methodInfo
+        private static readonly MethodInfo? _methodInfo
             = typeof(string).GetRuntimeMethod(nameof(string.IsNullOrWhiteSpace), new[] {typeof(string)});
 
-        public virtual Expression Translate(MethodCallExpression methodCallExpression)
+        public virtual Expression? Translate(MethodCallExpression methodCallExpression)
         {
             if (_methodInfo == methodCallExpression.Method)
             {

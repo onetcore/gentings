@@ -7,8 +7,8 @@ namespace Gentings.Documents.TableOfContent
     /// </summary>
     public class TocString
     {
-        private readonly string _source;
-        internal TocString(ref int line, string source)
+        private readonly string? _source;
+        internal TocString(ref int line, string? source)
         {
             IsEnd = source == null;
             if (IsEnd) return;
@@ -28,15 +28,15 @@ namespace Gentings.Documents.TableOfContent
                     return;
                 case '-':
                     IsStruct = true;
-                    source = source.Substring(Indent + 1);
+                    source = source[(Indent + 1)..];
                     Index = Indent + 1 + source.GetIndent();
                     break;
             }
             var index = source.IndexOf(':');
             if (index != -1)
             {
-                Name = source.Substring(0, index).Trim().ToLowerInvariant();
-                Value = source.Substring(index + 1).Trim();
+                Name = source[..index].Trim().ToLowerInvariant();
+                Value = source[(index + 1)..].Trim();
             }
             else
             {
@@ -82,18 +82,18 @@ namespace Gentings.Documents.TableOfContent
         /// <summary>
         /// 名称。
         /// </summary>
-        public string Name { get; }
+        public string? Name { get; }
 
         /// <summary>
         /// 值。
         /// </summary>
-        public string Value { get; }
+        public string? Value { get; }
 
         /// <summary>
         /// 源码字符串。
         /// </summary>
         /// <returns>源码字符串。</returns>
-        public override string ToString()
+        public override string? ToString()
         {
             return _source;
         }

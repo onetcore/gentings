@@ -27,7 +27,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="init">实例化代理方法。</param>
         /// <param name="eventType">事件类型名称。</param>
-        public void Log(Action<Event> init, string eventType = null)
+        public void Log(Action<Event> init, string? eventType = null)
         {
             // 事件类型
             var type = _eventManager.GetEventType(eventType ?? Resources.EventType);
@@ -58,7 +58,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="init">实例化代理方法。</param>
         /// <param name="eventType">事件类型名称。</param>
-        public async Task LogAsync(Action<Event> init, string eventType = null)
+        public async Task LogAsync(Action<Event> init, string? eventType = null)
         {
             // 事件类型
             var type = await _eventManager.GetEventTypeAsync(eventType ?? Resources.EventType);
@@ -89,7 +89,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="exception">错误实例对象。</param>
         /// <param name="eventType">事件类型名称。</param>
-        public virtual void Log(Exception exception, string eventType = null)
+        public virtual void Log(Exception exception, string? eventType = null)
         {
             Log(@event =>
             {
@@ -105,7 +105,7 @@ namespace Gentings.Extensions.Events
         /// </summary>
         /// <param name="exception">错误实例对象。</param>
         /// <param name="eventType">事件类型名称。</param>
-        public virtual Task LogAsync(Exception exception, string eventType = null)
+        public virtual Task LogAsync(Exception exception, string? eventType = null)
         {
             return LogAsync(@event =>
             {
@@ -123,7 +123,7 @@ namespace Gentings.Extensions.Events
         /// <param name="eventType">事件类型名称。</param>
         /// <param name="level">事件等级。</param>
         /// <param name="source">来源。</param>
-        public virtual void Log(string message, string eventType = null, EventLevel level = EventLevel.Success, string source = null)
+        public virtual void Log(string message, string? eventType = null, EventLevel level = EventLevel.Success, string? source = null)
         {
             Log(@event =>
             {
@@ -140,7 +140,7 @@ namespace Gentings.Extensions.Events
         /// <param name="eventType">事件类型名称。</param>
         /// <param name="level">事件等级。</param>
         /// <param name="source">来源。</param>
-        public virtual Task LogAsync(string message, string eventType = null, EventLevel level = EventLevel.Success, string source = null)
+        public virtual Task LogAsync(string message, string? eventType = null, EventLevel level = EventLevel.Success, string? source = null)
         {
             return LogAsync(@event =>
             {
@@ -157,7 +157,7 @@ namespace Gentings.Extensions.Events
         /// <param name="name">名称。</param>
         /// <param name="eventType">事件类型名称。</param>
         /// <param name="source">来源。</param>
-        public virtual void LogResult(DataResult result, string name, string eventType = null, string source = null)
+        public virtual void LogResult(DataResult result, string name, string? eventType = null, string? source = null)
         {
             if (!result) return;
             Log(@event =>
@@ -175,7 +175,7 @@ namespace Gentings.Extensions.Events
         /// <param name="name">名称。</param>
         /// <param name="eventType">事件类型名称。</param>
         /// <param name="source">来源。</param>
-        public virtual async Task LogResultAsync(DataResult result, string name, string eventType = null, string source = null)
+        public virtual async Task LogResultAsync(DataResult result, string name, string? eventType = null, string? source = null)
         {
             if (!result) return;
             await LogAsync(@event =>
