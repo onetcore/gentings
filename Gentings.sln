@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings", "Gentings\Gentin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Security", "Gentings.Security\Gentings.Security.csproj", "{A6420735-D4C9-4705-A904-371B7A21701B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Utilities", "Gentings.Utilities\Gentings.Utilities.csproj", "{06C78F72-967A-4A06-B28E-4923C100E2D2}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Data.Sqlite", "Gentings.Data.Sqlite\Gentings.Data.Sqlite.csproj", "{D15BA641-26D2-448E-A06D-5F4761ADF131}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GS", "GS\GS.csproj", "{6F2FFF8E-9E83-4DD8-9005-4AEAE79EB465}"
@@ -41,7 +39,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.AspNetCore.OpenSer
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Extensions.OpenServices", "Gentings.Extensions.OpenServices\Gentings.Extensions.OpenServices.csproj", "{3CEC8478-6B48-489B-A709-321B7A8222FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gentings.Searching", "Gentings.Searching\Gentings.Searching.csproj", "{52FA9411-7650-4C62-96E3-0B549B8C0D76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gentings.Searching", "Gentings.Searching\Gentings.Searching.csproj", "{52FA9411-7650-4C62-96E3-0B549B8C0D76}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,14 +113,6 @@ Global
 		{A6420735-D4C9-4705-A904-371B7A21701B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A6420735-D4C9-4705-A904-371B7A21701B}.Release|x86.ActiveCfg = Release|Any CPU
 		{A6420735-D4C9-4705-A904-371B7A21701B}.Release|x86.Build.0 = Release|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Debug|x86.Build.0 = Debug|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Release|x86.ActiveCfg = Release|Any CPU
-		{06C78F72-967A-4A06-B28E-4923C100E2D2}.Release|x86.Build.0 = Release|Any CPU
 		{D15BA641-26D2-448E-A06D-5F4761ADF131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D15BA641-26D2-448E-A06D-5F4761ADF131}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D15BA641-26D2-448E-A06D-5F4761ADF131}.Debug|x86.ActiveCfg = Debug|Any CPU
