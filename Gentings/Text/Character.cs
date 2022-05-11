@@ -52,7 +52,7 @@ namespace Gentings.Text
         /// <returns>文字拼音字母。</returns>
         public string? GetPhonetic(bool multiple = false)
         {
-            return multiple ? string.Join(Alphabet.MultipleSeparater, _letters.Select(x => x.DisplayName)) : _letters.FirstOrDefault()?.DisplayName;
+            return multiple ? string.Join(Alphabet.MultipleSeparater, _letters.Select(x => x.DisplayName).Distinct()) : _letters.FirstOrDefault()?.DisplayName;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Gentings.Text
         /// <returns>文字拼音字母。</returns>
         public string? GetLetters(bool multiple = false)
         {
-            return multiple ? string.Join(Alphabet.MultipleSeparater, _letters.Select(x => x.Name)) : _letters.FirstOrDefault()?.Name;
+            return multiple ? string.Join(Alphabet.MultipleSeparater, _letters.Select(x => x.Name).Distinct()) : _letters.FirstOrDefault()?.Name;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Gentings.Text
         /// <returns>文字拼音首字母。</returns>
         public string? GetFirstLetters(bool multiple = false)
         {
-            return multiple ? string.Join(Alphabet.MultipleSeparater, _letters.Select(x => x.First)) : _letters.FirstOrDefault()?.First.ToString();
+            return multiple ? string.Join(Alphabet.MultipleSeparater, _letters.Select(x => x.First).Distinct()) : _letters.FirstOrDefault()?.First.ToString();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

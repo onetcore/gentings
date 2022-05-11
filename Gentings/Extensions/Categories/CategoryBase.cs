@@ -17,4 +17,12 @@
         [Size(64)]
         public virtual string? Name { get; set; }
     }
+
+    /// <summary>
+    /// 缓存基类。
+    /// </summary>
+    public abstract class CachableCategoryBase : CategoryBase
+    {
+
+    }
 }

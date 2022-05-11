@@ -159,42 +159,69 @@ var resources = {
                         showMsg(resources.modal.timeout);
                         return;
                 }
-                var form = current.find('form');
-                if (form.length) {
-                    if (!form.attr('action')) form.attr('action', url);
-                    if (form.find('input[type=file]').length > 0) form.attr('enctype', 'multipart/form-data');
-                    current.find('[type=submit]').click(function () {
-                        form.find('.field-validation-valid').hide();
-                        form.find('.modal-validation-summary').remove();
-                        form.ajaxSubmit(function (d) {
-                            if (d.code) {
-                                if (d.data) {
-                                    //表单验证
-                                    for (var key in d.data) {
-                                        var element = form.find("[data-valmsg-for=\"" + key + "\"]");
-                                        if (element.length == 0) {
-                                            var char = key.charAt(0);
-                                            if (char >= 'a' && char <= 'z') {
-                                                var id = char.toUpperCase() + key.substr(1);
-                                                element = form.find("[data-valmsg-for=\"" + id + "\"]");
+                // form
+                current.find('form').each(function () {
+                    var form = $(this);
+                    var method = form.attr('method') || 'get';
+                    if (method.toLowerCase() === 'post') {
+                        if (!form.attr('action')) form.attr('action', url);
+                        if (form.find('input[type=file]').length > 0) form.attr('enctype', 'multipart/form-data');
+                        current.find('[type=submit]').click(function () {
+                            form.find('.field-validation-valid').hide();
+                            form.find('.modal-validation-summary').remove();
+                            form.ajaxSubmit(function (d) {
+                                if (d.code) {
+                                    if (d.data) {
+                                        //表单验证
+                                        for (var key in d.data) {
+                                            var element = form.find("[data-valmsg-for=\"" + key + "\"]");
+                                            if (element.length == 0) {
+                                                var char = key.charAt(0);
+                                                if (char >= 'a' && char <= 'z') {
+                                                    var id = char.toUpperCase() + key.substr(1);
+                                                    element = form.find("[data-valmsg-for=\"" + id + "\"]");
+                                                }
                                             }
+                                            if (element.length) element.html(d.data[key]).show();
                                         }
-                                        if (element.length) element.html(d.data[key]).show();
                                     }
+                                    if (d.message) {
+                                        form.prepend("<div class=\"alert alert-danger modal-validation-summary\"><span class=\"bi-exclamation-circle\"></span><span class=\"summary\">" + d.message + "</span></div>");
+                                    }
+                                } else {
+                                    showAlert(d, function () {
+                                        location.href = location.href;
+                                    });
+                                    current.modal('hide');
                                 }
-                                if (d.message) {
-                                    form.prepend("<div class=\"alert alert-danger modal-validation-summary\"><span class=\"bi-exclamation-circle\"></span><span class=\"summary\">" + d.message + "</span></div>");
-                                }
-                            } else {
-                                showAlert(d, function () {
-                                    location.href = location.href;
-                                });
-                                current.modal('hide');
-                            }
-                            return true; //结束这次处理，无需再显示状态信息
+                                return true; //结束这次处理，无需再显示状态信息
+                            });
                         });
-                    });
-                }
+                    } else {
+                            (function () {
+                                var submit = form.find('[type=submit]');
+                                submit.click(function (e) {
+                                    var action = submit.attr('formaction');
+                                    if (action.indexOf('?') == -1) action += '?';else action += '&';
+                                    action += form.serialize();
+                                    action += '&_=' + +new Date();
+                                    $.ajax({
+                                        url: action,
+                                        method: 'GET',
+                                        //dataType: 'JSON',
+                                        success: function success(d) {
+                                            submit.trigger('success', d);
+                                            new Function(submit.attr('onsuccess')).call(d);
+                                        },
+                                        error: function error(e) {
+                                            submit.trigger('error', e);
+                                        }
+                                    });
+                                    return false;
+                                });
+                            })();
+                        }
+                });
                 onrender(current);
                 current.on('hidden.bs.modal', function () {
                     current.remove();
@@ -246,7 +273,7 @@ var resources = {
                             var value = eventType === 'copy:html' ? target.html() : target.text();
                             e.originalEvent.clipboardData.setData('text/plain', value.trim());
                             e.preventDefault();
-                            showPopup(resources.copied, event);
+                            popup(resources.copied, event);
                         });
                         document.execCommand('copy');
                         return false;
@@ -546,7 +573,7 @@ var resources = {
                                             code = element.text();
                                         }
                                         e.originalEvent.clipboardData.setData('text/plain', code);
-                                        showPopup(resources.copied, event);
+                                        popup(resources.copied, event);
                                     });
                                     document.execCommand('copy');
                                     return false;
@@ -811,10 +838,9 @@ var resources = {
      * 显示字符串后消失。
      * @param {string} text 显示的字符串；
      * @param {Event} e JS事件，一般为点击事件；
-     * @param {string} color 颜色样式，默认text-success；
      */
-    window.showPopup = function (text, e, color) {
-        var current = $('<span class="text-popup"></span>').addClass(color || 'text-success').html(text).appendTo(document.body);
+    window.popup = function (text, e) {
+        var current = $('<span class="text-popup"></span>').css('color', $(e.target).css('color')).html(text).appendTo(document.body);
         current.css({ left: e.pageX - current.width() / 2 + "px", top: e.pageY - current.height() / 2 + "px" });
         current.on('animationend', function () {
             current.remove();

@@ -180,13 +180,11 @@ namespace Gentings.Text
                 //中文拼音
                 if (TryGetCharacter(character, out var letters))
                 {
-                    builder.Append(' ').Append(letters!.GetFirstLetters(multiple)).Append(' ');
+                    builder.Append(letters!.GetFirstLetters(multiple));
                 }
 
                 //其他不管
             }
-
-            builder.Replace("  ", " ");
             return builder.ToString().Trim();
         }
 

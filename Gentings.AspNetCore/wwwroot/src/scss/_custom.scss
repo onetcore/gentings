@@ -862,6 +862,14 @@ a.action-link + a.action-link {
             }
         }
 
+        &:first-child > .nav-tabs > .nav-item {
+            padding: 0 0.4rem;
+
+            .active {
+                font-weight: 600;
+            }
+        }
+
         &.collapse {
             @extend .dropdown-indicator;
             cursor: pointer;
@@ -1161,7 +1169,7 @@ article, .marked, .mozmd-preview {
     user-select: none;
     white-space: nowrap;
     position: absolute;
-    z-index: 99;
+    z-index: $zindex-tooltip;
     font-size: 12px;
 }
 

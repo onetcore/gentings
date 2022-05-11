@@ -66,12 +66,7 @@
         {
             base.Init(context);
             if (Order != null)
-                context.OrderBy<TModel>(Order.ToString(), Desc ?? IsDesc);
+                context.OrderBy<TModel>(Order.ToString(), Desc ?? true);
         }
-
-        /// <summary>
-        /// 未设置排序规则时候的默认排序，默认值为降序：true。
-        /// </summary>
-        protected virtual bool IsDesc => true;
     }
 }
