@@ -63,7 +63,7 @@ if (typeof window.CodeMirror !== 'undefined') {
                                             }
                                             cm.replaceSelection(input);
                                         } else {
-                                            showMsg(d);
+                                            Msg.show(d);
                                         }
                                         return true;
                                     }, false);

@@ -21,7 +21,7 @@
     /// </summary>
     /// <typeparam name="TEnum">排序枚举类型。</typeparam>
     public abstract class OrderBy<TEnum> : IOrderBy
-        where TEnum : Enum
+        where TEnum : struct, Enum
     {
         /// <summary>
         /// 是否降序。

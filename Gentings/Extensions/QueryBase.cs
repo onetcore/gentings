@@ -45,7 +45,7 @@
     /// <typeparam name="TModel">数据库实体类型。</typeparam>
     /// <typeparam name="TEnum">排序枚举类型。</typeparam>
     public abstract class OrderableQueryBase<TModel, TEnum> : QueryBase<TModel>, IOrderBy
-        where TEnum : Enum
+        where TEnum : struct, Enum
     {
         /// <summary>
         /// 是否降序。
@@ -66,7 +66,7 @@
         {
             base.Init(context);
             if (Order != null)
-                context.OrderBy<TModel>(Order.ToString(), Desc ?? true);
+                context.OrderBy<TModel>(Order.ToString()!, Desc ?? true);
         }
     }
 }

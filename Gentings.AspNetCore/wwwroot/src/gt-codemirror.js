@@ -66,7 +66,7 @@
                                         }
                                         cm.replaceSelection(input);
                                     } else {
-                                        showMsg(d);
+                                        Msg.show(d);
                                     }
                                     return true;
                                 }, false);

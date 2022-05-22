@@ -22,6 +22,11 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
         public string? Value { get; set; }
 
         /// <summary>
+        /// 是否横向排列。
+        /// </summary>
+        public bool Inline { get; set; }
+
+        /// <summary>
         /// 设置属性模型。
         /// </summary>
         [HtmlAttributeName("asp-for")]
@@ -88,6 +93,8 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
             output.Process("div", builder =>
             {
                 builder.AddCssClass($"{type}-list");
+                if (Inline) 
+                    builder.AddCssClass("d-flex-auto");
                 foreach (var item in items)
                 {
                     Append(builder, type, item);

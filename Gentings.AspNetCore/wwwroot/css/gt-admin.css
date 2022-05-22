@@ -420,6 +420,14 @@ main:not(.navbar-vertical) .navbar-pills .navbar-nav .nav-group:hover > div .nav
 .main-container .main-body {
   height: 100%;
   padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.main-container .main-body > .card:not(.card-collapse) {
+  flex: auto;
+}
+.main-container .main-body > .nav-tabs + .card {
+  border-top-left-radius: 0;
 }
 
 @media (min-width: 576px) and (max-width: 767.98px) {

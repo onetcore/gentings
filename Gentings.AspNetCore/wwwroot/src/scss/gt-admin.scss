@@ -164,6 +164,7 @@ main {
                 color: $navbar-light-brand-hover-color;
             }
         }
+
     }
 
     .navbar-toggler {
@@ -533,6 +534,16 @@ main:not(.navbar-vertical) {
     .main-body {
         height: 100%;
         padding: 1rem;
+        display: flex;
+        flex-direction: column;
+
+        > .card:not(.card-collapse) {
+            flex: auto;
+        }
+
+        > .nav-tabs + .card {
+            border-top-left-radius: 0;
+        }
     }
 }
 

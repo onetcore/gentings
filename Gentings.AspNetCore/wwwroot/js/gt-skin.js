@@ -152,11 +152,11 @@ var resources = {
                         {
                             var errorMsg = resources.status[xhr.status];
                             if (!errorMsg) errorMsg = resources.unknownError;
-                            showMsg(errorMsg);
+                            Msg.show(errorMsg);
                         }
                         return;
                     case 'timeout':
-                        showMsg(resources.modal.timeout);
+                        Msg.show(resources.modal.timeout);
                         return;
                 }
                 // form
@@ -189,7 +189,7 @@ var resources = {
                                         form.prepend("<div class=\"alert alert-danger modal-validation-summary\"><span class=\"bi-exclamation-circle\"></span><span class=\"summary\">" + d.message + "</span></div>");
                                     }
                                 } else {
-                                    showAlert(d, function () {
+                                    Msg.alert(d, function () {
                                         location.href = location.href;
                                     });
                                     current.modal('hide');
@@ -208,13 +208,15 @@ var resources = {
                                     $.ajax({
                                         url: action,
                                         method: 'GET',
-                                        //dataType: 'JSON',
                                         success: function success(d) {
                                             submit.trigger('success', d);
-                                            new Function(submit.attr('onsuccess')).call(d);
+                                            var callback = submit.attr('onsuccess');
+                                            if (callback) new Function(callback).call(d);
                                         },
                                         error: function error(e) {
                                             submit.trigger('error', e);
+                                            var callback = submit.attr('onerror');
+                                            if (callback) new Function(callback).call(e);
                                         }
                                     });
                                     return false;
@@ -273,7 +275,7 @@ var resources = {
                             var value = eventType === 'copy:html' ? target.html() : target.text();
                             e.originalEvent.clipboardData.setData('text/plain', value.trim());
                             e.preventDefault();
-                            popup(resources.copied, event);
+                            Msg.popup(resources.copied, event);
                         });
                         document.execCommand('copy');
                         return false;
@@ -305,7 +307,7 @@ var resources = {
                                     data: data,
                                     headers: ajaxHeaders(),
                                     success: function success(d) {
-                                        showMsg(d, function () {
+                                        Msg.show(d, function () {
                                             //没有传回网址时候刷新页面
                                             if (!d.code && !d.url) location.href = location.href;
                                         });
@@ -532,17 +534,13 @@ var resources = {
             });
         });
         // card-collapse
-        $('.card-header.collapse', context).exec('@card-collapse', function (current) {
+        $('.card-collapse>.card-header', context).exec('@card-collapse', function (current) {
             current.on('click', function () {
-                if (current.hasClass('show')) {
-                    current.toggleClass('show').parents('.card').find('.card-body').toggleClass('hide');
-                    return false;
-                }
-                var group = current.parents('.card-root');
+                var group = current.parents('.card-group');
                 if (group.length) {
-                    group.find('.card-header.collapse').removeClass('show').next('.card-body').addClass('hide');
+                    group.find('.card-collapse>.card-header').removeClass('show');
                 }
-                current.addClass('show').parents('.card').find('.card-body').removeClass('hide');
+                current.toggleClass('show');
                 return false;
             });
         });
@@ -573,7 +571,7 @@ var resources = {
                                             code = element.text();
                                         }
                                         e.originalEvent.clipboardData.setData('text/plain', code);
-                                        popup(resources.copied, event);
+                                        Msg.popup(resources.copied, event);
                                     });
                                     document.execCommand('copy');
                                     return false;
@@ -628,7 +626,7 @@ var resources = {
             headers: ajaxHeaders(),
             success: function success(d) {
                 if (_success && _success(d)) return;
-                showMsg(d, function () {
+                Msg.show(d, function () {
                     location.href = d.data && d.data.url ? d.data.url : location.href;
                 });
             },
@@ -666,11 +664,11 @@ var resources = {
         if (error && error(e)) return;
         var status = resources.status[e.status];
         if (status) {
-            showMsg(status);
+            Msg.show(status);
             return;
         } else {
             console.error(e.responseText);
-            showMsg(resources.unknownError);
+            Msg.show(resources.unknownError);
         }
     };
     //URL辅助方法
@@ -758,13 +756,15 @@ var resources = {
             segments: a.pathname.replace(/^\//, '').split('/')
         };
     };
+    //消息
+    if (!window.Msg) window.Msg = {};
     /**
      * 显示消息。
      * @param {string|Object} msg 消息字符串。
      * @param {Number|Function} code 错误代码或者回调函数。
      * @param {Function|undefined} func 回调函数。
      */
-    window.showMsg = function (msg, code, func) {
+    Msg.show = function (msg, code, func) {
         if (typeof code === 'function') {
             func = code;
             code = -1;
@@ -799,7 +799,7 @@ var resources = {
      * @param {Number|Function} code 错误代码或者回调函数。
      * @param {Function|undefined} func 回调函数。
      */
-    window.showAlert = function (msg, code, func) {
+    Msg.alert = function (msg, code, func) {
         if (typeof code === "function") {
             func = code;
             code = -1;
@@ -839,12 +839,83 @@ var resources = {
      * @param {string} text 显示的字符串；
      * @param {Event} e JS事件，一般为点击事件；
      */
-    window.popup = function (text, e) {
+    Msg.popup = function (text, e) {
         var current = $('<span class="text-popup"></span>').css('color', $(e.target).css('color')).html(text).appendTo(document.body);
         current.css({ left: e.pageX - current.width() / 2 + "px", top: e.pageY - current.height() / 2 + "px" });
         current.on('animationend', function () {
             current.remove();
         });
+    };
+    //颜色
+    if (!window.Color) window.Color = {};
+    /**
+     * 判断当前颜色是否为暗色调。
+     * @param {Array|string} color 颜色值。
+     */
+    Color.isDark = function (color) {
+        color = Color.gray(color);
+        return color < 192;
+    };
+    /**
+     * 获取颜色的灰度值，如果灰度值大于等于192表示浅色，否则为深色。
+     * @param {Array|string} color 颜色值。
+     */
+    Color.gray = function (color) {
+        var array = [];
+        if ($.isArray(color)) {
+            array = color;
+        } else if (color.startsWith('#')) {
+            color = color.substr(1); //移除#
+            if (color.length == 3) color += color;
+            for (var i = 0; i < color.length; i += 2) {
+                array.push(parseInt('0x' + color[i] + color[i + 1]));
+            }
+        } else {
+            //rbg
+            var index = color.indexOf('(');
+            if (index != -1) color = color.substr(index + 1);
+            index = color.indexOf(')');
+            if (index != -1) color = color.substr(0, index);
+            color = color.split(',');
+            for (var i = 0; i < color.length; i++) {
+                array.push(parseInt(color[i]));
+            }
+        }
+        return array[0] * 0.299 + array[1] * 0.587 + array[2] * 0.114;
+    };
+    /**
+     * 将十六进制的颜色值转换为rgb格式的字符串。
+     * @param {string} hex 以'#'开头的颜色值。
+     */
+    Color.rgb = function (hex) {
+        if (hex.startsWith('rgb')) return hex;
+        hex = hex.substr(1); //移除#
+        if (hex.length == 3) hex += hex;
+        var array = [];
+        for (var i = 0; i < hex.length; i += 2) {
+            array.push(parseInt('0x' + hex[i] + hex[i + 1]));
+        }
+        if (array.length == 3) return "rbg(" + array[0] + "," + array[1] + "," + array[2] + ")";else if (array.length > 3) return "rbga(" + array[0] + "," + array[1] + "," + array[2] + "," + array[3] + ")";
+        return null;
+    };
+    /**
+     * 将rgb格式的颜色值转换为十六进制的字符串。
+     * @param {string} rgb rgb格式的颜色值。
+     */
+    Color.hex = function (rgb) {
+        if (color.startsWith('#')) return rgb;
+        var index = rgb.indexOf('(');
+        if (index != -1) rgb = rgb.substr(index + 1);
+        index = rgb.indexOf(')');
+        if (index != -1) rgb = rgb.substr(0, index);
+        rgb = rgb.split(',');
+        var hex = '#';
+        for (var i = 0; i < rgb.length; i++) {
+            var item = parseInt(rgb[i]).toString(16);
+            if (item.length < 2) item = '0' + item;
+            hex += item;
+        }
+        return hex;
     };
     $(function () {
         onrender();

@@ -1,4 +1,5 @@
 ﻿using Gentings.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +46,29 @@ namespace Gentings.AspNetCore
                 value is ImportLibrary data)
                 return data;
             return ImportLibrary.None;
+        }
+
+        /// <summary>
+        /// 设置布局页面，一般在_ViewStart.cshtml页面中调用。
+        /// </summary>
+        /// <param name="page">当前视图页面实例。</param>
+        /// <param name="defaultLayout">默认布局页。</param>
+        public static void AddLayout(this IRazorPage page, string defaultLayout = "_Layout")
+        {
+            if (page.ViewContext.ActionDescriptor is PageActionDescriptor descriptor)
+            {
+                if (descriptor.ViewEnginePath.StartsWith("/Backend/", StringComparison.OrdinalIgnoreCase))
+                {
+                    page.Layout = "_Admin";
+                    return;
+                }
+                if (descriptor.ViewEnginePath.StartsWith("/Account/", StringComparison.OrdinalIgnoreCase))
+                {
+                    page.Layout = "_Account";
+                    return;
+                }
+            }
+            page.Layout = defaultLayout;
         }
 
         private static TService GetRequiredService<TService>(this ModelBase model)

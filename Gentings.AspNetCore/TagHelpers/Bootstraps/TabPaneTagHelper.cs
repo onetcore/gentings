@@ -5,8 +5,8 @@ namespace Gentings.AspNetCore.TagHelpers.Bootstraps
     /// <summary>
     /// Tab内容项目。
     /// </summary>
-    [HtmlTargetElement("gt:tab-content", Attributes = "name")]
-    public class TabContentTagHelper : TagHelperBase
+    [HtmlTargetElement("gt:tab-pane", Attributes = "name")]
+    public class TabPaneTagHelper : TagHelperBase
     {
         /// <summary>
         /// 唯一名称，和<see cref="TabHeaderTagHelper.Name"/>对应。
