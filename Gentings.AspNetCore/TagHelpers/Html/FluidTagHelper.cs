@@ -20,7 +20,7 @@ namespace Gentings.AspNetCore.TagHelpers.Html
         /// 居中对齐样式。
         /// </summary>
         [HtmlAttributeName(".cluid-container")]
-        public string Container { get; set; } = "container-lg";
+        public string Container { get; set; } = "container";
 
         /// <summary>
         /// 访问并呈现当前标签实例。
