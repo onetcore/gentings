@@ -549,7 +549,10 @@ input:disabled + label {
 
         li.nav-item {
             margin-bottom: 0;
-            margin-right: 0.8rem;
+
+            &:not(:last-child) {
+                margin-right: 0.8rem;
+            }
 
             .nav-link {
                 color: $gray-600;
@@ -1205,7 +1208,7 @@ article, .marked, .mozmd-preview {
     }
 
     > p {
-        text-indent: 2rem;
+        text-indent: 2em;
     }
 
     > ul, > ol {

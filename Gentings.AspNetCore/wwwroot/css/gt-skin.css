@@ -11697,6 +11697,8 @@ input:disabled + label {
 }
 .nav-tabs:not(.bordered) li.nav-item {
   margin-bottom: 0;
+}
+.nav-tabs:not(.bordered) li.nav-item:not(:last-child) {
   margin-right: 0.8rem;
 }
 .nav-tabs:not(.bordered) li.nav-item .nav-link {
@@ -12318,7 +12320,7 @@ article .alert > h6, article .alert > .h6, article .alert > h5, article .alert >
   margin-bottom: 0.5rem;
 }
 article > p, .marked > p, .mozmd-preview > p {
-  text-indent: 2rem;
+  text-indent: 2em;
 }
 article > ul, article > ol, .marked > ul, .marked > ol, .mozmd-preview > ul, .mozmd-preview > ol {
   margin-left: 1rem;
