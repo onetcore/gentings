@@ -231,6 +231,12 @@ namespace Gentings.Data
         new IQueryable<TModel> OrderBy(Expression<Func<TModel, object?>> expression, bool isDesc);
 
         /// <summary>
+        /// 随机排序。
+        /// </summary>
+        /// <returns>返回当前查询实例对象。</returns>
+        new IQueryable<TModel> OrderByRandom();
+
+        /// <summary>
         /// 忽略锁（脏查询）。
         /// </summary>
         /// <returns>返回当前查询实例对象。</returns>

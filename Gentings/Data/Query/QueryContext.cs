@@ -15,7 +15,6 @@ namespace Gentings.Data.Query
     public class QueryContext<TModel> : IQueryable<TModel>, IQuerySql
     {
         #region init
-
         private readonly IExpressionVisitorFactory _visitorFactory;
         private readonly IQuerySqlGenerator _sqlGenerator;
         private readonly IDbExecutor _db;
@@ -106,7 +105,7 @@ namespace Gentings.Data.Query
 
         private readonly Dictionary<Type, string> _alias = new()
         {
-            {typeof(TModel), "a"}
+            { typeof(TModel), "a" }
         };
 
         /// <summary>
@@ -828,6 +827,16 @@ namespace Gentings.Data.Query
         }
 
         /// <summary>
+        /// 随机排序。
+        /// </summary>
+        /// <returns>返回当前查询实例对象。</returns>
+        public virtual IQueryable<TModel> OrderByRandom()
+        {
+            _orderbySql = "ORDER BY NEWID()";
+            return this;
+        }
+
+        /// <summary>
         /// 添加排序规则。
         /// </summary>
         /// <param name="expression">列名称表达式。</param>
@@ -871,6 +880,10 @@ namespace Gentings.Data.Query
             return OrderByDescending(expression);
         }
 
+        IQueryContext<TModel> IQueryContext<TModel>.OrderByRandom()
+        {
+            return OrderByRandom();
+        }
         #endregion
 
         #region size or page
@@ -894,7 +907,6 @@ namespace Gentings.Data.Query
         /// 页码。
         /// </summary>
         public int? PageIndex { get; private set; }
-
         #endregion
 
         #region database

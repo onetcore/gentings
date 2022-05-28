@@ -249,169 +249,181 @@ var resources = {
         $('[_click]', context).exec('@click', function (current) {
             var eventType = current.attr('_click').trim().toLowerCase();
             var target = current.target();
-            // 展示对象元素，点击元素外的对象隐藏对象元素
-            if (eventType === 'show') {
+            if (eventType === 'font') {
                 current.on('click', function (event) {
+                    event.preventDefault();
                     event.stopPropagation();
-                    target.addClass('d-block');
-                    current.trigger('@show', target, event);
-                });
-                // 外部点击隐藏
-                $(document).on('click', function (event) {
-                    target.removeClass('d-block');
-                    current.trigger('@hide', target, event);
-                });
-                // 阻止事件冒泡
-                target.on('click', function (event) {
-                    event.stopPropagation();
+                    var styles = {};
+                    for (var i = 0; i < this.attributes.length; i++) {
+                        var attr = this.attributes[i];
+                        if (attr.name.startsWith('font.')) styles['font-' + attr.name.substr(5)] = attr.value.trim();
+                    }
+                    target.css(styles);
                 });
             }
-            // 点击拷贝对象内容copy,copy:text,copy:html
-            else if (eventType === 'copy' || eventType.startsWith('copy:')) {
+            // 展示对象元素，点击元素外的对象隐藏对象元素
+            else if (eventType === 'show') {
                     current.on('click', function (event) {
-                        event.preventDefault();
-                        $(document).off('copy').on('copy', function (e) {
-                            // 设置信息，实现复制
-                            var value = eventType === 'copy:html' ? target.html() : target.text();
-                            e.originalEvent.clipboardData.setData('text/plain', value.trim());
-                            e.preventDefault();
-                            Msg.popup(resources.copied, event);
-                        });
-                        document.execCommand('copy');
-                        return false;
+                        event.stopPropagation();
+                        target.addClass('d-block');
+                        current.trigger('@show', target, event);
+                    });
+                    // 外部点击隐藏
+                    $(document).on('click', function (event) {
+                        target.removeClass('d-block');
+                        current.trigger('@hide', target, event);
+                    });
+                    // 阻止事件冒泡
+                    target.on('click', function (event) {
+                        event.stopPropagation();
                     });
                 }
-                // 点击上传文件
-                else if (eventType === 'upload') {
-                        current.off('click').on('click', function () {
-                            $('<input type="file" class="hide"/>').appendTo(document.body).on('change', function () {
-                                var file = $(this);
-                                if (!this.files.length) {
-                                    file.remove();
-                                    return false;
-                                }
-                                var inner = current.html();
-                                current.disabled().html('<span class="spinner-border spinner-border-sm"></span> ' + resources.ajax.uploading);
-                                var data = new FormData();
-                                data.append("file", this.files[0]);
-                                var elements = current.json();
-                                for (var key in elements) {
-                                    data.append(key, elements[key]);
-                                }
-                                var url = current.attr('href') || current.attr('action');
-                                $.ajax({
-                                    type: "POST",
-                                    url: url,
-                                    contentType: false,
-                                    processData: false,
-                                    data: data,
-                                    headers: ajaxHeaders(),
-                                    success: function success(d) {
-                                        Msg.show(d, function () {
-                                            //没有传回网址时候刷新页面
-                                            if (!d.code && !d.url) location.href = location.href;
-                                        });
-                                        if (d.url) {
-                                            current.trigger('uploaded', d.url);
-                                            current.parent().find('.uploaded').each(function () {
-                                                var that = $(this);
-                                                if (that.is('input')) that.val(d.url);else if (that.is('img')) that.attr('src', d.url);
-                                            });
-                                        }
-                                        file.remove();
-                                        current.enabled().html(inner);
-                                    },
-                                    error: function error(e) {
-                                        errorHandler(e);
-                                        file.remove();
-                                        current.enabled().html(inner);
-                                    }
-                                });
-                            }).click();
+                // 点击拷贝对象内容copy,copy:text,copy:html
+                else if (eventType === 'copy' || eventType.startsWith('copy:')) {
+                        current.on('click', function (event) {
+                            event.preventDefault();
+                            $(document).off('copy').on('copy', function (e) {
+                                // 设置信息，实现复制
+                                var value = eventType === 'copy:html' ? target.html() : target.text();
+                                e.originalEvent.clipboardData.setData('text/plain', value.trim());
+                                e.preventDefault();
+                                Msg.popup(resources.copied, event);
+                            });
+                            document.execCommand('copy');
                             return false;
                         });
-                    } else {
-                        current.on('click', function (event) {
-                            var index = eventType.indexOf(':stop');
-                            if (index !== -1) {
-                                event.stopPropagation();
-                                eventType = eventType.replace(':stop', '');
-                            }
-                            index = eventType.indexOf(':prevent');
-                            if (index !== -1) {
-                                event.preventDefault();
-                                eventType = eventType.replace(':prevent', '');
-                            }
-                            var confirm = current.attr('_confirm');
-                            if (confirm && !window.confirm(confirm)) return false;
-                            switch (eventType) {
-                                case 'modal':
-                                    {
-                                        current.loadModal();
+                    }
+                    // 点击上传文件
+                    else if (eventType === 'upload') {
+                            current.off('click').on('click', function () {
+                                $('<input type="file" class="hide"/>').appendTo(document.body).on('change', function () {
+                                    var file = $(this);
+                                    if (!this.files.length) {
+                                        file.remove();
+                                        return false;
                                     }
-                                    return false;
-                                case 'ajax':
-                                    {
-                                        var data = current.json();
-                                        var url = current.attr('href') || current.attr('action');
-                                        $ajax(url, data, function (d) {
-                                            if (!d.data && !d.message) {
-                                                location.href = location.href;
-                                            } //如果成功没有返回数据，则刷新页面
-                                            current.trigger('success', d.data);
-                                        });
+                                    var inner = current.html();
+                                    current.disabled().html('<span class="spinner-border spinner-border-sm"></span> ' + resources.ajax.uploading);
+                                    var data = new FormData();
+                                    data.append("file", this.files[0]);
+                                    var elements = current.json();
+                                    for (var key in elements) {
+                                        data.append(key, elements[key]);
                                     }
-                                    return false;
-                                case 'checked':
-                                    {
-                                        (function () {
-                                            var data = current.json();
-                                            var items = [];
-                                            current.parents('.data-list').find('.data-item input[type=checkbox]').each(function () {
-                                                if (this.checked) items.push(this.value);
+                                    var url = current.attr('href') || current.attr('action');
+                                    $.ajax({
+                                        type: "POST",
+                                        url: url,
+                                        contentType: false,
+                                        processData: false,
+                                        data: data,
+                                        headers: ajaxHeaders(),
+                                        success: function success(d) {
+                                            Msg.show(d, function () {
+                                                //没有传回网址时候刷新页面
+                                                if (!d.code && !d.url) location.href = location.href;
                                             });
-                                            if (items.length > 0) data.id = items;
+                                            if (d.url) {
+                                                current.trigger('uploaded', d.url);
+                                                current.parent().find('.uploaded').each(function () {
+                                                    var that = $(this);
+                                                    if (that.is('input')) that.val(d.url);else if (that.is('img')) that.attr('src', d.url);
+                                                });
+                                            }
+                                            file.remove();
+                                            current.enabled().html(inner);
+                                        },
+                                        error: function error(e) {
+                                            errorHandler(e);
+                                            file.remove();
+                                            current.enabled().html(inner);
+                                        }
+                                    });
+                                }).click();
+                                return false;
+                            });
+                        } else {
+                            current.on('click', function (event) {
+                                var index = eventType.indexOf(':stop');
+                                if (index !== -1) {
+                                    event.stopPropagation();
+                                    eventType = eventType.replace(':stop', '');
+                                }
+                                index = eventType.indexOf(':prevent');
+                                if (index !== -1) {
+                                    event.preventDefault();
+                                    eventType = eventType.replace(':prevent', '');
+                                }
+                                var confirm = current.attr('_confirm');
+                                if (confirm && !window.confirm(confirm)) return false;
+                                switch (eventType) {
+                                    case 'modal':
+                                        {
+                                            current.loadModal();
+                                        }
+                                        return false;
+                                    case 'ajax':
+                                        {
+                                            var data = current.json();
                                             var url = current.attr('href') || current.attr('action');
                                             $ajax(url, data, function (d) {
                                                 if (!d.data && !d.message) {
                                                     location.href = location.href;
                                                 } //如果成功没有返回数据，则刷新页面
-                                                else current.trigger('success', d.data);
+                                                current.trigger('success', d.data);
                                             });
-                                        })();
-                                    }
-                                    return false;
-                                case 'checked:modal':
-                                case 'modal:checked':
-                                    {
-                                        (function () {
-                                            var query = {};
-                                            var items = [];
-                                            current.parents('.data-list').find('.data-item input[type=checkbox]').each(function () {
-                                                if (this.checked) items.push(this.value);
-                                            });
-                                            if (items.length > 0) query.id = items.join(',');
-                                            current.loadModal(query);
-                                        })();
-                                    }
-                                    return false;
-                                case 'fullscreen':
-                                    {
-                                        if ($(document.body).hasClass('fullscreen')) {
-                                            $(document.body).removeClass('fullscreen');
-                                            target.removeClass('fullscreen-container').css('height', target.data('_height'));
-                                            current.attr('title', resources.fullscreen.show).find('i').attr('class', 'bi-window-fullscreen');
-                                        } else {
-                                            target.data('_height', target.css('height'));
-                                            $(document.body).addClass('fullscreen');
-                                            target.addClass('fullscreen-container').css('height', '100%');
-                                            current.attr('title', resources.fullscreen.quit).find('i').attr('class', 'bi-window-stack');
                                         }
-                                    }
-                                    return false;
-                            }
-                        });
-                    }
+                                        return false;
+                                    case 'checked':
+                                        {
+                                            (function () {
+                                                var data = current.json();
+                                                var items = [];
+                                                current.parents('.data-list').find('.data-item input[type=checkbox]').each(function () {
+                                                    if (this.checked) items.push(this.value);
+                                                });
+                                                if (items.length > 0) data.id = items;
+                                                var url = current.attr('href') || current.attr('action');
+                                                $ajax(url, data, function (d) {
+                                                    if (!d.data && !d.message) {
+                                                        location.href = location.href;
+                                                    } //如果成功没有返回数据，则刷新页面
+                                                    else current.trigger('success', d.data);
+                                                });
+                                            })();
+                                        }
+                                        return false;
+                                    case 'checked:modal':
+                                    case 'modal:checked':
+                                        {
+                                            (function () {
+                                                var query = {};
+                                                var items = [];
+                                                current.parents('.data-list').find('.data-item input[type=checkbox]').each(function () {
+                                                    if (this.checked) items.push(this.value);
+                                                });
+                                                if (items.length > 0) query.id = items.join(',');
+                                                current.loadModal(query);
+                                            })();
+                                        }
+                                        return false;
+                                    case 'fullscreen':
+                                        {
+                                            if ($(document.body).hasClass('fullscreen')) {
+                                                $(document.body).removeClass('fullscreen');
+                                                target.removeClass('fullscreen-container').css('height', target.data('_height'));
+                                                current.attr('title', resources.fullscreen.show).find('i').attr('class', 'bi-window-fullscreen');
+                                            } else {
+                                                target.data('_height', target.css('height'));
+                                                $(document.body).addClass('fullscreen');
+                                                target.addClass('fullscreen-container').css('height', '100%');
+                                                current.attr('title', resources.fullscreen.quit).find('i').attr('class', 'bi-window-stack');
+                                            }
+                                        }
+                                        return false;
+                                }
+                            });
+                        }
         });
         // onchange时间
         $('[_change]', context).exec('@change', function (current) {

@@ -15,7 +15,11 @@
             context.WithNolock();
         }
 
-        private int _pageIndex;
+        /// <summary>
+        /// 页码，缩写。
+        /// </summary>
+        public int PI { get; set; }
+
         /// <summary>
         /// 页码。
         /// </summary>
@@ -23,20 +27,25 @@
         {
             get
             {
-                if (_pageIndex < 0)
-                    _pageIndex = 1;
-                return _pageIndex;
+                if (PI <= 0)
+                    PI = 1;
+                return PI;
             }
             set
             {
-                _pageIndex = value;
+                PI = value;
             }
         }
 
         /// <summary>
+        /// 每页显示记录数，缩写。
+        /// </summary>
+        public int PS { get; set; } = 20;
+
+        /// <summary>
         /// 每页显示记录数。
         /// </summary>
-        public int PageSize { get; set; } = 20;
+        public int PageSize { get => PS; set => PS = value; }
     }
 
     /// <summary>

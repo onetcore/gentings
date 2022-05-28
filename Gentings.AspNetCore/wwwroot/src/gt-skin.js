@@ -254,8 +254,21 @@
         $('[_click]', context).exec('@click', current => {
             let eventType = current.attr('_click').trim().toLowerCase();
             const target = current.target();
+            if (eventType === 'font') {
+                current.on('click', function (event) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    let styles = {};
+                    for (let i = 0; i < this.attributes.length; i++) {
+                        const attr = this.attributes[i];
+                        if (attr.name.startsWith('font.'))
+                            styles['font-' + attr.name.substr(5)] = attr.value.trim();
+                    }
+                    target.css(styles);
+                });
+            }
             // 展示对象元素，点击元素外的对象隐藏对象元素
-            if (eventType === 'show') {
+            else if (eventType === 'show') {
                 current.on('click', function (event) {
                     event.stopPropagation();
                     target.addClass('d-block');
